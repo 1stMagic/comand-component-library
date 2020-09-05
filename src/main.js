@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import vClickOutside from 'v-click-outside'
+import '@/assets/styles/comand-ui_structure.css'
 
 Vue.config.productionTip = false
 
