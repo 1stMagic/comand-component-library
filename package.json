@@ -5,8 +5,10 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "build-lib": "vue-cli-service build --target lib --name comand-ui-kit-2 src/index.js",
     "lint": "vue-cli-service lint"
   },
+  "main": "src/index.js",
   "dependencies": {
     "core-js": "^3.6.5",
     "v-click-outside": "^3.0.1",
