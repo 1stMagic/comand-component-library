@@ -1,0 +1,58 @@
+[
+  {
+    "imgId": 1,
+    "srcImageSmall": "framework/frontend/ui-kit/images//thumbnail_scroller/thumbnail/logo_cmd_blue_landscape.jpg",
+    "srcImageLarge": "framework/frontend/ui-kit/images//thumbnail_scroller/original/logo_cmd_blue_landscape.jpg",
+    "alt": "Alternativ Text 1",
+    "figcaption": "Figcaption DE 1"
+  },
+  {
+    "imgId": 2,
+    "srcImageSmall": "framework/frontend/ui-kit/images//thumbnail_scroller/thumbnail/logo_cmd_green_landscape.jpg",
+    "srcImageLarge": "framework/frontend/ui-kit/images//thumbnail_scroller/original/logo_cmd_green_landscape.jpg",
+    "alt": "Alternativ Text 2",
+    "figcaption": "Figcaption DE 2"
+  },
+  {
+    "imgId": 3,
+    "srcImageSmall": "framework/frontend/ui-kit/images//thumbnail_scroller/thumbnail/logo_cmd_red_landscape.jpg",
+    "srcImageLarge": "framework/frontend/ui-kit/images//thumbnail_scroller/original/logo_cmd_red_landscape.jpg",
+    "alt": "Alternativ Text 3",
+    "figcaption": "Figcaption DE 3"
+  },
+  {
+    "imgId": 4,
+    "srcImageSmall": "framework/frontend/ui-kit/images//thumbnail_scroller/thumbnail/logo_cmd_yellow_landscape.jpg",
+    "srcImageLarge": "framework/frontend/ui-kit/images//thumbnail_scroller/original/logo_cmd_yellow_landscape.jpg",
+    "alt": "Alternativ Text 4",
+    "figcaption": "Figcaption DE 4"
+  },
+  {
+    "imgId": 5,
+    "srcImageSmall": "framework/frontend/ui-kit/images//thumbnail_scroller/thumbnail/logo_cmd_blue_landscape.jpg",
+    "srcImageLarge": "framework/frontend/ui-kit/images//thumbnail_scroller/original/logo_cmd_blue_landscape.jpg",
+    "alt": "Alternativ Text 5",
+    "figcaption": "Figcaption DE 5"
+  },
+  {
+    "imgId": 6,
+    "srcImageSmall": "framework/frontend/ui-kit/images//thumbnail_scroller/thumbnail/logo_cmd_green_landscape.jpg",
+    "srcImageLarge": "framework/frontend/ui-kit/images//thumbnail_scroller/original/logo_cmd_green_landscape.jpg",
+    "alt": "Alternativ Text 6",
+    "figcaption": "Figcaption DE 6"
+  },
+  {
+    "imgId": 7,
+    "srcImageSmall": "framework/frontend/ui-kit/images//thumbnail_scroller/thumbnail/logo_cmd_red_landscape.jpg",
+    "srcImageLarge": "framework/frontend/ui-kit/images//thumbnail_scroller/original/logo_cmd_red_landscape.jpg",
+    "alt": "Alternativ Text 7",
+    "figcaption": "Figcaption DE 7"
+  },
+  {
+    "imgId": 8,
+    "srcImageSmall": "framework/frontend/ui-kit/images//thumbnail_scroller/thumbnail/logo_cmd_yellow_landscape.jpg",
+    "srcImageLarge": "framework/frontend/ui-kit/images//thumbnail_scroller/original/logo_cmd_yellow_landscape.jpg",
+    "alt": "Alternativ Text 8",
+    "figcaption": "Figcaption DE 8"
+  }
+]

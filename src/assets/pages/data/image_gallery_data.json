@@ -1,0 +1,30 @@
+[
+  {
+    "imgId": 1,
+    "srcImageSmall": "framework/frontend/ui-kit/images//thumbnail_scroller/thumbnail/logo_cmd_blue_landscape.jpg",
+    "srcImageLarge": "framework/frontend/ui-kit/images//thumbnail_scroller/original/logo_cmd_blue_landscape.jpg",
+    "alt": "Alternative text 1",
+    "figcaption": "Figcaption 1"
+  },
+  {
+    "imgId": 2,
+    "srcImageSmall": "framework/frontend/ui-kit/images//thumbnail_scroller/thumbnail/logo_cmd_green_landscape.jpg",
+    "srcImageLarge": "framework/frontend/ui-kit/images//thumbnail_scroller/original/logo_cmd_green_landscape.jpg",
+    "alt": "Alternative text 2",
+    "figcaption": "Figcaption 2"
+  },
+  {
+    "imgId": 3,
+    "srcImageSmall": "framework/frontend/ui-kit/images//thumbnail_scroller/thumbnail/logo_cmd_red_landscape.jpg",
+    "srcImageLarge": "framework/frontend/ui-kit/images//thumbnail_scroller/original/logo_cmd_red_landscape.jpg",
+    "alt": "Alternative text 3",
+    "figcaption": "Figcaption 3"
+  },
+  {
+    "imgId": 4,
+    "srcImageSmall": "framework/frontend/ui-kit/images//thumbnail_scroller/thumbnail/logo_cmd_yellow_landscape.jpg",
+    "srcImageLarge": "framework/frontend/ui-kit/images//thumbnail_scroller/original/logo_cmd_yellow_landscape.jpg",
+    "alt": "Alternative text 4",
+    "figcaption": "Figcaption 4"
+  }
+]

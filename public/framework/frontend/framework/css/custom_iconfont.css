@@ -1,0 +1,23 @@
+@font-face {
+	font-family: 'icomoon';
+	src:  url('../../framework/fonts/custom_iconfont/icomoon.woff?qejo1c') format('woff');
+	font-weight: normal;
+	font-style: normal;
+	font-display: optional;
+}
+
+.icon-chrome:before {
+  content: "\ead9";
+}
+
+.icon-firefox:before {
+  content: "\eada";
+}
+
+.icon-edge:before {
+  content: "\eadc";
+}
+
+.icon-safari:before {
+  content: "\eadd";
+}

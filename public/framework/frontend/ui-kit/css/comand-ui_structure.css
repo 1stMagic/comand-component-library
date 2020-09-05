@@ -1,0 +1,1149 @@
+/* comand-ui-structure.css - v2.21 - 2020/04/05 by Raphael Biock - IT IS NOT RECOMMENDED TO EDIT FILE (TO AVOID TROUBLESHOOTING AFTER UPDATING) */
+
+/* begin table of contents --------------------------------------------------------------------------------------------------------------------------------------------------- */
+/*
+A ------------------------
+  - accordion
+
+B ------------------------
+  - back_to_top
+
+C ------------------------
+  - collapsible table
+
+F ------------------------
+  - flags
+
+G ------------------------
+  - gallery
+
+H ------------------------
+  - highlighted table column
+
+I ------------------------
+  - imagezoom
+
+L ------------------------
+  - list_filters
+
+M ------------------------
+  - multi-step-indicator-progress-bar
+
+N ------------------------
+  - navigation
+
+O ------------------------
+  - onscreen/offscreen animation
+
+P ------------------------
+  - place-inside
+  - popup
+  - product_listing
+  - progress bar (with output)
+
+R ------------------------
+  - replace_input-type-radio/replace_input-type-checkbox
+  - replace_select
+  - responsive table
+
+S ------------------------
+  - section_bullets
+  - slideshow
+  - switch_buttons
+  - system_messages
+
+T ------------------------
+  - tabs
+  - thumbnail-scroller
+  - toggle-switch-checkbox and -radio
+  - tooltip
+*/
+/* end table of contents --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin collapsible table --------------------------------------------------------------------------------------------------------------------------------------------------- */
+table.collapsible thead a[class*="icon"] {
+	color: var(--blank-color);
+	font-size: 1rem;
+	display: inline-block;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	right: var(--default-margin);
+	padding: var(--default-padding);
+}
+
+table.collapsible thead a[class*="icon"]:hover,
+table.collapsible thead a[class*="icon"]:active,
+table.collapsible thead a[class*="icon"]:focus {
+	color: var(--blank-color);
+}
+
+table.collapsible {
+	border: 0;
+}
+
+table.collapsible.open {
+	border: var(--primary-border);
+	border-top: 0;
+}
+
+table.collapsible tbody, table.collapsible.tfoot {
+	display: none;
+}
+/* end collapsible table --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin flags --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.flag {
+	width: 3rem;
+	height: 2rem;
+	background-size: 100% 100%;
+	display: block;
+    margin-right: .5rem;
+}
+
+.flag.de {
+	background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBoZWlnaHQ9IjYwMCIgdmlld0JveD0iMCAwIDUgMyI+DQo8cGF0aCBkPSJtMCwwaDV2M2gtNXoiLz4NCjxwYXRoIGZpbGw9IiNkMDAiIGQ9Im0wLDFoNXYyaC01eiIvPg0KPHBhdGggZmlsbD0iI2ZmY2UwMCIgZD0ibTAsMmg1djFoLTV6Ii8+DQo8L3N2Zz4NCg==');
+}
+
+.flag.en {
+	background-image: url('data:image/png;base64,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');
+}
+
+.flag.es {
+	background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA3NTAgNTAwIj4NCjxwYXRoIGZpbGw9IiNjNjBiMWUiIGQ9Im0wLDBoNzUwdjUwMGgtNzUweiIvPg0KPHBhdGggZmlsbD0iI2ZmYzQwMCIgZD0ibTAsMTI1aDc1MHYyNTBoLTc1MHoiLz4NCjwvc3ZnPg0K');
+}
+
+.flag.fr {
+	 background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgNjAwIj4NCjxwYXRoIGZpbGw9IiNlZDI5MzkiIGQ9Im0wLDBoOTAwdjYwMGgtOTAweiIvPg0KPHBhdGggZmlsbD0iI2ZmZiIgZD0ibTAsMGg2MDB2NjAwaC02MDB6Ii8+DQo8cGF0aCBmaWxsPSIjMDAyMzk1IiBkPSJtMCwwaDMwMHY2MDBoLTMwMHoiLz4NCjwvc3ZnPg0K');
+}
+
+.flag.it {
+	 background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBoZWlnaHQ9IjEwMDAiIHZpZXdCb3g9IjAgMCAzIDIiPg0KPHBhdGggZmlsbD0iIzAwOTI0NiIgZD0ibTAsMGgxdjJoLTF6Ii8+DQo8cGF0aCBmaWxsPSIjZmZmIiBkPSJtMSwwaDF2MmgtMXoiLz4NCjxwYXRoIGZpbGw9IiNjZTJiMzciIGQ9Im0yLDBoMXYyaC0xeiIvPg0KPC9zdmc+DQo=');
+}
+
+.flag.ru {
+	background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NTAgMzAwIj4NCjxwYXRoIGZpbGw9IiNmZmYiIGQ9Im0wLDBoNDUwdjEwMGgtNDUweiIvPg0KPHBhdGggZmlsbD0iIzAwZiIgZD0ibTAsMTAwaDQ1MHYxMDBoLTQ1MHoiLz4NCjxwYXRoIGZpbGw9IiNmMDAiIGQ9Im0wLDIwMGg0NTB2MTAwaC00NTB6Ii8+DQo8L3N2Zz4NCg==');
+}
+/* end flags --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin gallery --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.gallery_wrapper > a {
+    text-align: center;
+	align-self: center;
+	justify-self: center; /* justify horizontally center */
+	grid-column: span var(--grid-small-span);
+}
+
+.gallery_wrapper > a img {
+	border-radius: var(--border-radius);
+	border: var(--default-border);
+	max-height: 30rem;
+}
+
+.gallery_wrapper > a:hover img,
+.gallery_wrapper > a:active img,
+.gallery_wrapper > a:focus img {
+	border: var(--primary-border);
+}
+
+.gallery_wrapper figcaption {
+	padding: calc(var(--default-padding) / 2);
+}
+
+.gallery_wrapper > a:hover figcaption,
+.gallery_wrapper > a:active figcaption,
+.gallery_wrapper > a:focus figcaption {
+	text-decoration: none;
+}
+
+.gallery_wrapper + .pager {
+	margin-top: calc(var(--default-margin) * 2);
+}
+/* end gallery --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin highlighted table column --------------------------------------------------------------------------------------------------------------------------------------------------- */
+th.highlighted {
+	color: var(--blank-color);
+}
+
+tr.highlighted, td.highlighted {
+	background: var(--primary-color-reduced-opacity);
+	color: var(--blank-color);
+	font-weight: bold;
+}
+
+tr.highlighted td {
+	font-weight: bold;
+}
+/* end highlighted table column --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin list_filters --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.form-filters {
+	display: -webkit-flex; /* Safari 6-8 */
+	display: flex;
+}
+
+.form-filters li {
+	list-style-type: none;
+	border: .1rem dotted var(--text-color);
+	padding: 0 .5rem;
+	margin-left: 0;
+	margin-right: var(--default-margin);
+	background: var(--blank-color);
+}
+
+.form-filters li:last-of-type {
+	margin-right: 0;
+}
+
+.form-filters [class*="icon-"] {
+	font-size: 1rem;
+}
+/* end list_filters --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin multi-step-indicator-progress-bar --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.multi-step {
+	margin: var(--default-margin) 0;
+	display: -webkit-flex; /* Safari 6-8 */
+	display: flex;
+	flex-flow: row nowrap;
+}
+
+.multi-step > li {
+	flex: 1 0;
+	list-style: none;
+	background: var(--primary-color);
+	margin-left: 3.2rem;
+	min-height: 4rem;
+}
+
+.multi-step > li:first-child {
+	margin-left: 0;
+}
+
+.multi-step li:not(:first-child) > span.before,
+.multi-step li:not(:first-child) > span.after,
+.multi-step li:not(:last-child) a span.after {
+	content: "";
+	position: absolute;
+	border-style: solid;
+	border-color: transparent;
+	border-left-color: var(--primary-color);
+	border-right: none;
+	background: none;
+	z-index: 50;
+	transform: rotate(-45deg) translateY(-45%);
+}
+
+.multi-step li:not(:first-child) > span.after {
+	transform: rotate(45deg) translateY(45%);
+	bottom: 0;
+}
+
+.multi-step li:not(:last-child) a span.after {
+	top: 0;
+	left: auto;
+	transform:rotate(0deg) translate(0);
+}
+
+.multi-step li a {
+	padding: var(--default-padding);
+	z-index: 1;
+	text-decoration: none;
+	display: block;
+}
+
+.multi-step li:hover::after, .multi-step li:active::after, .multi-step li:focus::after, .multi-step li.active::after {
+	opacity: 1;
+}
+
+.multi-step li a span {
+	z-index: 10;
+	display: block;
+	color: var(--blank-color);
+	text-decoration: none;
+}
+
+.multi-step li a span:first-child {
+	display: none;
+}
+
+.multi-step.numbered li a span:first-child {
+	display: block;
+	font-weight: bold;
+	line-height: 1;
+	background: var(--secondary-color);
+	border-radius: 50%;
+	width: 2.5rem;
+	height: 2.5rem;
+	position: absolute;
+	padding: .6rem;
+	top: 45%;
+	top: calc(50% - 1.25rem);
+	left: 1rem;
+	background: var(--blank-color);
+	color: var(--primary-color);
+	text-align: center;
+}
+
+.multi-step li a span:first-child + span {
+	font-size: 1.4rem;
+	font-weight: bold;
+}
+
+.multi-step li span:last-child {
+	line-height: 1.2;
+}
+
+.multi-step.numbered {
+	counter-reset: li;
+}
+
+.multi-step.numbered li a {
+	padding-left: 4rem;
+}
+
+.multi-step li.active ~ li:hover a, .multi-step li.active ~ li:active a, .multi-step li.active ~ li:focus a {
+	cursor: not-allowed;
+}
+
+.multi-step li.active span {
+	color: var(--blank-color);
+}
+
+.multi-step.numbered li.active span:first-child {
+	/*background: var(--blank-color);*/
+}
+
+.multi-step li.active ~ li {
+	opacity: var(--reduced-opacity);
+}
+/* end multi-step-indicator-progress-bar --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin onscreen/offscreen animation --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.offscreen {
+	opacity: 0;
+}
+
+.onscreen {
+	opacity: 1;
+	transition-property: opacity;
+	transition-duration: 2s;
+	transition-timing-function: linear;
+}
+/* end onscreen/offscreen animation --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin place-inside (place icon inside/over inputfield) --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.place-inside[class*="icon-"] {
+	position: absolute;
+	top: auto;
+	bottom: 1rem;
+	left: .5rem;
+	z-index: 10;
+	color: var(--text-color);
+}
+
+.place-inside.focus[class*="icon-"] {
+	color: var(--primary-color);
+}
+
+.place-inside.error[class*="icon-"] {
+	color: var(--error-color);
+}
+
+.place-inside[class*="icon-"] + input {
+	padding-left: calc(var(--default-padding) * 3);
+}
+
+.place-inside[class*="icon-"] + input:focus {
+	border-color: var(--primary-color);
+}
+
+/* end place-inside (place icon inside/over inputfield) --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin product listing --------------------------------------------------------------------------------------------------------------------------------------------------- */
+#product_listing_wrapper > a {
+	border: var(--default-border);
+	text-decoration: none;
+	display: flex;
+	flex-direction: column;
+	grid-column: span var(--grid-small-span);
+}
+
+#product_listing_wrapper.products_squares > a {
+	grid-column: span 6;
+}
+
+#product_listing_wrapper.products_lines > a {
+	grid-column: span 12;
+	flex-direction: unset;
+}
+
+#product_listing_wrapper > a:hover, #product_listing_wrapper > a:active, #product_listing_wrapper > a:focus {
+	border-color: var(--primary-color);
+	background: var(--default-background-color);
+}
+
+#product_listing_wrapper img {
+	order: 1
+}
+
+#product_listing_wrapper .product_information {
+	order: 2;
+}
+
+#product_listing_wrapper .description {
+	display: none;
+}
+
+#product_listing_wrapper h3, #product_listing_wrapper div {
+	padding: var(--default-padding);
+	margin: 0;
+}
+
+#product_listing_wrapper .price {
+	order: 3;
+	margin-top: auto;
+}
+
+#product_listing_wrapper h3, #product_listing_wrapper p {
+	text-align: center;
+}
+
+#product_listing_wrapper p:last-child, #product_listing_wrapper p:last-child > span {
+	margin-bottom: 0;
+	font-size: 2rem;
+}
+
+#product_listing_wrapper p > span:first-child {
+	text-decoration: line-through;
+	font-style: italic;
+	margin-right: var(--default-margin);
+	opacity: var(--reduced-opacity);
+	font-size: 1.5rem;
+}
+
+#product_listing_wrapper.products_lines > a img {
+	margin-left: 0;
+}
+
+#product_listing_wrapper.products_lines .product_information {
+	display: flex;
+	flex-direction: column;
+	padding: calc(var(--default-padding) * 2);
+	margin-right: auto;
+}
+
+#product_listing_wrapper.products_lines .description {
+	display: block;
+}
+
+[class*="ribbon"] {
+	position: absolute;
+	z-index: 10;
+	overflow: hidden;
+	width: 10rem;
+	height: 10rem;
+	top: 0;
+	left: 0;
+}
+
+[class*="ribbon"] span {
+	position: absolute;
+	display: block;
+	background: red;
+	font-weight: bold;
+	color: #fff;
+	text-transform: uppercase;
+	text-align: center;
+	transform: rotate(-45deg);
+	width: 100%;
+	background: red;
+	box-shadow: var(--box-shadow);
+	top: 15%;
+	left: -25%;
+}
+
+.ribbon-discount {
+	left: auto;
+	right: 0;
+}
+
+.ribbon-discount span {
+	transform: rotate(45deg);
+	background: green;
+	right: -20%;
+	left: auto;
+}
+/* end product listing --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin progress bar (with output) --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.progress_wrapper {
+	display: table;
+}
+
+.progress_wrapper > span {
+	position: absolute;
+	color: var(--medium-gray);
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 1;
+}
+/* end progress (with output) --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin replace_input-type-radio/replace_input-type-checkbox --------------------------------------------------------------------------------------------------------------------------------------------------- */
+[class*="replace_input-type-"] input {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	width: 2rem;
+	height: 2rem;
+	padding: .2rem;
+	border: var(--default-border);
+	border-color: var(--text-color);
+	border-radius: var(--full-circle);
+	background: var(--blank-color);
+	box-shadow: none;
+	transform: scale(0.65, 0.65);
+	display: flex;
+}
+
+.replace_input-type-checkbox input {
+	border-radius: 0;
+}
+
+[class*="replace_input-type-"] input:checked::after {
+	content: "";
+	border-radius: var(--full-circle);
+	background: var(--primary-color);
+	width: 1.1rem;
+	height: 1.1rem;
+	align-self: center;
+	margin: 0 auto;
+	display: block;
+}
+
+.replace_input-type-checkbox input:checked::after {
+	content: "";
+	width: 2.6rem;
+	height: 1.3rem;
+	border: .4rem solid var(--primary-color);
+	border-top: 0;
+	border-right: 0;
+	border-radius: 0;
+	background: none;
+	transform: rotate(-45deg) skewX(-10deg);
+	position: absolute;
+	bottom: 1rem;
+}
+
+[class*="replace_input-type-"] .label {
+	align-self: center;
+}
+
+[class*="replace_input-type-"] input:checked + .label {
+	color: var(--primary-color);
+}
+
+.replace_input-type-checkbox.error input:not(:checked) {
+	border-color: var(--error-color);
+}
+
+.replace_input-type-checkbox.error input + .label {
+	border-color: var(--error-color);
+}
+
+/* end replace_input-type-radio/replace_input-type-checkbox --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin responsive table --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.preview_table .button {
+	float: right;
+	text-decoration: none;
+}
+
+.preview_table {
+	display: -webkit-flex; /* Safari 6-8 */
+	display: flex;
+}
+
+.preview_table > li {
+	list-style-type: none;
+	width: 1.5rem;
+	height: 1.5rem;
+	background: var(--primary-color);
+	border: var(--default-border);
+	border-radius: var(--border-radius);
+}
+
+.preview_table > li:first-of-type {
+	margin-left: 0;
+}
+
+.preview_table > li.persist {
+	background: red;
+}
+
+.preview_table > li.hidden {
+	background: gray;
+}
+
+.inner_table_wrapper {
+	overflow: hidden;
+}
+/* end responsive table --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin section_bullets --------------------------------------------------------------------------------------------------------------------------------------------------- */
+#section_bullets {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	right: 1rem;
+	list-style-type: none;
+	z-index: 200;
+	height: 90%; /* to avoid overlaying back_to_top_wrapper */
+}
+
+#section_bullets li {
+	list-style-type: none;
+	margin: 2rem 0;
+	border-radius: var(--full-circle);
+}
+
+#section_bullets a {
+	display: block;
+	height: 2rem;
+	width: 2rem;
+	border: var(--default-border);
+	border-radius: var(--full-circle);
+	background: var(--default-background-color);
+}
+
+#section_bullets a:hover, #section_bullets a:active, #section_bullets .active a {
+	background: var(--primary-color); /* do not set for :focus */
+}
+
+#section_bullets a + .tooltip {
+	display: none;
+	right: 1rem;
+}
+
+#section_bullets a:hover + .tooltip:not(:empty) {
+	display: block;
+}
+/* end section_bullets --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin switch_buttons --------------------------------------------------------------------------------------------------------------------------------------------------- */
+[class*="switch_button_"] {
+	font-size: 2rem;
+	z-index: 10;
+	width: 5rem;
+	height: 100%;
+	position: absolute;
+	display: -webkit-flex; /* Safari 6-8 */
+	display: flex;
+}
+
+[class*="switch_button_"]:before {
+	margin: var(--default-margin);
+	align-self: center
+}
+
+[class*="switch_button_"]:hover, [class*="switch_button_"]:active, [class*="switch_button_"]:focus {
+	background: var(--default-background-color-reduced-opacity);
+	transition: var(--default-transition);
+}
+
+.switch_button_previous {
+	left: 0rem;
+	top: 0;
+}
+
+.switch_button_previous:before {
+	left: .3rem;
+}
+
+.switch_button_next {
+	right: 0rem;
+	top: 0;
+}
+
+.switch_button_next:before {
+	right: -.5rem;
+}
+/* end switch_buttons --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin toggle-switch-checkbox and -radio --------------------------------------------------------------------------------------------------------------------------------------------------- */
+[class*="toggle-switch"] input {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	width: 4rem;
+	height: 2rem;
+	border-radius: 1rem;
+	padding: .2rem;
+	border: var(--default-border);
+	background: var(--blank-color);
+	box-shadow: none;
+	display: flex;
+	transition: var(--default-transition);
+}
+
+[class*="toggle-switch"] input::after {
+	content: "";
+	border-radius: var(--full-circle);
+	background: var(--text-color);
+	width: 1.4rem;
+	height: 1.4rem;
+	display: block;
+	justify-self: flex-end;
+	margin-left: auto;
+}
+
+[class*="toggle-switch"] input:checked {
+	border-color: var(--primary-color);
+}
+
+[class*="toggle-switch"] input:checked::after {
+	justify-self: flex-start;
+	margin-left: 0;
+	background: var(--primary-color);
+}
+
+[class*="toggle-switch"] .label {
+	align-self: center;
+}
+
+.toggle-switch-checkbox.error .label {
+	color: var(--error-color);
+}
+
+.toggle-switch-checkbox.error input:not(:checked) {
+	border-color: var(--error-color);
+}
+
+.toggle-switch-checkbox.error input:not(:checked)::after {
+	border-color: var(--error-color);
+	background: var(--error-color);
+}
+
+/* begin toggle switches with switch label */
+.switch-label {
+	width: auto;
+	display: -webkit-flex; /* Safari 6-8 */
+	display: flex;
+	flex-direction: column;
+}
+
+.switch-label.inline {
+	flex-direction: row;
+}
+
+.switch-label [class*="toggle-switch"] {
+	border: var(--default-border);
+	background: var(--blank-color);
+	border-radius: 1.2rem;
+	overflow: hidden;
+	height: 2.4rem;
+	padding: .2rem var(--default-padding);
+	align-self: flex-start;
+	margin-top: calc(var(--default-margin) / 2);
+}
+
+.switch-label.inline [class*="toggle-switch"] {
+	margin-top: 0
+}
+
+.switch-label [class*="toggle-switch"] input {
+	border: 0;
+	background: none;
+	display: none;
+}
+
+.switch-label [class*="toggle-switch"] input ~ .label {
+	white-space: nowrap;
+	transition: left .3s linear;
+	left: 0;
+	line-height: 130%;
+}
+
+.switch-label [class*="toggle-switch"] input + .label {
+	padding-left: var(--default-padding);
+	display: block;
+}
+
+.switch-label [class*="toggle-switch"] input:not(:checked) + .label {
+	position: absolute;
+	left: calc(100% - .9rem);
+}
+
+.switch-label [class*="toggle-switch"] input + .label + .label {
+	padding-right: var(--default-padding);
+	text-align: right;
+}
+
+.switch-label [class*="toggle-switch"] input:checked + .label + .label {
+	left: -100%;
+	position: absolute;
+}
+
+.switch-label.inline [class*="toggle-switch"] ~ label {
+	margin-left: var(--default-margin);
+}
+
+.switch-label [class*="toggle-switch"] input + .label::before {
+	content: "";
+	border-radius: var(--full-circle);
+	background: var(--text-color);
+	width: 1.4rem;
+	height: 1.4rem;
+	display: block;
+	justify-self: flex-start;
+	position: absolute;
+	transition: var(--default-transition);
+	left: -.7rem;
+	top: .2rem;
+}
+/*
+.switch-label [class*="toggle-switch"] input:checked ~ .label::before {
+	top: .1rem;
+}
+*/
+.switch-label [class*="toggle-switch"].colored.on {
+	border-color: var(--success-color);
+	color: var(--success-color);
+}
+
+.switch-label [class*="toggle-switch"].colored.on span::before {
+	background-color: var(--success-color);
+}
+
+.switch-label [class*="toggle-switch"].colored.off {
+	border-color: var(--error-color);
+	color: var(--error-color);
+}
+
+.switch-label [class*="toggle-switch"].colored.off span::before {
+	background-color: var(--error-color);
+}
+
+.switch-label [class*="toggle-switch"].off > input[type="radio"] ~ span::before {
+	background: none;
+	border: var(--error-border);
+}
+
+.switch-label [class*="toggle-switch"].error {
+	border-color: var(--error-color);
+}
+
+.switch-label [class*="toggle-switch"].error input:not(:checked) + .label::before {
+	border-color: var(--error-color);
+	background: var(--error-color);
+}
+/* end toggle switches with switch label */
+
+/* begin multiple-switch */
+.multiple-switch input {
+	display: none;
+}
+
+.multiple-switch label {
+	padding: var(--default-padding);
+	margin: 0;
+	background: var(--pure-white);
+	border: var(--default-border);
+	border-left: 0;
+	flex-direction: column;
+}
+
+.multiple-switch label:first-child {
+	border-left: var(--default-border);
+	border-top-left-radius: var(--border-radius);
+	border-bottom-left-radius: var(--border-radius);
+}
+
+.multiple-switch label:last-child {
+	border-top-right-radius: var(--border-radius);
+	border-bottom-right-radius: var(--border-radius);
+}
+
+.multiple-switch label:hover, .multiple-switch label:focus, .multiple-switch label:active {
+	cursor: pointer;
+}
+
+.multiple-switch label:hover input ~ span, .multiple-switch label:focus input ~ span, .multiple-switch label:active input ~ span,
+.multiple-switch label input:checked ~ span {
+	color: var(--primary-color);
+}
+
+.multiple-switch label span {
+	display: block;
+	text-align: center;
+	width: 100%;
+	margin: 0;
+}
+
+.multiple-switch label [class*="icon"] {
+	font-size: 3rem;
+	margin-bottom: calc(var(--default-margin) / 2);
+}
+
+.multiple-switch label.active {
+	background: var(--primary-color);
+}
+
+.multiple-switch label.active input:checked ~ span {
+	color: var(--pure-white);
+}
+/* end multiple-switch */
+/* end toggle-switch-checkbox and -radio --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin tooltip --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.tooltip {
+	padding: .2rem calc(var(--default-padding) / 2);
+	background: var(--blank-color);
+	position: absolute;
+	border: var(--primary-border);
+	font-weight: bold;
+	position: absolute;
+	top: .3rem;
+}
+
+form .tooltip {
+	font-size: 1.2rem;
+	border-bottom: 0;
+	line-height: 100%;
+	right: 0;
+}
+
+input.error + .tooltip,
+select.error + .tooltip,
+.select.error + .tooltip,
+textarea.error + .tooltip {
+	border-color: var(--error-color);
+	color: var(--error-color);
+	background: #fff3f3;
+}
+
+.tooltip_wrapper {
+	grid-column: span 6;
+}
+
+.tooltip_wrapper > input,
+.tooltip_wrapper > select,
+.tooltip_wrapper > textarea {
+	width: 100%;
+}
+/* end tooltip --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+@media only screen and (min-width: 1280px) {
+	.popup {
+		max-width: 126rem;
+	}
+}
+
+@media only screen and (max-width: 1023px) {
+
+	/* begin offcanvas-navigation */
+	#navigation_wrapper:not(.persist_on_mobile) + #toggle_offcanvas {
+		display: table;
+		margin-bottom: 0;
+	}
+
+	#navigation_wrapper:not(.persist_on_mobile) {
+		position: fixed;
+		top: 0;
+		left: -100%;
+		min-width: 50%;
+		height: 100%;
+		opacity: 0;
+		z-index: 500;
+		background: var(--default-background-color);
+		box-shadow: var(--box-shadow);
+		transition: all .5s linear;
+	}
+
+	#navigation_wrapper:not(.persist_on_mobile).open {
+		left: 0;
+		opacity: 1;
+		transition: all .5s linear;
+	}
+
+	#navigation_wrapper:not(.persist_on_mobile) ul {
+		flex-direction: column;
+	}
+
+	#navigation_wrapper:not(.persist_on_mobile) > ul > li {
+		border: 0;
+	}
+
+	#navigation_wrapper:not(.persist_on_mobile) ul li:hover > ul,
+	#navigation_wrapper:not(.persist_on_mobile) ul li:active > ul,
+	#navigation_wrapper:not(.persist_on_mobile) ul li:focus > ul {
+		display: none;
+	}
+
+	#navigation_wrapper:not(.persist_on_mobile) ul > li > a {
+		text-align: left;
+	}
+
+	#navigation_wrapper:not(.persist_on_mobile) li:not(.sub_entries),
+	#navigation_wrapper:not(.persist_on_mobile) ul ul .sub_entries > a {
+		background: none; /* remove background so alpha of nav works correctly */
+		border-bottom: var(--default-border);
+	}
+
+	#navigation_wrapper:not(.persist_on_mobile) ul ul {
+		position: relative; /* sets lower levels back to relative position (to take their space within the navigation) */
+		z-index: auto;
+		left: auto;
+		height: 0;
+		transition: all .5s linear;
+		opacity: 0;
+	}
+
+	#navigation_wrapper:not(.persist_on_mobile) ul li.open > ul {
+		height: auto;
+		transition: all .5s linear;
+		display: block;
+		opacity: 1;
+	}
+
+	#navigation_wrapper:not(.persist_on_mobile) ul ul li {
+		white-space: normal;
+	}
+
+	#navigation_wrapper:not(.persist_on_mobile) ul ul li a {
+		border-bottom: 0;
+	}
+
+	#navigation_wrapper:not(.persist_on_mobile) nav > ul > li > a span[class*="single_arrow"]{
+		display: inline-block;
+	}
+
+	#navigation_wrapper:not(.persist_on_mobile) nav ul ul li a {
+		padding-left: calc(var(--default-margin) * 1.5);
+	}
+
+	#navigation_wrapper:not(.persist_on_mobile) nav ul ul ul li a {
+		padding-left: calc(var(--default-margin) * 2);
+	}
+
+	#navigation_wrapper:not(.persist_on_mobile) nav ul ul ul ul li a {
+		padding-left: calc(var(--default-margin) * 2.5);
+	}
+
+	#navigation_wrapper:not(.persist_on_mobile) nav ul ul ul ul ul li a {
+		padding-left: calc(var(--default-margin) * 3);
+	}
+
+	.nav_open nav ul ul li span + span[class*="icon"]::before {
+		transform: rotate(90deg);
+	}
+
+	.nav_open > nav > ul > li.close_nav {
+		display: block;
+		border-bottom: var(--default-border);
+		border-color: var(--blank-color);
+	}
+	/* end offcanvas-navigation */
+
+	/* begin pager */
+	#pager > a.button {
+		display: grid;
+		grid-column: span 1;
+		align-items: center; /* center icon inside */
+	}
+
+	#pager > a.button:first-of-type > span[class*="icon-"],
+	#pager > a.button:last-of-type > span[class*="icon-"] {
+		margin: 0;
+	}
+
+	#pager > a.button > span:not([class*="icon-"]) {
+		display: none;
+	}
+
+	#pager #page_index {
+		grid-column: span 4;
+	}
+	/* end pager */
+
+	.preview_table li {
+		margin-left: calc(var(--default-margin) / 2);
+	}
+
+	.replace_input-type-radio .radio,
+	.replace_input-type-checkbox .checkbox {
+		transform: scale(2); /* scale radiobuttons and checkbox to double of orignal size (to click them more easyly) */
+		margin: 0 calc(var(--default-margin) * 1.5) calc(var(--default-margin) * 1.5) var(--default-margin);
+	}
+
+	.slideshow figcaption {
+		font-size: 2rem;
+	}
+
+	.thumbnail-scroller > ul > li {
+		flex: none;
+		margin: var(--default-margin);
+	}
+
+	.thumbnail-scroller img {
+		height: 10rem;
+		width: auto;
+	}
+
+	.popup_wrapper .gallery-scroller {
+		width: 90%;
+	}
+}
+
+@media only screen and (max-width: 600px) {
+	.multi-step {
+		flex-direction: column;
+	}
+
+	.multi-step li {
+		margin-left: 0;
+	}
+
+	/* begin multi-step-indicator-progress-bar */
+	.multi-step li > span {
+		display: none;
+	}
+
+	.multi-step li:not(:last-child) a span.after {
+		transform: none;
+		top: 100%;
+		left: 0;
+		width: 100%;
+		border-style: solid;
+		border-color: transparent;
+		border-top-color: var(--primary-color);
+	}
+	/* end multi-step-indicator-progress-bar */
+
+	#pager #page_index {
+		grid-column: span 2;
+	}
+
+	#page_index .flex-container {
+		flex-direction: row;
+	}
+
+	.popup_wrapper [class*="switch_button_"] {
+		width: 3rem;
+	}
+
+	.popup_wrapper [class*="switch_button_"]::before {
+		margin: 0;
+		top: 40%;
+	}
+
+	.select {
+		width: 100%;
+	}
+
+	.tabs > ul > li {
+		text-align: center;
+	}
+}

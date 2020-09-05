@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Tab 1",
+    "headline": "Tab 1 Headline",
+    "htmlContent": "<p>Inhalt 1</p>"
+  },
+  {
+    "name": "Tab 2",
+    "headline": "Tab 2 Headline",
+    "htmlContent": "<p>Inhalt 2</p>"
+  },
+  {
+    "name": "Tab 3",
+    "headline": "Tab 3 Headline",
+    "htmlContent": "<p>Inhalt 3</p>"
+  }
+]

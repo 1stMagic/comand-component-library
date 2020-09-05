@@ -1,0 +1,27 @@
+[
+  {
+    "path": "",
+    "name": "Contact",
+    "iconClass": "icon-address"
+  },
+  {
+    "path": "",
+    "name": "Technical",
+    "iconClass": "icon-configuration"
+  },
+  {
+    "path": "",
+    "name": "Attachments",
+    "iconClass": "icon-attachment"
+  },
+  {
+    "path": "",
+    "name": "Terms and Conditions",
+    "iconClass": "icon-section_sign"
+  },
+  {
+    "path": "",
+    "name": "Summary",
+    "iconClass": "icon-rows"
+  }
+]

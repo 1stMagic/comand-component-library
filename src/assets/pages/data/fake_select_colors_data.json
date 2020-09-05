@@ -1,0 +1,22 @@
+[
+  {
+    "hexCode": "#ffffff",
+    "colorName": "White"
+  },
+  {
+    "hexCode": "#ff0000",
+    "colorName": "Red"
+  },
+  {
+    "hexCode": "#00ff00",
+    "colorName": "Green"
+  },
+  {
+    "hexCode": "#0000ff",
+    "colorName": "Blue"
+  },
+  {
+    "hexCode": "#000000",
+    "colorName": "Black"
+  }
+]
