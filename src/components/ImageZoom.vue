@@ -1,7 +1,7 @@
 <template>
-    <div class="grid-container-create-columns imagezoom_wrapper">
+    <div class="grid-container-create-columns imagezoom-wrapper">
         <div class="grid-small-item">
-            <div class="thumbnails_imagezoom">
+            <div class="thumbnails-imagezoom">
                 <img :src="smallImageUrl" alt="Small Image" @mouseover="onMouseOver" @mousemove="onMouseMove" @mouseout="onMouseOut" />
             </div>
         </div>
@@ -14,6 +14,7 @@
 
 <script>
     export default {
+        name: "ImageZoom",
         props: {
             smallImageUrl: {
                 type: String,
@@ -92,12 +93,12 @@
     }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 /* begin imagezoom --------------------------------------------------------------------------------------------------------------------------------------------------- */
-.imagezoom_wrapper {
+.imagezoom-wrapper {
     overflow: hidden;
 
-    .thumbnails_imagezoom {
+    .thumbnails-imagezoom {
         img {
             border: var(--default-border);
         }
@@ -122,7 +123,6 @@
         opacity: var(--reduced-opacity);
         pointer-events: none;
     }
-
 }
 /* end imagezoom --------------------------------------------------------------------------------------------------------------------------------------------------- */
 </style>

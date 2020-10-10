@@ -1,15 +1,19 @@
 <template>
     <div>
-        <div id="navigation_wrapper" :class="{'hide-sub-navigation' : !showSubNavigations, 'open': showOffcanvas }">
+        <div id="navigation-wrapper" :class="{'hide-sub-navigation' : !showSubNavigations, 'open': showOffcanvas, 'persist-on-mobile': persistOnMobile}">
             <nav id="main-navigation">
                 <ul :class="{'stretch-items' : stretchMainItems}">
-                    <li class="close_nav" v-if="showOffcanvas">
-                        <a href="#" @click.prevent="showOffcanvas = false"><span class="icon-cancel"></span><span>Close Navigation</span></a>
+                    <li class="close-nav" v-if="showOffcanvas">
+                        <a href="#" @click.prevent="showOffcanvas = false">
+                            <span :class="closeOffcanvas.iconClass" v-if="closeOffcanvas.iconClass"></span>
+                            <span v-if="closeOffcanvas.text">{{ closeOffcanvas.text }}</span>
+                        </a>
                     </li>
                     <li v-for="(navigationEntry, index) in navigationEntries" :key="index" :class="{'open' : navigationEntry.accordion}">
                         <a :href="navigationEntry.href" :target="navigationEntry.target" @click="clickLink($event, navigationEntry)">
                             <span :class="navigationEntry.iconClass" v-if="navigationEntry.iconClass"></span>
                             <span>{{ navigationEntry.name }}</span>
+                            <span v-if="navigationEntry.subentries && navigationEntry.subentries.length > 0" class="icon-single_arrow_down"></span>
                         </a>
                         <ul v-if="navigationEntry.subentries">
                             <li v-for="(navigationSubEntry, subindex) in navigationEntry.subentries" :key="subindex" :class="{'open' : navigationSubEntry.accordion}">
@@ -30,7 +34,7 @@
                 </ul>
             </nav>
         </div>
-        <a href="#" class="button icon-bars" id="toggle_offcanvas" @click.prevent="showOffcanvas = !showOffcanvas" v-if="persistOnMobile == false"></a>
+        <a href="#" class="button icon-bars" id="toggle-offcanvas" @click.prevent="showOffcanvas = !showOffcanvas" v-if="persistOnMobile === false"></a>
     </div>
 </template>
 
@@ -38,6 +42,7 @@
 import Vue from 'vue'
 
 export default {
+    name: "MainNavigation",
     data() {
         return {
             showOffcanvas: false,
@@ -45,9 +50,22 @@ export default {
         }
     },
     props: {
-        stretchMainItems: Boolean,
-        persistOnMobile: Boolean,
-        navigationEntries: Array
+        stretchMainItems:{
+            type: Boolean,
+            default: false
+        },
+        persistOnMobile: {
+            type: Boolean,
+            default: false
+        },
+        navigationEntries: {
+            type: Array,
+            required: true
+        },
+        closeOffcanvas: {
+           type: Object,
+           required: true
+        }
     },
     methods: {
         clickLink (event, navigationEntry) {
@@ -68,9 +86,10 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
+@import '../assets/styles/variables';
 /* begin navigation --------------------------------------------------------------------------------------------------------------------------------------------------- */
-#navigation_wrapper {
+#navigation-wrapper {
     background: var(--default-background-color);
 
     &.hide-sub-navigation {
@@ -94,6 +113,22 @@ export default {
             > li {
                 border-right: var(--default-border);
 
+                .close-nav {
+                    display: none;
+
+                    a {
+                        text-align: center;
+
+                        span:not([class*="icon-"]) {
+                            font-weight: bold;
+                        }
+
+                        span[class*="icon-"] {
+                            font-size: 1rem;
+                        }
+                    }
+                }
+
                 > a {
                     text-align: center;
                 }
@@ -115,7 +150,7 @@ export default {
                     }
                 }
 
-                span[class*='single_arrow'] {
+                span[class*='icon-'] {
                     font-size: 1rem;
                 }
             }
@@ -146,13 +181,6 @@ export default {
                     left: 100%;
                 }
             }
-
-            @media only screen and (max-width: 1023px) {
-                ul, ul ul {
-                    position: relative;
-                    left: 0;
-                }
-            }
         }
     }
 
@@ -170,38 +198,137 @@ export default {
     header nav > ul, header nav > ul > li {
         border: 0;
     }
-}
-/* end navigation --------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-.close_nav, .level_up {
-    display: none;
-    border-bottom: var(--default-border);
+    @media only screen and (max-width: $medium-max-width) {
+        /* begin offcanvas-navigation */
+        &:not(.persist-on-mobile) {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            min-width: 50%;
+            height: 100%;
+            opacity: 0;
+            z-index: 500;
+            background: var(--default-background-color);
+            box-shadow: var(--box-shadow);
+            transition: all .5s linear;
 
-    a {
-        text-align: center;
+            & + #toggle-offcanvas {
+                display: table;
+                margin-bottom: 0;
+            }
 
-        span:not([class*="icon-"]) {
-            font-weight: bold;
-        }
+            &.open {
+                left: 0;
+                opacity: 1;
+                transition: all .5s linear;
+            }
 
-        span[class*="icon-"] {
-            font-size: 1rem;
+            nav {
+                ul {
+                    flex-direction: column;
+                    border-bottom: 0;
+                    border-left: 0;
+                    position: relative;
+                    left: 0;
+
+                    li {
+                        border-bottom: var(--default-border);
+
+                        &.close-nav {
+                            display: block;
+                            border-bottom: var(--default-border);
+
+                            a {
+                                display: flex;
+                                align-items: center;
+
+                                span {
+                                    font-weight: bold;
+                                }
+                            }
+                        }
+
+                        &:not(.open) {
+                            &:hover, &:active, &:focus {
+                                > ul {
+                                    display: none;
+                                }
+                            }
+                        }
+
+                        > a {
+                            text-align: left;
+
+                            span  {
+                                & + span[class*="icon"]::before {
+                                    display: inline-block;
+                                }
+                            }
+                        }
+
+                        /* sub-level 1 */
+                        ul {
+                            li {
+                                a {
+                                    padding-left: calc(var(--default-margin) * 2);
+                                }
+
+                                /* sub-level 2 */
+                                ul {
+                                    li {
+                                        a {
+                                            padding-left: calc(var(--default-margin) * 4);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        &.open {
+                            > a span + span[class*="icon"]::before {
+                                display: inline-block;
+                                transform: rotate(-180deg);
+                            }
+
+                            > ul {
+                                height: auto;
+                                transition: all .5s linear;
+                                display: block;
+                                opacity: 1;
+
+                                > li {
+                                    > a {
+                                        span {
+                                            + span[class*="icon"]::before {
+                                                transform: rotate(-90deg);
+                                            }
+                                        }
+                                    }
+
+                                    &.open {
+                                        > a {
+                                            span {
+                                                + span[class*="icon"]::before {
+                                                    transform: rotate(90deg);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
 
-#toggle_offcanvas {
+/* keep outside of #navigation-wrapper to keep specifity */
+#toggle-offcanvas {
     margin-left: 0;
     display: none;
 }
-
-@media only screen and (max-width: 1023px) {
-    #toggle_offcanvas {
-        display: table;
-    }
-
-    .close_nav, .level_up {
-        display: block;
-    }
-}
+/* end navigation --------------------------------------------------------------------------------------------------------------------------------------------------- */
 </style>

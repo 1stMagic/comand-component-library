@@ -1,15 +1,22 @@
 {
-  "name": "comand-ui-kit-2",
-  "version": "0.1.0",
-  "private": true,
+  "name": "comand-ui-kit",
+  "version": "3.0.3",
+  "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "build-lib": "vue-cli-service build --target lib --name comand-ui-kit-2 src/index.js",
-    "lint": "vue-cli-service lint"
+    "build-lib": "vue-cli-service build --target lib --name comand-ui-kit src/index.js && gulp",
+    "lint": "vue-cli-service lint",
+    "prepublishOnly": "npm run build-lib"
   },
-  "main": "src/index.js",
+  "main": "dist/comand-ui-kit.umd.min.js",
+  "files": [
+    "dist/*.css",
+    "dist/framework",
+    "src"
+  ],
   "dependencies": {
+    "comand-frontend-framework": "^3.0.26",
     "core-js": "^3.6.5",
     "v-click-outside": "^3.0.1",
     "vue": "^2.6.11"
@@ -21,6 +28,7 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
+    "gulp": "^4.0.2",
     "node-sass": "^4.12.0",
     "sass-loader": "^8.0.2",
     "vue-template-compiler": "^2.6.11"

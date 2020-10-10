@@ -1,34 +1,34 @@
 <template>
     <div class="thumbnail-scroller gallery-scroller">
-        <a href="#" @click.prevent="previous" class="switch_button_previous icon-single_arrow_left" title="Previous"></a>
+        <SlideButton @click.prevent="showPrevItem" :slideButtonType="slideButtons.previous" />
         <transition-group name="slide" tag="ul">
-            <li v-for="(image, index) in thumbnails" :key="image.imgId" :class="{'active' : imgIndex == index}">
+            <li v-for="(image, index) in thumbnails" :key="image.imgId" :class="{'active' : imgIndex === index}">
                 <a href="#" @click.prevent="showFancyBox(index)">
                     <figure>
                         <img :src="image.srcImageSmall" :alt="image.alt" />
-                        <figcaption>{{ image.figcaption }}</figcaption>
+                        <figcaption v-if="showFigcaption">{{ image.figcaption }}</figcaption>
                     </figure>
                 </a>
             </li>
         </transition-group>
-        <a href="#" v-on:click.prevent="next" class="switch_button_next icon-single_arrow_right" title="Next"></a>
+        <SlideButton @click.prevent="showNextItem" :slideButtonType="slideButtons.next" />
     </div>
 </template>
 
-<style scoped lang="scss">
-.slide-move {
-    transition: transform 1s ease-in-out;
-}
-</style>
-
 <script>
 import {openFancyBox} from '@/components/FancyBox.vue'
+import SlideButton from "@/components/SlideButton.vue"
 
 export default {
+    name: "ThumbnailScroller",
     data() {
         return {
             thumbnails: this.thumbnailScrollerItems // assign thumbnailScrollerItems to thumbnails-property (because array must be changable)
         }
+    },
+
+    components: {
+        SlideButton
     },
 
     props: {
@@ -42,18 +42,39 @@ export default {
         },
         imgIndex: {
           type: Number
+        },
+        showFigcaption: {
+            type: Boolean,
+            default: true
+        },
+        slideButtons: {
+            type: Object,
+            default() {
+                return {
+                    "next": {
+                        "buttonType": "next",
+                        "iconClass": "icon-single_arrow_right",
+                        "tooltip": "Next"
+                    },
+                    "previous": {
+                        "buttonType": "previous",
+                        "iconClass": "icon-single_arrow_left",
+                        "tooltip": "Previous"
+                    }
+                }
+            }
         }
     },
 
     methods: {
-        next() {
+        showNextItem() {
             const thumbnail = this.thumbnails.shift(); // remove first element of array
             if (thumbnail) {
                 this.thumbnails.push(thumbnail);
             }
         },
 
-        previous() {
+        showPrevItem() {
             const thumbnail = this.thumbnails.pop(); // remove last element of array
             if (thumbnail) {
                 this.thumbnails.unshift(thumbnail);
@@ -67,21 +88,20 @@ export default {
         }
    }
 }
-
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
+@import '../assets/styles/variables';
 /* begin thumbnail-scroller --------------------------------------------------------------------------------------------------------------------------------------------------- */
 .thumbnail-scroller {
     overflow: hidden;
     margin-bottom: calc(var(--default-margin) * 2);
     border: var(--default-border);
-    background: var(--blank-color);
+    background: var(--pure-white);
     border-radius: var(--border-radius);
 
     > ul {
         overflow: hidden;
-        width: 200%;
         margin: 0;
         display: -webkit-flex; /* Safari 6-8 */
         display: flex;
@@ -109,10 +129,6 @@ export default {
             border-radius: var(--border-radius);
             max-height: 15rem;
         }
-
-        &.hide_figcaption figcaption {
-            display: none;
-        }
     }
 
     .vertical {
@@ -127,7 +143,7 @@ export default {
             display: flex;
             flex-direction: column;
 
-            [class*="switch_button_"] {
+            [class*="switch-button-"] {
                 width: 100%;
                 height: auto;
 
@@ -139,9 +155,25 @@ export default {
             }
         }
 
-        .switch_button_next {
+        .slide-button-next {
             top: auto;
             bottom: 0;
+        }
+    }
+
+    .slide-move {
+        transition: transform 1s ease-in-out;
+    }
+
+    @media only screen and (max-width: $medium-max-width)  {
+        & > ul > li {
+            flex: none;
+            margin: var(--default-margin);
+        }
+
+        & img {
+            height: 10rem;
+            width: auto;
         }
     }
 }

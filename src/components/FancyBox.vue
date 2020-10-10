@@ -1,10 +1,10 @@
 <template>
-    <div id="fancybox" class="popup_wrapper" v-if="showFancyBox">
+    <div id="fancybox" class="popup-wrapper" v-if="showFancyBox">
         <transition name="fade">
             <div class="popup" :class="{'image' : fancyBoxImageUrl || fancyBoxGallery }">
-                <div class="button_wrapper">
-                    <a href="#" class="button icon-print" id="print_color" title="print_in_color" @click.prevent="printInGrayscale = false"></a>
-                    <a href="#" class="button icon-print" id="print_black_white" title="print_in_grayscale" @click.prevent="printInGrayscale = true"></a>
+                <div class="button-wrapper">
+                    <a href="#" class="button icon-print" id="print-color" title="print in color" @click.prevent="printInGrayscale = false"></a>
+                    <a href="#" class="button icon-print" id="print-grayscale" title="print in grayscale" @click.prevent="printInGrayscale = true"></a>
                     <a href="#" class="icon-cancel" title="Close" @click.prevent="close"></a>
                 </div>
                 <div class="clearfix" :class="{'grayscale' : printInGrayscale}">
@@ -14,12 +14,12 @@
                     <div v-else-if="fancyBoxContent" class="content" v-html="fancyBoxContent"></div>
                     <div v-else-if="fancyBoxElements" class="content"></div>
                     <div v-else-if="fancyBoxGallery" class="content">
-                        <a href="#" @click.prevent="showPrevItem" class="switch_button_previous icon-single_arrow_left" title="Previous"></a>
+                        <SlideButton @click.prevent="showPrevItem" :slideButtonType="slideButtons.previous" />
                         <figure>
                             <img :src="fancyBoxGallery[index].srcImageLarge" :alt="fancyBoxGallery[index].alt" />
                             <figcaption>{{ fancyBoxGallery[index].figcaption }}</figcaption>
                         </figure>
-                        <a href="#" @click.prevent="showNextItem" class="switch_button_next icon-single_arrow_right" title="Next"></a>
+                        <SlideButton @click.prevent="showNextItem" :slideButtonType="slideButtons.next" />
                     </div>
                     <div v-else class="content"><slot></slot></div>
                 </div>
@@ -30,180 +30,180 @@
 </template>
 
 <script>
-    import Vue from 'vue'
-    import ThumbnailScroller  from '@/components/ThumbnailScroller.vue'
+import Vue from 'vue'
+import ThumbnailScroller  from '@/components/ThumbnailScroller.vue'
+import SlideButton from "@/components/SlideButton.vue"
 
-    const openFancyBox = (config) => {
-        const node = document.createElement('div');
-        document.querySelector('body').appendChild(node);
-        new FancyBox({
-            el: node,
-            propsData: {
-                ...config,
-                show: true
-            }
-        })
-    }
-
-    const FancyBox = Vue.extend({
-        props: {
-            url: String,
-            content: String,
-            elements: Array,
-            fancyBoxGallery: Array,
-            defaultGalleryIndex: Number,
-            show: {
-                type: Boolean,
-                default: false
-            }
-        },
-        components: {
-          ThumbnailScroller
-        },
-        data() {
-            return {
-                fancyBoxImageUrl: null,
-                fancyBoxContent: null,
-                fancyBoxElements: null,
-                showFancyBox: this.show,
-                printInGrayscale: false,
-                index: this.defaultGalleryIndex
-            }
-        },
-        created() {
-            this.$_FancyBox_escapeKeyHandler = e => (e.key === 'Escape' || e.key === 'Esc') && this.close()
-            document.querySelector('body').addEventListener('keyup', this.$_FancyBox_escapeKeyHandler)
-            this.$watch(
-                () => [
-                    this.url,
-                    this.content,
-                    this.elements
-                ],
-                this.updateContentOnPropertyChange,
-                {immediate: true}
-            )
-        },
-        beforeDestroy() {
-            document.querySelector('body').removeEventListener('keyup', this.$_FancyBox_escapeKeyHandler)
-        },
-        methods: {
-            updateContentOnPropertyChange() {
-                this.fancyBoxImageUrl = this.fancyBoxContent = this.fancyBoxElements = null
-                if (this.url) {
-                    this.loadContent(this.url)
-                } else if (this.content) {
-                    this.fancyBoxContent = this.content
-                } else if (this.elements) {
-                    this.fancyBoxElements = this.elements.map(el => el.cloneNode(true))
-                    this.$nextTick(() => {
-                        this.$el.querySelector('.content').append(...this.fancyBoxElements)
-                    })
-                }
-            },
-            async loadContent(url) {
-                const contentType = await getContentType(url)
-                if (contentType.startsWith('image/')) {
-                    this.fancyBoxImageUrl = url
-                } else {
-                    fetch(url)
-                        .then(response => response.text())
-                        .then(text => this.fancyBoxContent = text)
-                        .catch(error => console.error(`Error loading ${this.url}: ${error}`))
-                }
-            },
-            showPrevItem() {
-                if (this.index > 0) {
-                    this.index--;
-                } else {
-                    this.index = this.fancyBoxGallery.length - 1;
-                }
-            },
-
-            showItem(imgId) {
-                for (let i = 0; i < this.fancyBoxGallery.length; i++) {
-                    if (this.fancyBoxGallery[i].imgId === imgId) {
-                        this.index = i
-                        break;
-                    }
-                }
-            },
-
-            showNextItem() {
-                if (this.index < this.fancyBoxGallery.length - 1) {
-                    this.index++;
-                } else {
-                    this.index = 0;
-                }
-            },
-
-            close() {
-                if (this.$options.el) {
-                    this.$destroy()
-                    this.$el.remove()
-                } else {
-                    this.showFancyBox = false
-                    this.$emit('update:show', false)
-                }
-            }
-        },
-        watch: {
-            show(value) {
-                this.showFancyBox = value
-            }
+const openFancyBox = (config) => {
+    const node = document.createElement('div');
+    document.querySelector('body').appendChild(node);
+    new FancyBox({
+        el: node,
+        propsData: {
+            ...config,
+            show: true
         }
     })
+}
 
-    async function getContentType(url) {
-        const response = await fetch(url, {method: 'HEAD'})
-        if (response.ok) {
-            return (response.headers.get('Content-Type') || '').split(';')[0]
+const FancyBox = Vue.extend({
+    name: "FancyBox",
+    props: {
+        url: {
+            type: String,
+            required: false
+        },
+        content: {
+            type: String,
+            required: false
+        },
+        elements: {
+            type: Array,
+            required: false
+        },
+        fancyBoxGallery: {
+            type: Array,
+            required: false
+        },
+        defaultGalleryIndex: {
+            type: Number,
+            required: false
+        },
+        show: {
+            type: Boolean,
+            default: false
+        },
+        slideButtons: {
+            type: Object,
+            default() {
+                return {
+                    "next": {
+                        "buttonType": "next",
+                        "iconClass": "icon-single_arrow_right",
+                        "tooltip": "Next"
+                    },
+                    "previous": {
+                        "buttonType": "previous",
+                        "iconClass": "icon-single_arrow_left",
+                        "tooltip": "Previous"
+                    }
+                }
+            }
         }
-        return 'text/html'
+    },
+    components: {
+      SlideButton,
+      ThumbnailScroller
+    },
+    data() {
+        return {
+            fancyBoxImageUrl: null,
+            fancyBoxContent: null,
+            fancyBoxElements: null,
+            showFancyBox: this.show,
+            printInGrayscale: false,
+            index: this.defaultGalleryIndex
+        }
+    },
+    created() {
+        this.$_FancyBox_escapeKeyHandler = e => (e.key === 'Escape' || e.key === 'Esc') && this.close()
+        document.querySelector('body').addEventListener('keyup', this.$_FancyBox_escapeKeyHandler)
+        this.$watch(
+            () => [
+                this.url,
+                this.content,
+                this.elements
+            ],
+            this.updateContentOnPropertyChange,
+            {immediate: true}
+        )
+    },
+    beforeDestroy() {
+        document.querySelector('body').removeEventListener('keyup', this.$_FancyBox_escapeKeyHandler)
+    },
+    methods: {
+        updateContentOnPropertyChange() {
+            this.fancyBoxImageUrl = this.fancyBoxContent = this.fancyBoxElements = null
+            if (this.url) {
+                this.loadContent(this.url)
+            } else if (this.content) {
+                this.fancyBoxContent = this.content
+            } else if (this.elements) {
+                this.fancyBoxElements = this.elements.map(el => el.cloneNode(true))
+                this.$nextTick(() => {
+                    this.$el.querySelector('.content').append(...this.fancyBoxElements)
+                })
+            }
+        },
+        async loadContent(url) {
+            const contentType = await getContentType(url)
+            if (contentType.startsWith('image/')) {
+                this.fancyBoxImageUrl = url
+            } else {
+                fetch(url)
+                    .then(response => response.text())
+                    .then(text => this.fancyBoxContent = text)
+                    .catch(error => console.error(`Error loading ${this.url}: ${error}`))
+            }
+        },
+        showPrevItem() {
+            if (this.index > 0) {
+                this.index--;
+            } else {
+                this.index = this.fancyBoxGallery.length - 1;
+            }
+        },
+
+        showItem(imgId) {
+            for (let i = 0; i < this.fancyBoxGallery.length; i++) {
+                if (this.fancyBoxGallery[i].imgId === imgId) {
+                    this.index = i
+                    break;
+                }
+            }
+        },
+
+        showNextItem() {
+            if (this.index < this.fancyBoxGallery.length - 1) {
+                this.index++;
+            } else {
+                this.index = 0;
+            }
+        },
+
+        close() {
+            if (this.$options.el) {
+                this.$destroy()
+                this.$el.remove()
+            } else {
+                this.showFancyBox = false
+                this.$emit('update:show', false)
+            }
+        }
+    },
+    watch: {
+        show(value) {
+            this.showFancyBox = value
+        }
     }
+})
 
-    export { openFancyBox }
-    export default FancyBox
+async function getContentType(url) {
+    const response = await fetch(url, {method: 'HEAD'})
+    if (response.ok) {
+        return (response.headers.get('Content-Type') || '').split(';')[0]
+    }
+    return 'text/html'
+}
 
-//     export default {
-//         data: return() {
-//             index: 0
-//         },
-//         /*
-//         @Watch('$store.state.fancybox.status')
-//         onStatusChange() {
-//             this.index = this.$store.state.fancybox.imgIndex;
-//         }
-// */
-//         // assign img from store to image (computed property)
-//         computed: {
-//             get image() {
-//                // return this.$store.state.fancybox.img
-//             }
-//         },
-//
-//         methods: {
-//             next() {
-//                 if (this.index < this.$store.state.fancybox.images.length - 1) {
-//                     this.index++;
-//                 } else {
-//                     this.index = 0;
-//                 }
-//             },
-//
-//             previous() {
-//                 if (this.index == 0) {
-//                     this.index = this.$store.state.fancybox.images.length - 1;
-//                 } else {
-//                     this.index--;
-//                 }
-//             }
-//         }
-//     }
+export { openFancyBox }
+export default FancyBox
 </script>
 
 <style lang="scss">
-/* begin popup --------------------------------------------------------------------------------------------------------------------------------------------------- */
-.popup_wrapper {
+@import '../assets/styles/variables';
+/* begin popup-wrapper --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.popup-wrapper {
     background: rgba(0, 0, 0, .8);
     position: fixed;
     width: 100vw;
@@ -221,6 +221,7 @@
         padding: var(--default-padding);
         z-index: 200;
         width: 80%;
+        max-width: 126rem;
         max-height: 80%;
         min-height: 30%;
         animation: fadein 1s;
@@ -248,7 +249,7 @@
             }
         }
 
-        > .button_wrapper {
+        > .button-wrapper {
             margin-bottom: var(--default-margin);
             flex-direction: row;
 
@@ -273,7 +274,7 @@
                 color: var(--pure-white);
             }
 
-            &#print_black_white {
+            &#print-grayscale {
                 background: linear-gradient(135deg, #000000 0%,#000000 50%,#ffffff 50%,#ffffff 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
             }
         }
@@ -321,6 +322,23 @@
     .fade-enter, .fade-leave-to {
         opacity: 0;
     }
+
+    @media only screen and (max-width: $medium-max-width) {
+        .gallery-scroller {
+            width: 90%;
+        }
+    }
+
+    @media only screen and (max-width: $small-max-width) {
+        [class*="switch-button-"] {
+            width: 3rem;
+
+            &::before {
+                margin: 0;
+                top: 40%;
+            }
+        }
+    }
 }
-/* end popup --------------------------------------------------------------------------------------------------------------------------------------------------- */
+/* end popup-wrapper --------------------------------------------------------------------------------------------------------------------------------------------------- */
 </style>

@@ -1,10 +1,10 @@
 <template>
     <div class="tabs">
         <ul :class="{'stretch-tabs' : stretchTabs}">
-            <li :class="{active : showTab == index}" v-for="(tab, index) in tabs" :key="index"><a @click.prevent="showTab = index">{{ tab.name }}</a></li>
+            <li :class="{active : showTab === index}" v-for="(tab, index) in tabs" :key="index"><a @click.prevent="showTab = index">{{ tab.name }}</a></li>
         </ul>
         <template v-if="useComponent">
-            <div v-show="showTab == index" v-for="(tab, index) in tabs" :key="index">
+            <div v-show="showTab === index" v-for="(tab, index) in tabs" :key="index">
                 <slot :name="'tab-content-' + index"></slot>
             </div>
         </template>
@@ -17,6 +17,7 @@
 
 <script>
 export default {
+    name: "Tabs",
     data() {
         return {
             showTab: 0
@@ -30,7 +31,7 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 /* begin tabs --------------------------------------------------------------------------------------------------------------------------------------------------- */
 .tabs {
     > ul {
@@ -40,7 +41,7 @@ export default {
 
         > li {
             border: var(--primary-border);
-            background: var(--blank-color);
+            background: var(--pure-white);
             z-index: 10;
             margin-left: 0;
             border: var(--default-border);
@@ -83,7 +84,7 @@ export default {
         border-top-left-radius: 0;
     }
 
-    /* stretch tabs with display_flex */
+    /* stretch tabs with display-flex */
     &.stretch-tabs {
         > li {
             flex: 1;

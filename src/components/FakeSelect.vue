@@ -1,30 +1,30 @@
 <template>
-  <label :class="status">
+  <div class="label" :class="status">
     <span>Label for FakeSelect:</span>
-    <ul class="select" v-click-outside="closeOptions" :class="status">
+    <ul class="select" :class="[status, {'open': showOptions}]" v-click-outside="closeOptions">
       <li>
         <a href="#" @click.prevent="toggleOptions">
-          <span v-if="type == 'country' && miscInfo" class="flag" :class="miscInfo"></span>
-          <span v-else-if="type == 'color' && miscInfo" class="color" :style="'background: ' + miscInfo"></span>
+          <span v-if="type === 'country' && miscInfo" class="flag" :class="miscInfo"></span>
+          <span v-else-if="type === 'color' && miscInfo" class="color" :style="'background: ' + miscInfo"></span>
           <span>{{ optionName }}</span>
-          <span class="icon-single_arrow_down"></span>
+          <span :class="iconClass"></span>
         </a>
-        <ul v-if="type == 'filterList' && showOptions">
+        <ul v-if="type === 'filterList' && showOptions">
           <li v-for="(option, index) in selectData" :key="index">
-            <label :for="'option_' + (index + 1)">
-              <input type="checkbox" :value="option.optionValue" @change="optionSelect" :checked="value.includes(`${option.optionValue}`)" :id="'option_' + (index + 1)" />
+            <label :for="'option-' + (index + 1)">
+              <input type="checkbox" :value="option.optionValue" @change="optionSelect" :checked="value.includes(`${option.optionValue}`)" :id="'option-' + (index + 1)" />
               <span>{{ option.optionName }}</span>
             </label>
           </li>
         </ul>
-        <ul v-else-if="type == 'country' && showOptions">
+        <ul v-else-if="type === 'country' && showOptions">
           <li v-for="(country, index) in selectData" :key="index">
             <a href="#" @click.prevent="selectOption(country.countryName, country.isoCode)">
               <span class="flag" :class="country.isoCode"></span><span>{{country.countryName}}</span>
             </a>
           </li>
         </ul>
-        <ul v-else-if="type == 'color' && showOptions">
+        <ul v-else-if="type === 'color' && showOptions">
           <li v-for="(color, index) in selectData" :key="index">
             <a href="#" @click.prevent="selectOption(color.colorName, color.hexCode)">
               <span class="color" :style="'background: ' + color.hexCode"></span><span>{{ color.colorName }}</span>
@@ -36,12 +36,12 @@
         </template>
       </li>
     </ul>
-  </label>
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'fakeSelect',
+  name: 'FakeSelect',
   props: {
     type: {
       type: String,
@@ -57,16 +57,20 @@ export default {
     },
     selectData: {
       type: Array,
-      required: true
+      required: false
     },
     status: {
       type: String,
       required: false
+    },
+    iconClass: {
+      type: String,
+      required: true
     }
   },
   methods: {
     toggleOptions () {
-      if(this.status != 'disabled') {
+      if(this.status !== 'disabled') {
         this.showOptions = !this.showOptions
       }
     },
@@ -99,14 +103,16 @@ export default {
     }
   },
   created () {
-    for(let i = 0; i < this.selectData.length; i++) {
-      let currentEntry = this.selectData[i]
-      if(this.type == 'country' && this.value == currentEntry.isoCode){
-        this.optionName = currentEntry.countryName
-        this.miscInfo = currentEntry.isoCode
-      } else if (this.type == 'color' && this.value == currentEntry.hexCode) {
-        this.optionName = currentEntry.colorName
-        this.miscInfo = currentEntry.hexCode
+    if (this.selectData) {
+      for (let i = 0; i < this.selectData.length; i++) {
+        let currentEntry = this.selectData[i]
+        if (this.type === 'country' && this.value === currentEntry.isoCode) {
+          this.optionName = currentEntry.countryName
+          this.miscInfo = currentEntry.isoCode
+        } else if (this.type === 'color' && this.value === currentEntry.hexCode) {
+          this.optionName = currentEntry.colorName
+          this.miscInfo = currentEntry.hexCode
+        }
       }
     }
   }
@@ -118,7 +124,7 @@ export default {
 .select {
   margin: 0;
   display: block;
-  background: var(--blank-color); /* background(-gradient) for text-input-elements (w3c) */
+  background: var(--pure-white); /* background(-gradient) for text-input-elements (w3c) */
   box-shadow: none;
   border-radius: var(--border-radius);
   min-width: 0;
@@ -126,9 +132,21 @@ export default {
   > li {
     &:first-child {
       > a {
+        border: var(--default-border);
+
         [class*='icon-'] {
           font-size: 1rem;
           margin-left: auto;
+        }
+      }
+    }
+  }
+
+  &.open {
+    > li {
+      &:first-child {
+        > a {
+          border-color: var(--primary-color);
         }
       }
     }
@@ -145,7 +163,6 @@ export default {
       color: var(--text-color);
       padding: .7rem;
       padding-top: .8rem;
-      border: var(--default-border);
       text-decoration: none;
       outline: none;
 
@@ -170,8 +187,9 @@ export default {
       z-index: 10;
       width: 100%;
       margin-left: 0;
-      background: var(--blank-color);
+      background: var(--pure-white);
       border: var(--primary-border);
+      border-top: 0;
       border-bottom-right-radius: var(--border-radius);
       border-bottom-left-radius: var(--border-radius);
     }
@@ -188,23 +206,35 @@ export default {
       }
 
       &:hover, &:active, &:focus {
-        border: var(--primary-border);
+        border-color: var(--error-color);
+        background: var(--error-background);
 
         span {
-          color: var(--text-color);
+          color: var(--error-color);
         }
       }
     }
   }
 
-  &.disabled {
-    border-color: var(--disabled-color);
-    background: var(--disabled-background);
+  @mixin disabled-styles {
     color: var(--disabled-color);
+    border-color: var(--disabled-color);
+    background: var(--disabled-background-color);
+  }
 
-    a {
-      &:hover, &:active, &:focus {
-        cursor: not-allowed;
+  &.disabled {
+    li {
+      a {
+        @include disabled-styles;
+
+        &:hover, &:active, &:focus {
+          cursor: not-allowed;
+          @include disabled-styles;
+
+          span {
+            color: var(--disabled-color);
+          }
+        }
       }
     }
   }

@@ -1,12 +1,12 @@
 <template>
-    <transition name="fade">
-        <div class="system_message" :class="[{'full_width' : fullWidth}, messageStatus]" v-if="show">
-            <a class="icon-cancel" href="#" @click.prevent="show = false" title="Close"></a>
+    <transition name="fade-system-message">
+        <div class="system-message" :class="[{'full-width' : fullWidth}, messageStatus]" v-if="showSystemMessage">
+            <a class="icon-cancel" href="#" @click.prevent="showSystemMessage = false" title="Close"></a>
             <header>
-                <span class="icon-cancel" v-if="messageStatus == 'error'"></span>
-                <span class="icon-warning" v-if="messageStatus == 'warning'"></span>
-                <span class="icon-check" v-if="messageStatus == 'success'"></span>
-                <span class="icon-info" v-if="messageStatus == 'information'"></span>
+                <span class="icon-cancel" v-if="messageStatus === 'error'"></span>
+                <span class="icon-warning" v-if="messageStatus === 'warning'"></span>
+                <span class="icon-check" v-if="messageStatus === 'success'"></span>
+                <span class="icon-info" v-if="messageStatus === 'information'"></span>
                 <strong v-if="systemMessage">{{ systemMessage }}</strong>
             </header>
             <slot></slot>
@@ -16,9 +16,10 @@
 
 <script>
 export default {
+    name: "SystemMessage",
     data() {
         return {
-            show: true
+            showSystemMessage: true
         }
     },
     props: {
@@ -29,9 +30,9 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
-/* begin system_messages --------------------------------------------------------------------------------------------------------------------------------------------------- */
-.system_message {
+<style lang="scss">
+/* begin system-message --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.system-message {
     margin: var(--default-margin) 0;
 
     header {
@@ -54,16 +55,17 @@ export default {
         right: .5rem;
         text-decoration: none;
         top: .5rem;
-        color: var(--blank-color) !important;
+        color: var(--pure-white) !important;
         text-shadow: var(--text-shadow);
     }
 }
 
-.fade-enter-active, .fade-leave-active {
+.fade-system-message-enter-active, .fade-system-message-leave-active {
     transition: opacity 1s;
 }
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+
+.fade-system-message-enter, .fade-system-message-leave-to {
     opacity: 0;
 }
-/* end system_messages --------------------------------------------------------------------------------------------------------------------------------------------------- */
+/* end system-message --------------------------------------------------------------------------------------------------------------------------------------------------- */
 </style>

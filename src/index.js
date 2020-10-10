@@ -1,5 +1,24 @@
-import FancyBox from "./components/FancyBox"
-
-export {
-    FancyBox
-}
+export { default as Accordion } from '@/components/Accordion'
+export { default as BackToTopButton } from '@/components/BackToTopButton'
+export { default as BoxContent } from '@/components/BoxContent'
+export { default as BoxProduct } from '@/components/BoxProduct'
+export { default as BoxUser } from '@/components/BoxUser'
+export { default as FakeSelect } from '@/components/FakeSelect'
+export { openFancyBox, default as FancyBox } from '@/components/FancyBox'
+export { default as FormElement } from '@/components/FormElement'
+export { default as FormFilters } from '@/components/FormFilters'
+export { default as ImageGallery } from '@/components/ImageGallery'
+export { default as ImageZoom } from '@/components/ImageZoom'
+export { default as MainNavigation } from '@/components/MainNavigation'
+export { default as MultipleSwitch } from '@/components/MultipleSwitch'
+export { default as MultistepFormProgressBar } from '@/components/MultistepFormProgressBar'
+export { default as Pager } from '@/components/Pager'
+export { default as ProgressBar } from '@/components/ProgressBar'
+export { default as SlideButton } from '@/components/SlideButton'
+export { default as Slideshow } from '@/components/Slideshow'
+export { default as SwitchButton } from '@/components/SwitchButton'
+export { default as SystemMessage } from '@/components/SystemMessage'
+export { default as TableWrapper } from '@/components/TableWrapper'
+export { default as Tabs } from '@/components/Tabs'
+export { default as ThumbnailScroller } from '@/components/ThumbnailScroller'
+export { default as Tooltip } from '@/components/Tooltip'

@@ -1,0 +1,89 @@
+[
+  {
+    "name": "User name 1",
+    "img": "",
+    "profession": "User profession",
+    "position": "User position",
+    "description": "Some short description text for further information about the user",
+    "links": [
+        {
+        "href": "mailto:",
+        "target": "",
+        "iconClass": "icon-mail",
+        "title": "Send mail"
+      }
+    ]
+  },
+  {
+    "name": "User name 2",
+    "img": "",
+    "profession": "User profession",
+    "position": "User position",
+    "links": [
+      {
+        "href": "mailto:",
+        "target": "",
+        "iconClass": "icon-mail",
+        "title": "Send mail"
+      },
+      {
+        "href": "http://www.comand-cms.com",
+        "target": "comand",
+        "iconClass": "icon-globe",
+        "title": "Visit website"
+      }
+    ]
+  },
+  {
+    "name": "User name 3",
+    "img": "",
+    "profession": "User profession",
+    "position": "User position",
+    "links":  [
+      {
+        "href": "mailto:",
+        "target": "",
+        "iconClass": "icon-mail",
+        "title": "Send mail"
+      },
+      {
+        "href": "http://www.comand-cms.com",
+        "target": "comand",
+        "iconClass": "icon-globe",
+        "title": "Visit website"
+      },
+      {
+        "href": "tel:",
+        "target": "",
+        "iconClass": "icon-phone",
+        "title": "Make call"
+      }
+    ]
+  },
+  {
+    "name": "User name 4",
+    "img": "",
+    "profession": "User profession",
+    "position": "User position",
+    "links":  [
+      {
+        "href": "mailto:",
+        "target": "",
+        "iconClass": "icon-mail",
+        "title": "Send mail"
+      },
+      {
+        "href": "http://www.comand-cms.com",
+        "target": "comand",
+        "iconClass": "icon-globe",
+        "title": "Visit website"
+      },
+      {
+        "href": "tel:",
+        "target": "",
+        "iconClass": "icon-phone",
+        "title": "Make call"
+      }
+    ]
+  }
+]

@@ -1,0 +1,21 @@
+[
+  {
+    "labelText": "Label a",
+    "id": "multipleswitch-radio1",
+    "iconClass": "icon-globe",
+    "value": "a",
+    "checked": "checked"
+  },
+  {
+    "labelText": "Label b",
+    "id": "multipleswitch-radio2",
+    "iconClass": "icon-mail",
+    "value": "b"
+  },
+  {
+    "labelText": "Label c",
+    "id": "multipleswitch-radio3",
+    "iconClass": "icon-phone",
+    "value": "c"
+  }
+]

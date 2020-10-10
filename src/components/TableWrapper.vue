@@ -1,18 +1,21 @@
 <template>
-    <div class="table_wrapper">
+    <div class="table-wrapper">
         <table>
             <thead>
                 <tr>
-                    <th  v-for="(tablehead, index) in 10" :key="index">Table head {{ index }}</th>
-                    <th>Table head {{ index }}
-                        <a v-if="collapsible == true" href="#" @click.prevent="showTableData = !showTableData" :class="{'icon-single_arrow_down' : showTableData, 'icon-single_arrow_up' : !showTableData}"></a>
+                    <th  v-for="tablehead in 10" :key="tablehead">Table head {{ tablehead }}</th>
+                    <th>Table head 11
+                        <a v-if="collapsible === true"
+                           href="#" @click.prevent="showTableData = !showTableData"
+                           :class="[showTableData ? closeIconClass : openIconClass]">
+                        </a>
                     </th>
                 </tr>
             </thead>
             <transition name="fade">
-                <tbody v-show="showTableData == true">
-                    <tr v-for="(tablerows, index) in 10" :key="index">
-                        <td v-for="(tabledata, subindex) in 10" :key="subindex">Table data {{ subindex + 1 }}</td>
+                <tbody v-show="showTableData === true">
+                    <tr v-for="tablerows in 10" :key="tablerows">
+                        <td v-for="tabledata in 10" :key="tabledata">Table data {{ tabledata + 1 }}</td>
                         <td>Table data 11</td>
                     </tr>
                 </tbody>
@@ -22,27 +25,39 @@
 </template>
 
 <script>
-    export default {
-        data () {
-            return {
-                showTableData: true
-            }
+export default {
+    name: "TableWrapper",
+    data () {
+        return {
+            showTableData: true
+        }
+    },
+    props: {
+        collapsible: {
+            type: Boolean,
+            default: false
         },
-        props: {
-            collapsible: {
-                type: Boolean,
-                default: false
-            }
+        openIconClass: {
+            type: String,
+            required: true
+        },
+        closeIconClass: {
+            type: String,
+            required: true
         }
     }
+}
 </script>
 
-<style scoped lang="scss">
-.table_wrapper {
+<style lang="scss">
+/* begin table-wrapper --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.table-wrapper {
     max-width: 100%;
     overflow-x: auto;
 
     table {
+        table-layout: fixed;
+
         th {
             [class*='icon-'] {
                 font-size: 1rem;
@@ -60,4 +75,5 @@
         }
     }
 }
+/* end table-wrapper --------------------------------------------------------------------------------------------------------------------------------------------------- */
 </style>

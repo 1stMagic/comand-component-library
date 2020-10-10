@@ -1,5 +1,5 @@
 <template>
-    <div class="grid-container-create-columns gallery_wrapper">
+    <div class="grid-container-create-columns gallery-wrapper">
         <a href="#" v-for="(image, index) in images" :key="index" @click.prevent="showFancyBox(index)">
             <figure>
                 <img :src="image.srcImageSmall" :alt="image.alt">
@@ -13,6 +13,8 @@
 import {openFancyBox} from '@/components/FancyBox.vue'
 
 export default {
+    name: "ImageGallery",
+
     props: {
         images: Array
     },
@@ -24,3 +26,40 @@ export default {
     }
 }
 </script>
+
+<style lang="scss">
+/* begin gallery-wrapper --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.gallery-wrapper {
+    > a {
+        text-align:center;
+        align-self: center;
+        justify-self: center; /* justify horizontally center */
+        grid-column: span var(--grid-small-span);
+
+        img {
+            border-radius: var(--border-radius);
+            border: var(--default-border);
+            max-height: 30rem;
+        }
+
+        figcaption {
+            padding: calc(var(--default-padding) / 2);
+        }
+
+        &:hover, &:active, &:focus {
+            img {
+                border: var(--primary-border);
+            }
+
+            figcaption {
+                text-decoration: none;
+            }
+        }
+
+        & + .pager {
+            margin-top: calc(var(--default-margin) * 2);
+        }
+    }
+}
+/* end gallery-wrapper --------------------------------------------------------------------------------------------------------------------------------------------------- */
+</style>

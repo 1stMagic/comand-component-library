@@ -1,11 +1,11 @@
 <template>
   <ol class="multistep-form-progress-bar">
-      <li v-for="(step, index) in multisteps" :key="index" :class="{active : activeLink == index}">
+      <li v-for="(step, index) in multisteps" :key="index" :class="{active : activeLink === index}">
         <a :href="step.path" @click.prevent="clickedStep($event, index)">
           <span class="number" v-if="showStepNumber">{{ index + 1 }}</span>
           <span v-else :class="step.iconClass"></span>
           <span>{{ step.name }}</span>
-          <span class="icon-single_arrow_right"></span>
+          <span :class="separatorIconClass"></span>
         </a>
       </li>
   </ol>
@@ -24,6 +24,10 @@ export default {
     multisteps: {
       type: Array,
       required: true
+    },
+    separatorIconClass: {
+        type: String,
+        required: true
     }
   },
   methods: {
@@ -35,7 +39,9 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
+@import '../assets/styles/variables';
+/* begin multistep-form-progress-bar --------------------------------------------------------------------------------------------------------------------------------------------------- */
 .multistep-form-progress-bar {
   display: flex;
   justify-content: space-around;
@@ -97,7 +103,7 @@ export default {
     }
   }
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: $small-max-width) {
     flex-direction: column;
 
     li {
@@ -126,7 +132,7 @@ export default {
   }
 }
 
-/* >>> MULTISTEP-FORM-PROGRESS-BAR */
+
 .multistep-form-progress-bar {
   border: var(--default-border);
 
@@ -208,7 +214,7 @@ export default {
     }
   }
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: $small-max-width) {
     li {
 
       &:not(:last-child) {
@@ -223,5 +229,5 @@ export default {
     }
   }
 }
-/* <<< END MULTISTEP-FORM-PROGRESS-BAR */
+/* end multistep-form-progress-bar --------------------------------------------------------------------------------------------------------------------------------------------------- */
 </style>

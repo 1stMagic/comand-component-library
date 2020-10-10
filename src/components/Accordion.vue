@@ -1,12 +1,12 @@
 <template>
     <div class="accordion">
         <template v-for="(accordionContent, index) in accordion">
-            <h3  :key="'h' + index" class="accordion_headline" title="Click to show information" @click="toggleContentVisibility(accordionContent)">
+            <h3 :key="'h' + index" class="accordion-headline" :title="tooltip" @click="toggleContentVisibility(accordionContent)">
                 <span>{{ accordionContent.headline }}</span>
-                <span class="toggle_icon" :class="[accordionContent.status ? 'icon-single_arrow_down' : 'icon-single_arrow_up']"></span>
+                <span class="toggle-icon" :class="[accordionContent.status ? openIconClass : closeIconClass]"></span>
             </h3>
             <transition name="fade" :key="'d' + index">
-                <div class="accordion_content" v-if="accordionContent.status">
+                <div class="accordion-content" v-if="accordionContent.status">
                     <p>{{ accordionContent.content }}</p>
                 </div>
             </transition>
@@ -17,22 +17,41 @@
 
 <script>
 export default {
+    name: "Accordion",
     data() {
         return {
             accordion: this.accordionData
         }
     },
     props: {
-        toggleMode: String,
-        accordionData: Array
+        toggleMode: {
+            type: String,
+            default: 'single'
+        },
+        accordionData: {
+            type: Array,
+            required: true
+        },
+        openIconClass: {
+            type: String,
+            required: true
+        },
+        closeIconClass: {
+            type: String,
+            required: true
+        },
+        tooltip: {
+          type: String,
+          required: false
+        }
     },
     methods: {
         toggleContentVisibility (accordionContent) {
             accordionContent.status = !accordionContent.status
 
-            if(this.toggleMode == 'single' || this.toggleMode == '') {
+            if(this.toggleMode === 'single' || this.toggleMode === '') {
                 for(let i = 0 ; i < this.accordion.length; i++) {
-                    if (this.accordion[i] != accordionContent) {
+                    if (this.accordion[i] !== accordionContent) {
                         this.accordion[i].status = false;
                     }
                 }
@@ -42,20 +61,22 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 /* begin accordion --------------------------------------------------------------------------------------------------------------------------------------------------- */
 .accordion {
-    .accordion_headline {
+    .accordion-headline {
+        border: var(--default-border);
         display: flex;
         align-items: center;
         border-radius: var(--border-radius);
-        background: var(--blank-color);
+        background: var(--pure-white);
         margin: var(--default-padding) 0 0 0;
         padding: calc(var(--default-margin) / 2) var(--default-margin);
         background: var(--default-background-color);
 
-        & + .accordion_content {
+        & + .accordion-content {
             border: var(--default-border);
+            border-top: 0;
         }
 
         > span {
@@ -69,9 +90,13 @@ export default {
 
         &:hover, &:active, &:focus, &.active {
             background: var(--primary-color);
-            color: var(--blank-color);
+            color: var(--pure-white);
             border-color: var(--primary-color);
             cursor: pointer;
+
+            & + .accordion-content {
+                border-color: var(--primary-color);
+            }
 
             span {
                 color: var(--pure-white);
@@ -79,9 +104,9 @@ export default {
         }
     }
 
-    .accordion_content {
+    .accordion-content {
         padding: var(--default-padding);
-        background: var(--blank-color);
+        background: var(--pure-white);
         border-bottom-left-radius: var(--border-radius);
         border-bottom-right-radius: var(--border-radius);
 

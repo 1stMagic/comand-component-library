@@ -1,123 +1,162 @@
 <template>
-    <div class="grid-container-create-columns pager">
+    <div class="pager-wrapper">
         <p>
             Content: {{ currentPage }} of {{ numberOfPages }}
         </p>
-        <!-- previous page -->
-        <a class="page_change button" :class="{disabled: currentPage == 1}" @click.prevent="previousPage"><span class="icon-single_arrow_left"></span><span>Previous page</span></a>
-        <!-- page numbers -->
-        <div class="grid-container page_index">
-            <div class="flex-container">
-                <a class="button" :class="{disabled: currentPage == index + 1}" title="Current page" v-for="(item, index) in items" :key="index" @click.prevent="showPage(item)">{{ index + 1 }}</a>
+        <div class="pager">
+            <!-- begin button to previous page -->
+            <a class="page-change" :class="{'disabled': currentPage === 1, 'button': showLinksAsButtons}" @click.prevent="previousPage">
+                <span :class="prevButton.iconClass"></span><span v-if="prevButton.buttonText">{{prevButton.buttonText}}</span>
+            </a>
+            <!-- end button to previous page -->
+
+            <!-- begin buttons with page numbers -->
+            <div class="page-index">
+                <div class="flex-container">
+                    <a :class="{'disabled': currentPage === index + 1, 'button': showLinksAsButtons}"
+                       v-for="(item, index) in items"
+                       :key="index"
+                       @click.prevent="showPage(item)">
+                        {{ index + 1 }}
+                    </a>
+                </div>
             </div>
+            <!-- end buttons with page numbers -->
+
+            <!-- begin button to next page -->
+            <a class="page-change" :class="{'disabled': currentPage === numberOfPages, 'button': showLinksAsButtons}" @click.prevent="nextPage">
+                <span v-if="nextButton.buttonText">{{nextButton.buttonText}}</span><span :class="nextButton.iconClass"></span>
+            </a>
+            <!-- end button to next page -->
         </div>
-        <!-- next page -->
-        <a class="page_change button" :class="{disabled: currentPage == numberOfPages}" @click.prevent="nextPage"><span>Next page</span><span class="icon-single_arrow_right"></span></a>
     </div>
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                currentPage: 1
+export default {
+    name: "Pager",
+    data() {
+        return {
+            currentPage: 1
+        }
+    },
+    props: {
+        items: {
+            type: Number,
+            required: true
+        },
+        itemsPerPage: {
+            type: Number,
+            required: true
+        },
+        showLinksAsButtons: {
+            type: Boolean,
+            default: true
+        },
+        prevButton: {
+            type: Object,
+            required: false
+        },
+        nextButton: {
+            type: Object,
+            required: false
+        }
+    },
+    computed: {
+        numberOfPages () {
+            return Math.ceil(this.items / this.itemsPerPage)
+        }
+    },
+    methods: {
+        showPage(page) {
+            this.currentPage = page
+            this.$emit('click', page)
+        },
+
+        nextPage() {
+            if (this.currentPage < this.numberOfPages) {
+                this.showPage(this.currentPage + 1)
             }
-        },
-        props: {
-            items: Number,
-            itemsPerPage: Number
-        },
-        computed: {
-            numberOfPages () {
-                return Math.ceil(this.items / this.itemsPerPage)
-            }
-        },
-        methods: {
-            showPage(page) {
-                this.currentPage = page
-                this.$emit('click', page)
-            },
 
-            nextPage() {
-                if (this.currentPage < this.numberOfPages) {
-                    this.showPage(this.currentPage + 1)
-                }
+        },
 
-            },
-
-            previousPage() {
-                if (this.currentPage > 1) {
-                    this.showPage(this.currentPage - 1)
-                }
+        previousPage() {
+            if (this.currentPage > 1) {
+                this.showPage(this.currentPage - 1)
             }
         }
     }
+}
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
+@import '../assets/styles/variables';
 /* begin pager --------------------------------------------------------------------------------------------------------------------------------------------------- */
-.pager {
+.pager-wrapper {
     > p {
-        grid-column: span var(--grid-columns);
-        margin: 0;
         text-align: center;
     }
 
-    button {
-        float: none;
-        margin: 0;
-    }
+    .pager {
+        display: flex;
+        justify-content: space-between;
 
-    a.button {
-        grid-column: span 2;
-
-        > [class*="icon-"] {
-            font-size: 1rem;
+        button {
+            float: none;
+            margin: 0;
         }
 
-        &:last-of-type {
+        > a {
             > [class*="icon-"] {
-                margin-right: 0;
-                margin-left: calc(var(--default-margin) / 2);
+                font-size: 1rem;
             }
-        }
-    }
 
-    .page_index {
-        grid-column: span 8;
-        justify-content: center;
-
-        .button {
-            &:not(:first-child) {
-                margin-left: var(--default-margin);
-            }
-        }
-    }
-
-    @media only screen and (max-width: 1023px) {
-        a.button {
-            grid-column: span 1;
-
-            span:not([class*='icon']) {
-                display: none;
+            &:last-of-type {
+                > [class*="icon-"] {
+                    margin-right: 0;
+                }
             }
         }
 
-        .page_index {
-            grid-column: span 4;
-        }
-    }
-
-    @media only screen and (max-width: 600px) {
-        a.button {
-            grid-column: span 1;
+        a.disabled {
+            opacity: .5;
         }
 
-        .page_index {
-            grid-column: span 2;
+        .page-index {
+            .button {
+                &:not(:first-child) {
+                    margin-left: var(--default-margin);
+                }
+            }
 
-            .flex-container {
-                flex-direction: row;
+            a:not(.button) {
+                padding: calc(var(--default-padding) / 2);
+                padding-top: 0;
+            }
+        }
+
+        @media only screen and (max-width: $medium-max-width) {
+            a.button {
+                span {
+                    margin: 0;
+
+                    &:not([class*='icon']) {
+                        display: none;
+
+                    }
+                }
+            }
+        }
+
+        @media only screen and (max-width: $small-max-width) {
+            .button {
+                width: auto; /* overwrite default settings from framework.css */
+            }
+
+            .page-index {
+                .flex-container {
+                    flex-direction: row; /* overwrite default settings from framework.css */
+                }
             }
         }
     }

@@ -1,5 +1,10 @@
 <template>
-    <label :class="{'toggle-switch-radio' : type == 'radio', 'toggle-switch-checkbox' : type == 'checkbox', 'colored' : colored, 'on' : colored && isChecked, 'off' : colored && !isChecked}" :for="id">
+    <label :class="{
+        'toggle-switch-radio' : type === 'radio',
+        'toggle-switch-checkbox' : type === 'checkbox',
+        'colored' : colored, 'on' : colored && isChecked,
+        'off' : colored && !isChecked
+    }" :for="id">
         <input :type="type" :id="id" :name="name" :value="inputValue" :checked="isChecked" @change="onChange" v-bind="$attrs" />
         <span class="label">{{ onLabel }}</span><span class="label">{{ offLabel }}</span>
     </label>
@@ -8,6 +13,7 @@
 <script>
     export default {
         inheritAttrs: false,
+        name: "SwitchButton",
         props: {
             type: {
                 type: String,
@@ -72,3 +78,49 @@
         }
     }
 </script>
+
+<style lang="scss">
+/* begin switch-button --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.switch-button {
+    [class*="toggle-switch"] {
+        &.colored {
+            &.on {
+                border-color: var(--success-color);
+                color: var(--success-color);
+
+                span::before {
+                    background-color: var(--success-color);
+                }
+            }
+
+            &.off {
+                border-color: var(--error-color);
+                color: var(--error-color);
+
+                span::before {
+                    background-color: var(--error-color);
+                }
+
+                > input[type="radio"] {
+                    & ~ span::before {
+                        background: none;
+                        border: var(--error-border);
+                    }
+                }
+            }
+        }
+
+        &.error {
+            border-color: var(--error-color);
+
+            input:not(:checked) {
+                & + .label::before {
+                    border-color: var(--error-color);
+                    background: var(--error-color);
+                }
+            }
+        }
+    }
+}
+/* end switch-button --------------------------------------------------------------------------------------------------------------------------------------------------- */
+</style>
