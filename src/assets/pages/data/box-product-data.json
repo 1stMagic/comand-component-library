@@ -1,0 +1,50 @@
+[
+  {
+    "name": "Product name 1",
+    "img": {
+      "src": "media/images/thumbnail-scroller/original/logo-cmd-blue-landscape.jpg",
+      "alt": "Alternative text"
+    },
+    "articleNumber": "AB12345",
+    "price": 123.45,
+    "description": "This is a short description text for the product",
+    "new": false,
+    "discount": ""
+  },
+  {
+    "name": "Product name 2",
+    "img": {
+      "src": "media/images/thumbnail-scroller/original/logo-cmd-green-landscape.jpg",
+      "alt": "Alternative text"
+    },
+    "articleNumber": "AB12346",
+    "price": 123.46,
+    "description": "This is a short description text for the product",
+    "new": false,
+    "discount": "-30%"
+  },
+  {
+    "name": "Product name 3",
+    "img": {
+      "src": "media/images/thumbnail-scroller/original/logo-cmd-red-landscape.jpg",
+      "alt": "Alternative text"
+    },
+    "articleNumber": "AB12347",
+    "price": 123.47,
+    "description": "This is a long description text with further information about the product",
+    "new": true,
+    "discount": ""
+  },
+  {
+    "name": "Product name 4",
+    "img": {
+      "src": "media/images/thumbnail-scroller/original/logo-cmd-yellow-landscape.jpg",
+      "alt": "Alternative text"
+    },
+    "articleNumber": "AB12348",
+    "price": 123.48,
+    "description": "short description text",
+    "new": true,
+    "discount": "-50%"
+  }
+]

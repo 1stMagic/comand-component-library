@@ -1,0 +1,62 @@
+[
+  {
+    "images": [
+      {
+        "maxWidth": 600,
+        "imgPath": "/media/images/slideshow-images/small/slide1.jpg"
+      },
+      {
+        "imgPath": "/media/images/slideshow-images/medium/slide1.jpg",
+        "maxWidth": 1024
+      },
+      {
+        "imgPath": "/media/images/slideshow-images/large/slide1.jpg"
+      }
+    ],
+    "alt": "Alternativ Text 1",
+    "href": "#anchor-section",
+    "title": "Link titel",
+    "target": "",
+    "figcaption": "Figcaption DE 1"
+  },
+  {
+    "images": [
+      {
+        "imgPath": "/media/images/slideshow-images/large/slide2.jpg"
+      }
+    ],
+    "imgPath": "/media/images/slideshow-images/large/slide2.jpg",
+    "alt": "Alternativ Text 2",
+    "href": "#anchor-section",
+    "title": "Link titel",
+    "target": "",
+    "figcaption": "Figcaption DE 2"
+  },
+  {
+    "images": [
+      {
+        "imgPath": "/media/images/slideshow-images/large/slide3.jpg"
+      }
+    ],
+    "imgPath": "/media/images/slideshow-images/large/slide3.jpg",
+    "alt": "Alternativ Text 3",
+    "href": "#anchor-section",
+    "title": "Link titel",
+    "target": "",
+    "figcaption": "Figcaption DE 3"
+  },
+  {
+    "images": [
+      {
+        "imgPath": "/media/images/slideshow-images/large/slide4.jpg"
+      }
+    ],
+    "imgPath": "/media/images/slideshow-images/large/slide4.jpg",
+    "alt": "Alternativ Text 4",
+    "href": "#anchor-section",
+    "title": "Link titel",
+    "target": "",
+    "figcaption": "Figcaption DE 4"
+  }
+]
+

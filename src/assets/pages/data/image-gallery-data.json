@@ -1,0 +1,30 @@
+[
+  {
+    "imgId": 1,
+    "srcImageSmall": "media/images/thumbnail-scroller/thumbnail/logo-cmd-blue-landscape.jpg",
+    "srcImageLarge": "media/images/thumbnail-scroller/original/logo-cmd-blue-landscape.jpg",
+    "alt": "Alternative text 1",
+    "figcaption": "Figcaption 1"
+  },
+  {
+    "imgId": 2,
+    "srcImageSmall": "media/images/thumbnail-scroller/thumbnail/logo-cmd-green-landscape.jpg",
+    "srcImageLarge": "media/images/thumbnail-scroller/original/logo-cmd-green-landscape.jpg",
+    "alt": "Alternative text 2",
+    "figcaption": "Figcaption 2"
+  },
+  {
+    "imgId": 3,
+    "srcImageSmall": "media/images/thumbnail-scroller/thumbnail/logo-cmd-red-landscape.jpg",
+    "srcImageLarge": "media/images/thumbnail-scroller/original/logo-cmd-red-landscape.jpg",
+    "alt": "Alternative text 3",
+    "figcaption": "Figcaption 3"
+  },
+  {
+    "imgId": 4,
+    "srcImageSmall": "media/images/thumbnail-scroller/thumbnail/logo-cmd-yellow-landscape.jpg",
+    "srcImageLarge": "media/images/thumbnail-scroller/original/logo-cmd-yellow-landscape.jpg",
+    "alt": "Alternative text 4",
+    "figcaption": "Figcaption 4"
+  }
+]

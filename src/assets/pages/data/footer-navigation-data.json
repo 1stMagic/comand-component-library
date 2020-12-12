@@ -1,0 +1,51 @@
+[
+  {
+    "name": "Contact",
+    "link": {
+      "path": "#",
+      "target": ""
+    }
+  },
+  {
+    "name": "Private policy",
+    "link": {
+      "path": "",
+      "target": ""
+    },
+    "fancybox": true
+  },
+  {
+    "name": "CoManD-Website",
+    "link": {
+      "path": "http://www.comand-cms.com",
+      "target": "_blank"
+    }
+  },
+  {
+    "name": "Router with path",
+    "link": {
+      "type": "router",
+      "path": "http://www.comand-cms.com"
+    }
+  },
+  {
+    "name": "Router with name",
+    "link": {
+      "type": "router",
+      "name": "somename"
+    }
+  },
+  {
+    "name": "Router with name and params",
+    "link": {
+      "type": "router",
+      "name": "somename",
+      "params": {
+        "id": 123
+      }
+    }
+  }
+]
+
+
+

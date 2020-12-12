@@ -1,0 +1,31 @@
+[
+  {
+    "iso2": "de",
+    "name": "Deutsch",
+    "tooltip": "Sprache zu deutsch wechseln",
+    "link": {
+      "type": "router",
+      "path": "/"
+    }
+  },
+  {
+    "iso2": "en",
+    "name": "English",
+    "tooltip": "Switch language to English",
+    "link": {
+      "type": "router",
+      "name": "somename",
+      "params":  {
+          "id": 123
+      }
+    }
+  },
+  {
+    "iso2": "fr",
+    "name": "Francais",
+    "tooltip": "Switch language to Francais",
+    "link": {
+      "path": "#"
+    }
+  }
+]

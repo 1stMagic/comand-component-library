@@ -1,0 +1,128 @@
+/* comand-component-library-structure.scss - v3.0.7 - 2020/11/14 by Raphael Biock - IT IS NOT RECOMMENDED TO EDIT FILE (TO AVOID TROUBLESHOOTING AFTER UPDATING) */
+
+/* begin table of contents --------------------------------------------------------------------------------------------------------------------------------------------------- */
+/*
+F ------------------------
+  - flags
+
+P ------------------------
+  - product-listing
+
+T ------------------------
+  - transitions
+*/
+/* end table of contents --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin flags --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.flag {
+	width: 3rem;
+	height: 2rem;
+	background-size: 100% 100%;
+	display: block;
+    margin: 0 var(--default-margin) 0 0;
+}
+/* end flags --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin product-listing --------------------------------------------------------------------------------------------------------------------------------------------------- */
+#product-listing-wrapper {
+	> a {
+		border: var(--default-border);
+		text-decoration: none;
+		display: flex;
+		flex-direction: column;
+		grid-column: span var(--grid-small-span);
+		order: 1;
+
+		&:hover, &:active, &:focus {
+			border-color: var(--primary-color);
+			background: var(--default-background-color);
+		}
+
+	}
+
+	img {
+		order: 1;
+	}
+
+	&.products-squares  {
+		> a {
+			grid-column: span 6;
+		}
+	}
+
+	&.products-lines {
+		> a {
+			grid-column: span 12;
+			flex-direction: unset;
+
+			img {
+				margin-left: 0;
+			}
+		}
+
+		& .product-information {
+			display: flex;
+			flex-direction: column;
+			padding: calc(var(--default-padding) * 2);
+			margin-right: auto;
+		}
+
+		.description {
+			display: block;
+		}
+	}
+
+	&.product-information {
+		order: 2;
+	}
+
+	.description {
+		display: none;
+	}
+
+	h3, div {
+		padding: var(--default-padding);
+		margin: 0;
+	}
+
+	h3, p {
+		text-align: center;
+	}
+
+	.price {
+		order: 3;
+		margin-top: auto;
+	}
+
+	p {
+		&:last-child {
+			&, & > span {
+				margin-bottom: 0;
+				font-size: 2rem;
+			}
+		}
+
+		> span {
+			&:first-child {
+				text-decoration: line-through;
+				font-style: italic;
+				margin-right: var(--default-margin);
+				opacity: var(--reduced-opacity);
+				font-size: 1.5rem;
+			}
+		}
+	}
+}
+/* end product-listing --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin transitions (require vue-transition-tag) --------------------------------------------------------------------------------------------------------------------------------------------------- */
+/* begin fade */
+.fade-enter-active, .fade-leave-active {
+	transition: all .5s;
+}
+
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+	opacity: 0;
+}
+/* end fade */
+/* end transitions --------------------------------------------------------------------------------------------------------------------------------------------------- */
