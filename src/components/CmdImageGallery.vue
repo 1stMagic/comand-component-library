@@ -1,5 +1,5 @@
 <template>
-    <div class="grid-container-create-columns -cmd-image-gallery">
+    <div class="grid-container-create-columns cmd-image-gallery">
         <a href="#" v-for="(image, index) in images" :key="index" @click.prevent="showFancyBox(index)">
             <figure>
                 <img :src="image.srcImageSmall" :alt="image.alt">

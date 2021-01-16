@@ -1,7 +1,17 @@
 <!--suppress HtmlUnknownTarget, NpmUsedModulesInstalled, JSUnresolvedVariable -->
 <template>
   <div id="app">
-    <CmdLogo altText="CoManD Logo" :pathLogo="require('@/assets/images/logo.svg')" />
+    <div class="sticky" id="site-header">
+      <CmdTopHeaderNavigation :topHeaderNavigationData="topHeaderNavigationData" v-if="topHeaderNavigationData" />
+      <header class="grid-container-create-columns">
+        <CmdLogo altText="CoManD Logo" :pathLogo="require('@/assets/images/logo.svg')" />
+      </header>
+    </div>
+    <div class="section-wrapper">
+      <section>
+        <CmdBreadcrumbs :breadcrumbLinks="breadcrumbData" breadcrumbLabel="You are here:" />
+      </section>
+    </div>
     <div class="section-wrapper">
       <section>
         <h2 class="headline-demopage">Accordion</h2>
@@ -198,7 +208,7 @@
             <h2>Toggle-Switches (Radio and Checkbox) with Switch-Button</h2>
             <label class="inline">
               <span>Label for Toggle-Switch-Checkbox with Switch-Button:</span>
-              <div class="input-wrapper">
+              <span class="input-wrapper">
                 <CmdSwitchButton
                         type="checkbox"
                         id="checkbox1"
@@ -218,13 +228,13 @@
                         inputValue="checkbox2"
                         :disabled="formElementStatus === 'disabled'"
                         v-model="switchButtonCheckbox" />
-              </div>
+              </span>
             </label>
             <!-- end toggle-switch-radio with switch-button -->
 
             <label class="inline">
               <span>Label for Toggle-Switch-Checkbox with Switch-Button (colored):</span>
-              <div class="input-wrapper">
+              <span class="input-wrapper">
                 <CmdSwitchButton
                         type="checkbox"
                         id="checkbox3"
@@ -246,14 +256,14 @@
                         inputValue="checkbox4"
                         :disabled="formElementStatus === 'disabled'"
                         v-model="switchButtonCheckbox" />
-              </div>
+              </span>
             </label>
             <!-- end toggle-switch-radio with switch-button -->
 
             <!-- begin toggle-switch-radio with switch-button (colored) -->
             <label class="inline">
               <span>Label for Toggle-Switch-Radio with switch-button (colored):</span>
-              <div class="input-wrapper">
+              <span class="input-wrapper">
                 <CmdSwitchButton
                         type="radio"
                         id="radio1"
@@ -275,13 +285,13 @@
                         inputValue="radio2"
                         :disabled="formElementStatus === 'disabled'"
                         v-model="switchButtonRadio" />
-              </div>
+              </span>
             </label>
             <!-- end toggle-switch-radio with switch-button (colored) -->
 
             <h2>Inputfields in Columns</h2>
             <CmdFormElement element="input"
-                         required="required"
+                        required="required"
                         labelText="Label for inputfield (with tooltip):"
                         type="text"
                         id="inputfield1"
@@ -497,7 +507,7 @@
     <div class="section-wrapper">
       <section>
         <h2 class="headline-demopage">System Message</h2>
-        <CmdSystemMessage messageStatus="error" :fullWidth="true" systemMessage="This is an error message!">
+        <CmdSystemMessage messageStatus="error" :fullWidth="true" systemMessage="This is an error message!" iconClass="icon-cancel">
           <ul>
             <li>Error #1</li>
             <li>Error #2</li>
@@ -507,10 +517,10 @@
         <CmdSystemMessage messageStatus="warning" :fullWidth="true" systemMessage="This is a warning message!">
           <p>This is additional text!</p>
         </CmdSystemMessage>
-        <CmdSystemMessage messageStatus="success" :fullWidth="true" systemMessage="This is a success message!">
+        <CmdSystemMessage messageStatus="success" :fullWidth="true" systemMessage="This is a success message!" iconClass="icon-check">
           <p>This is additional text!</p>
         </CmdSystemMessage>
-        <CmdSystemMessage messageStatus="information" :fullWidth="true" systemMessage="This is an information message!">
+        <CmdSystemMessage messageStatus="information" :fullWidth="true" systemMessage="This is an information message!" iconClass="icon-info">
           <p>This is additional text!</p>
         </CmdSystemMessage>
       </section>
@@ -556,10 +566,12 @@
       </section>
     </div>
 
-    <div class="footer-wrapper">
-      <footer>
-        <CmdSwitchLanguage :languages="languagesData" @click="doSomething" />
-        <CmdFooterNavigation :footerNavigation="footerNavigationData" />
+    <div id="site-footer">
+      <footer class="grid-container-create-columns">
+        <CmdSwitchLanguage :languages="languagesData" @click="doSomething"  />
+        <CmdFooterNavigation :footerNavigation="footerNavigationData" headline="Links" />
+        <CmdOpeningHours :openingHours="openingHoursData" :closed="true" headline="Opening hours" textOpenClosed="Closed right now!" textHolidaysClosed="Closed on holidays" textMiscInfo="Miscellaneous information" />
+        <CmdAddressData :addressData="addressData" headline="Contact" />
       </footer>
     </div>
   </div>
@@ -567,30 +579,35 @@
 
 <script>
     // import used example data
-    import accordionData from '@/assets/pages/data/accordion-data.json'
-    import addressData from '@/assets/pages/data/address-data.json'
-    import boxUserData from '@/assets/pages/data/box-user-data.json'
-    import boxProductData from '@/assets/pages/data/box-product-data.json'
-    import fakeSelectOptionsData from '@/assets/pages/data/fake-select-options-data.json'
-    import fakeSelectCountriesData from '@/assets/pages/data/fake-select-countries-data.json'
-    import footerNavigationData from '@/assets/pages/data/footer-navigation-data.json'
-    import fakeSelectColorsData from '@/assets/pages/data/fake-select-colors-data.json'
-    import imageGalleryData from '@/assets/pages/data/image-gallery-data.json'
-    import languagesData from '@/assets/pages/data/languages-data.json'
-    import multistepsData from '@/assets/pages/data/multisteps-data.json'
-    import multipleSwitchCheckboxData from '@/assets/pages/data/multipleswitch-checkbox-data.json'
-    import multipleSwitchRadioData from '@/assets/pages/data/multipleswitch-radio-data.json'
-    import navigationData from '@/assets/pages/data/navigation-data.json'
-    import pagerData from '@/assets/pages/data/pager-data.json'
-    import slideshowData from '@/assets/pages/data/slideshow-data.json'
-    import tabsData from '@/assets/pages/data/tabs-data.json'
-    import thumbnailScrollerData from '@/assets/pages/data/thumbnail-scroller-data.json'
+    import accordionData from '@/assets/data/accordion-data.json'
+    import addressData from '@/assets/data/address-data.json'
+    import boxUserData from '@/assets/data/box-user-data.json'
+    import boxProductData from '@/assets/data/box-product-data.json'
+    import breadcrumbData from '@/assets/data/breadcrumbs.json'
+    import fakeSelectOptionsData from '@/assets/data/fake-select-options-data.json'
+    import fakeSelectCountriesData from '@/assets/data/fake-select-countries-data.json'
+    import footerNavigationData from '@/assets/data/footer-navigation-data.json'
+    import fakeSelectColorsData from '@/assets/data/fake-select-colors-data.json'
+    import imageGalleryData from '@/assets/data/image-gallery-data.json'
+    import languagesData from '@/assets/data/languages-data.json'
+    import multistepsData from '@/assets/data/multisteps-data.json'
+    import multipleSwitchCheckboxData from '@/assets/data/multipleswitch-checkbox-data.json'
+    import multipleSwitchRadioData from '@/assets/data/multipleswitch-radio-data.json'
+    import navigationData from '@/assets/data/navigation-data.json'
+    import openingHoursData from '@/assets/data/opening-hours.json'
+    import pagerData from '@/assets/data/pager-data.json'
+    import slideshowData from '@/assets/data/slideshow-data.json'
+    import tabsData from '@/assets/data/tabs-data.json'
+    import thumbnailScrollerData from '@/assets/data/thumbnail-scroller-data.json'
+    import topHeaderNavigationData from '@/assets/data/top-header-navigation-data.json'
 
     // import used components
     import CmdAccordion from '@/components/CmdAccordion.vue'
+    import CmdAddressData from "./components/CmdAddressData"
     import CmdBackToTopButton from '@/components/CmdBackToTopButton.vue'
     import CmdBoxContent from '@/components/CmdBoxContent.vue'
     import CmdBoxProduct from '@/components/CmdBoxProduct.vue'
+    import CmdBreadcrumbs from "./components/CmdBreadcrumbs.vue"
     import CmdBoxUser from '@/components/CmdBoxUser.vue'
     import CmdFakeSelect from '@/components/CmdFakeSelect.vue'
     import CmdFooterNavigation from '@/components/CmdFooterNavigation.vue'
@@ -600,8 +617,9 @@
     import CmdImageZoom from '@/components/CmdImageZoom.vue'
     import CmdLogo from '@/components/CmdLogo.vue'
     import CmdMainNavigation from '@/components/CmdMainNavigation.vue'
-    import CmdMultistepFormProgressBar from '@/components/CmdMultistepFormProgressBar.vue'
     import CmdMultipleSwitch from '@/components/CmdMultipleSwitch.vue'
+    import CmdMultistepFormProgressBar from '@/components/CmdMultistepFormProgressBar.vue'
+    import CmdOpeningHours from "./components/CmdOpeningHours"
     import CmdPager from '@/components/CmdPager.vue'
     import CmdProgressBar from '@/components/CmdProgressBar.vue'
     import CmdSlideshow from '@/components/CmdSlideshow.vue'
@@ -611,11 +629,15 @@
     import CmdTabs from '@/components/CmdTabs.vue'
     import CmdTableWrapper from '@/components/CmdTableWrapper.vue'
     import CmdThumbnailScroller from '@/components/CmdThumbnailScroller.vue'
+    import CmdTopHeaderNavigation from '@/components/CmdTopHeaderNavigation.vue'
     import { openFancyBox } from "@/components/CmdFancyBox"
 
     export default {
       name: 'App',
       components: {
+        CmdBreadcrumbs,
+        CmdAddressData,
+        CmdOpeningHours,
         CmdAccordion,
         CmdBackToTopButton, // short form of 'BackToTop': BackToTop
         CmdBoxContent,
@@ -639,7 +661,8 @@
         CmdSystemMessage,
         CmdTabs,
         CmdTableWrapper,
-        CmdThumbnailScroller
+        CmdThumbnailScroller,
+        CmdTopHeaderNavigation
       },
 
       data () {
@@ -668,6 +691,7 @@
           addressData,
           boxProductData,
           boxUserData,
+          breadcrumbData,
           fakeSelectOptionsData,
           fakeSelectCountriesData,
           fakeSelectColorsData,
@@ -678,10 +702,12 @@
           multipleSwitchCheckboxData,
           multipleSwitchRadioData,
           navigationData,
+          openingHoursData,
           pagerData,
           slideshowData,
           tabsData,
-          thumbnailScrollerData
+          thumbnailScrollerData,
+          topHeaderNavigationData
         }
       },
       methods: {

@@ -24,12 +24,13 @@
 </script>
 
 <style lang="scss">
+    @import '../assets/styles/variables';
+
     .cmd-top-header-navigation {
         background: var(--default-background-color);
 
         > ul.flex-container {
             justify-content: flex-end;
-            margin-bottom: var(--grid-gap);
 
             li {
                 flex: none;
@@ -54,6 +55,25 @@
 
                 &:not(:first-child) {
                     margin-left: calc(var(--default-margin) * 2);
+                }
+            }
+        }
+
+        @media only screen and (max-width: $small-max-width) {
+            > ul.flex-container {
+                justify-content: center;
+                flex-direction: row; /* overwrite default settings from framework.css */
+
+                li {
+                    display: table;
+
+                    a {
+                        [class*="icon-"] {
+                          & + span {
+                              display: none;
+                          }
+                        }
+                    }
                 }
             }
         }

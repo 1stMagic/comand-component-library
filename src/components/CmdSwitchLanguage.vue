@@ -32,7 +32,7 @@
                 alert("Switch to " + iso2)
             },
             getFlagURL(isoCode) {
-                return require("../assets/images/flags/flag-" + isoCode + ".svg")
+                return require("@/assets/images/flags/flag-" + isoCode + ".svg")
             }
         }
     }
@@ -43,9 +43,14 @@
         ul {
             display: flex;
 
-            a {
-                &:hover, &:active, &:focus, &.active {
-                    box-shadow: var(--box-shadow);
+            li {
+                list-style-type: none;
+                margin: 0;
+
+                a {
+                    &:hover, &:active, &:focus, &.active {
+                        box-shadow: var(--box-shadow);
+                    }
                 }
             }
         }

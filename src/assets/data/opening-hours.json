@@ -1,0 +1,31 @@
+[
+      {
+            "day": "Mo",
+            "fromTime": "08:00h",
+            "tillTime": "17:00h"
+      },
+      {
+            "day": "Tu",
+            "fromTime": "08:00h",
+            "tillTime": "17:00h"
+      },
+      {
+            "day": "We",
+            "fromTime": "08:00h",
+            "tillTime": "17:30h"
+      },
+
+      {
+            "day": "Th",
+            "fromTime": "08:00h",
+            "tillTime": "17:00h"
+      },
+      {
+            "day": "Fr",
+            "fromTime": "08:00h",
+            "tillTime": "15:00h"
+      }
+]
+
+
+

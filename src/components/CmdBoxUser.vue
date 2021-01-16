@@ -1,10 +1,10 @@
 <template>
     <div class="box user">
-        <header>
+        <div>
             <img v-if="user.image" src="" alt="" />
             <div v-else class="icon-user-profile"></div>
             <h3 v-if="user.name">{{ user.name }}</h3>
-        </header>
+        </div>
         <div class="box-body">
             <p v-if="user.profession">{{ user.profession }}</p>
             <p v-if="user.position">{{ user.position }}</p>
@@ -40,7 +40,7 @@ export default {
     height: 100%;
     padding: 0;
 
-    header {
+    > div:first-child {
         padding: var(--default-padding);
         background: var(--pure-white);
 

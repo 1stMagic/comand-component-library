@@ -1,0 +1,15 @@
+[
+  {
+    "type": "href",
+    "path": "http://www.comand-cms.com",
+    "target": "_blank",
+    "iconClass": "icon-globe",
+    "linkName": "CoManD-CMS"
+  },
+  {
+    "type": "href",
+    "path": "#anchor-section4",
+    "iconClass": "icon-mail",
+    "linkName": "Kontakt"
+  }
+]

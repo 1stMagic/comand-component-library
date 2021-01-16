@@ -1,8 +1,8 @@
 <template>
     <div class="box content">
-        <header>
+        <div>
             <slot name="header"></slot>
-        </header>
+        </div>
         <div class="box-body">
             <slot name="body"></slot>
         </div>
@@ -37,7 +37,7 @@ export default {
         }
     }
 
-    header {
+    > div:first-child {
         background: var(--primary-color);
         border-top-left-radius: var(--border-radius);
         border-top-right-radius: var(--border-radius);

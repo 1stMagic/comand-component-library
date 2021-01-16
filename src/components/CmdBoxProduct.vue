@@ -1,6 +1,6 @@
 <template>
     <a class="box product" href="#" @click.prevent="">
-        <header>
+        <div>
             <img v-if="product.img" :src="product.img.src" :alt="product.img.alt" />
             <div class="ribbon-new" v-if="product.new">
                 <span>New</span>
@@ -8,7 +8,7 @@
             <div class="ribbon-discount" v-if="product.discount">
                 <span>{{ product.discount }}</span>
             </div>
-        </header>
+        </div>
         <div class="box-body">
             <h3>{{ product.name }}</h3>
             <p v-if="product.articleNumber">Article No.: {{ product.articleNumber }}</p>
@@ -81,7 +81,7 @@ export default {
         }
     }
 
-    header {
+    > div:first-child {
 
         > img, > div {
             display: table;

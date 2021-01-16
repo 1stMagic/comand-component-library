@@ -29,7 +29,7 @@
             },
             closed: {
                 type: Boolean,
-                required: false
+                default: false
             },
             textOpenClosed: {
                 type: String,

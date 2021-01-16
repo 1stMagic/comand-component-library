@@ -279,7 +279,7 @@ export default FancyBox
         }
     }
 
-    .gallery-scroller {
+    .cmd-gallery-scroller {
         max-width: 128rem;
         left: 0;
         right: 0;

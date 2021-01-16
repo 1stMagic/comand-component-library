@@ -10,11 +10,12 @@
         href="#"
         @click.prevent="showSystemMessage = false"
         :title="closeIcon.tooltip"
+        v-if="closeIcon.iconClass"
       ></a>
-      <header>
-        <span :class="iconClass"></span>
+      <h6>
+        <span :class="iconClass" v-if="iconClass"></span>
         <strong v-if="systemMessage">{{ systemMessage }}</strong>
-      </header>
+      </h6>
       <slot></slot>
     </div>
   </transition>
@@ -54,6 +55,11 @@ export default {
         }
       }
     }
+  },
+  watch: {
+    systemMessage () {
+      this.showSystemMessage = true
+    }
   }
 }
 </script>
@@ -63,7 +69,7 @@ export default {
 .system-message {
   margin: var(--default-margin) 0;
 
-  header {
+  h6 {
     display: table;
     margin: 0 auto var(--default-margin) auto;
 

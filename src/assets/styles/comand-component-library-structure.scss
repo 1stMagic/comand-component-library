@@ -1,4 +1,5 @@
-/* comand-component-library-structure.scss - v3.0.7 - 2020/11/14 by Raphael Biock - IT IS NOT RECOMMENDED TO EDIT FILE (TO AVOID TROUBLESHOOTING AFTER UPDATING) */
+/* comand-component-library-structure.scss - v3.0.19 - 2021/01/16 by Raphael Biock - IT IS NOT RECOMMENDED TO EDIT FILE (TO AVOID TROUBLESHOOTING AFTER UPDATING) */
+@import "variables.scss";
 
 /* begin table of contents --------------------------------------------------------------------------------------------------------------------------------------------------- */
 /*
@@ -8,10 +9,21 @@ F ------------------------
 P ------------------------
   - product-listing
 
+S ------------------------
+  - site-footer
+  - site-header
+
 T ------------------------
   - transitions
 */
 /* end table of contents --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+#site-header header, .cmd-top-header-navigation > ul, nav, .section-wrapper:not(#page-content) section, .main-headline, #site-footer footer, #main-headline {
+	max-width: 128rem;
+	margin: 0 auto;
+	padding-left: var(--default-padding);
+	padding-right: var(--default-padding);
+}
 
 /* begin flags --------------------------------------------------------------------------------------------------------------------------------------------------- */
 .flag {
@@ -115,6 +127,68 @@ T ------------------------
 }
 /* end product-listing --------------------------------------------------------------------------------------------------------------------------------------------------- */
 
+/* begin site-footer --------------------------------------------------------------------------------------------------------------------------------------------------- */
+#site-footer {
+	padding: var(--grid-gap) 0;
+
+	footer {
+		display: grid;
+
+		[class*="cmd-"] {
+			grid-column: span var(--grid-small-span);
+
+			&.cmd-switch-language {
+				grid-column: span var(--grid-columns);
+			}
+		}
+
+		&.language-support {
+			grid-template-areas:
+				"language-support language-support language-support"
+				"footer-navigation opening-hours address";
+		}
+
+	}
+}
+/* end site-footer --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin site-header --------------------------------------------------------------------------------------------------------------------------------------------------- */
+#site-header {
+	z-index: 100;
+	border-bottom: var(--default-border);
+	background: var(--pure-white);
+
+	&.sticky {
+		position: sticky;
+		left: 0;
+		right: 0;
+		top: 0;
+	}
+
+	header {
+		display: grid;
+		padding-top: calc(var(--default-padding) * 2);
+		padding-bottom: calc(var(--default-padding) * 2);
+
+		nav {
+			padding: 0;
+		}
+
+		#main-navigation, nav ul li, #navigation-wrapper {
+			background: none;
+		}
+
+		#navigation-wrapper {
+			align-self: center;
+		}
+
+		.cmd-logo {
+			grid-column: span var(--grid-small-span);
+		}
+	}
+}
+/* end site-header --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
 /* begin transitions (require vue-transition-tag) --------------------------------------------------------------------------------------------------------------------------------------------------- */
 /* begin fade */
 .fade-enter-active, .fade-leave-active {
@@ -126,3 +200,82 @@ T ------------------------
 }
 /* end fade */
 /* end transitions --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin styles for medium screens --------------------------------------------------------------------------------------------------------------------------------------------------- */
+@media only screen and (max-width: $medium-max-width) {
+
+	html {
+		--grid-small-span: 3; /* default column span smaller part */
+		--grid-large-span: 3; /* default column span larger part */
+	}
+
+	#site-header {
+		padding-bottom: calc(var(--default-padding) * 2);
+
+		header {
+			grid-auto-rows: auto; /* items should be as large as their content */
+		}
+	}
+
+	#site-footer  {
+		footer {
+			> div {
+				[class*="grid-item"] {
+					grid-row-start: auto;
+				}
+			}
+
+			li {
+				margin-bottom: calc(var(--default-margin) * 2);
+			}
+		}
+	}
+}
+/* end styles for medium screens --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin styles for small screens --------------------------------------------------------------------------------------------------------------------------------------------------- */
+@media only screen and (max-width: $small-max-width) {
+	body, html {
+		height: auto;
+	}
+
+	html {
+		--grid-small-span: 4; /* default column span smaller part */
+		--grid-large-span: 4; /* default column span larger part */
+	}
+
+	#site-header {
+		padding-bottom: 0;
+
+		header {
+			grid-auto-rows: auto; /* items should be as large as their content */
+		}
+	}
+
+	.section-wrapper {
+		padding: calc(var(--default-padding) * 2) 0;
+	}
+
+	#site-footer {
+		a {
+			text-decoration: underline;
+
+			&:active {
+				text-decoration: none;
+			}
+		}
+	}
+
+	.cmd-logo {
+		margin: 0 auto;
+
+		img {
+			max-width: 80%;
+		}
+	}
+
+	a[href^="tel"] {
+		text-decoration: underline;
+	}
+}
+/* end styles for small screens --------------------------------------------------------------------------------------------------------------------------------------------------- */

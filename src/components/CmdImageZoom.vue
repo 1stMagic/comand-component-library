@@ -1,5 +1,5 @@
 <template>
-    <div class="grid-container-create-columns -cmd-imagezoom">
+    <div class="grid-container-create-columns cmd-imagezoom">
         <div class="grid-small-item">
             <div class="thumbnails-imagezoom">
                 <img :src="smallImageUrl" alt="Small Image" @mouseover="onMouseOver" @mousemove="onMouseMove" @mouseout="onMouseOut" />

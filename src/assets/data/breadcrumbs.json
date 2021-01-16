@@ -1,0 +1,10 @@
+[
+  {
+    "path": "/",
+    "name": "Home"
+  },
+  {
+    "path": "/subpage",
+    "name": "Subpage"
+  }
+]
