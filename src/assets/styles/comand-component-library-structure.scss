@@ -1,4 +1,4 @@
-/* comand-component-library-structure.scss - v3.0.19 - 2021/01/16 by Raphael Biock - IT IS NOT RECOMMENDED TO EDIT FILE (TO AVOID TROUBLESHOOTING AFTER UPDATING) */
+/* comand-component-library-structure.scss - last-modified: 2021/01/17 by Raphael Biock - IT IS NOT RECOMMENDED TO EDIT FILE (TO AVOID TROUBLESHOOTING AFTER UPDATING) */
 @import "variables.scss";
 
 /* begin table of contents --------------------------------------------------------------------------------------------------------------------------------------------------- */
@@ -16,14 +16,30 @@ S ------------------------
 T ------------------------
   - transitions
 */
-/* end table of contents --------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-#site-header header, .cmd-top-header-navigation > ul, nav, .section-wrapper:not(#page-content) section, .main-headline, #site-footer footer, #main-headline {
-	max-width: 128rem;
-	margin: 0 auto;
-	padding-left: var(--default-padding);
-	padding-right: var(--default-padding);
+/* begin cmd-cookie-disclaimer --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.cmd-cookie-disclaimer {
+	background: var(--primary-color);
+	color: var(--pure-white);
+
+	h2 {
+		color: var(--pure-white);
+	}
+
+	p  {
+		a {
+			text-decoration: underline;
+			color: var(--pure-white);
+
+			&:hover, &:active, &:focus {
+				text-decoration: none;
+			}
+		}
+	}
 }
+/* end cmd-cookie-disclaimer --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* end table of contents --------------------------------------------------------------------------------------------------------------------------------------------------- */
 
 /* begin flags --------------------------------------------------------------------------------------------------------------------------------------------------- */
 .flag {
@@ -130,6 +146,8 @@ T ------------------------
 /* begin site-footer --------------------------------------------------------------------------------------------------------------------------------------------------- */
 #site-footer {
 	padding: var(--grid-gap) 0;
+	border-top: var(--default-border);
+	background: #fcfcfc;
 
 	footer {
 		display: grid;

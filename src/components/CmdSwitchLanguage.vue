@@ -42,6 +42,7 @@
     .cmd-switch-language {
         ul {
             display: flex;
+            margin: 0;
 
             li {
                 list-style-type: none;

@@ -1,0 +1,30 @@
+[
+  {
+    "id": "share-link-facebook",
+    "path": "https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fdevelopment.comand-cms.com%2Fmodule%2Fteam.html",
+    "tooltip": "Diese Seite auf Facebook teilen",
+    "iconClass": "icon-facebook",
+    "linkName": "Teilen"
+  },
+  {
+    "id": "share-link-twitter",
+    "path": "https://twitter.com/home?status=http%3A%2F%2Fdevelopment.comand-cms.com%2Fmodule%2Fteam.html",
+    "tooltip": "Diese Seite auf Twitter teilen",
+    "iconClass": "icon-twitter",
+    "linkName": "Teilen"
+  },
+  {
+    "id": "share-link-xing",
+    "path": "https://www.xing.com/spi/shares/new?sc_p=b7910_cb&amp;url=http%3A%2F%2Fdevelopment.comand-cms.com%2Fmodule%2Fteam.html",
+    "tooltip": "Diese Seite auf Xing teilen",
+    "iconClass": "icon-xing",
+    "linkName": "Teilen"
+  },
+  {
+    "id": "share-link-linkedin",
+    "path": "https://www.linkedin.com/cws/share?url=http%3A%2F%2Fdevelopment.comand-cms.com%2Fmodule%2Fteam.html",
+    "tooltip": "Diese Seite auf linkedin in teilen",
+    "iconClass": "icon-linkedin",
+    "linkName": "Teilen"
+  }
+]

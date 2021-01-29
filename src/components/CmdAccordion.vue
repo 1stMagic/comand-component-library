@@ -6,9 +6,11 @@
                 <span class="toggle-icon" :class="[accordionContent.status ? openIconClass : closeIconClass]"></span>
             </h3>
             <transition name="fade" :key="'d' + index">
-                <div class="accordion-content" v-if="accordionContent.status">
-                    <p>{{ accordionContent.content }}</p>
-                </div>
+                    <div class="accordion-content" v-if="accordionContent.status">
+                        <slot name="accordion-content">
+                            <p>{{ accordionContent.content }}</p>
+                        </slot>
+                    </div>
             </transition>
         </template>
     </div>

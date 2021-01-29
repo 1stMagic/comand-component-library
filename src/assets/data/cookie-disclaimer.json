@@ -1,0 +1,38 @@
+{
+  "required": {
+    "headline": "Required cookies",
+    "cookies": [
+        {
+          "id": "cookie-sessionid",
+          "description": "Dieser Cookie ist für die Funktiounsfähigkeit der Website notwendig.",
+          "labelText": "SessionID",
+          "checked": true,
+          "status": "disabled"
+        },
+        {
+          "id": "cookie-google-recaptcha",
+          "description": "Dieser Cookie gewährleistet, dass Formulare nicht von Bots verschickt werden können.",
+          "labelText": "Google reCaptcha™",
+          "checked": true,
+          "status": "disabled"
+        }
+      ]
+  },
+  "optional": {
+    "headline": "Optional cookies",
+    "cookies": [
+      {
+        "id": "cookie-google-maps",
+        "description": "Ermöglicht die Nutzung von Google Maps™-Karten.",
+        "labelText": "Google Maps™",
+        "checked": false
+      },
+      {
+        "id": "cookie-google-analytics",
+        "description": "Dient zur anonymisierten Erfassung des Surfverhaltens zur Verbesserung der Websiteerfahrung.",
+        "labelText": "Google Analytics™",
+        "checked": false
+      }
+    ]
+  }
+}

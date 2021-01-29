@@ -1,0 +1,104 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('../fonts/iconfonts/logos-iconfont/icomoon.woff?r269p7') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-android:before {
+  content: "\e500";
+}
+.icon-apple:before {
+  content: "\e501";
+}
+.icon-chrome:before {
+  content: "\e502";
+}
+.icon-css3:before {
+  content: "\e503";
+}
+.icon-edge:before {
+  content: "\e504";
+}
+.icon-facebook:before {
+  content: "\e505";
+}
+.icon-facebook-square:before {
+  content: "\e506";
+}
+.icon-firefox:before {
+  content: "\e507";
+}
+.icon-flickr:before {
+  content: "\e508";
+}
+.icon-google-analytics:before {
+  content: "\e509";
+}
+.icon-html5:before {
+  content: "\e50a";
+}
+.icon-linkedin:before {
+  content: "\e50b";
+}
+.icon-linkedin-square:before {
+  content: "\e50c";
+}
+.icon-opera:before {
+  content: "\e50d";
+}
+.icon-safari:before {
+  content: "\e50e";
+}
+.icon-skype:before {
+  content: "\e50f";
+}
+.icon-social-networks:before {
+  content: "\e510";
+}
+.icon-tumblr:before {
+  content: "\e511";
+}
+.icon-tumblr-square:before {
+  content: "\e512";
+}
+.icon-linux:before {
+  content: "\e513";
+}
+.icon-twitch:before {
+  content: "\e514";
+}
+.icon-twitter:before {
+  content: "\e515";
+}
+.icon-twitter-square:before {
+  content: "\e516";
+}
+.icon-windows8:before {
+  content: "\e517";
+}
+.icon-xing:before {
+  content: "\e518";
+}
+.icon-xing-square:before {
+  content: "\e519";
+}
+.icon-youtube:before {
+  content: "\e51a";
+}

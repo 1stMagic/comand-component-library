@@ -1,0 +1,4 @@
+/* add overwrites and your custom styles in here */
+html {
+    --primary-color: rgba(2, 129, 195, 1);
+}

@@ -27,6 +27,7 @@ export default {
 <style lang="scss">
     .cmd-breadcrumbs {
         display: flex;
+        margin: 0;
 
         li {
             list-style-type: none;

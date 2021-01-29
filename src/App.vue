@@ -1,19 +1,18 @@
 <!--suppress HtmlUnknownTarget, NpmUsedModulesInstalled, JSUnresolvedVariable -->
 <template>
   <div id="app">
-    <div class="sticky" id="site-header">
+    <div class="sticky width-limitation-wrapper" id="site-header">
       <CmdTopHeaderNavigation :topHeaderNavigationData="topHeaderNavigationData" v-if="topHeaderNavigationData" />
       <header class="grid-container-create-columns">
         <CmdLogo altText="CoManD Logo" :pathLogo="require('@/assets/images/logo.svg')" />
       </header>
     </div>
-    <div class="section-wrapper">
-      <section>
+
+    <CmdWidthLimitationWrapper inner-component="div">
         <CmdBreadcrumbs :breadcrumbLinks="breadcrumbData" breadcrumbLabel="You are here:" />
-      </section>
-    </div>
-    <div class="section-wrapper">
-      <section>
+    </CmdWidthLimitationWrapper>
+
+    <CmdWidthLimitationWrapper>
         <h2 class="headline-demopage">Accordion</h2>
         <h3>Single mode</h3>
         <CmdAccordion :accordionData="accordionData.accordionData1"
@@ -29,13 +28,22 @@
                    openIconClass="icon-single-arrow-up"
                    closeIconClass="icon-single-arrow-down"
         />
-      </section>
-    </div>
+        <h3>Accordion with content placed by slot</h3>
+        <CmdAccordion
+                      toggleMode="single"
+                      tooltip="Click to toggle content"
+                      openIconClass="icon-single-arrow-up"
+                      closeIconClass="icon-single-arrow-down"
+        >
+          <template #accordion-content>
+            <h6>Content placed by slot</h6>
+          </template>
+        </CmdAccordion>
+    </CmdWidthLimitationWrapper>
 
-    <CmdBackToTopButton href="#anchor-back-to-top" iconClass="icon-triangle-up" tooltip="Back to top" />
+    <CmdBackToTopButton href="#anchor-back-to-top" iconClass="icon-single-arrow-up" tooltip="Back to top" />
 
-    <div class="section-wrapper">
-      <section>
+    <CmdWidthLimitationWrapper>
         <h2 class="headline-demopage">Boxes</h2>
         <h3>Content boxes</h3>
         <div class="grid-container-create-columns">
@@ -108,22 +116,18 @@
             <CmdBoxProduct :product="product" />
           </div>
         </div>
-      </section>
-    </div>
+        </CmdWidthLimitationWrapper>
 
-    <div class="section-wrapper">
-      <section>
+    <CmdWidthLimitationWrapper>
         <h2 class="headline-demopage">Fancybox</h2>
         <a href="#" @click.prevent="showFancyBox('text','Some text')">Open FancyBox with text</a>
         <a href="#" @click.prevent="showFancyBox('image', 'media/images/content-images/logo-business-edition-landscape.jpg')" title="Open FancyBox with large image">
             <img src="media/images/content-images/logo-business-edition-landscape.jpg" alt="Alternative text" />
         </a>
-      </section>
-    </div>
+      </CmdWidthLimitationWrapper>
 
     <!-- begin advanced form elements --------------------------------------------------------------------------------------------------------------------------------------------------->
-    <div class="section-wrapper">
-      <section data-title="Section Title">
+    <CmdWidthLimitationWrapper>
         <a id="anchor-advanced-form-elements"></a>
         <h2 class="headline-demopage">Advanced Form Elements</h2>
         <div class="flex-container">
@@ -437,51 +441,38 @@
             <button type="submit" :disabled="formElementStatus === 'disabled'">Submit form</button>
           </div>
         </form>
-      </section>
-    </div>
+     </CmdWidthLimitationWrapper>
     <!-- end advanced form elements ----------------------------------------------------------------------------------------------------------------------------------------------------->
 
-    <div class="section-wrapper">
-      <a id="anchor-section6"></a>
-      <section>
+    <CmdWidthLimitationWrapper>
         <h2 class="headline-demopage">Image-Gallery</h2>
         <CmdImageGallery :images="imageGalleryData"  />
-      </section>
-    </div>
+    </CmdWidthLimitationWrapper>
 
-    <div class="section-wrapper">
-      <a id="anchor-section7"></a>
-      <section>
+    <CmdWidthLimitationWrapper>
         <a id="anchor-image-zoom"></a>
         <h2 class="headline-demopage">Image-Zoom</h2>
         <CmdImageZoom small-image-url="media/images/content-images/logo-business-edition-landscape.jpg" large-image-url="media/images/content-images/logo-business-edition-landscape-large.jpg" />
-      </section>
-    </div>
+    </CmdWidthLimitationWrapper>
 
-    <div class="section-wrapper">
-      <section>
+    <CmdWidthLimitationWrapper>
         <h2 class="headline-demopage">Main Navigation</h2>
         <CmdMainNavigation :stretchMainItems="false"
                         :persistOnMobile="false"
                         :navigationEntries="navigationData"
                         :closeOffcanvas="{'text': 'Close navigation', 'iconClass': 'icon-cancel'}"
         />
-      </section>
-    </div>
+    </CmdWidthLimitationWrapper>
 
-    <div class="section-wrapper">
-      <section>
+    <CmdWidthLimitationWrapper>
         <h2 class="headline-demopage">MultistepFormProgressBar</h2>
         <CmdMultistepFormProgressBar :multisteps="multistepsData" separatorIconClass="icon-single-arrow-right" @click="showPageMultistep = $event.index + 1" />
         <div>
           <p>Page {{ showPageMultistep }}</p>
         </div>
-      </section>
-    </div>
+    </CmdWidthLimitationWrapper>
 
-    <div class="section-wrapper">
-      <a id="anchor-section10"></a>
-      <section>
+    <CmdWidthLimitationWrapper>
         <h2 class="headline-demopage">Pager</h2>
         <div>
           <p>Page {{ showPagePager }}</p>
@@ -494,18 +485,19 @@
                 :prevButton="{'iconClass': 'icon-single-arrow-left', 'buttonText': 'prev' }"
                 :nextButton="{'iconClass': 'icon-single-arrow-right', 'buttonText': 'next' }"
         />
-      </section>
-    </div>
+    </CmdWidthLimitationWrapper>
 
-    <div class="section-wrapper">
-      <section>
+    <CmdWidthLimitationWrapper>
+      <h2 class="headline-demopage">Share buttons</h2>
+      <CmdShareButtons :share-buttons="shareButtonsData" />
+    </CmdWidthLimitationWrapper>
+
+    <CmdWidthLimitationWrapper>
         <h2 class="headline-demopage">Slideshow</h2>
         <CmdSlideshow :slideshow-items="slideshowData" :autoplay="true" />
-      </section>
-    </div>
+    </CmdWidthLimitationWrapper>
 
-    <div class="section-wrapper">
-      <section>
+    <CmdWidthLimitationWrapper>
         <h2 class="headline-demopage">System Message</h2>
         <CmdSystemMessage messageStatus="error" :fullWidth="true" systemMessage="This is an error message!" iconClass="icon-cancel">
           <ul>
@@ -523,18 +515,14 @@
         <CmdSystemMessage messageStatus="information" :fullWidth="true" systemMessage="This is an information message!" iconClass="icon-info">
           <p>This is additional text!</p>
         </CmdSystemMessage>
-      </section>
-    </div>
+    </CmdWidthLimitationWrapper>
 
-    <div class="section-wrapper">
-      <section>
+    <CmdWidthLimitationWrapper>
         <h2 class="headline-demopage">Tables</h2>
         <CmdTableWrapper :collapsible="true" closeIconClass="icon-single-arrow-up" openIconClass="icon-single-arrow-down" />
-      </section>
-    </div>
+     </CmdWidthLimitationWrapper>
 
-    <div class="section-wrapper">
-      <section>
+    <CmdWidthLimitationWrapper>
         <h2 class="headline-demopage">Tabs</h2>
         <h3>Tabs with content from json-file</h3>
         <CmdTabs :stretchTabs="false" :tabs="tabsData" />
@@ -556,60 +544,83 @@
             <p>Content</p>
           </template>
         </CmdTabs>
-      </section>
-    </div>
+    </CmdWidthLimitationWrapper>
 
-    <div class="section-wrapper">
-      <section>
+    <CmdWidthLimitationWrapper>
         <h2 class="headline-demopage">Thumbnail-Scroller</h2>
-        <CmdThumbnailScroller :thumbnail-scroller-items="thumbnailScrollerData"  />
-      </section>
-    </div>
+        <CmdThumbnailScroller :thumbnail-scroller-items="thumbnailScrollerData" />
+    </CmdWidthLimitationWrapper>
 
-    <div id="site-footer">
-      <footer class="grid-container-create-columns">
-        <CmdSwitchLanguage :languages="languagesData" @click="doSomething"  />
+    <CmdWidthLimitationWrapper>
+        <h2 class="headline-demopage">Cookie Disclaimer</h2>
+        <a class="button" href="#" @click.prevent="fancyBoxCookieDisclaimer = true">Open Cookie Disclaimer</a>
+    </CmdWidthLimitationWrapper>
+
+    <CmdWidthLimitationWrapper id="site-footer" inner-component="footer" inner-class="flex-container-with-gap">
+        <CmdSwitchLanguage :languages="languagesData" @click="doSomething" />
         <CmdFooterNavigation :footerNavigation="footerNavigationData" headline="Links" />
         <CmdOpeningHours :openingHours="openingHoursData" :closed="true" headline="Opening hours" textOpenClosed="Closed right now!" textHolidaysClosed="Closed on holidays" textMiscInfo="Miscellaneous information" />
         <CmdAddressData :addressData="addressData" headline="Contact" />
-      </footer>
-    </div>
-  </div>
+    </CmdWidthLimitationWrapper>
+
+    <CmdFancyBox :show="fancyBoxCookieDisclaimer" :fancyboxOptions="{}">
+      <CmdCookieDisclaimer headline="Einsatz von Cookies"
+                           :cookieOptions="cookieDisclaimerData"
+                           buttonLabelAcceptAllCookies="Alle Cookies akzeptieren!"
+                           buttonLabelAcceptCurrentSettings="Aktuelle Cookies übernehmen!"
+                           @allCookies="fancyBoxCookieDisclaimer = false"
+                           @currentSettings="fancyBoxCookieDisclaimer = false"
+      >
+        <template #privacy-text>
+          <p>
+            <strong>
+              Durch die Nutzung der Website stimmen Sie der Verwendung und Speicherung anonymisierter Daten zu! <br>
+              Für mehr Details lesen Sie bitte die <a href="#">Datenschutzerklärung</a>.
+            </strong>
+          </p>
+        </template>
+      </CmdCookieDisclaimer>
+    </CmdFancyBox>
+  </div><!-- end #app -->
 </template>
 
 <script>
     // import used example data
-    import accordionData from '@/assets/data/accordion-data.json'
-    import addressData from '@/assets/data/address-data.json'
-    import boxUserData from '@/assets/data/box-user-data.json'
-    import boxProductData from '@/assets/data/box-product-data.json'
+    import accordionData from '@/assets/data/accordion.json'
+    import addressData from '@/assets/data/address.json'
+    import boxUserData from '@/assets/data/box-user.json'
+    import boxProductData from '@/assets/data/box-product.json'
     import breadcrumbData from '@/assets/data/breadcrumbs.json'
-    import fakeSelectOptionsData from '@/assets/data/fake-select-options-data.json'
-    import fakeSelectCountriesData from '@/assets/data/fake-select-countries-data.json'
-    import footerNavigationData from '@/assets/data/footer-navigation-data.json'
-    import fakeSelectColorsData from '@/assets/data/fake-select-colors-data.json'
-    import imageGalleryData from '@/assets/data/image-gallery-data.json'
-    import languagesData from '@/assets/data/languages-data.json'
-    import multistepsData from '@/assets/data/multisteps-data.json'
-    import multipleSwitchCheckboxData from '@/assets/data/multipleswitch-checkbox-data.json'
-    import multipleSwitchRadioData from '@/assets/data/multipleswitch-radio-data.json'
-    import navigationData from '@/assets/data/navigation-data.json'
+    import cookieDisclaimerData from '@/assets/data/cookie-disclaimer.json'
+    import fakeSelectOptionsData from '@/assets/data/fake-select-options.json'
+    import fakeSelectCountriesData from '@/assets/data/fake-select-countries.json'
+    import footerNavigationData from '@/assets/data/footer-navigation.json'
+    import fakeSelectColorsData from '@/assets/data/fake-select-colors.json'
+    import imageGalleryData from '@/assets/data/image-gallery.json'
+    import languagesData from '@/assets/data/languages.json'
+    import multistepsData from '@/assets/data/multisteps.json'
+    import multipleSwitchCheckboxData from '@/assets/data/multipleswitch-checkbox.json'
+    import multipleSwitchRadioData from '@/assets/data/multipleswitch-radio.json'
+    import navigationData from '@/assets/data/navigation.json'
     import openingHoursData from '@/assets/data/opening-hours.json'
-    import pagerData from '@/assets/data/pager-data.json'
-    import slideshowData from '@/assets/data/slideshow-data.json'
-    import tabsData from '@/assets/data/tabs-data.json'
-    import thumbnailScrollerData from '@/assets/data/thumbnail-scroller-data.json'
-    import topHeaderNavigationData from '@/assets/data/top-header-navigation-data.json'
+    import pagerData from '@/assets/data/pager.json'
+    import shareButtonsData from '@/assets/data/share-buttons.json'
+    import slideshowData from '@/assets/data/slideshow.json'
+    import tabsData from '@/assets/data/tabs.json'
+    import thumbnailScrollerData from '@/assets/data/thumbnail-scroller.json'
+    import topHeaderNavigationData from '@/assets/data/top-header-navigation.json'
 
     // import used components
     import CmdAccordion from '@/components/CmdAccordion.vue'
-    import CmdAddressData from "./components/CmdAddressData"
+    import CmdAddressData from "@/components/CmdAddressData"
     import CmdBackToTopButton from '@/components/CmdBackToTopButton.vue'
     import CmdBoxContent from '@/components/CmdBoxContent.vue'
     import CmdBoxProduct from '@/components/CmdBoxProduct.vue'
-    import CmdBreadcrumbs from "./components/CmdBreadcrumbs.vue"
+    import CmdBreadcrumbs from "@/components/CmdBreadcrumbs.vue"
     import CmdBoxUser from '@/components/CmdBoxUser.vue'
+    import CmdCookieDisclaimer from '@/components/CmdCookieDisclaimer.vue'
     import CmdFakeSelect from '@/components/CmdFakeSelect.vue'
+    import CmdFancyBox from '@/components/CmdFancyBox.vue'
     import CmdFooterNavigation from '@/components/CmdFooterNavigation.vue'
     import CmdFormElement from '@/components/CmdFormElement.vue'
     import CmdFormFilters from '@/components/CmdFormFilters.vue'
@@ -619,9 +630,10 @@
     import CmdMainNavigation from '@/components/CmdMainNavigation.vue'
     import CmdMultipleSwitch from '@/components/CmdMultipleSwitch.vue'
     import CmdMultistepFormProgressBar from '@/components/CmdMultistepFormProgressBar.vue'
-    import CmdOpeningHours from "./components/CmdOpeningHours"
+    import CmdOpeningHours from "@/components/CmdOpeningHours"
     import CmdPager from '@/components/CmdPager.vue'
     import CmdProgressBar from '@/components/CmdProgressBar.vue'
+    import CmdShareButtons from '@/components/CmdShareButtons.vue'
     import CmdSlideshow from '@/components/CmdSlideshow.vue'
     import CmdSwitchButton from '@/components/CmdSwitchButton.vue'
     import CmdSwitchLanguage from '@/components/CmdSwitchLanguage.vue'
@@ -630,20 +642,22 @@
     import CmdTableWrapper from '@/components/CmdTableWrapper.vue'
     import CmdThumbnailScroller from '@/components/CmdThumbnailScroller.vue'
     import CmdTopHeaderNavigation from '@/components/CmdTopHeaderNavigation.vue'
+    import CmdWidthLimitationWrapper from "@/components/CmdWidthLimitationWrapper"
     import { openFancyBox } from "@/components/CmdFancyBox"
 
     export default {
       name: 'App',
       components: {
-        CmdBreadcrumbs,
+        CmdAccordion, // short form of 'CmdAccordion': CmdAccordion
         CmdAddressData,
-        CmdOpeningHours,
-        CmdAccordion,
-        CmdBackToTopButton, // short form of 'BackToTop': BackToTop
+        CmdBackToTopButton,
         CmdBoxContent,
         CmdBoxProduct,
         CmdBoxUser,
+        CmdBreadcrumbs,
+        CmdCookieDisclaimer,
         CmdFakeSelect,
+        CmdFancyBox,
         CmdFooterNavigation,
         CmdFormFilters,
         CmdFormElement,
@@ -653,8 +667,10 @@
         CmdMainNavigation,
         CmdMultistepFormProgressBar,
         CmdMultipleSwitch,
+        CmdOpeningHours,
         CmdPager,
         CmdProgressBar,
+        CmdShareButtons,
         CmdSlideshow,
         CmdSwitchButton,
         CmdSwitchLanguage,
@@ -662,7 +678,8 @@
         CmdTabs,
         CmdTableWrapper,
         CmdThumbnailScroller,
-        CmdTopHeaderNavigation
+        CmdTopHeaderNavigation,
+        CmdWidthLimitationWrapper
       },
 
       data () {
@@ -685,6 +702,7 @@
           replacedRadiobuttonStatus: "radiobuttonValue1",
           multipleSwitchCheckbox: ['b'],
           multipleSwitchRadio: 'c',
+          fancyBoxCookieDisclaimer: false,
 
           // assign data from json files to data-properties
           accordionData,
@@ -692,6 +710,7 @@
           boxProductData,
           boxUserData,
           breadcrumbData,
+          cookieDisclaimerData,
           fakeSelectOptionsData,
           fakeSelectCountriesData,
           fakeSelectColorsData,
@@ -704,6 +723,7 @@
           navigationData,
           openingHoursData,
           pagerData,
+          shareButtonsData,
           slideshowData,
           tabsData,
           thumbnailScrollerData,

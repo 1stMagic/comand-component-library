@@ -82,11 +82,13 @@ export default {
             &.on {
                 border-color: var(--success-color);
 
-                span {
-                    color: var(--success-color);
+                span{
+                    &.label {
+                        color: var(--success-color);
 
-                    &::before {
-                        background-color: var(--success-color);
+                        &::before {
+                            background-color: var(--success-color);
+                        }
                     }
                 }
             }
@@ -95,8 +97,13 @@ export default {
                 border-color: var(--error-color);
                 color: var(--error-color);
 
-                span::before {
-                    background-color: var(--error-color);
+                span {
+                    &.label {
+                        &::before {
+                            background-color: var(--pure-white);
+                            border: var(--error-border);
+                        }
+                    }
                 }
 
                 > input[type="radio"] {

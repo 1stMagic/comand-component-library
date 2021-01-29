@@ -1,11 +1,28 @@
 <template>
-    <div id="fancybox" class="popup-wrapper">
-        <transition name="fade">
-            <div class="popup" :class="{'image' : fancyBoxImageUrl || fancyBoxGallery }" v-if="showFancyBox">
-                <div class="button-wrapper">
-                    <a href="#" class="button icon-print" id="print-color" title="print in color" @click.prevent="printInGrayscale = false"></a>
-                    <a href="#" class="button icon-print" id="print-grayscale" title="print in grayscale" @click.prevent="printInGrayscale = true"></a>
-                    <a href="#" class="icon-cancel" title="Close" @click.prevent="close"></a>
+    <transition name="fade">
+        <div id="fancybox" class="popup-wrapper" v-if="showFancyBox">
+            <div class="popup" :class="{'image' : fancyBoxImageUrl || fancyBoxGallery }">
+                <div class="button-wrapper" v-if="(fancyboxOptions.printButtons && (fancyboxOptions.printButtons.color || fancyboxOptions.printButtons.grayscale)) || fancyboxOptions.closeIcon">
+                    <a href="#"
+                       v-if="fancyboxOptions.printButtons && fancyboxOptions.printButtons.color"
+                       :class="['button', fancyboxOptions.printButtons.color.iconClass]"
+                       :title="fancyboxOptions.printButtons.color.tooltip"
+                       id="print-color"
+                       @click.prevent="printInGrayscale = false">
+                    </a>
+                    <a href="#"
+                       v-if="fancyboxOptions.printButtons && fancyboxOptions.printButtons.grayscale"
+                       :class="['button', fancyboxOptions.printButtons.grayscale.iconClass]"
+                       :title="fancyboxOptions.printButtons.grayscale.tooltip"
+                       id="print-grayscale"
+                       @click.prevent="printInGrayscale = true">
+                    </a>
+                    <a href="#"
+                       v-if="fancyboxOptions.closeIcon"
+                       :class="fancyboxOptions.closeIcon.iconClass"
+                       :title="fancyboxOptions.closeIcon.tooltip"
+                       @click.prevent="close">
+                    </a>
                 </div>
                 <div :class="{'grayscale' : printInGrayscale}">
                     <div v-if="fancyBoxImageUrl" class="content">
@@ -24,9 +41,9 @@
                     <div v-else class="content"><slot></slot></div>
                 </div>
             </div>
-        </transition>
-        <ThumbnailScroller v-if="fancyBoxGallery" :thumbnailScrollerItems="[...fancyBoxGallery]" :allowOpenFancyBox="false" @click="showItem" :imgIndex="index" />
-    </div>
+            <ThumbnailScroller v-if="fancyBoxGallery" :thumbnailScrollerItems="[...fancyBoxGallery]" :allowOpenFancyBox="false" @click="showItem" :imgIndex="index" />
+        </div>
+    </transition>
 </template>
 
 <script>
@@ -52,6 +69,27 @@ const FancyBox = Vue.extend({
         url: {
             type: String,
             required: false
+        },
+        fancyboxOptions: {
+            type: Object,
+            default () {
+                return {
+                    closeIcon: {
+                        "iconClass": "icon-cancel",
+                        "tooltip": "Close"
+                    },
+                    printButtons: {
+                        "color": {
+                            "iconClass": "icon-print",
+                            "tooltip": "print in color"
+                        },
+                        "grayscale": {
+                            "iconClass": "icon-print",
+                            "tooltip": "print in grayscale"
+                        }
+                    }
+                }
+            }
         },
         content: {
             type: String,

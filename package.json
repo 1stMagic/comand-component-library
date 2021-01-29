@@ -1,6 +1,6 @@
 {
   "name": "comand-ui-kit",
-  "version": "3.0.19",
+  "version": "3.0.25",
   "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -16,11 +16,11 @@
     "src"
   ],
   "dependencies": {
-    "comand-frontend-framework": "^3.0.61",
-    "core-js": "^3.8.2",
+    "comand-frontend-framework": "^3.0.67",
+    "core-js": "^3.8.3",
     "v-click-outside": "^3.1.2",
     "vue": "^2.6.12",
-    "vue-router": "^3.4.9"
+    "vue-router": "^3.5.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.4.0",
