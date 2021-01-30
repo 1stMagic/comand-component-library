@@ -6,7 +6,7 @@ function copyFramework() {
         '!public/*.*',
         '!public/media/**',
         '!public/**/images/**',
-        '!public/framework/frontend/ui-kit/**'
+        '!public/framework/frontend/comand-component-library/**'
     ])
         .pipe(dest('dist'))
 }

@@ -7,42 +7,42 @@
 </template>
 
 <script>
-    export default {
-        name: "CmdLogo",
-        props: {
-            tooltip: {
-                type: String,
-                required: false
-            },
-            pathLogo: {
-                type: String,
-                required: true
-            },
-            altText: {
-                type: String,
-                required: true /* w3c requirements */
-            }
+export default {
+    name: "CmdLogo",
+    props: {
+        tooltip: {
+            type: String,
+            required: false
+        },
+        pathLogo: {
+            type: String,
+            required: true
+        },
+        altText: {
+            type: String,
+            required: true /* w3c requirements */
         }
     }
+}
 </script>
 
 <style lang="scss">
-    /* begin cmd-logo --------------------------------------------------------------------------------------------------------------------------------------------------- */
-    .cmd-logo {
-        > a {
-            display: block;
+/* begin cmd-logo --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.cmd-logo {
+    > a {
+        display: block;
 
+        img {
+            max-height: 15rem;
+        }
+
+        @media only screen and (max-width: 1023px) {
             img {
-                max-height: 15rem;
-            }
-
-            @media only screen and (max-width: 1023px) {
-                img {
-                    max-width: 100%;
-                    max-height: none;
-                }
+                max-width: 100%;
+                max-height: none;
             }
         }
     }
-    /* end cmd-logo --------------------------------------------------------------------------------------------------------------------------------------------------- */
+}
+/* end cmd-logo --------------------------------------------------------------------------------------------------------------------------------------------------- */
 </style>

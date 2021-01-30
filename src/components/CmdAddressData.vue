@@ -15,25 +15,27 @@
 </template>
 
 <script>
-    export default {
-        name: "CmdAddressData",
-        props: {
-            headline: {
-                type: String,
-                required: false
-            },
-            addressData: {
-                type: Object,
-                required: true
-            }
+export default {
+    name: "CmdAddressData",
+    props: {
+        headline: {
+            type: String,
+            required: false
+        },
+        addressData: {
+            type: Object,
+            required: true
         }
     }
+}
 </script>
 
 <style lang="scss">
-    .cmd-address-data  {
-        dd {
-            margin-bottom: var(--default-margin);
-        }
+/* begin cmd-address-data --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.cmd-address-data  {
+    dd {
+        margin-bottom: var(--default-margin);
     }
+}
+/* end cmd-address-data --------------------------------------------------------------------------------------------------------------------------------------------------- */
 </style>

@@ -2,12 +2,14 @@
     <div class="cmd-accordion">
         <template v-for="(accordionContent, index) in accordion">
             <h3 :key="'h' + index" class="accordion-headline" :title="tooltip" @click="toggleContentVisibility(accordionContent)">
-                <span>{{ accordionContent.headline }}</span>
+                <slot :name="'accordion-headline-' + index">
+                    <span>{{ accordionContent.headline }}</span>
+                </slot>
                 <span class="toggle-icon" :class="[accordionContent.status ? openIconClass : closeIconClass]"></span>
             </h3>
             <transition name="fade" :key="'d' + index">
                     <div class="accordion-content" v-if="accordionContent.status">
-                        <slot name="accordion-content">
+                        <slot :name="'accordion-content-' + index">
                             <p>{{ accordionContent.content }}</p>
                         </slot>
                     </div>
@@ -22,7 +24,7 @@ export default {
     name: "CmdAccordion",
     data() {
         return {
-            accordion: this.accordionData
+            accordion: []
         }
     },
     props: {
@@ -31,16 +33,16 @@ export default {
             default: 'single'
         },
         accordionData: {
-            type: Array,
+            type: [Array, Number],
             required: true
         },
         openIconClass: {
             type: String,
-            required: true
+            default: "icon-single-arrow-up"
         },
         closeIconClass: {
             type: String,
-            required: true
+            default: "icon-single-arrow-down"
         },
         tooltip: {
           type: String,
@@ -59,12 +61,28 @@ export default {
                 }
             }
         }
+    },
+    watch: {
+        accordionData: {
+            handler() {
+                if(typeof this.accordionData === 'number') {
+                    this.accordion = []
+                    for(let i = 0; i < this.accordionData; i++) {
+                        this.accordion.push({ status: false })
+                    }
+                } else {
+                    // create copy of given data and assign to data-property
+                    this.accordion = JSON.parse(JSON.stringify(this.accordionData))
+                }
+            },
+            immediate: true
+        }
     }
 }
 </script>
 
 <style lang="scss">
-/* begin accordion --------------------------------------------------------------------------------------------------------------------------------------------------- */
+/* begin cmd-accordion --------------------------------------------------------------------------------------------------------------------------------------------------- */
 .cmd-accordion {
     .accordion-headline {
         border: var(--default-border);
@@ -133,5 +151,5 @@ export default {
         overflow: hidden;
     }
 }
-/* end accordion --------------------------------------------------------------------------------------------------------------------------------------------------- */
+/* end cmd-accordion --------------------------------------------------------------------------------------------------------------------------------------------------- */
 </style>

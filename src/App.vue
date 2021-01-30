@@ -1,12 +1,10 @@
 <!--suppress HtmlUnknownTarget, NpmUsedModulesInstalled, JSUnresolvedVariable -->
 <template>
   <div id="app">
-    <div class="sticky width-limitation-wrapper" id="site-header">
-      <CmdTopHeaderNavigation :topHeaderNavigationData="topHeaderNavigationData" v-if="topHeaderNavigationData" />
-      <header class="grid-container-create-columns">
+    <CmdWidthLimitationWrapper inner-component="header" :sticky="true">
+        <CmdTopHeaderNavigation :topHeaderNavigationData="topHeaderNavigationData" v-if="topHeaderNavigationData" />
         <CmdLogo altText="CoManD Logo" :pathLogo="require('@/assets/images/logo.svg')" />
-      </header>
-    </div>
+    </CmdWidthLimitationWrapper>
 
     <CmdWidthLimitationWrapper inner-component="div">
         <CmdBreadcrumbs :breadcrumbLinks="breadcrumbData" breadcrumbLabel="You are here:" />
@@ -28,17 +26,6 @@
                    openIconClass="icon-single-arrow-up"
                    closeIconClass="icon-single-arrow-down"
         />
-        <h3>Accordion with content placed by slot</h3>
-        <CmdAccordion
-                      toggleMode="single"
-                      tooltip="Click to toggle content"
-                      openIconClass="icon-single-arrow-up"
-                      closeIconClass="icon-single-arrow-down"
-        >
-          <template #accordion-content>
-            <h6>Content placed by slot</h6>
-          </template>
-        </CmdAccordion>
     </CmdWidthLimitationWrapper>
 
     <CmdBackToTopButton href="#anchor-back-to-top" iconClass="icon-single-arrow-up" tooltip="Back to top" />
@@ -556,14 +543,14 @@
         <a class="button" href="#" @click.prevent="fancyBoxCookieDisclaimer = true">Open Cookie Disclaimer</a>
     </CmdWidthLimitationWrapper>
 
-    <CmdWidthLimitationWrapper id="site-footer" inner-component="footer" inner-class="flex-container-with-gap">
+    <CmdWidthLimitationWrapper id="site-footer" inner-component="footer">
         <CmdSwitchLanguage :languages="languagesData" @click="doSomething" />
         <CmdFooterNavigation :footerNavigation="footerNavigationData" headline="Links" />
         <CmdOpeningHours :openingHours="openingHoursData" :closed="true" headline="Opening hours" textOpenClosed="Closed right now!" textHolidaysClosed="Closed on holidays" textMiscInfo="Miscellaneous information" />
         <CmdAddressData :addressData="addressData" headline="Contact" />
     </CmdWidthLimitationWrapper>
 
-    <CmdFancyBox :show="fancyBoxCookieDisclaimer" :fancyboxOptions="{}">
+    <CmdFancyBox :show="fancyBoxCookieDisclaimer" :fancyboxOptions="{}" :allowEscapeKey="false">
       <CmdCookieDisclaimer headline="Einsatz von Cookies"
                            :cookieOptions="cookieDisclaimerData"
                            buttonLabelAcceptAllCookies="Alle Cookies akzeptieren!"

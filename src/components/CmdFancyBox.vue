@@ -91,6 +91,10 @@ const FancyBox = Vue.extend({
                 }
             }
         },
+        allowEscapeKey: {
+          type: Boolean,
+          default: true
+        },
         content: {
             type: String,
             required: false
@@ -144,8 +148,10 @@ const FancyBox = Vue.extend({
         }
     },
     created() {
-        this.$_FancyBox_escapeKeyHandler = e => (e.key === 'Escape' || e.key === 'Esc') && this.close()
-        document.querySelector('body').addEventListener('keyup', this.$_FancyBox_escapeKeyHandler)
+        if(this.allowEscapeKey) {
+            this.$_FancyBox_escapeKeyHandler = e => (e.key === 'Escape' || e.key === 'Esc') && this.close()
+            document.querySelector('body').addEventListener('keyup', this.$_FancyBox_escapeKeyHandler)
+        }
         this.$watch(
             () => [
                 this.url,
@@ -157,7 +163,9 @@ const FancyBox = Vue.extend({
         )
     },
     beforeDestroy() {
-        document.querySelector('body').removeEventListener('keyup', this.$_FancyBox_escapeKeyHandler)
+        if(this.allowEscapeKey) {
+            document.querySelector('body').removeEventListener('keyup', this.$_FancyBox_escapeKeyHandler)
+        }
     },
     methods: {
         updateContentOnPropertyChange() {
@@ -240,7 +248,7 @@ export default FancyBox
 
 <style lang="scss">
 @import '../assets/styles/variables';
-/* begin popup-wrapper --------------------------------------------------------------------------------------------------------------------------------------------------- */
+/* begin cmd-fancybox --------------------------------------------------------------------------------------------------------------------------------------------------- */
 .popup-wrapper {
     background: rgba(0, 0, 0, .8);
     position: fixed;
@@ -368,5 +376,5 @@ export default FancyBox
         }
     }
 }
-/* end popup-wrapper --------------------------------------------------------------------------------------------------------------------------------------------------- */
+/* end cmd-fancybox --------------------------------------------------------------------------------------------------------------------------------------------------- */
 </style>

@@ -4,18 +4,25 @@
             <h2 v-if="headline">{{ headline }}</h2>
             <slot name="cookie-options">
                 <div v-if="cookieOptions.required">
-                   <h6>{{ cookieOptions.required.headline }}</h6>
-                   <div v-for="(cookie, index) in cookieOptions.required.cookies" :key="index">
-                        <CmdFormElement
-                            element="input"
-                            type="checkbox"
-                            :id="cookie.id"
-                            :labelText="cookie.labelText"
-                            v-model="cookie.checked"
-                            :status="cookie.status"
-                        />
-                        <p>{{ cookie.description }}</p>
-                   </div>
+                    <h2>{{ cookieOptions.required.headline }}</h2>
+                    <CmdAccordion :accordion-data="cookieOptions.required.cookies.length">
+
+                   <template v-for="(cookie, index) in cookieOptions.required.cookies" v-slot:[`accordion-headline-${index}`]>
+                            <CmdFormElement
+                                    element="input"
+                                    type="checkbox"
+                                    :id="cookie.id"
+                                    :labelText="cookie.labelText"
+                                    v-model="cookie.checked"
+                                    :status="cookie.status"
+                                    :key="index"
+                            />
+
+                   </template>
+                    <template v-for="(cookie, index) in cookieOptions.required.cookies" v-slot:[`accordion-content-${index}`]>
+                        <p :key="index">{{ cookie.description }}</p>
+                    </template>
+                    </CmdAccordion>
                 </div>
                   <div v-if="cookieOptions.optional">
                       <h6>{{ cookieOptions.optional.headline }}</h6>
@@ -42,10 +49,12 @@
 
 <script>
 import CmdFormElement from "@/components/CmdFormElement.vue";
+import CmdAccordion from "./CmdAccordion";
 
 export default {
     name: "CmdCookieDisclaimer",
     components: {
+        CmdAccordion,
         CmdFormElement
     },
     data () {
@@ -59,7 +68,7 @@ export default {
             required: false
         },
         cookieOptions: {
-            type: Array,
+            type: Object,
             required: false
         },
         buttonLabelAcceptAllCookies: {
@@ -75,6 +84,9 @@ export default {
         acceptCookies (cookies) {
             this.$emit(cookies)
             this.showCookieDislaimer = false
+        },
+        test(x) {
+            return 'accordion-headline' + x
         }
     }
 }

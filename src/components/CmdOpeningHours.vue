@@ -52,29 +52,31 @@
 </script>
 
 <style lang="scss">
-    .cmd-opening-hours {
-        > a, > span {
-            padding: calc(var(--default-padding) / 2);
-            font-weight: bold;
-            display: table;
-            margin-bottom: var(--default-margin);
-            color: var(--pure-white);
-            background: #0b0;
+/* begin cmd-opeing-hours --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.cmd-opening-hours {
+    > a, > span {
+        padding: calc(var(--default-padding) / 2);
+        font-weight: bold;
+        display: table;
+        margin-bottom: var(--default-margin);
+        color: var(--pure-white);
+        background: #0b0;
 
-            &.closed {
-                background: #b00;
-            }
-        }
-
-        > a {
-            &:hover, &:active, &:focus {
-                text-decoration: underline;
-                color: var(--pure-white);
-            }
-        }
-
-        p:last-child {
-            margin: 0;
+        &.closed {
+            background: #b00;
         }
     }
+
+    > a {
+        &:hover, &:active, &:focus {
+            text-decoration: underline;
+            color: var(--pure-white);
+        }
+    }
+
+    p:last-child {
+        margin: 0;
+    }
+}
+/* end cmd-opeing-hours --------------------------------------------------------------------------------------------------------------------------------------------------- */
 </style>

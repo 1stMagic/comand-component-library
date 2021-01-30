@@ -64,33 +64,33 @@
 </script>
 
 <style lang="scss">
-    /* begin cmd-back-to-top-button --------------------------------------------------------------------------------------------------------------------------------------------------- */
-    .cmd-back-to-top-button {
-        border: var(--default-border);
-        background: var(--pure-white);
-        padding: var(--default-padding);
-        display: inline-block;
-        position: fixed;
-        right: 1rem;
-        bottom: 1rem;
-        text-decoration: none;
-        border-radius: var(--full-circle);
-        z-index: 300;
+/* begin cmd-back-to-top-button --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.cmd-back-to-top-button {
+    border: var(--default-border);
+    background: var(--pure-white);
+    padding: var(--default-padding);
+    display: inline-block;
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    text-decoration: none;
+    border-radius: var(--full-circle);
+    z-index: 300;
 
-        &:hover, &:active, &:focus {
-            border-color: var(--primary-color);
-            transition: var(--default-transition);
-        }
-
-        .back-to-top-enter-active, .back-to-top-leave-active,
-        .back-to-top-enter, .back-to-top-leave-to {
-            transition: var(--default-transition);
-            opacity: 1;
-        }
-
-        .back-to-top-enter, .back-to-top-leave-to {
-            opacity: 0;
-        }
+    &:hover, &:active, &:focus {
+        border-color: var(--primary-color);
+        transition: var(--default-transition);
     }
-    /* cmd-back-to-top-button --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+    .back-to-top-enter-active, .back-to-top-leave-active,
+    .back-to-top-enter, .back-to-top-leave-to {
+        transition: var(--default-transition);
+        opacity: 1;
+    }
+
+    .back-to-top-enter, .back-to-top-leave-to {
+        opacity: 0;
+    }
+}
+/* cmd-back-to-top-button --------------------------------------------------------------------------------------------------------------------------------------------------- */
 </style>

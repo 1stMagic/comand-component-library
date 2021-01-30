@@ -5,34 +5,34 @@
 </template>
 
 <script>
-    export default {
-        name: "CmdCopyrightWrapper",
-        props: {
-            htmlClass: {
-                type: String,
-                required: false
-            }
+export default {
+    name: "CmdCopyrightWrapper",
+    props: {
+        htmlClass: {
+            type: String,
+            required: false
         }
     }
+}
 </script>
 
 <style lang="scss">
-    /* begin copyright-information --------------------------------------------------------------------------------------------------------------------------------------------------- */
-    .cmd-copyright-information {
-        padding: var(--default-padding);
-        background: var(--text-color);
-        border-top: var(--border-width) var(--border-style) var(--pure-white);
-        text-align: center;
+/* begin copyright-information --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.cmd-copyright-information {
+    padding: var(--default-padding);
+    background: var(--text-color);
+    border-top: var(--border-width) var(--border-style) var(--pure-white);
+    text-align: center;
 
-        a {
-            text-decoration: none;
+    a {
+        text-decoration: none;
+        color: var(--pure-white);
+
+        &:hover, &:active, &:focus {
+            text-decoration: underline;
             color: var(--pure-white);
-
-            &:hover, &:active, &:focus {
-                text-decoration: underline;
-                color: var(--pure-white);
-            }
         }
     }
-    /* end copyright-information --------------------------------------------------------------------------------------------------------------------------------------------------- */
+}
+/* end copyright-information --------------------------------------------------------------------------------------------------------------------------------------------------- */
 </style>

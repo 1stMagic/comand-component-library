@@ -39,21 +39,23 @@
 </script>
 
 <style lang="scss">
-    .cmd-switch-language {
-        ul {
-            display: flex;
+/* begin cmd-switch-language --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.cmd-switch-language {
+    ul {
+        display: flex;
+        margin: 0;
+
+        li {
+            list-style-type: none;
             margin: 0;
 
-            li {
-                list-style-type: none;
-                margin: 0;
-
-                a {
-                    &:hover, &:active, &:focus, &.active {
-                        box-shadow: var(--box-shadow);
-                    }
+            a {
+                &:hover, &:active, &:focus, &.active {
+                    box-shadow: var(--box-shadow);
                 }
             }
         }
     }
+}
+/* end cmd-switch-language --------------------------------------------------------------------------------------------------------------------------------------------------- */
 </style>

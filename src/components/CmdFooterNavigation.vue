@@ -11,44 +11,46 @@
 </template>
 
 <script>
-    import { getRoute } from '@/utilities.js'
-    import { openFancyBox } from '@/components/CmdFancyBox.vue'
+import { getRoute } from '@/utilities.js'
+import { openFancyBox } from '@/components/CmdFancyBox.vue'
 
-    export default {
-        name: "CmdFooterNavigation",
-        props: {
-            headline: {
-                type: String,
-                required: false
-            },
-            footerNavigation: {
-                type: Array,
-                required: false
-            }
+export default {
+    name: "CmdFooterNavigation",
+    props: {
+        headline: {
+            type: String,
+            required: false
         },
-        methods: {
-            getRoute (language) {
-                return getRoute(language)
-            },
-            executeLink (entry, event) {
-                if(entry.fancybox) {
-                    event.preventDefault()
-                    openFancyBox({url: entry.link.path})
-                }
+        footerNavigation: {
+            type: Array,
+            required: false
+        }
+    },
+    methods: {
+        getRoute (language) {
+            return getRoute(language)
+        },
+        executeLink (entry, event) {
+            if(entry.fancybox) {
+                event.preventDefault()
+                openFancyBox({url: entry.link.path})
             }
         }
     }
+}
 </script>
 
 <style lang="scss">
-    .cmd-footer-navigation {
-        li {
-            list-style: none;
-            margin-bottom: var(--default-margin);
+/* begin cmd-footer-navigation --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.cmd-footer-navigation {
+    li {
+        list-style: none;
+        margin-bottom: var(--default-margin);
 
-            &:last-child {
-                margin-bottom: 0;
-            }
+        &:last-child {
+            margin-bottom: 0;
         }
     }
+}
+/* end cmd-footer-navigation --------------------------------------------------------------------------------------------------------------------------------------------------- */
 </style>

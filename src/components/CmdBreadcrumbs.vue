@@ -25,35 +25,37 @@ export default {
 </script>
 
 <style lang="scss">
-    .cmd-breadcrumbs {
-        display: flex;
+/* begin cmd-breadcrumbs --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.cmd-breadcrumbs {
+    display: flex;
+    margin: 0;
+
+    li {
+        list-style-type: none;
         margin: 0;
 
-        li {
-            list-style-type: none;
-            margin: 0;
+        a {
+            text-decoration: none;
 
-            a {
-                text-decoration: none;
-
-                &:hover, &:active, &:focus {
-                    text-decoration: underline;
-                }
+            &:hover, &:active, &:focus {
+                text-decoration: underline;
             }
+        }
 
+        > span {
+            padding: 0 calc(var(--default-padding) / 2);
+        }
+
+        &:first-child {
+            margin-right: calc(var(--default-margin) / 2);
+        }
+
+        &:last-child {
             > span {
-                padding: 0 calc(var(--default-padding) / 2);
-            }
-
-            &:first-child {
-                margin-right: calc(var(--default-margin) / 2);
-            }
-
-            &:last-child {
-                > span {
-                    display: none;
-                }
+                display: none;
             }
         }
     }
+}
+/* end cmd-breadcrumbs --------------------------------------------------------------------------------------------------------------------------------------------------- */
 </style>
