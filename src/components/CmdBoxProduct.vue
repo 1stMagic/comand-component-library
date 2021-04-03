@@ -40,10 +40,6 @@ export default {
     text-decoration: none;
     overflow: hidden;
 
-    &:hover, &:active, &:focus {
-        border-color: var(--hyperlink-color-highlighted);
-    }
-
     [class*="ribbon"] {
         position: absolute;
         z-index: 10;
@@ -56,14 +52,8 @@ export default {
         span {
             position: absolute;
             display: block;
-            background: var(--error-color);
-            font-weight: bold;
-            color: var(--pure-white);
-            text-transform: uppercase;
-            text-align: center;
             transform: rotate(-45deg);
             width: 100%;
-            box-shadow: var(--box-shadow);
             top: 15%;
             left: -25%;
         }
@@ -75,7 +65,6 @@ export default {
 
         span {
             transform: rotate(45deg);
-            background: green;
             right: -20%;
             left: auto;
         }
@@ -91,20 +80,9 @@ export default {
 
     .box-body {
         padding: var(--default-padding);
-
-        > * {
-            text-align: center;
-        }
-
-        .price {
-            font-size: 2rem;
-            font-weight: bold;
-        }
     }
 
     footer {
-        border-top: var(--default-border);
-
         ul {
             display: flex;
             flex-direction: row;
@@ -118,22 +96,6 @@ export default {
                 a {
                     display: block;
                     padding: var(--default-padding);
-                    text-align: center;
-                    background: var(--pure-white);
-                    border-left: var(--primary-border);
-                }
-
-                &:hover, &:active, &:focus {
-                    a {
-                        background: var(--primary-color);
-                        color: var(--pure-white);
-                    }
-                }
-
-                &:first-child {
-                    a {
-                        border: 0;
-                    }
                 }
             }
         }

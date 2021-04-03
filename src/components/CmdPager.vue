@@ -16,8 +16,8 @@
                     <a :class="{'disabled': currentPage === index + 1, 'button': showLinksAsButtons}"
                        v-for="(item, index) in items"
                        :key="index"
-                       @click.prevent="showPage(item)">
-                        {{ index + 1 }}
+                       @click.prevent="showPage(item)" aria-live="polite">
+                        <span>{{ index + 1 }}</span>
                     </a>
                 </div>
             </div>
@@ -93,24 +93,20 @@ export default {
 @import '../assets/styles/variables';
 /* begin cmd-pager --------------------------------------------------------------------------------------------------------------------------------------------------- */
 .cmd-pager {
-    > p {
-        text-align: center;
-    }
-
     .pager {
         display: flex;
         justify-content: space-between;
 
-        button {
+        button, .button {
             float: none;
             margin: 0;
+
+            span {
+                align-self: center;
+            }
         }
 
         > a {
-            > [class*="icon-"] {
-                font-size: 1rem;
-            }
-
             &:last-of-type {
                 > [class*="icon-"] {
                     margin-right: 0;
@@ -118,17 +114,7 @@ export default {
             }
         }
 
-        a.disabled {
-            opacity: .5;
-        }
-
         .page-index {
-            .button {
-                &:not(:first-child) {
-                    margin-left: var(--default-margin);
-                }
-            }
-
             a:not(.button) {
                 padding: calc(var(--default-padding) / 2);
                 padding-top: 0;
@@ -136,13 +122,12 @@ export default {
         }
 
         @media only screen and (max-width: $medium-max-width) {
-            a.button {
+            > a.button {
                 span {
                     margin: 0;
 
                     &:not([class*='icon']) {
                         display: none;
-
                     }
                 }
             }

@@ -1,7 +1,14 @@
 <template>
-    <label :class="{'colored' : colored, 'on' : colored && isChecked, 'off' : colored && !isChecked}" class="toggle-switch switch-label" :for="id">
+    <label :class="['toggle-switch',
+                    {'switch-label': onLabel && offLabel && !labelText,
+                    'colored' : colored, 'on' : colored && isChecked,
+                    'off' : colored && !isChecked, 'disabled': $attrs.disabled
+                    }
+                    ]" :for="id">
         <input :type="type" :id="id" :name="name" :value="inputValue" :checked="isChecked" @change="onChange" v-bind="$attrs" />
-        <span class="label">{{ onLabel }}</span><span class="label">{{ offLabel }}</span>
+        <span class="label" v-if="onLabel && offLabel && !labelText">{{ onLabel }}</span>
+        <span class="label" v-if="onLabel && offLabel && !labelText">{{ offLabel }}</span>
+        <span class="label" v-if="!onLabel && !offLabel && labelText">{{ labelText }}</span>
     </label>
 </template>
 
@@ -20,23 +27,27 @@ export default {
         },
         name: {
             type: String,
-            required: true
+            required: false
         },
         value: {
             type: [String, Array, Boolean],
-            required: true
+            required: false
         },
         inputValue: {
             type: String,
-            required: true
+            required: false
+        },
+        labelText: {
+          type: String,
+          required: false
         },
         onLabel: {
             type: String,
-            required: true
+            required: false
         },
         offLabel: {
             type: String,
-            required: true
+            required: false
         },
         colored: {
             type: Boolean,
@@ -73,59 +84,3 @@ export default {
     }
 }
 </script>
-
-<style lang="scss">
-/* begin cmd-switch-button --------------------------------------------------------------------------------------------------------------------------------------------------- */
-.toggle-switch {
-    &.switch-label {
-        &.colored {
-            &.on {
-                border-color: var(--success-color);
-
-                span{
-                    &.label {
-                        color: var(--success-color);
-
-                        &::before {
-                            background-color: var(--success-color);
-                        }
-                    }
-                }
-            }
-
-            &.off {
-                border-color: var(--error-color);
-                color: var(--error-color);
-
-                span {
-                    &.label {
-                        &::before {
-                            background-color: var(--pure-white);
-                            border: var(--error-border);
-                        }
-                    }
-                }
-
-                > input[type="radio"] {
-                    & ~ span::before {
-                        background: none;
-                        border: var(--error-border);
-                    }
-                }
-            }
-        }
-
-        &.error {
-            border-color: var(--error-color);
-
-            input:not(:checked) {
-                & + .label::before {
-                    border-color: var(--error-color);
-                    background: var(--error-color);
-                }
-            }
-        }
-    }
-}
-/* end cmd-switch-button --------------------------------------------------------------------------------------------------------------------------------------------------- */
-</style>

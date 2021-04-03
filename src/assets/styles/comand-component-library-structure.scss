@@ -17,19 +17,27 @@ T ------------------------
   - transitions
 */
 
+#site-header header .cmd-top-header-navigation  {
+	grid-column: span var(--grid-columns);
+}
+
 /* begin cmd-cookie-disclaimer --------------------------------------------------------------------------------------------------------------------------------------------------- */
 .cmd-cookie-disclaimer {
-	background: var(--primary-color);
-	color: var(--pure-white);
-
-	h2 {
-		color: var(--pure-white);
+	.cmd-accordion {
+		.accordion-headline {
+			&:hover, &:active, &:focus {
+				label, .label {
+					span {
+						color: var(--pure-white) !important;
+					}
+				}
+			}
+		}
 	}
 
 	p  {
 		a {
 			text-decoration: underline;
-			color: var(--pure-white);
 
 			&:hover, &:active, &:focus {
 				text-decoration: none;
@@ -65,7 +73,6 @@ T ------------------------
 			border-color: var(--primary-color);
 			background: var(--default-background-color);
 		}
-
 	}
 
 	img {
@@ -157,7 +164,6 @@ T ------------------------
 
 /* begin styles for medium screens --------------------------------------------------------------------------------------------------------------------------------------------------- */
 @media only screen and (max-width: $medium-max-width) {
-
 	html {
 		--grid-small-span: 3; /* default column span smaller part */
 		--grid-large-span: 3; /* default column span larger part */

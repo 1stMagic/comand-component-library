@@ -4,17 +4,28 @@
     "cookies": [
         {
           "id": "cookie-sessionid",
-          "description": "Dieser Cookie ist für die Funktiounsfähigkeit der Website notwendig.",
+          "description": "Dieser Cookie ist für die Funktionsfähigkeit der Website notwendig.",
           "labelText": "SessionID",
           "checked": true,
-          "status": "disabled"
+          "status": "disabled",
+          "linkDataPrivacy": {
+            "label": "Details for this cookie:",
+            "link": "/content/data-privacy-en.html",
+            "linkText": "Open data privacy"
+          }
         },
         {
           "id": "cookie-google-recaptcha",
           "description": "Dieser Cookie gewährleistet, dass Formulare nicht von Bots verschickt werden können.",
           "labelText": "Google reCaptcha™",
           "checked": true,
-          "status": "disabled"
+          "status": "disabled",
+          "linkDataPrivacy": {
+            "label": "Details for this cookie:",
+            "link": "https://policies.google.com/privacy?hl=en-US",
+            "target": "_blank",
+            "linkText": "Open data privacy from Google"
+          }
         }
       ]
   },
@@ -25,13 +36,25 @@
         "id": "cookie-google-maps",
         "description": "Ermöglicht die Nutzung von Google Maps™-Karten.",
         "labelText": "Google Maps™",
-        "checked": false
+        "checked": false,
+        "linkDataPrivacy": {
+          "label": "Details for this cookie:",
+          "link": "https://policies.google.com/privacy?hl=en-US",
+          "target": "_blank",
+          "linkText": "Open data privacy from Google"
+        }
       },
       {
         "id": "cookie-google-analytics",
         "description": "Dient zur anonymisierten Erfassung des Surfverhaltens zur Verbesserung der Websiteerfahrung.",
         "labelText": "Google Analytics™",
-        "checked": false
+        "checked": false,
+        "linkDataPrivacy": {
+          "label": "Details for this cookie:",
+          "link": "https://policies.google.com/privacy?hl=en-US",
+          "target": "_blank",
+          "linkText": "Open data privacy from Google"
+        }
       }
     ]
   }

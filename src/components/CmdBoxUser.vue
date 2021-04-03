@@ -42,20 +42,14 @@ export default {
 
     > div:first-child {
         padding: var(--default-padding);
-        background: var(--pure-white);
 
         > img, > div {
             display: table;
             margin: 0 auto;
-            border-radius: var(--full-circle);
             padding: calc(var(--default-padding) * 3);
-            background: var(--primary-color);
-            font-size: 6rem;
-            color: var(--pure-white);
         }
 
         h3 {
-            text-align: center;
             margin-top: var(--default-margin);
             margin-bottom: 0;
         }
@@ -65,13 +59,6 @@ export default {
         padding: var(--default-padding);
 
         p {
-            text-align: center;
-            font-weight: bold;
-
-            &.description {
-                font-weight: normal;
-            }
-
             &:last-child {
                 margin-bottom: 0;
             }
@@ -80,7 +67,6 @@ export default {
 
     footer {
         margin-top: auto;
-        border-top: var(--default-border);
 
         ul {
             display: flex;
@@ -95,22 +81,6 @@ export default {
                 a {
                     display: block;
                     padding: var(--default-padding);
-                    text-align: center;
-                    background: var(--pure-white);
-                    border-left: var(--primary-border);
-                }
-
-                &:hover, &:active, &:focus {
-                    a {
-                        background: var(--primary-color);
-                        color: var(--pure-white);
-                    }
-                }
-
-                &:first-child {
-                    a {
-                        border: 0;
-                    }
                 }
             }
         }

@@ -9,7 +9,7 @@
           <span>{{ optionName }}</span>
           <span :class="iconClass"></span>
         </a>
-        <ul v-if="type === 'filterList' && showOptions">
+        <ul v-if="type === 'filterList' && showOptions" class="filter-list">
           <li v-for="(option, index) in selectData" :key="index">
             <label :for="'option-' + (index + 1)">
               <input type="checkbox" :value="option.optionValue" @change="optionSelect" :checked="value.includes(`${option.optionValue}`)" :id="'option-' + (index + 1)" />
@@ -127,7 +127,6 @@ export default {
 .select {
   margin: 0;
   display: block;
-  background: var(--pure-white); /* background(-gradient) for text-input-elements (w3c) */
   box-shadow: none;
   border-radius: var(--border-radius);
   min-width: 0;
@@ -135,21 +134,9 @@ export default {
   > li {
     &:first-child {
       > a {
-        border: var(--default-border);
 
         [class*='icon-'] {
-          font-size: 1rem;
           margin-left: auto;
-        }
-      }
-    }
-  }
-
-  &.open {
-    > li {
-      &:first-child {
-        > a {
-          border-color: var(--primary-color);
         }
       }
     }
@@ -162,26 +149,9 @@ export default {
     a, a:visited {
       display: flex;
       align-items: center;
-      border-bottom: var(--default-border);
-      color: var(--text-color);
       padding: .7rem;
       padding-top: .8rem;
-      text-decoration: none;
       outline: none;
-
-      span {
-        &:first-child, &:nth-child(2) {
-          border: 0;
-        }
-      }
-
-      &:hover, &:active, &:focus {
-        background: var(--primary-color);
-
-        span {
-          color: var(--pure-white);
-        }
-      }
     }
 
     ul {
@@ -190,8 +160,6 @@ export default {
       z-index: 10;
       width: 100%;
       margin-left: 0;
-      background: var(--pure-white);
-      border: var(--primary-border);
       border-top: 0;
       border-bottom-right-radius: var(--border-radius);
       border-bottom-left-radius: var(--border-radius);
@@ -203,48 +171,10 @@ export default {
           }
         }
       }
-    }
-  }
 
-  &.error {
-    background: var(--error-background);
-
-    > li > a {
-      border-color: var(--error-color);
-
-      > span, span[class*="icon-"] {
-        color: var(--error-color);
-      }
-
-      &:hover, &:active, &:focus {
-        border-color: var(--error-color);
-        background: var(--error-background);
-
-        span {
-          color: var(--error-color);
-        }
-      }
-    }
-  }
-
-  @mixin disabled-styles {
-    color: var(--disabled-color);
-    border-color: var(--disabled-color);
-    background: var(--disabled-background-color);
-  }
-
-  &.disabled {
-    li {
-      a {
-        @include disabled-styles;
-
-        &:hover, &:active, &:focus {
-          cursor: not-allowed;
-          @include disabled-styles;
-
-          span {
-            color: var(--disabled-color);
-          }
+      &.filter-list {
+        li {
+          padding: calc(var(--default-padding) / 2);
         }
       }
     }

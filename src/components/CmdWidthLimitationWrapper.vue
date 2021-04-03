@@ -43,7 +43,7 @@ export default {
                 return "grid-container-create-columns"
             }
             if (this.innerComponent === "footer") {
-                return "flex-container-with-gap"
+                return "flex-container"
             }
             return ""
         },
@@ -86,6 +86,10 @@ export default {
             padding-top: calc(var(--default-padding) * 2);
             padding-bottom: calc(var(--default-padding) * 2);
 
+            #inner-header-wrapper {
+
+            }
+
             nav {
                 padding: 0;
             }
@@ -102,12 +106,82 @@ export default {
                 grid-column: span var(--grid-small-span);
             }
         }
+
+        &.top-header-navigation {
+            header {
+                padding-top: 0;
+            }
+        }
     }
 
     &#site-footer {
         padding: var(--grid-gap) 0;
         border-top: var(--default-border);
-        background: #f0f0f0;
+
+        &.sticky {
+            top: auto;
+            bottom: 0;
+        }
+
+        footer {
+            display: grid;
+
+            [class*="cmd-"] {
+                grid-column: span var(--grid-small-span);
+
+                &.cmd-switch-language {
+                    grid-column: span var(--grid-columns);
+                }
+            }
+        }
+    }
+}
+/* end cmd-width-limitation-wrapper --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin cmd-width-limitation-wrapper --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.cmd-width-limitation-wrapper {
+    > * {
+        margin: 0 auto;
+        padding: 1rem;
+    }
+
+    &.sticky {
+        position: sticky;
+        left: 0;
+        right: 0;
+        top: 0;
+    }
+
+    &#site-header {
+        z-index: 100;
+
+        header {
+            display: grid;
+            padding-top: calc(var(--default-padding) * 2);
+            padding-bottom: calc(var(--default-padding) * 2);
+
+            nav {
+                padding: 0;
+            }
+
+            #navigation-wrapper {
+                align-self: center;
+            }
+
+            .cmd-logo {
+                grid-column: span var(--grid-small-span);
+            }
+        }
+
+        &.top-header-navigation {
+            header {
+                padding-top: 0;
+            }
+        }
+    }
+
+    &#site-footer {
+        padding: var(--grid-gap) 0;
 
         &.sticky {
             top: auto;

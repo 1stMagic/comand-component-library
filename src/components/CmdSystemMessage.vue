@@ -3,6 +3,7 @@
     <div
       class="system-message"
       :class="[{ 'full-width': fullWidth }, messageStatus]"
+      role="alert"
       v-if="showSystemMessage"
     >
       <a

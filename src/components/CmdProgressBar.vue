@@ -36,7 +36,6 @@ export default {
 
      & > span {
          position: absolute;
-         color: var(--medium-gray);
          left: 50%;
          transform: translateX(-50%);
          z-index: 1;

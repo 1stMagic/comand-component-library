@@ -31,29 +31,17 @@ export default {
 /* begin cmd-image-gallery --------------------------------------------------------------------------------------------------------------------------------------------------- */
 .cmd-image-gallery {
     > a {
-        text-align:center;
         align-self: center;
         justify-self: center; /* justify horizontally center */
         grid-column: span var(--grid-small-span);
 
         img {
             border-radius: var(--border-radius);
-            border: var(--default-border);
             max-height: 30rem;
         }
 
         figcaption {
             padding: calc(var(--default-padding) / 2);
-        }
-
-        &:hover, &:active, &:focus {
-            img {
-                border: var(--primary-border);
-            }
-
-            figcaption {
-                text-decoration: none;
-            }
         }
 
         & + .pager {

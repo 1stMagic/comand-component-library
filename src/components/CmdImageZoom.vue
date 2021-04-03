@@ -98,12 +98,6 @@
 .cmd-imagezoom {
     overflow: hidden;
 
-    .thumbnails-imagezoom {
-        img {
-            border: var(--default-border);
-        }
-    }
-
     .zoom-container {
         display: block !important;
         overflow: hidden;
@@ -118,8 +112,6 @@
     .zoom-overlay {
         position: absolute;
         display: none;
-        background: var(--primary-color);
-        opacity: var(--reduced-opacity);
         pointer-events: none;
     }
 }

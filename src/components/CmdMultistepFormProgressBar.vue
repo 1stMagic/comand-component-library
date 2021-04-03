@@ -47,6 +47,7 @@ export default {
   justify-content: space-around;
 
   li {
+    display: flex;
     flex: 1;
     list-style-type: none;
     margin: 0;
@@ -70,18 +71,11 @@ export default {
             display: flex;
             justify-content: center;
             z-index: 1;
-
-            &::before {
-              font-size: 1rem;
-            }
           }
         }
       }
 
       .number {
-         border-radius: var(--full-circle);
-         border: var(--default-border);
-         color: var(--default-background-color-reduced-opacity);
          margin-right: calc(var(--default-margin) / 2);
          line-height: 100%;
          width: 2rem;
@@ -126,103 +120,6 @@ export default {
       &.active {
         & ~ li {
           border-left: 0;
-        }
-      }
-    }
-  }
-}
-
-.cmd-multistep-form-progress-bar {
-  border: var(--default-border);
-
-  li {
-    display: flex;
-
-    &:not(:first-child) {
-      border-left: .2rem solid var(--border-color);
-    }
-
-    a {
-      background: var(--primary-color-reduced-opacity);
-
-      span, span[class*="icon"] {
-        color: var(--default-background-color-reduced-opacity);
-
-        & + span[class*="icon"] {
-          &:last-child {
-            border: var(--default-border);
-            background: var(--primary-color);
-            border-radius: var(--full-circle);
-          }
-        }
-      }
-
-      &:hover, &:active, &:focus {
-        span, span[class*="icon"] {
-          color: var(--pure-white);
-        }
-      }
-    }
-
-    &.active {
-      a {
-        font-weight: bold;
-        background: var(--primary-color);
-
-        span, span[class*='icon'] {
-          color: var(--pure-white);
-        }
-      }
-
-      .number {
-          background: var(--pure-white);
-          border-color: var(--pure-white);
-          color: var(--primary-color);
-      }
-
-      & ~ li {
-        background: var(--default-background-color);
-        border-left-color: var(--border-color);
-
-        a {
-          background: none;
-          color: var(--text-color);
-
-          span, span[class*='color'] {
-            color: var(--text-color);
-
-            & + span[class*="icon"] {
-              &:last-child {
-                border-color: var(--border-color);
-                background: var(--medium-gray);
-              }
-            }
-          }
-
-          &:hover, &:active, &:focus {
-            span, span[class*="icon"] {
-              color: var(--primary-color);
-            }
-          }
-        }
-      }
-
-      & + li {
-        border-left-color: var(--border-color);
-      }
-    }
-  }
-
-  @media only screen and (max-width: $small-max-width) {
-    li {
-
-      &:not(:last-child) {
-        border-bottom: .2rem solid var(--border-color);
-      }
-
-      &.active {
-        & ~ li {
-          border-bottom-color: var(--border-color);
         }
       }
     }

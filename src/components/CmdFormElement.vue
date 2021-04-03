@@ -1,10 +1,10 @@
 <template>
-  <label v-if="(element === 'input' || element === 'select' || element === 'textarea') && $attrs.type !== 'search'"
+  <label v-if="(element === 'input' || element === 'select' || element === 'textarea')"
          :for="id"
          :class="[status, {'inline' : displayinline, 'checked': isChecked}]">
     <!-- begin label (+ required) -->
-    <span v-if="labelText && $attrs.type !== 'checkbox' && $attrs.type !== 'radio'">
-      {{ labelText }}<sup v-if="$attrs.required">*</sup>
+    <span v-if="labelText && $attrs.type !== 'checkbox' && $attrs.type !== 'radio'" :class="{'hidden': hideLabelText}">
+      <span>{{ labelText }}</span><sup v-if="$attrs.required && !hideLabel">*</sup>
     </span>
     <!-- end label (+ required) -->
 
@@ -13,15 +13,26 @@
     <!-- end icon -->
 
     <!-- begin inputfield -->
-    <template v-if="element === 'input' && $attrs.type !== 'checkbox' && $attrs.type !== 'radio'">
+    <template v-if="element === 'input' && $attrs.type !== 'checkbox' && $attrs.type !== 'radio' && $attrs.type !== 'search'">
       <input v-bind="$attrs"
              :id="id" :class="[htmlClass, status]"
              @focus="tooltip = true"
              @blur="tooltip = false"
              @input="onInput"
+             @mouseover="datalistFocus"
+             @change="$emit('change', $event)"
+             :autocomplete="datalist ? 'off' : 'on'"
+             :list="datalist ? datalist.id : false"
              :disabled="status === 'disabled'"
       />
     </template>
+    <!-- begin datalist -->
+    <template v-if="datalist && datalist.options.length">
+      <datalist :id="datalist.id">
+        <option v-for="(option, index) in datalist.options" :key="index" :value="option"></option>
+      </datalist>
+    </template>
+    <!-- end datalist -->
     <!-- end inputfield -->
 
     <!-- begin checkbox and radiobutton -->
@@ -55,6 +66,8 @@
               v-bind="$attrs"
               :class="[htmlClass, status]"
               :id="id"
+              :disabled="status === 'disabled'"
+              :value="value"
               @input="onInput"
               @focus="tooltip = true"
               @blur="tooltip = false">
@@ -66,15 +79,15 @@
     <!-- end tooltip -->
 
     <!-- begin searchfield -->
-    <span v-else-if="element === 'input' && $attrs.type === 'search'" class="input-wrapper">
+    <span v-else-if="element === 'input' && $attrs.type === 'search'" class="flex-container no-gap">
       <input v-bind="$attrs" :class="status" :id="id" @input="onInput" :value="value" />
-      <button type="button" class="icon-search"></button>
+      <button class="no-flex" type="button"><span class="icon-search"></span></button>
     </span>
     <!-- begin searchfield -->
   </label>
 
   <!-- begin button -->
-  <button v-else v-bind="$attrs" @click="$emit('click', $event)">
+  <button v-else class="button" v-bind="$attrs" @click="$emit('click', $event)" :disabled="status === 'disabled'">
     <span v-if="buttonIcon.iconPosition === 'before'" :class="buttonIcon.iconClass"></span>
     <span v-if="buttonIcon.iconPosition">{{ buttonText }}</span>
     <template v-else>
@@ -101,7 +114,7 @@ export default {
   },
   props: {
     value: {
-      type: [String, Boolean, Array],
+      type: [String, Boolean, Array, Number],
       required: false,
       default: ""
     },
@@ -115,9 +128,17 @@ export default {
       },
       required: true
     },
+    hideLabel: {
+      type: Boolean,
+      default: false
+    },
     labelText: {
       type: String,
       required: false
+    },
+    hideLabelText: {
+      type: Boolean,
+      default: false
     },
     inputValue: {
       /* allow checkbox/radiobuttons to get value from outside */
@@ -131,6 +152,10 @@ export default {
     },
     id: {
       type: String,
+      required: false
+    },
+    datalist: {
+      type: Object,
       required: false
     },
     selectOptions: {
@@ -172,6 +197,9 @@ export default {
       if (typeof this.value === "string") {
         return this.value === this.inputValue
       }
+      if (typeof this.value === "number") {
+        return this.value === this.inputValue
+      }
       if (this.value !== undefined) {
         return this.value.includes(this.inputValue)
       }
@@ -194,29 +222,15 @@ export default {
         this.$emit("input", values)
       }
     },
+    datalistFocus() {
+      /* corrects focus-bug for datalist in firefox */
+      if(this.datalist) {
+        this.$el.focus()
+      }
+    },
     onInput(e) {
       this.$emit('input', e.target.value)
     }
   }
 }
 </script>
-
-<style lang="scss">
-/* begin form-element --------------------------------------------------------------------------------------------------------------------------------------------------- */
-input, select, .select, textarea {
-  &.error + .tooltip {
-    border-color: var(--error-color);
-    color: var(--error-color);
-    background: #fff3f3;
-  }
-}
-
-label {
-  &.checked {
-    span {
-      color: var(--primary-color);
-    }
-  }
-}
-/* end form-element --------------------------------------------------------------------------------------------------------------------------------------------------- */
-</style>

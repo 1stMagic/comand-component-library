@@ -84,18 +84,20 @@ export default {
 <style lang="scss">
 /* begin cmd-accordion --------------------------------------------------------------------------------------------------------------------------------------------------- */
 .cmd-accordion {
+    margin-bottom: var(--default-margin);
+
     .accordion-headline {
-        border: var(--default-border);
         display: flex;
         align-items: center;
         border-radius: var(--border-radius);
-        background: var(--pure-white);
-        margin: var(--default-padding) 0 0 0;
-        padding: calc(var(--default-margin) / 2) var(--default-margin);
-        background: var(--default-background-color);
+        margin: var(--default-margin) 0 0 0;
+        padding: calc(var(--default-padding) / 2) var(--default-padding);
+
+        label, .label {
+            margin-top: 0;
+        }
 
         & + .accordion-content {
-            border: var(--default-border);
             border-top: 0;
         }
 
@@ -105,28 +107,15 @@ export default {
 
         > span[class*="icon-"] {
             margin-left: auto;
-            font-size: 1rem;
         }
 
         &:hover, &:active, &:focus, &.active {
-            background: var(--primary-color);
-            color: var(--pure-white);
-            border-color: var(--primary-color);
             cursor: pointer;
-
-            & + .accordion-content {
-                border-color: var(--primary-color);
-            }
-
-            span {
-                color: var(--pure-white);
-            }
         }
     }
 
     .accordion-content {
         padding: var(--default-padding);
-        background: var(--pure-white);
         border-bottom-left-radius: var(--border-radius);
         border-bottom-right-radius: var(--border-radius);
 

@@ -1,4 +1,12 @@
-# comand-ui-kit-2
+# comand-component-library (fka: comand-ui-kit)
+
+## Project description
+```
+Library with UI vue-components for oyur web site projects.
+The library is based on comand-frontend-framework which is a required dependency.
+The components use the same html/css-structure and variables.
+```
+
 
 ## Project setup
 ```

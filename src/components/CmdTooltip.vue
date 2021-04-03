@@ -19,12 +19,7 @@ export default {
 .cmd-tooltip {
     position: absolute;
     padding: .2rem calc(var(--default-padding) / 2);
-    background: var(--pure-white);
-    border: var(--primary-border);
-    font-weight: bold;
     top: .3rem;
-    font-size: 1.2rem;
-    border-bottom: 0;
     line-height: 100%;
     right: 0;
 }

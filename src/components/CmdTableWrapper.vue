@@ -57,15 +57,6 @@ export default {
 
     table {
         table-layout: fixed;
-
-        th {
-            a[class*='icon-'] {
-                &, &:hover, &:active, &:focus {
-                    font-size: 1rem;
-                    color: var(--pure-white);
-                }
-            }
-        }
     }
 }
 /* end cmd-table-wrapper --------------------------------------------------------------------------------------------------------------------------------------------------- */

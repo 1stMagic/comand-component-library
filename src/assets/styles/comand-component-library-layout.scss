@@ -1,0 +1,1129 @@
+@import 'variables';
+/* begin cmd-accordion --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.cmd-accordion {
+  .accordion-headline {
+    border: var(--default-border);
+    background: var(--default-background-color);
+
+    & + .accordion-content {
+      border: var(--default-border);
+    }
+
+    > span[class*="icon-"] {
+      font-size: 1rem;
+    }
+
+    &:hover, &:active, &:focus, &.active {
+      background: var(--primary-color);
+      border-color: var(--primary-color);
+
+      & + .accordion-content {
+        border-color: var(--primary-color);
+      }
+
+      span {
+        color: var(--pure-white);
+      }
+    }
+  }
+
+  .accordion-content {
+    background: var(--pure-white);
+  }
+}
+/* end cmd-accordion --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin cmd-back-to-top-button --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.cmd-back-to-top-button {
+  border: var(--default-border);
+  background: var(--pure-white);
+  border-radius: var(--full-circle);
+
+  &:hover, &:active, &:focus {
+    border-color: var(--primary-color);
+    transition: var(--default-transition);
+  }
+
+  .back-to-top-enter-active, .back-to-top-leave-active,
+  .back-to-top-enter, .back-to-top-leave-to {
+    transition: var(--default-transition);
+    opacity: 1;
+  }
+
+  .back-to-top-enter, .back-to-top-leave-to {
+    opacity: 0;
+  }
+}
+/* cmd-back-to-top-button --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin .box.content --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.box.content {
+  > div:first-child {
+    background: var(--primary-color);
+
+    > * {
+      color: var(--pure-white);
+    }
+  }
+
+  .box-body {
+    .navigation {
+      background: var(--pure-white);
+
+      li {
+        a {
+          text-decoration: none;
+          background: var(--pure-white);
+          border-bottom: var(--default-border);
+
+          &:hover, &:active &:focus {
+            background: var(--primary-color);
+            color: var(--pure-white);
+          }
+        }
+
+
+        &:last-child {
+          a {
+            border: 0;
+          }
+        }
+      }
+    }
+  }
+
+  footer {
+    border-top: var(--default-border);
+  }
+}
+/* end .box.content --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin .box.product --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.box.product {
+  &:hover, &:active, &:focus {
+    border-color: var(--hyperlink-color-highlighted);
+  }
+
+  [class*="ribbon"] {
+    span {
+      background: var(--error-color);
+      font-weight: bold;
+      color: var(--pure-white);
+      text-transform: uppercase;
+      text-align: center;
+      box-shadow: var(--box-shadow);
+    }
+  }
+
+  .ribbon-discount {
+    span {
+      background: green;
+    }
+  }
+
+  .box-body {
+    > * {
+      text-align: center;
+    }
+
+    .price {
+      font-size: 2rem;
+      font-weight: bold;
+    }
+  }
+
+  footer {
+    border-top: var(--default-border);
+
+    ul {
+      li {
+        a {
+          text-align: center;
+          background: var(--pure-white);
+          border-left: var(--primary-border);
+        }
+
+        &:hover, &:active, &:focus {
+          a {
+            background: var(--primary-color);
+            color: var(--pure-white);
+          }
+        }
+
+        &:first-child {
+          a {
+            border: 0;
+          }
+        }
+      }
+    }
+  }
+}
+/* end .box.product --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin .box.user --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.box.user {
+  > div:first-child {
+    background: var(--pure-white);
+
+    > img, > div {
+      border-radius: var(--full-circle);
+      background: var(--primary-color);
+      font-size: 6rem;
+      color: var(--pure-white);
+    }
+
+    h3 {
+      text-align: center;
+    }
+  }
+
+  .box-body {
+    p {
+      text-align: center;
+      font-weight: bold;
+
+      &.description {
+        font-weight: normal;
+      }
+    }
+  }
+
+  footer {
+    border-top: var(--default-border);
+
+    ul {
+      li {
+        a {
+          text-align: center;
+          background: var(--pure-white);
+          border-left: var(--default-border);
+        }
+
+        &:hover, &:active, &:focus {
+          a {
+            background: var(--primary-color);
+            color: var(--pure-white);
+          }
+        }
+
+        &:first-child {
+          a {
+            border: 0;
+          }
+        }
+      }
+    }
+  }
+}
+/* end .box.user --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin cmd-breadcrumbs --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.cmd-breadcrumbs {
+  a {
+    text-decoration: none;
+
+    &:hover, &:active, &:focus {
+      text-decoration: underline;
+    }
+  }
+}
+/* end cmd-breadcrumbs --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin cmd-copyright-information --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.cmd-copyright-information {
+  background: var(--text-color);
+  border-top: var(--border-width) var(--border-style) var(--pure-white);
+  text-align: center;
+
+  a {
+    text-decoration: none;
+    color: var(--pure-white);
+
+    &:hover, &:active, &:focus {
+      text-decoration: underline;
+      color: var(--pure-white);
+    }
+  }
+}
+/* end cmd-copyright-information --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin cmd-fakeselect --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.select {
+  background: var(--pure-white); /* background(-gradient) for text-input-elements (w3c) */
+  box-shadow: none;
+  border-radius: var(--border-radius);
+
+  > li {
+    &:first-child {
+      > a {
+        border: var(--default-border);
+
+        [class*='icon-'] {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+
+  &.open {
+    > li {
+      &:first-child {
+        > a {
+          border-color: var(--primary-color);
+        }
+      }
+    }
+  }
+
+  li {
+    margin-left: 0;
+
+    a, a:visited {
+      border-bottom: var(--default-border);
+      color: var(--text-color);
+      text-decoration: none;
+
+      span {
+        &:first-child, &:nth-child(2) {
+          border: 0;
+        }
+      }
+
+      &:hover, &:active, &:focus {
+        background: var(--primary-color);
+
+        span {
+          color: var(--pure-white);
+        }
+      }
+    }
+
+    ul {
+      background: var(--pure-white);
+      border: var(--primary-border);
+      border-top: 0;
+    }
+  }
+
+  &.error {
+    background: var(--error-background);
+
+    > li > a {
+      border-color: var(--error-color);
+
+      > span, span[class*="icon-"] {
+        color: var(--error-color);
+      }
+
+      &:hover, &:active, &:focus {
+        border-color: var(--error-color);
+        background: var(--error-background);
+
+        span {
+          color: var(--error-color);
+        }
+      }
+    }
+  }
+
+  @mixin disabled-styles {
+    color: var(--disabled-color);
+    border-color: var(--disabled-color);
+    background: var(--disabled-background-color);
+  }
+
+  &.disabled {
+    li {
+      a {
+        @include disabled-styles;
+
+        &:hover, &:active, &:focus {
+          cursor: not-allowed;
+          @include disabled-styles;
+
+          span {
+            color: var(--disabled-color);
+          }
+        }
+      }
+    }
+  }
+}
+/* end cmd-fakeselect --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin cmd-fancybox --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.popup-wrapper {
+  background: rgba(0, 0, 0, .8);
+
+  .popup {
+    width: 80%;
+    max-height: 80%;
+    min-height: 30%;
+    background: var(--pure-white);
+
+    &.image {
+      figcaption {
+        text-align: center;
+      }
+    }
+  }
+
+  .cmd-gallery-scroller {
+    background: var(--pure-black);
+
+    li:not(.active)  {
+      img {
+        opacity: var(--reduced-opacity);
+      }
+
+      a {
+        &:hover, &:active, &:focus {
+          img {
+            opacity: 1;
+          }
+        }
+      }
+
+      figcaption {
+        color: var(--pure-white);
+        text-decoration: none;
+      }
+    }
+  }
+}
+/* end cmd-fancybox --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin form-element --------------------------------------------------------------------------------------------------------------------------------------------------- */
+input, select, .select, textarea {
+  &.error + .tooltip {
+    border-color: var(--error-color);
+    color: var(--error-color);
+    background: #fff3f3;
+  }
+}
+
+label {
+  &.checked {
+    span {
+      color: var(--primary-color);
+    }
+  }
+}
+/* end form-element --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin cmd-form-filters --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.cmd-form-filters {
+  li {
+    border: .1rem dotted var(--text-color);
+    background: var(--pure-white);
+    font-size: 1rem;
+  }
+
+  [class*="icon-"] {
+    font-size: 1rem;
+  }
+}
+/* end cmd-form-filters --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin cmd-google-maps --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.cmd-google-maps {
+  border: var(--default-border);
+}
+/* end cmd-google-maps --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin cmd-image-gallery --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.cmd-image-gallery {
+  > a {
+    text-align:center;
+
+    img {
+      border: var(--default-border);
+    }
+
+    &:hover, &:active, &:focus {
+      img {
+        border: var(--primary-border);
+      }
+
+      figcaption {
+        text-decoration: none;
+      }
+    }
+  }
+}
+/* end cmd-image-gallery --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin cmd-imagezoom --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.cmd-imagezoom {
+  .thumbnails-imagezoom {
+    img {
+      border: var(--default-border);
+    }
+  }
+
+  .zoom-overlay {
+    background: var(--primary-color);
+    opacity: var(--reduced-opacity);
+  }
+}
+/* end cmd-imagezoom --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin cmd-main-navigation --------------------------------------------------------------------------------------------------------------------------------------------------- */
+#navigation-wrapper {
+  background: var(--default-background-color);
+
+  nav {
+    > ul {
+      border: var(--default-border);
+
+      > li {
+        border-right: var(--default-border);
+
+        .close-nav {
+          a {
+            text-align: center;
+
+            span:not([class*="icon-"]) {
+              font-weight: bold;
+            }
+
+            span[class*="icon-"] {
+              font-size: 1rem;
+            }
+          }
+        }
+
+        > a {
+          text-align: center;
+        }
+      }
+
+      // all list-items
+      li {
+        &:hover, &:active, &:focus, &.active {
+          > a {
+            background: var(--primary-color);
+
+            span, span[class*="icon-"] {
+              color: var(--pure-white);
+            }
+          }
+        }
+
+        span[class*='icon-'] {
+          font-size: 1rem;
+        }
+      }
+
+      ul {
+        border: var(--default-border);
+        background: var(--default-background-color);
+
+        li {
+          border-bottom: var(--default-border);
+
+          &:last-child {
+            border-bottom: 0;
+          }
+        }
+      }
+    }
+  }
+
+  header nav > ul, header nav > ul > li {
+    border: 0;
+  }
+}
+
+@media only screen and (max-width: $medium-max-width) {
+  #navigation-wrapper {
+    background: none;
+
+    /* begin offcanvas-navigation */
+    &:not(.persist-on-mobile) {
+      &.open {
+        nav {
+          transition: all .5s linear;
+        }
+      }
+
+      nav {
+        background: var(--default-background-color);
+        box-shadow: var(--box-shadow);
+        transition: all .5s linear;
+
+        ul {
+          li {
+            border-bottom: var(--default-border);
+
+            &.close-nav {
+              border-bottom: var(--default-border);
+
+              a {
+                align-items: center;
+
+                span {
+                  font-weight: bold;
+                }
+              }
+            }
+
+            > a {
+              text-align: left;
+            }
+
+            &.open {
+              > ul {
+                transition: all .5s linear;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+/* end cmd-main-navigation --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin cmd-multistep-form-progress-bar --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.cmd-multistep-form-progress-bar {
+  border: var(--default-border);
+
+  li {
+    &:not(:first-child) {
+      border-left: .2rem solid var(--border-color);
+    }
+
+    a {
+      background: var(--primary-color-reduced-opacity);
+
+      span, span[class*="icon"] {
+        color: var(--default-background-color-reduced-opacity);
+
+        & + span[class*="icon"] {
+          &:last-child {
+            border: var(--default-border);
+            border-radius: var(--full-circle);
+
+            &::before {
+              font-size: 1rem;
+            }
+          }
+        }
+      }
+
+      &:hover, &:active, &:focus {
+        span, span[class*="icon"] {
+          color: var(--pure-white);
+        }
+      }
+
+      .number {
+        border-radius: var(--full-circle);
+        border: var(--default-border);
+        color: var(--default-background-color-reduced-opacity);
+      }
+    }
+
+    &.active {
+      a {
+        font-weight: bold;
+        background: var(--primary-color);
+
+        span, span[class*='icon'] {
+          color: var(--pure-white);
+        }
+      }
+
+      .number {
+        background: var(--pure-white);
+        border-color: var(--pure-white);
+        color: var(--primary-color);
+      }
+
+      & ~ li {
+        background: var(--default-background-color);
+        border-left-color: var(--border-color);
+
+        a {
+          background: none;
+          color: var(--text-color);
+
+          span, span[class*='color'] {
+            color: var(--text-color);
+
+            & + span[class*="icon"] {
+              &:last-child {
+                border-color: var(--border-color);
+                background: var(--medium-gray);
+              }
+            }
+          }
+
+          &:hover, &:active, &:focus {
+            span, span[class*="icon"] {
+              color: var(--primary-color);
+            }
+          }
+        }
+      }
+
+      & + li {
+        border-left-color: var(--border-color);
+      }
+    }
+  }
+
+  @media only screen and (max-width: $small-max-width) {
+    li {
+
+      &:not(:last-child) {
+        border-bottom: .2rem solid var(--border-color);
+      }
+
+      &.active {
+        & ~ li {
+          border-bottom-color: var(--border-color);
+        }
+      }
+    }
+  }
+}
+/* end cmd-multistep-form-progress-bar --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin cmd-opening-hours --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.cmd-opening-hours {
+  > a, > span {
+    color: var(--pure-white);
+    background: #0b0;
+
+    &.closed {
+      background: #b00;
+    }
+  }
+
+  > a {
+    &:hover, &:active, &:focus {
+      text-decoration: underline;
+      color: var(--pure-white);
+    }
+  }
+}
+/* end cmd-opening-hours --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin cmd-pager --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.cmd-pager {
+  > p {
+    text-align: center;
+  }
+
+  .pager {
+    > a {
+      > [class*="icon-"] {
+        font-size: 1rem;
+      }
+    }
+
+    a.disabled {
+      opacity: .7;
+    }
+  }
+}
+/* end cmd-pager --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin cmd-share-buttons --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.cmd-share-buttons {
+  [id^="share-link"] {
+    > span {
+      color: var(--pure-white);
+    }
+  }
+
+  #share-link-facebook {
+    background: #3c5a99;
+    border-color: #3c5a99;
+
+    &:hover, &:active, &:focus {
+      background: #fff;
+
+      > span {
+        color: #3c5a99;
+      }
+    }
+  }
+
+  #share-link-twitter {
+    background: #6bacde;
+    border-color: #6bacde;
+
+    &:hover, &:active, &:focus {
+      background: #fff;
+
+      > span {
+        color: #6bacde;
+      }
+    }
+  }
+
+  #share-link-xing {
+    background: #007575;
+    border-color: #007575;
+
+    &:hover, &:active, &:focus {
+      background: #fff;
+
+      > span {
+        color: #007575;
+      }
+    }
+  }
+
+  #share-link-linkedin {
+    background: #0077b5;
+    border-color: #0077b5;
+
+    &:hover, &:active, &:focus {
+      background: #fff;
+
+      > span {
+        color: #0077b5;
+      }
+    }
+  }
+}
+/* end cmd-share-buttons --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin cmd-slide-button --------------------------------------------------------------------------------------------------------------------------------------------------- */
+[class*="slide-button-"] {
+  font-size: 2rem;
+
+  &:hover, &:active, &:focus {
+    background: var(--default-background-color-reduced-opacity);
+    transition: var(--default-transition);
+  }
+}
+/* end cmd-slide-button --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin cmd-slideshow --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.cmd-slideshow {
+  .fade-slideshow-enter-active, .fade-slideshow-leave-active {
+    transition: all 2s;
+  }
+
+  figcaption {
+    font-size: 3rem;
+    color: var(--pure-white);
+    background: var(--primary-color);
+    text-align: center;
+  }
+
+  .inner-slideshow-wrapper {
+    > ol {
+      li {
+        border: var(--default-border-reduced-opacity);
+        border-radius: var(--full-circle);
+
+        &:hover , &:active, &:focus, &.active {
+          border-color: var(--pure-white);
+
+          a {
+            background: var(--pure-white);
+            transition: var(--default-transition);
+          }
+        }
+
+        a {
+          border-radius: var(--full-circle);
+        }
+      }
+
+      &.bottom {
+        li {
+          border-color: var(--primary-color);
+
+          &:hover , &:active, &:focus, &.active {
+            border-color: var(--primary-color);
+            background: var(--pure-white);
+
+            a {
+              background: var(--primary-color);
+            }
+          }
+        }
+      }
+    }
+
+    > span {
+      background: var(--pure-white-reduced-opacity);
+    }
+  }
+
+  @media only screen and (max-width: $medium-max-width) {
+    figcaption {
+      font-size: 2rem;
+    }
+  }
+}
+/* end cmd-slideshow --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin cmd-switch-button --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.toggle-switch {
+  &.switch-label {
+    &.colored {
+      &.on {
+        border-color: var(--success-color);
+
+        span{
+          &.label {
+            color: var(--success-color);
+
+            &::before {
+              background-color: var(--success-color);
+            }
+          }
+        }
+      }
+
+      &.off {
+        border-color: var(--error-color);
+        color: var(--error-color);
+
+        span {
+          &.label {
+            &::before {
+              background-color: var(--pure-white);
+              border: var(--error-border);
+            }
+          }
+        }
+
+        > input[type="radio"] {
+          & ~ span::before {
+            background: none;
+            border: var(--error-border);
+          }
+        }
+      }
+    }
+
+    &.error {
+      border-color: var(--error-color);
+
+      input:not(:checked) {
+        & + .label::before {
+          border-color: var(--error-color);
+          background: var(--error-color);
+        }
+      }
+    }
+  }
+}
+/* end cmd-switch-button --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin cmd-switch-language --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.cmd-switch-language {
+  ul {
+    a {
+      &:hover, &:active, &:focus, &.active {
+        box-shadow: var(--box-shadow);
+      }
+    }
+  }
+}
+/* end cmd-switch-language --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin cmd-system-message --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.system-message {
+  > a[class*="icon-"]:not(.button) {
+    font-size: 1rem;
+    text-decoration: none;
+    color: var(--pure-white) !important;
+    text-shadow: var(--text-shadow);
+  }
+}
+/* end cmd-system-message --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin cmd-table-wrapper --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.cmd-table-wrapper {
+  table {
+    th {
+      a[class*='icon-'] {
+        &, &:hover, &:active, &:focus {
+          font-size: 1rem;
+          color: var(--pure-white);
+        }
+      }
+    }
+  }
+}
+/* end cmd-table-wrapper --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin cmd-tabs --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.cmd-tabs {
+  > ul {
+    > li {
+      background: var(--pure-white);
+      border: var(--default-border);
+
+      &.active {
+        border-color: var(--primary-color);
+
+        a {
+          color: var(--primary-color);
+        }
+      }
+
+      a  {
+        color: var(--text-color);
+
+        &:hover, &:active, &:focus {
+          color: var(--primary-color);
+        }
+      }
+    }
+  }
+
+  > div {
+    border: var(--primary-border);
+    border-radius: var(--border-radius);
+    background: var(--pure-white);
+  }
+}
+/* end cmd-tabs --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin cmd-thumbnail-scroller --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.cmd-thumbnail-scroller {
+  border: var(--default-border);
+  background: var(--pure-white);
+
+  > ul {
+    overflow: hidden;
+
+    > li {
+      a {
+        text-align: center;
+
+        figcaption {
+          opacity: .7;
+        }
+      }
+
+      &.active {
+        a {
+          figcaption {
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+
+  &.cmd-gallery-scroller {
+    > ul {
+      > li {
+        a {
+          color: var(--pure-white);
+          text-decoration: none;
+        }
+      }
+    }
+  }
+
+  .slide-move {
+    transition: transform 1s ease-in-out;
+  }
+}
+/* end cmd-thumbnail-scroller --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin cmd-tooltip --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.cmd-tooltip {
+  background: var(--pure-white);
+  border: var(--primary-border);
+  font-weight: bold;
+  font-size: 1.2rem;
+  border-bottom: 0;
+}
+/* end cmd-tooltip --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin cmd-top-header-navigation --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.cmd-top-header-navigation {
+  > ul.flex-container {
+    li {
+      a {
+        text-decoration: none;
+
+        &:hover, &:focus, &:active {
+          span:not([class*="icon-"]) {
+            text-decoration: underline;
+          }
+        }
+
+        [class*="icon-"] {
+          font-size: 1.5rem;
+        }
+      }
+    }
+  }
+}
+/* end cmd-top-header-navigation --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin cmd-width-limitation-wrapper --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.cmd-width-limitation-wrapper {
+  > * {
+    max-width: 128rem;
+  }
+
+  &#site-header {
+    border-bottom: var(--default-border);
+    background: var(--pure-white);
+
+    header {
+      nav {
+        padding: 0;
+      }
+
+      #main-navigation, nav ul li, #navigation-wrapper {
+        background: none;
+      }
+    }
+  }
+
+  &#site-footer {
+    border-top: var(--default-border);
+    background: #f0f0f0;
+  }
+}
+/* end cmd-width-limitation-wrapper --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin styles browser-dark-mode --------------------------------------------------------------------------------------------------------------------------------------------------- */
+@media (prefers-color-scheme: dark) {
+  body,
+  .cmd-width-limitation-wrapper#site-header,
+  .cmd-width-limitation-wrapper#site-footer {
+    background:  var(--dark-mode-background-color);
+  }
+
+  legend {
+    background: var(--default-background-color);
+    border: var(--default-border);
+  }
+
+  #breadcrumbs,
+  .cmd-width-limitation-wrapper#site-header,
+  .cmd-width-limitation-wrapper#site-footer,
+  .cmd-top-header-navigation a,
+  #pager > p, main {
+    color: var(--pure-white);
+  }
+
+  fieldset, table, .box,
+  hr {
+    color: var(--text-color);
+  }
+
+  hr {
+    background-color: var(--pure-white);
+  }
+}
+/* end styles browser-dark-mode --------------------------------------------------------------------------------------------------------------------------------------------------- */

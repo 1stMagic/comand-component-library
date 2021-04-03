@@ -14,6 +14,9 @@ import '@/assets/styles/logos-iconfont.css'
 /* import css for comand-component-library-structure */
 import '@/assets/styles/comand-component-library-structure.scss'
 
+/* import css for comand-component-library-layout */
+import '@/assets/styles/comand-component-library-layout.scss'
+
 /* import css for your custom styles */
 import '@/assets/styles/template.css'
 

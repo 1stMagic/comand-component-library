@@ -34,14 +34,6 @@ export default {
         list-style-type: none;
         margin: 0;
 
-        a {
-            text-decoration: none;
-
-            &:hover, &:active, &:focus {
-                text-decoration: underline;
-            }
-        }
-
         > span {
             padding: 0 calc(var(--default-padding) / 2);
         }

@@ -1,7 +1,7 @@
 <template>
     <label class="multiple-switch" :class="htmlClass">
         <span v-if="labelText">{{ labelText }}</span>
-        <span class="input-wrapper">
+        <span class="flex-container no-gap no-flex">
             <label :for="multipleswitch.id" v-for="(multipleswitch, index) in multipleSwitches" :key="index">
                 <input :type="switchTypes"
                        :id="multipleswitch.id"

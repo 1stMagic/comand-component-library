@@ -1,8 +1,8 @@
 <template>
     <transition name="fade">
-        <div id="fancybox" class="popup-wrapper" v-if="showFancyBox">
+        <div id="fancybox" class="popup-wrapper" v-if="showFancyBox" role="dialog" aria-labelledby="fancybox">
             <div class="popup" :class="{'image' : fancyBoxImageUrl || fancyBoxGallery }">
-                <div class="button-wrapper" v-if="(fancyboxOptions.printButtons && (fancyboxOptions.printButtons.color || fancyboxOptions.printButtons.grayscale)) || fancyboxOptions.closeIcon">
+                <div class="button-wrapper no-flex" v-if="(fancyboxOptions.printButtons && (fancyboxOptions.printButtons.color || fancyboxOptions.printButtons.grayscale)) || fancyboxOptions.closeIcon">
                     <a href="#"
                        v-if="fancyboxOptions.printButtons && fancyboxOptions.printButtons.color"
                        :class="['button', fancyboxOptions.printButtons.color.iconClass]"
@@ -31,25 +31,25 @@
                     <div v-else-if="fancyBoxContent" class="content" v-html="fancyBoxContent"></div>
                     <div v-else-if="fancyBoxElements" class="content"></div>
                     <div v-else-if="fancyBoxGallery" class="content">
-                        <SlideButton @click.prevent="showPrevItem" :slideButtonType="slideButtons.previous" />
+                        <CmdSlideButton @click.prevent="showPrevItem" :slideButtonType="slideButtons.previous" />
                         <figure>
                             <img :src="fancyBoxGallery[index].srcImageLarge" :alt="fancyBoxGallery[index].alt" />
                             <figcaption>{{ fancyBoxGallery[index].figcaption }}</figcaption>
                         </figure>
-                        <SlideButton @click.prevent="showNextItem" :slideButtonType="slideButtons.next" />
+                        <CmdSlideButton @click.prevent="showNextItem" :slideButtonType="slideButtons.next" />
                     </div>
                     <div v-else class="content"><slot></slot></div>
                 </div>
             </div>
-            <ThumbnailScroller v-if="fancyBoxGallery" :thumbnailScrollerItems="[...fancyBoxGallery]" :allowOpenFancyBox="false" @click="showItem" :imgIndex="index" />
+            <CmdThumbnailScroller v-if="fancyBoxGallery" :thumbnailScrollerItems="[...fancyBoxGallery]" :allowOpenFancyBox="false" @click="showItem" :imgIndex="index" />
         </div>
     </transition>
 </template>
 
 <script>
 import Vue from 'vue'
-import ThumbnailScroller  from '@/components/CmdThumbnailScroller.vue'
-import SlideButton from "@/components/CmdSlideButton.vue"
+import CmdSlideButton from "@/components/CmdSlideButton.vue"
+import CmdThumbnailScroller  from '@/components/CmdThumbnailScroller.vue'
 
 const openFancyBox = (config) => {
     const node = document.createElement('div');
@@ -134,8 +134,8 @@ const FancyBox = Vue.extend({
         }
     },
     components: {
-      SlideButton,
-      ThumbnailScroller
+      CmdSlideButton,
+      CmdThumbnailScroller
     },
     data() {
         return {
@@ -152,6 +152,17 @@ const FancyBox = Vue.extend({
             this.$_FancyBox_escapeKeyHandler = e => (e.key === 'Escape' || e.key === 'Esc') && this.close()
             document.querySelector('body').addEventListener('keyup', this.$_FancyBox_escapeKeyHandler)
         }
+
+        /* -- begin avoid scrolling if fancybox is shown */
+        /* register new properties for vue-instance */
+        /* get current vertical scroll position */
+        this.$_FancyBox_verticalScrollPosition  = window.scrollY
+
+        this.$_FancyBox_scrollHandler = () => {
+            window.scrollTo(0, this.$_FancyBox_verticalScrollPosition);
+        }
+        /* -- end avoid scrolling if fancybox is shown */
+
         this.$watch(
             () => [
                 this.url,
@@ -230,6 +241,16 @@ const FancyBox = Vue.extend({
     watch: {
         show(value) {
             this.showFancyBox = value
+        },
+        showFancyBox() {
+            if(this.showFancyBox) {
+                // add listener to disable scroll
+                this.$_FancyBox_verticalScrollPosition  = window.scrollY
+                window.addEventListener('scroll', this.$_FancyBox_scrollHandler);
+            } else {
+                // Remove listener to re-enable scroll
+                window.removeEventListener('scroll', this.$_FancyBox_scrollHandler);
+            }
         }
     }
 })
@@ -250,7 +271,6 @@ export default FancyBox
 @import '../assets/styles/variables';
 /* begin cmd-fancybox --------------------------------------------------------------------------------------------------------------------------------------------------- */
 .popup-wrapper {
-    background: rgba(0, 0, 0, .8);
     position: fixed;
     width: 100vw;
     height: 100vh;
@@ -266,16 +286,12 @@ export default FancyBox
         flex-direction: column;
         padding: var(--default-padding);
         z-index: 200;
-        width: 80%;
-        max-width: 126rem;
-        max-height: 80%;
-        min-height: 30%;
+        max-width: 80%;
         overflow: hidden;
         align-self: center; /* center vertically */
         justify-self: center; /* center horizontally */
         border-radius: var(--border-radius);
         overflow-y: auto;
-        background: var(--pure-white);
 
         > .grayscale {
             filter: grayscale(1);
@@ -298,10 +314,6 @@ export default FancyBox
             margin-bottom: var(--default-margin);
             flex-direction: row;
 
-            .button {
-                margin-right: var(--default-margin);
-            }
-
             a:not(.button) {
                 margin-left: auto;
             }
@@ -310,7 +322,6 @@ export default FancyBox
         a.icon-print {
             background: linear-gradient(135deg, #009fe3 0%,#009fe3 25%,#e6007e 25%,#e6007e 50%,#ffed00 50%,#ffed00 50%,#ffed00 75%,#000000 75%,#000000 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
             border: var(--default-border);
-            margin-right: var(--default-margin);
             margin-left: 0;
             text-shadow: var(--text-shadow);
 
@@ -326,46 +337,22 @@ export default FancyBox
     }
 
     .cmd-gallery-scroller {
-        max-width: 128rem;
+        max-width: 80%;
         left: 0;
         right: 0;
         position: fixed;
         bottom: 1rem;
         margin: auto;
-        padding: var(--default-padding);
-        background: #000;
-        min-height: 12rem;
-        display: table;
-
-        li:not(.active)  {
-            margin: 0;
-
-            img {
-                opacity: var(--reduced-opacity);
-            }
-
-            a {
-                &:hover, &:active, &:focus {
-                    img {
-                        opacity: 1;
-                    }
-                }
-            }
-
-            figcaption {
-                color: var(--pure-white);
-                text-decoration: none;
-            }
-        }
     }
 
     @media only screen and (max-width: $medium-max-width) {
-        .gallery-scroller {
-            width: 90%;
+        .cmd-gallery-scroller {
+            display: block;
         }
     }
 
     @media only screen and (max-width: $small-max-width) {
+
         [class*="switch-button-"] {
             width: 3rem;
 

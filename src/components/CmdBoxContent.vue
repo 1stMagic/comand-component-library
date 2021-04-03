@@ -27,7 +27,6 @@ export default {
     padding: 0;
 
     > * {
-
         > *:last-child {
             margin-bottom: 0;
         }
@@ -38,14 +37,9 @@ export default {
     }
 
     > div:first-child {
-        background: var(--primary-color);
         border-top-left-radius: var(--border-radius);
         border-top-right-radius: var(--border-radius);
         padding: calc(var(--default-padding) / 2) var(--default-padding);
-
-        > * {
-            color: var(--pure-white);
-        }
     }
 
     .box-body {
@@ -62,7 +56,6 @@ export default {
        .navigation {
            margin: 0;
            height: 100%;
-           background: var(--pure-white);
 
            li {
                list-style-type: none;
@@ -72,27 +65,12 @@ export default {
                    display: block;
                    padding: var(--default-padding);
                    text-decoration: none;
-                   background: var(--pure-white);
-                   border-bottom: var(--default-border);
-
-                   &:hover, &:active &:focus {
-                       background: var(--primary-color);
-                       color: var(--pure-white);
-                   }
-               }
-
-
-               &:last-child {
-                   a {
-                       border: 0;
-                   }
                }
            }
        }
     }
 
     footer {
-       border-top: var(--default-border);
        border-bottom-left-radius: var(--border-radius);
        border-bottom-right-radius: var(--border-radius);
        padding: var(--default-padding);

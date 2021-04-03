@@ -1,5 +1,9 @@
 {
-      "address": "Your Street No.<br /><span class=\"postal-code\">12345</span>&nbsp;<span class=\"locality\">Your City</span>",
+      "address": {
+            "streetNo": "Steinmetzstraße 16",
+            "zip": 41515,
+            "city": "Grevenbroich"
+      },
       "telephone": "+1 (0)1234/56789",
       "fax": "+1 (0)1234/567810",
       "email": "youremail@provider.com"

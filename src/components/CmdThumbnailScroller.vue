@@ -1,6 +1,6 @@
 <template>
     <div :class="['cmd-widget', 'cmd-thumbnail-scroller', {'cmd-gallery-scroller' : !allowOpenFancyBox}]">
-        <SlideButton @click.prevent="showPrevItem" :slideButtonType="slideButtons.previous" />
+        <CmdSlideButton @click.prevent="showPrevItem" :slideButtonType="slideButtons.previous" />
         <transition-group name="slide" tag="ul">
             <li v-for="(image, index) in thumbnails" :key="image.imgId" :class="{'active' : imgIndex === index}">
                 <a href="#" @click.prevent="showFancyBox(index)">
@@ -11,13 +11,13 @@
                 </a>
             </li>
         </transition-group>
-        <SlideButton @click.prevent="showNextItem" :slideButtonType="slideButtons.next" />
+        <CmdSlideButton @click.prevent="showNextItem" :slideButtonType="slideButtons.next" />
     </div>
 </template>
 
 <script>
 import {openFancyBox} from '@/components/CmdFancyBox.vue'
-import SlideButton from "@/components/CmdSlideButton.vue"
+import CmdSlideButton from "@/components/CmdSlideButton.vue"
 
 export default {
     name: "CmdThumbnailScroller",
@@ -28,7 +28,7 @@ export default {
     },
 
     components: {
-        SlideButton
+        CmdSlideButton
     },
 
     props: {
@@ -106,60 +106,25 @@ export default {
 .cmd-thumbnail-scroller {
     overflow: hidden;
     margin-bottom: calc(var(--default-margin) * 2);
-    border: var(--default-border);
-    background: var(--pure-white);
     border-radius: var(--border-radius);
+    padding: var(--default-padding);
+    display: table;
 
     > ul {
         overflow: hidden;
         margin: 0;
         display: -webkit-flex; /* Safari 6-8 */
         display: flex;
-        gap: var(--default-margin);
+        gap: var(--grid-gap);
 
         > li {
             align-self: center;
-            margin: var(--default-margin) 0;
-
-            a {
-                text-align: center;
-
-                figcaption {
-                    opacity: .7;
-                }
-            }
-
-            &.active {
-                a {
-                    figcaption {
-                        opacity: 1;
-                    }
-                }
-            }
-        }
-
-        li {
             list-style-type: none;
-            max-width: 20rem;
-        }
+            margin: 0;
 
-        figure {
-            padding: calc(var(--default-padding) / 2);
-        }
-
-        img {
-            border-radius: var(--border-radius);
-            max-height: 15rem;
-        }
-    }
-
-    &.cmd-gallery-scroller {
-        > ul {
-            > li {
-                a {
-                    color: var(--pure-white);
-                    text-decoration: none;
-                }
+            img {
+                border-radius: var(--border-radius);
+                max-height: 10rem;
             }
         }
     }
@@ -194,20 +159,23 @@ export default {
         }
     }
 
-    .slide-move {
-        transition: transform 1s ease-in-out;
-    }
+
+
 
     @media only screen and (max-width: $medium-max-width)  {
         & > ul > li {
             flex: none;
-            margin: var(--default-margin);
         }
 
         & img {
-            height: 10rem;
             width: auto;
         }
+    }
+}
+
+@media only screen and (max-width: $medium-max-width)  {
+    .cmd-thumbnail-scroller {
+        display: block;
     }
 }
 /* end cmd-thumbnail-scroller --------------------------------------------------------------------------------------------------------------------------------------------------- */

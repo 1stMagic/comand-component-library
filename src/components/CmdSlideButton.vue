@@ -27,7 +27,6 @@ export default {
 <style lang="scss">
 /* begin cmd-slide-button --------------------------------------------------------------------------------------------------------------------------------------------------- */
 [class*="slide-button-"] {
-    font-size: 2rem;
     z-index: 10;
     width: 5rem;
     height: 100%;
@@ -39,12 +38,6 @@ export default {
 
     span {
         align-self: center;
-
-    }
-
-    &:hover, &:active, &:focus {
-        background: var(--default-background-color-reduced-opacity);
-        transition: var(--default-transition);
     }
 }
 

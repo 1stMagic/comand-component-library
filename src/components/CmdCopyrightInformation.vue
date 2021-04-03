@@ -17,22 +17,9 @@ export default {
 </script>
 
 <style lang="scss">
-/* begin copyright-information --------------------------------------------------------------------------------------------------------------------------------------------------- */
+/* begin cmd-copyright-information --------------------------------------------------------------------------------------------------------------------------------------------------- */
 .cmd-copyright-information {
     padding: var(--default-padding);
-    background: var(--text-color);
-    border-top: var(--border-width) var(--border-style) var(--pure-white);
-    text-align: center;
-
-    a {
-        text-decoration: none;
-        color: var(--pure-white);
-
-        &:hover, &:active, &:focus {
-            text-decoration: underline;
-            color: var(--pure-white);
-        }
-    }
 }
-/* end copyright-information --------------------------------------------------------------------------------------------------------------------------------------------------- */
+/* end cmd-copyright-information --------------------------------------------------------------------------------------------------------------------------------------------------- */
 </style>

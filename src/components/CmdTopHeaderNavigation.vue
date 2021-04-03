@@ -1,6 +1,6 @@
 <template>
     <div class="cmd-top-header-navigation">
-        <ul class="flex-container">
+        <ul class="flex-container" role="navigation">
             <li v-for="(link, index) in topHeaderNavigationData" :key="index">
                 <a :href="link.path" :target="link.target">
                     <span :class="link.iconClass" v-if="link.iconClass"></span>
@@ -35,28 +35,13 @@
         li {
             flex: none;
             list-style-type: none;
+            margin: 0;
 
             a {
-                text-decoration: none;
-                vertical-align: middle;
                 display: flex;
                 align-items: center;
                 padding-top: calc(var(--default-padding) / 2);
                 padding-bottom: calc(var(--default-padding) / 2);
-
-                &:hover, &:focus, &:active {
-                    span:not([class*="icon-"]) {
-                        text-decoration: underline;
-                    }
-                }
-
-                [class*="icon-"] {
-                    font-size: 1.5rem;
-                }
-            }
-
-            &:not(:first-child) {
-                margin-left: calc(var(--default-margin) * 2);
             }
         }
     }

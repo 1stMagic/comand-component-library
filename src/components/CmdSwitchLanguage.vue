@@ -48,12 +48,6 @@
         li {
             list-style-type: none;
             margin: 0;
-
-            a {
-                &:hover, &:active, &:focus, &.active {
-                    box-shadow: var(--box-shadow);
-                }
-            }
         }
     }
 }

@@ -100,8 +100,6 @@ export default {
 @import '../assets/styles/variables';
 /* begin cmd-main-navigation --------------------------------------------------------------------------------------------------------------------------------------------------- */
 #navigation-wrapper {
-    background: var(--default-background-color);
-
     &.hide-sub-navigation {
         ul {
             ul {
@@ -118,43 +116,15 @@ export default {
         }
 
         > ul {
-            border: var(--default-border);
-
             > li {
-                border-right: var(--default-border);
-
                 .close-nav {
                     display: none;
-
-                    a {
-                        text-align: center;
-
-                        span:not([class*="icon-"]) {
-                            font-weight: bold;
-                        }
-
-                        span[class*="icon-"] {
-                            font-size: 1rem;
-                        }
-                    }
-                }
-
-                > a {
-                    text-align: center;
                 }
             }
 
             // all list-items
             li {
                 &:hover, &:active, &:focus, &.active {
-                    > a {
-                        background: var(--primary-color);
-
-                        span, span[class*="icon-"] {
-                            color: var(--pure-white);
-                        }
-                    }
-
                     > ul {
                         display: block;
                     }
@@ -166,17 +136,13 @@ export default {
             }
 
             ul {
-                border: var(--default-border);
-                background: var(--default-background-color);
                 display: none;
                 position: absolute; /* brings subnavigation to own layer */
                 left: 0; 			/* left-position of layer (as left as top-level-entries) */
                 z-index: 100; 		/* brings subnavigation to front */
                 min-width: 100%;
-                background: var(--default-background-color);
 
                 li {
-                    border-bottom: var(--default-border);
                     white-space: nowrap;
 
                     &:last-child {
@@ -212,13 +178,13 @@ export default {
             #toggle-offcanvas {
                 display: table;
                 margin-bottom: 0;
+                width: auto;
             }
 
             &.open {
                 nav {
                     left: 0;
                     opacity: 1;
-                    transition: all .5s linear;
                 }
             }
 
@@ -230,9 +196,6 @@ export default {
                 height: 100%;
                 opacity: 0;
                 z-index: 500;
-                background: var(--default-background-color);
-                box-shadow: var(--box-shadow);
-                transition: all .5s linear;
 
                 ul {
                     flex-direction: column;
@@ -242,19 +205,10 @@ export default {
                     left: 0;
 
                     li {
-                        border-bottom: var(--default-border);
-
                         &.close-nav {
                             display: block;
-                            border-bottom: var(--default-border);
-
                             a {
                                 display: flex;
-                                align-items: center;
-
-                                span {
-                                    font-weight: bold;
-                                }
                             }
                         }
 
@@ -267,8 +221,6 @@ export default {
                         }
 
                         > a {
-                            text-align: left;
-
                             span  {
                                 & + span[class*="icon"]::before {
                                     display: inline-block;
@@ -302,7 +254,6 @@ export default {
 
                             > ul {
                                 height: auto;
-                                transition: all .5s linear;
                                 display: block;
                                 opacity: 1;
 

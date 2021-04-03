@@ -50,21 +50,13 @@ export default {
 
     li {
         list-style-type: none;
-        border: .1rem dotted var(--text-color);
         padding: 0 .5rem;
         margin-left: 0;
         margin-right: var(--default-margin);
-        background: var(--pure-white);
-        font-size: 1rem;
 
         &:last-of-type {
             margin-right: 0;
         }
-
-    }
-
-    [class*="icon-"] {
-        font-size: 1rem;
     }
 }
 /* end cmd-form-filters --------------------------------------------------------------------------------------------------------------------------------------------------- */

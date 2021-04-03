@@ -1,7 +1,7 @@
 <template>
     <div class="cmd-footer-navigation">
         <h4 v-if="headline">{{ headline }}</h4>
-        <template v-for="(entry, index) in footerNavigation">
+        <template v-for="(entry, index) in footerNavigation" role="navigation">
             <li :key="index">
                 <router-link v-if="entry.link.type === 'router'" :to="getRoute(entry)">{{ entry.name }}</router-link>
                 <a v-else :href="entry.link.path" :target="entry.link.target" @click="executeLink(entry, $event)">{{ entry.name }}</a>

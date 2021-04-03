@@ -1,9 +1,9 @@
 <template>
-    <div class="slideshow-wrapper" :class="{'full-width': fullWidth}">
-        <div class="slideshow" @mouseenter="pause = true" @mouseleave="pause = false">
-            <SlideButton @click.prevent="showPrevItem" :slideButtonType="slideButtons.previous" />
+    <div class="cmd-slideshow" :class="{'full-width': fullWidth}">
+        <div class="inner-slideshow-wrapper" @mouseenter="pause = true" @mouseleave="pause = false">
+            <CmdSlideButton @click.prevent="showPrevItem" :slideButtonType="slideButtons.previous" />
             <transition name="fade-slideshow">
-            <figure v-if="currentItem" :key="index" class="slideshow-item">
+                <figure v-if="currentItem" :key="index" class="slideshow-item">
                     <a v-if="currentItem.href" :href="currentItem.href" :title="currentItem.title">
                         <img :src="currentItem.imgPath" :alt="currentItem.alt" />
                         <figcaption>{{ currentItem.figcaption }}</figcaption>
@@ -14,18 +14,19 @@
                     </template>
                 </figure>
             </transition>
-            <SlideButton @click.prevent="showNextItem" :slideButtonType="slideButtons.next" />
-            <ol>
+            <CmdSlideButton @click.prevent="showNextItem" :slideButtonType="slideButtons.next" />
+            <ol v-if="showQuickLinkIcons">
                 <li v-for="(item, i) in slideshowItems" :key="i" :class="{active: i === index }">
                     <a href="#" @click.prevent="index = i"></a>
                 </li>
             </ol>
+            <span v-if="showCounter">{{ index + 1 }}/{{ slideshowItems.length }}</span>
         </div>
     </div>
 </template>
 
 <script>
-import SlideButton from "@/components/CmdSlideButton.vue";
+import CmdSlideButton from "@/components/CmdSlideButton.vue";
 
 const NOT_YET_PRELOADED_IMAGE = (image) => !image.loaded;
 const NOT_YET_PRELOADED_IMAGES = (item) => item.images && item.images.find(NOT_YET_PRELOADED_IMAGE);
@@ -36,6 +37,14 @@ export default {
         autoplay: {
             type: Boolean,
             default: false
+        },
+        showQuickLinkIcons: {
+          type: Boolean,
+          default: true
+        },
+        showCounter: {
+          type: Boolean,
+          default: false
         },
         autoplayInterval: {
             type: Number,
@@ -64,7 +73,7 @@ export default {
         }
     },
     components: {
-        SlideButton
+        CmdSlideButton
     },
     data() {
         return {
@@ -184,12 +193,8 @@ export default {
 <style lang="scss">
 @import '../assets/styles/variables';
 /* begin cmd-slideshow --------------------------------------------------------------------------------------------------------------------------------------------------- */
-.slideshow-wrapper {
-    .fade-slideshow-enter-active, .fade-slideshow-leave-active {
-        transition: all 2s;
-    }
-
-    .fade-slideshow-enter, .fade-slideshow-leave-to /* .fade-leave-active below version 2.1.8 */ {
+.cmd-slideshow {
+    .fade-slideshow-enter, .fade-slideshow-leave-to {
         opacity: 0;
         position: absolute;
     }
@@ -201,34 +206,18 @@ export default {
     }
 
     figcaption {
-        font-size: 3rem;
         width: 100%;
         display: block;
-        color: var(--pure-white);
-        background: var(--primary-color);
         text-align: center;
         bottom: 0;
         padding: var(--default-padding);
         line-height: 100%;
     }
 
-    .slideshow {
+    .inner-slideshow-wrapper {
         .slideshow-item {
             width: 100%; /* important to stretch figure with position: absolute over full width */
             margin: 0;
-
-            > div {
-                display: -webkit-flex; /* Safari 6-8 */
-                display: flex;
-                align-items: stretch;
-
-                > a {
-                    writing-mode: vertical-lr;
-                    padding: 1rem;
-                    background: red;
-                    border: 1px solid black;
-                }
-            }
         }
 
         > ol {
@@ -240,27 +229,15 @@ export default {
             top: .5rem;
 
             li {
-                border: var(--default-border-reduced-opacity);
                 margin: calc(var(--default-margin) / 2) 0;
-                padding: .3rem;
+                padding: .2rem;
                 list-style-type: none;
-                border-radius: var(--full-circle);
                 margin-right: calc(var(--default-margin) * .5);
-
-                &:hover , &:active, &:focus {
-                    border-color: var(--pure-white);
-
-                    a {
-                        background: var(--pure-white);
-                        transition: var(--default-transition);
-                    }
-                }
 
                 a {
                     display: block;
                     width: 1rem;
                     height: 1rem;
-                    border-radius: var(--full-circle);
                 }
             }
 
@@ -269,19 +246,6 @@ export default {
                 justify-content: center;
                 left: unset;
                 top: unset;
-
-                li {
-                    border-color: var(--primary-color);
-
-                    &:hover , &:active, &:focus {
-                        border-color: var(--primary-color);
-                        background: var(--pure-white);
-
-                        a {
-                            background: var(--primary-color);
-                        }
-                    }
-                }
             }
 
             /* vertical slideshow */
@@ -289,11 +253,13 @@ export default {
                 flex-direction: column;
             }
         }
-    }
 
-    @media only screen and (max-width: $medium-max-width) {
-        figcaption {
-            font-size: 2rem;
+        > span {
+            position: absolute;
+            top: .5rem;
+            right: 5.5rem;
+            padding: 0 0.2rem;
+            border-radius: var(--border-radius);
         }
     }
 }
