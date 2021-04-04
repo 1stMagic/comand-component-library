@@ -576,7 +576,7 @@
 
       <CmdWidthLimitationWrapper>
           <h2 class="headline-demopage">Upload-Form</h2>
-          <CmdUploadForm :enableDragAndDrop="true" :allowedFileTypes="['image/jpeg']" />
+          <CmdUploadForm headline="Select files to upload" :enableDragAndDrop="true" :allowedFileTypes="['image/jpeg']" />
       </CmdWidthLimitationWrapper>
 
     <CmdWidthLimitationWrapper>

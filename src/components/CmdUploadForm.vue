@@ -1,46 +1,49 @@
 <template>
   <fieldset class="grid-container-create-columns cmd-upload-form">
-    <h3 v-if="headline">{{ headline }}</h3>
-    <p v-if="uploadSize > maxUploadSize">Summe der Dateigrößen zu groß!</p>
-    <dl>
-      <dt>Uploadgröße:</dt><dd>{{ formatSize(uploadSize) }}</dd>
-      <dt>Erlaubte Größe</dt><dd>{{ formatSize(maxUploadSize) }}</dd>
-    </dl>
+    <h2 v-if="headline">{{ headline }}</h2>
     <CmdFormElement
             element="input"
             type="file"
             multiple="multiple"
-            labelText="Choose file to upload:"
+            labelText="Choose file(s) with file-explorer:"
             @change="filesSelected"
     />
     <template v-if="enableDragAndDrop">
       <span>or</span>
       <div :class="['box', {'allow-drop': allowDrop}]" @dragenter="dragEnter" @dragover="dragOver" @dragleave="dragLeave" @drop="drop($event)">
-        <span>Drop file(s) for upload here</span>
+        <span>Drag & drop file(s) here</span>
       </div>
     </template>
-    <ul v-if="listOfFiles.length">
+    <hr />
+    <h2>List of files to upload</h2>
+    <ul v-if="listOfFiles.length" class="list-of-files">
       <li v-for="(uploadFile, index) in listOfFiles" :key="index">
         <a href="#" class="icon-delete" title="Remove from list" @click.prevent="removeFile(index)"></a>
-        <span>
-          {{ uploadFile.file.name }} ({{ uploadFile.file.type}}, {{ formatSize(uploadFile.file.size) }}<template v-if="uploadFile.width && uploadFile.height">, {{ uploadFile.width }} px x {{ uploadFile.height }} px</template>)
+        <span :class="[uploadFile.allowedType ? 'allowed' : 'not-allowed']">
+          <strong>{{ uploadFile.file.name }}</strong> ({{ uploadFile.file.type}}, {{ formatSize(uploadFile.file.size) }}<template v-if="uploadFile.width && uploadFile.height">, {{ uploadFile.width }} px x {{ uploadFile.height }} px</template>)
+          <span v-if="uploadFile.allowedType" class="icon-check allowed" title="File ready to upload!"></span>
+          <span v-else class="icon-cancel not-allowed" title="File type not allowed (file will not be uploaded)!"></span>
         </span>
-        <span v-if="uploadFile.allowedType" class="icon-check" style="color: green;"></span>
-        <span v-else><span class="icon-cancel" style="color: red;"></span><span>File type not allowed</span></span>
       </li>
     </ul>
+    <CmdSystemMessage v-if="!listOfFiles.length" messageStatus="warning" :fullWidth="true" systemMessage="No files selected for upload!">
+    </CmdSystemMessage>
+    <CmdSystemMessage v-else :messageStatus="messageStatusUploadSize()" :fullWidth="true">
+      <p>Current upload size is {{ formatSize(uploadSize) }} (of max. {{ formatSize(maxUploadSize) }}).</p>
+    </CmdSystemMessage>
+    <CmdSystemMessage v-if="uploadSize > maxUploadSize" messageStatus="error" :fullWidth="true" systemMessage="Total file size to large!">
+    </CmdSystemMessage>
     <CmdFormElement
       v-if="enableComment"
       element="textarea"
       labelText="Comment:"
       v-model="comment"
     />
-    <p v-if="listOfFiles.length">
-      {{ getNumberAllowedFiles }} of {{ listOfFiles.length }} ready to upload!
-    </p>
     <div class="button-wrapper no-flex">
-      <button class="button primary" @click="uploadFiles">
-        <span class="icon-upload"></span><span>Upload file(s)</span>
+      <button :class="['button', 'primary', {disabled: getNumberAllowedFiles < 1}]" @click="uploadFiles">
+        <span class="icon-upload"></span>
+        <span v-if="getNumberAllowedFiles < 1">Nothing to upload</span>
+        <span v-else>Upload {{ getNumberAllowedFiles }} of {{ listOfFiles.length }} files</span>
       </button>
       <button class="button" @click="cancelUpload">
         <span class="icon-cancel"></span><span>Cancel</span>
@@ -51,6 +54,7 @@
 
 <script>
 import CmdFormElement from "./CmdFormElement"
+import CmdSystemMessage from "./CmdSystemMessage"
 
 export default {
   name: "CmdUploadForm",
@@ -62,7 +66,8 @@ export default {
     }
   },
   components: {
-    CmdFormElement
+    CmdFormElement,
+    CmdSystemMessage
   },
   props: {
     headline: {
@@ -204,7 +209,6 @@ export default {
         return size = (Math.round(size/1048576*100)/100) + " MB"
       }
     },
-
     uploadFiles() {
       if(this.uploadURL) {
         let formData = new FormData()
@@ -220,6 +224,12 @@ export default {
       } else {
         this.$emit('click', 'upload')
       }
+    },
+    messageStatusUploadSize() {
+      if(this.uploadSize > this.maxUploadSize || this.uploadSize === 0) {
+        return "error"
+      }
+      return "success"
     }
   }
 }
@@ -228,12 +238,23 @@ export default {
 <style lang="scss">
 .cmd-upload-form {
   .box {
-    padding: (var(--default-padding));
+    padding: calc(var(--default-padding) * 3);
     text-align: center;
-    border-style: dashed;
+  }
 
-    &.allow-drop {
-      border-style: solid;
+  .list-of-files {
+    li {
+      list-style-type: none;
+      margin-left: 0;
+
+      > span {
+        span[class*="icon"]:last-child {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          padding: calc(var(--default-padding) / 2);
+        }
+      }
     }
   }
 }
