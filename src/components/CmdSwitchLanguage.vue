@@ -2,7 +2,7 @@
     <div class="cmd-switch-language">
         <ul>
             <li v-for="(language, index) in languages" :key="index">
-                <router-link v-if="language.link.type === 'router'" :class="['flag', language.iso2]" :to="getRoute(language)" :title="language.tooltip" @click.native="$emit('click', $event, language)">
+                <router-link v-if="language.link.type === 'router'" :class="['flag', language.iso2]" :to="getRoute(language)" :title="language.tooltip" @click="$emit('click', $event, language)">
                     <img :src="getFlagURL(language.iso2)" :alt="language.name" />
                 </router-link>
                 <a v-else :href="language.link.path" :class="['flag', language.iso2, {'active': language.active}]" :title="language.tooltip" @click="$emit('click', $event, language)">
@@ -18,6 +18,7 @@
 
     export default {
         name: "CmdSwitchLanguage",
+        emits: ["click"],
         props: {
             languages: {
                 type: Array,
