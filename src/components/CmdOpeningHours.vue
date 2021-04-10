@@ -4,8 +4,9 @@
         <a v-if="path" :href="path" :class="{'closed': closed}">{{ textOpenClosed }}</a>
         <span v-else :class="{'closed': closed}">{{ textOpenClosed }}</span>
         <dl>
-            <template v-for="day in openingHours">
-                <dt :key="day.day + '_dt'">{{ day.day }}:</dt><dd :key="day.day + '_dd'">{{ day.fromTime }}&ndash;{{ day.tillTime }}</dd>
+            <template v-for="day in openingHours" :key="day.day">
+                <dt>{{ day.day }}:</dt>
+                <dd>{{ day.fromTime }}&ndash;{{ day.tillTime }}</dd>
             </template>
         </dl>
         <div>

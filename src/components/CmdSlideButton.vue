@@ -1,6 +1,6 @@
 <template>
     <a href="#"
-       @click.prevent="onClick"
+       @click.prevent
        :class="slideButtonType.buttonType === 'next' ? 'slide-button-next' : 'slide-button-previous'"
        :title="slideButtonType.buttonType === 'next' ? slideButtonType.tooltip : slideButtonType.tooltip">
         <span :class="slideButtonType.buttonType === 'next' ? slideButtonType.iconClass : slideButtonType.iconClass"></span>
@@ -14,11 +14,6 @@ export default {
         slideButtonType: {
             type: Object,
             required: true
-        }
-    },
-    methods: {
-        onClick(event) {
-            this.$emit("click", event)
         }
     }
 }

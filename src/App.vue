@@ -36,59 +36,81 @@
         <div class="grid-container-create-columns">
           <div class="grid-small-item">
             <CmdBoxContent>
-              <h3 slot="header">
-                Box with text
-              </h3>
-              <p slot="body" class="padding">
-                box body with paragraph
-              </p>
-              <p slot="footer">
-                footer content
-              </p>
+              <template v-slot:header>
+                  <h3>
+                      Box with text
+                  </h3>
+              </template>
+              <template v-slot:body>
+                  <p class="padding">
+                    box body with paragraph
+                  </p>
+              </template>
+              <template v-slot:footer>
+                  <p>
+                    footer content
+                  </p>
+              </template>
             </CmdBoxContent>
           </div>
           <div class="grid-small-item">
             <CmdBoxContent>
-              <h3 slot="header">
-                Box with links
-              </h3>
-              <ul slot="body" class="navigation">
-                <li><a href="#" @click.prevent="">Link name 1</a></li>
-                <li><a href="#" @click.prevent="">Link name 2</a></li>
-                <li><a href="#" @click.prevent="">Link name 3</a></li>
-                <li><a href="#" @click.prevent="">Link name 4</a></li>
-              </ul>
-              <p slot="footer">
-                footer content
-              </p>
+              <template v-slot:header>
+                  <h3>
+                    Box with links
+                  </h3>
+              </template>
+              <template v-slot:body>
+                  <ul class="navigation">
+                    <li><a href="#" @click.prevent="">Link name 1</a></li>
+                    <li><a href="#" @click.prevent="">Link name 2</a></li>
+                    <li><a href="#" @click.prevent="">Link name 3</a></li>
+                    <li><a href="#" @click.prevent="">Link name 4</a></li>
+                  </ul>
+              </template>
+              <template v-slot:footer>
+                  <p>
+                    footer content
+                  </p>
+              </template>
             </CmdBoxContent>
           </div>
           <div class="grid-small-item">
             <CmdBoxContent>
-              <h3 slot="header">
-                Box with image
-              </h3>
-              <img src="media/images/content-images/logo-business-edition-landscape.jpg" alt="Alternative text" slot="body" />
-              <p slot="footer">
+              <template v-slot:header>
+                  <h3>
+                  Box with image
+                  </h3>
+              </template>
+              <template v-slot:body>
+                  <img src="media/images/content-images/logo-business-edition-landscape.jpg" alt="Alternative text" />
+              </template>
+              <template  v-slot:footer>
+              <p>
                 footer content
               </p>
+              </template>
             </CmdBoxContent>
           </div>
             <div class="grid-small-item">
                 <CmdBoxContent>
-                    <h3 slot="header">
+                    <template v-slot:header>
+                    <h3>
                         Box with image and content
                     </h3>
-                    <img src="media/images/content-images/logo-business-edition-landscape.jpg" alt="Alternative text" slot="body" />
-                    <template slot="body">
-                        <div class="default-padding">
-                            <h4>Headline</h4>
-                            <p>This some text i.e a  short-text for news.</p>
-                        </div>
                     </template>
-                    <p slot="footer">
-                        <a href="#">Mehr erfahren&hellip;</a>
-                    </p>
+                    <template v-slot:body>
+                      <img src="media/images/content-images/logo-business-edition-landscape.jpg" alt="Alternative text" />
+                      <div class="default-padding">
+                          <h4>Headline</h4>
+                          <p>This some text i.e a  short-text for news.</p>
+                      </div>
+                    </template>
+                    <template v-slot:footer>
+                      <p>
+                          <a href="#">Mehr erfahren&hellip;</a>
+                      </p>
+                    </template>
                 </CmdBoxContent>
             </div>
         </div>
@@ -155,7 +177,7 @@
             <div class="flex-container">
               <CmdFakeSelect :status="formElementStatus"
                           :selectData="fakeSelectOptionsData"
-                          v-model="selectedOptions"
+                          v-model:value="selectedOptions"
                           defaultOptionName="Filters:"
                           type="filterList"
                           iconClass="icon-single-arrow-down" />
@@ -172,12 +194,12 @@
               </CmdFakeSelect>
               <CmdFakeSelect :status="formElementStatus"
                           :selectData="fakeSelectCountriesData"
-                          v-model="selectedCountry"
+                          v-model:value="selectedCountry"
                           defaultOptionName="Select country:"
                           type="country" iconClass="icon-single-arrow-down" />
               <CmdFakeSelect :status="formElementStatus"
                           :selectData="fakeSelectColorsData"
-                          v-model="selectedColor"
+                          v-model:value="selectedColor"
                           defaultOptionName="Select color:"
                           type="color"
                           iconClass="icon-single-arrow-down" />
@@ -221,7 +243,7 @@
                         offLabel="Label off"
                         inputValue="checkbox1"
                         :disabled="formElementStatus === 'disabled'"
-                        v-model="switchButtonCheckbox" />
+                        v-model:value="switchButtonCheckbox" />
                 <CmdSwitchButton
                         type="checkbox"
                         id="checkbox2"
@@ -231,15 +253,15 @@
                         labelText="Labeltext"
                         inputValue="checkbox2"
                         :disabled="formElementStatus === 'disabled'"
-                        v-model="switchButtonCheckbox" />
-                      <CmdSwitchButton
-                              type="checkbox"
-                              id="checkbox30"
-                              name="checkbox30"
-                              inputValue="checkbox30"
-                              labelText="Labeltext"
-                              :disabled="formElementStatus === 'disabled'"
-                              v-model="switchButtonCheckbox" />
+                        v-model:value="switchButtonCheckbox" />
+                  <CmdSwitchButton
+                          type="checkbox"
+                          id="checkbox30"
+                          name="checkbox30"
+                          inputValue="checkbox30"
+                          labelText="Labeltext"
+                          :disabled="formElementStatus === 'disabled'"
+                          v-model:value="switchButtonCheckbox" />
               </span>
             </div>
             <!-- end toggle-switch-radio with switch-button -->
@@ -256,7 +278,7 @@
                         :colored="true"
                         inputValue="checkbox3"
                         :disabled="formElementStatus === 'disabled'"
-                        v-model="switchButtonCheckbox" />
+                        v-model:value="switchButtonCheckbox" />
                 <CmdSwitchButton
                         type="checkbox"
                         id="checkbox4"
@@ -266,7 +288,7 @@
                         :colored="true"
                         inputValue="checkbox4"
                         :disabled="formElementStatus === 'disabled'"
-                        v-model="switchButtonCheckbox" />
+                        v-model:value="switchButtonCheckbox" />
               </span>
             </div>
             <!-- end toggle-switch-radio with switch-button -->
@@ -284,7 +306,7 @@
                         :colored="true"
                         inputValue="radio1"
                         :disabled="formElementStatus === 'disabled'"
-                        v-model="switchButtonRadio" />
+                        v-model:value="switchButtonRadio" />
                 <CmdSwitchButton
                         type="radio"
                         id="radio2"
@@ -294,7 +316,7 @@
                         :colored="true"
                         inputValue="radio2"
                         :disabled="formElementStatus === 'disabled'"
-                        v-model="switchButtonRadio" />
+                        v-model:value="switchButtonRadio" />
               </span>
             </div>
             <!-- end toggle-switch-radio with switch-button (colored) -->
@@ -307,7 +329,7 @@
                         id="inputfield1"
                         autofocus="autofocus"
                         placeholder="This is placeholder text"
-                        v-model="inputField1"
+                        v-model:value="inputField1"
                         tooltipText="This is a tooltip!"
                         :status="formElementStatus" />
 
@@ -360,11 +382,11 @@
                              type="checkbox"
                              id="inputfield7"
                              required="required"
-                             v-model="checkboxStatus"
+                             v-model:value="checkboxStatus"
                              :status="formElementStatus" />
                 <CmdFormElement element="input"
                              labelText="Label for checkbox with value"
-                             v-model="checkboxValues"
+                             v-model:value="checkboxValues"
                              inputValue="checkboxValue"
                              type="checkbox"
                              id="inputfield8"
@@ -381,11 +403,11 @@
                                  htmlClass="replace-input-type"
                                  id="inputfield9"
                                  required="required"
-                                 v-model="replacedCheckboxStatus1"
+                                 v-model:value="replacedCheckboxStatus1"
                                  :status="formElementStatus" />
                     <CmdFormElement element="input"
                                  labelText="Label for replaced checkbox"
-                                 v-model="replacedCheckboxStatus2"
+                                 v-model:value="replacedCheckboxStatus2"
                                  inputValue="checkboxValue"
                                  type="checkbox"
                                  htmlClass="replace-input-type"
@@ -403,7 +425,7 @@
                                id="inputfield11"
                                name="radiogroup"
                                inputValue="radiobuttonValue1"
-                               v-model="radiobuttonStatus"
+                               v-model:value="radiobuttonStatus"
                                :status="formElementStatus" />
                   <CmdFormElement element="input"
                                labelText="Label for native radiobutton"
@@ -411,7 +433,7 @@
                                id="inputfield12"
                                name="radiogroup"
                                inputValue="radiobuttonValue2"
-                               v-model="radiobuttonStatus"
+                               v-model:value="radiobuttonStatus"
                                checked="checked"
                                :status="formElementStatus" />
                 </div>
@@ -426,7 +448,7 @@
                                id="inputfield13"
                                name="replaced-radiogroup"
                                inputValue="radiobuttonValue1"
-                               v-model="replacedRadiobuttonStatus"
+                               v-model:value="replacedRadiobuttonStatus"
                                :status="formElementStatus" />
                   <CmdFormElement element="input"
                                labelText="Label for replaced radiobutton"
@@ -435,7 +457,7 @@
                                id="inputfield14"
                                name="replaced-radiogroup"
                                inputValue="radiobuttonValue2"
-                               v-model="replacedRadiobuttonStatus"
+                               v-model:value="replacedRadiobuttonStatus"
                                checked="checked"
                                :status="formElementStatus" />
                 </div>
@@ -444,7 +466,7 @@
                             :multipleSwitches="multipleSwitchCheckboxData"
                             switchTypes="checkbox"
                             switchNames="checkboxgroup"
-                            v-model="multipleSwitchCheckbox" />
+                            v-model:value="multipleSwitchCheckbox" />
             <dl>
               <dt>Selected value:</dt>
               <dd><output>{{ multipleSwitchCheckbox }}</output></dd>
@@ -453,7 +475,7 @@
                             :multipleSwitches="multipleSwitchRadioData"
                             switchTypes="radio"
                             switchNames="radiogroup"
-                            v-model="multipleSwitchRadio" />
+                            v-model:value="multipleSwitchRadio" />
             <dl>
               <dt>Selected value:</dt>
               <dd><output>{{ multipleSwitchRadio }}</output></dd>

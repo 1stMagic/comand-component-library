@@ -14,7 +14,7 @@
 </template>
 
 <script>
-    import { getRoute } from '@/utilities.js'
+    import { getRoute } from '../utilities.js'
 
     export default {
         name: "CmdSwitchLanguage",
@@ -32,7 +32,7 @@
                 alert("Switch to " + iso2)
             },
             getFlagURL(isoCode) {
-                return require("@/assets/images/flags/flag-" + isoCode + ".svg")
+                return require("../assets/images/flags/flag-" + isoCode + ".svg")
             }
         }
     }

@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import CmdSlideButton from "@/components/CmdSlideButton.vue";
+import CmdSlideButton from "./CmdSlideButton.vue";
 
 const NOT_YET_PRELOADED_IMAGE = (image) => !image.loaded;
 const NOT_YET_PRELOADED_IMAGES = (item) => item.images && item.images.find(NOT_YET_PRELOADED_IMAGE);
@@ -85,7 +85,7 @@ export default {
         }
     },
 
-    beforeDestroy() {
+    beforeUnmount() {
         if (this.hnd !== null) {
             window.clearInterval(this.hnd);
             this.hnd = null;
@@ -194,9 +194,13 @@ export default {
 @import '../assets/styles/variables';
 /* begin cmd-slideshow --------------------------------------------------------------------------------------------------------------------------------------------------- */
 .cmd-slideshow {
-    .fade-slideshow-enter, .fade-slideshow-leave-to {
+    .fade-slideshow-enter-from, .fade-slideshow-leave-to {
         opacity: 0;
         position: absolute;
+    }
+
+    .fade-slideshow-enter-to, .fade-slideshow-leave-from {
+        opacity: 1;
     }
 
     figure a, img {

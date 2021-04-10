@@ -99,7 +99,7 @@
 </template>
 
 <script>
-import Tooltip  from '@/components/CmdTooltip.vue'
+import Tooltip  from "./CmdTooltip.vue"
 
 export default {
   inheritAttrs: false,
@@ -209,9 +209,9 @@ export default {
   methods: {
     onChange(e) {
       if (typeof this.value === "boolean") {
-        this.$emit("input", e.target.checked)
+        this.$emit("update:value", e.target.checked)
       } else if (typeof this.value === "string") {
-        this.$emit("input", e.target.value)
+        this.$emit("update:value", e.target.value)
       } else if (this.value !== undefined) {
         let values = [...this.value]
         if (e.target.checked) {
@@ -219,7 +219,7 @@ export default {
         } else {
           values = values.filter(value => value !== e.target.value)
         }
-        this.$emit("input", values)
+        this.$emit("update:value", values)
       }
     },
     datalistFocus() {
@@ -229,7 +229,7 @@ export default {
       }
     },
     onInput(e) {
-      this.$emit('input', e.target.value)
+      this.$emit('update:value', e.target.value)
     }
   }
 }

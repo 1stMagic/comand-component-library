@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import {openFancyBox} from '@/components/CmdFancyBox.vue'
+import {openFancyBox} from "../components/CmdFancyBox.vue"
 
 export default {
     name: "CmdImageGallery",

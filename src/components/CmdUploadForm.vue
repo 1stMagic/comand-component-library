@@ -37,7 +37,7 @@
       v-if="enableComment"
       element="textarea"
       labelText="Comment:"
-      v-model="comment"
+      v-model:value="comment"
     />
     <div class="button-wrapper no-flex">
       <button :class="['button', 'primary', {disabled: getNumberAllowedFiles < 1}]" @click="uploadFiles">
@@ -58,6 +58,7 @@ import CmdSystemMessage from "./CmdSystemMessage"
 
 export default {
   name: "CmdUploadForm",
+  emits: ["click"],
   data () {
     return {
       comment: "",

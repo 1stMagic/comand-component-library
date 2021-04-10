@@ -16,8 +16,8 @@
 </template>
 
 <script>
-import {openFancyBox} from '@/components/CmdFancyBox.vue'
-import CmdSlideButton from "@/components/CmdSlideButton.vue"
+import {openFancyBox} from './CmdFancyBox.vue'
+import CmdSlideButton from "./CmdSlideButton.vue"
 
 export default {
     name: "CmdThumbnailScroller",

@@ -1,13 +1,13 @@
 <template>
     <div class="cmd-accordion">
-        <template v-for="(accordionContent, index) in accordion">
-            <h3 :key="'h' + index" class="accordion-headline" :title="tooltip" @click="toggleContentVisibility(accordionContent)">
+        <template v-for="(accordionContent, index) in accordion" :key="index">
+            <h3 class="accordion-headline" :title="tooltip" @click="toggleContentVisibility(accordionContent)">
                 <slot :name="'accordion-headline-' + index">
                     <span>{{ accordionContent.headline }}</span>
                 </slot>
                 <span class="toggle-icon" :class="[accordionContent.status ? openIconClass : closeIconClass]"></span>
             </h3>
-            <transition name="fade" :key="'d' + index">
+            <transition name="fade">
                     <div class="accordion-content" v-if="accordionContent.status">
                         <slot :name="'accordion-content-' + index">
                             <p>{{ accordionContent.content }}</p>

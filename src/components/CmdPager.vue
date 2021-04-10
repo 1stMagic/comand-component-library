@@ -16,7 +16,7 @@
                     <a :class="{'disabled': currentPage === index + 1, 'button': showLinksAsButtons}"
                        v-for="(item, index) in items"
                        :key="index"
-                       @click.prevent="showPage(item)" aria-live="polite">
+                       @click.stop.prevent="showPage(item)" aria-live="polite">
                         <span>{{ index + 1 }}</span>
                     </a>
                 </div>
@@ -35,6 +35,7 @@
 <script>
 export default {
     name: "CmdPager",
+    emits: ['click'],
     data() {
         return {
             currentPage: 1

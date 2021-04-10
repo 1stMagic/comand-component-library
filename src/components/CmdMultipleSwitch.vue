@@ -50,7 +50,7 @@ export default {
     methods: {
         onChange(e) {
             if (typeof this.value === "string") {
-                this.$emit("input", e.target.value)
+                this.$emit("update:value", e.target.value)
             } else if (this.value !== undefined) {
                 let values = [...this.value]
                 if (e.target.checked) {
@@ -58,7 +58,7 @@ export default {
                 } else {
                     values = values.filter(value => value !== e.target.value)
                 }
-                this.$emit("input", values)
+                this.$emit("update:value", values)
             }
         },
         isChecked(multipleswitch) {

@@ -1,6 +1,6 @@
-import Vue from 'vue'
+import { createApp } from 'vue'
 import App from './App.vue'
-import VueRouter from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import vClickOutside from 'v-click-outside'
 
 /* import css from comand-frontend-framework */
@@ -23,16 +23,15 @@ import '@/assets/styles/template.css'
 /* import css for demopage only */
 import 'comand-frontend-framework/public/demopage-only.css'
 
-const router = new VueRouter({
-  mode: 'history'
+const router = createRouter({
+  history: createWebHistory(process.env.BASE_URL),
+  routes: [
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'somename',
+      component: App
+    }
+  ]
 })
 
-Vue.config.productionTip = false
-
-Vue.use(VueRouter)
-Vue.use(vClickOutside)
-
-new Vue({
-  router,
-  render: h => h(App),
-}).$mount('#app')
+createApp(App).use(router).use(vClickOutside).mount('#app')

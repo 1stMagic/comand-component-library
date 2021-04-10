@@ -1,7 +1,7 @@
 <template>
   <ol class="cmd-multistep-form-progress-bar">
       <li v-for="(step, index) in multisteps" :key="index" :class="{active : activeLink === index}">
-        <a :href="step.path" @click.prevent="clickedStep($event, index)">
+        <a :href="step.path" @click.stop.prevent="clickedStep($event, index)">
           <span class="number" v-if="showStepNumber">{{ index + 1 }}</span>
           <span v-else :class="step.iconClass"></span>
           <span>{{ step.name }}</span>

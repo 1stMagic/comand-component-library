@@ -18,7 +18,7 @@
 </template>
 
 <script>
-    import CmdFormElement from "@/components/CmdFormElement.vue"
+    import CmdFormElement from "./CmdFormElement.vue"
 
     export default {
         name: "CmdBoxSiteSearch.vue",

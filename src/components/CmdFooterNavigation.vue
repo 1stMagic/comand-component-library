@@ -1,18 +1,18 @@
 <template>
     <div class="cmd-footer-navigation">
         <h4 v-if="headline">{{ headline }}</h4>
-        <template v-for="(entry, index) in footerNavigation" role="navigation">
-            <li :key="index">
+        <ul>
+            <li v-for="(entry, index) in footerNavigation" :key="index">
                 <router-link v-if="entry.link.type === 'router'" :to="getRoute(entry)">{{ entry.name }}</router-link>
                 <a v-else :href="entry.link.path" :target="entry.link.target" @click="executeLink(entry, $event)">{{ entry.name }}</a>
             </li>
-        </template>
+        </ul>
     </div>
 </template>
 
 <script>
-import { getRoute } from '@/utilities.js'
-import { openFancyBox } from '@/components/CmdFancyBox.vue'
+import { getRoute } from "../utilities.js"
+import { openFancyBox } from "./CmdFancyBox.vue"
 
 export default {
     name: "CmdFooterNavigation",
@@ -45,6 +45,7 @@ export default {
 .cmd-footer-navigation {
     li {
         list-style: none;
+        margin-left: 0;
         margin-bottom: var(--default-margin);
 
         &:last-child {

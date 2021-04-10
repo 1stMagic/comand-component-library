@@ -47,23 +47,21 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import CmdSlideButton from "@/components/CmdSlideButton.vue"
-import CmdThumbnailScroller  from '@/components/CmdThumbnailScroller.vue'
+import { defineComponent, createApp } from "vue"
+import CmdSlideButton from "./CmdSlideButton.vue"
+import CmdThumbnailScroller  from './CmdThumbnailScroller.vue'
 
 const openFancyBox = (config) => {
     const node = document.createElement('div');
     document.querySelector('body').appendChild(node);
-    new FancyBox({
-        el: node,
-        propsData: {
-            ...config,
-            show: true
-        }
+    const fb = createApp(FancyBox, {
+        ...config,
+        show: true
     })
+    fb.mount(node)
 }
 
-const FancyBox = Vue.extend({
+const FancyBox = defineComponent({
     name: "CmdFancyBox",
     props: {
         url: {
@@ -173,7 +171,7 @@ const FancyBox = Vue.extend({
             {immediate: true}
         )
     },
-    beforeDestroy() {
+    beforeUnmount() {
         if(this.allowEscapeKey) {
             document.querySelector('body').removeEventListener('keyup', this.$_FancyBox_escapeKeyHandler)
         }
@@ -221,6 +219,7 @@ const FancyBox = Vue.extend({
         },
 
         showNextItem() {
+            console.log(this.index);
             if (this.index < this.fancyBoxGallery.length - 1) {
                 this.index++;
             } else {

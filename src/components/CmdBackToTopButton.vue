@@ -37,7 +37,7 @@
             window.addEventListener('scroll', this.onViewportChange);
         },
 
-        destroyed() {
+        unmounted() {
             window.removeEventListener('resize', this.onViewportChange);
             window.removeEventListener('scroll', this.onViewportChange);
         },
