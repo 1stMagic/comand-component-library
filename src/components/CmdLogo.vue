@@ -61,6 +61,7 @@ export default {
         display: block;
 
         img {
+            border: 0;
             max-height: 15rem;
         }
 

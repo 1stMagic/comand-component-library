@@ -1,5 +1,6 @@
 <template>
-  <fieldset class="grid-container-create-columns cmd-upload-form">
+  <fieldset ref="upload" class="grid-container-create-columns cmd-upload-form">
+    <legend>Upload form</legend>
     <h2 v-if="headline">{{ headline }}</h2>
     <CmdFormElement
             element="input"
@@ -7,12 +8,13 @@
             multiple="multiple"
             labelText="Choose file(s) with file-explorer:"
             @change="filesSelected"
+            v-show="enableFileSelect"
     />
     <template v-if="enableDragAndDrop">
-      <span>or</span>
-      <div :class="['box', {'allow-drop': allowDrop}]" @dragenter="dragEnter" @dragover="dragOver" @dragleave="dragLeave" @drop="drop($event)">
+      <span v-show="enableFileSelect">or</span>
+      <a href="#" :class="['box', {'allow-drop': allowDrop}]" @dragenter="dragEnter" @dragover="dragOver" @dragleave="dragLeave" @drop="drop($event)" @click.prevent="openFileDialog">
         <span>Drag & drop file(s) here</span>
-      </div>
+      </a>
     </template>
     <hr />
     <h2>List of files to upload</h2>
@@ -79,9 +81,13 @@ export default {
       type: String,
       required: false
     },
+    enableFileSelect: {
+      type: Boolean,
+      default: true
+    },
     enableDragAndDrop: {
       type: Boolean,
-      default: false
+      default: true
     },
     enableComment: {
       type: Boolean,
@@ -231,6 +237,9 @@ export default {
         return "error"
       }
       return "success"
+    },
+    openFileDialog() {
+        this.$refs.upload.querySelector("input[type='file']").click()
     }
   }
 }

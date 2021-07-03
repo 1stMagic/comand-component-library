@@ -1,10 +1,16 @@
 <template>
     <div class="cmd-footer-navigation">
         <h4 v-if="headline">{{ headline }}</h4>
-        <ul>
+        <ul class="flex-container">
             <li v-for="(entry, index) in footerNavigation" :key="index">
-                <router-link v-if="entry.link.type === 'router'" :to="getRoute(entry)">{{ entry.name }}</router-link>
-                <a v-else :href="entry.link.path" :target="entry.link.target" @click="executeLink(entry, $event)">{{ entry.name }}</a>
+                <router-link v-if="entry.type === 'router'" :to="getRoute(entry)">
+                    <span v-if="entry.iconClass" :class="entry.iconClass"></span>
+                    <span v-if="entry.linkName">{{ entry.linkName }}</span>
+                </router-link>
+                <a v-else :href="entry.path" :target="entry.target" @click="executeLink(entry, $event)">
+                    <span v-if="entry.iconClass" :class="entry.iconClass"></span>
+                    <span v-if="entry.linkName">{{ entry.linkName }}</span>
+                </a>
             </li>
         </ul>
     </div>
@@ -43,13 +49,13 @@ export default {
 <style lang="scss">
 /* begin cmd-footer-navigation --------------------------------------------------------------------------------------------------------------------------------------------------- */
 .cmd-footer-navigation {
-    li {
-        list-style: none;
-        margin-left: 0;
-        margin-bottom: var(--default-margin);
+    ul {
+        flex-direction: column;
+        gap: calc(var(--default-gap) / 2);
 
-        &:last-child {
-            margin-bottom: 0;
+        li {
+            list-style: none;
+            margin-left: 0;
         }
     }
 }

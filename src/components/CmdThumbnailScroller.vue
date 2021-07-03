@@ -105,10 +105,10 @@ export default {
 /* begin cmd-thumbnail-scroller --------------------------------------------------------------------------------------------------------------------------------------------------- */
 .cmd-thumbnail-scroller {
     overflow: hidden;
-    margin-bottom: calc(var(--default-margin) * 2);
     border-radius: var(--border-radius);
     padding: var(--default-padding);
     display: table;
+    margin: 0 auto calc(var(--default-margin) * 2) auto;
 
     > ul {
         overflow: hidden;

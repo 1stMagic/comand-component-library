@@ -1,7 +1,7 @@
 <template>
   <label v-if="(element === 'input' || element === 'select' || element === 'textarea')"
          :for="id"
-         :class="[status, {'inline' : displayinline, 'checked': isChecked}]">
+         :class="[status, {'inline' : displayinline, 'checked': isChecked}]" ref="label">
     <!-- begin label (+ required) -->
     <span v-if="labelText && $attrs.type !== 'checkbox' && $attrs.type !== 'radio'" :class="{'hidden': hideLabelText}">
       <span>{{ labelText }}</span><sup v-if="$attrs.required && !hideLabel">*</sup>
@@ -15,7 +15,7 @@
     <!-- begin inputfield -->
     <template v-if="element === 'input' && $attrs.type !== 'checkbox' && $attrs.type !== 'radio' && $attrs.type !== 'search'">
       <input v-bind="$attrs"
-             :id="id" :class="[htmlClass, status]"
+             :id="id" :class="htmlClass"
              @focus="tooltip = true"
              @blur="tooltip = false"
              @input="onInput"
@@ -26,6 +26,8 @@
              :disabled="status === 'disabled'"
       />
     </template>
+    <!-- end inputfield -->
+
     <!-- begin datalist -->
     <template v-if="datalist && datalist.options.length">
       <datalist :id="datalist.id">
@@ -33,7 +35,6 @@
       </datalist>
     </template>
     <!-- end datalist -->
-    <!-- end inputfield -->
 
     <!-- begin checkbox and radiobutton -->
     <template v-else-if="element === 'input' && ($attrs.type === 'checkbox' || $attrs.type === 'radio')">
@@ -41,7 +42,7 @@
              @change="onChange"
              :checked="isChecked"
              :value="inputValue"
-             :class="[htmlClass, status]"
+             :class="htmlClass"
              :id="id"
              :disabled="status === 'disabled'" />
       <span v-if="labelText">{{ labelText }}</span>
@@ -81,9 +82,11 @@
     <!-- begin searchfield -->
     <span v-else-if="element === 'input' && $attrs.type === 'search'" class="flex-container no-gap">
       <input v-bind="$attrs" :class="status" :id="id" @input="onInput" :value="value" />
-      <button class="no-flex" type="button"><span class="icon-search"></span></button>
+      <button class="no-flex" type="button" :disabled="status === 'disabled'">
+        <span class="icon-search"></span>
+      </button>
     </span>
-    <!-- begin searchfield -->
+    <!-- end searchfield -->
   </label>
 
   <!-- begin button -->
@@ -95,7 +98,7 @@
     </template>
     <span v-if="buttonIcon.iconPosition === 'after'" :class="buttonIcon.iconClass"></span>
   </button>
-  <!-- begin button -->
+  <!-- end button -->
 </template>
 
 <script>
@@ -225,7 +228,7 @@ export default {
     datalistFocus() {
       /* corrects focus-bug for datalist in firefox */
       if(this.datalist) {
-        this.$el.focus()
+        this.$refs.label.focus()
       }
     },
     onInput(e) {

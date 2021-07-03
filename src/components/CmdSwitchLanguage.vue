@@ -44,6 +44,7 @@
 .cmd-switch-language {
     ul {
         display: flex;
+        gap: calc(var(--default-gap) / 2);
         margin: 0;
 
         li {

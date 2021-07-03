@@ -1,28 +1,21 @@
 <template>
   <div id="site-header" :class="{ sticky: sticky }" role="banner">
-    <header>
-      <div class="flex-container no-flex">
-        <!--MySpCompanyLogo :link="linkLogo" :logo="logo" v-if="logo" /-->
-        <CmdTopHeaderNavBar
-          :navigationEntries="navigationEntries"
-          :languages="languages"
-          v-if="showHeaderNavBar"
-        />
-      </div>
-      <CmdMainNavigation :navigationEntries="mainNavigationEntries" />
+    <slot name="top-header"></slot>
+    <header :class="useGrid ? 'grid-container-create-columns': 'flex-container'">
+      <slot name="logo"></slot>
+      <slot name="header"></slot>
     </header>
+    <CmdMainNavigation :navigationEntries="mainNavigationEntries" v-if="mainNavigationEntries" :closeOffcanvas="closeOffcanvas" />
   </div>
 </template>
 
 <script>
 import CmdMainNavigation from "./CmdMainNavigation"
-import CmdTopHeaderNavBar from "./CmdTopHeaderNavBar"
 
 export default {
   name: "CmdSiteHeader",
   components: {
-    CmdMainNavigation,
-    CmdTopHeaderNavBar
+    CmdMainNavigation
   },
   props: {
     showHeaderNavBar: {
@@ -36,6 +29,10 @@ export default {
     mainNavigationEntries: {
       type: Array,
       required: true
+    },
+    headerWidthLimitation: {
+      type: Boolean,
+      default: false
     },
     languages: {
       type: Array,
@@ -52,6 +49,14 @@ export default {
     sticky: {
       type: Boolean,
       default: true
+    },
+    useGrid: {
+      type: Boolean,
+      default: true
+    },
+    closeOffcanvas: {
+        type: Object,
+        required: true
     }
   }
 }
@@ -61,30 +66,40 @@ export default {
 @import '../assets/styles/variables';
 
 #site-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--default-gap);
+
   &.sticky {
     position: sticky;
     z-index: 300;
   }
 
   header {
-    > div {
-      margin: 0 auto;
+    &.flex-container {
+      width: 100%;
 
-      &:first-child {
-        max-width: var(--max-width);
-        padding: var(--default-padding);
-      }
-
-      nav {
-        max-width: var(--max-width);
-        margin: 0 auto;
+      .cmd-logo {
+        flex: none;
       }
     }
 
-    .company-logo {
-      img {
-        height: 6rem;
-      }
+    nav {
+      padding: 0;
+    }
+
+    #main-navigation,
+    nav ul li,
+    #navigation-wrapper {
+      background: none;
+    }
+
+    #navigation-wrapper {
+      align-self: center;
+    }
+
+    .cmd-logo {
+      grid-column: span var(--grid-small-span);
     }
   }
 
@@ -92,10 +107,9 @@ export default {
     margin-left: auto;
   }
 
-  @media only screen and (max-width: $small-max-width) {
-    .company-logo,
-    #header-navbar {
-      margin: 0 auto;
+  &.top-header-navigation {
+    header {
+      padding-top: 0;
     }
   }
 }

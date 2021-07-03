@@ -73,6 +73,12 @@ export default {
         padding: var(--default-padding);
         border-radius: var(--border-radius);
         border-top-left-radius: 0;
+
+        > div {
+            *:last-child {
+                margin-bottom: 0;
+            }
+        }
     }
 
     /* stretch tabs with display-flex */

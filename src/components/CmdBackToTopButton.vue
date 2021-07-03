@@ -1,7 +1,7 @@
 <template>
     <!-- begin cmd-back-to-top-button -->
-    <transition name="back-to-top">
-        <a :class="iconClass" class="cmd-back-to-top-button" :href="href" :title="tooltip" @click.prevent="onBackToTop" v-if="show"></a>
+    <transition name="fade">
+        <a :class="iconClass" class="cmd-back-to-top-button" href="#" :title="tooltip" @click.prevent="onBackToTop" v-if="show"></a>
     </transition>
     <!-- end cmd-back-to-top-button -->
 </template>
@@ -18,13 +18,9 @@
         },
 
         props: {
-            href: {
-                type: String,
-                required: true
-            },
             iconClass: {
                 type: String,
-                required: true
+                default: "icon-single-arrow-up"
             },
             tooltip: {
                 type: String,

@@ -1,9 +1,9 @@
 <template>
     <div class="grid-container-create-columns cmd-imagezoom">
         <div class="grid-small-item">
-            <div class="thumbnails-imagezoom">
+            <a href="#" class="thumbnails-imagezoom">
                 <img :src="smallImageUrl" alt="Small Image" @mouseover="onMouseOver" @mousemove="onMouseMove" @mouseout="onMouseOut" />
-            </div>
+            </a>
         </div>
         <div v-if="showLargeImage" class="zoom-container grid-large-item">
             <img :src="largeImageUrl" alt="Large Image" />

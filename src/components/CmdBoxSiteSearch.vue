@@ -4,13 +4,13 @@
         <div class="flex-container">
             <CmdFormElement element="input" type="text" labelText="Wonach möchten Sie suchen?" />
             <CmdFormElement element="input" type="text" labelText="Wo möchten Sie suchen?" placeholder="Ort, PLZ" />
-            <CmdFormElement element="button" :buttonText="buttonText" :buttonIcon="{iconClass: 'icon-search', iconPosition: 'before'}" @click="$emit('click', $event)" />
+            <CmdFormElement element="button" :buttonText="buttonText" :buttonIcon="{iconClass: 'icon-search', iconPosition: 'before'}" @click="$emit('click', $event)" aria-live="assertive" />
         </div>
         <a href="#" @click.prevent="showFilter = !showFilter">
             <span :class="showFilter ? 'icon-single-arrow-up' : 'icon-single-arrow-down'"></span><span>Filter anzeigen</span>
         </a>
         <transition name="fade">
-            <div class="flex-container no-flex" v-if="showFilter">
+            <div class="flex-container no-flex" v-if="showFilter" aria-expanded="true">
                <CmdFormElement v-for="(filter, index) in filters" element="input" type="checkbox" :labelText="filter.labelText" :inputValue="filter.value" :key="index" />
             </div>
         </transition>

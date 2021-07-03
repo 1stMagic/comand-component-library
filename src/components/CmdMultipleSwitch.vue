@@ -1,10 +1,11 @@
 <template>
-    <label class="multiple-switch" :class="htmlClass">
+    <div :class="['label', 'multiple-switch', htmlClass, {disabled: status === 'disabled', error: status === 'error'}]">
         <span v-if="labelText">{{ labelText }}</span>
         <span class="flex-container no-gap no-flex">
-            <label :for="multipleswitch.id" v-for="(multipleswitch, index) in multipleSwitches" :key="index">
+            <label :class="{disabled: status === 'disabled'}" :for="multipleswitch.id" v-for="(multipleswitch, index) in multipleSwitches" :key="index">
                 <input :type="switchTypes"
                        :id="multipleswitch.id"
+                       :disabled="status === 'disabled'"
                        :name="switchNames"
                        :value="multipleswitch.value"
                        :checked="isChecked(multipleswitch)"
@@ -14,7 +15,7 @@
                 <span v-if="multipleswitch.labelText">{{ multipleswitch.labelText }}</span>
             </label>
         </span>
-    </label>
+    </div>
 </template>
 
 <script>
@@ -45,6 +46,10 @@ export default {
         switchNames: {
             type: String,
             required: true
+        },
+        status: {
+            type: String,
+            required: false
         }
     },
     methods: {

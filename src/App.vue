@@ -1,155 +1,76 @@
 <!--suppress HtmlUnknownTarget, NpmUsedModulesInstalled, JSUnresolvedVariable -->
 <template>
-  <div id="app">
-    <CmdWidthLimitationWrapper inner-component="header" :sticky="true" :class="{'top-header-navigation' : topHeaderNavigationData}">
-        <CmdTopHeaderNavigation :topHeaderNavigationData="topHeaderNavigationData" v-if="topHeaderNavigationData" />
-        <CmdLogo altText="CoManD Logo" :pathDefaultLogo="require('@/assets/images/logo.svg')" :pathDarkmodeLogo="require('@/assets/images/logo-darkmode.svg')"  />
-    </CmdWidthLimitationWrapper>
+  <a name="anchor-back-to-top"></a>
+    <CmdSiteHeader :mainNavigationEntries="navigationData" :closeOffcanvas="{'text': 'Close navigation', 'iconClass': 'icon-cancel'}" :sticky="true">
+       <template v-slot:top-header>
+         <CmdTopHeaderNavigation :topHeaderNavigationData="topHeaderNavigationData" v-if="topHeaderNavigationData" />
+       </template>
+      <template v-slot:logo>
+        <CmdLogo altText="CoManD Logo" :pathDefaultLogo="require('@/assets/images/logo.svg')" :pathDarkmodeLogo="require('@/assets/images/logo-darkmode.svg')" />
+      </template>
+    </CmdSiteHeader>
+    <main>
+      <CmdWidthLimitationWrapper>
+      <div class="flex-container">
+        <ul>
+          <li><a href="#section-accordion">Accordion</a></li>
+          <li><a href="#section-advanced-form-elements">Advanced Form Elements</a></li>
+          <li><a href="#section-boxes">Boxes</a></li>
+          <li><a href="#section-breadcrumbs">Breadcrumbs</a></li>
+          <li><a href="#section-cookie-disclaimer">Cookie-Disclaimer</a></li>
+        </ul>
+        <ul>
+          <li><a href="#section-fancybox">Fancybox</a></li>
+          <li><a href="#section-google-maps-integration">Google-Maps&trade;-Integration</a></li>
+          <li><a href="#section-image-gallery">Image Gallery</a></li>
+          <li><a href="#section-image-zoom">Image-Zoom</a></li>
+          <li><a href="#section-main-navigation">Main-Navigation</a></li>
+        </ul>
+        <ul>
+          <li><a href="#section-multistep-form-progress-bar">Multistepform-Progressbar</a></li>
+          <li><a href="#section-pager">Pager</a></li>
+          <li><a href="#section-share-buttons">Share Buttons</a></li>
+          <li><a href="#section-slideshow">Slideshow</a></li>
+          <li><a href="#section-system-message">System-Message</a></li>
+        </ul>
+        <ul>
+          <li><a href="#section-tables">Tables</a></li>
+          <li><a href="#section-tabs">Tabs</a></li>
+          <li><a href="#section-thumbnail-scroller">Thumbnail-Scroller</a></li>
+          <li><a href="#section-upload-form">Upload-Form</a></li>
+        </ul>
+      </div>
 
-    <CmdWidthLimitationWrapper inner-component="div">
-        <CmdBreadcrumbs :breadcrumbLinks="breadcrumbData" breadcrumbLabel="You are here:" />
-    </CmdWidthLimitationWrapper>
-
-    <CmdWidthLimitationWrapper>
-        <h2 class="headline-demopage">Accordion</h2>
-        <h3>Single mode</h3>
-        <CmdAccordion :accordionData="accordionData.accordionData1"
-                   toggleMode="single"
-                   tooltip="Click to toggle content"
-                   openIconClass="icon-single-arrow-up"
-                   closeIconClass="icon-single-arrow-down"
-        />
-        <h3>Multiple mode</h3>
-        <CmdAccordion :accordionData="accordionData.accordionData2"
-                   toggleMode="multiple"
-                   tooltip="Click to toggle content"
-                   openIconClass="icon-single-arrow-up"
-                   closeIconClass="icon-single-arrow-down"
-        />
-    </CmdWidthLimitationWrapper>
-
-    <CmdBackToTopButton href="#anchor-back-to-top" iconClass="icon-single-arrow-up" tooltip="Back to top" />
-
-    <CmdWidthLimitationWrapper>
-        <h2 class="headline-demopage">Boxes</h2>
-        <h3>Content boxes</h3>
-        <div class="grid-container-create-columns">
-          <div class="grid-small-item">
-            <CmdBoxContent>
-              <template v-slot:header>
-                  <h3>
-                      Box with text
-                  </h3>
-              </template>
-              <template v-slot:body>
-                  <p class="padding">
-                    box body with paragraph
-                  </p>
-              </template>
-              <template v-slot:footer>
-                  <p>
-                    footer content
-                  </p>
-              </template>
-            </CmdBoxContent>
-          </div>
-          <div class="grid-small-item">
-            <CmdBoxContent>
-              <template v-slot:header>
-                  <h3>
-                    Box with links
-                  </h3>
-              </template>
-              <template v-slot:body>
-                  <ul class="navigation">
-                    <li><a href="#" @click.prevent="">Link name 1</a></li>
-                    <li><a href="#" @click.prevent="">Link name 2</a></li>
-                    <li><a href="#" @click.prevent="">Link name 3</a></li>
-                    <li><a href="#" @click.prevent="">Link name 4</a></li>
-                  </ul>
-              </template>
-              <template v-slot:footer>
-                  <p>
-                    footer content
-                  </p>
-              </template>
-            </CmdBoxContent>
-          </div>
-          <div class="grid-small-item">
-            <CmdBoxContent>
-              <template v-slot:header>
-                  <h3>
-                  Box with image
-                  </h3>
-              </template>
-              <template v-slot:body>
-                  <img src="media/images/content-images/logo-business-edition-landscape.jpg" alt="Alternative text" />
-              </template>
-              <template  v-slot:footer>
-              <p>
-                footer content
-              </p>
-              </template>
-            </CmdBoxContent>
-          </div>
-            <div class="grid-small-item">
-                <CmdBoxContent>
-                    <template v-slot:header>
-                    <h3>
-                        Box with image and content
-                    </h3>
-                    </template>
-                    <template v-slot:body>
-                      <img src="media/images/content-images/logo-business-edition-landscape.jpg" alt="Alternative text" />
-                      <div class="default-padding">
-                          <h4>Headline</h4>
-                          <p>This some text i.e a  short-text for news.</p>
-                      </div>
-                    </template>
-                    <template v-slot:footer>
-                      <p>
-                          <a href="#">Mehr erfahren&hellip;</a>
-                      </p>
-                    </template>
-                </CmdBoxContent>
-            </div>
-        </div>
-        <h3>Box Site Search</h3>
-        <CmdBoxSiteSearch :results="executeSearch()" @click="executeSearch($event)" />
-        <h3>User boxes</h3>
-        <div class="grid-container-create-columns">
-          <div class="grid-small-item" v-for="(user, index) in boxUserData" :key="index">
-            <CmdBoxUser :user="user" />
-          </div>
-        </div>
-        <h3>Product boxes</h3>
-        <div class="grid-container-create-columns">
-          <div class="grid-small-item" v-for="(product, index) in boxProductData" :key="index">
-            <CmdBoxProduct :product="product" />
-          </div>
-        </div>
-        </CmdWidthLimitationWrapper>
-
-    <CmdWidthLimitationWrapper>
-        <h2 class="headline-demopage">Fancybox</h2>
-        <a href="#" @click.prevent="showFancyBox('text','Some text')">Open FancyBox with text</a>
-        <a href="#" @click.prevent="showFancyBox('image', 'media/images/content-images/logo-business-edition-landscape.jpg')" title="Open FancyBox with large image">
-            <img src="media/images/content-images/logo-business-edition-landscape.jpg" alt="Alternative text" />
-        </a>
+      <hr />
       </CmdWidthLimitationWrapper>
 
+      <a id="section-accordion"></a>
       <CmdWidthLimitationWrapper>
-          <h2 class="headline-demopage">Google Maps&trade;-Integration</h2>
-          <CmdGoogleMaps :addressData="addressData" />
-     </CmdWidthLimitationWrapper>
+          <h2 class="headline-demopage">Accordion</h2>
+          <h3>Single mode</h3>
+          <CmdAccordion :accordionData="accordionData.accordionData1"
+                     toggleMode="single"
+                     tooltip="Click to toggle content"
+                     openIconClass="icon-single-arrow-up"
+                     closeIconClass="icon-single-arrow-down"
+          />
+          <h3>Multiple mode</h3>
+          <CmdAccordion :accordionData="accordionData.accordionData2"
+                     toggleMode="multiple"
+                     tooltip="Click to toggle content"
+                     openIconClass="icon-single-arrow-up"
+                     closeIconClass="icon-single-arrow-down"
+          />
+      </CmdWidthLimitationWrapper>
 
-    <!-- begin advanced form elements --------------------------------------------------------------------------------------------------------------------------------------------------->
-    <CmdWidthLimitationWrapper>
+      <!-- begin advanced form elements --------------------------------------------------------------------------------------------------------------------------------------------------->
+      <a id="section-advanced-form-elements"></a>
+      <CmdWidthLimitationWrapper>
         <a id="anchor-advanced-form-elements"></a>
         <h2 class="headline-demopage">Advanced Form Elements</h2>
+        <h3>Form elements status:</h3>
         <div class="flex-container">
           <ul class="list-status">
-            <li>Form elements status:</li>
             <li><a href="#" @click.prevent="formElementStatus = ''" :class="{'active' : formElementStatus === ''}" id="status-default">Default</a></li>
             <li><a href="#" @click.prevent="formElementStatus = 'error'" :class="{'active' : formElementStatus === 'error'}" id="status-error">Error</a></li>
             <li><a href="#" @click.prevent="formElementStatus = 'disabled'" :class="{'active' : formElementStatus === 'disabled'}" id="status-disabled">Disabled</a></li>
@@ -157,30 +78,30 @@
         </div>
 
         <!-- begin formfilters -->
-        <CmdFormFilters :selectedOptions="selectedOptions"
-                     :selectedOptionsName="getOptionName"
-                     labelDeleteAllFilters="Alle Filter löschen"
-                     iconClassDeleteAllFilters="icon-delete"
-                     iconClassDeleteFilter="icon-cancel" />
+        <CmdFormFilters v-model:selectedOptions="selectedOptions"
+                        :selectedOptionsName="getOptionName"
+                        labelDeleteAllFilters="Alle Filter löschen"
+                        iconClassDeleteAllFilters="icon-delete"
+                        iconClassDeleteFilter="icon-cancel" />
         <!-- end formfilters -->
 
         <form method="get" novalidate="novalidate" id="advanced-form-elements">
           <fieldset class="grid-container-create-columns">
             <legend>Legend</legend>
-              <h2>Form Element-Component</h2>
-              <div class="flex-container">
-                  <CmdFormElement labelText="Input (type text):" element="input" type="text" placeholder="Type in text" />
-                  <CmdFormElement labelText="Input for datalist:" element="input" type="text" placeholder="Type in option"  :datalist="datalist" />
-                  <CmdFormElement labelText="Input for datalist:" element="input" type="text" placeholder="Type in option"  :datalist="datalist" />
-              </div>
-              <h2>Fake Selects</h2>
+            <h2>Form Element-Component</h2>
+            <div class="flex-container">
+              <CmdFormElement labelText="Input (type text):" element="input" type="text" :status="formElementStatus" placeholder="Type in text" />
+              <CmdFormElement labelText="Input for datalist:" element="input" type="text" :status="formElementStatus" placeholder="Type in option" :datalist="datalist" />
+              <CmdFormElement labelText="Input for datalist:" element="input" type="text" :status="formElementStatus" placeholder="Type in option" :datalist="datalist" />
+            </div>
+            <h2>Fake Selects</h2>
             <div class="flex-container">
               <CmdFakeSelect :status="formElementStatus"
-                          :selectData="fakeSelectOptionsData"
-                          v-model:value="selectedOptions"
-                          defaultOptionName="Filters:"
-                          type="filterList"
-                          iconClass="icon-single-arrow-down" />
+                             :selectData="fakeSelectOptionsData"
+                             v-model:value="selectedOptions"
+                             defaultOptionName="Filters:"
+                             type="filterList"
+                             iconClass="icon-single-arrow-down" />
               <CmdFakeSelect :status="formElementStatus" defaultOptionName="HTML-Content:" iconClass="icon-single-arrow-down">
                 <ul class="custom-fake-select-content">
                   <li>
@@ -193,16 +114,16 @@
                 </ul>
               </CmdFakeSelect>
               <CmdFakeSelect :status="formElementStatus"
-                          :selectData="fakeSelectCountriesData"
-                          v-model:value="selectedCountry"
-                          defaultOptionName="Select country:"
-                          type="country" iconClass="icon-single-arrow-down" />
+                             :selectData="fakeSelectCountriesData"
+                             v-model:value="selectedCountry"
+                             defaultOptionName="Select country:"
+                             type="country" iconClass="icon-single-arrow-down" />
               <CmdFakeSelect :status="formElementStatus"
-                          :selectData="fakeSelectColorsData"
-                          v-model:value="selectedColor"
-                          defaultOptionName="Select color:"
-                          type="color"
-                          iconClass="icon-single-arrow-down" />
+                             :selectData="fakeSelectColorsData"
+                             v-model:value="selectedColor"
+                             defaultOptionName="Select color:"
+                             type="color"
+                             iconClass="icon-single-arrow-down" />
             </div>
 
             <!-- begin progress bar -->
@@ -215,16 +136,16 @@
             <label for="range-slider" :class="formElementStatus">
               <span>Single-Slider (with in- and output):</span>
               <span class="flex-container no-flex">
-                <input type="number" :class="formElementStatus" v-model="rangeValue" :disabled="formElementStatus === 'disabled'" min="0" max="100" />
-                <input type="range"
-                       class="range-slider"
-                       :class="{'disabled': formElementStatus === 'disabled'}"
-                       id="range-slider"
-                       v-model="rangeValue"
-                       :disabled="formElementStatus === 'disabled'"
-                       min="0"
-                       max="100" />
-              </span>
+                  <input type="number" :class="formElementStatus" v-model="rangeValue" :disabled="formElementStatus === 'disabled'" min="0" max="100" />
+                  <input type="range"
+                         class="range-slider"
+                         :class="{'disabled': formElementStatus === 'disabled'}"
+                         id="range-slider"
+                         v-model="rangeValue"
+                         :disabled="formElementStatus === 'disabled'"
+                         min="0"
+                         max="100" />
+                </span>
             </label>
             <!-- end slider -->
 
@@ -235,61 +156,61 @@
             <div class="label inline">
               <span>Label for Toggle-Switch-Checkbox with Switch-Button:</span>
               <span class="flex-container no-flex">
-                <CmdSwitchButton
-                        type="checkbox"
-                        id="checkbox1"
-                        name="checkbox1"
-                        onLabel="Label on"
-                        offLabel="Label off"
-                        inputValue="checkbox1"
-                        :disabled="formElementStatus === 'disabled'"
-                        v-model:value="switchButtonCheckbox" />
-                <CmdSwitchButton
-                        type="checkbox"
-                        id="checkbox2"
-                        name="checkbox2"
-                        onLabel="Label on"
-                        offLabel="Label off"
-                        labelText="Labeltext"
-                        inputValue="checkbox2"
-                        :disabled="formElementStatus === 'disabled'"
-                        v-model:value="switchButtonCheckbox" />
                   <CmdSwitchButton
                           type="checkbox"
-                          id="checkbox30"
-                          name="checkbox30"
-                          inputValue="checkbox30"
-                          labelText="Labeltext"
+                          id="checkbox1"
+                          name="checkbox1"
+                          onLabel="Label on"
+                          offLabel="Label off"
+                          inputValue="checkbox1"
                           :disabled="formElementStatus === 'disabled'"
                           v-model:value="switchButtonCheckbox" />
-              </span>
+                  <CmdSwitchButton
+                          type="checkbox"
+                          id="checkbox2"
+                          name="checkbox2"
+                          onLabel="Label on"
+                          offLabel="Label off"
+                          labelText="Labeltext"
+                          inputValue="checkbox2"
+                          :disabled="formElementStatus === 'disabled'"
+                          v-model:value="switchButtonCheckbox" />
+                    <CmdSwitchButton
+                            type="checkbox"
+                            id="checkbox30"
+                            name="checkbox30"
+                            inputValue="checkbox30"
+                            labelText="Labeltext"
+                            :disabled="formElementStatus === 'disabled'"
+                            v-model:value="switchButtonCheckbox" />
+                </span>
             </div>
             <!-- end toggle-switch-radio with switch-button -->
 
             <div class="label inline">
               <span>Label for Toggle-Switch-Checkbox with Switch-Button (colored):</span>
               <span class="flex-container no-flex">
-                <CmdSwitchButton
-                        type="checkbox"
-                        id="checkbox3"
-                        name="checkbox3"
-                        onLabel="Label on"
-                        offLabel="Label off"
-                        :colored="true"
-                        inputValue="checkbox3"
-                        :disabled="formElementStatus === 'disabled'"
-                        v-model:value="switchButtonCheckbox" />
-                <CmdSwitchButton
-                        type="checkbox"
-                        id="checkbox4"
-                        name="checkbox4"
-                        onLabel="Label on"
-                        offLabel="Label off"
-                        :colored="true"
-                        inputValue="checkbox4"
-                        :disabled="formElementStatus === 'disabled'"
-                        v-model:value="switchButtonCheckbox" />
-              </span>
+                  <CmdSwitchButton
+                          type="checkbox"
+                          id="checkbox3"
+                          name="checkbox3"
+                          onLabel="Label on"
+                          offLabel="Label off"
+                          :colored="true"
+                          inputValue="checkbox3"
+                          :disabled="formElementStatus === 'disabled'"
+                          v-model:value="switchButtonCheckbox" />
+                  <CmdSwitchButton
+                          type="checkbox"
+                          id="checkbox4"
+                          name="checkbox4"
+                          onLabel="Label on"
+                          offLabel="Label off"
+                          :colored="true"
+                          inputValue="checkbox4"
+                          :disabled="formElementStatus === 'disabled'"
+                          v-model:value="switchButtonCheckbox" />
+                </span>
             </div>
             <!-- end toggle-switch-radio with switch-button -->
 
@@ -297,185 +218,188 @@
             <div class="label inline">
               <span>Label for Toggle-Switch-Radio with switch-button (colored):</span>
               <span class="flex-container no-flex">
-                <CmdSwitchButton
-                        type="radio"
-                        id="radio1"
-                        name="radiogroup"
-                        onLabel="Label on"
-                        offLabel="Label off"
-                        :colored="true"
-                        inputValue="radio1"
-                        :disabled="formElementStatus === 'disabled'"
-                        v-model:value="switchButtonRadio" />
-                <CmdSwitchButton
-                        type="radio"
-                        id="radio2"
-                        name="radiogroup"
-                        onLabel="Label on"
-                        offLabel="Label off"
-                        :colored="true"
-                        inputValue="radio2"
-                        :disabled="formElementStatus === 'disabled'"
-                        v-model:value="switchButtonRadio" />
-              </span>
+                  <CmdSwitchButton
+                          type="radio"
+                          id="radio1"
+                          name="radiogroup"
+                          onLabel="Label on"
+                          offLabel="Label off"
+                          :colored="true"
+                          inputValue="radio1"
+                          :disabled="formElementStatus === 'disabled'"
+                          v-model:value="switchButtonRadio" />
+                  <CmdSwitchButton
+                          type="radio"
+                          id="radio2"
+                          name="radiogroup"
+                          onLabel="Label on"
+                          offLabel="Label off"
+                          :colored="true"
+                          inputValue="radio2"
+                          :disabled="formElementStatus === 'disabled'"
+                          v-model:value="switchButtonRadio" />
+                </span>
             </div>
             <!-- end toggle-switch-radio with switch-button (colored) -->
 
             <h2>Inputfields in Columns</h2>
             <CmdFormElement element="input"
-                        required="required"
-                        labelText="Label for inputfield (with tooltip):"
-                        type="text"
-                        id="inputfield1"
-                        autofocus="autofocus"
-                        placeholder="This is placeholder text"
-                        v-model:value="inputField1"
-                        tooltipText="This is a tooltip!"
-                        :status="formElementStatus" />
+                            required="required"
+                            labelText="Label for inputfield (with tooltip):"
+                            type="text"
+                            id="inputfield1"
+                            autofocus="autofocus"
+                            placeholder="This is placeholder text"
+                            v-model:value="inputField1"
+                            tooltipText="This is a tooltip!"
+                            :status="formElementStatus" />
 
             <!-- begin inputfield in two columns -->
             <div class="flex-container">
               <CmdFormElement labelText="Label for inputfield (with icon):"
-                          element="input"
-                          type="text"
-                          id="inputfield2"
-                          iconClass="icon-user-profile"
-                          placeholder="Type in username"
-                          tooltipText="This is a tooltip!"
-                          :status="formElementStatus" />
+                              element="input"
+                              type="text"
+                              id="inputfield2"
+                              iconClass="icon-user-profile"
+                              placeholder="Type in username"
+                              tooltipText="This is a tooltip!"
+                              :status="formElementStatus" />
               <CmdFormElement element="input"
-                          labelText="Label for inputfield (with icon):"
-                          type="password"
-                          id="inputfield3"
-                          iconClass="icon-security-settings"
-                          placeholder="Type in password"
-                          tooltipText="This is a tooltip!"
-                          :status="formElementStatus" />
+                              labelText="Label for inputfield (with icon):"
+                              type="password"
+                              id="inputfield3"
+                              iconClass="icon-security-settings"
+                              placeholder="Type in password"
+                              tooltipText="This is a tooltip!"
+                              :status="formElementStatus" />
             </div>
             <!-- end inputfield in two columns -->
+
             <CmdFormElement element="input"
-                         labelText="Label (inline) for inputfield (number):"
-                         :displayinline="true"
-                         type="number"
-                         id="inputfield4"
-                         autofocus="autofocus"
-                         :status="formElementStatus" />
+                            labelText="Label (inline) for inputfield (number):"
+                            :displayinline="true"
+                            type="number"
+                            id="inputfield4"
+                            autofocus="autofocus"
+                            :status="formElementStatus" />
             <CmdFormElement element="input"
-                         labelText="Label (inline) for inputfield (date):"
-                         :displayinline="true"
-                         type="date"
-                         id="inputfield5"
-                         autofocus="autofocus"
-                         :status="formElementStatus" />
-              <CmdFormElement element="input"
-                              labelText="Label (inline) for inputfield (search):"
-                              :displayinline="true"
-                              type="search"
-                              id="inputfield6"
-                              placeholder="Keyword(s)"
-                              :status="formElementStatus" />
+                            labelText="Label (inline) for inputfield (date):"
+                            :displayinline="true"
+                            type="date"
+                            id="inputfield5"
+                            autofocus="autofocus"
+                            :status="formElementStatus" />
+            <CmdFormElement element="input"
+                            labelText="Label (inline) for inputfield (search):"
+                            :displayinline="true"
+                            type="search"
+                            id="inputfield6"
+                            placeholder="Keyword(s)"
+                            :status="formElementStatus" />
             <div class="label inline">
-                  <span>Label for native checkboxes:</span>
-                  <div class="flex-container no-flex">
-                  <CmdFormElement element="input"
-                             labelText="Label for checkbox with boolean"
-                             type="checkbox"
-                             id="inputfield7"
-                             required="required"
-                             v-model:value="checkboxStatus"
-                             :status="formElementStatus" />
+              <span>Label for native checkboxes:</span>
+              <div class="flex-container no-flex">
                 <CmdFormElement element="input"
-                             labelText="Label for checkbox with value"
-                             v-model:value="checkboxValues"
-                             inputValue="checkboxValue"
-                             type="checkbox"
-                             id="inputfield8"
-                             required="required"
-                             :status="formElementStatus" />
-                </div>
+                                labelText="Label for checkbox with boolean"
+                                type="checkbox"
+                                id="inputfield7"
+                                required="required"
+                                v-model:value="checkboxStatus"
+                                :status="formElementStatus" />
+                <CmdFormElement element="input"
+                                labelText="Label for checkbox with value"
+                                v-model:value="checkboxValues"
+                                inputValue="checkboxValue"
+                                type="checkbox"
+                                id="inputfield8"
+                                required="required"
+                                :status="formElementStatus" />
+              </div>
             </div>
             <div class="label inline">
-                <span>Label for Replaced Input-Type-Checkbox:</span>
-                <div class="flex-container no-flex">
-                    <CmdFormElement element="input"
-                                 labelText="Label for replaced checkbox"
-                                 type="checkbox"
-                                 htmlClass="replace-input-type"
-                                 id="inputfield9"
-                                 required="required"
-                                 v-model:value="replacedCheckboxStatus1"
-                                 :status="formElementStatus" />
-                    <CmdFormElement element="input"
-                                 labelText="Label for replaced checkbox"
-                                 v-model:value="replacedCheckboxStatus2"
-                                 inputValue="checkboxValue"
-                                 type="checkbox"
-                                 htmlClass="replace-input-type"
-                                 id="inputfield10"
-                                 required="required"
-                                 :status="formElementStatus" />
-                </div>
+              <span>Label for Replaced Input-Type-Checkbox:</span>
+              <div class="flex-container no-flex">
+                <CmdFormElement element="input"
+                                labelText="Label for replaced checkbox"
+                                type="checkbox"
+                                htmlClass="replace-input-type"
+                                id="inputfield9"
+                                required="required"
+                                v-model:value="replacedCheckboxStatus1"
+                                :status="formElementStatus" />
+                <CmdFormElement element="input"
+                                labelText="Label for replaced checkbox"
+                                v-model:value="replacedCheckboxStatus2"
+                                inputValue="checkboxValue"
+                                type="checkbox"
+                                htmlClass="replace-input-type"
+                                id="inputfield10"
+                                required="required"
+                                :status="formElementStatus" />
+              </div>
             </div>
             <div class="label inline">
-                <span>Label for native radiobuttons:</span>
-                <div class="flex-container no-flex">
-                  <CmdFormElement element="input"
-                               labelText="Label for native radiobutton"
-                               type="radio"
-                               id="inputfield11"
-                               name="radiogroup"
-                               inputValue="radiobuttonValue1"
-                               v-model:value="radiobuttonStatus"
-                               :status="formElementStatus" />
-                  <CmdFormElement element="input"
-                               labelText="Label for native radiobutton"
-                               type="radio"
-                               id="inputfield12"
-                               name="radiogroup"
-                               inputValue="radiobuttonValue2"
-                               v-model:value="radiobuttonStatus"
-                               checked="checked"
-                               :status="formElementStatus" />
-                </div>
+              <span>Label for native radiobuttons:</span>
+              <div class="flex-container no-flex">
+                <CmdFormElement element="input"
+                                labelText="Label for native radiobutton"
+                                type="radio"
+                                id="inputfield11"
+                                name="radiogroup"
+                                inputValue="radiobuttonValue1"
+                                v-model:value="radiobuttonStatus"
+                                :status="formElementStatus" />
+                <CmdFormElement element="input"
+                                labelText="Label for native radiobutton"
+                                type="radio"
+                                id="inputfield12"
+                                name="radiogroup"
+                                inputValue="radiobuttonValue2"
+                                v-model:value="radiobuttonStatus"
+                                checked="checked"
+                                :status="formElementStatus" />
+              </div>
             </div>
             <div class="label inline">
-                <span>Label for Replaced Input-Type-Radio:</span>
-                <div class="flex-container no-flex">
-                  <CmdFormElement element="input"
-                               labelText="Label for replaced radiobutton"
-                               type="radio"
-                               htmlClass="replace-input-type"
-                               id="inputfield13"
-                               name="replaced-radiogroup"
-                               inputValue="radiobuttonValue1"
-                               v-model:value="replacedRadiobuttonStatus"
-                               :status="formElementStatus" />
-                  <CmdFormElement element="input"
-                               labelText="Label for replaced radiobutton"
-                               type="radio"
-                               htmlClass="replace-input-type"
-                               id="inputfield14"
-                               name="replaced-radiogroup"
-                               inputValue="radiobuttonValue2"
-                               v-model:value="replacedRadiobuttonStatus"
-                               checked="checked"
-                               :status="formElementStatus" />
-                </div>
+              <span>Label for Replaced Input-Type-Radio:</span>
+              <div class="flex-container no-flex">
+                <CmdFormElement element="input"
+                                labelText="Label for replaced radiobutton"
+                                type="radio"
+                                htmlClass="replace-input-type"
+                                id="inputfield13"
+                                name="replaced-radiogroup"
+                                inputValue="radiobuttonValue1"
+                                v-model:value="replacedRadiobuttonStatus"
+                                :status="formElementStatus" />
+                <CmdFormElement element="input"
+                                labelText="Label for replaced radiobutton"
+                                type="radio"
+                                htmlClass="replace-input-type"
+                                id="inputfield14"
+                                name="replaced-radiogroup"
+                                inputValue="radiobuttonValue2"
+                                v-model:value="replacedRadiobuttonStatus"
+                                checked="checked"
+                                :status="formElementStatus" />
+              </div>
             </div>
             <CmdMultipleSwitch labelText="Label for multiple-switch with checkboxes:"
-                            :multipleSwitches="multipleSwitchCheckboxData"
-                            switchTypes="checkbox"
-                            switchNames="checkboxgroup"
-                            v-model:value="multipleSwitchCheckbox" />
+                               :multipleSwitches="multipleSwitchCheckboxData"
+                               switchTypes="checkbox"
+                               switchNames="checkboxgroup"
+                               :status="formElementStatus"
+                               v-model:value="multipleSwitchCheckbox" />
             <dl>
               <dt>Selected value:</dt>
               <dd><output>{{ multipleSwitchCheckbox }}</output></dd>
             </dl>
             <CmdMultipleSwitch labelText="Label for multiple-switch with radiobuttons:"
-                            :multipleSwitches="multipleSwitchRadioData"
-                            switchTypes="radio"
-                            switchNames="radiogroup"
-                            v-model:value="multipleSwitchRadio" />
+                               :multipleSwitches="multipleSwitchRadioData"
+                               switchTypes="radio"
+                               switchNames="radiogroup"
+                               :status="formElementStatus"
+                               v-model:value="multipleSwitchRadio" />
             <dl>
               <dt>Selected value:</dt>
               <dd><output>{{ multipleSwitchRadio }}</output></dd>
@@ -483,130 +407,273 @@
           </fieldset><!-- end fieldset -->
           <div class="button-wrapper">
             <small><sup>*</sup>values will not be submitted with the form!</small>
-              <button type="submit" :disabled="formElementStatus === 'disabled'"><span class="icon-check"></span><span>Submit form</span></button>
+            <button type="submit" :disabled="formElementStatus === 'disabled'"><span class="icon-check"></span><span>Submit form</span></button>
           </div>
         </form>
-     </CmdWidthLimitationWrapper>
-    <!-- end advanced form elements ----------------------------------------------------------------------------------------------------------------------------------------------------->
+      </CmdWidthLimitationWrapper>
+      <!-- end advanced form elements ----------------------------------------------------------------------------------------------------------------------------------------------------->
 
-    <CmdWidthLimitationWrapper>
-        <h2 class="headline-demopage">Image-Gallery</h2>
-        <CmdImageGallery :images="imageGalleryData"  />
-    </CmdWidthLimitationWrapper>
+      <CmdBackToTopButton tooltip="Back to top" />
 
-    <CmdWidthLimitationWrapper>
-        <a id="anchor-image-zoom"></a>
-        <h2 class="headline-demopage">Image-Zoom</h2>
-        <CmdImageZoom small-image-url="media/images/content-images/logo-business-edition-landscape.jpg" large-image-url="media/images/content-images/logo-business-edition-landscape-large.jpg" />
-    </CmdWidthLimitationWrapper>
+      <a id="section-boxes"></a>
+      <CmdWidthLimitationWrapper>
+          <h2 class="headline-demopage">Boxes</h2>
+          <h3>Content boxes</h3>
+          <div class="grid-container-create-columns">
+            <div class="grid-small-item">
+              <CmdBoxContent>
+                <template v-slot:header>
+                    <h3>
+                        Box with text
+                    </h3>
+                </template>
+                <template v-slot:body>
+                    <p class="padding">
+                      box body with paragraph
+                    </p>
+                </template>
+                <template v-slot:footer>
+                    <p>
+                      footer content
+                    </p>
+                </template>
+              </CmdBoxContent>
+            </div>
+            <div class="grid-small-item">
+              <CmdBoxContent>
+                <template v-slot:header>
+                    <h3>
+                      Box with links
+                    </h3>
+                </template>
+                <template v-slot:body>
+                    <ul class="navigation">
+                      <li><a href="#" @click.prevent="">Link name 1</a></li>
+                      <li><a href="#" @click.prevent="">Link name 2</a></li>
+                      <li><a href="#" @click.prevent="">Link name 3</a></li>
+                      <li><a href="#" @click.prevent="">Link name 4</a></li>
+                    </ul>
+                </template>
+                <template v-slot:footer>
+                    <p>
+                      footer content
+                    </p>
+                </template>
+              </CmdBoxContent>
+            </div>
+            <div class="grid-small-item">
+              <CmdBoxContent>
+                <template v-slot:header>
+                    <h3>
+                    Box with image
+                    </h3>
+                </template>
+                <template v-slot:body>
+                    <img src="media/images/content-images/logo-business-edition-landscape.jpg" alt="Alternative text" />
+                </template>
+                <template  v-slot:footer>
+                <p>
+                  footer content
+                </p>
+                </template>
+              </CmdBoxContent>
+            </div>
+              <div class="grid-small-item">
+                  <CmdBoxContent>
+                      <template v-slot:header>
+                      <h3>
+                          Box with image and content
+                      </h3>
+                      </template>
+                      <template v-slot:body>
+                        <img src="media/images/content-images/logo-business-edition-landscape.jpg" alt="Alternative text" />
+                        <div class="default-padding">
+                            <h4>Headline</h4>
+                            <p>This some text i.e a  short-text for news.</p>
+                        </div>
+                      </template>
+                      <template v-slot:footer>
+                        <p>
+                            <a href="#">Mehr erfahren&hellip;</a>
+                        </p>
+                      </template>
+                  </CmdBoxContent>
+              </div>
+          </div>
+          <h3>Box Site Search</h3>
+          <CmdBoxSiteSearch :results="executeSearch()" @click="executeSearch($event)" />
+          <h3>User boxes</h3>
+          <div class="grid-container-create-columns">
+            <div class="grid-small-item" v-for="(user, index) in boxUserData" :key="index">
+              <CmdBoxUser :user="user" />
+            </div>
+          </div>
+          <h3>Product boxes</h3>
+          <div class="grid-container-create-columns">
+            <div class="grid-small-item" v-for="(product, index) in boxProductData" :key="index">
+              <CmdBoxProduct :product="product" />
+            </div>
+          </div>
+      </CmdWidthLimitationWrapper>
 
-    <CmdWidthLimitationWrapper>
-        <h2 class="headline-demopage">Main Navigation</h2>
-        <CmdMainNavigation :stretchMainItems="false"
-                        :persistOnMobile="false"
-                        :navigationEntries="navigationData"
-                        :closeOffcanvas="{'text': 'Close navigation', 'iconClass': 'icon-cancel'}"
-        />
-    </CmdWidthLimitationWrapper>
+      <a id="section-breadcrumbs"></a>
+      <CmdWidthLimitationWrapper inner-component="div">
+        <h2 class="headline-demopage">Breadcrumbs</h2>
+        <CmdBreadcrumbs :breadcrumbLinks="breadcrumbData" breadcrumbLabel="You are here:" />
+      </CmdWidthLimitationWrapper>
 
-    <CmdWidthLimitationWrapper>
-        <h2 class="headline-demopage">MultistepFormProgressBar</h2>
-        <CmdMultistepFormProgressBar :multisteps="multistepsData" separatorIconClass="icon-single-arrow-right" @click="showPageMultistep = $event.index + 1" />
-        <div>
-          <p>Page {{ showPageMultistep }}</p>
-        </div>
-    </CmdWidthLimitationWrapper>
+      <a id="section-cookie-disclaimer"></a>
+      <CmdWidthLimitationWrapper>
+        <h2 class="headline-demopage">Cookie Disclaimer</h2>
+        <a class="button" href="#" @click.prevent="fancyBoxCookieDisclaimer = true">
+          <span>Open Cookie Disclaimer</span>
+        </a>
+      </CmdWidthLimitationWrapper>
 
-    <CmdWidthLimitationWrapper>
-        <h2 class="headline-demopage">Pager</h2>
-        <div>
-          <p>Page {{ showPagePager }}</p>
-        </div>
-        <CmdPager
-                :items="pagerData.length"
-                :itemsPerPage="1"
-                @click="showPagePager = $event"
-                :showLinksAsButtons="true"
-                :prevButton="{'iconClass': 'icon-single-arrow-left', 'buttonText': 'prev' }"
-                :nextButton="{'iconClass': 'icon-single-arrow-right', 'buttonText': 'next' }"
-        />
-    </CmdWidthLimitationWrapper>
+      <a id="section-fancybox"></a>
+      <CmdWidthLimitationWrapper>
+          <h2 class="headline-demopage">Fancybox</h2>
+          <a href="#" @click.prevent="showFancyBox('text','Some text')">Open FancyBox with text</a>
+          <a href="#" @click.prevent="showFancyBox('image', 'media/images/content-images/logo-business-edition-landscape.jpg')" title="Open FancyBox with large image">
+              <img src="media/images/content-images/logo-business-edition-landscape.jpg" alt="Alternative text" />
+          </a>
+      </CmdWidthLimitationWrapper>
 
-    <CmdWidthLimitationWrapper>
-      <h2 class="headline-demopage">Share buttons</h2>
-      <CmdShareButtons :share-buttons="shareButtonsData" />
-    </CmdWidthLimitationWrapper>
+      <a id="section-google-maps-integration"></a>
+      <CmdWidthLimitationWrapper>
+          <h2 class="headline-demopage">Google Maps&trade;-Integration</h2>
+          <CmdGoogleMaps :addressData="addressData" />
+      </CmdWidthLimitationWrapper>
 
-    <CmdWidthLimitationWrapper>
-        <h2 class="headline-demopage">Slideshow</h2>
-        <CmdSlideshow :slideshow-items="slideshowData" :showCounter="true" :autoplay="true" />
-    </CmdWidthLimitationWrapper>
+      <a id="section-image-gallery"></a>
+      <CmdWidthLimitationWrapper>
+          <h2 class="headline-demopage">Image-Gallery</h2>
+          <CmdImageGallery :images="imageGalleryData"  />
+      </CmdWidthLimitationWrapper>
 
-    <CmdWidthLimitationWrapper>
-        <h2 class="headline-demopage">System Message</h2>
-        <CmdSystemMessage messageStatus="error" :fullWidth="true" systemMessage="This is an error message!" iconClass="icon-cancel">
-          <ul>
-            <li>Error #1</li>
-            <li>Error #2</li>
-            <li>Error #3</li>
-          </ul>
-        </CmdSystemMessage>
-        <CmdSystemMessage messageStatus="warning" :fullWidth="true" systemMessage="This is a warning message!">
-          <p>This is additional text!</p>
-        </CmdSystemMessage>
-        <CmdSystemMessage messageStatus="success" :fullWidth="true" systemMessage="This is a success message!" iconClass="icon-check">
-          <p>This is additional text!</p>
-        </CmdSystemMessage>
-        <CmdSystemMessage messageStatus="information" :fullWidth="true" systemMessage="This is an information message!" iconClass="icon-info">
-          <p>This is additional text!</p>
-        </CmdSystemMessage>
-    </CmdWidthLimitationWrapper>
+      <a id="section-image-zoom"></a>
+      <CmdWidthLimitationWrapper>
+          <a id="anchor-image-zoom"></a>
+          <h2 class="headline-demopage">Image-Zoom</h2>
+          <CmdImageZoom small-image-url="media/images/content-images/logo-business-edition-landscape.jpg" large-image-url="media/images/content-images/logo-business-edition-landscape-large.jpg" />
+      </CmdWidthLimitationWrapper>
 
-    <CmdWidthLimitationWrapper>
-        <h2 class="headline-demopage">Tables</h2>
-        <CmdTableWrapper :collapsible="true" closeIconClass="icon-single-arrow-up" openIconClass="icon-single-arrow-down" />
-     </CmdWidthLimitationWrapper>
+      <a id="section-main-headline"></a>
+      <CmdWidthLimitationWrapper :inner-wrapper="false">
+        <CmdMainHeadline icon-class="icon-home" pre-headline="Pre-headline" main-headline="Main headline" />
+      </CmdWidthLimitationWrapper>
 
-    <CmdWidthLimitationWrapper>
-        <h2 class="headline-demopage">Tabs</h2>
-        <h3>Tabs with content from json-file</h3>
-        <CmdTabs :stretchTabs="false" :tabs="tabsData" />
-        <h3>Tabs with HTML-content from used component</h3>
-        <CmdTabs :stretchTabs="true" :tabs="[{name: 'Tab 1'}, {name: 'Tab 2'}, {name: 'Tab 3'}]" :useComponent="true">
-          <template v-slot:tab-content-0>
-            <h3>Tab 1</h3>
-            <p>Content</p>
-          </template>
-          <template v-slot:tab-content-1>
-            <h3>Tab 2</h3>
-            <p>Content</p>
-            <p>Content</p>
-          </template>
-          <template v-slot:tab-content-2>
-            <h3>Tab 3</h3>
-            <p>Content</p>
-            <p>Content</p>
-            <p>Content</p>
-          </template>
-        </CmdTabs>
-    </CmdWidthLimitationWrapper>
+      <a id="section-main-navigation"></a>
+      <CmdWidthLimitationWrapper>
+          <h2 class="headline-demopage">Main Navigation</h2>
+          <CmdMainNavigation :stretchMainItems="false"
+                          :persistOnMobile="false"
+                          :navigationEntries="navigationData"
+                          :closeOffcanvas="{'text': 'Close navigation', 'iconClass': 'icon-cancel'}"
+          />
+      </CmdWidthLimitationWrapper>
 
-    <CmdWidthLimitationWrapper>
-        <h2 class="headline-demopage">Thumbnail-Scroller</h2>
-        <CmdThumbnailScroller :thumbnail-scroller-items="thumbnailScrollerData" />
-    </CmdWidthLimitationWrapper>
+      <a id="section-multistep-form-progress-bar"></a>
+      <CmdWidthLimitationWrapper>
+          <h2 class="headline-demopage">Multistepform-Progressbar</h2>
+          <CmdMultistepFormProgressBar :multisteps="multistepsData" separatorIconClass="icon-single-arrow-right" @click="showPageMultistep = $event.index + 1" />
+          <div>
+            <p>Page {{ showPageMultistep }}</p>
+          </div>
+      </CmdWidthLimitationWrapper>
 
+      <a id="section-pager"></a>
+      <CmdWidthLimitationWrapper>
+          <h2 class="headline-demopage">Pager</h2>
+          <div>
+            <p>Page {{ showPagePager }}</p>
+          </div>
+          <CmdPager
+                  :items="pagerData.length"
+                  :itemsPerPage="1"
+                  @click="showPagePager = $event"
+                  :showLinksAsButtons="true"
+                  :prevButton="{'iconClass': 'icon-single-arrow-left', 'buttonText': 'prev' }"
+                  :nextButton="{'iconClass': 'icon-single-arrow-right', 'buttonText': 'next' }"
+          />
+      </CmdWidthLimitationWrapper>
+
+      <a id="section-share-buttons"></a>
+      <CmdWidthLimitationWrapper>
+        <h2 class="headline-demopage">Share buttons</h2>
+        <CmdShareButtons :share-buttons="shareButtonsData" />
+      </CmdWidthLimitationWrapper>
+
+      <a id="section-slideshow"></a>
+      <CmdWidthLimitationWrapper>
+          <h2 class="headline-demopage">Slideshow</h2>
+          <CmdSlideshow :slideshow-items="slideshowData" :showCounter="true" :autoplay="true" />
+      </CmdWidthLimitationWrapper>
+
+      <a id="section-system-message"></a>
+      <CmdWidthLimitationWrapper>
+          <h2 class="headline-demopage">System Message</h2>
+          <CmdSystemMessage messageStatus="error" :fullWidth="true" systemMessage="This is an error message!" iconClass="icon-cancel">
+            <ul>
+              <li>Error #1</li>
+              <li>Error #2</li>
+              <li>Error #3</li>
+            </ul>
+          </CmdSystemMessage>
+          <CmdSystemMessage messageStatus="warning" :fullWidth="true" systemMessage="This is a warning message!">
+            <p>This is additional text!</p>
+          </CmdSystemMessage>
+          <CmdSystemMessage messageStatus="success" :fullWidth="true" systemMessage="This is a success message!" iconClass="icon-check">
+            <p>This is additional text!</p>
+          </CmdSystemMessage>
+          <CmdSystemMessage messageStatus="information" :fullWidth="true" systemMessage="This is an information message!" iconClass="icon-info">
+            <p>This is additional text!</p>
+          </CmdSystemMessage>
+      </CmdWidthLimitationWrapper>
+
+      <a id="section-tables"></a>
+      <CmdWidthLimitationWrapper>
+          <h2 class="headline-demopage">Tables</h2>
+          <CmdTable :collapsible="true" :fullWidth="true" closeIconClass="icon-single-arrow-up" openIconClass="icon-single-arrow-down" />
+      </CmdWidthLimitationWrapper>
+
+      <a id="section-tabs"></a>
+      <CmdWidthLimitationWrapper>
+          <h2 class="headline-demopage">Tabs</h2>
+          <h3>Tabs with content from json-file</h3>
+          <CmdTabs :stretchTabs="false" :tabs="tabsData" />
+          <h3>Tabs with HTML-content from used component</h3>
+          <CmdTabs :stretchTabs="true" :tabs="[{name: 'Tab 1'}, {name: 'Tab 2'}, {name: 'Tab 3'}]" :useComponent="true">
+            <template v-slot:tab-content-0>
+              <h3>Tab 1</h3>
+              <p>Content</p>
+            </template>
+            <template v-slot:tab-content-1>
+              <h3>Tab 2</h3>
+              <p>Content</p>
+              <p>Content</p>
+            </template>
+            <template v-slot:tab-content-2>
+              <h3>Tab 3</h3>
+              <p>Content</p>
+              <p>Content</p>
+              <p>Content</p>
+            </template>
+          </CmdTabs>
+      </CmdWidthLimitationWrapper>
+
+      <a id="section-thumbnail-scroller"></a>
+      <CmdWidthLimitationWrapper>
+          <h2 class="headline-demopage">Thumbnail-Scroller</h2>
+          <CmdThumbnailScroller :thumbnail-scroller-items="thumbnailScrollerData" />
+      </CmdWidthLimitationWrapper>
+
+      <a id="section-upload-form"></a>
       <CmdWidthLimitationWrapper>
           <h2 class="headline-demopage">Upload-Form</h2>
           <CmdUploadForm headline="Select files to upload" :enableDragAndDrop="true" :allowedFileTypes="['image/jpeg']" />
       </CmdWidthLimitationWrapper>
-
-    <CmdWidthLimitationWrapper>
-        <h2 class="headline-demopage">Cookie Disclaimer</h2>
-        <a class="button" href="#" @click.prevent="fancyBoxCookieDisclaimer = true">
-            <span>Open Cookie Disclaimer</span>
-        </a>
-    </CmdWidthLimitationWrapper>
+    </main>
 
     <CmdWidthLimitationWrapper id="site-footer" inner-component="footer">
         <CmdSwitchLanguage :languages="languagesData" @click="doSomething" />
@@ -634,7 +701,6 @@
         </template>
       </CmdCookieDisclaimer>
     </CmdFancyBox>
-  </div><!-- end #app -->
 </template>
 
 <script>
@@ -683,6 +749,7 @@
     import CmdImageGallery from '@/components/CmdImageGallery.vue'
     import CmdImageZoom from '@/components/CmdImageZoom.vue'
     import CmdLogo from '@/components/CmdLogo.vue'
+    import CmdMainHeadline from '@/components/CmdMainHeadline.vue'
     import CmdMainNavigation from '@/components/CmdMainNavigation.vue'
     import CmdMultipleSwitch from '@/components/CmdMultipleSwitch.vue'
     import CmdMultistepFormProgressBar from '@/components/CmdMultistepFormProgressBar.vue'
@@ -690,12 +757,13 @@
     import CmdPager from '@/components/CmdPager.vue'
     import CmdProgressBar from '@/components/CmdProgressBar.vue'
     import CmdShareButtons from '@/components/CmdShareButtons.vue'
+    import CmdSiteHeader from "./components/CmdSiteHeader"
     import CmdSlideshow from '@/components/CmdSlideshow.vue'
     import CmdSwitchButton from '@/components/CmdSwitchButton.vue'
     import CmdSwitchLanguage from '@/components/CmdSwitchLanguage.vue'
     import CmdSystemMessage from '@/components/CmdSystemMessage.vue'
     import CmdTabs from '@/components/CmdTabs.vue'
-    import CmdTableWrapper from '@/components/CmdTableWrapper.vue'
+    import CmdTable from '@/components/CmdTable.vue'
     import CmdThumbnailScroller from '@/components/CmdThumbnailScroller.vue'
     import CmdTopHeaderNavigation from '@/components/CmdTopHeaderNavigation.vue'
     import CmdUploadForm from '@/components/CmdUploadForm.vue'
@@ -723,20 +791,22 @@
         CmdGoogleMaps,
         CmdImageGallery,
         CmdImageZoom,
-        CmdLogo,
+        CmdMainHeadline,
         CmdMainNavigation,
+        CmdLogo,
         CmdMultistepFormProgressBar,
         CmdMultipleSwitch,
         CmdOpeningHours,
         CmdPager,
         CmdProgressBar,
         CmdShareButtons,
+        CmdSiteHeader,
         CmdSlideshow,
         CmdSwitchButton,
         CmdSwitchLanguage,
         CmdSystemMessage,
         CmdTabs,
-        CmdTableWrapper,
+        CmdTable,
         CmdThumbnailScroller,
         CmdTopHeaderNavigation,
         CmdUploadForm,

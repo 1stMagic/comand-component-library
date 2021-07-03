@@ -1,7 +1,7 @@
 <template>
   <div class="label" :class="status">
     <span>Label for FakeSelect:</span>
-    <ul class="select" :class="[status, {'open': showOptions}]" v-click-outside="closeOptions">
+    <ul class="select" :class="[status, {'open': showOptions}]" @clickout="closeOptions">
       <li>
         <a href="#" @click.prevent="toggleOptions">
           <img v-if="type === 'country' && miscInfo" :src="flagPath" class="flag" :class="miscInfo" />
@@ -40,6 +40,8 @@
 </template>
 
 <script>
+import "clickout-event"
+
 export default {
   name: 'CmdFakeSelect',
   props: {
@@ -81,17 +83,15 @@ export default {
       } else {
         value = value.filter(v => v !== event.target.value);
       }
-      this.$emit('input', value);
+      this.$emit('update:value', value);
     },
-
     selectOption (optionName, miscInfo, flagPath) {
       this.optionName = optionName
       this.miscInfo = miscInfo
       this.flagPath = flagPath
       this.showOptions = false
-      this.$emit('input', miscInfo);
+      this.$emit('update:value', miscInfo);
     },
-
     closeOptions() {
       this.showOptions = false
     }
@@ -134,7 +134,6 @@ export default {
   > li {
     &:first-child {
       > a {
-
         [class*='icon-'] {
           margin-left: auto;
         }

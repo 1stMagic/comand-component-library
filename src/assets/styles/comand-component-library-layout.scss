@@ -1,61 +1,53 @@
-@import 'variables';
-/* begin cmd-accordion --------------------------------------------------------------------------------------------------------------------------------------------------- */
-.cmd-accordion {
-  .accordion-headline {
-    border: var(--default-border);
-    background: var(--default-background-color);
+/* comand-component-library-layout.scss - last update: 2021/05/09 by Raphael Biock - IT IS NOT RECOMMENDED TO EDIT THIS FILE (TO AVOID TROUBLESHOOTING AFTER UPDATING) */
 
-    & + .accordion-content {
-      border: var(--default-border);
-    }
+/* begin table of contents --------------------------------------------------------------------------------------------------------------------------------------------------- */
+/*
+- IMPORTS ------------------------
+- GLOBAL STYLES ------------------------
+  - .box
+    - .content
+    - .product
+    - .user
+  - form-elements
+  - .multiple-switch
 
-    > span[class*="icon-"] {
-      font-size: 1rem;
-    }
+- COMPONENTS ------------------------
+  - cmd-accordion
+  - cmd-back-to-top-button
+  - cmd-breadcrumbs
+  - cmd-copyright-information
+  - cmd-fakeselect
+  - cmd-fancybox
+  - cmd-form-filters
+  - cmd-google-maps
+  - cmd-image-gallery
+  - cmd-imagezoom
+  - cmd-main-navigation
+  - cmd-multistep-form-progress-bar
+  - cmd-opening-hours
+  - cmd-pager
+  - cmd-share-buttons
+  - cmd-slide-button
+  - cmd-slideshow
+  - cmd-switch-button
+  - cmd-system-message
+  - cmd-table-wrapper
+  - cmd-tabs
+  - cmd-thumbnail-scroller
+  - cmd-tooltip
+  - cmd-top-header-navigation
+  - cmd-upload-form
+  - cmd-width-limitation-wrapper
 
-    &:hover, &:active, &:focus, &.active {
-      background: var(--primary-color);
-      border-color: var(--primary-color);
+- DARK-MODE ------------------------
+*/
+/* end table of contents --------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-      & + .accordion-content {
-        border-color: var(--primary-color);
-      }
+/* ---------------------------------------------- BEGIN IMPORTS -------------------------------------------------- */
+@import 'variables'; /* scss-variables (only used for media-query-breakpoints) */
+/* ---------------------------------------------- END IMPORTS -------------------------------------------------- */
 
-      span {
-        color: var(--pure-white);
-      }
-    }
-  }
-
-  .accordion-content {
-    background: var(--pure-white);
-  }
-}
-/* end cmd-accordion --------------------------------------------------------------------------------------------------------------------------------------------------- */
-
-/* begin cmd-back-to-top-button --------------------------------------------------------------------------------------------------------------------------------------------------- */
-.cmd-back-to-top-button {
-  border: var(--default-border);
-  background: var(--pure-white);
-  border-radius: var(--full-circle);
-
-  &:hover, &:active, &:focus {
-    border-color: var(--primary-color);
-    transition: var(--default-transition);
-  }
-
-  .back-to-top-enter-active, .back-to-top-leave-active,
-  .back-to-top-enter, .back-to-top-leave-to {
-    transition: var(--default-transition);
-    opacity: 1;
-  }
-
-  .back-to-top-enter, .back-to-top-leave-to {
-    opacity: 0;
-  }
-}
-/* cmd-back-to-top-button --------------------------------------------------------------------------------------------------------------------------------------------------- */
-
+/* ---------------------------------------------- BEGIN GLOBAL STYLES (USED BY DIFFERENT COMPONENTS) -------------------------------------------------- */
 /* begin .box.content --------------------------------------------------------------------------------------------------------------------------------------------------- */
 .box.content {
   > div:first-child {
@@ -76,7 +68,7 @@
           background: var(--pure-white);
           border-bottom: var(--default-border);
 
-          &:hover, &:active &:focus {
+          &:hover, &:active, &:focus {
             background: var(--primary-color);
             color: var(--pure-white);
           }
@@ -218,6 +210,112 @@
 }
 /* end .box.user --------------------------------------------------------------------------------------------------------------------------------------------------- */
 
+/* begin form-elements --------------------------------------------------------------------------------------------------------------------------------------------------- */
+input, select, .select, textarea {
+  &.error + .tooltip {
+    border-color: var(--error-color);
+    color: var(--error-color);
+    background: #fff3f3;
+  }
+}
+
+label {
+  &.checked {
+    span {
+      color: var(--primary-color);
+    }
+  }
+}
+
+.select {
+  &.error, &.disabled {
+    a {
+      &:hover, &:focus, &:active {
+        img {
+          &.flag {
+            border-color: var(--border-color);
+          }
+        }
+      }
+    }
+  }
+}
+/* end form-elements --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin .multiple-switch --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.multiple-switch.disabled label {
+  background: var(--disabled-background-color) !important;
+}
+/* end .multiple-switch --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin #site-header --------------------------------------------------------------------------------------------------------------------------------------------------- */
+#site-header {
+  border-bottom: var(--default-border);
+  background: var(--pure-white);
+
+  header {
+    nav {
+      padding: 0;
+    }
+  }
+}
+/* end #site-header --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* ---------------------------------------------- END GLOBAL STYLES (USED BY DIFFERENT COMPONENTS) -------------------------------------------------- */
+
+/* ---------------------------------------------- BEGIN COMPONENTS -------------------------------------------------- */
+/* begin cmd-accordion --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.cmd-accordion {
+  > a {
+    border: var(--default-border);
+    background: var(--default-background-color);
+    text-decoration: none;
+
+    h3 {
+      margin-bottom: 0;
+    }
+
+    & + .accordion-content {
+      border: var(--default-border);
+    }
+
+    > span[class*="icon-"] {
+      font-size: 1rem;
+    }
+
+    &:hover, &:active, &:focus, &.active {
+      background: var(--primary-color);
+      border-color: var(--primary-color);
+
+      & + .accordion-content {
+        border-color: var(--primary-color);
+      }
+
+      span {
+        color: var(--pure-white);
+      }
+    }
+  }
+
+  .accordion-content {
+    background: var(--pure-white);
+  }
+}
+/* end cmd-accordion --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin cmd-back-to-top-button --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.cmd-back-to-top-button {
+  border: var(--default-border);
+  background: var(--pure-white);
+  border-radius: var(--full-circle);
+
+  &:hover, &:active, &:focus {
+    border-color: var(--primary-color);
+    transition: var(--default-transition);
+  }
+}
+/* cmd-back-to-top-button --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
 /* begin cmd-breadcrumbs --------------------------------------------------------------------------------------------------------------------------------------------------- */
 .cmd-breadcrumbs {
   a {
@@ -307,8 +405,6 @@
   }
 
   &.error {
-    background: var(--error-background);
-
     > li > a {
       border-color: var(--error-color);
 
@@ -394,24 +490,6 @@
 }
 /* end cmd-fancybox --------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-/* begin form-element --------------------------------------------------------------------------------------------------------------------------------------------------- */
-input, select, .select, textarea {
-  &.error + .tooltip {
-    border-color: var(--error-color);
-    color: var(--error-color);
-    background: #fff3f3;
-  }
-}
-
-label {
-  &.checked {
-    span {
-      color: var(--primary-color);
-    }
-  }
-}
-/* end form-element --------------------------------------------------------------------------------------------------------------------------------------------------- */
-
 /* begin cmd-form-filters --------------------------------------------------------------------------------------------------------------------------------------------------- */
 .cmd-form-filters {
   li {
@@ -456,12 +534,6 @@ label {
 
 /* begin cmd-imagezoom --------------------------------------------------------------------------------------------------------------------------------------------------- */
 .cmd-imagezoom {
-  .thumbnails-imagezoom {
-    img {
-      border: var(--default-border);
-    }
-  }
-
   .zoom-overlay {
     background: var(--primary-color);
     opacity: var(--reduced-opacity);
@@ -470,7 +542,7 @@ label {
 /* end cmd-imagezoom --------------------------------------------------------------------------------------------------------------------------------------------------- */
 
 /* begin cmd-main-navigation --------------------------------------------------------------------------------------------------------------------------------------------------- */
-#navigation-wrapper {
+.cmd-main-navigation {
   background: var(--default-background-color);
 
   nav {
@@ -537,21 +609,23 @@ label {
 }
 
 @media only screen and (max-width: $medium-max-width) {
-  #navigation-wrapper {
+  .cmd-main-navigation {
     background: none;
+    --nav-transition: all .5s linear;
+
 
     /* begin offcanvas-navigation */
     &:not(.persist-on-mobile) {
       &.open {
         nav {
-          transition: all .5s linear;
+          transition: (--nav-transition);
         }
       }
 
       nav {
         background: var(--default-background-color);
         box-shadow: var(--box-shadow);
-        transition: all .5s linear;
+        transition: (--nav-transition);
 
         ul {
           li {
@@ -575,7 +649,7 @@ label {
 
             &.open {
               > ul {
-                transition: all .5s linear;
+                transition: (--nav-transition);
               }
             }
           }
@@ -605,6 +679,8 @@ label {
           &:last-child {
             border: var(--default-border);
             border-radius: var(--full-circle);
+            background: var(--pure-white);
+            color: var(--text-color);
 
             &::before {
               font-size: 1rem;
@@ -807,10 +883,6 @@ label {
 
 /* begin cmd-slideshow --------------------------------------------------------------------------------------------------------------------------------------------------- */
 .cmd-slideshow {
-  .fade-slideshow-enter-active, .fade-slideshow-leave-active {
-    transition: all 2s;
-  }
-
   figcaption {
     font-size: 3rem;
     color: var(--pure-white);
@@ -870,50 +942,52 @@ label {
 /* begin cmd-switch-button --------------------------------------------------------------------------------------------------------------------------------------------------- */
 .toggle-switch {
   &.switch-label {
-    &.colored {
-      &.on {
-        border-color: var(--success-color);
+    &:not(.disabled) {
+      &.colored {
+        &.on {
+          border-color: var(--success-color);
 
-        span{
-          &.label {
-            color: var(--success-color);
+          span {
+            &.label {
+              color: var(--success-color);
 
-            &::before {
-              background-color: var(--success-color);
+              &::before {
+                background-color: var(--success-color);
+              }
             }
           }
         }
-      }
 
-      &.off {
-        border-color: var(--error-color);
-        color: var(--error-color);
+        &.off {
+          border-color: var(--error-color);
+          color: var(--error-color);
 
-        span {
-          &.label {
-            &::before {
-              background-color: var(--pure-white);
+          span {
+            &.label {
+              &::before {
+                background-color: var(--pure-white);
+                border: var(--error-border);
+              }
+            }
+          }
+
+          > input[type="radio"] {
+            & ~ span::before {
+              background: none;
               border: var(--error-border);
             }
           }
         }
-
-        > input[type="radio"] {
-          & ~ span::before {
-            background: none;
-            border: var(--error-border);
-          }
-        }
       }
-    }
 
-    &.error {
-      border-color: var(--error-color);
+      &.error {
+        border-color: var(--error-color);
 
-      input:not(:checked) {
-        & + .label::before {
-          border-color: var(--error-color);
-          background: var(--error-color);
+        input:not(:checked) {
+          & + .label::before {
+            border-color: var(--error-color);
+            background: var(--error-color);
+          }
         }
       }
     }
@@ -921,25 +995,12 @@ label {
 }
 /* end cmd-switch-button --------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-/* begin cmd-switch-language --------------------------------------------------------------------------------------------------------------------------------------------------- */
-.cmd-switch-language {
-  ul {
-    a {
-      &:hover, &:active, &:focus, &.active {
-        box-shadow: var(--box-shadow);
-      }
-    }
-  }
-}
-/* end cmd-switch-language --------------------------------------------------------------------------------------------------------------------------------------------------- */
-
 /* begin cmd-system-message --------------------------------------------------------------------------------------------------------------------------------------------------- */
 .system-message {
   > a[class*="icon-"]:not(.button) {
     font-size: 1rem;
     text-decoration: none;
     color: var(--pure-white) !important;
-    text-shadow: var(--text-shadow);
   }
 }
 /* end cmd-system-message --------------------------------------------------------------------------------------------------------------------------------------------------- */
@@ -1029,10 +1090,6 @@ label {
       }
     }
   }
-
-  .slide-move {
-    transition: transform 1s ease-in-out;
-  }
 }
 /* end cmd-thumbnail-scroller --------------------------------------------------------------------------------------------------------------------------------------------------- */
 
@@ -1117,22 +1174,7 @@ label {
 /* begin cmd-width-limitation-wrapper --------------------------------------------------------------------------------------------------------------------------------------------------- */
 .cmd-width-limitation-wrapper {
   > * {
-    max-width: 128rem;
-  }
-
-  &#site-header {
-    border-bottom: var(--default-border);
-    background: var(--pure-white);
-
-    header {
-      nav {
-        padding: 0;
-      }
-
-      #main-navigation, nav ul li, #navigation-wrapper {
-        background: none;
-      }
-    }
+    max-width: var(--max-width);
   }
 
   &#site-footer {
@@ -1141,13 +1183,19 @@ label {
   }
 }
 /* end cmd-width-limitation-wrapper --------------------------------------------------------------------------------------------------------------------------------------------------- */
+/* ---------------------------------------------- END COMPONENTS -------------------------------------------------- */
 
-/* begin styles browser-dark-mode --------------------------------------------------------------------------------------------------------------------------------------------------- */
+/* ---------------------------------------------- BEGIN DARK-MODE -------------------------------------------------- */
 @media (prefers-color-scheme: dark) {
-  body,
-  .cmd-width-limitation-wrapper#site-header,
+  html {
+    --dark-mode-background-color: rgb(50, 50, 50);
+  }
+
+  html, body,
+  #site-header,
   .cmd-width-limitation-wrapper#site-footer {
     background:  var(--dark-mode-background-color);
+    color: var(--pure-white);
   }
 
   legend {
@@ -1156,20 +1204,26 @@ label {
   }
 
   #breadcrumbs,
-  .cmd-width-limitation-wrapper#site-header,
-  .cmd-width-limitation-wrapper#site-footer,
+  .cmd-breadcrumbs > *,
   .cmd-top-header-navigation a,
   #pager > p, main {
     color: var(--pure-white);
   }
 
-  fieldset, table, .box,
   hr {
+    border-color: var(--pure-white);
+  }
+
+  .cmd-accordion,
+  .cmd-tabs,
+  fieldset, table, .box, {
     color: var(--text-color);
   }
 
-  hr {
-    background-color: var(--pure-white);
+  .cmd-accordion hr,
+  .cmd-tabs hr,
+  fieldset hr, table hr, .box hr {
+    border-color: var(--text-color);
   }
 }
-/* end styles browser-dark-mode --------------------------------------------------------------------------------------------------------------------------------------------------- */
+/* ---------------------------------------------- END DARK-MODE -------------------------------------------------- */

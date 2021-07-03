@@ -1,12 +1,12 @@
 <template>
     <ul class="cmd-form-filters">
-        <li v-if="selectedOptions.length > 1">
-            <a href="#" @click.prevent="selectedOptions.splice(0,selectedOptions.length)">
+        <li v-if="options.length > 1">
+            <a href="#" @click.prevent="deleteAllFilters">
                 <span :class="iconClassDeleteAllFilters"></span><span>{{ labelDeleteAllFilters }}</span>
             </a>
         </li>
-        <li v-for="(option, index) in selectedOptions" :key="index">
-            <a href="#" @click.prevent="selectedOptions.splice(index, 1)">
+        <li v-for="(option, index) in options" :key="index">
+            <a href="#" @click.prevent="deleteClickedFilter(index)">
                 <span :class="iconClassDeleteFilter"></span>
                 <span>{{ selectedOptionsName(option) }}</span>
             </a>
@@ -17,6 +17,11 @@
 <script>
 export default {
     name: "CmdFormFilters",
+    data() {
+        return {
+            options: []
+        }
+    },
     props: {
         selectedOptions: {
             type: Array,
@@ -37,6 +42,28 @@ export default {
         selectedOptionsName: {
             type: Function,
             required: true
+        }
+    },
+    methods: {
+      deleteAllFilters() {
+          this.options = []
+          this.updateSelectedOptions()
+      },
+      deleteClickedFilter(index) {
+          this.options.splice(index, 1)
+          this.updateSelectedOptions()
+      },
+      updateSelectedOptions() {
+        this.$emit("update:selectedOptions", this.options)
+      }
+    },
+    watch: {
+        selectedOptions: {
+            handler() {
+                this.options = JSON.parse(JSON.stringify(this.selectedOptions))
+            },
+            immediate: true,
+            deep: true
         }
     }
 }

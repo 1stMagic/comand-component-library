@@ -1,9 +1,13 @@
 <template>
-    <div class="cmd-width-limitation-wrapper" :class="{'sticky': sticky}" :id="setOuterId">
-        <component :is="innerComponent" :class="setInnerClass">
+    <div class="cmd-width-limitation-wrapper" :class="{'sticky': sticky}">
+        <component :is="innerComponent" :class="setInnerClass" v-if="innerWrapper">
             <a :id="anchorId" v-if="anchorId"></a>
             <slot></slot>
         </component>
+        <template v-else>
+            <a :id="anchorId" v-if="anchorId"></a>
+            <slot></slot>
+        </template>
     </div>
 </template>
 
@@ -21,7 +25,11 @@ export default {
                 return true
             }
         },
-        sticky:{
+        innerWrapper: {
+            type: Boolean,
+            default: true
+        },
+        sticky: {
           type: Boolean,
           default: false
         },
@@ -64,9 +72,8 @@ export default {
 /* begin cmd-width-limitation-wrapper --------------------------------------------------------------------------------------------------------------------------------------------------- */
 .cmd-width-limitation-wrapper {
     > * {
-        max-width: 128rem;
         margin: 0 auto;
-        padding: 1rem;
+        padding: var(--default-padding);
     }
 
     &.sticky {
@@ -74,44 +81,6 @@ export default {
         left: 0;
         right: 0;
         top: 0;
-    }
-
-    &#site-header {
-        z-index: 100;
-        border-bottom: var(--default-border);
-        background: var(--pure-white);
-
-        header {
-            display: grid;
-            padding-top: calc(var(--default-padding) * 2);
-            padding-bottom: calc(var(--default-padding) * 2);
-
-            #inner-header-wrapper {
-
-            }
-
-            nav {
-                padding: 0;
-            }
-
-            #main-navigation, nav ul li, #navigation-wrapper {
-                background: none;
-            }
-
-            #navigation-wrapper {
-                align-self: center;
-            }
-
-            .cmd-logo {
-                grid-column: span var(--grid-small-span);
-            }
-        }
-
-        &.top-header-navigation {
-            header {
-                padding-top: 0;
-            }
-        }
     }
 
     &#site-footer {
@@ -123,81 +92,9 @@ export default {
             bottom: 0;
         }
 
-        footer {
-            display: grid;
-
-            [class*="cmd-"] {
-                grid-column: span var(--grid-small-span);
-
-                &.cmd-switch-language {
-                    grid-column: span var(--grid-columns);
-                }
-            }
-        }
-    }
-}
-/* end cmd-width-limitation-wrapper --------------------------------------------------------------------------------------------------------------------------------------------------- */
-
-/* begin cmd-width-limitation-wrapper --------------------------------------------------------------------------------------------------------------------------------------------------- */
-.cmd-width-limitation-wrapper {
-    > * {
-        margin: 0 auto;
-        padding: 1rem;
-    }
-
-    &.sticky {
-        position: sticky;
-        left: 0;
-        right: 0;
-        top: 0;
-    }
-
-    &#site-header {
-        z-index: 100;
-
-        header {
-            display: grid;
-            padding-top: calc(var(--default-padding) * 2);
-            padding-bottom: calc(var(--default-padding) * 2);
-
-            nav {
-                padding: 0;
-            }
-
-            #navigation-wrapper {
-                align-self: center;
-            }
-
-            .cmd-logo {
-                grid-column: span var(--grid-small-span);
-            }
-        }
-
-        &.top-header-navigation {
-            header {
-                padding-top: 0;
-            }
-        }
-    }
-
-    &#site-footer {
-        padding: var(--grid-gap) 0;
-
-        &.sticky {
-            top: auto;
-            bottom: 0;
-        }
-
-        footer {
-            display: grid;
-
-            [class*="cmd-"] {
-                grid-column: span var(--grid-small-span);
-
-                &.cmd-switch-language {
-                    grid-column: span var(--grid-columns);
-                }
-            }
+        .cmd-switch-language {
+            width: 100%;
+            flex: none;
         }
     }
 }

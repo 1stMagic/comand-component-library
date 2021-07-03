@@ -90,8 +90,6 @@ export default {
         right: 0.5rem;
         text-decoration: none;
         top: 0.5rem;
-        color: var(--pure-white) !important;
-        text-shadow: var(--text-shadow);
     }
 }
 /* end cmd-system-message --------------------------------------------------------------------------------------------------------------------------------------------------- */

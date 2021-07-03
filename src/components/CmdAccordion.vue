@@ -1,18 +1,20 @@
 <template>
     <div class="cmd-accordion">
         <template v-for="(accordionContent, index) in accordion" :key="index">
-            <h3 class="accordion-headline" :title="tooltip" @click="toggleContentVisibility(accordionContent)">
-                <slot :name="'accordion-headline-' + index">
-                    <span>{{ accordionContent.headline }}</span>
-                </slot>
+            <a href="#" :title="tooltip" @click.prevent="toggleContentVisibility(accordionContent)">
+                <h3>
+                    <slot :name="'accordion-headline-' + index">
+                        <span>{{ accordionContent.headline }}</span>
+                    </slot>
+                </h3>
                 <span class="toggle-icon" :class="[accordionContent.status ? openIconClass : closeIconClass]"></span>
-            </h3>
+            </a>
             <transition name="fade">
-                    <div class="accordion-content" v-if="accordionContent.status">
-                        <slot :name="'accordion-content-' + index">
-                            <p>{{ accordionContent.content }}</p>
-                        </slot>
-                    </div>
+                <div class="accordion-content" v-if="accordionContent.status" aria-expanded="true">
+                    <slot :name="'accordion-content-' + index">
+                        <p>{{ accordionContent.content }}</p>
+                    </slot>
+                </div>
             </transition>
         </template>
     </div>
@@ -86,9 +88,10 @@ export default {
 .cmd-accordion {
     margin-bottom: var(--default-margin);
 
-    .accordion-headline {
+    > a {
         display: flex;
         align-items: center;
+        gap: var(--grid-gap);
         border-radius: var(--border-radius);
         margin: var(--default-margin) 0 0 0;
         padding: calc(var(--default-padding) / 2) var(--default-padding);
@@ -107,10 +110,6 @@ export default {
 
         > span[class*="icon-"] {
             margin-left: auto;
-        }
-
-        &:hover, &:active, &:focus, &.active {
-            cursor: pointer;
         }
     }
 

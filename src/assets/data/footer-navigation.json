@@ -1,51 +1,37 @@
 [
   {
-    "name": "Contact",
-    "link": {
-      "path": "#",
-      "target": ""
-    }
+    "iconClass": "icon-user-profile",
+    "type": "href",
+    "linkName": "Contact",
+    "path": "#",
+    "target": ""
   },
   {
-    "name": "Private policy",
-    "link": {
-      "path": "",
-      "target": ""
-    },
+    "type": "href",
+    "linkName": "Private policy",
+    "path": "",
+    "target": "",
     "fancybox": true
   },
   {
-    "name": "CoManD-Website",
-    "link": {
-      "path": "http://www.comand-cms.com",
-      "target": "_blank"
-    }
+    "type": "href",
+    "linkName": "CoManD-Website",
+    "path": "http://www.comand-cms.com",
+    "target": "_blank"
   },
   {
-    "name": "Router with path",
-    "link": {
-      "type": "router",
-      "path": "http://www.comand-cms.com"
-    }
+    "type": "href",
+    "linkName": "Router with path",
+    "path": "http://www.comand-cms.com"
   },
   {
-    "name": "Router with name",
-    "link": {
-      "type": "router",
-      "name": "somename"
-    }
+    "type": "href",
+    "linkName": "Router with name",
+    "path": "#"
   },
   {
-    "name": "Router with name and params",
-    "link": {
-      "type": "router",
-      "name": "somename",
-      "params": {
-        "id": 123
-      }
-    }
+    "type": "href",
+    "linkName": "Router with name and params",
+    "path": "#"
   }
 ]
-
-
-

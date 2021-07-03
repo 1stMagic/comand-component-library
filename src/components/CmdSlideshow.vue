@@ -2,8 +2,8 @@
     <div class="cmd-slideshow" :class="{'full-width': fullWidth}">
         <div class="inner-slideshow-wrapper" @mouseenter="pause = true" @mouseleave="pause = false">
             <CmdSlideButton @click.prevent="showPrevItem" :slideButtonType="slideButtons.previous" />
-            <transition name="fade-slideshow">
-                <figure v-if="currentItem" :key="index" class="slideshow-item">
+            <transition name="fade">
+                <figure v-if="currentItem && !useSlot" :key="index" class="slideshow-item">
                     <a v-if="currentItem.href" :href="currentItem.href" :title="currentItem.title">
                         <img :src="currentItem.imgPath" :alt="currentItem.alt" />
                         <figcaption>{{ currentItem.figcaption }}</figcaption>
@@ -13,11 +13,19 @@
                         <figcaption>{{ currentItem.figcaption }}</figcaption>
                     </template>
                 </figure>
+                <div
+                    class="image-wrapper"
+                    v-else-if="currentItem && useSlot"
+                    :key="index"
+                    :style="'background-image: url(' + currentItem.imgPath + ')'"
+                >
+                    <slot :name="'item' + currentSlotItem"></slot>
+                </div>
             </transition>
             <CmdSlideButton @click.prevent="showNextItem" :slideButtonType="slideButtons.next" />
             <ol v-if="showQuickLinkIcons">
                 <li v-for="(item, i) in slideshowItems" :key="i" :class="{active: i === index }">
-                    <a href="#" @click.prevent="index = i"></a>
+                    <a href="#" @click.prevent="index = i" :aria-label="index"></a>
                 </li>
             </ol>
             <span v-if="showCounter">{{ index + 1 }}/{{ slideshowItems.length }}</span>
@@ -26,14 +34,31 @@
 </template>
 
 <script>
-import CmdSlideButton from "./CmdSlideButton.vue";
+import CmdSlideButton from "./CmdSlideButton.vue"
 
-const NOT_YET_PRELOADED_IMAGE = (image) => !image.loaded;
-const NOT_YET_PRELOADED_IMAGES = (item) => item.images && item.images.find(NOT_YET_PRELOADED_IMAGE);
+const NOT_YET_PRELOADED_IMAGE = image => !image.loaded
+const NOT_YET_PRELOADED_IMAGES = item => item.images && item.images.find(NOT_YET_PRELOADED_IMAGE)
 
 export default {
     name: "CmdSlideshow",
+    data() {
+        return {
+            index: 0,
+            pause: false,
+            hnd: null,
+            preloadComplete: false,
+            fullWidth: false,
+            currentSlotItem: 0
+        }
+    },
+    components: {
+        CmdSlideButton
+    },
     props: {
+        useSlot: {
+            type: Boolean,
+            default: false
+        },
         autoplay: {
             type: Boolean,
             default: false
@@ -72,19 +97,6 @@ export default {
             }
         }
     },
-    components: {
-        CmdSlideButton
-    },
-    data() {
-        return {
-            index: 0,
-            pause: false,
-            hnd: null,
-            preloadComplete: false,
-            fullWidth: false
-        }
-    },
-
     beforeUnmount() {
         if (this.hnd !== null) {
             window.clearInterval(this.hnd);
@@ -94,12 +106,19 @@ export default {
 
     methods: {
         showPrevItem() {
-            if (this.index > 0) {
-                this.index--;
-            } else {
-                this.index = this.slideshowItems.length - 1;
+            if (this.useSlot) {
+                if (this.currentSlotItem > 0) {
+                    this.currentSlotItem--
+                } else {
+                    this.currentSlotItem = Object.keys(this.$slots).length - 1
+                }
             }
-            this.preload(this.index);
+            if (this.index > 0) {
+                this.index--
+            } else {
+                this.index = this.slideshowItems.length - 1
+            }
+            this.preload(this.index)
         },
 
         showItem(i) {
@@ -110,12 +129,20 @@ export default {
         },
 
         showNextItem() {
-            if (this.index < this.slideshowItems.length - 1) {
-                this.index++;
-            } else {
-                this.index = 0;
+            if (this.useSlot) {
+                if (this.currentSlotItem < Object.keys(this.$slots).length - 1) {
+                    this.currentSlotItem++
+                } else {
+                    this.currentSlotItem = 0
+                }
             }
-            this.preload(this.index);
+
+            if (this.index < this.slideshowItems.length - 1) {
+                this.index++
+            } else {
+                this.index = 0
+            }
+            this.preload(this.index)
         },
 
         setupSlider() {
@@ -194,15 +221,6 @@ export default {
 @import '../assets/styles/variables';
 /* begin cmd-slideshow --------------------------------------------------------------------------------------------------------------------------------------------------- */
 .cmd-slideshow {
-    .fade-slideshow-enter-from, .fade-slideshow-leave-to {
-        opacity: 0;
-        position: absolute;
-    }
-
-    .fade-slideshow-enter-to, .fade-slideshow-leave-from {
-        opacity: 1;
-    }
-
     figure a, img {
         display: block;
         text-decoration: none;
@@ -219,9 +237,28 @@ export default {
     }
 
     .inner-slideshow-wrapper {
+        display: flex;
+        justify-content: center;
+
         .slideshow-item {
             width: 100%; /* important to stretch figure with position: absolute over full width */
             margin: 0;
+        }
+
+        .image-wrapper {
+            padding: var(--default-padding);
+            padding: calc(var(--default-padding) * 5);
+            width: 100%;
+            min-height: 50rem;
+            background-repeat: no-repeat;
+            background-position: top center;
+            display: flex;
+            justify-content: center;
+            align-content: center;
+
+            .box {
+                align-self: flex-start;
+            }
         }
 
         > ol {
@@ -231,12 +268,12 @@ export default {
             position: absolute;
             left: 5.5rem;
             top: .5rem;
+            gap: calc(var(--default-gap) / 2);
 
             li {
-                margin: calc(var(--default-margin) / 2) 0;
                 padding: .2rem;
                 list-style-type: none;
-                margin-right: calc(var(--default-margin) * .5);
+                margin: 0;
 
                 a {
                     display: block;
