@@ -1,5 +1,5 @@
 <template>
-  <div :class="['cmd-main-navigation', {'hide-sub-navigation' : !showSubNavigations, 'open': showOffcanvas, 'persist-on-mobile': persistOnMobile}]">
+  <div :class="['cmd-main-navigation', {'hide-sub-navigation' : !showSubNavigations, 'open': showOffcanvas, 'persist-on-mobile': persistOnMobile}]" id="main-navigation">
     <nav>
       <ul :class="{'stretch-items' : stretchMainItems}">
         <li class="close-nav" v-if="showOffcanvas">
@@ -8,14 +8,14 @@
             <span v-if="closeOffcanvas.text">{{ closeOffcanvas.text }}</span>
           </a>
         </li>
-        <li v-for="(navigationEntry, index) in navigationEntries" :key="index" :class="{'open' : navigationEntry.accordion}">
+        <li v-for="(navigationEntry, index) in navigationEntries" :key="index" :class="{'open' : navigationEntry.open}">
           <a :href="navigationEntry.href" :target="navigationEntry.target" @click="clickLink($event, navigationEntry)">
             <span :class="navigationEntry.iconClass" v-if="navigationEntry.iconClass"></span>
             <span>{{ navigationEntry.name }}</span>
             <span v-if="navigationEntry.subentries && navigationEntry.subentries.length > 0" class="icon-single-arrow-down"></span>
           </a>
           <ul v-if="navigationEntry.subentries" aria-expanded="true">
-            <li v-for="(navigationSubEntry, subindex) in navigationEntry.subentries" :key="subindex" :class="{'open' : navigationSubEntry.accordion}">
+            <li v-for="(navigationSubEntry, subindex) in navigationEntry.subentries" :key="subindex" :class="{'open' : navigationSubEntry.open}">
               <a :href="navigationSubEntry.href" :target="navigationSubEntry.target" @click="clickLink($event, navigationSubEntry)">
                 <span>{{ navigationSubEntry.name }}</span>
                 <span :class="iconSubentries" v-if="navigationSubEntry.subentries"></span>
@@ -37,8 +37,6 @@
 </template>
 
 <script>
-    import Vue from 'vue'
-
     export default {
         name: "CmdMainNavigation",
         data() {
@@ -78,18 +76,16 @@
                 if(navigationEntry.target || (navigationEntry.href.length > 1)) {
                     return true
                 }
-                if(navigationEntry.href === '#') {
+                if(navigationEntry.href === '#' || navigationEntry.href === '') {
                     event.preventDefault()
                     this.$emit('click', navigationEntry.href)
 
                 }
                 if(!(navigationEntry.subentries && navigationEntry.subentries.length > 0)) {
-                    this.showSubNavigations = false
                     this.showOffcanvas = false
-                    window.setTimeout(() => this.showSubNavigations = true,500)
                 } else {
-                    // att item to navigationEntry object and watch for changes
-                    Vue.set(navigationEntry, 'accordion', !navigationEntry.accordion)
+                    // add entry "open" to navigationEntry-object (will be watched by vue3 automatically)
+                    navigationEntry.open = !navigationEntry.open
                 }
             }
         }
@@ -119,42 +115,6 @@
       > li {
         .close-nav {
           display: none;
-        }
-      }
-
-      // all list-items
-      li {
-        &:hover, &:active, &:focus, &.active {
-          > ul {
-            display: block;
-          }
-        }
-
-        span[class*='icon-'] {
-          font-size: 1rem;
-        }
-      }
-
-      ul {
-        display: none;
-        position: absolute; /* brings subnavigation to own layer */
-        left: 0; 			/* left-position of layer (as left as top-level-entries) */
-        z-index: 100; 		/* brings subnavigation to front */
-        min-width: 100%;
-
-        li {
-          white-space: nowrap;
-
-          &:last-child {
-            border-bottom: 0;
-            border-bottom-left-radius: var(--border-radius);
-            border-bottom-right-radius: var(--border-radius);
-          }
-        }
-
-        ul {
-          top: 0;
-          left: 100%;
         }
       }
     }

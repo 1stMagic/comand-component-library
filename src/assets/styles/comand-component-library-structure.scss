@@ -79,6 +79,38 @@
 }
 /* end header and top-header-navigation --------------------------------------------------------------------------------------------------------------------------------------------------- */
 
+/* begin input-wrapper for .select --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.select {
+  height: var(--input-height); /* forces different browsers to render same height */
+}
+
+.input-wrapper {
+  .select {
+    &:first-of-type {
+      > ul {
+        > li {
+          &:first-child {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+          }
+        }
+     }
+   }
+
+    &:last-of-type {
+      > ul {
+        > li {
+          &:first-child {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+          }
+        }
+      }
+    }
+  }
+}
+/* end input-wrapper for .select --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
 /* begin product-listing --------------------------------------------------------------------------------------------------------------------------------------------------- */
 #product-listing-wrapper {
   > a {

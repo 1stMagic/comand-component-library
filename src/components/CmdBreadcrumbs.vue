@@ -2,8 +2,9 @@
     <ul class="cmd-breadcrumbs">
         <li v-if="breadcrumbLabel">{{ breadcrumbLabel }}</li>
         <li v-for="(link, index) in breadcrumbLinks" :key="index">
-            <a :href="link.path">{{ link.name }}</a>
-            <span>&gt;</span>
+            <router-link v-if="link.type === 'router'" :to="link.to">{{ link.text }}</router-link>
+            <a v-else :href="link.path">{{ link.text }}</a>
+            <span v-if="index < breadcrumbLinks.length - 1">{{ breadcrumbSeparator }}</span>
         </li>
     </ul>
 </template>
@@ -19,6 +20,10 @@ export default {
         breadcrumbLabel: {
             type: String,
             required: false
+        },
+        breadcrumbSeparator: {
+            type: String,
+            default: ">"
         }
     }
 }

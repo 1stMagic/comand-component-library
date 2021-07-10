@@ -2,14 +2,14 @@
     <div class="cmd-footer-navigation">
         <h4 v-if="headline">{{ headline }}</h4>
         <ul class="flex-container">
-            <li v-for="(entry, index) in footerNavigation" :key="index">
-                <router-link v-if="entry.type === 'router'" :to="getRoute(entry)">
-                    <span v-if="entry.iconClass" :class="entry.iconClass"></span>
-                    <span v-if="entry.linkName">{{ entry.linkName }}</span>
+            <li v-for="(link, index) in footerNavigation" :key="index">
+                <router-link v-if="link.type === 'router'" :to="getRoute(link)">
+                    <span v-if="link.iconClass" :class="link.iconClass"></span>
+                    <span v-if="link.linkName">{{ link.linkName }}</span>
                 </router-link>
-                <a v-else :href="entry.path" :target="entry.target" @click="executeLink(entry, $event)">
-                    <span v-if="entry.iconClass" :class="entry.iconClass"></span>
-                    <span v-if="entry.linkName">{{ entry.linkName }}</span>
+                <a v-else :href="link.path" :target="link.target" @click="executeLink(link, $event)">
+                    <span v-if="link.iconClass" :class="link.iconClass"></span>
+                    <span v-if="link.linkName">{{ link.linkName }}</span>
                 </a>
             </li>
         </ul>
@@ -36,10 +36,10 @@ export default {
         getRoute (language) {
             return getRoute(language)
         },
-        executeLink (entry, event) {
-            if(entry.fancybox) {
+        executeLink (link, event) {
+            if(link.fancybox) {
                 event.preventDefault()
-                openFancyBox({url: entry.link.path})
+                openFancyBox({url: link.link.path})
             }
         }
     }

@@ -1,10 +1,16 @@
 [
   {
     "path": "/",
-    "name": "Home"
+    "text": "Home"
   },
   {
-    "path": "/subpage",
-    "name": "Subpage"
+    "text": "Subpage",
+    "type": "router",
+    "to": {
+      "path": "/subpage",
+      "params": {
+        "lang": "de"
+      }
+    }
   }
 ]

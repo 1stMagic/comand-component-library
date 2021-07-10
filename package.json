@@ -1,6 +1,6 @@
 {
   "name": "comand-component-library",
-  "version": "3.1.9",
+  "version": "3.1.10",
   "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -17,7 +17,7 @@
   ],
   "dependencies": {
     "clickout-event": "^1.1.1",
-    "comand-frontend-framework": "^3.1.11",
+    "comand-frontend-framework": "^3.1.18",
     "core-js": "^3.11.0",
     "v-click-outside": "^3.1.2",
     "vue": "^3.0.0",

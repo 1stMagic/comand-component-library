@@ -253,10 +253,8 @@ label {
   border-bottom: var(--default-border);
   background: var(--pure-white);
 
-  header {
-    nav {
-      padding: 0;
-    }
+  #main-navigation {
+    border-bottom: 0;
   }
 }
 /* end #site-header --------------------------------------------------------------------------------------------------------------------------------------------------- */
@@ -543,15 +541,9 @@ label {
 
 /* begin cmd-main-navigation --------------------------------------------------------------------------------------------------------------------------------------------------- */
 .cmd-main-navigation {
-  background: var(--default-background-color);
-
   nav {
     > ul {
-      border: var(--default-border);
-
       > li {
-        border-right: var(--default-border);
-
         .close-nav {
           a {
             text-align: center;
@@ -570,87 +562,55 @@ label {
           text-align: center;
         }
       }
-
-      // all list-items
-      li {
-        &:hover, &:active, &:focus, &.active {
-          > a {
-            background: var(--primary-color);
-
-            span, span[class*="icon-"] {
-              color: var(--pure-white);
-            }
-          }
-        }
-
-        span[class*='icon-'] {
-          font-size: 1rem;
-        }
-      }
-
-      ul {
-        border: var(--default-border);
-        background: var(--default-background-color);
-
-        li {
-          border-bottom: var(--default-border);
-
-          &:last-child {
-            border-bottom: 0;
-          }
-        }
-      }
     }
-  }
-
-  header nav > ul, header nav > ul > li {
-    border: 0;
   }
 }
 
 @media only screen and (max-width: $medium-max-width) {
-  .cmd-main-navigation {
-    background: none;
+  #main-navigation {
     --nav-transition: all .5s linear;
 
+    background: none;
+    border: 0;
 
     /* begin offcanvas-navigation */
     &:not(.persist-on-mobile) {
+      transition: (--nav-transition);
+
       &.open {
         nav {
           transition: (--nav-transition);
+          background: var(--default-background-color);
+          border-right: var(--default-border);
         }
       }
 
-      nav {
-        background: var(--default-background-color);
-        box-shadow: var(--box-shadow);
-        transition: (--nav-transition);
+      ul {
+        border: 0;
 
-        ul {
-          li {
+        li {
+          border-bottom: var(--default-border);
+          border-right: 0;
+
+          &.close-nav {
             border-bottom: var(--default-border);
 
-            &.close-nav {
-              border-bottom: var(--default-border);
+            a {
+              align-items: center;
 
-              a {
-                align-items: center;
-
-                span {
-                  font-weight: bold;
-                }
+              span {
+                font-weight: bold;
               }
             }
+          }
 
-            > a {
-              text-align: left;
-            }
+          > a {
+            text-align: left;
+          }
 
-            &.open {
-              > ul {
-                transition: (--nav-transition);
-              }
+          &.open {
+            > ul {
+              transition: (--nav-transition);
             }
           }
         }

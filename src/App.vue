@@ -626,7 +626,7 @@
           <CmdSystemMessage messageStatus="success" :fullWidth="true" systemMessage="This is a success message!" iconClass="icon-check">
             <p>This is additional text!</p>
           </CmdSystemMessage>
-          <CmdSystemMessage messageStatus="information" :fullWidth="true" systemMessage="This is an information message!" iconClass="icon-info">
+          <CmdSystemMessage messageStatus="info" :fullWidth="true" systemMessage="This is an info message!" iconClass="icon-info">
             <p>This is additional text!</p>
           </CmdSystemMessage>
       </CmdWidthLimitationWrapper>

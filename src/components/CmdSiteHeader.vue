@@ -22,10 +22,6 @@ export default {
       type: Boolean,
       default: true
     },
-    navigationEntries: {
-      type: Array,
-      required: true
-    },
     mainNavigationEntries: {
       type: Array,
       required: true
@@ -33,10 +29,6 @@ export default {
     headerWidthLimitation: {
       type: Boolean,
       default: false
-    },
-    languages: {
-      type: Array,
-      required: true
     },
     linkLogo: {
       type: Object,
@@ -56,7 +48,11 @@ export default {
     },
     closeOffcanvas: {
         type: Object,
-        required: true
+        default () {
+            return {
+               iconClass: "icon-cancel"
+            }
+        }
     }
   }
 }
