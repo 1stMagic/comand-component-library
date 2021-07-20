@@ -1,24 +1,24 @@
 <template>
-  <div :class="['cmd-main-navigation', {'hide-sub-navigation' : !showSubNavigations, 'open': showOffcanvas, 'persist-on-mobile': persistOnMobile}]" id="main-navigation">
+  <div :class="['cmd-main-navigation', {'hide-sub-navigation' : !showSubNavigations, 'open': showOffcanvas, 'persist-on-mobile': persistOnMobile, 'show-content-overlay': showContentOverlay}]" id="main-navigation">
     <nav>
       <ul :class="{'stretch-items' : stretchMainItems}">
         <li class="close-nav" v-if="showOffcanvas">
           <a href="#" @click.prevent="showOffcanvas = false">
-            <span :class="closeOffcanvas.iconClass" v-if="closeOffcanvas.iconClass"></span>
-            <span v-if="closeOffcanvas.text">{{ closeOffcanvas.text }}</span>
+            <span v-if="closeOffcanvas.iconClass" :class="closeOffcanvas.iconClass"></span>
+            <span :class="{'hidden': closeOffcanvas.hideText}">{{ closeOffcanvas.text }}</span>
           </a>
         </li>
         <li v-for="(navigationEntry, index) in navigationEntries" :key="index" :class="{'open' : navigationEntry.open}">
           <a :href="navigationEntry.href" :target="navigationEntry.target" @click="clickLink($event, navigationEntry)">
             <span :class="navigationEntry.iconClass" v-if="navigationEntry.iconClass"></span>
             <span>{{ navigationEntry.name }}</span>
-            <span v-if="navigationEntry.subentries && navigationEntry.subentries.length > 0" class="icon-single-arrow-down"></span>
+            <span v-if="navigationEntry.subentries && navigationEntry.subentries.length > 0" :class="subentriesIconClass"></span>
           </a>
           <ul v-if="navigationEntry.subentries" aria-expanded="true">
             <li v-for="(navigationSubEntry, subindex) in navigationEntry.subentries" :key="subindex" :class="{'open' : navigationSubEntry.open}">
               <a :href="navigationSubEntry.href" :target="navigationSubEntry.target" @click="clickLink($event, navigationSubEntry)">
                 <span>{{ navigationSubEntry.name }}</span>
-                <span :class="iconSubentries" v-if="navigationSubEntry.subentries"></span>
+                <span :class="subSubentriesIconClass" v-if="navigationSubEntry.subentries"></span>
               </a>
               <ul v-if="navigationSubEntry.subentries">
                 <li v-for="(navigationSubSubEntry, subsubindex) in navigationSubEntry.subentries" :key="subsubindex">
@@ -32,7 +32,10 @@
         </li>
       </ul>
     </nav>
-    <a href="#" :class="['button', iconToggleOffcanvas]" id="toggle-offcanvas" @click.prevent="showOffcanvas = !showOffcanvas" v-if="persistOnMobile === false"></a>
+    <a href="#" class="button" id="toggle-offcanvas" @click.prevent="showOffcanvas = !showOffcanvas" v-if="persistOnMobile === false">
+      <span :class="buttonOffcanvas.iconClass"></span>
+      <span :class="{'hidden' : buttonOffcanvas.hideText}">{{ buttonOffcanvas.text }}</span>
+    </a>
   </div>
 </template>
 
@@ -60,15 +63,35 @@
             },
             closeOffcanvas: {
                 type: Object,
-                required: true
+                default: function () {
+                    return {
+                        iconClass: "icon-cancel",
+                        text: "Close navigation",
+                        hideText: false
+                    }
+                }
             },
-            iconSubentries: {
+            buttonOffcanvas: {
+                type: Object,
+                default: function () {
+                    return {
+                        iconClass: "icon-bars",
+                        text: "Open navigation",
+                        hideText: true
+                    }
+                }
+            },
+            subentriesIconClass: {
+                type: String,
+                default: "icon-single-arrow-down"
+            },
+            subSubentriesIconClass: {
                 type: String,
                 default: "icon-single-arrow-right"
             },
-            iconToggleOffcanvas: {
-                type: String,
-                default: "icon-bars"
+            showContentOverlay: {
+                type: Boolean,
+                default: true
             }
         },
         methods: {
@@ -94,6 +117,7 @@
 
 <style lang="scss">
 @import '../assets/styles/variables';
+
 /* begin cmd-main-navigation --------------------------------------------------------------------------------------------------------------------------------------------------- */
 .cmd-main-navigation {
   &.hide-sub-navigation {
@@ -118,6 +142,10 @@
         }
       }
     }
+
+    + div {
+      display: none;
+    }
   }
 
   .fade-enter-active, .fade-leave-active {
@@ -136,7 +164,7 @@
     /* begin offcanvas-navigation */
     &:not(.persist-on-mobile) {
       #toggle-offcanvas {
-        display: table;
+        display: flex;
         margin-bottom: 0;
         width: auto;
       }
@@ -150,10 +178,12 @@
       }
 
       nav {
+        --min-width: 30%;
+
         position: fixed;
         top: 0;
         left: -100%;
-        min-width: 50%;
+        min-width: var(--min-width);
         height: 100%;
         opacity: 0;
         z-index: 500;
@@ -208,9 +238,11 @@
             }
 
             &.open {
-              > a span + span[class*="icon"]::before {
-                display: inline-block;
-                transform: rotate(-180deg);
+              > a span {
+                + span[class*="icon"]::before {
+                  display: inline-block;
+                  transform: rotate(-180deg);
+                }
               }
 
               > ul {
@@ -222,7 +254,7 @@
                   > a {
                     span {
                       + span[class*="icon"]::before {
-                        transform: rotate(-90deg);
+                        transform: rotate(90deg);
                       }
                     }
                   }
@@ -231,7 +263,7 @@
                     > a {
                       span {
                         + span[class*="icon"]::before {
-                          transform: rotate(90deg);
+                          transform: rotate(-90deg);
                         }
                       }
                     }
@@ -247,12 +279,46 @@
 }
 
 @media only screen and (max-width: $medium-max-width) {
-  .cmd-main-navigation {
+  #main-navigation {
+    display: flex;
+    background: none; /* overwrite framework-css */
+    border: 0; /* overwrite framework-css */
     padding: 0 var(--default-padding);
+
+    nav {
+      ul {
+        ul {
+          li {
+            &:not(:first-child) {
+              border-top: 0;
+            }
+
+            &:last-child {
+              border-bottom: 0;
+            }
+          }
+        }
+      }
+    }
+
+    &.show-content-overlay {
+      nav {
+        &::after {
+          content: "";
+          position: fixed;
+          width: calc(100% - var(--min-width));
+          top: 0;
+          left: var(--min-width);
+          height: 100%;
+          display: block;
+          background: var(--pure-black-reduced-opacity);
+        }
+      }
+    }
   }
 }
 
-/* keep outside of #navigation-wrapper to keep specificity */
+/* keep outside of .cmd-main-navigation to keep specificity */
 #toggle-offcanvas {
   margin-left: 0;
   display: none;

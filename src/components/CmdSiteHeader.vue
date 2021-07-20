@@ -48,11 +48,7 @@ export default {
     },
     closeOffcanvas: {
         type: Object,
-        default () {
-            return {
-               iconClass: "icon-cancel"
-            }
-        }
+        required: false
     }
   }
 }
@@ -84,14 +80,9 @@ export default {
       padding: 0;
     }
 
-    #main-navigation,
-    nav ul li,
-    #navigation-wrapper {
+    .cmd-main-navigation,
+    nav ul li {
       background: none;
-    }
-
-    #navigation-wrapper {
-      align-self: center;
     }
 
     .cmd-logo {

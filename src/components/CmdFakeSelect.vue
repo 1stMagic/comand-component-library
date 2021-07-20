@@ -132,8 +132,12 @@ export default {
   min-width: 0;
 
   > li {
+    height: 100%;
+
     &:first-child {
       > a {
+        height: inherit;
+
         [class*='icon-'] {
           margin-left: auto;
         }
@@ -151,6 +155,12 @@ export default {
       padding: .7rem;
       padding-top: .8rem;
       outline: none;
+
+      img {
+        &.flag {
+          margin: 0 calc(var(--default-margin)/2) 0 0;
+        }
+      }
     }
 
     ul {

@@ -10,6 +10,12 @@
     "type": "href",
     "path": "#anchor-section4",
     "iconClass": "icon-mail",
-    "linkName": "Kontakt"
+    "linkName": "Contact"
+  },
+  {
+    "type": "href",
+    "path": "#anchor-section3",
+    "iconClass": "icon-user-profile",
+    "tooltip": "Login"
   }
 ]

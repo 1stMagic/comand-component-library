@@ -253,7 +253,7 @@ label {
   border-bottom: var(--default-border);
   background: var(--pure-white);
 
-  #main-navigation {
+  .cmd-main-navigation {
     border-bottom: 0;
   }
 }
@@ -269,7 +269,7 @@ label {
     background: var(--default-background-color);
     text-decoration: none;
 
-    h3 {
+    > h2, > h3, > h4, > h5, > h6 {
       margin-bottom: 0;
     }
 
@@ -289,7 +289,7 @@ label {
         border-color: var(--primary-color);
       }
 
-      span {
+      > * {
         color: var(--pure-white);
       }
     }
@@ -567,7 +567,7 @@ label {
 }
 
 @media only screen and (max-width: $medium-max-width) {
-  #main-navigation {
+  .cmd-main-navigation {
     --nav-transition: all .5s linear;
 
     background: none;

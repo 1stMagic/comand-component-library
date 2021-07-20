@@ -2,16 +2,16 @@
     <div class="cmd-accordion">
         <template v-for="(accordionContent, index) in accordion" :key="index">
             <a href="#" :title="tooltip" @click.prevent="toggleContentVisibility(accordionContent)">
-                <h3>
-                    <slot :name="'accordion-headline-' + index">
-                        <span>{{ accordionContent.headline }}</span>
-                    </slot>
-                </h3>
+                <slot :name="'accordionHeadline' + index">
+                    <component :is="accordionHeadlineLevel">
+                        {{ accordionContent.headline }}
+                    </component>
+                </slot>
                 <span class="toggle-icon" :class="[accordionContent.status ? openIconClass : closeIconClass]"></span>
             </a>
             <transition name="fade">
                 <div class="accordion-content" v-if="accordionContent.status" aria-expanded="true">
-                    <slot :name="'accordion-content-' + index">
+                    <slot :name="'accordionContent' + index">
                         <p>{{ accordionContent.content }}</p>
                     </slot>
                 </div>
@@ -32,7 +32,21 @@ export default {
     props: {
         toggleMode: {
             type: String,
-            default: 'single'
+            default: "single"
+        },
+        accordionHeadlineLevel: {
+            type: String,
+            default: "h3",
+            validator (value) {
+                const allowedTags = ["h2", "h3", "h4","h5", "h6"]
+
+                // check if allowedTags includes given value for this property (if not output warning in console)
+                if (!allowedTags.includes(value)) {
+                    console.warn("Not allowed tag (" + value + ") used for accordionHeadline-property! Allowed tags are: " + allowedTags)
+                    return false
+                }
+                return true
+            }
         },
         accordionData: {
             type: [Array, Number],
@@ -96,6 +110,10 @@ export default {
         margin: var(--default-margin) 0 0 0;
         padding: calc(var(--default-padding) / 2) var(--default-padding);
 
+        &:first-child {
+            margin: 0;
+        }
+
         label, .label {
             margin-top: 0;
         }
@@ -106,10 +124,10 @@ export default {
 
         > span {
             font-size: inherit;
-        }
 
-        > span[class*="icon-"] {
-            margin-left: auto;
+            &[class*="icon-"] {
+                margin-left: auto;
+            }
         }
     }
 
@@ -126,17 +144,6 @@ export default {
         > *:last-child {
             margin-bottom: 0;
         }
-    }
-
-    .fade-enter-active, .fade-leave-active {
-        height: auto;
-    }
-
-    .fade-enter, .fade-leave-to {
-        height: 0;
-        padding-top: 0;
-        padding-bottom: 0;
-        overflow: hidden;
     }
 }
 /* end cmd-accordion --------------------------------------------------------------------------------------------------------------------------------------------------- */

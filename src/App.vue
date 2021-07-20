@@ -1,7 +1,7 @@
 <!--suppress HtmlUnknownTarget, NpmUsedModulesInstalled, JSUnresolvedVariable -->
 <template>
   <a name="anchor-back-to-top"></a>
-    <CmdSiteHeader :mainNavigationEntries="navigationData" :closeOffcanvas="{'text': 'Close navigation', 'iconClass': 'icon-cancel'}" :sticky="true">
+    <CmdSiteHeader :mainNavigationEntries="navigationData" :sticky="true">
        <template v-slot:top-header>
          <CmdTopHeaderNavigation :topHeaderNavigationData="topHeaderNavigationData" v-if="topHeaderNavigationData" />
        </template>
@@ -47,20 +47,39 @@
       <a id="section-accordion"></a>
       <CmdWidthLimitationWrapper>
           <h2 class="headline-demopage">Accordion</h2>
-          <h3>Single mode</h3>
+          <h3>Single mode (only one can be opened)</h3>
           <CmdAccordion :accordionData="accordionData.accordionData1"
                      toggleMode="single"
                      tooltip="Click to toggle content"
                      openIconClass="icon-single-arrow-up"
                      closeIconClass="icon-single-arrow-down"
           />
-          <h3>Multiple mode</h3>
+          <h3>Multiple mode (all can be opened)</h3>
           <CmdAccordion :accordionData="accordionData.accordionData2"
                      toggleMode="multiple"
                      tooltip="Click to toggle content"
                      openIconClass="icon-single-arrow-up"
                      closeIconClass="icon-single-arrow-down"
           />
+        <h3>Customized headline-level</h3>
+        <CmdAccordion :accordionData="accordionData.accordionData2"
+                      toggleMode="multiple"
+                      tooltip="Click to toggle content"
+                      openIconClass="icon-single-arrow-up"
+                      closeIconClass="icon-single-arrow-down"
+                      accordion-headline-level="h4"
+        />
+          <h3>Data given by slots</h3>
+          <CmdAccordion :accordionData="1">
+            <template v-slot:accordionHeadline0>
+              <h4>Headline (h4)</h4>
+            </template>
+            <template v-slot:accordionContent0>
+              <p>
+                Content
+              </p>
+            </template>
+          </CmdAccordion>
       </CmdWidthLimitationWrapper>
 
       <!-- begin advanced form elements --------------------------------------------------------------------------------------------------------------------------------------------------->
@@ -567,9 +586,8 @@
       <CmdWidthLimitationWrapper>
           <h2 class="headline-demopage">Main Navigation</h2>
           <CmdMainNavigation :stretchMainItems="false"
-                          :persistOnMobile="false"
-                          :navigationEntries="navigationData"
-                          :closeOffcanvas="{'text': 'Close navigation', 'iconClass': 'icon-cancel'}"
+                             :persistOnMobile="false"
+                             :navigationEntries="navigationData"
           />
       </CmdWidthLimitationWrapper>
 

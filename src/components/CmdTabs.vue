@@ -26,9 +26,18 @@ export default {
         }
     },
     props: {
-        stretchTabs: Boolean,
-        tabs: Array,
-        useComponent: Boolean
+        stretchTabs: {
+            type: Boolean,
+            default: false
+        },
+        tabs: {
+            type: Array,
+            required: true,
+        },
+        useComponent: {
+            type: Boolean,
+            default: false
+        }
     }
 }
 </script>
@@ -63,6 +72,17 @@ export default {
                 }
             }
         }
+
+        &.stretch-tabs {
+            > li {
+                flex: 1;
+                text-align: center;
+            }
+
+            > div {
+                border-top-right-radius: 0;
+            }
+        }
     }
 
     .headline {
@@ -78,17 +98,6 @@ export default {
             *:last-child {
                 margin-bottom: 0;
             }
-        }
-    }
-
-    /* stretch tabs with display-flex */
-    &.stretch-tabs {
-        > li {
-            flex: 1;
-        }
-
-        > div {
-            border-top-right-radius: 0;
         }
     }
 }

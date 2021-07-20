@@ -2,8 +2,8 @@
     <div class="cmd-top-header-navigation">
         <ul class="flex-container" role="navigation">
             <li v-for="(link, index) in topHeaderNavigationData" :key="index">
-                <a :href="link.path" :target="link.target">
-                    <span :class="link.iconClass" v-if="link.iconClass"></span>
+                <a :href="link.path" :target="link.target" :title="!link.linkName ? link.tooltip : ''">
+                    <span v-if="link.iconClass" :class="link.iconClass"></span>
                     <span v-if="link.linkName">{{ link.linkName }}</span>
                 </a>
             </li>
@@ -12,15 +12,15 @@
 </template>
 
 <script>
-    export default {
-        name: "CmdTopHeaderNavigation",
-        props: {
-            topHeaderNavigationData: {
-                type: Array,
-                required: false
-            }
+export default {
+    name: "CmdTopHeaderNavigation",
+    props: {
+        topHeaderNavigationData: {
+            type: Array,
+            required: false
         }
     }
+}
 </script>
 
 <style lang="scss">
