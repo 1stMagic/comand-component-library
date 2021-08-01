@@ -3,17 +3,20 @@
          :for="id"
          :class="[status, {'inline' : displayinline, 'checked': isChecked}]" ref="label">
     <!-- begin label (+ required) -->
-    <span v-if="labelText && $attrs.type !== 'checkbox' && $attrs.type !== 'radio'" :class="{'hidden': hideLabelText}">
+    <span v-if="labelText && $attrs.type !== 'checkbox' && $attrs.type !== 'radio'"
+          :class="{'hidden': hideLabelText}">
       <span>{{ labelText }}</span><sup v-if="$attrs.required && !hideLabel">*</sup>
     </span>
     <!-- end label (+ required) -->
 
     <!-- begin icon -->
-    <span v-if="$attrs.type !== 'checkbox' && $attrs.type !== 'radio' && iconClass" class="place-inside" :class="[status, iconClass]"></span>
+    <span v-if="$attrs.type !== 'checkbox' && $attrs.type !== 'radio' && iconClass" class="place-inside"
+          :class="[status, iconClass]"></span>
     <!-- end icon -->
 
     <!-- begin inputfield -->
-    <template v-if="element === 'input' && $attrs.type !== 'checkbox' && $attrs.type !== 'radio' && $attrs.type !== 'search'">
+    <template
+        v-if="element === 'input' && $attrs.type !== 'checkbox' && $attrs.type !== 'radio' && $attrs.type !== 'search'">
       <input v-bind="$attrs"
              :id="id" :class="htmlClass"
              @focus="tooltip = true"
@@ -44,9 +47,10 @@
              :value="inputValue"
              :class="htmlClass"
              :id="id"
-             :disabled="status === 'disabled'" />
+             :disabled="status === 'disabled'"/>
       <span v-if="labelText">{{ labelText }}</span>
-      <slot v-else></slot><sup v-if="$attrs.required">*</sup>
+      <slot v-else></slot>
+      <sup v-if="$attrs.required">*</sup>
     </template>
     <!-- end checkbox and radiobutton -->
 
@@ -58,7 +62,9 @@
             :disabled="status === 'disabled'"
             @change="$emit('input', $event.target.value)"
     >
-      <option v-for="(option, index) in selectOptions" :key="index" :value="option.value" :selected="option.selected">{{ option.text }}</option>
+      <option v-for="(option, index) in selectOptions" :key="index" :value="option.value"
+              :selected="option.selected">{{ option.text }}
+      </option>
     </select>
     <!-- end selectbox -->
 
@@ -76,12 +82,12 @@
     <!-- end textarea -->
 
     <!-- begin tooltip -->
-    <Tooltip v-if="tooltip && tooltipText" :tooltipText="tooltipText" />
+    <Tooltip v-if="tooltip && tooltipText" :tooltipText="tooltipText"/>
     <!-- end tooltip -->
 
     <!-- begin searchfield -->
     <span v-else-if="element === 'input' && $attrs.type === 'search'" class="flex-container no-gap">
-      <input v-bind="$attrs" :class="status" :id="id" @input="onInput" :value="value" />
+      <input v-bind="$attrs" :class="status" :id="id" @input="onInput" :value="value"/>
       <button class="no-flex" type="button" :disabled="status === 'disabled'">
         <span class="icon-search"></span>
       </button>
@@ -102,7 +108,7 @@
 </template>
 
 <script>
-import Tooltip  from "./CmdTooltip.vue"
+import Tooltip from "./CmdTooltip.vue"
 
 export default {
   inheritAttrs: false,
@@ -110,7 +116,7 @@ export default {
   components: {
     Tooltip
   },
-  data () {
+  data() {
     return {
       tooltip: false
     }
@@ -125,9 +131,9 @@ export default {
       type: String,
       validator(value) {
         return value === "input" ||
-                value === "select" ||
-                value === "textarea" ||
-                value === "button";
+            value === "select" ||
+            value === "textarea" ||
+            value === "button";
       },
       required: true
     },
@@ -227,7 +233,7 @@ export default {
     },
     datalistFocus() {
       /* corrects focus-bug for datalist in firefox */
-      if(this.datalist) {
+      if (this.datalist) {
         this.$refs.label.focus()
       }
     },

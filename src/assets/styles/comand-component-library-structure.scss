@@ -34,31 +34,6 @@
 /* ---------------------------------------------- END IMPORTS -------------------------------------------------- */
 
 /* ---------------------------------------------- BEGIN COMPONENTS AND GLOBAL STYLES -------------------------------------------------- */
-/* begin cmd-cookie-disclaimer --------------------------------------------------------------------------------------------------------------------------------------------------- */
-.cmd-cookie-disclaimer {
-  .cmd-accordion {
-    .accordion-headline {
-      &:hover, &:active, &:focus {
-        label, .label {
-          span {
-            color: var(--pure-white) !important;
-          }
-        }
-      }
-    }
-  }
-
-  p  {
-    a {
-      text-decoration: underline;
-
-      &:hover, &:active, &:focus {
-        text-decoration: none;
-      }
-    }
-  }
-}
-/* end cmd-cookie-disclaimer --------------------------------------------------------------------------------------------------------------------------------------------------- */
 
 /* begin flags --------------------------------------------------------------------------------------------------------------------------------------------------- */
 .flag {
@@ -68,16 +43,6 @@
   display: block;
 }
 /* end flags --------------------------------------------------------------------------------------------------------------------------------------------------- */
-
-/* begin header and top-header-navigation --------------------------------------------------------------------------------------------------------------------------------------------------- */
-#site-header  {
-  header, .cmd-main-navigation nav, .cmd-top-header-navigation > ul {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    padding: 0 var(--default-padding);
-  }
-}
-/* end header and top-header-navigation --------------------------------------------------------------------------------------------------------------------------------------------------- */
 
 /* begin input-wrapper for .select --------------------------------------------------------------------------------------------------------------------------------------------------- */
 .select {
@@ -211,14 +176,6 @@
     --grid-large-span: 3; /* default column span larger part */
   }
 
-  #site-header {
-    padding-bottom: calc(var(--default-padding) * 2);
-
-    header {
-      grid-auto-rows: auto; /* items should be as large as their content */
-    }
-  }
-
   #site-footer  {
     footer {
       li {
@@ -250,19 +207,6 @@
 
       &:active {
         text-decoration: none;
-      }
-    }
-  }
-
-  #site-header {
-    gap: calc(var(--default-gap) / 2);
-    padding-bottom: var(--default-padding);
-
-    .cmd-logo {
-      margin: 0 auto;
-
-      img {
-        max-width: 80%;
       }
     }
   }

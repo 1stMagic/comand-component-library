@@ -1,5 +1,5 @@
 <template>
-  <header class="main-headline">
+  <header class="cmd-main-headline">
     <span v-if="iconClass" :class="iconClass"></span>
     <div v-if="preHeadline">
       <p>{{ preHeadline }}</p>
@@ -30,36 +30,37 @@ export default {
 </script>
 
 <style lang="scss">
-  @import '../assets/styles/variables';
-  /* begin cmd-main-headline --------------------------------------------------------------------------------------------------------------------------------------------------- */
+@import '../assets/styles/variables';
 
-  .main-headline {
+/* begin cmd-main-headline ------------------------------------------------------------------------------------------ */
+.cmd-main-headline {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--default-margin);
+  gap: var(--default-gap);
+
+  p {
+    margin-bottom: 0;
+  }
+
+  h1 {
+    margin: 0;
     display: flex;
     align-items: center;
-    margin-bottom: var(--default-margin);
-    gap: var(--default-gap);
+  }
 
-    p {
-      margin-bottom: 0;
-    }
+  [class*="icon"] {
+    font-size: 5rem;
+  }
+
+  @media only screen and ($small-max-width) {
+    flex-direction: column;
 
     h1 {
-      margin: 0;
-      display: flex;
-      align-items: center;
-    }
-
-    [class*="icon"] {
-      font-size: 5rem;
-    }
-
-    @media only screen and ($small-max-width) {
-      flex-direction: column;
-
-      h1 {
-        margin-bottom: calc(var(--default-margin) * 2);
-      }
+      margin-bottom: calc(var(--default-margin) * 2);
     }
   }
-  /* end cmd-main-headline --------------------------------------------------------------------------------------------------------------------------------------------------- */
+}
+
+/* end cmd-main-headline ------------------------------------------------------------------------------------------ */
 </style>

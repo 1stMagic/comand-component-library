@@ -1,33 +1,39 @@
 <template>
-  <div class="label" :class="status">
+  <div :class="[status, 'cmd-select label']">
     <span>Label for FakeSelect:</span>
-    <ul class="select" :class="[status, {'open': showOptions}]" @clickout="closeOptions">
+    <ul :class="{'open': showOptions}" @clickout="closeOptions">
       <li>
         <a href="#" @click.prevent="toggleOptions">
-          <img v-if="type === 'country' && miscInfo" :src="flagPath" class="flag" :class="miscInfo" />
-          <span v-else-if="type === 'color' && miscInfo" class="color" :style="'background: ' + miscInfo"></span>
+          <img v-if="type === 'country' && miscInfo" :src="flagPath" class="flag" :class="miscInfo"/>
+          <span v-else-if="type === 'color' && miscInfo" class="color"
+                :style="'background: ' + miscInfo"></span>
           <span>{{ optionName }}</span>
           <span :class="iconClass"></span>
         </a>
         <ul v-if="type === 'filterList' && showOptions" class="filter-list">
           <li v-for="(option, index) in selectData" :key="index">
             <label :for="'option-' + (index + 1)">
-              <input type="checkbox" :value="option.optionValue" @change="optionSelect" :checked="value.includes(`${option.optionValue}`)" :id="'option-' + (index + 1)" />
+              <input type="checkbox" :value="option.optionValue" @change="optionSelect"
+                     :checked="value.includes(`${option.optionValue}`)" :id="'option-' + (index + 1)"/>
               <span>{{ option.optionName }}</span>
             </label>
           </li>
         </ul>
         <ul v-else-if="type === 'country' && showOptions">
           <li v-for="(country, index) in selectData" :key="index">
-            <a href="#" @click.prevent="selectOption(country.countryName, country.isoCode, country.flagPath)">
-              <img class="flag" :src="country.flagPath" :alt="country.countryName" /><span>{{country.countryName}}</span>
+            <a href="#"
+               @click.prevent="selectOption(country.countryName, country.isoCode, country.flagPath)">
+              <img class="flag" :src="country.flagPath"
+                   :alt="country.countryName"/><span>{{ country.countryName }}</span>
             </a>
           </li>
         </ul>
         <ul v-else-if="type === 'color' && showOptions">
           <li v-for="(color, index) in selectData" :key="index">
             <a href="#" @click.prevent="selectOption(color.colorName, color.hexCode)">
-              <span class="color" :style="'background: ' + color.hexCode"></span><span>{{ color.colorName }}</span>
+              <span class="color" :style="'background: ' + color.hexCode"></span><span>{{
+                color.colorName
+              }}</span>
             </a>
           </li>
         </ul>
@@ -71,21 +77,21 @@ export default {
     }
   },
   methods: {
-    toggleOptions () {
-      if(this.status !== 'disabled') {
+    toggleOptions() {
+      if (this.status !== 'disabled') {
         this.showOptions = !this.showOptions
       }
     },
-    optionSelect (event) {
+    optionSelect(event) {
       let value = [...this.value] // copy array from props
-      if(event.target.checked) {
+      if (event.target.checked) {
         value.push(event.target.value); // attention: value will be transformed into string!
       } else {
         value = value.filter(v => v !== event.target.value);
       }
       this.$emit('update:value', value);
     },
-    selectOption (optionName, miscInfo, flagPath) {
+    selectOption(optionName, miscInfo, flagPath) {
       this.optionName = optionName
       this.miscInfo = miscInfo
       this.flagPath = flagPath
@@ -96,7 +102,7 @@ export default {
       this.showOptions = false
     }
   },
-  data () {
+  data() {
     return {
       showOptions: false,
       optionName: this.defaultOptionName,
@@ -104,7 +110,7 @@ export default {
       flagPath: ""
     }
   },
-  created () {
+  created() {
     if (this.selectData) {
       for (let i = 0; i < this.selectData.length; i++) {
         let currentEntry = this.selectData[i]
@@ -123,23 +129,44 @@ export default {
 </script>
 
 <style lang="scss">
-/* begin cmd-fakeselect --------------------------------------------------------------------------------------------------------------------------------------------------- */
-.select {
-  margin: 0;
-  display: block;
-  box-shadow: none;
-  border-radius: var(--border-radius);
-  min-width: 0;
+/* begin cmd-fakeselect ------------------------------------------------------------------------------------------ */
+@mixin disabled-styles {
+  color: var(--disabled-color);
+  border-color: var(--disabled-color);
+  background: var(--disabled-background-color);
+}
 
-  > li {
-    height: 100%;
+.cmd-select {
+  > ul {
+    margin: 0;
+    display: block;
+    min-width: 0;
+    background: var(--pure-white);
+    box-shadow: none;
+    border-radius: var(--border-radius);
 
-    &:first-child {
-      > a {
-        height: inherit;
+    > li {
+      height: 100%;
 
-        [class*='icon-'] {
-          margin-left: auto;
+      &:first-child {
+        > a {
+          height: inherit;
+          border: var(--default-border);
+
+          [class*='icon-'] {
+            margin-left: auto;
+            font-size: 1rem;
+          }
+        }
+      }
+    }
+
+    &.open {
+      > li {
+        &:first-child {
+          > a {
+            border-color: var(--primary-color);
+          }
         }
       }
     }
@@ -155,10 +182,27 @@ export default {
       padding: .7rem;
       padding-top: .8rem;
       outline: none;
+      border-bottom: var(--default-border);
+      color: var(--text-color);
+      text-decoration: none;
+
+      &:hover, &:active, &:focus {
+        background: var(--primary-color);
+
+        span {
+          color: var(--pure-white);
+        }
+      }
+
+      span {
+        &:first-child, &:nth-child(2) {
+          border: 0;
+        }
+      }
 
       img {
         &.flag {
-          margin: 0 calc(var(--default-margin)/2) 0 0;
+          margin: 0 calc(var(--default-margin) / 2) 0 0;
         }
       }
     }
@@ -172,6 +216,9 @@ export default {
       border-top: 0;
       border-bottom-right-radius: var(--border-radius);
       border-bottom-left-radius: var(--border-radius);
+      background: var(--pure-white);
+      border: var(--primary-border);
+      border-top: 0;
 
       li {
         &:last-child {
@@ -188,6 +235,52 @@ export default {
       }
     }
   }
+
+  &.error {
+    > ul {
+      > li {
+        > a {
+          border-color: var(--error-color);
+
+          > span, span[class*="icon-"] {
+            color: var(--error-color);
+          }
+
+          &:hover, &:active, &:focus {
+            border-color: var(--error-color);
+            background: var(--error-background);
+
+            span {
+              color: var(--error-color);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &.disabled {
+    > ul {
+      > li {
+        > a {
+          @include disabled-styles;
+
+          span {
+            color: var(--disabled-color);
+          }
+
+          &:hover, &:active, &:focus {
+            cursor: not-allowed;
+            @include disabled-styles;
+
+            span {
+              color: var(--disabled-color);
+            }
+          }
+        }
+      }
+    }
+  }
 }
-/* end cmd-fakeselect --------------------------------------------------------------------------------------------------------------------------------------------------- */
+/* end cmd-fakeselect ------------------------------------------------------------------------------------------ */
 </style>

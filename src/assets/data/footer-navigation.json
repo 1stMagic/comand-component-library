@@ -2,9 +2,10 @@
   {
     "iconClass": "icon-user-profile",
     "type": "href",
-    "linkName": "Contact",
+    "linkName": "",
     "path": "#",
-    "target": ""
+    "target": "",
+    "tooltip": "Link without name, but tooltip"
   },
   {
     "type": "href",

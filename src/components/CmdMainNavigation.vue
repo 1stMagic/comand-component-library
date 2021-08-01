@@ -1,5 +1,7 @@
 <template>
-  <div :class="['cmd-main-navigation', {'hide-sub-navigation' : !showSubNavigations, 'open': showOffcanvas, 'persist-on-mobile': persistOnMobile, 'show-content-overlay': showContentOverlay}]" id="main-navigation">
+  <div
+      :class="['cmd-main-navigation', {'hide-sub-navigation' : !showSubNavigations, 'open': showOffcanvas, 'persist-on-mobile': persistOnMobile, 'show-content-overlay': showContentOverlay}]"
+      id="main-navigation">
     <nav>
       <ul :class="{'stretch-items' : stretchMainItems}">
         <li class="close-nav" v-if="showOffcanvas">
@@ -12,17 +14,21 @@
           <a :href="navigationEntry.href" :target="navigationEntry.target" @click="clickLink($event, navigationEntry)">
             <span :class="navigationEntry.iconClass" v-if="navigationEntry.iconClass"></span>
             <span>{{ navigationEntry.name }}</span>
-            <span v-if="navigationEntry.subentries && navigationEntry.subentries.length > 0" :class="subentriesIconClass"></span>
+            <span v-if="navigationEntry.subentries && navigationEntry.subentries.length > 0"
+                  :class="subentriesIconClass"></span>
           </a>
           <ul v-if="navigationEntry.subentries" aria-expanded="true">
-            <li v-for="(navigationSubEntry, subindex) in navigationEntry.subentries" :key="subindex" :class="{'open' : navigationSubEntry.open}">
-              <a :href="navigationSubEntry.href" :target="navigationSubEntry.target" @click="clickLink($event, navigationSubEntry)">
+            <li v-for="(navigationSubEntry, subindex) in navigationEntry.subentries" :key="subindex"
+                :class="{'open' : navigationSubEntry.open}">
+              <a :href="navigationSubEntry.href" :target="navigationSubEntry.target"
+                 @click="clickLink($event, navigationSubEntry)">
                 <span>{{ navigationSubEntry.name }}</span>
                 <span :class="subSubentriesIconClass" v-if="navigationSubEntry.subentries"></span>
               </a>
               <ul v-if="navigationSubEntry.subentries">
                 <li v-for="(navigationSubSubEntry, subsubindex) in navigationSubEntry.subentries" :key="subsubindex">
-                  <a :href="navigationSubSubEntry.href" :target="navigationSubSubEntry.target" @click="clickLink($event, navigationSubSubEntry)">
+                  <a :href="navigationSubSubEntry.href" :target="navigationSubSubEntry.target"
+                     @click="clickLink($event, navigationSubSubEntry)">
                     <span>{{ navigationSubSubEntry.name }}</span>
                   </a>
                 </li>
@@ -32,7 +38,8 @@
         </li>
       </ul>
     </nav>
-    <a href="#" class="button" id="toggle-offcanvas" @click.prevent="showOffcanvas = !showOffcanvas" v-if="persistOnMobile === false">
+    <a href="#" class="button" id="toggle-offcanvas" @click.prevent="showOffcanvas = !showOffcanvas"
+       v-if="persistOnMobile === false">
       <span :class="buttonOffcanvas.iconClass"></span>
       <span :class="{'hidden' : buttonOffcanvas.hideText}">{{ buttonOffcanvas.text }}</span>
     </a>
@@ -40,85 +47,85 @@
 </template>
 
 <script>
-    export default {
-        name: "CmdMainNavigation",
-        data() {
-            return {
-                showOffcanvas: false,
-                showSubNavigations: true
-            }
-        },
-        props: {
-            stretchMainItems:{
-                type: Boolean,
-                default: false
-            },
-            persistOnMobile: {
-                type: Boolean,
-                default: false
-            },
-            navigationEntries: {
-                type: Array,
-                required: true
-            },
-            closeOffcanvas: {
-                type: Object,
-                default: function () {
-                    return {
-                        iconClass: "icon-cancel",
-                        text: "Close navigation",
-                        hideText: false
-                    }
-                }
-            },
-            buttonOffcanvas: {
-                type: Object,
-                default: function () {
-                    return {
-                        iconClass: "icon-bars",
-                        text: "Open navigation",
-                        hideText: true
-                    }
-                }
-            },
-            subentriesIconClass: {
-                type: String,
-                default: "icon-single-arrow-down"
-            },
-            subSubentriesIconClass: {
-                type: String,
-                default: "icon-single-arrow-right"
-            },
-            showContentOverlay: {
-                type: Boolean,
-                default: true
-            }
-        },
-        methods: {
-            clickLink (event, navigationEntry) {
-                if(navigationEntry.target || (navigationEntry.href.length > 1)) {
-                    return true
-                }
-                if(navigationEntry.href === '#' || navigationEntry.href === '') {
-                    event.preventDefault()
-                    this.$emit('click', navigationEntry.href)
-
-                }
-                if(!(navigationEntry.subentries && navigationEntry.subentries.length > 0)) {
-                    this.showOffcanvas = false
-                } else {
-                    // add entry "open" to navigationEntry-object (will be watched by vue3 automatically)
-                    navigationEntry.open = !navigationEntry.open
-                }
-            }
-        }
+export default {
+  name: "CmdMainNavigation",
+  data() {
+    return {
+      showOffcanvas: false,
+      showSubNavigations: true
     }
+  },
+  props: {
+    stretchMainItems: {
+      type: Boolean,
+      default: false
+    },
+    persistOnMobile: {
+      type: Boolean,
+      default: false
+    },
+    navigationEntries: {
+      type: Array,
+      required: true
+    },
+    closeOffcanvas: {
+      type: Object,
+      default: function () {
+        return {
+          iconClass: "icon-cancel",
+          text: "Close navigation",
+          hideText: false
+        }
+      }
+    },
+    buttonOffcanvas: {
+      type: Object,
+      default: function () {
+        return {
+          iconClass: "icon-bars",
+          text: "Open navigation",
+          hideText: true
+        }
+      }
+    },
+    subentriesIconClass: {
+      type: String,
+      default: "icon-single-arrow-down"
+    },
+    subSubentriesIconClass: {
+      type: String,
+      default: "icon-single-arrow-right"
+    },
+    showContentOverlay: {
+      type: Boolean,
+      default: true
+    }
+  },
+  methods: {
+    clickLink(event, navigationEntry) {
+      if (navigationEntry.target || (navigationEntry.href.length > 1)) {
+        return true
+      }
+      if (navigationEntry.href === '#' || navigationEntry.href === '') {
+        event.preventDefault()
+        this.$emit('click', navigationEntry.href)
+
+      }
+      if (!(navigationEntry.subentries && navigationEntry.subentries.length > 0)) {
+        this.showOffcanvas = false
+      } else {
+        // add entry "open" to navigationEntry-object (will be watched by vue3 automatically)
+        navigationEntry.open = !navigationEntry.open
+      }
+    }
+  }
+}
 </script>
 
 <style lang="scss">
 @import '../assets/styles/variables';
 
-/* begin cmd-main-navigation --------------------------------------------------------------------------------------------------------------------------------------------------- */
+/* begin cmd-main-navigation ---------------------------------------------------------------------------------------- */
 .cmd-main-navigation {
   &.hide-sub-navigation {
     ul {
@@ -198,6 +205,7 @@
           li {
             &.close-nav {
               display: block;
+
               a {
                 display: flex;
               }
@@ -212,7 +220,7 @@
             }
 
             > a {
-              span  {
+              span {
                 & + span[class*="icon"]::before {
                   display: inline-block;
                 }
@@ -278,6 +286,60 @@
   }
 }
 
+
+@media only screen and (max-width: $medium-max-width) {
+  .cmd-main-navigation {
+    --nav-transition: all .5s linear;
+
+    background: none;
+    border: 0;
+
+    /* begin offcanvas-navigation */
+    &:not(.persist-on-mobile) {
+      transition: (--nav-transition);
+
+      &.open {
+        nav {
+          transition: (--nav-transition);
+          background: var(--default-background-color);
+          border-right: var(--default-border);
+        }
+      }
+
+      ul {
+        border: 0;
+
+        li {
+          border-bottom: var(--default-border);
+          border-right: 0;
+
+          &.close-nav {
+            border-bottom: var(--default-border);
+
+            a {
+              align-items: center;
+
+              span {
+                font-weight: bold;
+              }
+            }
+          }
+
+          > a {
+            text-align: left;
+          }
+
+          &.open {
+            > ul {
+              transition: (--nav-transition);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 @media only screen and (max-width: $medium-max-width) {
   #main-navigation {
     display: flex;
@@ -323,5 +385,6 @@
   margin-left: 0;
   display: none;
 }
-/* end cmd-main-navigation --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* end cmd-main-navigation ------------------------------------------------------------------------------------------ */
 </style>
