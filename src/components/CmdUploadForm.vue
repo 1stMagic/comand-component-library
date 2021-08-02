@@ -246,13 +246,23 @@ export default {
 </script>
 
 <style lang="scss">
+/* begin cmd-upload-form ---------------------------------------------------------------------------------------- */
 .cmd-upload-form {
   .box {
     padding: calc(var(--default-padding) * 3);
     text-align: center;
+    background: rgba(255, 255, 255, .5);
+    border-style: dashed;
+
+    &.allow-drop {
+      border-style: solid;
+      background: rgba(255, 255, 255, 1);
+    }
   }
 
   .list-of-files {
+    margin-bottom: 0;
+
     li {
       list-style-type: none;
       margin-left: 0;
@@ -264,8 +274,35 @@ export default {
           justify-content: center;
           padding: calc(var(--default-padding) / 2);
         }
+
+        &.allowed {
+          color: var(--success-color);
+
+          span[class*="icon"]:last-child {
+            border: var(--success-border);
+            background-color: var(--success-color);
+          }
+        }
+
+        &.not-allowed {
+          color: var(--error-color);
+
+          span[class*="icon"]:last-child {
+            border: var(--error-border);
+            background-color: var(--error-color);
+          }
+        }
+
+        span[class*="icon"]:last-child {
+          border: var(--default-border);
+          border-radius: var(--full-circle);
+          font-size: 1rem;
+          font-weight: bold;
+          color: var(--pure-white);
+        }
       }
     }
   }
 }
+/* end cmd-upload-form ------------------------------------------------------------------------------------------ */
 </style>

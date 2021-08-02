@@ -1,5 +1,5 @@
 <template>
-    <div class="box user">
+    <div class="cmd-box box user">
         <div>
             <img v-if="user.image" src="" alt="" />
             <div v-else class="icon-user-profile"></div>
@@ -11,7 +11,7 @@
             <p v-if="user.description" class="description">{{ user.description }}</p>
         </div>
         <footer v-if="user.links">
-            <ul>
+            <ul class="flex-container no-gap">
                 <li v-for="(link, linkIndex) in user.links" :key="linkIndex">
                     <a :href="link.href" :target="link.target" :title="link.title" :class="link.iconClass"></a>
                 </li>
@@ -42,16 +42,22 @@ export default {
 
     > div:first-child {
         padding: var(--default-padding);
+        background: var(--pure-white);
 
         > img, > div {
             display: table;
             margin: 0 auto;
             padding: calc(var(--default-padding) * 3);
+            border-radius: var(--full-circle);
+            background: var(--primary-color);
+            font-size: 6rem;
+            color: var(--pure-white);
         }
 
         h3 {
             margin-top: var(--default-margin);
             margin-bottom: 0;
+            text-align: center;
         }
     }
 
@@ -59,18 +65,24 @@ export default {
         padding: var(--default-padding);
 
         p {
+            text-align: center;
+            font-weight: bold;
+
             &:last-child {
                 margin-bottom: 0;
+            }
+
+            &.description {
+                font-weight: normal;
             }
         }
     }
 
     footer {
         margin-top: auto;
+        border-top: var(--default-border);
 
         ul {
-            display: flex;
-            flex-direction: row;
             margin: 0;
 
             li {
@@ -81,6 +93,24 @@ export default {
                 a {
                     display: block;
                     padding: var(--default-padding);
+                    text-align: center;
+                    background: var(--pure-white);
+                    border-left: var(--default-border);
+
+
+                }
+
+                &:hover, &:active, &:focus {
+                    a {
+                        background: var(--primary-color);
+                        color: var(--pure-white);
+                    }
+                }
+
+                &:first-child {
+                    a {
+                        border: 0;
+                    }
                 }
             }
         }

@@ -136,6 +136,10 @@ export default {
   background: var(--disabled-background-color);
 }
 
+.select {
+
+}
+
 .cmd-select {
   > ul {
     margin: 0;
@@ -276,6 +280,18 @@ export default {
             span {
               color: var(--disabled-color);
             }
+          }
+        }
+      }
+    }
+  }
+
+  &.error, &.disabled {
+    a {
+      &:hover, &:focus, &:active {
+        img {
+          &.flag {
+            border-color: var(--border-color);
           }
         }
       }

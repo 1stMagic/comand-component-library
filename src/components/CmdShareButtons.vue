@@ -25,7 +25,7 @@
 
 <style lang="scss">
 @import '../assets/styles/variables';
-/* begin cmd-share-buttons --------------------------------------------------------------------------------------------------------------------------------------------------- */
+/* begin cmd-share-buttons -------------------------------------------------------------------------------------------- */
 .cmd-share-buttons {
     display: flex;
     margin: calc(var(--default-margin) * 2) 0 0 0;
@@ -48,6 +48,64 @@
     a:last-of-type {
         margin-right: 0;
     }
+
+    [id^="share-link"] {
+        > span {
+            color: var(--pure-white);
+        }
+    }
+
+    #share-link-facebook {
+        background: #3c5a99;
+        border-color: #3c5a99;
+
+        &:hover, &:active, &:focus {
+            background: #fff;
+
+            > span {
+                color: #3c5a99;
+            }
+        }
+    }
+
+    #share-link-twitter {
+        background: #6bacde;
+        border-color: #6bacde;
+
+        &:hover, &:active, &:focus {
+            background: #fff;
+
+            > span {
+                color: #6bacde;
+            }
+        }
+    }
+
+    #share-link-xing {
+        background: #007575;
+        border-color: #007575;
+
+        &:hover, &:active, &:focus {
+            background: #fff;
+
+            > span {
+                color: #007575;
+            }
+        }
+    }
+
+    #share-link-linkedin {
+        background: #0077b5;
+        border-color: #0077b5;
+
+        &:hover, &:active, &:focus {
+            background: #fff;
+
+            > span {
+                color: #0077b5;
+            }
+        }
+    }
 }
 
 @media only screen and (max-width: $small-max-width)  {
@@ -66,5 +124,5 @@
         }
     }
 }
-/* end cmd-share-buttons --------------------------------------------------------------------------------------------------------------------------------------------------- */
+/* end cmd-share-buttons ------------------------------------------------------------------------------------------ */
 </style>

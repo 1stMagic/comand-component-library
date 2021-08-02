@@ -77,6 +77,10 @@ export default {
     padding: 0 var(--default-padding);
   }
 
+  > .cmd-main-navigation:last-child {
+   border-bottom: 0;
+  }
+
   header {
     &.flex-container {
       width: 100%;

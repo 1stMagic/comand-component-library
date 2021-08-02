@@ -24,9 +24,9 @@ export default {
 </script>
 
 <style lang="scss">
+/* begin cmd-top-header-navigation ------------------------------------------------------------------------------------------ */
 @import '../assets/styles/variables';
 
-/* begin cmd-top-header-navigation --------------------------------------------------------------------------------------------------------------------------------------------------- */
 .cmd-top-header-navigation {
     > ul.flex-container {
         justify-content: flex-end;
@@ -42,6 +42,17 @@ export default {
                 align-items: center;
                 padding-top: calc(var(--default-padding) / 2);
                 padding-bottom: calc(var(--default-padding) / 2);
+                text-decoration: none;
+
+                &:hover, &:focus, &:active {
+                    span:not([class*="icon-"]) {
+                        text-decoration: underline;
+                    }
+                }
+
+                [class*="icon-"] {
+                    font-size: 1.5rem;
+                }
             }
         }
     }
@@ -65,5 +76,5 @@ export default {
         }
     }
 }
-/* end cmd-top-header-navigation --------------------------------------------------------------------------------------------------------------------------------------------------- */
+/* end cmd-top-header-navigation ------------------------------------------------------------------------------------------ */
 </style>

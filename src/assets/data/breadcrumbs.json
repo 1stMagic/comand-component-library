@@ -1,7 +1,9 @@
 [
   {
     "path": "/",
-    "text": "Home"
+    "text": "Home",
+    "iconClass": "icon-home",
+    "type": "href"
   },
   {
     "text": "Subpage",

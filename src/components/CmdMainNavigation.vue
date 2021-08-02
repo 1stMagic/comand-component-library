@@ -1,7 +1,5 @@
 <template>
-  <div
-      :class="['cmd-main-navigation', {'hide-sub-navigation' : !showSubNavigations, 'open': showOffcanvas, 'persist-on-mobile': persistOnMobile, 'show-content-overlay': showContentOverlay}]"
-      id="main-navigation">
+  <div :class="['cmd-main-navigation main-navigation-wrapper', {'hide-sub-navigation' : !showSubNavigations, 'open': showOffcanvas, 'persist-on-mobile': persistOnMobile, 'show-content-overlay': showContentOverlay}]">
     <nav>
       <ul :class="{'stretch-items' : stretchMainItems}">
         <li class="close-nav" v-if="showOffcanvas">
@@ -123,9 +121,9 @@ export default {
 </script>
 
 <style lang="scss">
+/* begin cmd-main-navigation ---------------------------------------------------------------------------------------- */
 @import '../assets/styles/variables';
 
-/* begin cmd-main-navigation ---------------------------------------------------------------------------------------- */
 .cmd-main-navigation {
   &.hide-sub-navigation {
     ul {
@@ -166,10 +164,22 @@ export default {
   header nav > ul, header nav > ul > li {
     border: 0;
   }
+}
 
-  @media only screen and (max-width: $medium-max-width) {
+
+@media only screen and (max-width: $medium-max-width) {
+  .cmd-main-navigation {
+    --nav-transition: all .5s linear;
+
+    display: flex;
+    background: none; /* overwrite framework-css */
+    border: 0; /* overwrite framework-css */
+    padding: 0 var(--default-padding);
+
     /* begin offcanvas-navigation */
     &:not(.persist-on-mobile) {
+      transition: (--nav-transition);
+
       #toggle-offcanvas {
         display: flex;
         margin-bottom: 0;
@@ -181,33 +191,48 @@ export default {
           left: 0;
           opacity: 1;
           padding: 0 !important;
+          transition: (--nav-transition);
+          background: var(--default-background-color);
+          border-right: var(--default-border);
         }
       }
 
       nav {
-        --min-width: 30%;
+        --nav-width: 30%;
 
         position: fixed;
         top: 0;
         left: -100%;
-        min-width: var(--min-width);
+        width: var(--nav-width);
         height: 100%;
         opacity: 0;
         z-index: 500;
 
         ul {
           flex-direction: column;
-          border-bottom: 0;
-          border-left: 0;
           position: relative;
           left: 0;
+          border: 0;
 
           li {
+            border-bottom: var(--default-border);
+            border-right: 0;
+
             &.close-nav {
               display: block;
+              border-bottom: var(--default-border);
 
               a {
                 display: flex;
+                align-items: center;
+
+                span {
+                  font-weight: bold;
+                }
+              }
+
+              > a {
+                text-align: left;
               }
             }
 
@@ -230,6 +255,14 @@ export default {
             /* sub-level 1 */
             ul {
               li {
+                &:not(:first-child) {
+                  border-top: 0;
+                }
+
+                &:last-child {
+                  border-bottom: 0;
+                }
+
                 a {
                   padding-left: calc(var(--default-margin) * 2);
                 }
@@ -257,6 +290,7 @@ export default {
                 height: auto;
                 display: block;
                 opacity: 1;
+                transition: (--nav-transition);
 
                 > li {
                   > a {
@@ -283,94 +317,15 @@ export default {
         }
       }
     }
-  }
-}
-
-
-@media only screen and (max-width: $medium-max-width) {
-  .cmd-main-navigation {
-    --nav-transition: all .5s linear;
-
-    background: none;
-    border: 0;
-
-    /* begin offcanvas-navigation */
-    &:not(.persist-on-mobile) {
-      transition: (--nav-transition);
-
-      &.open {
-        nav {
-          transition: (--nav-transition);
-          background: var(--default-background-color);
-          border-right: var(--default-border);
-        }
-      }
-
-      ul {
-        border: 0;
-
-        li {
-          border-bottom: var(--default-border);
-          border-right: 0;
-
-          &.close-nav {
-            border-bottom: var(--default-border);
-
-            a {
-              align-items: center;
-
-              span {
-                font-weight: bold;
-              }
-            }
-          }
-
-          > a {
-            text-align: left;
-          }
-
-          &.open {
-            > ul {
-              transition: (--nav-transition);
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-@media only screen and (max-width: $medium-max-width) {
-  #main-navigation {
-    display: flex;
-    background: none; /* overwrite framework-css */
-    border: 0; /* overwrite framework-css */
-    padding: 0 var(--default-padding);
-
-    nav {
-      ul {
-        ul {
-          li {
-            &:not(:first-child) {
-              border-top: 0;
-            }
-
-            &:last-child {
-              border-bottom: 0;
-            }
-          }
-        }
-      }
-    }
 
     &.show-content-overlay {
       nav {
         &::after {
           content: "";
           position: fixed;
-          width: calc(100% - var(--min-width));
+          width: calc(100% - var(--nav-width));
           top: 0;
-          left: var(--min-width);
+          left: var(--nav-width);
           height: 100%;
           display: block;
           background: var(--pure-black-reduced-opacity);
@@ -379,12 +334,10 @@ export default {
     }
   }
 }
-
 /* keep outside of .cmd-main-navigation to keep specificity */
 #toggle-offcanvas {
   margin-left: 0;
   display: none;
 }
-
 /* end cmd-main-navigation ------------------------------------------------------------------------------------------ */
 </style>

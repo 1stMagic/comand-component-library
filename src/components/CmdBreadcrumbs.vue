@@ -2,8 +2,18 @@
   <ul class="cmd-breadcrumbs">
     <li v-if="breadcrumbLabel">{{ breadcrumbLabel }}</li>
     <li v-for="(link, index) in breadcrumbLinks" :key="index">
-      <router-link v-if="link.type === 'router'" :to="link.to">{{ link.text }}</router-link>
-      <a v-else :href="link.path">{{ link.text }}</a>
+      <a :href="link.path" v-if="link.type === 'href'">
+        <span v-if="link.iconClass" :class="link.iconClass"></span>
+        <span v-if="link.text">{{ link.text }}</span>
+      </a>
+      <router-link v-else-if="link.type === 'router'" :to="link.to">
+        <span v-if="link.iconClass" :class="link.iconClass"></span>
+        <span v-if="link.text">{{ link.text }}</span>
+      </router-link>
+      <span v-else>
+        <span v-if="link.iconClass" :class="link.iconClass"></span>
+        <span v-if="link.text">{{ link.text }}</span>
+      </span>
       <span v-if="index < breadcrumbLinks.length - 1">{{ breadcrumbSeparator }}</span>
     </li>
   </ul>
@@ -36,6 +46,8 @@ export default {
   margin: 0;
 
   li {
+    display: flex;
+    align-items: center;
     list-style-type: none;
     margin: 0;
 

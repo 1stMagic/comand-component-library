@@ -6,11 +6,11 @@
             </li>
         </ul>
         <template v-if="useComponent">
-            <div v-show="showTab === index" v-for="(tab, index) in tabs" :key="index">
+            <div v-show="showTab === index" v-for="(tab, index) in tabs" :key="index" aria-live="assertive">
                 <slot :name="'tab-content-' + index"></slot>
             </div>
         </template>
-        <div v-else>
+        <div v-else aria-live="assertive">
             <h3 class="headline">{{ tabs[showTab].headline }}</h3>
             <div v-html="tabs[showTab].htmlContent"></div>
         </div>
@@ -43,7 +43,7 @@ export default {
 </script>
 
 <style lang="scss">
-/* begin cmd-tabs --------------------------------------------------------------------------------------------------------------------------------------------------- */
+/* begin cmd-tabs ------------------------------------------------------------------------------------------ */
 .cmd-tabs {
     > ul {
         margin-bottom: 0;
@@ -57,18 +57,27 @@ export default {
             border-top-left-radius: var(--border-radius);
             border-top-right-radius: var(--border-radius);
             list-style-type: none;
+            background: var(--pure-white);
+            border: var(--default-border);
 
             &.active {
                 border-bottom: 0;
+                border-color: var(--primary-color);
                 top: .1rem;
+
+                a {
+                    color: var(--primary-color);
+                }
             }
 
             a  {
-                padding: var(--default-padding);
                 display: block;
+                padding: var(--default-padding);
+                color: var(--text-color);
 
                 &:hover, &:active, &:focus {
                     cursor: pointer;
+                    color: var(--primary-color);
                 }
             }
         }
@@ -91,7 +100,9 @@ export default {
 
     > div {
         padding: var(--default-padding);
+        border: var(--primary-border);
         border-radius: var(--border-radius);
+        background: var(--pure-white);
         border-top-left-radius: 0;
 
         > div {
@@ -101,5 +112,5 @@ export default {
         }
     }
 }
-/* end cmd-tabs --------------------------------------------------------------------------------------------------------------------------------------------------- */
+/* end cmd-tabs ------------------------------------------------------------------------------------------ */
 </style>

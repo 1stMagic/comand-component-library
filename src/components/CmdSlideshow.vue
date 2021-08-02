@@ -219,7 +219,7 @@ export default {
 
 <style lang="scss">
 @import '../assets/styles/variables';
-/* begin cmd-slideshow --------------------------------------------------------------------------------------------------------------------------------------------------- */
+/* begin cmd-slideshow ---------------------------------------------------------------------------------------- */
 .cmd-slideshow {
     figure a, img {
         display: block;
@@ -234,6 +234,9 @@ export default {
         bottom: 0;
         padding: var(--default-padding);
         line-height: 100%;
+        font-size: 3rem;
+        color: var(--pure-white);
+        background: var(--primary-color);
     }
 
     .inner-slideshow-wrapper {
@@ -246,7 +249,6 @@ export default {
         }
 
         .image-wrapper {
-            padding: var(--default-padding);
             padding: calc(var(--default-padding) * 5);
             width: 100%;
             min-height: 50rem;
@@ -274,11 +276,23 @@ export default {
                 padding: .2rem;
                 list-style-type: none;
                 margin: 0;
+                border: var(--default-border-reduced-opacity);
+                border-radius: var(--full-circle);
 
                 a {
                     display: block;
                     width: 1rem;
                     height: 1rem;
+                    border-radius: var(--full-circle);
+                }
+
+                &:hover , &:active, &:focus, &.active {
+                    border-color: var(--pure-white);
+
+                    a {
+                        background: var(--pure-white);
+                        transition: var(--default-transition);
+                    }
                 }
             }
 
@@ -287,6 +301,19 @@ export default {
                 justify-content: center;
                 left: unset;
                 top: unset;
+
+                li {
+                    border-color: var(--primary-color);
+
+                    &:hover , &:active, &:focus, &.active {
+                        border-color: var(--primary-color);
+                        background: var(--pure-white);
+
+                        a {
+                            background: var(--primary-color);
+                        }
+                    }
+                }
             }
 
             /* vertical slideshow */
@@ -301,8 +328,15 @@ export default {
             right: 5.5rem;
             padding: 0 0.2rem;
             border-radius: var(--border-radius);
+            background: var(--pure-white-reduced-opacity);
+        }
+    }
+
+    @media only screen and (max-width: $medium-max-width) {
+        figcaption {
+            font-size: 2rem;
         }
     }
 }
-/* end cmd-slideshow --------------------------------------------------------------------------------------------------------------------------------------------------- */
+/* end cmd-slideshow ------------------------------------------------------------------------------------------ */
 </style>

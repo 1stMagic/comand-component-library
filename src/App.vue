@@ -103,9 +103,10 @@
       <!-- begin formfilters -->
       <CmdFormFilters v-model:selectedOptions="selectedOptions"
                       :selectedOptionsName="getOptionName"
-                      labelDeleteAllFilters="Alle Filter löschen"
+                      labelDeleteAllFilters="Delete all filters"
                       iconClassDeleteAllFilters="icon-delete"
-                      iconClassDeleteFilter="icon-cancel"/>
+                      iconClassDeleteFilter="icon-cancel"
+      />
       <!-- end formfilters -->
 
       <form method="get" novalidate="novalidate" id="advanced-form-elements">
@@ -113,12 +114,26 @@
           <legend>Legend</legend>
           <h2>Form Element-Component</h2>
           <div class="flex-container">
-            <CmdFormElement labelText="Input (type text):" element="input" type="text" :status="formElementStatus"
-                            placeholder="Type in text"/>
-            <CmdFormElement labelText="Input for datalist:" element="input" type="text" :status="formElementStatus"
-                            placeholder="Type in option" :datalist="datalist"/>
-            <CmdFormElement labelText="Input for datalist:" element="input" type="text" :status="formElementStatus"
-                            placeholder="Type in option" :datalist="datalist"/>
+            <CmdFormElement labelText="Input (type text):"
+                            element="input"
+                            type="text"
+                            :status="formElementStatus"
+                            placeholder="Type in text"
+                            tooltipText="This is a tooltip"
+            />
+            <CmdFormElement labelText="Input for selectbox:"
+                            element="select"
+                            :status="formElementStatus"
+                            :selectOptions="selectOptions"
+            />
+            <CmdFormElement labelText="Input for datalist:"
+                            element="input"
+                            type="text"
+                            :status="formElementStatus"
+                            placeholder="Type in option"
+                            :datalist="datalist"
+                            tooltipText="This is a tooltip"
+            />
           </div>
           <h2>Fake Selects</h2>
           <div class="flex-container">
@@ -127,8 +142,10 @@
                            v-model:value="selectedOptions"
                            defaultOptionName="Filters:"
                            type="filterList"
-                           iconClass="icon-single-arrow-down"/>
-            <CmdFakeSelect :status="formElementStatus" defaultOptionName="HTML-Content:"
+                           iconClass="icon-single-arrow-down"
+            />
+            <CmdFakeSelect :status="formElementStatus"
+                           defaultOptionName="HTML-Content:"
                            iconClass="icon-single-arrow-down">
               <ul class="custom-fake-select-content">
                 <li>
@@ -144,13 +161,15 @@
                            :selectData="fakeSelectCountriesData"
                            v-model:value="selectedCountry"
                            defaultOptionName="Select country:"
-                           type="country" iconClass="icon-single-arrow-down"/>
+                           type="country" iconClass="icon-single-arrow-down"
+            />
             <CmdFakeSelect :status="formElementStatus"
                            :selectData="fakeSelectColorsData"
                            v-model:value="selectedColor"
                            defaultOptionName="Select color:"
                            type="color"
-                           iconClass="icon-single-arrow-down"/>
+                           iconClass="icon-single-arrow-down"
+            />
           </div>
 
           <!-- begin progress bar -->
@@ -179,10 +198,10 @@
 
           <hr/>
 
-          <!-- begin toggle-switch-radio with switch-button -->
-          <h2>Toggle-Switches (Radio and Checkbox) with Switch-Button</h2>
+          <!-- begin toggle-switch-radio with switch-label -->
+          <h2>Toggle-Switches (Radio and Checkbox) with Switch-Label</h2>
           <div class="label inline">
-            <span>Label for Toggle-Switch-Checkbox with Switch-Button:</span>
+            <span>Label for Toggle-Switch-Checkbox with Switch-Label:</span>
             <span class="flex-container no-flex">
                   <CmdSwitchButton
                       type="checkbox"
@@ -213,10 +232,10 @@
                         v-model:value="switchButtonCheckbox"/>
                 </span>
           </div>
-          <!-- end toggle-switch-radio with switch-button -->
+          <!-- end toggle-switch-radio with switch-label -->
 
           <div class="label inline">
-            <span>Label for Toggle-Switch-Checkbox with Switch-Button (colored):</span>
+            <span>Label for Toggle-Switch-Checkbox with Switch-Label (colored):</span>
             <span class="flex-container no-flex">
                   <CmdSwitchButton
                       type="checkbox"
@@ -240,11 +259,11 @@
                       v-model:value="switchButtonCheckbox"/>
                 </span>
           </div>
-          <!-- end toggle-switch-radio with switch-button -->
+          <!-- end toggle-switch-radio with switch-label -->
 
-          <!-- begin toggle-switch-radio with switch-button (colored) -->
+          <!-- begin toggle-switch-radio with switch-label (colored) -->
           <div class="label inline">
-            <span>Label for Toggle-Switch-Radio with switch-button (colored):</span>
+            <span>Label for Toggle-Switch-Radio with Switch-Label (colored):</span>
             <span class="flex-container no-flex">
                   <CmdSwitchButton
                       type="radio"
@@ -268,7 +287,7 @@
                       v-model:value="switchButtonRadio"/>
                 </span>
           </div>
-          <!-- end toggle-switch-radio with switch-button (colored) -->
+          <!-- end toggle-switch-radio with switch-label (colored) -->
 
           <h2>Inputfields in Columns</h2>
           <CmdFormElement element="input"
@@ -280,7 +299,7 @@
                           placeholder="This is placeholder text"
                           v-model:value="inputField1"
                           tooltipText="This is a tooltip!"
-                          :status="formElementStatus"/>
+                          :status="formElementStatus" />
 
           <!-- begin inputfield in two columns -->
           <div class="flex-container">
@@ -291,7 +310,7 @@
                             iconClass="icon-user-profile"
                             placeholder="Type in username"
                             tooltipText="This is a tooltip!"
-                            :status="formElementStatus"/>
+                            :status="formElementStatus" />
             <CmdFormElement element="input"
                             labelText="Label for inputfield (with icon):"
                             type="password"
@@ -331,7 +350,6 @@
                               labelText="Label for checkbox with boolean"
                               type="checkbox"
                               id="inputfield7"
-                              required="required"
                               v-model:value="checkboxStatus"
                               :status="formElementStatus"/>
               <CmdFormElement element="input"
@@ -340,7 +358,6 @@
                               inputValue="checkboxValue"
                               type="checkbox"
                               id="inputfield8"
-                              required="required"
                               :status="formElementStatus"/>
             </div>
           </div>
@@ -350,9 +367,8 @@
               <CmdFormElement element="input"
                               labelText="Label for replaced checkbox"
                               type="checkbox"
-                              htmlClass="replace-input-type"
+                              class="replace-input-type"
                               id="inputfield9"
-                              required="required"
                               v-model:value="replacedCheckboxStatus1"
                               :status="formElementStatus"/>
               <CmdFormElement element="input"
@@ -360,9 +376,8 @@
                               v-model:value="replacedCheckboxStatus2"
                               inputValue="checkboxValue"
                               type="checkbox"
-                              htmlClass="replace-input-type"
+                              class="replace-input-type"
                               id="inputfield10"
-                              required="required"
                               :status="formElementStatus"/>
             </div>
           </div>
@@ -394,7 +409,6 @@
               <CmdFormElement element="input"
                               labelText="Label for replaced radiobutton"
                               type="radio"
-                              htmlClass="replace-input-type"
                               id="inputfield13"
                               name="replaced-radiogroup"
                               inputValue="radiobuttonValue1"
@@ -403,7 +417,6 @@
               <CmdFormElement element="input"
                               labelText="Label for replaced radiobutton"
                               type="radio"
-                              htmlClass="replace-input-type"
                               id="inputfield14"
                               name="replaced-radiogroup"
                               inputValue="radiobuttonValue2"
@@ -877,9 +890,24 @@ export default {
       multipleSwitchCheckbox: ['b'],
       multipleSwitchRadio: 'c',
       fancyBoxCookieDisclaimer: false,
+      selectOptions: [
+          {
+              text: "Option 1",
+              value: "1"
+          },
+          {
+              text: "Option 2",
+              value: "2",
+              selected: true
+          },
+          {
+              text: "Option 3",
+              value: "3"
+          }
+      ],
       datalist: {
-        "id": "datalist-id",
-        "options": [
+        id: "datalist-id",
+        options: [
           "Option 1",
           "Option 2",
           "Option 3"

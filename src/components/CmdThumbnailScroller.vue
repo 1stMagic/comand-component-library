@@ -1,5 +1,5 @@
 <template>
-    <div :class="['cmd-widget', 'cmd-thumbnail-scroller', {'cmd-gallery-scroller' : !allowOpenFancyBox}]">
+    <div :class="['cmd-thumbnail-scroller', {'gallery-scroller' : !allowOpenFancyBox}]">
         <CmdSlideButton @click.prevent="showPrevItem" :slideButtonType="slideButtons.previous" />
         <transition-group name="slide" tag="ul">
             <li v-for="(image, index) in thumbnails" :key="image.imgId" :class="{'active' : imgIndex === index}">
@@ -102,13 +102,15 @@ export default {
 
 <style lang="scss">
 @import '../assets/styles/variables';
-/* begin cmd-thumbnail-scroller --------------------------------------------------------------------------------------------------------------------------------------------------- */
+/* begin cmd-thumbnail-scroller ------------------------------------------------------------------------------------------ */
 .cmd-thumbnail-scroller {
     overflow: hidden;
     border-radius: var(--border-radius);
     padding: var(--default-padding);
     display: table;
     margin: 0 auto calc(var(--default-margin) * 2) auto;
+    border: var(--default-border);
+    background: var(--pure-white);
 
     > ul {
         overflow: hidden;
@@ -122,9 +124,26 @@ export default {
             list-style-type: none;
             margin: 0;
 
+            a {
+                text-align: center;
+
+                figcaption {
+                    opacity: var(--reduced-opacity);
+                }
+            }
+
             img {
                 border-radius: var(--border-radius);
                 max-height: 10rem;
+            }
+
+
+            &.active {
+                a {
+                    figcaption {
+                        opacity: 1;
+                    }
+                }
             }
         }
     }
@@ -159,8 +178,16 @@ export default {
         }
     }
 
-
-
+    &.gallery-scroller {
+        > ul {
+            > li {
+                a {
+                    color: var(--pure-white);
+                    text-decoration: none;
+                }
+            }
+        }
+    }
 
     @media only screen and (max-width: $medium-max-width)  {
         & > ul > li {
@@ -178,5 +205,5 @@ export default {
         display: block;
     }
 }
-/* end cmd-thumbnail-scroller --------------------------------------------------------------------------------------------------------------------------------------------------- */
+/* end cmd-thumbnail-scroller ------------------------------------------------------------------------------------------ */
 </style>

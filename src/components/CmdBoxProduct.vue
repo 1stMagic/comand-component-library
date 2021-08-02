@@ -1,5 +1,5 @@
 <template>
-    <a class="box product" href="#" @click.prevent="">
+    <a class="cmd-box box product" href="#" @click.prevent="">
         <div>
             <img v-if="product.img" :src="product.img.src" :alt="product.img.alt" />
             <div class="ribbon-new" v-if="product.new">
@@ -56,6 +56,12 @@ export default {
             width: 100%;
             top: 15%;
             left: -25%;
+            background: var(--error-color);
+            font-weight: bold;
+            color: var(--pure-white);
+            text-transform: uppercase;
+            text-align: center;
+            box-shadow: var(--box-shadow);
         }
     }
 
@@ -67,11 +73,11 @@ export default {
             transform: rotate(45deg);
             right: -20%;
             left: auto;
+            background: green;
         }
     }
 
     > div:first-child {
-
         > img, > div {
             display: table;
             margin: 0 auto;
@@ -80,25 +86,19 @@ export default {
 
     .box-body {
         padding: var(--default-padding);
+
+        > * {
+            text-align: center;
+        }
+
+        .price {
+            font-size: 2rem;
+            font-weight: bold;
+        }
     }
 
-    footer {
-        ul {
-            display: flex;
-            flex-direction: row;
-            margin: 0;
-
-            li {
-                flex: 1;
-                margin: 0;
-                list-style-type: none;
-
-                a {
-                    display: block;
-                    padding: var(--default-padding);
-                }
-            }
-        }
+    &:hover, &:active, &:focus {
+        border-color: var(--hyperlink-color-highlighted);
     }
 }
 /* end .box.product --------------------------------------------------------------------------------------------------------------------------------------------------- */

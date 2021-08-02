@@ -1,7 +1,8 @@
 <template>
   <label v-if="(element === 'input' || element === 'select' || element === 'textarea')"
          :for="id"
-         :class="[status, {'inline' : displayinline, 'checked': isChecked}]" ref="label">
+         :class="['cmd-form-element', status, {'inline' : displayinline, 'checked': isChecked}]"
+         ref="label">
     <!-- begin label (+ required) -->
     <span v-if="labelText && $attrs.type !== 'checkbox' && $attrs.type !== 'radio'"
           :class="{'hidden': hideLabelText}">
@@ -45,7 +46,6 @@
              @change="onChange"
              :checked="isChecked"
              :value="inputValue"
-             :class="htmlClass"
              :id="id"
              :disabled="status === 'disabled'"/>
       <span v-if="labelText">{{ labelText }}</span>
@@ -57,7 +57,6 @@
     <!-- begin selectbox -->
     <select v-if="element === 'select'"
             v-bind="$attrs"
-            :class="[htmlClass, status]"
             :id="id"
             :disabled="status === 'disabled'"
             @change="$emit('input', $event.target.value)"
@@ -71,7 +70,6 @@
     <!-- begin textarea -->
     <textarea v-if="element === 'textarea'"
               v-bind="$attrs"
-              :class="[htmlClass, status]"
               :id="id"
               :disabled="status === 'disabled'"
               :value="value"
@@ -82,12 +80,12 @@
     <!-- end textarea -->
 
     <!-- begin tooltip -->
-    <Tooltip v-if="tooltip && tooltipText" :tooltipText="tooltipText"/>
+    <CmdTooltip v-if="tooltip && tooltipText" :tooltipText="tooltipText" />
     <!-- end tooltip -->
 
     <!-- begin searchfield -->
     <span v-else-if="element === 'input' && $attrs.type === 'search'" class="flex-container no-gap">
-      <input v-bind="$attrs" :class="status" :id="id" @input="onInput" :value="value"/>
+      <input v-bind="$attrs" :id="id" @input="onInput" :value="value"/>
       <button class="no-flex" type="button" :disabled="status === 'disabled'">
         <span class="icon-search"></span>
       </button>
@@ -108,13 +106,13 @@
 </template>
 
 <script>
-import Tooltip from "./CmdTooltip.vue"
+import CmdTooltip from "./CmdTooltip";
 
 export default {
   inheritAttrs: false,
   name: "FormElement",
   components: {
-    Tooltip
+      CmdTooltip
   },
   data() {
     return {

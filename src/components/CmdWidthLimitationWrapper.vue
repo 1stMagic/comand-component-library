@@ -69,9 +69,10 @@ export default {
 </script>
 
 <style lang="scss">
-/* begin cmd-width-limitation-wrapper --------------------------------------------------------------------------------------------------------------------------------------------------- */
+/* begin cmd-width-limitation-wrapper ---------------------------------------------------------------------------------------- */
 .cmd-width-limitation-wrapper {
     > * {
+        max-width: var(--max-width);
         margin: 0 auto;
         padding: var(--default-padding);
     }
@@ -84,8 +85,13 @@ export default {
     }
 
     &#site-footer {
+
+    }
+
+    &#site-footer {
         padding: var(--grid-gap) 0;
         border-top: var(--default-border);
+        background: var(--default-background-color);
 
         &.sticky {
             top: auto;
@@ -98,5 +104,5 @@ export default {
         }
     }
 }
-/* end cmd-width-limitation-wrapper --------------------------------------------------------------------------------------------------------------------------------------------------- */
+/* end cmd-width-limitation-wrapper ------------------------------------------------------------------------------------------ */
 </style>

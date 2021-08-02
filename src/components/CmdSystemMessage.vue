@@ -1,17 +1,17 @@
 <template>
   <transition name="fade">
     <div
-      class="system-message"
-      :class="[{ 'full-width': fullWidth }, messageStatus]"
-      role="alert"
-      v-if="showSystemMessage"
+            class="cmd-system-message system-message"
+            :class="[{ 'full-width': fullWidth }, messageStatus]"
+            role="alert"
+            v-if="showSystemMessage"
     >
       <a
-        :class="closeIcon.iconClass"
-        href="#"
-        @click.prevent="showSystemMessage = false"
-        :title="closeIcon.tooltip"
-        v-if="closeIcon.iconClass"
+              :class="closeIcon.iconClass"
+              href="#"
+              @click.prevent="showSystemMessage = false"
+              :title="closeIcon.tooltip"
+              v-if="closeIcon.iconClass"
       ></a>
       <h6>
         <span :class="iconClass" v-if="iconClass"></span>
@@ -23,51 +23,51 @@
 </template>
 
 <script>
-export default {
-  name: "CmdSystemMessage",
-  data() {
-    return {
-      showSystemMessage: true
-    }
-  },
-  props: {
-    messageStatus: {
-      type: String,
-      required: true
-    },
-    fullWidth: {
-      type: Boolean,
-      default: true
-    },
-    iconClass: {
-      type: String,
-      default: "icon-warning"
-    },
-    systemMessage: {
-      type: String,
-      required: true
-    },
-    closeIcon: {
-      type: Object,
-      default: function() {
-        return {
-          iconClass: "icon-cancel",
-          tooltip: "Close"
+    export default {
+        name: "CmdSystemMessage",
+        data() {
+            return {
+                showSystemMessage: true
+            }
+        },
+        props: {
+            messageStatus: {
+                type: String,
+                required: true
+            },
+            fullWidth: {
+                type: Boolean,
+                default: true
+            },
+            iconClass: {
+                type: String,
+                default: "icon-warning"
+            },
+            systemMessage: {
+                type: String,
+                required: true
+            },
+            closeIcon: {
+                type: Object,
+                default: function () {
+                    return {
+                        iconClass: "icon-cancel",
+                        tooltip: "Close"
+                    }
+                }
+            }
+        },
+        watch: {
+            systemMessage() {
+                this.showSystemMessage = true
+            }
         }
-      }
     }
-  },
-  watch: {
-    systemMessage () {
-      this.showSystemMessage = true
-    }
-  }
-}
 </script>
 
 <style lang="scss">
-/* begin cmd-system-message --------------------------------------------------------------------------------------------------------------------------------------------------- */
-.system-message {
+/* begin cmd-system-message ---------------------------------------------------------------------------------------- */
+.cmd-system-message {
   margin: var(--default-margin) 0;
 
   h6 {
@@ -83,14 +83,16 @@ export default {
     margin-bottom: 0;
   }
 
-    > a[class*="icon-"]:not(.button) {
-        font-size: 1rem;
-        padding: 0;
-        position: absolute;
-        right: 0.5rem;
-        text-decoration: none;
-        top: 0.5rem;
-    }
+  > a[class*="icon-"]:not(.button) {
+    font-size: 1rem;
+    color: var(--pure-white) !important;
+    padding: 0;
+    position: absolute;
+    right: 0.5rem;
+    text-decoration: none;
+    top: 0.5rem;
+  }
 }
-/* end cmd-system-message --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* end cmd-system-message ------------------------------------------------------------------------------------------ */
 </style>
