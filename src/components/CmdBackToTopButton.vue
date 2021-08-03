@@ -1,7 +1,7 @@
 <template>
   <!-- begin cmd-back-to-top-button -->
   <transition name="fade">
-    <a :class="iconClass" class="cmd-back-to-top-button" href="#" :title="tooltip" @click.prevent="onBackToTop"
+    <a :class="iconBackToTop.iconClass" class="cmd-back-to-top-button" href="#" :title="iconBackToTop.tooltip" @click.prevent="onBackToTop"
        v-if="show"></a>
   </transition>
   <!-- end cmd-back-to-top-button -->
@@ -17,42 +17,37 @@ export default {
       bodyScrollHeight: document.body.scrollHeight
     }
   },
-
   props: {
-    iconClass: {
-      type: String,
-      default: "icon-single-arrow-up"
-    },
-    tooltip: {
-      type: String,
-      required: false
+    iconBackToTop: {
+      type: Object,
+      default: function() {
+          return {
+              iconClass: "icon-single-arrow-up",
+              tooltip: "Back to top"
+          }
+      }
     }
   },
-
   created() {
     window.addEventListener('resize', this.onViewportChange);
     window.addEventListener('scroll', this.onViewportChange);
   },
-
   unmounted() {
     window.removeEventListener('resize', this.onViewportChange);
     window.removeEventListener('scroll', this.onViewportChange);
   },
-
   /* watch for changes */
   computed: {
     show() {
       return this.windowScrollY > 0 && this.windowInnerHeight < this.bodyScrollHeight;
     }
   },
-
   methods: {
     onViewportChange() {
       this.windowInnerHeight = window.innerHeight;
       this.windowScrollY = window.scrollY;
       this.bodyScrollHeight = document.body.scrollHeight;
     },
-
     onBackToTop() {
       window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
     }

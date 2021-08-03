@@ -459,7 +459,7 @@
     </CmdWidthLimitationWrapper>
     <!-- end advanced form elements ----------------------------------------------------------------------------------------------------------------------------------------------------->
 
-    <CmdBackToTopButton tooltip="Back to top"/>
+    <CmdBackToTopButton />
 
     <a id="section-boxes"></a>
     <CmdWidthLimitationWrapper>
@@ -467,7 +467,7 @@
       <h3>Content boxes</h3>
       <div class="grid-container-create-columns">
         <div class="grid-small-item">
-          <CmdBoxContent>
+          <CmdBox>
             <template v-slot:header>
               <h3>
                 Box with text
@@ -483,10 +483,10 @@
                 footer content
               </p>
             </template>
-          </CmdBoxContent>
+          </CmdBox>
         </div>
         <div class="grid-small-item">
-          <CmdBoxContent>
+          <CmdBox>
             <template v-slot:header>
               <h3>
                 Box with links
@@ -505,10 +505,10 @@
                 footer content
               </p>
             </template>
-          </CmdBoxContent>
+          </CmdBox>
         </div>
         <div class="grid-small-item">
-          <CmdBoxContent>
+          <CmdBox>
             <template v-slot:header>
               <h3>
                 Box with image
@@ -522,10 +522,10 @@
                 footer content
               </p>
             </template>
-          </CmdBoxContent>
+          </CmdBox>
         </div>
         <div class="grid-small-item">
-          <CmdBoxContent>
+          <CmdBox>
             <template v-slot:header>
               <h3>
                 Box with image and content
@@ -543,23 +543,23 @@
                 <a href="#">Mehr erfahren&hellip;</a>
               </p>
             </template>
-          </CmdBoxContent>
-        </div>
-      </div>
-      <h3>Box Site Search</h3>
-      <CmdBoxSiteSearch :results="executeSearch()" @click="executeSearch($event)"/>
-      <h3>User boxes</h3>
-      <div class="grid-container-create-columns">
-        <div class="grid-small-item" v-for="(user, index) in boxUserData" :key="index">
-          <CmdBoxUser :user="user"/>
+          </CmdBox>
         </div>
       </div>
       <h3>Product boxes</h3>
       <div class="grid-container-create-columns">
         <div class="grid-small-item" v-for="(product, index) in boxProductData" :key="index">
-          <CmdBoxProduct :product="product"/>
+          <CmdBox boxType="product" :product="product" />
         </div>
       </div>
+      <h3>User boxes</h3>
+      <div class="grid-container-create-columns">
+        <div class="grid-small-item" v-for="(user, index) in boxUserData" :key="index">
+          <CmdBox boxType="user" :user="user" />
+        </div>
+      </div>
+      <h3>Box Site Search</h3>
+      <CmdBoxSiteSearch :results="executeSearch()" @click="executeSearch($event)"/>
     </CmdWidthLimitationWrapper>
 
     <a id="section-breadcrumbs"></a>
@@ -789,10 +789,8 @@ import topHeaderNavigationData from '@/assets/data/top-header-navigation.json'
 import CmdAccordion from "@/components/CmdAccordion.vue"
 import CmdAddressData from "@/components/CmdAddressData"
 import CmdBackToTopButton from "@/components/CmdBackToTopButton.vue"
-import CmdBoxContent from "@/components/CmdBoxContent.vue"
-import CmdBoxProduct from "@/components/CmdBoxProduct.vue"
+import CmdBox from "@/components/CmdBox.vue"
 import CmdBoxSiteSearch from "@/components/CmdBoxSiteSearch.vue"
-import CmdBoxUser from "@/components/CmdBoxUser.vue"
 import CmdBreadcrumbs from "@/components/CmdBreadcrumbs.vue"
 import CmdCompanyLogo from "@/components/CmdCompanyLogo.vue"
 import CmdCopyrightInformation from "@/components/CmdCopyrightInformation.vue"
@@ -832,10 +830,8 @@ export default {
     CmdAccordion, // short form of 'CmdAccordion': CmdAccordion
     CmdAddressData,
     CmdBackToTopButton,
-    CmdBoxContent,
-    CmdBoxProduct,
+    CmdBox,
     CmdBoxSiteSearch,
-    CmdBoxUser,
     CmdBreadcrumbs,
     CmdCompanyLogo,
     CmdCopyrightInformation,

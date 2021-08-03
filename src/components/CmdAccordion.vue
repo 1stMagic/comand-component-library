@@ -2,7 +2,7 @@
   <div class="cmd-accordion">
     <template v-for="(accordionContent, index) in accordion" :key="index">
       <a href="#" :title="tooltip" @click.prevent="toggleContentVisibility(accordionContent)">
-        <slot :name="'accordionHeadline' + index">
+        <slot :name="'accordion-headline' + index">
           <component :is="accordionHeadlineLevel">
             {{ accordionContent.headline }}
           </component>
@@ -11,7 +11,7 @@
       </a>
       <transition name="fade">
         <div class="accordion-content" v-if="accordionContent.status" aria-expanded="true">
-          <slot :name="'accordionContent' + index">
+          <slot :name="'accordion-content' + index">
             <p>{{ accordionContent.content }}</p>
           </slot>
         </div>
@@ -19,7 +19,6 @@
     </template>
   </div>
 </template>
-
 
 <script>
 export default {

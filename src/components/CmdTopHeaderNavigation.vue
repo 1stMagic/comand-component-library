@@ -30,7 +30,7 @@ export default {
 .cmd-top-header-navigation {
     > ul.flex-container {
         justify-content: flex-end;
-        margin: 0;
+        margin: 0 auto;
 
         li {
             flex: none;

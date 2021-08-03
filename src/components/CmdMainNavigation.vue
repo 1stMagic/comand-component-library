@@ -191,7 +191,7 @@ export default {
           left: 0;
           opacity: 1;
           padding: 0 !important;
-          transition: (--nav-transition);
+          transition: var(--nav-transition);
           background: var(--default-background-color);
           border-right: var(--default-border);
         }
@@ -207,6 +207,7 @@ export default {
         height: 100%;
         opacity: 0;
         z-index: 500;
+        transition: var(--nav-transition);
 
         ul {
           flex-direction: column;

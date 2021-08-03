@@ -37,7 +37,7 @@ export default {
   display: flex;
   align-items: center;
   margin-bottom: var(--default-margin);
-  gap: var(--default-gap);
+  gap: calc(var(--default-gap) / 2);
 
   p {
     margin-bottom: 0;

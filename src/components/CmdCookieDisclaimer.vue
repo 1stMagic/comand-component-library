@@ -1,7 +1,7 @@
 <template>
   <transition name="fade">
     <div class="cmd-cookie-disclaimer" v-if="showCookieDisclaimer">
-      <h1 v-if="headline">{{ headline }}</h1>
+      <h2 v-if="headline">{{ headline }}</h2>
       <slot name="cookie-options">
         <div class="grid-container-two-fractions">
           <div v-if="cookieOptions.required">
@@ -22,11 +22,14 @@
               <template v-for="(cookie, index) in cookieOptions.required.cookies"
                         v-slot:[`accordion-content-${index}`]
                         :key="index">
-                <p>{{ cookie.description }}</p>
+                <p v-if="cookie.description">{{ cookie.description }}</p>
                 <p v-if="cookie.linkDataPrivacy">
                   {{ cookie.linkDataPrivacy.label }}
-                  <a @click="openDataPrivacy" :href="cookie.linkDataPrivacy.link"
-                     :target="cookie.linkDataPrivacy.target">{{ cookie.linkDataPrivacy.linkText }}</a>
+                  <a @click="openDataPrivacy"
+                     :href="cookie.linkDataPrivacy.link"
+                     :target="cookie.linkDataPrivacy.target">
+                    {{ cookie.linkDataPrivacy.linkText }}
+                  </a>
                 </p>
                 <div v-if="dataPrivacyContent" v-html="dataPrivacyContent"></div>
               </template>
@@ -103,11 +106,11 @@ export default {
     },
     buttonLabelAcceptAllCookies: {
       type: String,
-      default: "Alle Cookies akzeptieren!"
+      default: "Accept all cookies!"
     },
     buttonLabelAcceptCurrentSettings: {
       type: String,
-      default: "Aktuelle Einstellungen übernehmen!"
+      default: "Proceed with current settings!"
     }
   },
   methods: {

@@ -39,6 +39,7 @@
       v-if="enableComment"
       element="textarea"
       labelText="Comment:"
+      placeholder="Add a comment"
       v-model:value="comment"
     />
     <div class="button-wrapper no-flex">
