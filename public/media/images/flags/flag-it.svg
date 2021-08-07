@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="850.394px" height="566.929px" viewBox="0 0 850.394 566.929" enable-background="new 0 0 850.394 566.929"
+	 xml:space="preserve">
+<g id="it">
+	<g>
+		<rect fill="#078E46" width="283.465" height="566.929"/>
+		<rect x="283.465" fill="#FBFDFF" width="283.465" height="566.929"/>
+		<rect x="566.93" fill="#D3242C" width="283.465" height="566.929"/>
+	</g>
+</g>
+<g id="de" display="none">
+	<g display="inline">
+		<desc>Flag of Germany</desc>
+		<rect id="black_stripe" x="0.901" fill="#010202" width="849.492" height="566.929"/>
+		<rect id="red_stripe" x="0.901" y="188.977" fill="#DD0B15" width="849.492" height="377.953"/>
+		<rect id="gold_stripe" x="0.901" y="377.953" fill="#FFCE05" width="849.492" height="188.976"/>
+	</g>
+</g>
+<g id="fr" display="none">
+	<g display="inline">
+		<rect x="0.901" fill="#CF1327" width="849.492" height="566.929"/>
+		<rect x="0.901" fill="#FFFFFF" width="566.328" height="566.929"/>
+		<rect x="0.901" fill="#1D2C4E" width="283.164" height="566.929"/>
+	</g>
+</g>
+<g id="ru" display="none">
+	<g display="inline">
+		<rect fill="#FFFFFF" width="850.395" height="283.465"/>
+		<rect y="283.465" fill="#D52D1E" width="850.395" height="283.464"/>
+		<rect y="188.977" fill="#1E4295" width="850.395" height="188.977"/>
+	</g>
+</g>
+<g id="cn" display="none">
+	<g display="inline">
+		<rect x="0.901" fill="#DF2B14" width="849.493" height="566.929"/>
+		<g transform="translate(5,5) scale(3)">
+			<path id="s" fill="#FFDE08" d="M142.483,56.693l49.932,153.838L61.692,115.454h161.583L92.551,210.531L142.483,56.693z"/>
+		</g>
+		<g transform="translate(10,2) rotate(23.036243)">
+			<path id="s_1_" fill="#FFDE08" d="M295.146,30.607l-4.728,53.71l-27.711-46.234l49.566,21.099l-52.488,12.096L295.146,30.607z"/>
+		</g>
+		<g transform="translate(12,4) rotate(45.869898)">
+			<path id="s_2_" fill="#FFDE08" d="M361.022,93.648l-25.178,47.665l-7.617-53.376l37.503,38.701l-53.064-9.243L361.022,93.648z"/>
+		</g>
+		<g transform="translate(12,7) rotate(69.945396)">
+			<path id="s_3_" fill="#FFDE08" d="M367.298,188.705l-42.412,33.236l14.797-51.844l18.47,50.649l-44.682-30.108L367.298,188.705z"
+				/>
+		</g>
+		<g transform="translate(10,9) rotate(20.659808)">
+			<path id="s_4_" fill="#FFDE08" d="M294.056,228.595l-2.5,53.86l-29.603-45.045l50.397,19.024l-51.942,14.264L294.056,228.595z"/>
+		</g>
+	</g>
+</g>
+<g id="uk" display="none">
+	<g display="inline">
+		<rect y="0.002" fill="#FFFFFF" width="850.16" height="566.865"/>
+		<polygon fill="#CF172C" points="382.569,0 382.569,226.625 0,226.625 0,339.948 382.569,339.948 382.569,566.863 467.592,566.863 
+			467.592,339.948 850.16,339.948 850.16,226.625 467.592,226.625 467.592,0 		"/>
+		<polygon fill="#25346C" points="495.946,0 495.946,183.497 771.202,0 		"/>
+		<polygon fill="#25346C" points="495.946,566.863 771.202,566.863 495.946,383.368 		"/>
+		<polygon fill="#25346C" points="78.96,566.863 354.214,566.863 354.214,383.368 		"/>
+		<polygon fill="#25346C" points="78.96,0 354.214,183.497 354.214,0 		"/>
+		<polygon fill="#25346C" points="0.003,188.95 204.392,188.95 0.003,52.699 		"/>
+		<polygon fill="#25346C" points="645.768,188.95 850.16,188.95 850.16,52.699 		"/>
+		<polygon fill="#25346C" points="645.768,377.913 850.16,514.171 850.16,377.913 		"/>
+		<polygon fill="#25346C" points="0,377.913 0,514.171 204.392,377.913 		"/>
+		<polygon fill="#CF172C" points="802.938,0 520.004,188.95 567.223,188.95 850.605,0 		"/>
+		<polygon fill="#CF172C" points="330.156,377.909 282.937,377.909 0,566.852 47.219,566.852 330.602,377.909 		"/>
+		<polygon fill="#CF172C" points="0,0 0,31.692 236.091,189.098 283.311,189.098 		"/>
+		<polygon fill="#CF172C" points="566.696,377.832 850.008,566.929 850.01,535.239 613.92,377.832 		"/>
+	</g>
+</g>
+</svg>

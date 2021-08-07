@@ -4,7 +4,8 @@
       <a href="#" :title="tooltip" @click.prevent="toggleContentVisibility(accordionContent)">
         <slot :name="'accordion-headline' + index">
           <component :is="accordionHeadlineLevel">
-            {{ accordionContent.headline }}
+            <span v-if="accordionContent.iconClass" :class="accordionContent.iconClass"></span>
+            <span v-if="accordionContent.headline">{{ accordionContent.headline }}</span>
           </component>
         </slot>
         <span class="toggle-icon" :class="[accordionContent.status ? openIconClass : closeIconClass]"></span>
