@@ -46,11 +46,17 @@
              @change="onChange"
              :checked="isChecked"
              :value="inputValue"
+             :class="[htmlClass, status, { 'replace-input-type': replaceInputType }]"
              :id="id"
-             :disabled="status === 'disabled'"/>
-      <span v-if="labelText">{{ labelText }}</span>
+             :disabled="status === 'disabled'"
+             :aria-invalid="status === 'error'"
+             :aria-describedBy="`status-message-${id}`"
+      />
+      <span v-if="labelText">
+        <span>{{ labelText }}</span>
+        <sup v-if="$attrs.required">*</sup>
+      </span>
       <slot v-else></slot>
-      <sup v-if="$attrs.required">*</sup>
     </template>
     <!-- end checkbox and radiobutton -->
 
@@ -151,6 +157,11 @@ export default {
       /* allow checkbox/radiobuttons to get value from outside */
       type: String,
       required: false
+    },
+    /* for replacing native checkboxes/radiobuttons by custom ones */
+    replaceInputType: {
+        type: Boolean,
+        default: false
     },
     htmlClass: {
       /* may not be named as 'class' because it is a reserved keyword in JavaScript */
