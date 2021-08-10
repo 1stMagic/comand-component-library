@@ -1,0 +1,271 @@
+/* global-styles.scss - last update: 2021/08/10 by Raphael Biock - IT IS NOT RECOMMENDED TO EDIT THIS FILE (TO AVOID TROUBLESHOOTING AFTER UPDATING) - DO CHANGES IN template.css ONLY */
+
+/* begin table of contents --------------------------------------------------------------------------------------------------------------------------------------------------- */
+/*
+- IMPORTS ------------------------
+- COMPONENTS AND GLOBAL STYLES ------------------------
+  E ------------------------
+    - error-styles (for form-elements)
+
+  F ------------------------
+    - flags
+
+  I ------------------------
+    - input-wrapper (for .select)
+
+  P ------------------------
+    - product-listing
+
+- MEDIA QUERIES ------------------------
+  - styles for medium screens
+  - styles for small screens
+
+- DARK MODE ------------------------
+*/
+/* end table of contents --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* ---------------------------------------------- BEGIN IMPORTS -------------------------------------------------- */
+@import 'variables'; /* scss-variables (only used for media-query-breakpoints) */
+/* ---------------------------------------------- END IMPORTS -------------------------------------------------- */
+
+/* ---------------------------------------------- BEGIN COMPONENTS AND GLOBAL STYLES -------------------------------------------------- */
+
+/* begin error-styles for form-elements --------------------------------------------------------------------------------------------------------------------------------------------------- */
+label, .label {
+  &.error {
+    color: var(--error-color);
+
+    & + .cmd-tooltip {
+      border-color: var(--error-color);
+      color: var(--error-color);
+    }
+  }
+}
+/* end error-styles for form-elements --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+
+/* begin flags --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.flag {
+  width: 3rem;
+  height: 2rem;
+  background-size: 100% 100%;
+  display: block;
+}
+/* end flags --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin input-wrapper for .select --------------------------------------------------------------------------------------------------------------------------------------------------- */
+.select {
+  height: var(--input-height); /* forces different browsers to render same height */
+}
+
+.input-wrapper {
+  .select {
+    &:first-of-type {
+      > ul {
+        > li {
+          &:first-child {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+          }
+        }
+     }
+   }
+
+    &:last-of-type {
+      > ul {
+        > li {
+          &:first-child {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+          }
+        }
+      }
+    }
+  }
+}
+/* end input-wrapper for .select --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin product-listing --------------------------------------------------------------------------------------------------------------------------------------------------- */
+#product-listing-wrapper {
+  > a {
+    border: var(--default-border);
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    grid-column: span var(--grid-small-span);
+    order: 1;
+
+    &:hover, &:active, &:focus {
+      border-color: var(--primary-color);
+      background: var(--default-background-color);
+    }
+  }
+
+  img {
+    order: 1;
+  }
+
+  &.products-squares  {
+    > a {
+      grid-column: span 6;
+    }
+  }
+
+  &.products-lines {
+    > a {
+      grid-column: span 12;
+      flex-direction: unset;
+
+      img {
+        margin-left: 0;
+      }
+    }
+
+    & .product-information {
+      display: flex;
+      flex-direction: column;
+      padding: calc(var(--default-padding) * 2);
+      margin-right: auto;
+    }
+
+    .description {
+      display: block;
+    }
+  }
+
+  &.product-information {
+    order: 2;
+  }
+
+  .description {
+    display: none;
+  }
+
+  h3, div {
+    padding: var(--default-padding);
+    margin: 0;
+  }
+
+  h3, p {
+    text-align: center;
+  }
+
+  .price {
+    order: 3;
+    margin-top: auto;
+  }
+
+  p {
+    &:last-child {
+      &, & > span {
+        margin-bottom: 0;
+        font-size: 2rem;
+      }
+    }
+
+    > span {
+      &:first-child {
+        text-decoration: line-through;
+        font-style: italic;
+        margin-right: var(--default-margin);
+        opacity: var(--reduced-opacity);
+        font-size: 1.5rem;
+      }
+    }
+  }
+}
+/* end product-listing --------------------------------------------------------------------------------------------------------------------------------------------------- */
+/* ---------------------------------------------- END COMPONENTS AND GLOBAL STYLES -------------------------------------------------- */
+
+/* ---------------------------------------------- BEGIN MEDIA QUERIES AND BROWSER SPECIFIC STYLES -------------------------------------------------- */
+/* begin styles for medium screens --------------------------------------------------------------------------------------------------------------------------------------------------- */
+@media only screen and (max-width: $medium-max-width) {
+  html {
+    --grid-small-span: 3; /* default column span smaller part */
+    --grid-large-span: 3; /* default column span larger part */
+  }
+
+  #site-footer  {
+    footer {
+      li {
+        margin-bottom: calc(var(--default-margin) * 2);
+      }
+    }
+  }
+}
+/* end styles for medium screens --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin styles for small screens --------------------------------------------------------------------------------------------------------------------------------------------------- */
+@media only screen and (max-width: $small-max-width) {
+  body, html {
+    height: auto;
+  }
+
+  html {
+    --grid-small-span: 4; /* default column span smaller part */
+    --grid-large-span: 4; /* default column span larger part */
+  }
+
+  .section-wrapper {
+    padding: calc(var(--default-padding) * 2) 0;
+  }
+
+  #site-footer {
+    a {
+      text-decoration: underline;
+
+      &:active {
+        text-decoration: none;
+      }
+    }
+  }
+
+  a[href^="tel"] {
+    text-decoration: underline;
+  }
+}
+/* end styles for small screens --------------------------------------------------------------------------------------------------------------------------------------------------- */
+/* ---------------------------------------------- END MEDIA QUERIES AND BROWSER SPECIFIC STYLES -------------------------------------------------- */
+
+/* ---------------------------------------------- BEGIN DARK-MODE -------------------------------------------------- */
+@media (prefers-color-scheme: dark) {
+  html {
+    --dark-mode-background-color: rgb(50, 50, 50);
+  }
+
+  html, body,
+  .cmd-site-header,
+  .cmd-width-limitation-wrapper#site-footer {
+    background:  var(--dark-mode-background-color);
+    color: var(--pure-white);
+  }
+
+  legend {
+    background: var(--default-background-color);
+    border: var(--default-border);
+  }
+
+  .cmd-breadcrumbs,
+  .cmd-breadcrumbs > *,
+  .cmd-top-header-navigation a,
+  .cmd-pager > p, main {
+    color: var(--pure-white);
+  }
+
+  hr {
+    border-color: var(--pure-white);
+  }
+
+  .cmd-accordion,
+  .cmd-tabs,
+  fieldset, table, .box, {
+    color: var(--text-color);
+  }
+
+  .cmd-accordion hr,
+  .cmd-tabs hr,
+  fieldset hr, table hr, .box hr {
+    border-color: var(--text-color);
+  }
+}
+/* ---------------------------------------------- END DARK-MODE -------------------------------------------------- */

@@ -11,11 +11,8 @@ import vClickOutside from 'v-click-outside'
 /* import additional iconfont containing company-logos */
 import '@/assets/styles/logos-iconfont.css'
 
-/* import css for comand-component-library-structure */
-import '@/assets/styles/comand-component-library-structure.scss'
-
-/* import css for comand-component-library-layout */
-import '@/assets/styles/comand-component-library-layout.scss'
+/* import css for global-styles */
+import '@/assets/styles/global-styles.scss'
 
 /* import css for global transitions */
 import '@/assets/styles/transitions.scss'
