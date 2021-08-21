@@ -28,6 +28,7 @@
              :autocomplete="datalist ? 'off' : 'on'"
              :list="datalist ? datalist.id : false"
              :disabled="status === 'disabled'"
+             :value="value"
       />
     </template>
     <!-- end inputfield -->

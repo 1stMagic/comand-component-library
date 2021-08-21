@@ -744,8 +744,7 @@
                          :cookieOptions="cookieDisclaimerData"
                          buttonLabelAcceptAllCookies="Accept all cookies"
                          buttonLabelAcceptCurrentSettings="Accept current settings"
-                         @allCookies="fancyBoxCookieDisclaimer = false"
-                         @currentSettings="fancyBoxCookieDisclaimer = false"
+                         @closeCookieDisclaimer="fancyBoxCookieDisclaimer = false"
     >
       <template #privacy-text>
         <p>

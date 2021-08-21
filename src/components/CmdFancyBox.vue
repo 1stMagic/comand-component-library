@@ -165,9 +165,14 @@
             /* get current vertical scroll position */
             this.$_FancyBox_verticalScrollPosition = window.scrollY
 
-            this.$_FancyBox_scrollHandler = () => {
-                window.scrollTo(0, this.$_FancyBox_verticalScrollPosition);
+            if (this.$options.el && this.showFancyBox) {
+              document.querySelector('body').classList.add("avoid-scrolling")
             }
+
+            this.$_FancyBox_scrollHandler = () => {
+                window.scrollTo(0, this.$_FancyBox_verticalScrollPosition)
+            }
+
             /* -- end avoid scrolling if fancybox is shown */
 
             this.$watch(
@@ -244,6 +249,8 @@
                     this.showFancyBox = false
                     this.$emit('update:show', false)
                 }
+
+                document.querySelector('body').classList.remove("avoid-scrolling")
             }
         },
         watch: {
@@ -252,11 +259,13 @@
             },
             showFancyBox() {
                 if (this.showFancyBox) {
-                    // add listener to disable scroll
+                  // add listener to disable scroll
                     this.$_FancyBox_verticalScrollPosition = window.scrollY
+                    document.querySelector('body').classList.add("avoid-scrolling")
                     window.addEventListener('scroll', this.$_FancyBox_scrollHandler);
                 } else {
                     // Remove listener to re-enable scroll
+                    document.querySelector('body').classList.remove("avoid-scrolling")
                     window.removeEventListener('scroll', this.$_FancyBox_scrollHandler);
                 }
             }
@@ -286,7 +295,7 @@
   top: 0;
   left: 0;
   overflow: hidden;
-  z-index: 100;
+  z-index: 500;
   display: grid;
 
   &.show-overlay {
@@ -299,7 +308,7 @@
     padding: var(--default-padding);
     z-index: 200;
     min-width: 30%;
-    max-width: 80%;
+    max-width: var(--max-width);
     min-height: 30%;
     max-height: 80%;
     background: var(--pure-white);
@@ -408,6 +417,10 @@
   @media only screen and (max-width: $medium-max-width) {
     .gallery-scroller {
       display: block;
+    }
+
+    .popup {
+      max-width: 80%;
     }
   }
 

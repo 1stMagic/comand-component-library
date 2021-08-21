@@ -1,14 +1,14 @@
 <template>
   <transition name="fade">
-    <div class="cmd-cookie-disclaimer" v-if="showCookieDisclaimer">
+    <div class="cmd-cookie-disclaimer">
       <h2 v-if="headline">{{ headline }}</h2>
       <slot name="cookie-options">
         <div class="grid-container-two-fractions">
           <div v-if="cookieOptions.required">
             <h2>{{ cookieOptions.required.headline }}</h2>
-            <CmdAccordion :accordion-data="cookieOptions.required.cookies.length">
+            <CmdAccordion :accordion-data="cookieOptions.required.cookies.length" :accordionData="2">
               <template v-for="(cookie, index) in cookieOptions.required.cookies"
-                        v-slot:[`accordion-headline-${index}`]
+                        v-slot:[`accordionHeadline${index}`]
                         :key="index">
                 <CmdSwitchButton
                     type="checkbox"
@@ -20,7 +20,7 @@
                 />
               </template>
               <template v-for="(cookie, index) in cookieOptions.required.cookies"
-                        v-slot:[`accordion-content-${index}`]
+                        v-slot:[`accordionContent${index}`]
                         :key="index">
                 <p v-if="cookie.description">{{ cookie.description }}</p>
                 <p v-if="cookie.linkDataPrivacy">
@@ -37,9 +37,9 @@
           </div>
           <div v-if="cookieOptions.optional">
             <h2>{{ cookieOptions.optional.headline }}</h2>
-            <CmdAccordion :accordion-data="cookieOptions.optional.cookies.length">
+            <CmdAccordion :accordion-data="cookieOptions.optional.cookies.length" :accordionData="2">
               <template v-for="(cookie, index) in cookieOptions.optional.cookies"
-                        v-slot:[`accordion-headline-${index}`]
+                        v-slot:[`accordionHeadline${index}`]
                         :key="index">
                 <CmdSwitchButton
                     type="checkbox"
@@ -50,7 +50,7 @@
                 />
               </template>
               <template v-for="(cookie, index) in cookieOptions.optional.cookies"
-                        v-slot:[`accordion-content-${index}`]
+                        v-slot:[`accordionContent${index}`]
                         :key="index">
                 <p>{{ cookie.description }}</p>
                 <p v-if="cookie.linkDataPrivacy">
@@ -115,8 +115,7 @@ export default {
   },
   methods: {
     acceptCookies(cookies) {
-      this.$emit(cookies)
-      this.showCookieDislaimer = false
+      this.$emit("close-cookie-disclaimer", cookies)
     },
     openDataPrivacy(event) {
       /* first 'target' = clicked-element, second 'target' = target-attribute */
