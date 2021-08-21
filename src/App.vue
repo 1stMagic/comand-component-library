@@ -73,7 +73,7 @@
       <h3>Data given by slots</h3>
       <CmdAccordion :accordionData="1">
         <template v-slot:accordionHeadline0>
-          <h4>Headline (h4)</h4>
+          <h3><span class="icon-user-group"></span><span>User groups</span></h3>
         </template>
         <template v-slot:accordionContent0>
           <p>

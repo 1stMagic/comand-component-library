@@ -6,7 +6,7 @@
                     }
                     ]" :for="id">
     <input :type="type" :id="id" :name="name" :value="inputValue" :checked="isChecked" @change="onChange"
-           v-bind="$attrs"/>
+           v-bind="$attrs" />
     <span class="label" v-if="onLabel && offLabel && !labelText">{{ onLabel }}</span>
     <span class="label" v-if="onLabel && offLabel && !labelText">{{ offLabel }}</span>
     <span class="label" v-if="!onLabel && !offLabel && labelText">{{ labelText }}</span>
@@ -17,6 +17,7 @@
     export default {
         inheritAttrs: false,
         name: "SwitchButton",
+        emits: ["update:value"],
         props: {
             type: {
                 type: String,

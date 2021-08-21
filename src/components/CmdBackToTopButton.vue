@@ -64,7 +64,7 @@ export default {
   right: 1rem;
   bottom: 1rem;
   text-decoration: none;
-  z-index: 300;
+  z-index: 1000;
   border: var(--default-border);
   background: var(--pure-white);
   border-radius: var(--full-circle);

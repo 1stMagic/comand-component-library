@@ -1,8 +1,8 @@
 <template>
-  <div class="cmd-accordion">
-    <template v-for="(accordionContent, index) in accordion" :key="index">
+  <div :class="['cmd-accordion flex-container vertical', {'no-gap' : !gapBetween}]">
+    <div v-for="(accordionContent, index) in accordion" :key="index">
       <a href="#" :title="tooltip" @click.prevent="toggleContentVisibility(accordionContent)">
-        <slot :name="'accordion-headline' + index">
+        <slot :name="'accordionHeadline' + index">
           <component :is="accordionHeadlineLevel">
             <span v-if="accordionContent.iconClass" :class="accordionContent.iconClass"></span>
             <span v-if="accordionContent.headline">{{ accordionContent.headline }}</span>
@@ -12,12 +12,12 @@
       </a>
       <transition name="fade">
         <div class="accordion-content" v-if="accordionContent.status" aria-expanded="true">
-          <slot :name="'accordion-content' + index">
+          <slot :name="'accordionContent' + index">
             <p>{{ accordionContent.content }}</p>
           </slot>
         </div>
       </transition>
-    </template>
+    </div>
   </div>
 </template>
 
@@ -33,6 +33,10 @@ export default {
     toggleMode: {
       type: String,
       default: "single"
+    },
+    gapBetween: {
+      type: Boolean,
+      default: true
     },
     accordionHeadlineLevel: {
       type: String,
@@ -102,70 +106,73 @@ export default {
 .cmd-accordion {
   margin-bottom: var(--default-margin);
 
-  > a {
-    display: flex;
-    align-items: center;
-    gap: var(--grid-gap);
-    border-radius: var(--border-radius);
-    margin: var(--default-margin) 0 0 0;
-    padding: calc(var(--default-padding) / 2) var(--default-padding);
-    border: var(--default-border);
-    background: var(--default-background-color);
-    text-decoration: none;
+  > div {
+    > a {
+      display: flex;
+      align-items: center;
+      gap: var(--grid-gap);
+      border-radius: var(--border-radius);
+      padding: calc(var(--default-padding) / 2) var(--default-padding);
+      border: var(--default-border);
+      background: var(--default-background-color);
+      text-decoration: none;
 
-    &:hover, &:active, &:focus, &.active {
-      background: var(--primary-color);
-      border-color: var(--primary-color);
+      &:hover, &:active, &:focus, &.active {
+        background: var(--primary-color);
+        border-color: var(--primary-color);
+
+        & + .accordion-content {
+          border-color: var(--primary-color);
+        }
+
+        > * {
+          color: var(--pure-white);
+        }
+      }
+
+      &:first-child {
+        margin: 0;
+      }
+
+      > h2, > h3, > h4, > h5, > h6 {
+        margin-bottom: 0;
+        display: flex;
+        align-items: center;
+      }
+
+      label, .label {
+        margin-top: 0;
+      }
 
       & + .accordion-content {
-        border-color: var(--primary-color);
+        border-top: 0;
       }
 
-      > * {
-        color: var(--pure-white);
+      > span {
+        font-size: inherit;
+
+        &[class*="icon-"] {
+          margin-left: auto;
+          font-size: 1rem;
+        }
       }
     }
 
-    &:first-child {
-      margin: 0;
-    }
+    .accordion-content {
+      padding: var(--default-padding);
+      border: var(--default-border);
+      border-bottom-left-radius: var(--border-radius);
+      border-bottom-right-radius: var(--border-radius);
+      background: var(--pure-white);
 
-    > h2, > h3, > h4, > h5, > h6 {
-      margin-bottom: 0;
-    }
-
-    label, .label {
-      margin-top: 0;
-    }
-
-    & + .accordion-content {
-      border-top: 0;
-    }
-
-    > span {
-      font-size: inherit;
-
-      &[class*="icon-"] {
-        margin-left: auto;
-        font-size: 1rem;
+      &.active {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
       }
-    }
-  }
 
-  .accordion-content {
-    padding: var(--default-padding);
-    border: var(--default-border);
-    border-bottom-left-radius: var(--border-radius);
-    border-bottom-right-radius: var(--border-radius);
-    background: var(--pure-white);
-
-    &.active {
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
-    }
-
-    > *:last-child {
-      margin-bottom: 0;
+      > *:last-child {
+        margin-bottom: 0;
+      }
     }
   }
 }

@@ -81,7 +81,7 @@ export default {
     margin-right: var(--default-margin);
     border: .1rem dotted var(--text-color);
     background: var(--pure-white);
-    font-size: 1rem;
+    font-size: 1.1rem;
 
     &:last-of-type {
       margin-right: 0;
