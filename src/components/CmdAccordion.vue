@@ -1,5 +1,5 @@
 <template>
-  <div :class="['cmd-accordion flex-container vertical', {'no-gap' : !gapBetween}]">
+  <div :class="['cmd-accordion flex-container vertical', {'no-gap' : !gapBetween, 'active' : active}]">
     <div v-for="(accordionContent, index) in accordion" :key="index">
       <a href="#" :title="tooltip" @click.prevent="toggleContentVisibility(accordionContent)">
         <slot :name="'accordionHeadline' + index">
@@ -26,7 +26,8 @@ export default {
   name: "CmdAccordion",
   data() {
     return {
-      accordion: []
+      accordion: [],
+      active: false
     }
   },
   props: {
@@ -72,6 +73,7 @@ export default {
   methods: {
     toggleContentVisibility(accordionContent) {
       accordionContent.status = !accordionContent.status
+      this.active = !this.active
 
       if (this.toggleMode === 'single' || this.toggleMode === '') {
         for (let i = 0; i < this.accordion.length; i++) {

@@ -101,7 +101,7 @@
   </label>
 
   <!-- begin button -->
-  <button v-else class="button" v-bind="$attrs" @click="$emit('click', $event)" :disabled="status === 'disabled'">
+  <button v-else class="button" v-bind="$attrs" :disabled="status === 'disabled'">
     <span v-if="buttonIcon.iconPosition === 'before'" :class="buttonIcon.iconClass"></span>
     <span v-if="buttonIcon.iconPosition">{{ buttonText }}</span>
     <template v-else>

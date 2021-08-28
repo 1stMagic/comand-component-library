@@ -60,6 +60,7 @@ export default {
 @import '../assets/styles/variables';
 
 .cmd-site-header {
+  grid-area: site-header;
   display: flex;
   flex-direction: column;
   gap: var(--default-gap);

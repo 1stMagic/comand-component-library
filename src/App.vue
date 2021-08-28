@@ -452,6 +452,12 @@
         </fieldset><!-- end fieldset -->
         <div class="button-wrapper">
           <small><sup>*</sup>values will not be submitted with the form!</small>
+          <CmdFormElement element="button"
+                          buttonText="Submit form"
+                          type="button"
+                          id="submitbutton"
+                          name="submitbutton"
+                          :status="formElementStatus"/>
           <button type="submit" :disabled="formElementStatus === 'disabled'"><span class="icon-check"></span><span>Submit form</span>
           </button>
         </div>

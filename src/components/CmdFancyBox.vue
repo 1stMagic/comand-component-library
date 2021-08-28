@@ -359,33 +359,14 @@
         background: linear-gradient(135deg, #000000 0%, #000000 50%, #ffffff 50%, #ffffff 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
       }
     }
-  }
 
-
-  .gallery-scroller {
-    background: var(--pure-black);
-
-    li:not(.active) {
-      img {
-        opacity: var(--reduced-opacity);
-      }
-
-      a {
-        &:hover, &:active, &:focus {
-          img {
-            opacity: 1;
-          }
-        }
-      }
-
-      figcaption {
-        color: var(--pure-white);
-        text-decoration: none;
-      }
+    .content > :only-child {
+      margin-bottom: 0;
     }
   }
 
   .gallery-scroller {
+    background: var(--pure-black);
     max-width: 80%;
     left: 0;
     right: 0;
