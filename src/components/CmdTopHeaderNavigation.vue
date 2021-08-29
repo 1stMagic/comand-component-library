@@ -67,14 +67,15 @@ export default {
 
                 a {
                     [class*="icon-"] {
-                      & + span {
-                          display: none;
-                      }
+                        & + span {
+                            display: none;
+                        }
                     }
                 }
             }
         }
     }
 }
+
 /* end cmd-top-header-navigation ------------------------------------------------------------------------------------------ */
 </style>

@@ -1,15 +1,17 @@
 <template>
     <div class="cmd-slideshow" :class="{'full-width': fullWidth}">
         <div class="inner-slideshow-wrapper" @mouseenter="pause = true" @mouseleave="pause = false">
-            <CmdSlideButton @click.prevent="showPrevItem" :slideButtonType="slideButtons.previous" />
+            <CmdSlideButton @click.prevent="showPrevItem" :slideButtonType="slideButtons.previous"/>
             <transition name="fade">
-                <figure v-if="currentItem && !useSlot" :key="index" class="slideshow-item">
-                    <a v-if="currentItem.href" :href="currentItem.href" :title="currentItem.title">
-                        <img :src="currentItem.imgPath" :alt="currentItem.alt" />
+                <a v-if="currentItem.href" :href="currentItem.href" :title="currentItem.title">
+                    <figure v-if="currentItem && !useSlot" :key="index" class="slideshow-item">
+                        <img :src="currentItem.imgPath" :alt="currentItem.alt"/>
                         <figcaption>{{ currentItem.figcaption }}</figcaption>
-                    </a>
+                    </figure>
+                </a>
+                <figure v-else-if="!currentItem.href && currentItem && !useSlot" :key="index" class="slideshow-item">
                     <template v-else>
-                        <img :src="currentItem.imgPath" :alt="currentItem.alt" />
+                        <img :src="currentItem.imgPath" :alt="currentItem.alt"/>
                         <figcaption>{{ currentItem.figcaption }}</figcaption>
                     </template>
                 </figure>
@@ -22,7 +24,7 @@
                     <slot :name="'item' + currentSlotItem"></slot>
                 </div>
             </transition>
-            <CmdSlideButton @click.prevent="showNextItem" :slideButtonType="slideButtons.next" />
+            <CmdSlideButton @click.prevent="showNextItem" :slideButtonType="slideButtons.next"/>
             <ol v-if="showQuickLinkIcons">
                 <li v-for="(item, i) in slideshowItems" :key="i" :class="{active: i === index }">
                     <a href="#" @click.prevent="index = i" :aria-label="index"></a>
@@ -64,12 +66,12 @@ export default {
             default: false
         },
         showQuickLinkIcons: {
-          type: Boolean,
-          default: true
+            type: Boolean,
+            default: true
         },
         showCounter: {
-          type: Boolean,
-          default: false
+            type: Boolean,
+            default: false
         },
         autoplayInterval: {
             type: Number,
@@ -286,7 +288,7 @@ export default {
                     border-radius: var(--full-circle);
                 }
 
-                &:hover , &:active, &:focus, &.active {
+                &:hover, &:active, &:focus, &.active {
                     border-color: var(--pure-white);
 
                     a {
@@ -305,7 +307,7 @@ export default {
                 li {
                     border-color: var(--primary-color);
 
-                    &:hover , &:active, &:focus, &.active {
+                    &:hover, &:active, &:focus, &.active {
                         border-color: var(--primary-color);
                         background: var(--pure-white);
 
@@ -338,5 +340,6 @@ export default {
         }
     }
 }
+
 /* end cmd-slideshow ------------------------------------------------------------------------------------------ */
 </style>

@@ -3,7 +3,8 @@
        @click.prevent
        :class="['cmd-slide-button', 'button', slideButtonType.buttonType]"
        :title="slideButtonType.buttonType === 'next' ? slideButtonType.tooltip : slideButtonType.tooltip">
-        <span :class="slideButtonType.buttonType === 'next' ? slideButtonType.iconClass : slideButtonType.iconClass"></span>
+        <span
+            :class="slideButtonType.buttonType === 'next' ? slideButtonType.iconClass : slideButtonType.iconClass"></span>
     </a>
 </template>
 
@@ -60,5 +61,6 @@ export default {
         }
     }
 }
+
 /* end cmd-slide-button ------------------------------------------------------------------------------------------ */
 </style>

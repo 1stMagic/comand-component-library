@@ -1,6 +1,7 @@
 <template>
     <div :class="['cmd-share-buttons',{'stretch': stretchButtons}]">
-        <a class="button" v-for="(shareButton, index) in shareButtons" :key="index" :id="shareButton.id" :href="shareButton.path" :title="shareButton.tooltip">
+        <a class="button" v-for="(shareButton, index) in shareButtons" :key="index" :id="shareButton.id"
+           :href="shareButton.path" :title="shareButton.tooltip">
             <span v-if="shareButton.iconClass" :class="shareButton.iconClass"></span>
             <span v-if="shareButton.linkName">{{ shareButton.linkName }}</span>
         </a>
@@ -8,19 +9,19 @@
 </template>
 
 <script>
-    export default {
-        name: "CmdContentFooter",
-        props: {
-            stretchButtons: {
-                type: Boolean,
-                default: true
-            },
-            shareButtons: {
-                type: Array,
-                required: true
-            }
+export default {
+    name: "CmdContentFooter",
+    props: {
+        stretchButtons: {
+            type: Boolean,
+            default: true
+        },
+        shareButtons: {
+            type: Array,
+            required: true
         }
     }
+}
 </script>
 
 <style lang="scss">
@@ -108,7 +109,7 @@
     }
 }
 
-@media only screen and (max-width: $small-max-width)  {
+@media only screen and (max-width: $small-max-width) {
     .cmd-share-buttons {
         justify-content: center;
 
@@ -124,5 +125,6 @@
         }
     }
 }
+
 /* end cmd-share-buttons ------------------------------------------------------------------------------------------ */
 </style>

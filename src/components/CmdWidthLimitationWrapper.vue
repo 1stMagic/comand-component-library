@@ -18,11 +18,8 @@ export default {
         innerComponent: {
             type: String,
             default: "section",
-            validator (value) {
-                if(!value) {
-                    return false
-                }
-                return true
+            validator(value) {
+                return value;
             }
         },
         innerWrapper: {
@@ -30,8 +27,8 @@ export default {
             default: true
         },
         sticky: {
-          type: Boolean,
-          default: false
+            type: Boolean,
+            default: false
         },
         innerClass: {
             type: String,
@@ -104,5 +101,6 @@ export default {
         }
     }
 }
+
 /* end cmd-width-limitation-wrapper ------------------------------------------------------------------------------------------ */
 </style>

@@ -73,7 +73,7 @@ export default {
                 }
             }
 
-            a  {
+            a {
                 display: block;
                 padding: var(--default-padding);
                 color: var(--text-color);
@@ -115,5 +115,6 @@ export default {
         }
     }
 }
+
 /* end cmd-tabs ------------------------------------------------------------------------------------------ */
 </style>

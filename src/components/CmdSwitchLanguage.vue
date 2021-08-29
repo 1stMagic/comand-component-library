@@ -2,11 +2,14 @@
     <div class="cmd-switch-language">
         <ul>
             <li v-for="(language, index) in languages" :key="index">
-                <router-link v-if="language.link.type === 'router'" :class="['flag', language.iso2]" :to="getRoute(language)" :title="language.tooltip" @click="$emit('click', $event, language)">
-                    <img :src="getFlagURL(language.iso2)" :alt="language.name" />
+                <router-link v-if="language.link.type === 'router'" :class="['flag', language.iso2]"
+                             :to="getRoute(language)" :title="language.tooltip"
+                             @click="$emit('click', $event, language)">
+                    <img :src="getFlagURL(language.iso2)" :alt="language.name"/>
                 </router-link>
-                <a v-else :href="language.link.path" :class="['flag', language.iso2, {'active': language.active}]" :title="language.tooltip" @click="$emit('click', $event, language)">
-                    <img :src="getFlagURL(language.iso2)" :alt="language.name" />
+                <a v-else :href="language.link.path" :class="['flag', language.iso2, {'active': language.active}]"
+                   :title="language.tooltip" @click="$emit('click', $event, language)">
+                    <img :src="getFlagURL(language.iso2)" :alt="language.name"/>
                 </a>
             </li>
         </ul>
@@ -14,29 +17,29 @@
 </template>
 
 <script>
-    import { getRoute } from '../utilities.js'
+import {getRoute} from '../utilities.js'
 
-    export default {
-        name: "CmdSwitchLanguage",
-        emits: ["click"],
-        props: {
-            languages: {
-                type: Array,
-                required: true
-            }
+export default {
+    name: "CmdSwitchLanguage",
+    emits: ["click"],
+    props: {
+        languages: {
+            type: Array,
+            required: true
+        }
+    },
+    methods: {
+        getRoute(language) {
+            return getRoute(language)
         },
-        methods: {
-            getRoute (language) {
-              return getRoute(language)
-            },
-            switchLanguage(iso2) {
-                alert("Switch to " + iso2)
-            },
-            getFlagURL(isoCode) {
-                return require("../assets/images/flags/flag-" + isoCode + ".svg")
-            }
+        switchLanguage(iso2) {
+            alert("Switch to " + iso2)
+        },
+        getFlagURL(isoCode) {
+            return require("../assets/images/flags/flag-" + isoCode + ".svg")
         }
     }
+}
 </script>
 
 <style lang="scss">
@@ -53,5 +56,6 @@
         }
     }
 }
+
 /* end cmd-switch-language ------------------------------------------------------------------------------------------ */
 </style>

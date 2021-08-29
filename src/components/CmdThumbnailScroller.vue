@@ -1,17 +1,17 @@
 <template>
     <div :class="['cmd-thumbnail-scroller', {'gallery-scroller' : !allowOpenFancyBox}]">
-        <CmdSlideButton @click.prevent="showPrevItem" :slideButtonType="slideButtons.previous" />
+        <CmdSlideButton @click.prevent="showPrevItem" :slideButtonType="slideButtons.previous"/>
         <transition-group name="slide" tag="ul">
             <li v-for="(image, index) in thumbnails" :key="image.imgId" :class="{'active' : imgIndex === index}">
                 <a href="#" @click.prevent="showFancyBox(index)">
                     <figure>
-                        <img :src="image.srcImageSmall" :alt="image.alt" />
+                        <img :src="image.srcImageSmall" :alt="image.alt"/>
                         <figcaption v-if="showFigcaption">{{ image.figcaption }}</figcaption>
                     </figure>
                 </a>
             </li>
         </transition-group>
-        <CmdSlideButton @click.prevent="showNextItem" :slideButtonType="slideButtons.next" />
+        <CmdSlideButton @click.prevent="showNextItem" :slideButtonType="slideButtons.next"/>
     </div>
 </template>
 
@@ -41,8 +41,8 @@ export default {
             default: true
         },
         imgIndex: {
-          type: Number,
-          required: false
+            type: Number,
+            required: false
         },
         showFigcaption: {
             type: Boolean,
@@ -81,8 +81,8 @@ export default {
                 this.thumbnails.unshift(thumbnail);
             }
         },
-        showFancyBox (index) {
-            if(this.allowOpenFancyBox) {
+        showFancyBox(index) {
+            if (this.allowOpenFancyBox) {
                 openFancyBox({fancyBoxGallery: this.thumbnails, defaultGalleryIndex: index})
             }
             this.$emit('click', this.thumbnails[index].imgId)
@@ -92,7 +92,7 @@ export default {
     watch: {
         thumbnailScrollerItems: {
             handler() {
-                this.thumbnails = [... this.thumbnailScrollerItems]
+                this.thumbnails = [...this.thumbnailScrollerItems]
             },
             immediate: true
         }
@@ -189,7 +189,7 @@ export default {
         }
     }
 
-    @media only screen and (max-width: $medium-max-width)  {
+    @media only screen and (max-width: $medium-max-width) {
         & > ul > li {
             flex: none;
         }
@@ -200,10 +200,11 @@ export default {
     }
 }
 
-@media only screen and (max-width: $medium-max-width)  {
+@media only screen and (max-width: $medium-max-width) {
     .cmd-thumbnail-scroller {
         display: block;
     }
 }
+
 /* end cmd-thumbnail-scroller ------------------------------------------------------------------------------------------ */
 </style>

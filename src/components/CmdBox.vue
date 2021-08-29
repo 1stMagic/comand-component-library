@@ -10,9 +10,9 @@
             <slot name="footer"></slot>
         </footer>
     </div>
-    <a v-else-if="boxType === 'product'"  class="cmd-box box product" href="#" @click.prevent="">
+    <a v-else-if="boxType === 'product'" class="cmd-box box product" href="#" @click.prevent="">
         <div>
-            <img v-if="product.img" :src="product.img.src" :alt="product.img.alt" />
+            <img v-if="product.img" :src="product.img.src" :alt="product.img.alt"/>
             <div class="ribbon-new" v-if="product.new">
                 <span>New</span>
             </div>
@@ -29,7 +29,7 @@
     </a>
     <div v-else-if="boxType === 'user'" class="cmd-box box user">
         <div>
-            <img v-if="user.image" src="" alt="" />
+            <img v-if="user.image" src="" alt=""/>
             <div v-else class="icon-user-profile"></div>
             <h3 v-if="user.name">{{ user.name }}</h3>
         </div>
@@ -53,8 +53,8 @@ export default {
     name: "CmdBox",
     props: {
         boxType: {
-          type: String,
-          default: "content"
+            type: String,
+            default: "content"
         },
         product: {
             type: Object,
@@ -293,5 +293,6 @@ export default {
         }
     }
 }
+
 /* end cmd-box ------------------------------------------------------------------------------------------ */
 </style>

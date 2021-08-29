@@ -2,22 +2,22 @@
     <div class="cmd-table-wrapper">
         <table :class="{'full-width': fullWidth}">
             <thead>
-                <tr>
-                    <th v-for="tablehead in 10" :key="tablehead">Table head {{ tablehead }}</th>
-                    <th>Table head 11
-                        <a v-if="collapsible === true"
-                           href="#" @click.prevent="showTableData = !showTableData"
-                           :class="[showTableData ? closeIconClass : openIconClass]">
-                        </a>
-                    </th>
-                </tr>
+            <tr>
+                <th v-for="tablehead in 10" :key="tablehead">Table head {{ tablehead }}</th>
+                <th>Table head 11
+                    <a v-if="collapsible === true"
+                       href="#" @click.prevent="showTableData = !showTableData"
+                       :class="[showTableData ? closeIconClass : openIconClass]">
+                    </a>
+                </th>
+            </tr>
             </thead>
             <transition name="fade">
                 <tbody v-show="showTableData === true">
-                    <tr v-for="tablerows in 10" :key="tablerows">
-                        <td v-for="tabledata in 10" :key="tabledata">Table data {{ tabledata + 1 }}</td>
-                        <td>Table data 11</td>
-                    </tr>
+                <tr v-for="tablerows in 10" :key="tablerows">
+                    <td v-for="tabledata in 10" :key="tabledata">Table data {{ tabledata + 1 }}</td>
+                    <td>Table data 11</td>
+                </tr>
                 </tbody>
             </transition>
         </table>
@@ -27,7 +27,7 @@
 <script>
 export default {
     name: "CmdTableWrapper",
-    data () {
+    data() {
         return {
             showTableData: true
         }
@@ -72,5 +72,6 @@ export default {
         }
     }
 }
+
 /* end cmd-table-wrapper ------------------------------------------------------------------------------------------ */
 </style>
