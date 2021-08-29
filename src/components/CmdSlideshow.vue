@@ -3,14 +3,14 @@
         <div class="inner-slideshow-wrapper" @mouseenter="pause = true" @mouseleave="pause = false">
             <CmdSlideButton @click.prevent="showPrevItem" :slideButtonType="slideButtons.previous"/>
             <transition name="fade">
-                <a v-if="currentItem.href" :href="currentItem.href" :title="currentItem.title">
-                    <figure v-if="currentItem && !useSlot" :key="index" class="slideshow-item">
+                <a v-if="currentItem.href" :href="currentItem.href" :key="index" :title="currentItem.title">
+                    <figure v-if="currentItem && !useSlot" class="slideshow-item">
                         <img :src="currentItem.imgPath" :alt="currentItem.alt"/>
                         <figcaption>{{ currentItem.figcaption }}</figcaption>
                     </figure>
                 </a>
                 <figure v-else-if="!currentItem.href && currentItem && !useSlot" :key="index" class="slideshow-item">
-                    <template v-else>
+                    <template>
                         <img :src="currentItem.imgPath" :alt="currentItem.alt"/>
                         <figcaption>{{ currentItem.figcaption }}</figcaption>
                     </template>

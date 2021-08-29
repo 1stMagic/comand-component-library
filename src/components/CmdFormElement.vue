@@ -79,11 +79,11 @@
                   v-bind="$attrs"
                   :id="id"
                   :disabled="status === 'disabled'"
+                  :value="value"
                   @input="onInput"
                   @focus="tooltip = true"
                   @blur="tooltip = false">
-                  {{ value }}
-    </textarea>
+        </textarea>
         <!-- end textarea -->
 
         <!-- begin tooltip -->

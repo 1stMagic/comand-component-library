@@ -236,6 +236,12 @@ label, .label {
 @media (prefers-color-scheme: dark) {
   html {
     --dark-mode-background-color: rgb(50, 50, 50);
+    scrollbar-color: var(--primary-color) var(--dark-gray); /* firefox only */
+  }
+
+  /* webkit only */
+  html::-webkit-scrollbar-track {
+    background-color: var(--dark-gray);
   }
 
   html, body,
