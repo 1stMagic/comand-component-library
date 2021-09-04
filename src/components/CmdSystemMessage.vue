@@ -2,7 +2,7 @@
     <transition name="fade">
         <div
             class="cmd-system-message system-message"
-            :class="[{ 'full-width': fullWidth }, messageStatus]"
+            :class="[{ 'full-width': fullWidth }, status]"
             role="alert"
             v-if="showSystemMessage"
         >
@@ -31,7 +31,7 @@ export default {
         }
     },
     props: {
-        messageStatus: {
+        status: {
             type: String,
             required: true
         },
@@ -58,7 +58,7 @@ export default {
         }
     },
     watch: {
-        systemMessage() {
+        message() {
             this.showSystemMessage = true
         }
     }

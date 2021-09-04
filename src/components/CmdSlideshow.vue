@@ -10,10 +10,8 @@
                     </figure>
                 </a>
                 <figure v-else-if="!currentItem.href && currentItem && !useSlot" :key="index" class="slideshow-item">
-                    <template>
                         <img :src="currentItem.imgPath" :alt="currentItem.alt"/>
                         <figcaption>{{ currentItem.figcaption }}</figcaption>
-                    </template>
                 </figure>
                 <div
                     class="image-wrapper"

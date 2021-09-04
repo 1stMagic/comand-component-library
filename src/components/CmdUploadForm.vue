@@ -34,14 +34,14 @@
         </span>
             </li>
         </ul>
-        <CmdSystemMessage v-if="!listOfFiles.length" messageStatus="warning" :fullWidth="true"
-                          systemMessage="No files selected for upload!">
+        <CmdSystemMessage v-if="!listOfFiles.length" status="warning" :fullWidth="true"
+                          message="No files selected for upload!">
         </CmdSystemMessage>
-        <CmdSystemMessage v-else :messageStatus="messageStatusUploadSize()" :fullWidth="true">
+        <CmdSystemMessage v-else :status="messageStatusUploadSize()" :fullWidth="true">
             <p>Current upload size is {{ formatSize(uploadSize) }} (of max. {{ formatSize(maxUploadSize) }}).</p>
         </CmdSystemMessage>
-        <CmdSystemMessage v-if="uploadSize > maxUploadSize" messageStatus="error" :fullWidth="true"
-                          systemMessage="Total file size to large!">
+        <CmdSystemMessage v-if="uploadSize > maxUploadSize" status="error" :fullWidth="true"
+                          message="Total file size to large!">
         </CmdSystemMessage>
         <CmdFormElement
             v-if="enableComment"

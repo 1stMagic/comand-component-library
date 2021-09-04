@@ -668,7 +668,7 @@
     <a id="section-system-message"></a>
     <CmdWidthLimitationWrapper>
       <h2 class="headline-demopage">System Message</h2>
-      <CmdSystemMessage messageStatus="error" :fullWidth="true" systemMessage="This is an error message!"
+      <CmdSystemMessage status="error" :fullWidth="true" message="This is an error message!"
                         iconClass="icon-cancel">
         <ul>
           <li>Error #1</li>
@@ -676,14 +676,14 @@
           <li>Error #3</li>
         </ul>
       </CmdSystemMessage>
-      <CmdSystemMessage messageStatus="warning" :fullWidth="true" systemMessage="This is a warning message!">
+      <CmdSystemMessage status="warning" :fullWidth="true" message="This is a warning message!">
         <p>This is additional text!</p>
       </CmdSystemMessage>
-      <CmdSystemMessage messageStatus="success" :fullWidth="true" systemMessage="This is a success message!"
+      <CmdSystemMessage status="success" :fullWidth="true" message="This is a success message!"
                         iconClass="icon-check">
         <p>This is additional text!</p>
       </CmdSystemMessage>
-      <CmdSystemMessage messageStatus="info" :fullWidth="true" systemMessage="This is an info message!"
+      <CmdSystemMessage status="info" :fullWidth="true" message="This is an info message!"
                         iconClass="icon-info">
         <p>This is additional text!</p>
       </CmdSystemMessage>
