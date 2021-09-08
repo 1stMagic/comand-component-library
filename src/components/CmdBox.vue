@@ -52,14 +52,29 @@
 export default {
     name: "CmdBox",
     props: {
+        /**
+         * set boxtype to show different types of boxes/contents
+         *
+         * values: "content, product, user"
+         */
         boxType: {
             type: String,
             default: "content"
         },
+        /**
+         * the shown product (incl. name, price, image, description)
+         *
+         * limitations: only available for boxtype===product
+         */
         product: {
             type: Object,
             required: false
         },
+        /**
+         * the shown user-profile (incl. name, image, contact-data)
+         *
+         * limitations: only available for boxtype===user
+         */
         user: {
             type: Object,
             required: true

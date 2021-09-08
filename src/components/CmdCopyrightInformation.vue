@@ -1,18 +1,12 @@
 <template>
-    <div :class="['cmd-widget', 'cmd-copyright-information', htmlClass]">
+    <div class="cmd-copyright-information">
         <a href="http://www.comand-cms.com" target="_blank" lang="en" title="CoManD-Website">&copy; CoManD</a>
     </div>
 </template>
 
 <script>
 export default {
-    name: "CmdCopyrightWrapper",
-    props: {
-        htmlClass: {
-            type: String,
-            required: false
-        }
-    }
+    name: "CmdCopyrightWrapper"
 }
 </script>
 

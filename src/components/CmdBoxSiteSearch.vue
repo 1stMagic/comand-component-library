@@ -52,6 +52,9 @@ export default {
         }
     },
     props: {
+        /**
+         * send search result from outside to display inside this component
+         */
         results: {
             type: [Function, Number],
             required: false

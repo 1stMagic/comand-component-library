@@ -76,18 +76,30 @@
 export default {
     name: "CmdAddressData",
     props: {
+        /**
+         * headline shown above address-data
+         */
         headline: {
             type: String,
             required: false
         },
+        /**
+         * option to toggle labels (i.e. telephone, email etc.) in front/left of data
+         */
         showLabels: {
             type: Boolean,
             default: true
         },
+        /**
+         * all address-data (incl. lables) that will be shown
+         */
         addressData: {
             type: Object,
             required: true
         },
+        /**
+         * link physical address (street, no, zip and city) with Google Maps
+         */
         linkGoogleMaps: {
             type: Boolean,
             default: false

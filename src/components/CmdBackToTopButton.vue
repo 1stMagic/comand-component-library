@@ -19,6 +19,9 @@ export default {
         }
     },
     props: {
+        /**
+         * icon-class (and shown tooltip on hover) for back to top button
+         */
         iconBackToTop: {
             type: Object,
             default: function () {

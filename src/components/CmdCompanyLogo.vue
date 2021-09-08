@@ -20,18 +20,30 @@ export default {
         }
     },
     props: {
+        /**
+         * link for company logo (i.e. to homepage)
+         */
         link: {
             type: Object,
             required: false
         },
+        /**
+         * path to (default) logo-file
+         */
         pathDefaultLogo: {
             type: String,
             required: true
         },
+        /**
+         * path to dark-mode logo-file
+         */
         pathDarkmodeLogo: {
             type: String,
             required: false
         },
+        /**
+         * alternative text for image
+         */
         altText: {
             type: String,
             required: true /* w3c requirements */

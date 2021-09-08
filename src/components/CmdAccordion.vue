@@ -31,14 +31,24 @@ export default {
         }
     },
     props: {
+        /**
+         * toggle if mode if only one accordion can be opened (or multiple ones)
+         * values: single, multiple
+         */
         toggleMode: {
             type: String,
             default: "single"
         },
+        /**
+         * set if a gap is shown between multiple accordions
+         */
         gapBetween: {
             type: Boolean,
             default: true
         },
+        /**
+         * headlien for accordion-box that is also visible is accordion is collapsed
+         */
         accordionHeadlineLevel: {
             type: String,
             default: "h3",
@@ -53,18 +63,30 @@ export default {
                 return true
             }
         },
+        /**
+         * all information about the contents in all shown accordions
+         */
         accordionData: {
             type: [Array, Number],
             required: true
         },
+        /**
+         * iconClass for icon to expand an accordion
+         */
         openIconClass: {
             type: String,
             default: "icon-single-arrow-up"
         },
+        /**
+         * iconClass for icon to collapse an accordion
+         */
         closeIconClass: {
             type: String,
             default: "icon-single-arrow-down"
         },
+        /**
+         * tooltip shown on hover for open/close-icon
+         */
         tooltip: {
             type: String,
             required: false

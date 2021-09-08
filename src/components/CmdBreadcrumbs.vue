@@ -23,14 +23,23 @@
 export default {
     name: "CmdBreadcrumbs",
     props: {
+        /**
+         * list of breadcrumb-links (incl. path, icon and text)
+         */
         breadcrumbLinks: {
             type: Array,
             required: false
         },
+        /**
+         * label in front/left of breadcrumbs
+         */
         breadcrumbLabel: {
             type: String,
             required: false
         },
+        /**
+         * separator sign between entries
+         */
         breadcrumbSeparator: {
             type: String,
             default: ">"

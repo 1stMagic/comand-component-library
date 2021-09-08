@@ -96,18 +96,30 @@ export default {
         }
     },
     props: {
+        /**
+         * headline show above content
+         */
         headline: {
             type: String,
             required: false
         },
+        /**
+         * list of cookie-options
+         */
         cookieOptions: {
             type: Object,
             required: false
         },
+        /**
+         * label for button to accepting all cookies
+         */
         buttonLabelAcceptAllCookies: {
             type: String,
             default: "Accept all cookies!"
         },
+        /**
+         * label for button for accepting current settings
+         */
         buttonLabelAcceptCurrentSettings: {
             type: String,
             default: "Proceed with current settings!"

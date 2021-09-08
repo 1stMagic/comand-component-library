@@ -8,7 +8,7 @@
                     <span v-else-if="type === 'color' && miscInfo" class="color"
                           :style="'background: ' + miscInfo"></span>
                     <span>{{ optionName }}</span>
-                    <span :class="iconClass"></span>
+                    <span :class="dropdownIconClass"></span>
                 </a>
                 <ul v-if="type === 'filterList' && showOptions" class="filter-list">
                     <li v-for="(option, index) in selectData" :key="index">
@@ -51,29 +51,51 @@ import "clickout-event"
 export default {
     name: 'CmdFakeSelect',
     props: {
+        /**
+         * set different default selectbox-types for
+         *
+         * values: "(none), color, country, filterlist"
+         */
         type: {
             type: String,
             required: false
         },
+        /**
+         * set default value
+         */
         value: {
             type: [String, Array],
             required: false
         },
+        /**
+         * set default option name
+         */
         defaultOptionName: {
             type: String,
             required: false
         },
+        /**
+         * list of options to select (incl. displayed names and values)
+         */
         selectData: {
             type: Array,
             required: false
         },
+        /**
+         * status (i.e. for validation)
+         *
+         * values: "error, success, disabled"
+         */
         status: {
             type: String,
             required: false
         },
-        iconClass: {
+        /**
+         * icon-class for dropdown icon (i.e. an angle/arrow)
+         */
+        dropdownIconClass: {
             type: String,
-            required: true
+            default: "icon-arrow-down"
         }
     },
     methods: {
