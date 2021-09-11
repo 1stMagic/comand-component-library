@@ -1,6 +1,6 @@
 <template>
     <div :class="[status, 'cmd-select label']">
-        <span>Label for FakeSelect:</span>
+        <span>{{ labelText }}</span>
         <ul :class="{'open': showOptions}" @clickout="closeOptions">
             <li>
                 <a href="#" @click.prevent="toggleOptions">
@@ -46,8 +46,6 @@
 </template>
 
 <script>
-import "clickout-event"
-
 export default {
     name: 'CmdFakeSelect',
     props: {
@@ -95,7 +93,14 @@ export default {
          */
         dropdownIconClass: {
             type: String,
-            default: "icon-arrow-down"
+            default: "icon-single-arrow-down"
+        },
+        /**
+         * label-text for fake-select
+         */
+        labelText: {
+            type: String,
+            required: false
         }
     },
     methods: {

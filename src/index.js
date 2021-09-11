@@ -1,3 +1,5 @@
+import "clickout-event"
+
 export { default as CmdAccordion } from '@/components/CmdAccordion'
 export { default as CmdAddressData } from '@/components/CmdAddressData'
 export { default as CmdBackToTopButton } from '@/components/CmdBackToTopButton'

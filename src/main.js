@@ -6,7 +6,7 @@ import 'comand-frontend-framework/src/assets/css/framework-iconfont.css'
 import { createApp } from 'vue'
 import App from './App.vue'
 import { createRouter, createWebHistory } from 'vue-router'
-import vClickOutside from 'v-click-outside'
+import "clickout-event"
 
 /* import additional iconfont containing company-logos */
 import '@/assets/styles/logos-iconfont.css'
@@ -34,4 +34,4 @@ const router = createRouter({
   ]
 })
 
-createApp(App).use(router).use(vClickOutside).mount('#app')
+createApp(App).use(router).mount('#app')
