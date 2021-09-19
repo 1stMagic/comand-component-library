@@ -1,10 +1,10 @@
 <template>
     <label class="cmd-progressbar" :for="id">
-        <span>{{ labelText }}</span>
+        <span v-if="labelText">{{ labelText }}</span>
         <span class="progressbar">
-        <span>{{ loadingStatus }}%</span><!-- do not place inside progress-tag (will not be displayed then) -->
-        <progress v-bind="$attrs" :id="id" :value="loadingStatus"></progress>
-    </span>
+            <span>{{ loadingStatus }}%</span><!-- do not place inside progress-tag (will not be displayed then) -->
+            <progress v-bind="$attrs" :id="id" :value="loadingStatus"></progress>
+        </span>
     </label>
 </template>
 
@@ -17,10 +17,16 @@ export default {
         }
     },
     props: {
+        /**
+         * label-text for progress-bar
+         */
         labelText: {
             type: String,
             required: false
         },
+        /**
+         * id for progress-bar
+         */
         id: {
             type: String,
             required: true

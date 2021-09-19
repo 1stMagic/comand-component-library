@@ -15,11 +15,12 @@ import {openFancyBox} from "./CmdFancyBox"
 
 export default {
     name: "CmdImageGallery",
-
     props: {
+        /**
+         * list of images (incl. captions)
+         */
         images: Array
     },
-
     methods: {
         showFancyBox(index) {
             openFancyBox({fancyBoxGallery: this.images, defaultGalleryIndex: index})

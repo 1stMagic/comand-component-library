@@ -47,25 +47,47 @@ export default {
         }
     },
     props: {
+        /**
+         * number of items displayed
+         */
         items: {
             type: Number,
             required: true
         },
+        /**
+         * number of items shown per page
+         */
         itemsPerPage: {
             type: Number,
             required: true
         },
+        /**
+         * show links as buttons
+         */
         showLinksAsButtons: {
             type: Boolean,
             default: true
         },
+        /**
+         *
+         */
         prevButton: {
             type: Object,
-            required: false
+            default: function() {
+                return {
+                    iconClass: "icon-single-arrow-left",
+                    buttonText: "prev"
+                }
+            }
         },
         nextButton: {
             type: Object,
-            required: false
+            default: function() {
+                return {
+                    iconClass: "icon-single-arrow-right",
+                    buttonText: "next"
+                }
+            }
         }
     },
     computed: {

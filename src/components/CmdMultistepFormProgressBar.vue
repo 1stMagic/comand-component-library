@@ -21,10 +21,16 @@ export default {
         }
     },
     props: {
+        /**
+         * list of multisteps
+         */
         multisteps: {
             type: Array,
             required: true
         },
+        /**
+         * icon-class for separator shown inbetween multisteps
+         */
         separatorIconClass: {
             type: String,
             required: true

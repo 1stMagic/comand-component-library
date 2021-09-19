@@ -1,7 +1,7 @@
 <template>
     <div class="cmd-opening-hours">
         <h4 v-if="headline">{{ headline }}</h4>
-        <a v-if="path" :href="path" :class="{'closed': closed}">{{ textOpenClosed }}</a>
+        <a v-if="pathToDetails" :href="pathToDetails" :class="{'closed': closed}">{{ textOpenClosed }}</a>
         <span v-else :class="{'closed': closed}">{{ textOpenClosed }}</span>
         <dl>
             <template v-for="day in openingHours" :key="day.day">
@@ -20,30 +20,51 @@
 export default {
     name: "CmdOpeningHours",
     props: {
+        /**
+         * headline above displayed opening hours
+         */
         headline: {
             type: String,
             required: false
         },
-        path: {
+        /**
+         * set a path to a detail page
+         */
+        pathToDetails: {
             type: String,
             required: false
         },
+        /**
+         * toggles if "closed"-text will be shown
+         */
         closed: {
             type: Boolean,
             default: false
         },
+        /**
+         * text for open/closed-information
+         */
         textOpenClosed: {
             type: String,
             required: true
         },
+        /**
+         * list of opening-hours
+         */
         openingHours: {
             type: Array,
             required: true
         },
+        /**
+         * text to show if holidays closed (shown below opening-hours)
+         */
         textHolidaysClosed: {
             type: String,
             required: false
         },
+        /**
+         * additional/miscellaneous text (shown below holiday-closed-text/opening hours)
+         */
         textMiscInfo: {
             type: String,
             required: false

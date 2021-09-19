@@ -13,14 +13,23 @@
 export default {
     name: "CmdMainHeadline",
     props: {
+        /**
+         * main/h1-headline
+         */
         mainHeadline: {
             type: String,
             required: true
         },
+        /**
+         * small pre-headline above main-headline
+         */
         preHeadline: {
             type: String,
             required: false
         },
+        /**
+         * icon-class for icon shown left/before headline
+         */
         iconClass: {
             type: String,
             required: false

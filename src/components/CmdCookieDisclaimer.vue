@@ -3,9 +3,8 @@
         <div class="cmd-cookie-disclaimer">
             <h2 v-if="headline">{{ headline }}</h2>
             <slot name="cookie-options">
-                <div class="grid-container-two-fractions">
                     <div v-if="cookieOptions.required">
-                        <h2>{{ cookieOptions.required.headline }}</h2>
+                        <h3>{{ cookieOptions.required.headline }}</h3>
                         <CmdAccordion :accordion-data="cookieOptions.required.cookies.length" :accordionData="2">
                             <template v-for="(cookie, index) in cookieOptions.required.cookies"
                                       v-slot:[`accordionHeadline${index}`]
@@ -35,8 +34,9 @@
                             </template>
                         </CmdAccordion>
                     </div>
+                <hr />
                     <div v-if="cookieOptions.optional">
-                        <h2>{{ cookieOptions.optional.headline }}</h2>
+                        <h3>{{ cookieOptions.optional.headline }}</h3>
                         <CmdAccordion :accordion-data="cookieOptions.optional.cookies.length" :accordionData="2">
                             <template v-for="(cookie, index) in cookieOptions.optional.cookies"
                                       v-slot:[`accordionHeadline${index}`]
@@ -62,7 +62,6 @@
                             </template>
                         </CmdAccordion>
                     </div>
-                </div>
             </slot>
             <slot name="privacy-text">
             </slot>

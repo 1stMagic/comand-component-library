@@ -17,10 +17,16 @@
 export default {
     name: "CmdImageZoom",
     props: {
+        /**
+         * url for small images
+         */
         smallImageUrl: {
             type: String,
             required: true
         },
+        /**
+         * url for large image
+         */
         largeImageUrl: {
             type: String,
             required: true

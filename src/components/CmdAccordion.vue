@@ -1,16 +1,20 @@
 <template>
     <div :class="['cmd-accordion flex-container vertical', {'no-gap' : !gapBetween, 'active' : active}]">
         <div v-for="(accordionContent, index) in accordion" :key="index">
-            <a href="#" :title="tooltip" @click.prevent="toggleContentVisibility(accordionContent)">
+            <a v-if="!useCustomHeader" href="#" :title="accordionContent.status ? iconOpen.icon.tooltip : iconClosed.icon.tooltip" @click.prevent="toggleContentVisibility(accordionContent)">
                 <slot :name="'accordionHeadline' + index">
                     <component :is="accordionHeadlineLevel">
-                        <span v-if="accordionContent.iconClass" :class="accordionContent.iconClass"></span>
+                        <span v-if="accordionContent.icon && accordionContent.icon.iconClass" :class="accordionContent.icon.iconClass" :title="accordionContent.icon.tooltip"></span>
                         <span v-if="accordionContent.headline">{{ accordionContent.headline }}</span>
                     </component>
                 </slot>
+                <span class="toggle-icon" :class="[accordionContent.status ? iconOpen.icon.iconClass : iconClosed.icon.iconClass]"></span>
+            </a>
+            <a v-else href="#" :title="tooltip" @click.prevent="toggleContentVisibility(accordionContent)">
+                <slot :name="'customHeadline' + index"><p>{{ accordionContent.headline }}</p></slot>
                 <span class="toggle-icon" :class="[accordionContent.status ? openIconClass : closeIconClass]"></span>
             </a>
-            <transition name="fade">
+            <transition :name="toggleTransition">
                 <div class="accordion-content" v-if="accordionContent.status" aria-expanded="true">
                     <slot :name="'accordionContent' + index">
                         <p>{{ accordionContent.content }}</p>
@@ -32,12 +36,27 @@ export default {
     },
     props: {
         /**
+         * use transition to expand accordion-content
+         */
+        useTransition: {
+            type: Boolean,
+            default: true
+        },
+        /**
          * toggle if mode if only one accordion can be opened (or multiple ones)
+         *
          * values: single, multiple
          */
         toggleMode: {
             type: String,
             default: "single"
+        },
+        /**
+         * activate if you want to use a customized header
+         */
+        useCustomHeader: {
+            type: Boolean,
+            default: false
         },
         /**
          * set if a gap is shown between multiple accordions
@@ -47,7 +66,7 @@ export default {
             default: true
         },
         /**
-         * headlien for accordion-box that is also visible is accordion is collapsed
+         * headline for accordion-box that is also visible is accordion is collapsed
          */
         accordionHeadlineLevel: {
             type: String,
@@ -71,25 +90,37 @@ export default {
             required: true
         },
         /**
-         * iconClass for icon to expand an accordion
+         * icon to expand an accordion
          */
-        openIconClass: {
-            type: String,
-            default: "icon-single-arrow-up"
+        iconOpen: {
+            type: Object,
+            default: function() {
+                return {
+                    icon: {
+                        iconClass: "icon-single-arrow-up",
+                        tooltip: "Close content"
+                    }
+                }
+            },
         },
         /**
-         * iconClass for icon to collapse an accordion
+         * icon to collapse an accordion
          */
-        closeIconClass: {
-            type: String,
-            default: "icon-single-arrow-down"
-        },
-        /**
-         * tooltip shown on hover for open/close-icon
-         */
-        tooltip: {
-            type: String,
-            required: false
+        iconClosed: {
+            type: Object,
+            default: function() {
+                return {
+                    icon: {
+                        iconClass: "icon-single-arrow-down",
+                        tooltip: "Show content"
+                    }
+                }
+            }
+        }
+    },
+    computed: {
+        toggleTransition() {
+            return this.useTransition && 'fade'
         }
     },
     methods: {
@@ -103,6 +134,22 @@ export default {
                         this.accordion[i].status = false;
                     }
                 }
+            }
+        },
+        /**
+         * method will be called from outside by $refs
+         */
+        openAll() {
+            for (let i = 0; i < this.accordion.length; i++) {
+                    this.accordion[i].status = true;
+            }
+        },
+        /**
+         * method will be called from outside by $refs
+         */
+        closeAll() {
+            for (let i = 0; i < this.accordion.length; i++) {
+                this.accordion[i].status = false;
             }
         }
     },
@@ -131,7 +178,7 @@ export default {
     margin-bottom: var(--default-margin);
 
     > div {
-        > a {
+        > a, > div:first-child {
             display: flex;
             align-items: center;
             gap: var(--grid-gap);
@@ -172,7 +219,7 @@ export default {
                 border-top: 0;
             }
 
-            > span {
+            > span, > a {
                 font-size: inherit;
 
                 &[class*="icon-"] {

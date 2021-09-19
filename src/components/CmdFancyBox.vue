@@ -4,7 +4,7 @@
          aria-labelledby="fancybox">
       <div class="popup" :class="{'image' : fancyBoxImageUrl || fancyBoxGallery }">
         <div class="button-wrapper no-flex"
-             v-if="((fancyboxOptions.printButtons && (fancyboxOptions.printButtons.color || fancyboxOptions.printButtons.grayscale))) || fancyboxOptions.closeIcon">
+             v-if="(fancyboxOptions.printButtons && (fancyboxOptions.printButtons.color || fancyboxOptions.printButtons.grayscale)) || fancyboxOptions.closeIcon">
           <a href="#"
              v-if="fancyboxOptions.printButtons && fancyboxOptions.printButtons.color"
              :class="['button', fancyboxOptions.printButtons.color.iconClass]"
@@ -69,10 +69,16 @@
     const FancyBox = defineComponent({
         name: "CmdFancyBox",
         props: {
+            /**
+             * set if content should be loaded by url
+             */
             url: {
                 type: String,
                 required: false
             },
+            /**
+             * options to show at top (closeIcon, printButtons)
+             */
             fancyboxOptions: {
                 type: Object,
                 default() {
@@ -94,34 +100,58 @@
                     }
                 }
             },
+            /**
+             * allow closing fancybox by escape-key
+             */
             allowEscapeKey: {
                 type: Boolean,
                 default: true
             },
+            /**
+             * the content shown in the main area
+             */
             content: {
                 type: String,
                 required: false
             },
+            /**
+             *
+             */
             elements: {
                 type: Array,
                 required: false
             },
+            /**
+             * use if a gallery of images should be opened (and navigated) inside fancybox
+             */
             fancyBoxGallery: {
                 type: Array,
                 required: false
             },
+            /**
+             * if gallery is used, you can set default index
+             */
             defaultGalleryIndex: {
                 type: Number,
                 required: false
             },
+            /**
+             * show/hide entire fancybox
+             */
             show: {
                 type: Boolean,
                 default: false
             },
+            /**
+             * show/hide overlay (around fancybox, above website)
+             */
             showOverlay: {
                 type: Boolean,
                 default: true
             },
+            /**
+             * show slide-buttons (left/previous and right/next)
+             */
             slideButtons: {
                 type: Object,
                 default() {

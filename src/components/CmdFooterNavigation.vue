@@ -24,10 +24,16 @@ import {openFancyBox} from "./CmdFancyBox.vue"
 export default {
     name: "CmdFooterNavigation",
     props: {
+        /**
+         * headlien above links
+         */
         headline: {
             type: String,
             required: false
         },
+        /**
+         * list of links shown vertically
+         */
         footerNavigation: {
             type: Array,
             required: false

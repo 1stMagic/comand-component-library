@@ -55,30 +55,51 @@ export default {
         CmdSlideButton
     },
     props: {
+        /**
+         * use slot for images
+         */
         useSlot: {
             type: Boolean,
             default: false
         },
+        /**
+         * activate if images should switch automatically
+         */
         autoplay: {
             type: Boolean,
             default: false
         },
-        showQuickLinkIcons: {
-            type: Boolean,
-            default: true
-        },
-        showCounter: {
-            type: Boolean,
-            default: false
-        },
+        /**
+         * set milliseconds to switch images (if autoplay is activated only)
+         */
         autoplayInterval: {
             type: Number,
             default: 5000
         },
+        /**
+         * shows buttons/icons to let user quick jump to each image
+         */
+        showQuickLinkIcons: {
+            type: Boolean,
+            default: true
+        },
+        /**
+         * activate if current number of each image should be displayed
+         */
+        showCounter: {
+            type: Boolean,
+            default: false
+        },
+        /**
+         * list of images to display (use slot smust be set to false)
+         */
         slideshowItems: {
             type: Array,
             required: true
         },
+        /**
+         * slide-buttons (next/previous) to switch images
+         */
         slideButtons: {
             type: Object,
             default() {

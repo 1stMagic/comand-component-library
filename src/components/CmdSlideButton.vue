@@ -12,6 +12,9 @@
 export default {
     name: "CmdSlideButton",
     props: {
+        /**
+         * set slide-button to "next" (= right), else it will be displayed as previous (=left) button
+         */
         slideButtonType: {
             type: Object,
             required: true

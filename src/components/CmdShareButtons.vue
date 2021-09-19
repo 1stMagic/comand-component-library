@@ -12,10 +12,16 @@
 export default {
     name: "CmdContentFooter",
     props: {
+        /**
+         * stretch-buttons to share horizontal space vertically
+         */
         stretchButtons: {
             type: Boolean,
             default: true
         },
+        /**
+         * list of share-buttons (i.e. facebook, twitter etc.)
+         */
         shareButtons: {
             type: Array,
             required: true

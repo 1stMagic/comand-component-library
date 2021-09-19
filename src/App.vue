@@ -41,7 +41,6 @@
           <li><a href="#section-upload-form">Upload-Form</a></li>
         </ul>
       </div>
-
       <hr/>
     </CmdWidthLimitationWrapper>
 
@@ -49,11 +48,13 @@
     <CmdWidthLimitationWrapper>
       <h2 class="headline-demopage">Accordion</h2>
       <h3>Single mode (only one can be opened)</h3>
+        <a href="#" @click.prevent="toggleAllAccordions()">Toggle all accordions</a>
       <CmdAccordion :accordionData="accordionData.accordionData1"
                     toggleMode="single"
                     tooltip="Click to toggle content"
                     openIconClass="icon-single-arrow-up"
                     closeIconClass="icon-single-arrow-down"
+                    ref="accordionGroup1"
       />
       <h3>Multiple mode (all can be opened)</h3>
       <CmdAccordion :accordionData="accordionData.accordionData2"
@@ -61,14 +62,16 @@
                     tooltip="Click to toggle content"
                     openIconClass="icon-single-arrow-up"
                     closeIconClass="icon-single-arrow-down"
+                    ref="accordionGroup2"
       />
-      <h3>Customized headline-level</h3>
+      <h3>Customized headline-level (without transition of content)</h3>
       <CmdAccordion :accordionData="accordionData.accordionData2"
                     toggleMode="multiple"
                     tooltip="Click to toggle content"
                     openIconClass="icon-single-arrow-up"
                     closeIconClass="icon-single-arrow-down"
                     accordion-headline-level="h4"
+                    :use-transition="false"
       />
       <h3>Data given by slots</h3>
       <CmdAccordion :accordionData="1">
@@ -81,6 +84,16 @@
           </p>
         </template>
       </CmdAccordion>
+        <CmdAccordion :accordionData="1" :useCustomHeader="true">
+            <template v-slot:customHeadline0>
+                <h4>Some headline</h4>
+            </template>
+            <template v-slot:accordionContent0>
+                <p>
+                    Content
+                </p>
+            </template>
+        </CmdAccordion>
     </CmdWidthLimitationWrapper>
 
     <!-- begin advanced form elements --------------------------------------------------------------------------------------------------------------------------------------------------->
@@ -409,6 +422,7 @@
               <CmdFormElement element="input"
                               labelText="Label for replaced radiobutton"
                               type="radio"
+                              class="replace-input-type"
                               id="inputfield13"
                               name="replaced-radiogroup"
                               inputValue="radiobuttonValue1"
@@ -417,6 +431,7 @@
               <CmdFormElement element="input"
                               labelText="Label for replaced radiobutton"
                               type="radio"
+                              class="replace-input-type"
                               id="inputfield14"
                               name="replaced-radiogroup"
                               inputValue="radiobuttonValue2"
@@ -647,9 +662,6 @@
           :items="pagerData.length"
           :itemsPerPage="1"
           @click="showPagePager = $event"
-          :showLinksAsButtons="true"
-          :prevButton="{'iconClass': 'icon-single-arrow-left', 'buttonText': 'prev' }"
-          :nextButton="{'iconClass': 'icon-single-arrow-right', 'buttonText': 'next' }"
       />
     </CmdWidthLimitationWrapper>
 
@@ -872,6 +884,7 @@ export default {
 
   data() {
     return {
+      accordionGroupOpen: false,
       showPageMultistep: 1,
       showPagePager: 1,
       selectedOptions: [],
@@ -964,6 +977,14 @@ export default {
     },
     executeSearch() {
       return Math.floor(Math.random() * 100)
+    },
+    toggleAllAccordions() {
+        if(this.accordionGroupOpen) {
+            this.$refs.accordionGroup1.closeAll()
+        } else{
+            this.$refs.accordionGroup1.openAll()
+        }
+        this.accordionGroupOpen = !this.accordionGroupOpen
     }
   }
 }

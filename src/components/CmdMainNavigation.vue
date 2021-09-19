@@ -58,18 +58,30 @@ export default {
         }
     },
     props: {
+        /**
+         * toggle if main-entries (on firt-level) should be (horizontally) stretched equally
+         */
         stretchMainItems: {
             type: Boolean,
             default: false
         },
+        /**
+         * set if navigation should persist on mobile and not be collapsed to off-canvas
+         */
         persistOnMobile: {
             type: Boolean,
             default: false
         },
+        /**
+         * list of all navigation-entries (incl. sub-entries)
+         */
         navigationEntries: {
             type: Array,
             required: true
         },
+        /**
+         * link shown inside off-canvas-navigation to close itself
+         */
         closeOffcanvas: {
             type: Object,
             default: function () {
@@ -80,6 +92,9 @@ export default {
                 }
             }
         },
+        /**
+         * button to open off-canvas-navigation
+         */
         buttonOffcanvas: {
             type: Object,
             default: function () {
@@ -90,14 +105,23 @@ export default {
                 }
             }
         },
+        /**
+         * icon to show if an navigation-entry has sub-entries
+         */
         subentriesIconClass: {
             type: String,
             default: "icon-single-arrow-down"
         },
+        /**
+         * icon to show if a sub-entry has further sub-entries
+         */
         subSubentriesIconClass: {
             type: String,
             default: "icon-single-arrow-right"
         },
+        /**
+         * toggle if overlay over content should be shown if off-canvas is open
+         */
         showContentOverlay: {
             type: Boolean,
             default: true

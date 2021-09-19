@@ -1,5 +1,5 @@
 <template>
-    <div :class="['label', 'multiple-switch', htmlClass, {disabled: status === 'disabled', error: status === 'error'}]">
+    <div :class="['label', 'multiple-switch', {disabled: status === 'disabled', error: status === 'error'}]">
         <span v-if="labelText">{{ labelText }}</span>
         <span class="flex-container no-gap no-flex">
             <label :class="{disabled: status === 'disabled'}" :for="multipleswitch.id"
@@ -27,10 +27,6 @@ export default {
             type: [String, Array],
             required: false,
             default: ""
-        },
-        htmlClass: {
-            type: String,
-            required: false
         },
         labelText: {
             type: String,

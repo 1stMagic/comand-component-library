@@ -19,34 +19,30 @@ export default {
         CmdMainNavigation
     },
     props: {
-        showHeaderNavBar: {
-            type: Boolean,
-            default: true
-        },
+        /**
+         * list of main-navigation-entries (incl. sub-entries) given to inner navigationcomponent
+         */
         mainNavigationEntries: {
             type: Array,
             required: true
         },
-        headerWidthLimitation: {
-            type: Boolean,
-            default: false
-        },
-        linkLogo: {
-            type: Object,
-            required: false
-        },
-        logo: {
-            type: Object,
-            required: false
-        },
+        /**
+         * activated sticky-header (stays on top if page is scrolled
+         */
         sticky: {
             type: Boolean,
             default: true
         },
+        /**
+         * use a grid for positioning of inner-elements (else a flex-container will be used)
+         */
         useGrid: {
             type: Boolean,
             default: true
         },
+        /**
+         * use only if default-button of inner navigation-component should not be used
+         */
         closeOffcanvas: {
             type: Object,
             required: false
