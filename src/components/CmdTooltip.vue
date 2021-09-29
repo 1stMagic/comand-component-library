@@ -6,6 +6,9 @@
 export default {
     name: "CmdTooltip",
     props: {
+        /**
+         * text for tooltip
+         */
         tooltipText: {
             type: String,
             required: true

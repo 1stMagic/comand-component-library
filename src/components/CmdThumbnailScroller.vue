@@ -1,17 +1,18 @@
 <template>
     <div :class="['cmd-thumbnail-scroller', {'gallery-scroller' : !allowOpenFancyBox}]">
-        <CmdSlideButton @click.prevent="showPrevItem" :slideButtonType="slideButtons.previous"/>
+        <CmdSlideButton @click.prevent="showPrevItem" :slideButtons="cmdSlideButtons.prev"/>
         <transition-group name="slide" tag="ul">
             <li v-for="(image, index) in thumbnails" :key="image.imgId" :class="{'active' : imgIndex === index}">
                 <a href="#" @click.prevent="showFancyBox(index)">
                     <figure>
+                        <figcaption v-if="figcaption.show && figcaption.position === 'above-image' && image.figcaption.length">{{ image.figcaption }}</figcaption>
                         <img :src="image.srcImageSmall" :alt="image.alt"/>
-                        <figcaption v-if="showFigcaption">{{ image.figcaption }}</figcaption>
+                        <figcaption v-if="figcaption.show && figcaption.position === 'below-image' && image.figcaption.length">{{ image.figcaption }}</figcaption>
                     </figure>
                 </a>
             </li>
         </transition-group>
-        <CmdSlideButton @click.prevent="showNextItem" :slideButtonType="slideButtons.next"/>
+        <CmdSlideButton @click.prevent="showNextItem" :slideButtons="cmdSlideButtons.next"/>
     </div>
 </template>
 
@@ -26,47 +27,68 @@ export default {
             thumbnails: []
         }
     },
-
     components: {
         CmdSlideButton
     },
-
     props: {
+        /**
+         * list of thumbnail-scroller-items
+         */
         thumbnailScrollerItems: {
             type: Array,
             required: true
         },
+        /**
+         * allow large version of images to be opened in CmdFancyBox-component
+         */
         allowOpenFancyBox: {
             type: Boolean,
             default: true
         },
+        /**
+         * set a default index to activate/highlight a specific image/item
+         */
         imgIndex: {
             type: Number,
             required: false
         },
-        showFigcaption: {
-            type: Boolean,
-            default: true
+        /**
+         * set figcaption
+         */
+        figcaption: {
+            type: Object,
+            default() {
+                return {
+                    show: true,
+                    position: "below-image"
+                }
+            }
         },
-        slideButtons: {
+        /**
+         * properties for cmdSlideButtons-component
+         */
+        cmdSlideButtons: {
             type: Object,
             default() {
                 return {
                     "next": {
-                        "buttonType": "next",
-                        "iconClass": "icon-single-arrow-right",
-                        "tooltip": "Next"
+                        "next": {
+                            type: "next",
+                            "iconClass": "icon-single-arrow-right",
+                            "tooltip": "Next"
+                        }
                     },
-                    "previous": {
-                        "buttonType": "previous",
-                        "iconClass": "icon-single-arrow-left",
-                        "tooltip": "Previous"
+                    "prev": {
+                        "prev": {
+                            type: "prev",
+                            "iconClass": "icon-single-arrow-left",
+                            "tooltip": "Previous"
+                        }
                     }
                 }
             }
         }
     },
-
     methods: {
         showNextItem() {
             const thumbnail = this.thumbnails.shift(); // remove first element of array

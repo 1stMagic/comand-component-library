@@ -1,18 +1,19 @@
 <template>
     <label v-if="(element === 'input' || element === 'select' || element === 'textarea')"
            :for="id"
-           :class="['cmd-form-element', status, {'inline' : displayinline, 'checked': isChecked}]"
+           :class="['cmd-form-element', status, {'inline' : displayLabelInline, 'checked': isChecked}]"
            ref="label">
         <!-- begin label (+ required) -->
         <span v-if="labelText && $attrs.type !== 'checkbox' && $attrs.type !== 'radio'"
-              :class="{'hidden': hideLabelText}">
-      <span>{{ labelText }}</span><sup v-if="$attrs.required && !hideLabel">*</sup>
-    </span>
+              :class="{'hidden': hideLabel}">
+          <span>{{ labelText }}</span>
+          <sup v-if="$attrs.required">*</sup>
+        </span>
         <!-- end label (+ required) -->
 
         <!-- begin icon -->
-        <span v-if="$attrs.type !== 'checkbox' && $attrs.type !== 'radio' && iconClass" class="place-inside"
-              :class="[status, iconClass]"></span>
+        <span v-if="$attrs.type !== 'checkbox' && $attrs.type !== 'radio' && innerIconClass" class="place-inside"
+              :class="[status, innerIconClass]"></span>
         <!-- end icon -->
 
         <!-- begin inputfield -->
@@ -69,7 +70,7 @@
                 @change="$emit('input', $event.target.value)"
         >
             <option v-for="(option, index) in selectOptions" :key="index" :value="option.value"
-                    :selected="option.selected">{{ option.text }}
+                    :selected="option.value === value">{{ option.text }}
             </option>
         </select>
         <!-- end selectbox -->
@@ -127,11 +128,18 @@ export default {
         }
     },
     props: {
+        /**
+         * set value for v-model
+         */
         value: {
             type: [String, Boolean, Array, Number],
-            required: false,
             default: ""
         },
+        /**
+         * set type of native form-element
+         *
+         * values: input, select, textarea, button
+         */
         element: {
             type: String,
             validator(value) {
@@ -142,67 +150,114 @@ export default {
             },
             required: true
         },
+        /**
+         * hide label (and asterisk if mandatory)
+         *
+         * label may not be removed, because it is required for accessibility
+         */
         hideLabel: {
             type: Boolean,
             default: false
         },
+        /**
+         * text for label
+         */
         labelText: {
             type: String,
             required: false
         },
-        hideLabelText: {
-            type: Boolean,
-            default: false
-        },
+        /**
+         * allow checkbox/radio-buttons to get value from outside
+         */
         inputValue: {
-            /* allow checkbox/radiobuttons to get value from outside */
             type: String,
             required: false
         },
-        /* for replacing native checkboxes/radiobuttons by custom ones */
+        /**
+         * for replacing native checkboxes/radio-buttons by custom ones (based on frontend-framework)
+         */
         replaceInputType: {
             type: Boolean,
             default: false
         },
+        /**
+         * set an optional class on native form-element (use native class="" on component ot set class on outer-component-element)
+         *
+         * may not be named as 'class' because it is a reserved keyword in JavaScript
+         */
         htmlClass: {
-            /* may not be named as 'class' because it is a reserved keyword in JavaScript */
             type: String,
             required: false
         },
+        /**
+         * if for native form-element
+         */
         id: {
             type: String,
             required: false
         },
+        /**
+         * set if a native datalist should be used
+         */
         datalist: {
             type: Object,
             required: false
         },
+        /**
+         * list of options for selectbox
+         *
+         * element-property must be 'select'
+         */
         selectOptions: {
             type: Array,
             required: false
         },
+        /**
+         * text for native button
+         */
         buttonText: {
             type: String,
             required: false
         },
+        /**
+         * set icon for native button
+         */
         buttonIcon: {
             type: Object,
             default() {
                 return {}
             }
         },
+        /**
+         * set text for tooltip
+         */
         tooltipText: {
             type: String,
             required: false
         },
-        iconClass: {
+        /**
+         * set class for inner icon (icon placed 'inside' input/ left of input-text)
+         *
+         * element-property must be 'input' and type-property may not be checkbox or radio
+         */
+        innerIconClass: {
             type: String,
             required: false
         },
-        displayinline: {
+        /**
+         * activate if label-text should be place inline/left of form-element (and not above)
+         *
+         * type-property may not be checkbox or radio
+         */
+         displayLabelInline: {
             type: Boolean,
             required: false
         },
+        /**
+         * set status for label and form-element
+         *
+         * values: error (red-styling), success (green-styling)
+         */
         status: {
             type: String,
             required: false

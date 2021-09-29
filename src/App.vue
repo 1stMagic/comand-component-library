@@ -137,6 +137,7 @@
             <CmdFormElement labelText="Input for selectbox:"
                             element="select"
                             :status="formElementStatus"
+                            v-model:value="selectedOption"
                             :selectOptions="selectOptions"
             />
             <CmdFormElement labelText="Input for datalist:"
@@ -704,8 +705,10 @@
     <a id="section-tables"></a>
     <CmdWidthLimitationWrapper>
       <h2 class="headline-demopage">Tables</h2>
-      <CmdTable :collapsible="true" :fullWidth="true" closeIconClass="icon-single-arrow-up"
-                openIconClass="icon-single-arrow-down"/>
+        <h3>Table as wide as its content</h3>
+        <CmdTable :collapsible="true" :fullWidthOnDefault="false" :userCanToggleWidth="true" :table-data="tableDataSmall" />
+        <h3>Table as wide as possible</h3>
+        <CmdTable :collapsible="true" :fullWidthOnDefault="false" :userCanToggleWidth="true" :table-data="tableDataLarge" />
     </CmdWidthLimitationWrapper>
 
     <a id="section-tabs"></a>
@@ -799,6 +802,8 @@ import pagerData from '@/assets/data/pager.json'
 import shareButtonsData from '@/assets/data/share-buttons.json'
 import slideshowData from '@/assets/data/slideshow.json'
 import tabsData from '@/assets/data/tabs.json'
+import tableDataSmall from '@/assets/data/table-small.json'
+import tableDataLarge from '@/assets/data/table-large.json'
 import thumbnailScrollerData from '@/assets/data/thumbnail-scroller.json'
 import topHeaderNavigationData from '@/assets/data/top-header-navigation.json'
 
@@ -904,6 +909,7 @@ export default {
       multipleSwitchCheckbox: ['b'],
       multipleSwitchRadio: 'c',
       fancyBoxCookieDisclaimer: false,
+      selectedOption: "2",
       selectOptions: [
           {
               text: "Option 1",
@@ -911,8 +917,7 @@ export default {
           },
           {
               text: "Option 2",
-              value: "2",
-              selected: true
+              value: "2"
           },
           {
               text: "Option 3",
@@ -950,6 +955,8 @@ export default {
       pagerData,
       shareButtonsData,
       slideshowData,
+      tableDataSmall,
+      tableDataLarge,
       tabsData,
       thumbnailScrollerData,
       topHeaderNavigationData

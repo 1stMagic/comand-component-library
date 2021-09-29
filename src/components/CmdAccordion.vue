@@ -12,7 +12,7 @@
             </a>
             <a v-else href="#" :title="tooltip" @click.prevent="toggleContentVisibility(accordionContent)">
                 <slot :name="'customHeadline' + index"><p>{{ accordionContent.headline }}</p></slot>
-                <span class="toggle-icon" :class="[accordionContent.status ? openIconClass : closeIconClass]"></span>
+                <span class="toggle-icon" :class="[accordionContent.status ?  iconOpen.icon.iconClass : iconClosed.icon.iconClass]"></span>
             </a>
             <transition :name="toggleTransition">
                 <div class="accordion-content" v-if="accordionContent.status" aria-expanded="true">

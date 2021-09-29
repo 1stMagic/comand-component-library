@@ -4,7 +4,7 @@
         <ul :class="{'open': showOptions}" @clickout="closeOptions">
             <li>
                 <a href="#" @click.prevent="toggleOptions">
-                    <img v-if="type === 'country' && miscInfo" :src="flagPath" :alt="isoCode" class="flag" :class="miscInfo"/>
+                    <img v-if="type === 'country' && miscInfo" :src="pathFlag(miscInfo)" :alt="miscInfo" class="flag" :class="miscInfo"/>
                     <span v-else-if="type === 'color' && miscInfo" class="color"
                           :style="'background: ' + miscInfo"></span>
                     <span>{{ optionName }}</span>
@@ -22,8 +22,8 @@
                 <ul v-else-if="type === 'country' && showOptions">
                     <li v-for="(country, index) in selectData" :key="index">
                         <a href="#"
-                           @click.prevent="selectOption(country.countryName, country.isoCode, country.flagPath)">
-                            <img class="flag" :src="country.flagPath"
+                           @click.prevent="selectOption(country.countryName, country.isoCode)">
+                            <img class="flag" :src="pathFlag(country.isoCode)"
                                  :alt="country.countryName"/><span>{{ country.countryName }}</span>
                         </a>
                     </li>
@@ -101,6 +101,13 @@ export default {
         labelText: {
             type: String,
             required: false
+        },
+        /**
+         * path to flag-files (will be combined with flag isoCode to load svg)
+         */
+        pathFlags: {
+            type: String,
+            default: "/media/images/flags"
         }
     },
     methods: {
@@ -118,15 +125,17 @@ export default {
             }
             this.$emit('update:value', value);
         },
-        selectOption(optionName, miscInfo, flagPath) {
+        selectOption(optionName, miscInfo) {
             this.optionName = optionName
             this.miscInfo = miscInfo
-            this.flagPath = flagPath
             this.showOptions = false
             this.$emit('update:value', miscInfo);
         },
         closeOptions() {
             this.showOptions = false
+        },
+        pathFlag(isoCode) {
+            return this.pathFlags + "/flag-" + isoCode + ".svg"
         }
     },
     data() {
@@ -161,10 +170,6 @@ export default {
     color: var(--disabled-color);
     border-color: var(--disabled-color);
     background: var(--disabled-background-color);
-}
-
-.select {
-
 }
 
 .cmd-select {

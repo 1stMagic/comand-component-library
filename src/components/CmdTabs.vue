@@ -8,7 +8,7 @@
                 </a>
             </li>
         </ul>
-        <template v-if="useComponent">
+        <template v-if="useSlot">
             <div v-show="showTab === index" v-for="(tab, index) in tabs" :key="index" aria-live="assertive">
                 <slot :name="'tab-content-' + index"></slot>
             </div>
@@ -29,15 +29,24 @@ export default {
         }
     },
     props: {
+        /**
+         * activate if tabs should be (equally) stretched horizontally over full width of tab-content
+         */
         stretchTabs: {
             type: Boolean,
             default: false
         },
+        /**
+         * list of tabs (incl. tab-name and tab-content (optional))
+         */
         tabs: {
             type: Array,
-            required: true,
+            required: true
         },
-        useComponent: {
+        /**
+         * activate if content should be given by slot
+         */
+        useSlot: {
             type: Boolean,
             default: false
         }

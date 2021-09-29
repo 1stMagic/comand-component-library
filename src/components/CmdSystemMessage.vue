@@ -1,20 +1,19 @@
 <template>
     <transition name="fade">
         <div
-            class="cmd-system-message system-message"
-            :class="[{ 'full-width': fullWidth }, status]"
-            role="alert"
             v-if="showSystemMessage"
+            :class="['cmd-system-message', 'system-message', { 'full-width': fullWidth }, status]"
+            role="alert"
         >
             <a
-                :class="closeIcon.iconClass"
+                v-if="iconClose.iconClass"
+                :class="iconClose.iconClass"
                 href="#"
                 @click.prevent="showSystemMessage = false"
-                :title="closeIcon.tooltip"
-                v-if="closeIcon.iconClass"
+                :title="iconClose.tooltip"
             ></a>
             <h6>
-                <span :class="iconClass" v-if="iconClass"></span>
+                <span v-if="iconMessage && iconMessage.iconClass && iconMessage.show" :class="iconMessage.iconClass"></span>
                 <strong v-if="message">{{ message }}</strong>
             </h6>
             <slot></slot>
@@ -31,23 +30,45 @@ export default {
         }
     },
     props: {
+        /**
+         * status of message
+         *
+         * values: error (red), warning (yellow), success (grenn), info (blue)
+         */
         status: {
             type: String,
             required: true
         },
+        /**
+         * activate to stretch message-box as wide as parent container (else message-box is as wide as message)
+         */
         fullWidth: {
             type: Boolean,
             default: true
         },
-        iconClass: {
-            type: String,
-            default: "icon-warning"
+        /**
+         * set icon-class for message (will be displayed left from
+         */
+        iconMessage: {
+            type: Object,
+            default: function() {
+                return {
+                    iconClass: "icon-warning",
+                    show: true
+                }
+            }
         },
+        /**
+         * the system-message-text
+         */
         message: {
             type: String,
             required: false
         },
-        closeIcon: {
+        /**
+         * icon to close system-message
+         */
+        iconClose: {
             type: Object,
             default: function () {
                 return {

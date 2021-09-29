@@ -1,5 +1,5 @@
 <template>
-    <fieldset ref="upload" class="grid-container-create-columns cmd-upload-form">
+    <fieldset ref="upload" class=" cmd-upload-form grid-container-create-columns">
         <legend>Upload form</legend>
         <h2 v-if="headline">{{ headline }}</h2>
         <CmdFormElement
@@ -64,6 +64,7 @@
 </template>
 
 <script>
+// import components
 import CmdFormElement from "./CmdFormElement"
 import CmdSystemMessage from "./CmdSystemMessage"
 
@@ -82,34 +83,58 @@ export default {
         CmdSystemMessage
     },
     props: {
+        /**
+         * headline for form
+         */
         headline: {
             type: String,
             required: false
         },
+        /**
+         * url to uplaod files
+         */
         uploadURL: {
             type: String,
             required: false
         },
+        /**
+         * activate if files for upload should be selected by native input (type="file")
+         */
         enableFileSelect: {
             type: Boolean,
             default: true
         },
+        /**
+         * activate if files should be dragged and dropped from os-file-explorer
+         */
         enableDragAndDrop: {
             type: Boolean,
             default: true
         },
+        /**
+         * enable textarea for additional comments
+         */
         enableComment: {
             type: Boolean,
             default: true
         },
+        /**
+         * set upload options
+         */
         uploadOptions: {
             type: Object,
             required: false
         },
+        /**
+         * list of allowed file types to upload (all can be selected)
+         */
         allowedFileTypes: {
             type: Array,
             required: true
         },
+        /**
+         * set maximum upload size (for all files combined)
+         */
         maxUploadSize: {
             type: Number,
             default: 10485760

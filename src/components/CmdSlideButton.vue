@@ -1,10 +1,10 @@
 <template>
     <a href="#"
        @click.prevent
-       :class="['cmd-slide-button', 'button', slideButtonType.buttonType]"
-       :title="slideButtonType.buttonType === 'next' ? slideButtonType.tooltip : slideButtonType.tooltip">
+       :class="['cmd-slide-button', 'button', slideButtons.next ? 'next' : 'previous']"
+       :title="slideButtons.next ? slideButtons.next.tooltip : slideButtons.prev.tooltip">
         <span
-            :class="slideButtonType.buttonType === 'next' ? slideButtonType.iconClass : slideButtonType.iconClass"></span>
+            :class="slideButtons.next ? slideButtons.next.iconClass : slideButtons.prev.iconClass"></span>
     </a>
 </template>
 
@@ -15,9 +15,20 @@ export default {
         /**
          * set slide-button to "next" (= right), else it will be displayed as previous (=left) button
          */
-        slideButtonType: {
+        slideButtons: {
             type: Object,
-            required: true
+            default: function() {
+                return {
+                    prev: {
+                        iconClass: "icon-single-arrow-left",
+                        tooltip: "Previous"
+                    },
+                    next: {
+                        iconClass: "icon-single-arrow-right",
+                        tooltip: "Next"
+                    }
+                }
+            }
         }
     }
 }

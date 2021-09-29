@@ -1,11 +1,11 @@
 <template>
     <div class="cmd-width-limitation-wrapper" :class="{'sticky': sticky}">
-        <component :is="innerComponent" :class="setInnerClass" v-if="innerWrapper">
-            <a :id="anchorId" v-if="anchorId"></a>
+        <component v-if="innerWrapper" :is="innerComponent" :class="setInnerClass">
+            <a v-if="anchorId" :id="anchorId"></a>
             <slot></slot>
         </component>
         <template v-else>
-            <a :id="anchorId" v-if="anchorId"></a>
+            <a v-if="anchorId" :id="anchorId"></a>
             <slot></slot>
         </template>
     </div>
@@ -15,6 +15,9 @@
 export default {
     name: "CmdWidthLimitationWrapper",
     props: {
+        /**
+         * set a html-tag as inner tag
+         */
         innerComponent: {
             type: String,
             default: "section",
@@ -22,18 +25,38 @@ export default {
                 return value;
             }
         },
+        /**
+         * activate if the inner content should be wrapped in inner component tag
+         *
+         * (if deactivated, content will be directly placed inside cmd-width-limitation-wrapper)
+         */
         innerWrapper: {
             type: Boolean,
             default: true
         },
+        /**
+         * activate if wrapper (and its content) should be sticky (=postion remains the same if content below is scrolled)
+         *
+         * i.e. use for site-header
+         *
+         * keep attention that more than one sticky-element on same html-level can cause problems, if content below is scrolled
+         */
         sticky: {
             type: Boolean,
             default: false
         },
+        /**
+         * set class to inner component
+         *
+         * innerWrapper-property must be true
+         */
         innerClass: {
             type: String,
             required: false
         },
+        /**
+         * set id for (invisible) anchor to enable shortcuts
+         */
         anchorId: {
             type: String,
             required: false

@@ -1,5 +1,5 @@
 <template>
-    <label :class="['toggle-switch',
+    <label :class="['cmd-switch-button', 'toggle-switch',
                     {'switch-label': onLabel && offLabel && !labelText,
                     'colored' : colored, 'on' : colored && isChecked,
                     'off' : colored && !isChecked, 'disabled': $attrs.disabled
@@ -19,38 +19,78 @@ export default {
     name: "SwitchButton",
     emits: ["update:value"],
     props: {
+        /**
+         * set type for input
+         *
+         * values: checkbox, radio
+         */
         type: {
             type: String,
             required: true
         },
+        /**
+         * set id for input
+         *
+         * required for accessibility
+         *
+         */
         id: {
             type: String,
             required: true
         },
+        /**
+         * set name for input
+         *
+         * require for radio-buttons (and form-submit by browser)
+         */
         name: {
             type: String,
             required: false
         },
+        /**
+         * value for v-model
+         */
         value: {
             type: [String, Array, Boolean],
             required: false
         },
+        /**
+         * set value to pre-check toggle-switch
+         */
         inputValue: {
             type: String,
             required: false
         },
+        /**
+         * text for label
+         *
+         * required if onLabel/offLabel are not set
+         */
         labelText: {
             type: String,
             required: false
         },
+        /**
+         * text for on-label
+         *
+         * set to activate switch-label (=label is placed on toggle-switch (not behind))
+         */
         onLabel: {
             type: String,
             required: false
         },
+        /**
+         * text for off-label
+         *
+         * set to activate switch-label (=label is placed on toggle-switch (not behind))
+         */
         offLabel: {
             type: String,
             required: false
         },
+        /**
+         * set to true, if checkbox/radio-buttons should have green/checked and red/unchecked color-coding
+         */
         colored: {
             type: Boolean,
             required: false
@@ -88,6 +128,8 @@ export default {
 </script>
 
 <style lang="scss">
+/* begin cmd-switch-button ------------------------------------------------------------------------------------------ */
+/* no cmd-prefix-styling (class based on frontend-framework */
 .toggle-switch {
     &.switch-label {
         &.colored {
@@ -123,4 +165,5 @@ export default {
         }
     }
 }
+/* end cmd-switch-button ------------------------------------------------------------------------------------------ */
 </style>
