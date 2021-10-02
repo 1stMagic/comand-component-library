@@ -142,23 +142,26 @@ export default {
         return {
             showOptions: false,
             optionName: this.defaultOptionName,
-            miscInfo: "",
-            flagPath: ""
+            miscInfo: ""
         }
     },
-    created() {
-        if (this.selectData) {
-            for (let i = 0; i < this.selectData.length; i++) {
-                let currentEntry = this.selectData[i]
-                if (this.type === 'country' && this.value === currentEntry.isoCode) {
-                    this.optionName = currentEntry.countryName
-                    this.miscInfo = currentEntry.isoCode
-                    this.flagPath = currentEntry.flagPath
-                } else if (this.type === 'color' && this.value === currentEntry.hexCode) {
-                    this.optionName = currentEntry.colorName
-                    this.miscInfo = currentEntry.hexCode
+    watch: {
+        value: {
+            handler() {
+                if (this.selectData) {
+                    for (let i = 0; i < this.selectData.length; i++) {
+                        let currentEntry = this.selectData[i]
+                        if (this.type === 'country' && this.value === currentEntry.isoCode) {
+                            this.optionName = currentEntry.countryName
+                            this.miscInfo = currentEntry.isoCode
+                        } else if (this.type === 'color' && this.value === currentEntry.hexCode) {
+                            this.optionName = currentEntry.colorName
+                            this.miscInfo = currentEntry.hexCode
+                        }
+                    }
                 }
-            }
+            },
+            immediate: true
         }
     }
 }

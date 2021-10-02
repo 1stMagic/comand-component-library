@@ -17,28 +17,30 @@
         <table :class="{'full-width': fullWidth}">
             <caption :class="{hidden: tableData.caption.hide}">{{ tableData.caption.text }}</caption>
             <thead>
-                <tr>
-                    <th v-for="(tablehead, indexHead) in tableData.thead" :key="indexHead">
-                        {{ tablehead }}
-                    </th>
-                </tr>
+            <tr>
+                <th v-for="(tablehead, indexHead) in tableData.thead" :key="indexHead">
+                    {{ tablehead }}
+                </th>
+            </tr>
             </thead>
-            <transition-group name="fade">
-                    <tbody v-show="showTableData" aria-expanded="true">
-                        <tr :class="{'highlighted' : tableData.rowIndexHighlighted === indexRows}" v-for="(tablerows, indexRows) in tableData.tbody" :key="indexRows">
-                            <td :class="{'highlighted' : tableData.columnIndexHighlighted === indexData}" v-for="(tabledata, indexData) in tablerows" :key="indexData">
-                                {{ tabledata }}
-                            </td>
-                        </tr>
-                    </tbody>
-                    <tfoot v-if="tableData.tfoot && tableData.tfoot.length">
-                        <tr>
-                            <td :class="{'highlighted' : tableData.columnIndexHighlighted === indexFoot}" v-for="(tablefoot, indexFoot) in tableData.tfoot" :key="indexFoot">
-                                {{ tablefoot }}
-                            </td>
-                        </tr>
-                    </tfoot>
-            </transition-group>
+            <transition name="fade">
+                <tbody v-show="showTableData" aria-expanded="true">
+                    <tr :class="{'highlighted' : tableData.rowIndexHighlighted === indexRows}" v-for="(tablerows, indexRows) in tableData.tbody" :key="indexRows">
+                        <td :class="{'highlighted' : tableData.columnIndexHighlighted === indexData}" v-for="(tabledata, indexData) in tablerows" :key="indexData">
+                            {{ tabledata }}
+                        </td>
+                    </tr>
+                </tbody>
+            </transition>
+            <transition name="fade">
+                <tfoot v-if="tableData.tfoot && tableData.tfoot.length && showTableData" aria-expanded="true">
+                    <tr>
+                        <td :class="{'highlighted' : tableData.columnIndexHighlighted === indexFoot}" v-for="(tablefoot, indexFoot) in tableData.tfoot" :key="indexFoot">
+                            {{ tablefoot }}
+                        </td>
+                    </tr>
+                </tfoot>
+            </transition>
         </table>
     </div>
 </template>

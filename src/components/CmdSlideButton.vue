@@ -1,10 +1,9 @@
 <template>
     <a href="#"
        @click.prevent
-       :class="['cmd-slide-button', 'button', slideButtons.next ? 'next' : 'previous']"
-       :title="slideButtons.next ? slideButtons.next.tooltip : slideButtons.prev.tooltip">
-        <span
-            :class="slideButtons.next ? slideButtons.next.iconClass : slideButtons.prev.iconClass"></span>
+       :class="['cmd-slide-button', 'button', slideButtonType]"
+       :title="getDirection.tooltip">
+        <span :class="getDirection.iconClass || 'next'"></span>
     </a>
 </template>
 
@@ -13,7 +12,16 @@ export default {
     name: "CmdSlideButton",
     props: {
         /**
-         * set slide-button to "next" (= right), else it will be displayed as previous (=left) button
+         * set slide-button-type
+         *
+         * possible default-values: next, previous, up, down
+         */
+        slideButtonType: {
+          type: String,
+          default: "next"
+        },
+        /**
+         * default slide-buttons
          */
         slideButtons: {
             type: Object,
@@ -26,9 +34,26 @@ export default {
                     next: {
                         iconClass: "icon-single-arrow-right",
                         tooltip: "Next"
+                    },
+                    up: {
+                        iconClass: "icon-single-arrow-up",
+                        tooltip: "Previous"
+                    },
+                    down: {
+                        iconClass: "icon-single-arrow-down",
+                        tooltip: "Next"
                     }
                 }
             }
+        }
+    },
+    computed: {
+        getDirection() {
+            if(this.slideButtons[this.slideButtonType]) {
+                return this.slideButtons[this.slideButtonType]
+            }
+            console.log("Property 'slideButtonType' does not match slideButtons-key")
+            return {}
         }
     }
 }
@@ -72,6 +97,18 @@ export default {
         &.next {
             right: 0;
             top: 0;
+        }
+
+        &.up, &.down {
+            width: 100%;
+            height: auto;
+            left: 0;
+            top: 0;
+        }
+
+        &.down {
+            bottom: 0;
+            top: auto;
         }
     }
 }

@@ -717,7 +717,7 @@
       <h3>Tabs with content from json-file</h3>
       <CmdTabs :stretchTabs="false" :tabs="tabsData"/>
       <h3>Tabs with HTML-content from used component</h3>
-      <CmdTabs :stretchTabs="true" :tabs="[{name: 'Tab 1'}, {name: 'Tab 2'}, {name: 'Tab 3'}]" :useComponent="true">
+      <CmdTabs :stretchTabs="true" :tabs="[{name: 'Tab 1'}, {name: 'Tab 2'}, {name: 'Tab 3'}]" :useSlot="true">
         <template v-slot:tab-content-0>
           <h3>Tab 1</h3>
           <p>Content</p>
