@@ -2,12 +2,13 @@
     <ul class="cmd-form-filters">
         <li v-if="options.length > 1">
             <a href="#" @click.prevent="deleteAllFilters">
-                <span :class="iconClassDeleteAllFilters"></span><span>{{ labelDeleteAllFilters }}</span>
+                <span v-if="linkDeleteAllFilters.icon && linkDeleteAllFilters.icon.show" :class="linkDeleteAllFilters.icon.iconClass" :title="linkDeleteAllFilters.icon.tooltip"></span>
+                <span v-if="linkDeleteAllFilters.text">{{ linkDeleteAllFilters.text }}</span>
             </a>
         </li>
         <li v-for="(option, index) in options" :key="index">
             <a href="#" @click.prevent="deleteClickedFilter(index)">
-                <span :class="iconClassDeleteFilter"></span>
+                <span :class="deleteFilter.iconClass"></span>
                 <span>{{ selectedOptionsName(option) }}</span>
             </a>
         </li>
@@ -23,22 +24,46 @@ export default {
         }
     },
     props: {
+        /**
+         * list of all selected options
+         */
         selectedOptions: {
             type: Array,
             required: true
         },
-        labelDeleteAllFilters: {
-            type: String,
-            required: true
+        /**
+         * delete-all-filters-link
+         */
+        linkDeleteAllFilters: {
+            type: Object,
+            default() {
+                return {
+                    text: "Delete all filters",
+                    icon: {
+                        show: true,
+                        iconClass: "icon-cancel",
+                        tooltip: ""
+                    }
+                }
+            }
         },
-        iconClassDeleteAllFilters: {
-            type: String,
-            required: true
+        /**
+         * icon for delete (a single) filter)
+         */
+        deleteFilter: {
+            type: Object,
+            default() {
+                return {
+                    icon: {
+                        iconClass: "icon-cancel",
+                        tooltip: "Delete this filter"
+                    }
+                }
+            }
         },
-        iconClassDeleteFilter: {
-            type: String,
-            required: true
-        },
+        /**
+         * name for selected options
+         */
         selectedOptionsName: {
             type: Function,
             required: true

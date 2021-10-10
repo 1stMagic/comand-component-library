@@ -1,7 +1,7 @@
 <template>
     <a href="#"
        @click.prevent
-       :class="['cmd-slide-button', 'button', slideButtonType]"
+       :class="['cmd-slide-button', 'button', slideButtonType ? slideButtonType : 'next']"
        :title="getDirection.tooltip">
         <span :class="getDirection.iconClass || 'next'"></span>
     </a>
@@ -14,7 +14,7 @@ export default {
         /**
          * set slide-button-type
          *
-         * possible default-values: next, previous, up, down
+         * possible default-values: next, prev, up, down
          */
         slideButtonType: {
           type: String,
@@ -89,7 +89,7 @@ export default {
             }
         }
 
-        &.previous {
+        &.prev {
             left: 0;
             top: 0;
         }

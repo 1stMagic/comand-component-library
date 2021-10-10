@@ -25,16 +25,17 @@
           <li><a href="#section-google-maps-integration">Google-Maps&trade;-Integration</a></li>
           <li><a href="#section-image-gallery">Image Gallery</a></li>
           <li><a href="#section-image-zoom">Image-Zoom</a></li>
-          <li><a href="#section-main-navigation">Main-Navigation</a></li>
+          <li><a href="#section-login-form">Login Form</a></li>
         </ul>
         <ul>
+          <li><a href="#section-main-navigation">Main-Navigation</a></li>
           <li><a href="#section-multistep-form-progress-bar">Multistepform-Progressbar</a></li>
           <li><a href="#section-pager">Pager</a></li>
           <li><a href="#section-share-buttons">Share Buttons</a></li>
           <li><a href="#section-slideshow">Slideshow</a></li>
-          <li><a href="#section-system-message">System-Message</a></li>
         </ul>
         <ul>
+          <li><a href="#section-system-message">System-Message</a></li>
           <li><a href="#section-tables">Tables</a></li>
           <li><a href="#section-tabs">Tabs</a></li>
           <li><a href="#section-thumbnail-scroller">Thumbnail-Scroller</a></li>
@@ -224,6 +225,7 @@
                       onLabel="Label on"
                       offLabel="Label off"
                       inputValue="checkbox1"
+                      @update:value="switchButtonChange"
                       :disabled="formElementStatus === 'disabled'"
                       v-model:value="switchButtonCheckbox"/>
                   <CmdSwitchButton
@@ -338,21 +340,19 @@
 
           <CmdFormElement element="input"
                           labelText="Label (inline) for inputfield (number):"
-                          :displayinline="true"
+                          :displayLabelInline="true"
                           type="number"
                           id="inputfield4"
-                          autofocus="autofocus"
                           :status="formElementStatus"/>
           <CmdFormElement element="input"
                           labelText="Label (inline) for inputfield (date):"
-                          :displayinline="true"
+                          :displayLabelInline="true"
                           type="date"
                           id="inputfield5"
-                          autofocus="autofocus"
                           :status="formElementStatus"/>
           <CmdFormElement element="input"
                           labelText="Label (inline) for inputfield (search):"
-                          :displayinline="true"
+                          :displayLabelInline="true"
                           type="search"
                           id="inputfield6"
                           placeholder="Keyword(s)"
@@ -623,14 +623,20 @@
 
     <a id="section-image-zoom"></a>
     <CmdWidthLimitationWrapper>
-      <a id="anchor-image-zoom"></a>
       <h2 class="headline-demopage">Image-Zoom</h2>
       <CmdImageZoom small-image-url="media/images/content-images/logo-business-edition-landscape.jpg"
                     large-image-url="media/images/content-images/logo-business-edition-landscape-large.jpg"/>
     </CmdWidthLimitationWrapper>
 
+    <a id="section-login-form"></a>
+    <CmdWidthLimitationWrapper>
+      <h2 class="headline-demopage">Login Form</h2>
+      <CmdLoginForm />
+    </CmdWidthLimitationWrapper>
+
     <a id="section-main-headline"></a>
-    <CmdWidthLimitationWrapper :inner-wrapper="false">
+    <CmdWidthLimitationWrapper>
+      <h2 class="headline-demopage">Main Headline</h2>
       <CmdMainHeadline icon-class="icon-home" pre-headline="Pre-headline" main-headline="Main headline"/>
     </CmdWidthLimitationWrapper>
 
@@ -825,6 +831,7 @@ import CmdFormFilters from "@/components/CmdFormFilters.vue"
 import CmdGoogleMaps from "./components/CmdGoogleMaps"
 import CmdImageGallery from "@/components/CmdImageGallery.vue"
 import CmdImageZoom from "@/components/CmdImageZoom.vue"
+import CmdLoginForm from "@/components/CmdLoginForm.vue"
 import CmdMainHeadline from "@/components/CmdMainHeadline.vue"
 import CmdMainNavigation from "@/components/CmdMainNavigation.vue"
 import CmdMultipleSwitch from "@/components/CmdMultipleSwitch.vue"
@@ -866,6 +873,7 @@ export default {
     CmdGoogleMaps,
     CmdImageGallery,
     CmdImageZoom,
+    CmdLoginForm,
     CmdMainHeadline,
     CmdMainNavigation,
     CmdMultistepFormProgressBar,
@@ -992,6 +1000,9 @@ export default {
             this.$refs.accordionGroup1.openAll()
         }
         this.accordionGroupOpen = !this.accordionGroupOpen
+    },
+    switchButtonChange() {
+        alert("Changed")
     }
   }
 }

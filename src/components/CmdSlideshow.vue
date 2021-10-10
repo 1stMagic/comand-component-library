@@ -1,7 +1,7 @@
 <template>
     <div class="cmd-slideshow" :class="{'full-width': fullWidth}">
         <div class="inner-slideshow-wrapper" @mouseenter="pause = true" @mouseleave="pause = false">
-            <CmdSlideButton @click.prevent="showPrevItem" :slideButtons="slideButtons.prev"/>
+            <CmdSlideButton @click.prevent="showPrevItem" slideButtonType="prev" />
             <transition name="fade">
                 <a v-if="currentItem.href" :href="currentItem.href" :key="index" :title="currentItem.title">
                     <figure v-if="currentItem && !useSlot" class="slideshow-item">
@@ -22,7 +22,7 @@
                     <slot :name="'item' + currentSlotItem"></slot>
                 </div>
             </transition>
-            <CmdSlideButton @click.prevent="showNextItem" :slideButtons="slideButtons.next"/>
+            <CmdSlideButton @click.prevent="showNextItem" />
             <ol v-if="showQuickLinkIcons">
                 <li v-for="(item, i) in slideshowItems" :key="i" :class="{active: i === index }">
                     <a href="#" @click.prevent="index = i" :aria-label="index"></a>

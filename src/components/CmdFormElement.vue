@@ -114,7 +114,7 @@
 </template>
 
 <script>
-import CmdTooltip from "./CmdTooltip";
+import CmdTooltip from "./CmdTooltip"
 
 export default {
     inheritAttrs: false,

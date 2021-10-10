@@ -33,12 +33,12 @@
           <div v-else-if="fancyBoxContent" class="content" v-html="fancyBoxContent"></div>
           <div v-else-if="fancyBoxElements" class="content"></div>
           <div v-else-if="fancyBoxGallery" class="content">
-            <CmdSlideButton @click.prevent="showPrevItem" :slideButtonType="slideButtons.previous"/>
+            <CmdSlideButton @click.prevent="showPrevItem" slideButtonType="prev" />
             <figure>
               <img :src="fancyBoxGallery[index].srcImageLarge" :alt="fancyBoxGallery[index].alt"/>
               <figcaption>{{ fancyBoxGallery[index].figcaption }}</figcaption>
             </figure>
-            <CmdSlideButton @click.prevent="showNextItem" :slideButtonType="slideButtons.next"/>
+            <CmdSlideButton @click.prevent="showNextItem" />
           </div>
           <div v-else class="content">
             <slot></slot>

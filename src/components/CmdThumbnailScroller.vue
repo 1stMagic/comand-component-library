@@ -1,6 +1,6 @@
 <template>
     <div :class="['cmd-thumbnail-scroller', {'gallery-scroller' : !allowOpenFancyBox}]">
-        <CmdSlideButton @click.prevent="showPrevItem" :slideButtons="cmdSlideButtons.prev"/>
+        <CmdSlideButton @click.prevent="showPrevItem" slideButtonType="prev" />
         <transition-group name="slide" tag="ul">
             <li v-for="(image, index) in thumbnails" :key="image.imgId" :class="{'active' : imgIndex === index}">
                 <a href="#" @click.prevent="showFancyBox(index)">

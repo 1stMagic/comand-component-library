@@ -16,7 +16,7 @@
 <script>
 export default {
     inheritAttrs: false,
-    name: "SwitchButton",
+    name: "CmdSwitchButton",
     emits: ["update:value"],
     props: {
         /**
