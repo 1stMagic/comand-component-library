@@ -1,10 +1,4 @@
 {
-  "caption": {
-    "hide": false,
-    "text": "This is a caption for a small table"
-  },
-  "rowIndexHighlighted": 3,
-  "columnIndexHighlighted": 4,
   "thead": [
     "Table head 1",
     "Table head 2",

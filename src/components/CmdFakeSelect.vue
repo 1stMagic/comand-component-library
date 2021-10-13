@@ -1,5 +1,5 @@
 <template>
-    <div :class="[status, 'cmd-select label']">
+    <div :class="[status, 'cmd-fake-select label']">
         <span>{{ labelText }}</span>
         <ul :class="{'open': showOptions}" @clickout="closeOptions">
             <li>
@@ -168,14 +168,16 @@ export default {
 </script>
 
 <style lang="scss">
-/* begin cmd-fakeselect ------------------------------------------------------------------------------------------ */
+/* begin cmd-fake-select ------------------------------------------------------------------------------------------ */
 @mixin disabled-styles {
     color: var(--disabled-color);
     border-color: var(--disabled-color);
     background: var(--disabled-background-color);
 }
 
-.cmd-select {
+.cmd-fake-select {
+    height: 4rem;
+
     > ul {
         margin: 0;
         display: block;
@@ -334,5 +336,5 @@ export default {
     }
 }
 
-/* end cmd-fakeselect ------------------------------------------------------------------------------------------ */
+/* end cmd-fake-select ------------------------------------------------------------------------------------------ */
 </style>
