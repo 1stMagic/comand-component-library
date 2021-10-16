@@ -5,6 +5,7 @@
             "city": "Grevenbroich"
       },
       "telephone": "+1 (0)1234/56789",
+      "mobilephone": "+1 555-12345",
       "fax": "+1 (0)1234/567810",
       "email": "youremail@provider.com"
 }

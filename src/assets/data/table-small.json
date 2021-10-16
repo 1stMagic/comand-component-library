@@ -1,4 +1,8 @@
 {
+  "caption": {
+    "hide": false,
+    "text": "This is a caption for a small table"
+  },
   "thead": [
     "Table head 1",
     "Table head 2",

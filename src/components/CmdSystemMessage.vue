@@ -33,7 +33,7 @@ export default {
         /**
          * status of message
          *
-         * values: error (red), warning (yellow), success (grenn), info (blue)
+         * values: error (red), warning (yellow), success (green), info (blue)
          */
         status: {
             type: String,

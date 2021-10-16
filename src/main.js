@@ -8,6 +8,9 @@ import App from './App.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import "clickout-event"
 
+/* import directive to format telephone- and fax-number */
+import directiveTelephone from "./directives/telephone"
+
 /* import additional iconfont containing company-logos */
 import '@/assets/styles/logos-iconfont.css'
 
@@ -34,4 +37,4 @@ const router = createRouter({
   ]
 })
 
-createApp(App).use(router).mount('#app')
+createApp(App).use(router).directive('telephone', directiveTelephone).mount('#app')

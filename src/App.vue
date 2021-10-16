@@ -225,7 +225,6 @@
                       onLabel="Label on"
                       offLabel="Label off"
                       inputValue="checkbox1"
-                      @update:value="switchButtonChange"
                       :disabled="formElementStatus === 'disabled'"
                       v-model:value="switchButtonCheckbox"/>
                   <CmdSwitchButton
@@ -240,13 +239,14 @@
                       v-model:value="switchButtonCheckbox"/>
                     <CmdSwitchButton
                         type="checkbox"
-                        id="checkbox30"
-                        name="checkbox30"
-                        inputValue="checkbox30"
+                        id="checkbox3"
+                        name="checkbox3"
+                        inputValue="checkbox3"
                         labelText="Labeltext"
                         :disabled="formElementStatus === 'disabled'"
                         v-model:value="switchButtonCheckbox"/>
                 </span>
+              <span>Current value: {{switchButtonCheckbox}}</span>
           </div>
           <!-- end toggle-switch-radio with switch-label -->
 
@@ -255,25 +255,16 @@
             <span class="flex-container no-flex">
                   <CmdSwitchButton
                       type="checkbox"
-                      id="checkbox3"
-                      name="checkbox3"
-                      onLabel="Label on"
-                      offLabel="Label off"
-                      :colored="true"
-                      inputValue="checkbox3"
-                      :disabled="formElementStatus === 'disabled'"
-                      v-model:value="switchButtonCheckbox"/>
-                  <CmdSwitchButton
-                      type="checkbox"
                       id="checkbox4"
                       name="checkbox4"
                       onLabel="Label on"
                       offLabel="Label off"
                       :colored="true"
-                      inputValue="checkbox4"
+                      inputValue="checkbox3"
                       :disabled="formElementStatus === 'disabled'"
-                      v-model:value="switchButtonCheckbox"/>
+                      v-model:value="switchButtonCheckboxColored"/>
                 </span>
+                <span>Current value: {{switchButtonCheckboxColored}}</span>
           </div>
           <!-- end toggle-switch-radio with switch-label -->
 
@@ -311,7 +302,6 @@
                           labelText="Label for inputfield (with tooltip):"
                           type="text"
                           id="inputfield1"
-                          autofocus="autofocus"
                           placeholder="This is placeholder text"
                           v-model:value="inputField1"
                           tooltipText="This is a tooltip!"
@@ -907,6 +897,7 @@ export default {
       formElementStatus: "",
       switchButtonRadio: "radio1",
       switchButtonCheckbox: ["checkbox1"],
+      switchButtonCheckboxColored: false,
       inputField1: "",
       checkboxStatus: true,
       replacedCheckboxStatus1: false,

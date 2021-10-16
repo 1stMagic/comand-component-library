@@ -176,9 +176,8 @@ export default {
 }
 
 .cmd-fake-select {
-    height: 4rem;
-
     > ul {
+        height: var(--input-height);
         margin: 0;
         display: block;
         min-width: 0;

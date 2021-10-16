@@ -26,8 +26,13 @@
                     </template>
                 </dd>
                 <dt v-if="addressData.telephone">Telephone:</dt>
-                <dd v-if="addressData.telephone"><a :href="'tel:' + addressData.telephone" title="Call number"
-                                                    class="tel">{{ addressData.telephone }}</a></dd>
+                <dd v-if="addressData.telephone">
+                    <a :href="'tel:' + addressData.telephone" title="Call number" class="tel" v-telephone="addressData.telephone">{{ addressData.telephone }}</a>
+                </dd>
+                <dt v-if="addressData.mobilephone">Mobile phone:</dt>
+                <dd v-if="addressData.mobilephone">
+                    <a :href="'tel:' + addressData.mobilephone" title="Call number" class="tel" v-telephone="addressData.mobilephone">{{ addressData.mobilephone }}</a>
+                </dd>
                 <dt v-if="addressData.fax">Fax:</dt>
                 <dd v-if="addressData.fax" class="fax">{{ addressData.fax }}</dd>
                 <dt v-if="addressData.email">E-Mail:</dt>

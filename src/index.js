@@ -36,3 +36,5 @@ export { default as CmdThumbnailScroller } from '@/components/CmdThumbnailScroll
 export { default as CmdTooltip } from '@/components/CmdTooltip'
 export { default as CmdTopHeaderNavigation } from '@/components/CmdTopHeaderNavigation'
 export { default as CmdWidthLimitationWrapper } from '@/components/CmdWidthLimitationWrapper'
+
+export { default as DirTelephone } from '@/directives/telephone'

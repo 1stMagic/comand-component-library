@@ -104,7 +104,10 @@ export default {
             if (typeof this.value === 'string') {
                 return this.value === this.inputValue
             }
-            return this.value.includes(this.inputValue)
+            if(this.value !== undefined) {
+                return this.value.includes(this.inputValue)
+            }
+            return false
         }
     },
     methods: {
