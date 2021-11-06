@@ -78,7 +78,7 @@
                 v-if="buttons.login.linkType === 'button'"
                 :type="buttons.login.type === 'submit' ? 'submit' : 'button'"
                 :class="['button', { primary: buttons.login.primary }]"
-                @click.prevent="onClick"
+                @click="onClick"
             >
                   <span
                       v-if="buttons.login.icon.iconClass"
@@ -140,12 +140,11 @@
                 v-if="buttons.sendLogin.linkType === 'button'"
                 :type="buttons.sendLogin.type === 'submit' ? 'submit' : 'button'"
                 :class="['button', { primary: buttons.sendLogin.primary }]"
-                @click.prevent="sendLogin"
             >
                   <span
-                      v-if="buttons.sendLogin.icon.iconClass"
-                      :class="buttons.sendLogin.icon.iconClass"
-                      :title="buttons.sendLogin.icon.tooltip"
+                      v-if="buttons.sendLogin.icon?.iconClass"
+                      :class="buttons.sendLogin.icon?.iconClass"
+                      :title="buttons.sendLogin.icon?.tooltip"
                   ></span>
                 <span v-if="buttons.sendLogin.text">{{ buttons.sendLogin.text }}</span>
             </button>
@@ -174,6 +173,18 @@ export default {
         CmdFormElement
     },
     props: {
+        /**
+         * value for v-model (modelValue is default name in vue 3)
+         */
+        modelValue: {
+            type: Object,
+            default() {
+                return {
+                    username: "",
+                    password: ""
+                }
+            }
+        },
         /**
          * legend for login-fieldset (required for accessibility)
          */
@@ -332,11 +343,22 @@ export default {
         }
     },
     methods: {
-        onClick() {
-            this.$emit("click")
+        modelChange() {
+            this.$emit("update:modelValue", { "username": this.username, "password": this.password })
+        },
+        onClick(event) {
+            this.$emit("click", event)
         },
         getRoute(language) {
             return getRoute(language)
+        }
+    },
+    watch: {
+        username() {
+          this.modelChange()
+        },
+        password() {
+          this.modelChange()
         }
     }
 }

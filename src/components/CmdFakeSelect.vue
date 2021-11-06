@@ -4,42 +4,56 @@
         <ul :class="{'open': showOptions}" @clickout="closeOptions">
             <li>
                 <a href="#" @click.prevent="toggleOptions">
-                    <img v-if="type === 'country' && miscInfo" :src="pathFlag(miscInfo)" :alt="miscInfo" class="flag" :class="miscInfo"/>
-                    <span v-else-if="type === 'color' && miscInfo" class="color"
-                          :style="'background: ' + miscInfo"></span>
+                    <img v-if="type === 'country'" :src="pathFlag(optionCountry)" :alt="optionCountry" class="flag" :class="optionCountry"/>
+                    <span v-else-if="type === 'color'" class="color"
+                          :style="'background: ' + optionColor"></span>
+                    <span v-if="optionIcon" :class="optionIcon"></span>
                     <span>{{ optionName }}</span>
                     <span :class="dropdownIconClass"></span>
                 </a>
-                <ul v-if="type === 'filterList' && showOptions" class="filter-list">
+
+                <!-- begin default dropdown (incl. optional icon) -->
+                <ul v-if="type === 'default' && showOptions">
                     <li v-for="(option, index) in selectData" :key="index">
-                        <label :for="'option-' + (index + 1)">
-                            <input type="checkbox" :value="option.optionValue" @change="optionSelect"
-                                   :checked="value.includes(`${option.optionValue}`)" :id="'option-' + (index + 1)"/>
-                            <span>{{ option.optionName }}</span>
-                        </label>
-                    </li>
-                </ul>
-                <ul v-else-if="type === 'country' && showOptions">
-                    <li v-for="(country, index) in selectData" :key="index">
-                        <a href="#"
-                           @click.prevent="selectOption(country.countryName, country.isoCode)">
-                            <img class="flag" :src="pathFlag(country.isoCode)"
-                                 :alt="country.countryName"/><span>{{ country.countryName }}</span>
+                        <a href="#" @click.prevent="selectOption(option.value)" :class="{'active' : option.value === value}">
+                            <span v-if="option.icon?.iconClass" :class="option.icon.iconClass"></span>
+                            <span>{{ option.text }}</span>
                         </a>
                     </li>
                 </ul>
-                <ul v-else-if="type === 'color' && showOptions">
-                    <li v-for="(color, index) in selectData" :key="index">
-                        <a href="#" @click.prevent="selectOption(color.colorName, color.hexCode)">
-                            <span class="color" :style="'background: ' + color.hexCode"></span><span>{{
-                                color.colorName
+                <!-- end default dropdown (incl. optional icon) -->
+
+                <!-- begin dropdown with checkboxes -->
+                <ul v-else-if="type !== 'default' && type !== 'content' && showOptions" class="checkbox-options">
+                    <li v-for="(option, index) in selectData" :key="index">
+                        <label v-if="type === 'checkboxOptions'" :for="'option-' + (index + 1)" :class="{'active' : value.includes(`${option.value}`)}">
+                            <input type="checkbox" :value="option.value" @change="optionSelect"
+                                   :checked="value.includes(`${option.value}`)" :id="'option-' + (index + 1)"/>
+                            <span>{{ option.text }}</span>
+                        </label>
+
+                        <a v-else-if="type === 'country'" href="#"
+                           @click.prevent="selectOption(option.value)" :class="{'active' : option.value === value}">
+                            <img class="flag" :src="pathFlag(option.value)"
+                                 :alt="option.text"/>
+                            <span>{{ option.text }}</span>
+                        </a>
+
+                        <a v-else href="#" @click.prevent="selectOption(option.value)" :class="{'active' : option.value === value}">
+                            <span class="color" :style="'background: ' + option.value"></span>
+                            <span>{{
+                                option.text
                             }}</span>
                         </a>
                     </li>
                 </ul>
-                <template v-else-if="!type && showOptions">
+                <!-- end dropdown with checkboxes -->
+
+                <!-- begin dropdown with slot -->
+                <template v-else-if="type === 'content' && showOptions">
                     <slot></slot>
                 </template>
+                <!-- end dropdown with slot -->
             </li>
         </ul>
     </div>
@@ -48,6 +62,11 @@
 <script>
 export default {
     name: 'CmdFakeSelect',
+    data() {
+        return {
+            showOptions: false
+        }
+    },
     props: {
         /**
          * set different default selectbox-types for
@@ -56,7 +75,7 @@ export default {
          */
         type: {
             type: String,
-            required: false
+            default: "default"
         },
         /**
          * set default value
@@ -110,6 +129,58 @@ export default {
             default: "/media/images/flags"
         }
     },
+    computed: {
+        // get the displayed option name
+        optionName() {
+            // fake a normal checkbox
+            if (this.type !== "checkboxOptions" && this.type !== "content" && this.value) {
+                const result = this.selectData.find(option => option.value === this.value)?.text
+
+                // if find() returns some data, return this data
+                if (result) {
+                    return result
+                }
+            }
+
+            // selectbox with checkbox-options
+            else if (this.type === "checkboxOptions") {
+                if (this.value.length === 1) {
+                    return this.selectData.find(option => option.value === this.value[0])?.text
+                } else if (this.value.length > 1) {
+                    return this.value.length + " options selected"
+                }
+            }
+
+            // if nothing is selected return the set default option name
+            if (this.defaultOptionName) {
+                return this.defaultOptionName
+            }
+
+            // if nothing is selected and no default option name is set, return default text (so selectbox is not empty)
+            return "Please select\u2026"
+        },
+        // get the displayed icon (only available for default selectbox)
+        optionIcon() {
+            if (this.type === "default") {
+                return this.selectData.find(option => {
+                    return option.value === this.value
+                })?.icon?.iconClass
+            }
+            return null
+        },
+        optionCountry() {
+            if (this.type === "country") {
+               return this.value
+            }
+            return null
+        },
+        optionColor() {
+            if (this.type === "color") {
+                return this.value
+            }
+            return null
+        }
+    },
     methods: {
         toggleOptions() {
             if (this.status !== 'disabled') {
@@ -125,43 +196,15 @@ export default {
             }
             this.$emit('update:value', value);
         },
-        selectOption(optionName, miscInfo) {
-            this.optionName = optionName
-            this.miscInfo = miscInfo
+        selectOption(optionValue) {
             this.showOptions = false
-            this.$emit('update:value', miscInfo);
+            this.$emit('update:value', optionValue);
         },
         closeOptions() {
             this.showOptions = false
         },
         pathFlag(isoCode) {
             return this.pathFlags + "/flag-" + isoCode + ".svg"
-        }
-    },
-    data() {
-        return {
-            showOptions: false,
-            optionName: this.defaultOptionName,
-            miscInfo: ""
-        }
-    },
-    watch: {
-        value: {
-            handler() {
-                if (this.selectData) {
-                    for (let i = 0; i < this.selectData.length; i++) {
-                        let currentEntry = this.selectData[i]
-                        if (this.type === 'country' && this.value === currentEntry.isoCode) {
-                            this.optionName = currentEntry.countryName
-                            this.miscInfo = currentEntry.isoCode
-                        } else if (this.type === 'color' && this.value === currentEntry.hexCode) {
-                            this.optionName = currentEntry.colorName
-                            this.miscInfo = currentEntry.hexCode
-                        }
-                    }
-                }
-            },
-            immediate: true
         }
     }
 }
@@ -193,7 +236,7 @@ export default {
                     height: inherit;
                     border: var(--default-border);
 
-                    [class*='icon-'] {
+                    > [class*='icon-']:last-child {
                         margin-left: auto;
                         font-size: 1rem;
                     }
@@ -245,6 +288,20 @@ export default {
                     margin: 0 calc(var(--default-margin) / 2) 0 0;
                 }
             }
+
+            &.active {
+                background: var(--light-gray);
+
+                &:hover, &:active, &:focus {
+                    background: var(--primary-color);
+                }
+            }
+        }
+
+        label {
+            &.active {
+                background: var(--light-gray);
+            }
         }
 
         ul {
@@ -268,7 +325,7 @@ export default {
                 }
             }
 
-            &.filter-list {
+            &.checkbox-options {
                 li {
                     padding: calc(var(--default-padding) / 2);
                 }

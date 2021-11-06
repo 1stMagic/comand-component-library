@@ -1,37 +1,30 @@
 [
   {
-    "isoCode": "cn",
-    "countryName": "China",
-    "flagPath": "/media/images/flags/flag-cn.svg"
+    "value": "cn",
+    "text": "China"
   },
   {
-    "isoCode": "de",
-    "countryName": "Germany",
-    "flagPath": "/media/images/flags/flag-de.svg"
+    "value": "de",
+    "text": "Germany"
   },
   {
-    "isoCode": "en",
-    "countryName": "United Kingdom",
-    "flagPath": "/media/images/flags/flag-en.svg"
+    "value": "en",
+    "text": "United Kingdom"
   },
   {
-    "isoCode": "es",
-    "countryName": "Spain",
-    "flagPath": "/media/images/flags/flag-es.svg"
+    "value": "es",
+    "text": "Spain"
   },
   {
-    "isoCode": "fr",
-    "countryName": "France",
-    "flagPath": "/media/images/flags/flag-fr.svg"
+    "value": "fr",
+    "text": "France"
   },
   {
-    "isoCode": "it",
-    "countryName": "Italy",
-    "flagPath": "/media/images/flags/flag-it.svg"
+    "value": "it",
+    "text": "Italy"
   },
   {
-    "isoCode": "ru",
-    "countryName": "Russia",
-    "flagPath": "/media/images/flags/flag-ru.svg"
+    "value": "ru",
+    "text": "Russia"
   }
 ]

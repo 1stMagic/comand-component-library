@@ -1,22 +1,22 @@
 [
   {
-    "hexCode": "#ffffff",
-    "colorName": "White"
+    "value": "#ffffff",
+    "text": "White"
   },
   {
-    "hexCode": "#ff0000",
-    "colorName": "Red"
+    "value": "#ff0000",
+    "text": "Red"
   },
   {
-    "hexCode": "#00ff00",
-    "colorName": "Green"
+    "value": "#00ff00",
+    "text": "Green"
   },
   {
-    "hexCode": "#0000ff",
-    "colorName": "Blue"
+    "value": "#0000ff",
+    "text": "Blue"
   },
   {
-    "hexCode": "#000000",
-    "colorName": "Black"
+    "value": "#000000",
+    "text": "Black"
   }
 ]
