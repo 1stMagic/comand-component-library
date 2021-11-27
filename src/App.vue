@@ -758,7 +758,12 @@
         <a id="section-upload-form"></a>
         <CmdWidthLimitationWrapper>
             <h2 class="headline-demopage">Upload-Form</h2>
-            <CmdUploadForm headline="Select files to upload" :enableDragAndDrop="true" :allowedFileTypes="['image/jpeg']"/>
+            <CmdUploadForm headline="Select files to upload"
+                           :enableDragAndDrop="true"
+                           :allowedFileExtensions="['jpg']"
+                           :allowMultipleFileUploads="true"
+                           :uploadOptions="{url: 'http://localhost:8888'}"
+            />
         </CmdWidthLimitationWrapper>
     </main>
 

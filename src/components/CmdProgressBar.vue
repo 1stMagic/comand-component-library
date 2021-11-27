@@ -13,7 +13,7 @@ export default {
     name: "CmdProgressBar",
     data() {
         return {
-            loadingStatus: 50
+            loadingStatus: 30
         }
     },
     props: {

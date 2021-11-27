@@ -1,166 +1,455 @@
 <template>
-    <fieldset ref="upload" class=" cmd-upload-form grid-container-create-columns">
-        <legend>Upload form</legend>
-        <h2 v-if="headline">{{ headline }}</h2>
-        <CmdFormElement
-            element="input"
-            type="file"
-            multiple="multiple"
-            labelText="Choose file(s) with file-explorer:"
-            @change="filesSelected"
-            v-show="enableFileSelect"
-        />
-        <template v-if="enableDragAndDrop">
-            <span v-show="enableFileSelect">or</span>
-            <a href="#" :class="['box', {'allow-drop': allowDrop}]" @dragenter="dragEnter" @dragover="dragOver"
-               @dragleave="dragLeave" @drop="drop($event)" @click.prevent="openFileDialog">
-                <span>Drag & drop file(s) here</span>
-            </a>
-        </template>
-        <hr/>
-        <h2>List of files to upload</h2>
-        <ul v-if="listOfFiles.length" class="list-of-files">
-            <li v-for="(uploadFile, index) in listOfFiles" :key="index">
-                <a href="#" class="icon-delete" title="Remove from list" @click.prevent="removeFile(index)"></a>
-                <span :class="[uploadFile.allowedType ? 'allowed' : 'not-allowed']">
-          <strong>{{ uploadFile.file.name }}</strong> ({{ uploadFile.file.type }}, {{
-                        formatSize(uploadFile.file.size)
-                    }}<template v-if="uploadFile.width && uploadFile.height">, {{
-                        uploadFile.width
-                    }} px x {{ uploadFile.height }} px</template>)
-          <span v-if="uploadFile.allowedType" class="icon-check allowed" title="File ready to upload!"></span>
-          <span v-else class="icon-cancel not-allowed"
-                title="File type not allowed (file will not be uploaded)!"></span>
-        </span>
-            </li>
-        </ul>
-        <CmdSystemMessage v-if="!listOfFiles.length" status="warning" :fullWidth="true"
-                          message="No files selected for upload!">
+    <fieldset :class="['my-sp-upload-form flex-container', { 'upload-initiated': uploadInitiated }]">
+        <h3 v-if="headline">{{ headline }}</h3>
+        <CmdSystemMessage
+            v-if="systemMessageStatus && allSystemMessages.length"
+            :closeIcon="{ show: false }"
+            :status="systemMessageStatus"
+            :systemMessage="
+        allSystemMessages.length === 1
+          ? allSystemMessages[0]
+          : getMessage('cmduploadform.system_message.the_following_errors_occurred')
+      "
+        >
+            <ul v-if="allSystemMessages.length > 1">
+                <li v-for="(systemMessage, index) in allSystemMessages" :key="index">
+                    {{ systemMessage }}
+                </li>
+            </ul>
         </CmdSystemMessage>
-        <CmdSystemMessage v-else :status="messageStatusUploadSize()" :fullWidth="true">
-            <p>Current upload size is {{ formatSize(uploadSize) }} (of max. {{ formatSize(maxUploadSize) }}).</p>
-        </CmdSystemMessage>
-        <CmdSystemMessage v-if="uploadSize > maxUploadSize" status="error" :fullWidth="true"
-                          message="Total file size to large!">
-        </CmdSystemMessage>
+        <div :class="['box', { 'allow-drop': allowDrop }]" v-on="dragAndDropHandler">
+            <template v-if="!listOfFiles.length">
+                <h4 v-if="allowMultipleFileUploads">
+                    {{ getMessage("cmduploadform.no_files_to_upload") }}
+                </h4>
+                <h4 v-else>
+                    {{ getMessage("cmduploadform.no_file_to_upload") }}
+                </h4>
+            </template>
+
+            <!-- begin total-upload information -->
+            <template v-else>
+                <template v-if="showTotalUpload && listOfFiles.length !== 1">
+                    <h4>{{ getMessage("cmduploadform.headline.summary_of_all_files") }}</h4>
+                    <ul v-if="showTotalUpload && listOfFiles.length !== 1" class="list-of-files">
+                        <li class="flex-container no-flex">
+                            <a
+                                href="#"
+                                :title="getMessage('cmduploadform.labeltext.remove_all_files_from_list')"
+                                @click.prevent="cancelUpload"
+                            >
+                                <span :class="deleteIconClass"></span>
+                            </a>
+                            <span>
+                                <strong>{{ listOfFiles.length }}
+                                  <template v-if="!allowMultipleFileUploads">
+                                    {{ getMessage("cmduploadform.labeltext.file_uploading") }}
+                                  </template>
+                                  <template v-else>
+                                    {{ getMessage("cmduploadform.labeltext.files_uploading") }}
+                                  </template>
+                                  <span
+                                      :class="[
+                                      'text-align-right',
+                                      { error: maxTotalUploadSize > 0 && totalSize > maxTotalUploadSize }
+                                    ]">({{ formatSize(totalSize) }})</span>
+                                </strong>
+                            </span>
+                            <span class="progressbar" v-if="uploadInitiated">
+                            <span>{{ getPercentage(totalUploadProgress) }}</span>
+                            <progress
+                                max="100"
+                                :value="totalUploadProgress"
+                                :title="totalBytesUploaded"
+                            ></progress>
+                          </span>
+                        </li>
+                    </ul>
+                    <hr/>
+                </template>
+                <!-- end total-upload information -->
+
+                <!-- begin list of selected files -->
+                <h4>{{ getMessage("cmduploadform.headline.list_of_selected_files") }}</h4>
+                <ul class="list-of-files">
+                    <li
+                        v-for="(uploadFile, index) in listOfFiles"
+                        :key="index"
+                        class="flex-container no-flex"
+                    >
+                        <a
+                            href="#"
+                            :title="getMessage('cmduploadform.labeltext.remove_file_from_list')"
+                            @click.prevent="removeFile(index)"
+                        ><span :class="deleteIconClass"></span>
+                        </a>
+                        <span
+                            :class="[
+                'text-align-right',
+                uploadFile.allowedType ? 'allowed' : 'not-allowed',
+                { error: uploadFile.error }
+              ]"
+                        >
+              {{ uploadFile.file.name }} ({{ formatSize(uploadFile.file.size) }})
+            </span>
+                        <template v-if="uploadInitiated && !uploadFile.error">
+                        <span class="progressbar">
+                            <span>{{ getPercentage(uploadFile.progress) }}</span>
+                              <!-- do not place inside progress-tag (will not be displayed then) -->
+                            <progress
+                                max="100"
+                                :value="uploadFile.progress"
+                                :title="
+                                formatSize(uploadFile.uploadedBytes) + '/' + formatSize(uploadFile.file.size)
+                              "
+                            ></progress>
+                          </span>
+                        </template>
+                    </li>
+                </ul>
+                <a
+                    v-if="failedUpload"
+                    href="#"
+                    @click.prevent="cancel"
+                    :title="getMessage('cmduploadform.all_files_will_be_removed')">
+                    {{ getMessage("cmduploadform.reset_upload") }}
+                </a>
+                <hr/>
+            </template>
+            <!-- end list of selected files -->
+
+            <!-- begin upload conditions -->
+            <h4 v-if="allowMultipleFileUploads && listOfFiles.length">
+                {{ getMessage("cmduploadform.headline.select_additional_files") }}
+            </h4>
+            <h4 v-if="!allowMultipleFileUploads && listOfFiles.length">
+                {{ getMessage("cmduploadform.headline.select_new_file") }}
+            </h4>
+            <dl class="small">
+                <template v-if="maxTotalUploadSize > 0">
+                    <dt :class="{ error: totalSize > maxTotalUploadSize }">
+                        {{ getMessage("cmduploadform.max_total_upload_size") }}
+                    </dt>
+                    <dd :class="['text-align-right', { error: totalSize > maxTotalUploadSize }]">
+                        {{ formatSize(this.maxTotalUploadSize) }}
+                    </dd>
+                </template>
+                <dt :class="{ error: errors.fileSize }">
+                    {{ getMessage("cmduploadform.max_file_upload_size") }}
+                </dt>
+                <dd :class="['text-align-right', { error: errors.fileSize }]">
+                    {{ formatSize(this.maxFileUploadSize) }}
+                </dd>
+                <dt :class="{ error: errors.fileType }">
+                    {{ getMessage("cmduploadform.allowed_file_types") }}
+                </dt>
+                <dd>
+                    <a
+                        :class="showListOfFileExtensions ? 'icon-not-visible' : 'icon-visible'"
+                        href="#"
+                        @click.prevent="showListOfFileExtensions = !showListOfFileExtensions"
+                        :title="getMessage('cmduploadform.tooltip.toggle_list_of_allowed_file_types')"
+                    ></a>
+                    <transition name="fade">
+                        <ul v-if="showListOfFileExtensions" class="list-of-file-extensions">
+                            <li
+                                v-for="(fileExtension, index) in allowedFileExtensions"
+                                :key="index"
+                                :class="{ error: errors.fileType }"
+                            >
+                                {{ fileExtension }}
+                            </li>
+                        </ul>
+                    </transition>
+                </dd>
+            </dl>
+            <!-- end upload conditions -->
+            <button
+                type="button"
+                :class="['button upload primary', { disabled: uploadInitiated }]"
+                :disabled="uploadInitiated"
+                @click="selectFiles()"
+            >
+                <span class="icon-file-upload"></span>
+                <span v-if="allowMultipleFileUploads">{{
+                        getMessage("cmduploadform.labeltext.select_files")
+                    }}</span>
+                <span v-else>{{ getMessage("cmduploadform.labeltext.select_file") }}</span>
+            </button>
+            <CmdFormElement
+                element="input"
+                type="file"
+                :labelText="getMessage('cmduploadform.labeltext.select_files')"
+                :disabled="uploadInitiated"
+                :multiple="allowMultipleFileUploads"
+                @change="filesSelected"
+            />
+            <p v-if="enableDragAndDrop" :class="['text-drag-and-drop', { disabled: uploadInitiated }]">
+                <span>{{ getMessage("cmduploadform.or") }}</span>
+                <strong>
+                    {{ getMessage("cmduploadform.drag_and_drop") }}
+                    <template v-if="allowMultipleFileUploads && listOfFiles.length">
+                        {{ getMessage("cmduploadform.additional") }}
+                    </template
+                    >
+                    <template v-if="!allowMultipleFileUploads && listOfFiles.length">
+                        {{ getMessage("cmduploadform.new") }}
+                    </template
+                    >
+                    {{ getMessage("cmduploadform.files_to_this_area") }}
+                </strong>
+            </p>
+        </div>
         <CmdFormElement
             v-if="enableComment"
             element="textarea"
-            labelText="Comment:"
-            placeholder="Add a comment"
-            v-model:value="comment"
+            :labelText="getMessage('cmduploadform.labeltext.comment')"
+            v-model="comment"
+            :required="commentRequired"
+            :statusMessage="commentStatusMessage"
+            :placeholder="getMessage('cmduploadform.placeholder.comment')"
+            :status="commentStatusMessage ? 'error' : ''"
         />
         <div class="button-wrapper no-flex">
-            <button :class="['button', 'primary', {disabled: getNumberAllowedFiles < 1}]" @click="uploadFiles">
-                <span class="icon-upload"></span>
-                <span v-if="getNumberAllowedFiles < 1">Nothing to upload</span>
-                <span v-else>Upload {{ getNumberAllowedFiles }} of {{ listOfFiles.length }} files</span>
+            <button
+                :class="[
+          'button primary',
+          {
+            disabled:
+              listOfFiles.length === 0 ||
+              (maxTotalUploadSize > 0 && totalSize > maxTotalUploadSize) ||
+              uploadInitiated
+          }
+        ]"
+                :disabled="
+          listOfFiles.length === 0 ||
+            (maxTotalUploadSize > 0 && totalSize > maxTotalUploadSize) ||
+            uploadInitiated
+        "
+                @click="uploadFiles"
+            >
+        <span class="icon-upload"></span
+        ><span v-if="listOfFiles.length === 1 || !allowMultipleFileUploads">{{
+                    getMessage("cmduploadform.buttontext.upload_file")
+                }}</span>
+                <span v-else>{{ getMessage("cmduploadform.buttontext.upload_files") }}</span>
             </button>
-            <button class="button" @click="cancelUpload">
-                <span class="icon-cancel"></span><span>Cancel</span>
+            <button :class="['button', { disabled: listOfFiles.length === 0 }]" @click="cancel">
+        <span class="icon-cancel"></span
+        ><span>{{ getMessage("cmduploadform.buttontext.cancel") }}</span>
             </button>
         </div>
     </fieldset>
 </template>
 
 <script>
-// import components
+import I18n from "../mixins/I18n"
+import DefaultMessageProperties from "../mixins/CmdUploadForm/DefaultMessageProperties"
+import {getFileExtension} from "../utils/GetFileExtension.js"
+import axios from "axios"
+
 import CmdFormElement from "./CmdFormElement"
 import CmdSystemMessage from "./CmdSystemMessage"
 
+
 export default {
     name: "CmdUploadForm",
-    emits: ["click"],
     data() {
         return {
             comment: "",
             allowDrop: false,
-            listOfFiles: []
+            listOfFiles: [],
+            systemMessages: [],
+            defaultSystemMessageStatus: "",
+            showListOfFileExtensions: false,
+            resetForm: {},
+            uploadInitiated: false,
+            errors: {}
         }
     },
+    mixins: [I18n, DefaultMessageProperties],
     components: {
-        CmdFormElement,
-        CmdSystemMessage
+        CmdSystemMessage,
+        CmdFormElement
+    },
+    created() {
+        // Set initial data for resetForm.
+        this.resetForm.comment = this.presetComment
+        this.resetForm.allowDrop = this.allowDrop
+        this.resetForm.listOfFiles = JSON.parse(JSON.stringify(this.listOfFiles))
+        this.resetForm.systemMessages = this.systemMessages
+        this.resetForm.systemMessageStatus = this.systemMessageStatus
     },
     props: {
         /**
-         * headline for form
+         * set icon class for delete-icons
+         */
+        deleteIconClass: {
+            type: String,
+            default: "icon-delete"
+        },
+        /**
+         * toggle visibility of total upload (number of files, total size, total progress
+         */
+        showTotalUpload: {
+            type: Boolean,
+            default: true
+        },
+        /**
+         * toggle if upload is handled by component itself or by outer component
+         */
+        componentHandlesUpload: {
+            type: Boolean,
+            default: true
+        },
+        /**
+         * list of allowed file extensions to upload (all can be selected)
+         */
+        allowedFileExtensions: {
+            type: Array,
+            required: true
+        },
+        commentRequired: {
+            type: Boolean,
+            default: true
+        },
+        commentStatusMessage: {
+            type: String,
+            default: ""
+        },
+        /**
+         * set an optional headlien for the fieldset
          */
         headline: {
             type: String,
             required: false
         },
         /**
-         * url to uplaod files
-         */
-        uploadURL: {
-            type: String,
-            required: false
-        },
-        /**
-         * activate if files for upload should be selected by native input (type="file")
-         */
-        enableFileSelect: {
-            type: Boolean,
-            default: true
-        },
-        /**
-         * activate if files should be dragged and dropped from os-file-explorer
+         * enable if files can also be dragged (and dropped) into upload-area
          */
         enableDragAndDrop: {
             type: Boolean,
-            default: true
+            default: false
         },
-        /**
-         * enable textarea for additional comments
-         */
         enableComment: {
             type: Boolean,
             default: true
         },
         /**
-         * set upload options
+         * set to 0 if no maximum for total upload size should be set
+         */
+        maxTotalUploadSize: {
+            type: Number,
+            default: 5242880
+        },
+        /**
+         * max file size (in bytes) for each single file
+         */
+        maxFileUploadSize: {
+            type: Number,
+            default: 10485760
+        },
+        allowMultipleFileUploads: {
+            type: Boolean,
+            default: false
+        },
+        presetComment: {
+            type: String,
+            default: ""
+        },
+        /**
+         *   defines upload options if component handles upload itself
+         *   (componentHandlesUpload-property must be true)
+         *
+         *  Example:
+         *  <pre>
+         *       url: String,
+         *       filesParam: String,
+         *       additionalParams: {}
+         * </pre>
          */
         uploadOptions: {
             type: Object,
             required: false
-        },
-        /**
-         * list of allowed file types to upload (all can be selected)
-         */
-        allowedFileTypes: {
-            type: Array,
-            required: true
-        },
-        /**
-         * set maximum upload size (for all files combined)
-         */
-        maxUploadSize: {
-            type: Number,
-            default: 10485760
         }
     },
     computed: {
-        uploadSize() {
-            let uploadSize = 0
-            for (let i = 0; i < this.listOfFiles.length; i++) {
-                if (this.listOfFiles[i].allowedType) {
-                    uploadSize = uploadSize + this.listOfFiles[i].file.size
-                }
-            }
-            return uploadSize
+        failedUpload() {
+            return this.listOfFiles.some(file => file.error)
         },
-        getNumberAllowedFiles() {
-            let numberAllowedFiles = 0
+        totalBytesUploaded() {
+            const bytes = this.listOfFiles
+                .map(uploadFile => [
+                    uploadFile.file.size,
+                    ((uploadFile.progress || 0) * uploadFile.file.size) / 100
+                ])
+                .reduce((a, b) => [a[0] + b[0], a[1] + b[1]])
+            return this.formatSize(bytes[1]) + "/" + this.formatSize(bytes[0])
+        },
+        totalSize() {
+            let totalSize = 0
             for (let i = 0; i < this.listOfFiles.length; i++) {
-                if (this.listOfFiles[i].allowedType) {
-                    numberAllowedFiles++
+                totalSize = totalSize + this.listOfFiles[i].file.size
+            }
+            return totalSize
+        },
+        allSystemMessages() {
+            if (this.maxTotalUploadSize > 0 && this.totalSize > this.maxTotalUploadSize) {
+                return [
+                    this.getMessage("cmduploadform.system_message_total_size_of_files_too_large"),
+                    ...this.systemMessages
+                ]
+            }
+            return this.systemMessages
+        },
+        systemMessageStatus() {
+            return this.defaultSystemMessageStatus || (this.allSystemMessages.length ? "error" : "")
+        },
+        dragAndDropHandler() {
+            // register handlers only if drag-and-drop is enabled
+            if (this.enableDragAndDrop) {
+                return {
+                    dragenter: this.dragEnter,
+                    dragover: this.dragOver,
+                    dragleave: this.dragLeave,
+                    drop: this.drop
                 }
             }
-            return numberAllowedFiles
+            return {}
+        },
+        totalUploadProgress() {
+            const progress = this.listOfFiles
+                .map(uploadFile => [
+                    uploadFile.file.size,
+                    ((uploadFile.progress || 0) * uploadFile.file.size) / 100
+                ])
+                .reduce((a, b) => [a[0] + b[0], a[1] + b[1]])
+            return (progress[1] / progress[0]) * 100
+        }
+    },
+    watch: {
+        presetComment: {
+            handler(newValue) {
+                this.comment = newValue
+            },
+            immediate: true
         }
     },
     methods: {
+        getPercentage(percentage) {
+            if (percentage) {
+                return percentage.toFixed(2) + "%"
+            }
+            return "0.00%"
+        },
+        // use imported function as method (to use in template)
+        getFileExtension(filename) {
+            return getFileExtension(filename)
+        },
+        selectFiles() {
+            let inputFile = this.$el.querySelector('input[type="file"]')
+            inputFile.click()
+        },
         dragEnter(event) {
             this.dragOver(event)
         },
@@ -187,11 +476,11 @@ export default {
             this.allowDrop = false
         },
         /*
-            drag(event) {
-              alert("dropped")
-              event.dataTransfer.setData("text", event.target.id)
-            },
-        */
+        drag(event) {
+          alert("dropped")
+          event.dataTransfer.setData("text", event.target.id)
+        },
+      */
         drop(event) {
             this.allowDrop = false
             if (event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files.length > 0) {
@@ -200,144 +489,403 @@ export default {
             }
         },
         cancelUpload() {
+            // cancel upload for each file
+            this.listOfFiles.forEach(file => {
+                if (file.abortController) {
+                    file.abortController.abort()
+                }
+            })
+
+            // clear list of files, remove error-highlighting and hide all system-messages afterwards
+            this.errors = {}
             this.listOfFiles = []
-            this.comment = ""
-            this.$emit('click', 'cancel')
+            this.hideAllSystemMessages()
+
+            // set uploadInitiated to false to enable all disabled buttons
+            this.uploadInitiated = false
+        },
+        cancel() {
+            this.cancelUpload()
+
+            // emit click event with argument "cancel" to react in outer component
+            this.$emit("click", "cancel")
         },
         filesSelected(event) {
             this.checkFiles(event.target.files)
         },
         checkFiles(files) {
+            this.defaultSystemMessageStatus = "" // hide systemMessage if already is shown
+            this.systemMessages = [] // hide systemMessage if already is shown
+            this.errors = {}
+
             for (let i = 0; i < files.length; i++) {
-                let uploadFile = {
-                    "file": files[i],
-                    "allowedType": false,
-                    width: 0,
-                    height: 0
+                // define file-object which will be pushed in listOfFiles
+                const uploadFile = {
+                    file: files[i],
+                    progress: null,
+                    uploadedBytes: 0
                 }
 
-                if (this.allowedFileTypes.includes(files[i].type)) {
-                    uploadFile.allowedType = true
+                // check size for current file
+                if (files[i].size > this.maxFileUploadSize) {
+                    this.errors.fileSize = true
+                    this.systemMessages.push(
+                        this.getMessage(
+                            "cmduploadform.system_message.file_size_too_large",
+                            files[i].name,
+                            files[i].size
+                        )
+                    )
+                    continue
                 }
 
-                if (files[i].type.slice(0, 6) == "image/" && files[i].size < this.maxUploadSize) {
-                    // get dimensions if image
-                    const reader = new FileReader()
-
-                    reader.addEventListener('load', function () {
-                        const img = new Image()
-                        img.src = this.result
-                        img.addEventListener('load', () => {
-                            uploadFile.width = img.width
-                            uploadFile.height = img.height
-                        })
-                    })
-                    reader.readAsDataURL(files[i])
+                // check if current file has allowed file-type (else continue with next file)
+                if (!this.allowedFileExtensions.includes(getFileExtension(files[i].name))) {
+                    this.showListOfFileExtensions = true
+                    this.errors.fileType = true
+                    this.systemMessages.push(
+                        this.getMessage(
+                            "cmduploadform.system_message.not_allowed_file_type",
+                            files[i].name,
+                            getFileExtension(files[i].name)
+                        )
+                    )
+                    continue
                 }
-                this.listOfFiles.push(uploadFile)
+
+                // check (if multiple files can be selected) if current file already exists in listOfFiles
+                if (
+                    this.allowMultipleFileUploads &&
+                    this.listOfFiles.some(listOfFilesEntry =>
+                        this.compareFiles(listOfFilesEntry.file, files[i])
+                    )
+                ) {
+                    this.systemMessages.push(
+                        this.getMessage(
+                            "cmduploadform.system_message.duplicate_file",
+                            files[i].name,
+                            getFileExtension(files[i].name)
+                        )
+                    )
+                    continue
+                }
+
+                if (this.allowMultipleFileUploads) {
+                    // push file-object (for each valid file) to listOfFiles-array
+                    this.listOfFiles.push(uploadFile)
+                } else {
+                    if (files.length > 1) {
+                        this.systemMessages.push(
+                            this.getMessage("cmduploadform.system_message.only_one_file_allowed")
+                        )
+                    }
+                    // assign uploadFile-object (which contains current (and valid) file to listOfFiles-array
+                    this.listOfFiles = [uploadFile]
+                    break
+                }
             }
         },
+        compareFiles(file1, file2) {
+            return (
+                file1.name === file2.name &&
+                file1.lastModified === file2.lastModified &&
+                file1.size === file2.size
+            )
+        },
         removeFile(index) {
-            /* remove file from list */
+            /* remove specific file from list */
             this.listOfFiles.splice(index, 1)
+            if (!this.listOfFiles.length) {
+                this.uploadInitiated = false
+            }
+            this.hideAllSystemMessages()
+        },
+        hideAllSystemMessages() {
+            // hide all system-messages if all files are removed from list
+            if (!this.listOfFiles.length) {
+                this.systemMessages = []
+            }
         },
         formatSize(size) {
             if (size < 1024) {
                 return size
             } else if (size < 1048576) {
-                return size = (Math.round(size / 1024 * 100) / 100) + " KB"
+                return (size = Math.round((size / 1024) * 100) / 100 + " KB")
             } else {
-                return size = (Math.round(size / 1048576 * 100) / 100) + " MB"
+                return (size = Math.round((size / 1048576) * 100) / 100 + " MB")
             }
         },
         uploadFiles() {
-            if (this.uploadURL) {
-                let formData = new FormData()
-                for (let i; i < this.listOfFiles.length; i++) {
-                    if (this.listOfFiles[i].allowedType) {
-                        formData.append("uploadedFiles", this.listOfFiles[i].file)
+            this.systemMessages = []
+            this.errors = {}
+            this.defaultSystemMessageStatus = ""
+
+            if (
+                this.enableComment &&
+                !this.comment &&
+                this.commentRequired &&
+                this.commentStatusMessage
+            ) {
+                this.defaultSystemMessageStatus = "error"
+                this.systemMessages.push(this.getMessage("cmduploadform.system_message.fill_required"))
+            } else {
+                this.uploadInitiated = true
+
+                if (this.componentHandlesUpload && this.uploadOptions && this.uploadOptions.url) {
+                    const url = new URL(this.uploadOptions.url, location.href)
+                    const formData = new FormData()
+
+                    // // append information about files to formData-object
+                    // formData.append(
+                    //   this.uploadOptions.filesParam ? this.uploadOptions.filesParam : "files",
+                    //   this.listOfFiles.map(uploadFile => uploadFile.file)
+                    // )
+
+                    // iterate over additionalParams-object and append to formData-object
+                    Object.entries(this.uploadOptions.additionalParams || {}).forEach(([key, value]) =>
+                        formData.append(key, value)
+                    )
+
+                    // append comment to formData-object
+                    if (this.enableComment) {
+                        formData.append("comment", this.comment)
+                    }
+
+                    const requests = []
+
+                    // iterate over list-of-files to send upload request for each file individually
+                    this.listOfFiles.forEach(file => {
+                        requests.push(this.uploadSingleFile(url, file, formData))
+                    })
+
+                    // check upload-status for each file individually
+                    Promise.allSettled(requests).then(results => {
+                        // if status equals "rejected" the upload was not successful and the file will not be deleted from list
+                        const rejectedFiles = results.filter(result => result.status === "rejected")
+                        this.uploadInitiated = false
+
+                        if (rejectedFiles.length) {
+                            this.defaultSystemMessageStatus = "error"
+                            this.systemMessages.push(
+                                this.getMessage(
+                                    "cmduploadform.system_message.some_files_are_not_uploaded_successfully"
+                                )
+                            )
+                        } else {
+                            this.defaultSystemMessageStatus = "success"
+                            this.systemMessages.push(
+                                this.getMessage("cmduploadform.system_message.all_files_are_uploaded_successfully")
+                            )
+                        }
+
+                        this.$emit("upload-complete", {success: !rejectedFiles.length})
+                    })
+                } else {
+                    let uploadObj = {}
+                    uploadObj.listOfFiles = this.listOfFiles
+                    uploadObj.type = "upload"
+                    uploadObj.comment = this.comment
+
+                    // emit uploadObj to handle upload by outer component
+                    this.$emit("click", uploadObj, this.showMessage)
+                }
+            }
+        },
+        onUploadProgress(event, uploadFile) {
+            if (event.lengthComputable) {
+                uploadFile.progress = (event.loaded / event.total) * 100
+                uploadFile.uploadedBytes = event.loaded
+            } else {
+                uploadFile.progress = null
+                uploadFile.uploadedBytes = 0
+            }
+            this.$forceUpdate()
+        },
+        uploadSingleFile(url, file, formData) {
+            file.abortController = new AbortController()
+
+            // append information about given file to formData-object
+            formData.set(
+                this.uploadOptions.filesParam ? this.uploadOptions.filesParam : "files",
+                file.file
+            )
+
+            return (
+                axios
+                    .post(url, formData, {
+                        signal: file.abortController.signal,
+                        onUploadProgress: event => this.onUploadProgress(event, file)
+                    })
+                    // emit information about successful-upload + file
+                    .then(response => {
+                        this.$emit("upload-file-success", file)
+                        return response
+                    })
+                    // delete uploaded file from list-of-files-array
+                    .then(response => {
+                        const positionOfFile = this.listOfFiles.indexOf(file)
+                        if (positionOfFile !== -1) {
+                            this.listOfFiles.splice(positionOfFile, 1)
+                        }
+                        return response
+                    })
+                    .catch(error => {
+                        this.defaultSystemMessageStatus = "error"
+                        this.systemMessages.push(error)
+                        file.error = true
+                        throw new Error()
+                    })
+            )
+        },
+        showMessage(result) {
+            if (result === true) {
+                this.defaultSystemMessageStatus = "success"
+                this.systemMessages.push(this.getMessage("cmduploadform.system_message.upload_success"))
+            } else if (result === false) {
+                this.defaultSystemMessageStatus = "error"
+                this.systemMessages.push(this.getMessage("cmduploadform.system_message.upload_failed"))
+            }
+        },
+        resetFields() {
+            if (typeof this.resetForm === "object") {
+                const resetArr = Object.keys(this.resetForm)
+                for (let key of resetArr) {
+                    if (typeof this.resetForm[key] === "object") {
+                        this[key] = JSON.parse(JSON.stringify(this.resetForm[key]))
+                    } else {
+                        this[key] = this.resetForm[key]
                     }
                 }
-
-                if (formData.has("uploadedFiles")) {
-                    fetch(this.uploadURL, {method: "POST", body: formData})
-                }
-            } else {
-                this.$emit('click', 'upload')
             }
-        },
-        messageStatusUploadSize() {
-            if (this.uploadSize > this.maxUploadSize || this.uploadSize === 0) {
-                return "error"
-            }
-            return "success"
-        },
-        openFileDialog() {
-            this.$refs.upload.querySelector("input[type='file']").click()
         }
     }
 }
 </script>
 
 <style lang="scss">
-/* begin cmd-upload-form ---------------------------------------------------------------------------------------- */
-.cmd-upload-form {
+/* begin my-sp-upload-form -------------------------------------------------------------------------------------------- */
+.my-sp-upload-form {
     .box {
-        padding: calc(var(--default-padding) * 3);
+        padding: (var(--default-padding));
         text-align: center;
-        background: rgba(255, 255, 255, .5);
         border-style: dashed;
+        background: var(--pure-white-reduced-opacity);
 
         &.allow-drop {
             border-style: solid;
-            background: rgba(255, 255, 255, 1);
+            background: var(--pure-white);
         }
-    }
 
-    .list-of-files {
-        margin-bottom: 0;
+        dl {
+            justify-content: center;
+            text-align: left;
 
-        li {
-            list-style-type: none;
-            margin-left: 0;
+            .list-of-file-extensions {
+                display: table;
 
-            > span {
-                span[class*="icon"]:last-child {
-                    display: inline-flex;
-                    align-items: center;
-                    justify-content: center;
-                    padding: calc(var(--default-padding) / 2);
-                }
-
-                &.allowed {
-                    color: var(--success-color);
-
-                    span[class*="icon"]:last-child {
-                        border: var(--success-border);
-                        background-color: var(--success-color);
-                    }
-                }
-
-                &.not-allowed {
-                    color: var(--error-color);
-
-                    span[class*="icon"]:last-child {
-                        border: var(--error-border);
-                        background-color: var(--error-color);
-                    }
-                }
-
-                span[class*="icon"]:last-child {
-                    border: var(--default-border);
-                    border-radius: var(--full-circle);
-                    font-size: 1rem;
-                    font-weight: bold;
-                    color: var(--pure-white);
+                > li:only-child {
+                    list-style-type: none;
+                    margin: 0;
                 }
             }
         }
     }
+
+    [class*="list-of-file"] {
+        max-height: 10rem;
+        overflow-x: hidden;
+        overflow-y: auto;
+        border: var(--default-border);
+        padding: calc(var(--default-padding) / 2);
+        margin: 0;
+
+        > li {
+            flex-wrap: nowrap;
+            margin-right: var(--default-margin); /* avoids text to be placed below scrollbar */
+
+            .progressbar {
+                display: table;
+                align-self: center;
+
+                progress {
+                    &[value] {
+                        background: var(--pure-white);
+
+                        &::-moz-progress-bar {
+                            border-top-left-radius: var(--border-radius);
+                            border-bottom-left-radius: var(--border-radius);
+                            background: var(--primary-color);
+                        }
+                    }
+                }
+
+                & > span {
+                    position: absolute;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    z-index: 1;
+                    font-size: 1.2rem;
+                    display: table;
+                    top: 0.2rem;
+                    padding: 0.1rem 0.2rem;
+                    line-height: 100%;
+                    background: var(--pure-white);
+                }
+            }
+        }
+    }
+
+    .list-of-files {
+        display: inline-flex;
+        flex-direction: column;
+        gap: calc(var(--default-gap) / 2);
+
+        &:last-of-type {
+            margin-bottom: var(--default-margin);
+        }
+
+        li {
+            list-style-type: none;
+            margin-left: 0;
+            gap: calc(var(--default-gap) / 2);
+        }
+
+        & + a {
+            display: table;
+            margin: 0 auto;
+        }
+    }
+
+    p {
+        &.text-drag-and-drop {
+            &.disabled {
+                background: none !important; /* overwrite default styling for .disabled */
+            }
+        }
+    }
+
+    textarea {
+        min-height: 0;
+    }
+
+    .button.upload {
+        align-self: center;
+
+        & + .cmd-form-element {
+            display: none;
+        }
+
+        & ~ p {
+            & > * {
+                display: block;
+            }
+        }
+    }
+
+    .error {
+        color: var(--error-color);
+    }
 }
 
-/* end cmd-upload-form ------------------------------------------------------------------------------------------ */
+/* end my-sp-upload-form ---------------------------------------------------------------------------------------------- */
 </style>
