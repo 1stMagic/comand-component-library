@@ -1,5 +1,5 @@
 <template>
-    <fieldset :class="['my-sp-upload-form flex-container', { 'upload-initiated': uploadInitiated }]">
+    <fieldset v-if="advancedMode" :class="['cmd-upload-form flex-container', { 'upload-initiated': uploadInitiated }]">
         <h3 v-if="headline">{{ headline }}</h3>
         <CmdSystemMessage
             v-if="systemMessageStatus && allSystemMessages.length"
@@ -17,7 +17,7 @@
                 </li>
             </ul>
         </CmdSystemMessage>
-        <div :class="['box', { 'allow-drop': allowDrop }]" v-on="dragAndDropHandler">
+        <div :class="['box drop-area', { 'allow-drop': allowDrop }]" v-on="dragAndDropHandler">
             <template v-if="!listOfFiles.length">
                 <h4 v-if="allowMultipleFileUploads">
                     {{ getMessage("cmduploadform.no_files_to_upload") }}
@@ -56,13 +56,13 @@
                                 </strong>
                             </span>
                             <span class="progressbar" v-if="uploadInitiated">
-                            <span>{{ getPercentage(totalUploadProgress) }}</span>
-                            <progress
-                                max="100"
-                                :value="totalUploadProgress"
-                                :title="totalBytesUploaded"
-                            ></progress>
-                          </span>
+                                <span>{{ getPercentage(totalUploadProgress) }}</span>
+                                <progress
+                                    max="100"
+                                    :value="totalUploadProgress"
+                                    :title="totalBytesUploaded"
+                                ></progress>
+                            </span>
                         </li>
                     </ul>
                     <hr/>
@@ -95,7 +95,7 @@
                         <template v-if="uploadInitiated && !uploadFile.error">
                         <span class="progressbar">
                             <span>{{ getPercentage(uploadFile.progress) }}</span>
-                              <!-- do not place inside progress-tag (will not be displayed then) -->
+                            <!-- do not place inside progress-tag (will not be displayed then) -->
                             <progress
                                 max="100"
                                 :value="uploadFile.progress"
@@ -131,14 +131,14 @@
                         {{ getMessage("cmduploadform.max_total_upload_size") }}
                     </dt>
                     <dd :class="['text-align-right', { error: totalSize > maxTotalUploadSize }]">
-                        {{ formatSize(this.maxTotalUploadSize) }}
+                        {{ formatSize(maxTotalUploadSize) }}
                     </dd>
                 </template>
                 <dt :class="{ error: errors.fileSize }">
                     {{ getMessage("cmduploadform.max_file_upload_size") }}
                 </dt>
                 <dd :class="['text-align-right', { error: errors.fileSize }]">
-                    {{ formatSize(this.maxFileUploadSize) }}
+                    {{ formatSize(maxFileUploadSize) }}
                 </dd>
                 <dt :class="{ error: errors.fileType }">
                     {{ getMessage("cmduploadform.allowed_file_types") }}
@@ -176,14 +176,6 @@
                     }}</span>
                 <span v-else>{{ getMessage("cmduploadform.labeltext.select_file") }}</span>
             </button>
-            <CmdFormElement
-                element="input"
-                type="file"
-                :labelText="getMessage('cmduploadform.labeltext.select_files')"
-                :disabled="uploadInitiated"
-                :multiple="allowMultipleFileUploads"
-                @change="filesSelected"
-            />
             <p v-if="enableDragAndDrop" :class="['text-drag-and-drop', { disabled: uploadInitiated }]">
                 <span>{{ getMessage("cmduploadform.or") }}</span>
                 <strong>
@@ -240,6 +232,44 @@
             </button>
         </div>
     </fieldset>
+
+    <a v-else href="#" @click.prevent="selectFiles" :class="['cmd-upload-form  drop-area', {'allow-drop': allowDrop }]" v-on="dragAndDropHandler">
+        <span class="progressbar" v-if="uploadInitiated">
+            <span>{{ getPercentage(totalUploadProgress) }}</span>
+            <progress
+                max="100"
+                :value="totalUploadProgress"
+                :title="totalBytesUploaded">
+            </progress>
+        </span>
+        <slot>
+            <template v-if="enableDragAndDrop">
+                <template v-if="fileTypeImage">
+                    <span>Select image</span>
+                    <span class="icon-image"></span>
+                </template>
+                <template v-else>
+                    <span>Select file</span>
+                    <span class="icon-file"></span>
+                </template>
+            </template>
+            <template v-else>
+                <span>Drag and drop file here</span>
+                <span class="icon-drag-and-drop"></span>
+            </template>
+            <small>Max. size: {{formatSize(maxFileUploadSize)}}</small>
+            <small>Alwd. types: {{allowedFileExtensions}}</small>
+        </slot>
+    </a>
+    <CmdFormElement
+        element="input"
+        type="file"
+        :labelText="getMessage('cmduploadform.labeltext.select_files')"
+        :disabled="uploadInitiated"
+        :multiple="allowMultipleFileUploads"
+        @change="filesSelected"
+        ref="formElement"
+    />
 </template>
 
 <script>
@@ -371,9 +401,22 @@ export default {
         uploadOptions: {
             type: Object,
             required: false
+        },
+        /**
+         * activate to use full upload-form-style and -functionality
+         */
+        advancedMode: {
+            type: Boolean,
+            default: true
         }
     },
     computed: {
+        fileTypeImage() {
+            if(this.allowedFileExtensions.some(extension => extension.includes('jpg'))) {
+                return true
+            }
+            return false
+        },
         failedUpload() {
             return this.listOfFiles.some(file => file.error)
         },
@@ -447,7 +490,7 @@ export default {
             return getFileExtension(filename)
         },
         selectFiles() {
-            let inputFile = this.$el.querySelector('input[type="file"]')
+            let inputFile = this.$refs.formElement.getDomElement().querySelector("input[type='file']")
             inputFile.click()
         },
         dragEnter(event) {
@@ -514,7 +557,11 @@ export default {
             this.checkFiles(event.target.files)
         },
         checkFiles(files) {
-            this.defaultSystemMessageStatus = "" // hide systemMessage if already is shown
+            if (!files.length) {
+                return
+            }
+
+            this.defaultSystemMessageStatus = ""; // hide systemMessage if already is shown
             this.systemMessages = [] // hide systemMessage if already is shown
             this.errors = {}
 
@@ -582,6 +629,16 @@ export default {
                     // assign uploadFile-object (which contains current (and valid) file to listOfFiles-array
                     this.listOfFiles = [uploadFile]
                     break
+                }
+            }
+
+            if (!this.advancedMode) {
+                if (this.systemMessages.length) {
+                    this.$emit("error", {messages: this.systemMessages})
+                    return
+                }
+                if (this.listOfFiles.length) {
+                    this.uploadFiles()
                 }
             }
         },
@@ -763,18 +820,10 @@ export default {
 </script>
 
 <style lang="scss">
-/* begin my-sp-upload-form -------------------------------------------------------------------------------------------- */
-.my-sp-upload-form {
+/* begin cmd-upload-form -------------------------------------------------------------------------------------------- */
+.cmd-upload-form {
     .box {
-        padding: (var(--default-padding));
-        text-align: center;
-        border-style: dashed;
         background: var(--pure-white-reduced-opacity);
-
-        &.allow-drop {
-            border-style: solid;
-            background: var(--pure-white);
-        }
 
         dl {
             justify-content: center;
@@ -864,16 +913,8 @@ export default {
         }
     }
 
-    textarea {
-        min-height: 0;
-    }
-
     .button.upload {
         align-self: center;
-
-        & + .cmd-form-element {
-            display: none;
-        }
 
         & ~ p {
             & > * {
@@ -885,7 +926,37 @@ export default {
     .error {
         color: var(--error-color);
     }
+
+    & + .cmd-form-element {
+        display: none;
+    }
 }
 
-/* end my-sp-upload-form ---------------------------------------------------------------------------------------------- */
+.drop-area {
+    border: var(--default-border);
+    border-style: dashed;
+    background: var(--pure-white);
+    padding: (var(--default-padding));
+    text-align: center;
+
+    &.allow-drop {
+        border-style: solid;
+    }
+
+    > span[class*="icon"] {
+        font-size: 5rem;
+    }
+}
+
+a.drop-area {
+    display: inline-flex;
+    flex-direction: column;
+    text-decoration: none;
+    background: var(--default-background-color);
+
+    span {
+        margin: 0;
+    }
+}
+/* end cmd-upload-form ---------------------------------------------------------------------------------------------- */
 </style>

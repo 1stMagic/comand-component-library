@@ -4,20 +4,12 @@
     "text": "China"
   },
   {
-    "value": "de",
-    "text": "Germany"
-  },
-  {
-    "value": "en",
-    "text": "United Kingdom"
-  },
-  {
-    "value": "es",
-    "text": "Spain"
-  },
-  {
     "value": "fr",
     "text": "France"
+  },
+  {
+    "value": "de",
+    "text": "Germany"
   },
   {
     "value": "it",
@@ -26,5 +18,13 @@
   {
     "value": "ru",
     "text": "Russia"
+  },
+  {
+    "value": "es",
+    "text": "Spain"
+  },
+  {
+    "value": "en",
+    "text": "United Kingdom"
   }
 ]

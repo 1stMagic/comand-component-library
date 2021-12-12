@@ -329,7 +329,7 @@
                                         element="input"
                                         type="text"
                                         id="inputfield2"
-                                        iconClass="icon-user-profile"
+                                        innerIconClass="icon-user-profile"
                                         placeholder="Type in username"
                                         tooltipText="This is a tooltip!"
                                         :status="formElementStatus"/>
@@ -337,7 +337,7 @@
                                         labelText="Label for inputfield (with icon):"
                                         type="password"
                                         id="inputfield3"
-                                        iconClass="icon-security-settings"
+                                        innerIconClass="icon-security-settings"
                                         placeholder="Type in password"
                                         tooltipText="This is a tooltip!"
                                         :status="formElementStatus"/>
@@ -758,6 +758,16 @@
         <a id="section-upload-form"></a>
         <CmdWidthLimitationWrapper>
             <h2 class="headline-demopage">Upload-Form</h2>
+            <h3>Simple mode</h3>
+            <CmdUploadForm headline="Select files to upload"
+                           :enableDragAndDrop="true"
+                           :allowedFileExtensions="['jpg']"
+                           :allowMultipleFileUploads="true"
+                           :advancedMode="false"
+                           @error="showError"
+                           :uploadOptions="{url: 'http://localhost:8888'}"
+            />
+            <h3>Advanced mode</h3>
             <CmdUploadForm headline="Select files to upload"
                            :enableDragAndDrop="true"
                            :allowedFileExtensions="['jpg']"
@@ -978,6 +988,10 @@ export default {
         }
     },
     methods: {
+        showError(event) {
+            console.log("EventMessages", event.messages)
+            alert("Error")
+        },
         showFancyBox(type, content) {
             if (type === 'text') {
                 openFancyBox({content: content})

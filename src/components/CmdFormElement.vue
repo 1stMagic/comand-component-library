@@ -3,18 +3,17 @@
            :for="id"
            :class="['cmd-form-element', status, {'inline' : displayLabelInline, 'checked': isChecked}]"
            ref="label">
-        <!-- begin label (+ required) -->
+        <!-- begin label (+ required asterisk) -->
         <span v-if="labelText && $attrs.type !== 'checkbox' && $attrs.type !== 'radio'"
               :class="{'hidden': hideLabel}">
           <span>{{ labelText }}</span>
           <sup v-if="$attrs.required">*</sup>
         </span>
-        <!-- end label (+ required) -->
+        <!-- end label (+ required asterisk) -->
 
-        <!-- begin icon -->
-        <span v-if="$attrs.type !== 'checkbox' && $attrs.type !== 'radio' && innerIconClass" class="place-inside"
-              :class="[status, innerIconClass]"></span>
-        <!-- end icon -->
+        <!-- begin inner-icon -->
+        <span v-if="$attrs.type !== 'checkbox' && $attrs.type !== 'radio' && innerIconClass" :class="['place-inside', status, innerIconClass]"></span>
+        <!-- end inner-icon -->
 
         <!-- begin inputfield -->
         <template
@@ -25,14 +24,25 @@
                    @blur="tooltip = false"
                    @input="onInput"
                    @mouseover="datalistFocus"
-                   @change="$emit('change', $event)"
                    :autocomplete="datalist ? 'off' : 'on'"
                    :list="datalist ? datalist.id : false"
-                   :disabled="status === 'disabled'"
                    :value="value"
+                   ref="input"
             />
         </template>
         <!-- end inputfield -->
+
+        <!-- begin show-password-icon -->
+        <a v-if="$attrs.type === 'password'"
+           href="#"
+           @mousedown.prevent="showPassword"
+           @mouseup.prevent="hidePassword"
+           @mouseleave.prevent="hidePassword"
+           @click.prevent
+           class="place-inside icon-visible"
+           title="Toggle password visibility">
+        </a>
+        <!-- end show-password-icon -->
 
         <!-- begin datalist -->
         <template v-if="datalist && datalist.options.length">
@@ -50,14 +60,13 @@
                    :value="inputValue"
                    :class="[htmlClass, status, { 'replace-input-type': replaceInputType }]"
                    :id="id"
-                   :disabled="status === 'disabled'"
                    :aria-invalid="status === 'error'"
                    :aria-describedby="`status-message-${id}`"
             />
             <span v-if="labelText">
-        <span>{{ labelText }}</span>
-        <sup v-if="$attrs.required">*</sup>
-      </span>
+            <span>{{ labelText }}</span>
+                <sup v-if="$attrs.required">*</sup>
+            </span>
             <slot v-else></slot>
         </template>
         <!-- end checkbox and radiobutton -->
@@ -66,7 +75,6 @@
         <select v-if="element === 'select'"
                 v-bind="$attrs"
                 :id="id"
-                :disabled="status === 'disabled'"
                 @change="$emit('input', $event.target.value)"
         >
             <option v-for="(option, index) in selectOptions" :key="index" :value="option.value"
@@ -79,7 +87,6 @@
         <textarea v-if="element === 'textarea'"
                   v-bind="$attrs"
                   :id="id"
-                  :disabled="status === 'disabled'"
                   :value="value"
                   @input="onInput"
                   @focus="tooltip = true"
@@ -94,7 +101,7 @@
         <!-- begin searchfield -->
         <span v-else-if="element === 'input' && $attrs.type === 'search'" class="flex-container no-gap">
       <input v-bind="$attrs" :id="id" @input="onInput" :value="value"/>
-      <button class="no-flex" type="button" :disabled="status === 'disabled'">
+      <button class="no-flex" type="button">
         <span class="icon-search"></span>
       </button>
     </span>
@@ -102,7 +109,7 @@
     </label>
 
     <!-- begin button -->
-    <button v-else class="button" v-bind="$attrs" :disabled="status === 'disabled'">
+    <button v-else class="button" v-bind="$attrs">
         <span v-if="buttonIcon.iconPosition === 'before'" :class="buttonIcon.iconClass"></span>
         <span v-if="buttonIcon.iconPosition">{{ buttonText }}</span>
         <template v-else>
@@ -281,6 +288,9 @@ export default {
         }
     },
     methods: {
+        getDomElement() {
+            return this.$refs.label
+        },
         onChange(e) {
             if (typeof this.value === "boolean") {
                 this.$emit("update:value", e.target.checked)
@@ -304,7 +314,34 @@ export default {
         },
         onInput(e) {
             this.$emit('update:value', e.target.value)
+        },
+        showPassword() {
+            // get password-field
+            const passwordField = this.$refs.input
+
+            // get value of password field (to save it temporary)
+            const password = passwordField.value
+
+            // toggle input-type to make password visible
+            passwordField.nextElementSibling.classList.replace("icon-visible", "icon-not-visible")
+            passwordField.setAttribute("type","text")
+
+            // assign saved password back to field
+            passwordField.setAttribute("value", password)
+        },
+        hidePassword() {
+            this.$refs.input.nextElementSibling.classList.replace("icon-not-visible", "icon-visible")
+            this.$refs.input.setAttribute("type","password")
         }
     }
 }
 </script>
+
+<style lang="scss">
+.cmd-form-element {
+    input + .place-inside[class*="icon"] {
+        left: auto;
+        right: .5rem
+    }
+}
+</style>

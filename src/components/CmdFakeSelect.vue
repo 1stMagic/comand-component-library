@@ -1,16 +1,17 @@
 <template>
-    <div :class="[status, 'cmd-fake-select label']">
+    <div :class="[status, 'cmd-fake-select label', {color: type === 'color'}]">
         <span>{{ labelText }}</span>
         <ul :class="{'open': showOptions}" @clickout="closeOptions">
             <li>
+                <!-- begin default/selected-option -->
                 <a href="#" @click.prevent="toggleOptions">
-                    <img v-if="type === 'country'" :src="pathFlag(optionCountry)" :alt="optionCountry" class="flag" :class="optionCountry"/>
-                    <span v-else-if="type === 'color'" class="color"
-                          :style="'background: ' + optionColor"></span>
+                    <img v-if="type === 'country' && optionCountry" :src="pathFlag(optionCountry)" :alt="optionCountry" :class="['flag', optionCountry]"/>
+                    <span v-else-if="type === 'color'" :style="'background: ' + optionColor"></span>
                     <span v-if="optionIcon" :class="optionIcon"></span>
                     <span>{{ optionName }}</span>
-                    <span :class="dropdownIconClass"></span>
+                    <span :class="dropdownIconClass" title="Toggle dropdown visibility"></span>
                 </a>
+                <!-- end default/selected-option-->
 
                 <!-- begin default dropdown (incl. optional icon) -->
                 <ul v-if="type === 'default' && showOptions">
@@ -24,7 +25,7 @@
                 <!-- end default dropdown (incl. optional icon) -->
 
                 <!-- begin dropdown with checkboxes -->
-                <ul v-else-if="type !== 'default' && type !== 'content' && showOptions" class="checkbox-options">
+                <ul v-else-if="type !== 'default' && type !== 'content' && showOptions" :class="{'checkbox-options': type === 'checkboxOptions'}">
                     <li v-for="(option, index) in selectData" :key="index">
                         <label v-if="type === 'checkboxOptions'" :for="'option-' + (index + 1)" :class="{'active' : value.includes(`${option.value}`)}">
                             <input type="checkbox" :value="option.value" @change="optionSelect"
@@ -42,8 +43,8 @@
                         <a v-else href="#" @click.prevent="selectOption(option.value)" :class="{'active' : option.value === value}">
                             <span class="color" :style="'background: ' + option.value"></span>
                             <span>{{
-                                option.text
-                            }}</span>
+                                    option.text
+                                }}</span>
                         </a>
                     </li>
                 </ul>
@@ -170,7 +171,7 @@ export default {
         },
         optionCountry() {
             if (this.type === "country") {
-               return this.value
+                return this.value
             }
             return null
         },
@@ -179,6 +180,10 @@ export default {
                 return this.value
             }
             return null
+        },
+        overflowWidth() {
+            let outerWidth = document.querySelector(".cmd-fake-select").outerWidth()
+            return "width: " + outerWidth + "px;"
         }
     },
     methods: {
@@ -236,7 +241,13 @@ export default {
                     height: inherit;
                     border: var(--default-border);
 
-                    > [class*='icon-']:last-child {
+                    > span:not([class*="icon"]) {
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                        width: 95%;
+                    }
+
+                    > [class*="icon-"]:last-child {
                         margin-left: auto;
                         font-size: 1rem;
                     }
@@ -245,6 +256,8 @@ export default {
         }
 
         &.open {
+            border-bottom: 0;
+
             > li {
                 &:first-child {
                     > a {
@@ -299,29 +312,37 @@ export default {
         }
 
         label {
-            &.active {
-                background: var(--light-gray);
-            }
+            display: flex;
+        }
+
+        span {
+            white-space: nowrap;
         }
 
         ul {
             position: absolute;
             list-style: none;
             z-index: 10;
-            width: 100%;
-            margin-left: 0;
-            border-top: 0;
+            min-width: 100%;
+            margin: 0;
             border-bottom-right-radius: var(--border-radius);
             border-bottom-left-radius: var(--border-radius);
             background: var(--pure-white);
             border: var(--primary-border);
-            border-top: 0;
 
             li {
                 &:last-child {
                     a {
                         border-bottom: 0;
                     }
+                }
+            }
+
+            &.custom-fake-select-content {
+                padding: var(--default-padding);
+
+                img {
+                    display: block;
                 }
             }
 
@@ -385,6 +406,24 @@ export default {
                 img {
                     &.flag {
                         border-color: var(--border-color);
+                    }
+                }
+            }
+        }
+    }
+
+    &.color {
+        li {
+            a {
+                gap: calc(var(--default-gap) / 2);
+
+                > span:first-child {
+                    width: 1.5rem;
+                    aspect-ratio: 1;
+                    border: var(--default-border);
+
+                    &[style=""] {
+                        display: none;
                     }
                 }
             }
