@@ -1,5 +1,5 @@
 <template>
-    <div class="cmd-copyright-information">
+    <div class="cmd-copyright-information" role="contentinfo">
         <a href="http://www.comand-cms.com" target="_blank" lang="en" title="CoManD-Website">&copy; CoManD</a>
     </div>
 </template>

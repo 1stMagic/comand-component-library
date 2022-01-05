@@ -11,9 +11,9 @@
                 <span v-if="link.text">{{ link.text }}</span>
             </router-link>
             <span v-else>
-        <span v-if="link.iconClass" :class="link.iconClass"></span>
-        <span v-if="link.text">{{ link.text }}</span>
-      </span>
+                <span v-if="link.iconClass" :class="link.iconClass"></span>
+                <span v-if="link.text">{{ link.text }}</span>
+            </span>
             <span v-if="index < breadcrumbLinks.length - 1">{{ breadcrumbSeparator }}</span>
         </li>
     </ul>

@@ -273,11 +273,14 @@
 </template>
 
 <script>
+// import files for translations
 import I18n from "../mixins/I18n"
 import DefaultMessageProperties from "../mixins/CmdUploadForm/DefaultMessageProperties"
+
 import {getFileExtension} from "../utils/GetFileExtension.js"
 import axios from "axios"
 
+// import components
 import CmdFormElement from "./CmdFormElement"
 import CmdSystemMessage from "./CmdSystemMessage"
 

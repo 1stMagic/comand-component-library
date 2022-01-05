@@ -37,4 +37,5 @@ export { default as CmdTooltip } from '@/components/CmdTooltip'
 export { default as CmdTopHeaderNavigation } from '@/components/CmdTopHeaderNavigation'
 export { default as CmdWidthLimitationWrapper } from '@/components/CmdWidthLimitationWrapper'
 
+export { default as DirFocus } from '@/directives/focus'
 export { default as DirTelephone } from '@/directives/telephone'

@@ -1,32 +1,60 @@
 <template>
     <label v-if="(element === 'input' || element === 'select' || element === 'textarea')"
+           :class="[
+            'cmd-form-element',
+             validationStatus,
+           {
+            disabled: $attrs.disabled,
+            inline : displayLabelInline,
+            checked: isChecked,
+            'has-state': validationStatus && validationStatus !== 'none'
+           }]"
            :for="id"
-           :class="['cmd-form-element', status, {'inline' : displayLabelInline, 'checked': isChecked}]"
            ref="label">
-        <!-- begin label (+ required asterisk) -->
+
+        <!-- begin label-text (+ required asterisk) -->
         <span v-if="labelText && $attrs.type !== 'checkbox' && $attrs.type !== 'radio'"
               :class="{'hidden': hideLabel}">
           <span>{{ labelText }}</span>
           <sup v-if="$attrs.required">*</sup>
+          <a href="#"
+             @click.prevent
+             :class="getStatusIconClass"
+             :title="getValidationMessage"
+             :aria-errormessage="getValidationMessage"
+             aria-live="assertive"
+             id="nase"
+             :role="validationStatus === 'error' ? 'alert' : 'dialog'">
+          </a>
         </span>
-        <!-- end label (+ required asterisk) -->
+        <!-- end label-text (+ required asterisk) -->
 
-        <!-- begin inner-icon -->
-        <span v-if="$attrs.type !== 'checkbox' && $attrs.type !== 'radio' && innerIconClass" :class="['place-inside', status, innerIconClass]"></span>
-        <!-- end inner-icon -->
+        <!-- begin icon -->
+        <span
+            v-if="
+        $attrs.type !== 'checkbox' &&
+          $attrs.type !== 'radio' &&
+          (iconClass || fieldIconClass)
+      "
+            :class="['place-inside', fieldIconClass, iconClass]"
+        ></span>
+        <!-- end icon -->
 
         <!-- begin inputfield -->
         <template
             v-if="element === 'input' && $attrs.type !== 'checkbox' && $attrs.type !== 'radio' && $attrs.type !== 'search'">
             <input v-bind="$attrs"
-                   :id="id" :class="htmlClass"
+                   :id="id"
+                   :class="htmlClass"
                    @focus="tooltip = true"
-                   @blur="tooltip = false"
+                   @blur="onBlur"
                    @input="onInput"
                    @mouseover="datalistFocus"
+                   @keyup="checkForCapsLock"
                    :autocomplete="datalist ? 'off' : 'on'"
                    :list="datalist ? datalist.id : false"
                    :value="value"
+                   :maxlength="$attrs.maxlength > 0 ? $attrs.maxlength : 255"
                    ref="input"
             />
         </template>
@@ -34,12 +62,12 @@
 
         <!-- begin show-password-icon -->
         <a v-if="$attrs.type === 'password'"
+           class="place-inside icon-visible"
            href="#"
            @mousedown.prevent="showPassword"
            @mouseup.prevent="hidePassword"
            @mouseleave.prevent="hidePassword"
            @click.prevent
-           class="place-inside icon-visible"
            title="Toggle password visibility">
         </a>
         <!-- end show-password-icon -->
@@ -56,11 +84,14 @@
         <template v-else-if="element === 'input' && ($attrs.type === 'checkbox' || $attrs.type === 'radio')">
             <input v-bind="$attrs"
                    @change="onChange"
+                   @blur="onBlur"
                    :checked="isChecked"
+                   :role="$attrs.type"
+                   :aria-checked="isChecked"
                    :value="inputValue"
-                   :class="[htmlClass, status, { 'replace-input-type': replaceInputType }]"
+                   :class="[htmlClass, validationStatus, { 'replace-input-type': replaceInputType }]"
                    :id="id"
-                   :aria-invalid="status === 'error'"
+                   :aria-invalid="validationStatus === 'error'"
                    :aria-describedby="`status-message-${id}`"
             />
             <span v-if="labelText">
@@ -75,6 +106,7 @@
         <select v-if="element === 'select'"
                 v-bind="$attrs"
                 :id="id"
+                @blur="onBlur"
                 @change="$emit('input', $event.target.value)"
         >
             <option v-for="(option, index) in selectOptions" :key="index" :value="option.value"
@@ -88,34 +120,57 @@
                   v-bind="$attrs"
                   :id="id"
                   :value="value"
+                  :maxlength="$attrs.maxlength > 0 ? $attrs.maxlength : 255"
                   @input="onInput"
                   @focus="tooltip = true"
-                  @blur="tooltip = false">
+                  @blur="onBlur">
         </textarea>
         <!-- end textarea -->
 
         <!-- begin tooltip -->
-        <CmdTooltip v-if="tooltip && tooltipText" :tooltipText="tooltipText"/>
+<!--        <CmdTooltip v-if="tooltipText && $attrs.type === 'password'" :tooltipText="tooltipText" :status="validationStatus" />-->
+        <CmdTooltip v-if="$attrs.type === 'password'" class="box" relatedId="nase">
+            <h4>Password requirements</h4>
+            <p>Password must contain:</p>
+            <ul>
+                <!--<li v-for="(requirement, index) in passwordRequirements">
+                    <span class="icon-check-circle"></span>{{ passwordRequirements.mustHave }}
+                </li>-->
+                <li>Minimum of 8 character</li>
+                <li>At least 1 capital letter</li>
+                <li>At least 1 numbers</li>
+                <li>At least 1 special character</li>
+            </ul>
+            <p>Password may not contain:</p>
+            <ul>
+                <li>Free spaces</li>
+            </ul>
+        </CmdTooltip>
         <!-- end tooltip -->
 
         <!-- begin searchfield -->
         <span v-else-if="element === 'input' && $attrs.type === 'search'" class="flex-container no-gap">
-      <input v-bind="$attrs" :id="id" @input="onInput" :value="value"/>
-      <button class="no-flex" type="button">
-        <span class="icon-search"></span>
-      </button>
-    </span>
+            <input
+                v-bind="$attrs"
+                :id="id"
+                @input="onInput"
+                :maxlength="$attrs.maxlength > 0 ? $attrs.maxlength : 255"
+                :value="value"/>
+            <button class="no-flex" type="button">
+                <span class="icon-search"></span>
+            </button>
+        </span>
         <!-- end searchfield -->
     </label>
 
     <!-- begin button -->
     <button v-else class="button" v-bind="$attrs">
-        <span v-if="buttonIcon.iconPosition === 'before'" :class="buttonIcon.iconClass"></span>
-        <span v-if="buttonIcon.iconPosition">{{ buttonText }}</span>
+        <span v-if="nativeButton?.icon?.show && nativeButton?.icon?.position === 'before'" :class="nativeButton?.icon?.iconClass"></span>
+        <span v-if="nativeButton?.icon && nativeButton?.text">{{ nativeButton.text }}</span>
         <template v-else>
-            {{ buttonText }}
+            {{ nativeButton.text }}
         </template>
-        <span v-if="buttonIcon.iconPosition === 'after'" :class="buttonIcon.iconClass"></span>
+        <span v-if="nativeButton?.icon?.show && nativeButton?.icon?.position === 'after'" :class="nativeButton?.icon?.iconClass"></span>
     </button>
     <!-- end button -->
 </template>
@@ -131,7 +186,9 @@ export default {
     },
     data() {
         return {
-            tooltip: false
+            tooltip: false,
+            validationStatus: "",
+            capsLockActivated: false
         }
     },
     props: {
@@ -220,11 +277,21 @@ export default {
             required: false
         },
         /**
-         * text for native button
+         * native button
          */
-        buttonText: {
-            type: String,
-            required: false
+        nativeButton: {
+            type: Object,
+            default() {
+                return {
+                    text: "",
+                    icon: {
+                        show: true,
+                        iconClass: "",
+                        position: "left",
+                        tooltip: ""
+                    }
+                }
+            }
         },
         /**
          * set icon for native button
@@ -247,7 +314,7 @@ export default {
          *
          * element-property must be 'input' and type-property may not be checkbox or radio
          */
-        innerIconClass: {
+        fieldIconClass: {
             type: String,
             required: false
         },
@@ -256,7 +323,7 @@ export default {
          *
          * type-property may not be checkbox or radio
          */
-         displayLabelInline: {
+        displayLabelInline: {
             type: Boolean,
             required: false
         },
@@ -268,9 +335,55 @@ export default {
         status: {
             type: String,
             required: false
+        },
+        /**
+         * validation message shown on hovering the status-icon of a form-element with state
+         */
+        validationMessage: {
+            type: String,
+            required: false
+        },
+        passwordRequirements: {
+            type: Array,
+            default() {
+                return [
+                    {
+                        message: "Min 8 Zeichen",
+                        valid(value) {
+                            return value.length >= 8
+                        }
+                    }
+                ]
+            }
         }
     },
     computed: {
+        getValidationMessage() {
+            if (this.validationStatus !== "none") {
+                if (this.validationStatus === "error" && !this.validationMessage) {
+                    return "This information is not filled correctly!"
+                }
+                if (this.validationStatus === "warning" && this.capsLockActivated) {
+                    return "Attention: Caps lock is activated!"
+                }
+            }
+            return ""
+        },
+        getStatusIconClass() {
+            if (this.validationStatus !== "none") {
+                if(!this.capsLockActivated) {
+                    if (this.validationStatus === "success") {
+                        return "icon-check-circle"
+                    } else if(this.validationStatus === "warning") {
+                        return "icon-exclamation-circle"
+                    }
+                    return "icon-" + this.validationStatus + "-circle"
+                } else {
+                    return "icon-home"
+                }
+            }
+            return ""
+        },
         isChecked() {
             if (typeof this.value === "boolean") {
                 return this.value
@@ -290,6 +403,33 @@ export default {
     methods: {
         getDomElement() {
             return this.$refs.label
+        },
+        checkForCapsLock(event) {
+          if((["password", "number", "url", "email"].includes(this.$attrs.type)) && event.getModifierState("CapsLock")) {
+              this.capsLockActivated = true
+              this.validationStatus = "warning"
+          } else {
+              this.capsLockActivated = false
+              this.validationStatus = "none"
+          }
+        },
+        onBlur(event) {
+            // check if surrounding form with data-use-validation exists
+            const useValidation = event.target.closest("form")?.dataset.useValidation === "true"
+
+            if(useValidation) {
+                this.tooltip = false
+                this.validationStatus = "none"
+
+                // if input is filled, set status to success (expect for checkboxes and radiobuttons)
+                if(!["checkbox", "radio"].includes(this.$attrs.type) && this.value) {
+                    this.validationStatus = "success"
+                }
+
+                if (typeof event.target.checkValidity === "function" && !event.target.checkValidity()) {
+                    this.validationStatus = "error"
+                }
+            }
         },
         onChange(e) {
             if (typeof this.value === "boolean") {
@@ -324,14 +464,22 @@ export default {
 
             // toggle input-type to make password visible
             passwordField.nextElementSibling.classList.replace("icon-visible", "icon-not-visible")
-            passwordField.setAttribute("type","text")
+            passwordField.setAttribute("type", "text")
 
             // assign saved password back to field
             passwordField.setAttribute("value", password)
         },
         hidePassword() {
             this.$refs.input.nextElementSibling.classList.replace("icon-not-visible", "icon-visible")
-            this.$refs.input.setAttribute("type","password")
+            this.$refs.input.setAttribute("type", "password")
+        }
+    },
+    watch: {
+        status: {
+          handler() {
+              this.validationStatus = this.status
+          },
+          immediate: true
         }
     }
 }
@@ -342,6 +490,45 @@ export default {
     input + .place-inside[class*="icon"] {
         left: auto;
         right: .5rem
+    }
+
+    &.has-state {
+        &.warning {
+            --status-color: var(--warning-color);
+        }
+
+        &.success {
+            --status-color: var(--success-color);
+        }
+
+        &.info {
+            --status-color: var(--info-color);
+        }
+
+        > span {
+            color: var(--status-color);
+
+            &[class*="icon-"].place-inside {
+                color: var(--status-color);
+            }
+        }
+    }
+
+    .cmd-tooltip {
+        position: absolute;
+        padding: .2rem calc(var(--default-padding) / 2);
+        top: .3rem;
+        line-height: 100%;
+        right: 0;
+        background: var(--pure-white);
+        border: var(--primary-border);
+        font-weight: bold;
+        font-size: 1.2rem;
+        margin: 0;
+
+        &.box {
+            padding: var(--default-padding);
+        }
     }
 }
 </style>

@@ -9,7 +9,7 @@ export default {
     name: "CmdGoogleMaps",
     props: {
         /**
-         * address to show show on Google Maps&trade;
+         * address to show on Google Maps&trade;
          */
         addressData: {
             type: Object,

@@ -1,10 +1,14 @@
 <template>
     <div class="grid-container-create-columns cmd-image-gallery">
-        <a href="#" v-for="(image, index) in images" :key="index" @click.prevent="showFancyBox(index)"
-           title="Open large image">
+        <a v-for="(image, index) in images"
+           :key="index"
+           @click.prevent="showFancyBox(index)"
+           href="#"
+           :title="getMessage('cmdsitesearch.labeltext.open_large_image')">
             <figure>
-                <img :src="image.srcImageSmall" :alt="image.alt">
-                <figcaption v-if="image.figcaption">{{ image.figcaption }}</figcaption>
+                <figcaption v-if="image.figcaption && figcaptionPosition === 'top'">{{ image.figcaption }}</figcaption>
+                <img :src="image.srcImageSmall" :alt="image.alt" />
+                <figcaption v-if="image.figcaption && figcaptionPosition === 'bottom'">{{ image.figcaption }}</figcaption>
             </figure>
         </a>
     </div>
@@ -13,13 +17,30 @@
 <script>
 import {openFancyBox} from "./CmdFancyBox"
 
+// import files for translations
+import I18n from "../mixins/I18n"
+import DefaultMessageProperties from "../mixins/CmdSiteSearch/DefaultMessageProperties"
+
 export default {
     name: "CmdImageGallery",
+    mixins: [I18n, DefaultMessageProperties],
     props: {
         /**
          * list of images (incl. captions)
          */
-        images: Array
+        images: {
+            type: Array,
+            required: true
+        },
+        /**
+         * position of figcaption (if exists)
+         *
+         * values: top, bottom
+         */
+        figcaptionPosition: {
+            type: String,
+            default: "top"
+        }
     },
     methods: {
         showFancyBox(index) {

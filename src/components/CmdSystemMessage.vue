@@ -3,7 +3,7 @@
         <div
             v-if="showSystemMessage"
             :class="['cmd-system-message', 'system-message', { 'full-width': fullWidth }, status]"
-            role="alert"
+            :role="status === 'error' ? 'alert' : 'dialog'"
         >
             <a
                 v-if="iconClose.iconClass"
@@ -13,7 +13,7 @@
                 :title="iconClose.tooltip"
             ></a>
             <h6>
-                <span v-if="iconMessage && iconMessage.iconClass && iconMessage.show" :class="iconMessage.iconClass"></span>
+                <span v-if="iconMessage && iconMessage.iconClass" :class="iconMessage.iconClass"></span>
                 <strong v-if="message">{{ message }}</strong>
             </h6>
             <slot></slot>
@@ -102,6 +102,12 @@ export default {
 
     > :last-child {
         margin-bottom: 0;
+    }
+
+    ul {
+        li {
+            margin-left: 0;
+        }
     }
 
     > a[class*="icon-"]:not(.button) {

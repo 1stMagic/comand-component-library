@@ -1,21 +1,38 @@
 <template>
-    <div :class="[status, 'cmd-fake-select label', {color: type === 'color'}]">
-        <span>{{ labelText }}</span>
+    <div :class="[validationStatus,
+    'cmd-fake-select label',
+    {color: type === 'color',
+    'has-state': validationStatus && validationStatus !== 'none'}]
+"
+    :aria-labelledby="labelText"
+    >
+        <span>
+            {{ labelText }}
+            <sup v-if="$attrs.required !== undefined">*</sup>
+<!--                      <a href="#"-->
+<!--                         @click.prevent-->
+<!--                         :class="getStatusIconClass"-->
+<!--                         :title="getValidationMessage"-->
+<!--                         :aria-errormessage="getValidationMessage"-->
+<!--                         aria-live="assertive"-->
+<!--                         :role="validationStatus === 'error' ? 'alert' : 'dialog'">-->
+<!--          </a>-->
+        </span>
         <ul :class="{'open': showOptions}" @clickout="closeOptions">
             <li>
                 <!-- begin default/selected-option -->
-                <a href="#" @click.prevent="toggleOptions">
+                <a href="#" @click.prevent="toggleOptions" @blur="onBlur">
                     <img v-if="type === 'country' && optionCountry" :src="pathFlag(optionCountry)" :alt="optionCountry" :class="['flag', optionCountry]"/>
                     <span v-else-if="type === 'color'" :style="'background: ' + optionColor"></span>
                     <span v-if="optionIcon" :class="optionIcon"></span>
                     <span>{{ optionName }}</span>
-                    <span :class="dropdownIconClass" title="Toggle dropdown visibility"></span>
+                    <span v-if="dropdownIcon" :class="dropdownIcon.iconClass" :title="dropdownIcon.tooltip"></span>
                 </a>
                 <!-- end default/selected-option-->
 
                 <!-- begin default dropdown (incl. optional icon) -->
-                <ul v-if="type === 'default' && showOptions">
-                    <li v-for="(option, index) in selectData" :key="index">
+                <ul v-if="type === 'default' && showOptions" :aria-expanded="showOptions">
+                    <li v-for="(option, index) in selectData" :key="index" role="option">
                         <a href="#" @click.prevent="selectOption(option.value)" :class="{'active' : option.value === value}">
                             <span v-if="option.icon?.iconClass" :class="option.icon.iconClass"></span>
                             <span>{{ option.text }}</span>
@@ -25,7 +42,7 @@
                 <!-- end default dropdown (incl. optional icon) -->
 
                 <!-- begin dropdown with checkboxes -->
-                <ul v-else-if="type !== 'default' && type !== 'content' && showOptions" :class="{'checkbox-options': type === 'checkboxOptions'}">
+                <ul v-else-if="type !== 'default' && type !== 'content' && showOptions" :class="{'checkbox-options': type === 'checkboxOptions'}" :aria-expanded="showOptions">
                     <li v-for="(option, index) in selectData" :key="index">
                         <label v-if="type === 'checkboxOptions'" :for="'option-' + (index + 1)" :class="{'active' : value.includes(`${option.value}`)}">
                             <input type="checkbox" :value="option.value" @change="optionSelect"
@@ -42,16 +59,14 @@
 
                         <a v-else href="#" @click.prevent="selectOption(option.value)" :class="{'active' : option.value === value}">
                             <span class="color" :style="'background: ' + option.value"></span>
-                            <span>{{
-                                    option.text
-                                }}</span>
+                            <span>{{ option.text }}</span>
                         </a>
                     </li>
                 </ul>
                 <!-- end dropdown with checkboxes -->
 
                 <!-- begin dropdown with slot -->
-                <template v-else-if="type === 'content' && showOptions">
+                <template v-else-if="type === 'content' && showOptions" :aria-expanded="showOptions">
                     <slot></slot>
                 </template>
                 <!-- end dropdown with slot -->
@@ -65,7 +80,9 @@ export default {
     name: 'CmdFakeSelect',
     data() {
         return {
-            showOptions: false
+            showOptions: false,
+            validationStatus: "",
+            hasError: false
         }
     },
     props: {
@@ -109,11 +126,16 @@ export default {
             required: false
         },
         /**
-         * icon-class for dropdown icon (i.e. an angle/arrow)
+         * icon for dropdown-icon (i.e. an angle/arrow)
          */
-        dropdownIconClass: {
-            type: String,
-            default: "icon-single-arrow-down"
+        dropdownIcon: {
+            type: Object,
+            default() {
+                return {
+                    iconClass: "icon-single-arrow-down",
+                    tooltip: "Toggle dropdown visibility"
+                }
+            }
         },
         /**
          * label-text for fake-select
@@ -210,6 +232,19 @@ export default {
         },
         pathFlag(isoCode) {
             return this.pathFlags + "/flag-" + isoCode + ".svg"
+        },
+        onBlur() {
+            if(this.$attrs.required !== undefined && !this.value) {
+                this.hasError = true
+            }
+        }
+    },
+    watch: {
+        status: {
+            handler() {
+                this.validationStatus = this.status
+            },
+            immediate: true
         }
     }
 }
@@ -366,8 +401,6 @@ export default {
 
                     &:hover, &:active, &:focus {
                         border-color: var(--error-color);
-                        background: var(--error-background);
-
                         span {
                             color: var(--error-color);
                         }

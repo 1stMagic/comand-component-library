@@ -178,10 +178,10 @@ export default {
                     }
                 }
             }
+        }
 
-            .toggle-switch {
-                display: flex;
-            }
+        .toggle-switch {
+            display: flex;
         }
     }
 

@@ -1,6 +1,8 @@
 <template>
   <transition name="fade">
-    <div :class="['cmd-fancybox', {'show-overlay': showOverlay}]" v-if="showFancyBox" role="dialog"
+    <div v-if="showFancyBox"
+         :class="['cmd-fancybox', {'show-overlay': showOverlay}]"
+         role="dialog"
          aria-labelledby="fancybox">
       <div class="popup" :class="{'image' : fancyBoxImageUrl || fancyBoxGallery }">
         <div class="button-wrapper no-flex"
@@ -28,7 +30,7 @@
         </div>
         <div :class="{'grayscale' : printInGrayscale}">
           <div v-if="fancyBoxImageUrl" class="content">
-            <img :src="fancyBoxImageUrl" alt=""/>
+            <img :src="fancyBoxImageUrl" :alt="altText" />
           </div>
           <div v-else-if="fancyBoxContent" class="content" v-html="fancyBoxContent"></div>
           <div v-else-if="fancyBoxElements" class="content"></div>
@@ -53,6 +55,8 @@
 
 <script>
     import {defineComponent, createApp} from "vue"
+
+    // import components
     import CmdSlideButton from "./CmdSlideButton.vue"
     import CmdThumbnailScroller from './CmdThumbnailScroller.vue'
 
@@ -168,6 +172,13 @@
                         }
                     }
                 }
+            },
+            /**
+             * alternative text for large image (required for images)
+             */
+            altText: {
+                type: String,
+                required: false
             }
         },
         components: {

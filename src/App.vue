@@ -107,8 +107,14 @@
                 <ul class="list-status">
                     <li><a href="#" @click.prevent="formElementStatus = ''" :class="{'active' : formElementStatus === ''}"
                            id="status-default">Default</a></li>
-                    <li><a href="#" @click.prevent="formElementStatus = 'error'"
+                    <li class="error"><a href="#" @click.prevent="formElementStatus = 'error'"
                            :class="{'active' : formElementStatus === 'error'}" id="status-error">Error</a></li>
+                    <li><a href="#" @click.prevent="formElementStatus = 'warning'"
+                           :class="{'active' : formElementStatus === 'warning'}" id="status-warning">Warning</a></li>
+                    <li><a href="#" @click.prevent="formElementStatus = 'success'"
+                           :class="{'active' : formElementStatus === 'success'}" id="status-success">Success</a></li>
+                    <li><a href="#" @click.prevent="formElementStatus = 'info'"
+                           :class="{'active' : formElementStatus === 'info'}" id="status-info">Info</a></li>
                     <li><a href="#" @click.prevent="formElementStatus = 'disabled'"
                            :class="{'active' : formElementStatus === 'disabled'}" id="status-disabled">Disabled</a></li>
                 </ul>
@@ -123,7 +129,7 @@
             />
             <!-- end formfilters -->
 
-            <form method="get" novalidate="novalidate" id="advanced-form-elements">
+            <CmdForm :use-fieldset="false" id="advanced-form-elements" novalidate="novalidate">
                 <fieldset class="grid-container-create-columns">
                     <legend>Legend</legend>
                     <h2>Form Element-Component</h2>
@@ -137,6 +143,7 @@
                         />
                         <CmdFormElement labelText="Input for selectbox:"
                                         element="select"
+                                        required="required"
                                         :status="formElementStatus"
                                         v-model:value="selectedOption"
                                         :selectOptions="selectOptionsData"
@@ -157,6 +164,7 @@
                                         :status="formElementStatus"
                                         :selectData="fakeSelectOptionsData"
                                         v-model:value="fakeSelectDefault"
+                                        required
                                         defaultOptionName="Select an option:"
                         />
                         <CmdFakeSelect labelText="Default selectbox with icons:"
@@ -199,6 +207,7 @@
                                        :selectData="fakeSelectColorsData"
                                        v-model:value="selectedColor"
                                        defaultOptionName="Select color:"
+                                       required="required"
                                        type="color"
                         />
                     </div>
@@ -322,24 +331,35 @@
                                     v-model:value="inputField1"
                                     tooltipText="This is a tooltip!"
                                     :status="formElementStatus"/>
-
+                    <CmdFormElement element="input"
+                                    labelText="Label for inputfield (with pattern):"
+                                    type="text"
+                                    id="inputfield-pattern"
+                                    placeholder="This is placeholder text"
+                                    v-model:value="inputFieldPattern"
+                                    tooltipText="This is a tooltip!"
+                                    pattern="\d+"
+                                    :status="formElementStatus"/>
                     <!-- begin inputfield in two columns -->
                     <div class="flex-container">
                         <CmdFormElement labelText="Label for inputfield (with icon):"
                                         element="input"
                                         type="text"
                                         id="inputfield2"
-                                        innerIconClass="icon-user-profile"
+                                        fieldIconClass="icon-user-profile"
                                         placeholder="Type in username"
                                         tooltipText="This is a tooltip!"
+                                        maxlength="100"
+                                        v-model:value="inputUsername"
                                         :status="formElementStatus"/>
                         <CmdFormElement element="input"
-                                        labelText="Label for inputfield (with icon):"
+                                        labelText="Label for passwordfield:"
                                         type="password"
                                         id="inputfield3"
-                                        innerIconClass="icon-security-settings"
+                                        fieldIconClass="icon-security-settings"
                                         placeholder="Type in password"
                                         tooltipText="This is a tooltip!"
+                                        v-model:value="inputPassword"
                                         :status="formElementStatus"/>
                     </div>
                     <!-- end inputfield in two columns -->
@@ -349,12 +369,17 @@
                                     :displayLabelInline="true"
                                     type="number"
                                     id="inputfield4"
+                                    required="required"
+                                    min="0"
+                                    max="9"
+                                    v-model:value="inputNumber"
                                     :status="formElementStatus"/>
                     <CmdFormElement element="input"
                                     labelText="Label (inline) for inputfield (date):"
                                     :displayLabelInline="true"
                                     type="date"
                                     id="inputfield5"
+                                    v-model:value="inputDate"
                                     :status="formElementStatus"/>
                     <CmdFormElement element="input"
                                     labelText="Label (inline) for inputfield (search):"
@@ -362,6 +387,15 @@
                                     type="search"
                                     id="inputfield6"
                                     placeholder="Keyword(s)"
+                                    v-model:value="inputSearch"
+                                    :status="formElementStatus"/>
+                    <CmdFormElement element="textarea"
+                                    labelText="Label for textarea:"
+                                    id="textarea"
+                                    minlength="1"
+                                    maxlength="10"
+                                    placeholder="Type in your message"
+                                    v-model:value="textarea"
                                     :status="formElementStatus"/>
                     <div class="label inline">
                         <span>Label for native checkboxes:</span>
@@ -369,18 +403,37 @@
                             <CmdFormElement element="input"
                                             labelText="Label for checkbox with boolean"
                                             type="checkbox"
-                                            id="inputfield7"
-                                            v-model:value="checkboxStatus"
+                                            id="checkbox-with-boolean"
+                                            v-model:value="checkboxValue"
                                             :status="formElementStatus"/>
                             <CmdFormElement element="input"
                                             labelText="Label for checkbox with value"
                                             v-model:value="checkboxValues"
-                                            inputValue="checkboxValue"
+                                            inputValue="checkboxValue1"
                                             type="checkbox"
-                                            id="inputfield8"
+                                            id="checkbox-with-value-1"
+                                            :status="formElementStatus"/>
+                            <CmdFormElement element="input"
+                                            labelText="Label for checkbox with value"
+                                            v-model:value="checkboxValues"
+                                            inputValue="checkboxValue2"
+                                            type="checkbox"
+                                            id="checkbox-with-value-2"
                                             :status="formElementStatus"/>
                         </div>
                     </div>
+                    <CmdFormElement element="input"
+                                    labelText="Label for (required) checkbox with boolean"
+                                    type="checkbox"
+                                    required="required"
+                                    id="checkbox-required-with-boolean"
+                                    v-model:value="checkboxRequiredValue"
+                                    :status="formElementStatus"/>
+                    <p>
+                        checkbox (required) with boolean: {{checkboxRequiredValue}}<br />
+                        checkbox with boolean: {{checkboxValue}}<br />
+                        checkboxes with values: {{checkboxValues}}
+                    </p>
                     <div class="label inline">
                         <span>Label for Replaced Input-Type-Checkbox:</span>
                         <div class="flex-container no-flex">
@@ -389,12 +442,13 @@
                                             type="checkbox"
                                             class="replace-input-type"
                                             id="inputfield9"
-                                            v-model:value="replacedCheckboxStatus1"
+                                            v-model:value="replacedCheckboxValue"
+                                            inputValue="checkboxValue1"
                                             :status="formElementStatus"/>
                             <CmdFormElement element="input"
                                             labelText="Label for replaced checkbox"
-                                            v-model:value="replacedCheckboxStatus2"
-                                            inputValue="checkboxValue"
+                                            v-model:value="replacedCheckboxValue"
+                                            inputValue="checkboxValue2"
                                             type="checkbox"
                                             class="replace-input-type"
                                             id="inputfield10"
@@ -410,7 +464,7 @@
                                             id="inputfield11"
                                             name="radiogroup"
                                             inputValue="radiobuttonValue1"
-                                            v-model:value="radiobuttonStatus"
+                                            v-model:value="radiobuttonValue"
                                             :status="formElementStatus"/>
                             <CmdFormElement element="input"
                                             labelText="Label for native radiobutton"
@@ -418,11 +472,13 @@
                                             id="inputfield12"
                                             name="radiogroup"
                                             inputValue="radiobuttonValue2"
-                                            v-model:value="radiobuttonStatus"
-                                            checked="checked"
+                                            v-model:value="radiobuttonValue"
                                             :status="formElementStatus"/>
                         </div>
                     </div>
+                    <p>
+                        radiobuttons with values: {{radiobuttonValue}}
+                    </p>
                     <div class="label inline">
                         <span>Label for Replaced Input-Type-Radio:</span>
                         <div class="flex-container no-flex">
@@ -433,7 +489,7 @@
                                             id="inputfield13"
                                             name="replaced-radiogroup"
                                             inputValue="radiobuttonValue1"
-                                            v-model:value="replacedRadiobuttonStatus"
+                                            v-model:value="replacedRadiobuttonValue"
                                             :status="formElementStatus"/>
                             <CmdFormElement element="input"
                                             labelText="Label for replaced radiobutton"
@@ -442,8 +498,7 @@
                                             id="inputfield14"
                                             name="replaced-radiogroup"
                                             inputValue="radiobuttonValue2"
-                                            v-model:value="replacedRadiobuttonStatus"
-                                            checked="checked"
+                                            v-model:value="replacedRadiobuttonValue"
                                             :status="formElementStatus"/>
                         </div>
                     </div>
@@ -462,7 +517,7 @@
                     <CmdMultipleSwitch labelText="Label for multiple-switch with radiobuttons:"
                                        :multipleSwitches="multipleSwitchRadioData"
                                        switchTypes="radio"
-                                       switchNames="radiogroup"
+                                       switchNames="swtich-names"
                                        :status="formElementStatus"
                                        v-model:value="multipleSwitchRadio"/>
                     <dl>
@@ -475,15 +530,16 @@
                 <div class="button-wrapper">
                     <small><sup>*</sup>values will not be submitted with the form!</small>
                     <CmdFormElement element="button"
-                                    buttonText="Submit form"
+                                    :nativeButton="{text: 'Native submit button'}"
                                     type="button"
                                     id="submitbutton"
                                     name="submitbutton"
                                     :status="formElementStatus"/>
-                    <button type="submit" :disabled="formElementStatus === 'disabled'"><span class="icon-check"></span><span>Submit form</span>
+                    <button type="submit" :disabled="formElementStatus === 'disabled'">
+                        <span class="icon-check"></span><span>Submit button</span>
                     </button>
                 </div>
-            </form>
+         </CmdForm>
         </CmdWidthLimitationWrapper>
         <!-- end advanced form elements ----------------------------------------------------------------------------------------------------------------------------------------------------->
 
@@ -609,7 +665,7 @@
             <h2 class="headline-demopage">Fancybox</h2>
             <a href="#" @click.prevent="showFancyBox('text','Some text')">Open FancyBox with text</a>
             <a href="#"
-               @click.prevent="showFancyBox('image', 'media/images/content-images/logo-business-edition-landscape.jpg')"
+               @click.prevent="showFancyBox('image', 'media/images/content-images/logo-business-edition-landscape.jpg', 'Alternative text')"
                title="Open FancyBox with large image">
                 <img src="media/images/content-images/logo-business-edition-landscape.jpg" alt="Alternative text"/>
             </a>
@@ -637,7 +693,7 @@
         <a id="section-login-form"></a>
         <CmdWidthLimitationWrapper>
             <h2 class="headline-demopage">Login Form</h2>
-            <CmdLoginForm v-model="loginData" />
+            <CmdLoginForm v-model="loginData" v-focus />
             <p>LoginData: {{loginData}}</p>
         </CmdWidthLimitationWrapper>
 
@@ -694,8 +750,10 @@
         <a id="section-system-message"></a>
         <CmdWidthLimitationWrapper>
             <h2 class="headline-demopage">System Message</h2>
-            <CmdSystemMessage status="error" :fullWidth="true" message="This is an error message!"
-                              iconClass="icon-cancel">
+            <CmdSystemMessage status="error"
+                              :fullWidth="true"
+                              message="This is an error message!"
+                              :iconMessage="{iconClass: 'icon-error-circle'}">
                 <ul>
                     <li>Error #1</li>
                     <li>Error #2</li>
@@ -706,11 +764,11 @@
                 <p>This is additional text!</p>
             </CmdSystemMessage>
             <CmdSystemMessage status="success" :fullWidth="true" message="This is a success message!"
-                              iconClass="icon-check">
+                              :iconMessage="{iconClass: 'icon-check-circle'}">
                 <p>This is additional text!</p>
             </CmdSystemMessage>
             <CmdSystemMessage status="info" :fullWidth="true" message="This is an info message!"
-                              iconClass="icon-info">
+                              :iconMessage="{iconClass: 'icon-info-circle'}">
                 <p>This is additional text!</p>
             </CmdSystemMessage>
         </CmdWidthLimitationWrapper>
@@ -752,7 +810,22 @@
         <a id="section-thumbnail-scroller"></a>
         <CmdWidthLimitationWrapper>
             <h2 class="headline-demopage">Thumbnail-Scroller</h2>
-            <CmdThumbnailScroller :thumbnail-scroller-items="thumbnailScrollerData"/>
+            <CmdThumbnailScroller :thumbnail-scroller-items="thumbnailScrollerData" />
+        </CmdWidthLimitationWrapper>
+
+        <a id="section-tooltip"></a>
+        <CmdWidthLimitationWrapper>
+            <h2 class="headline-demopage">Tooltip</h2>
+            <p>
+                <a href="#" @click.prevent id="hoverme">Hover me!</a><br />
+                <a href="#" @click.prevent id="clickme" title="Native tooltip">Click me!</a>
+            </p>
+            <CmdTooltip related-id="hoverme">
+                Tooltip for hover
+            </CmdTooltip>
+            <CmdTooltip related-id="clickme" :toggle-visibility-by-click="true">
+                Tooltip for click
+            </CmdTooltip>
         </CmdWidthLimitationWrapper>
 
         <a id="section-upload-form"></a>
@@ -850,6 +923,7 @@ import CmdCookieDisclaimer from "@/components/CmdCookieDisclaimer.vue"
 import CmdFakeSelect from "@/components/CmdFakeSelect.vue"
 import CmdFancyBox from "@/components/CmdFancyBox.vue"
 import CmdFooterNavigation from "@/components/CmdFooterNavigation.vue"
+import CmdForm from "@/components/CmdForm.vue"
 import CmdFormElement from "@/components/CmdFormElement.vue"
 import CmdFormFilters from "@/components/CmdFormFilters.vue"
 import CmdGoogleMaps from "./components/CmdGoogleMaps"
@@ -872,6 +946,7 @@ import CmdSystemMessage from "@/components/CmdSystemMessage.vue"
 import CmdTabs from "@/components/CmdTabs.vue"
 import CmdTable from "@/components/CmdTable.vue"
 import CmdThumbnailScroller from "@/components/CmdThumbnailScroller.vue"
+import CmdTooltip from "@/components/CmdTooltip.vue"
 import CmdTopHeaderNavigation from "@/components/CmdTopHeaderNavigation.vue"
 import CmdUploadForm from "@/components/CmdUploadForm.vue"
 import CmdWidthLimitationWrapper from "@/components/CmdWidthLimitationWrapper"
@@ -892,6 +967,7 @@ export default {
         CmdFakeSelect,
         CmdFancyBox,
         CmdFooterNavigation,
+        CmdForm,
         CmdFormFilters,
         CmdFormElement,
         CmdGoogleMaps,
@@ -914,6 +990,7 @@ export default {
         CmdTabs,
         CmdTable,
         CmdThumbnailScroller,
+        CmdTooltip,
         CmdTopHeaderNavigation,
         CmdUploadForm,
         CmdWidthLimitationWrapper
@@ -921,6 +998,12 @@ export default {
 
     data() {
         return {
+            showTooltip: false,
+            inputFieldPattern: "",
+            inputSearch: "",
+            textarea: "",
+            inputNumber: "",
+            inputDate: "",
             accordionGroupOpen: false,
             showPageMultistep: 1,
             showPagePager: 1,
@@ -934,13 +1017,15 @@ export default {
             switchButtonRadio: "radio1",
             switchButtonCheckbox: ["checkbox1"],
             switchButtonCheckboxColored: false,
+            inputUsername: "",
+            inputPassword: "",
             inputField1: "",
-            checkboxStatus: true,
-            replacedCheckboxStatus1: false,
-            replacedCheckboxStatus2: false,
-            checkboxValues: [],
-            radiobuttonStatus: "radiobuttonValue1",
-            replacedRadiobuttonStatus: "radiobuttonValue1",
+            checkboxValue: true,
+            checkboxRequiredValue: false,
+            checkboxValues: ["checkboxValue1"],
+            replacedCheckboxValue: "checkboxValue1",
+            radiobuttonValue: "radiobuttonValue1",
+            replacedRadiobuttonValue: "radiobuttonValue1",
             multipleSwitchCheckbox: ['b'],
             multipleSwitchRadio: 'c',
             fancyBoxCookieDisclaimer: false,
@@ -992,11 +1077,11 @@ export default {
             console.log("EventMessages", event.messages)
             alert("Error")
         },
-        showFancyBox(type, content) {
+        showFancyBox(type, content, altText) {
             if (type === 'text') {
                 openFancyBox({content: content})
             } else if (type === 'image') {
-                openFancyBox({url: content})
+                openFancyBox({url: content, altText: altText})
             }
         },
         getOptionName(option) {
@@ -1028,3 +1113,12 @@ export default {
     }
 }
 </script>
+
+<style lang="scss">
+.list-status {
+    .active {
+        color: var(--default-color);
+        text-decoration: none;
+    }
+}
+</style>

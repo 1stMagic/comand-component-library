@@ -24,7 +24,7 @@
                 :placeholder="cmdFormElementPassword.placeholder"
             />
         </div>
-        <div class="option-wrapper flex-container">
+        <div class="option-wrapper flex-container" v-focus>
             <template v-if="options.forgotPassword || options.createAccount">
                 <a v-if="options.forgotPassword" href="#" @click.prevent="sendLogin = true">
                     <span v-if="options.forgotPassword.icon && options.forgotPassword.icon.show && options.forgotPassword.icon.iconClass"
