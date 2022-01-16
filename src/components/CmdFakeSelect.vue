@@ -4,19 +4,21 @@
     {color: type === 'color',
     'has-state': validationStatus && validationStatus !== 'none'}]
 "
-    :aria-labelledby="labelText"
+         :aria-labelledby="labelText"
+         :aria-required="$attrs.required !== undefined"
     >
         <span>
             {{ labelText }}
             <sup v-if="$attrs.required !== undefined">*</sup>
-<!--                      <a href="#"-->
-<!--                         @click.prevent-->
-<!--                         :class="getStatusIconClass"-->
-<!--                         :title="getValidationMessage"-->
-<!--                         :aria-errormessage="getValidationMessage"-->
-<!--                         aria-live="assertive"-->
-<!--                         :role="validationStatus === 'error' ? 'alert' : 'dialog'">-->
-<!--          </a>-->
+          <a href="#"
+             @click.prevent
+             :class="getStatusIconClass"
+             :title="!useCustomTooltip ? getValidationMessage : ''"
+             :aria-errormessage="getValidationMessage"
+             aria-live="assertive"
+             :id="tooltipId"
+             :role="validationStatus === 'error' ? 'alert' : 'dialog'">
+          </a>
         </span>
         <ul :class="{'open': showOptions}" @clickout="closeOptions">
             <li>
@@ -73,11 +75,68 @@
             </li>
         </ul>
     </div>
+    <!-- begin tooltip -->
+    <!--        <CmdTooltip v-if="tooltipText && $attrs.type === 'password'" :tooltipText="tooltipText" :status="validationStatus" />-->
+    <CmdTooltip v-if="useCustomTooltip" class="box" :relatedId="tooltipId" :toggle-visibility-by-click="true">
+        <template v-if="getValidationMessage">
+            {{ getValidationMessage }}
+        </template>
+        <template v-if="validationStatus === '' || validationStatus === 'error'">
+            <h6>Requirements</h6>
+<!--            <dl class="list-of-requirements">-->
+<!--                <template v-for="(requirement, index) in inputRequirements" :key="index">-->
+<!--                    <dt :class="requirement.valid(value, $attrs) ? 'success' : 'error'">{{requirement.message}}:</dt>-->
+<!--                    <dd :class="requirement.valid(value, $attrs) ? 'success' : 'error'">{{ requirement.condition(value, $attrs) }}</dd>-->
+<!--                </template>-->
+<!--            </dl>-->
+            <!--
+            <dl class="list-of-requirements">
+                <dt :class="($attrs.required && !value) ? 'error' : 'success'">Required:</dt>
+                <dd :class="($attrs.required && !value) ? 'error' : 'success'">{{ $attrs.required ? 'yes' : 'no' }}</dd>
+                <dt>Allowed characters:</dt>
+                <dd>{{ allowedCharacters }}</dd>
+                <dt :class="($attrs.minlength && (value.length < $attrs.minlength)) ? 'error' : 'success'">Minlength:</dt>
+                <dd :class="($attrs.minlength && (value.length < $attrs.minlength)) ? 'error' : 'success'"><template v-if="$attrs.minlength">{{value.length}}/</template>{{ $attrs.minlength ? $attrs.minlength : 'none' }}</dd>
+                <dt :class="($attrs.maxlength && (value.length <= $attrs.maxlength)) ? 'error' : 'success'">Maxlength:</dt>
+                <dd :class="($attrs.maxlength && (value.length <= $attrs.maxlength)) ? 'error' : 'success'">{{ $attrs.maxlength ? $attrs.maxlength : 'none' }}</dd>
+                <template v-if="$attrs.type === 'number'">
+                    <dt :class="($attrs.min && (Number(value) < Number($attrs.min))) ? 'error' : 'success'">Min (value):</dt>
+                    <dd :class="($attrs.min && (Number(value) < Number($attrs.min))) ? 'error' : 'success'">{{ $attrs.min ? $attrs.min : 'none' }}</dd>
+                    <dt :class="($attrs.max && (Number(value) > Number($attrs.max))) ? 'error' : 'success'">Max (value):</dt>
+                    <dd :class="($attrs.max && (Number(value) > Number($attrs.max))) ? 'error' : 'success'">{{ $attrs.max ? $attrs.max : 'none' }}</dd>
+                </template>
+            </dl>
+            <ul>
+                <li v-for="(requirement, index) in additionalRequirements" :key="index">
+                    {{ requirement.message }}: {{ requirement.valid(value) }}<br />
+                    value: {{value}}
+                </li>
+            </ul>
+            -->
+            <a v-if="helplink?.url" :href="helplink.url" :target="helplink.target" @click.prevent>
+                <span v-if="helplink.icon?.iconClass" :class="helplink.icon?.iconClass" :title="helplink.icon?.tooltip"></span>
+                <span v-if="helplink.text">{{ helplink.text }}</span>
+            </a>
+        </template>
+    </CmdTooltip>
+    <!-- end tooltip -->
 </template>
 
 <script>
+// import mixins
+import FieldValidation from "../mixins/FieldValidation.js"
+import Tooltip from "../mixins/Tooltip.js"
+
+// import components
+import CmdTooltip from "./CmdTooltip"
+
 export default {
     name: 'CmdFakeSelect',
+    inheritAttrs: false,
+    mixins: [FieldValidation, Tooltip],
+    components: {
+        CmdTooltip
+    },
     data() {
         return {
             showOptions: false,
@@ -86,6 +145,10 @@ export default {
         }
     },
     props: {
+        helplink: {
+            type: Object,
+            default() {}
+        },
         /**
          * set different default selectbox-types for
          *
@@ -100,13 +163,6 @@ export default {
          */
         value: {
             type: [String, Array],
-            required: false
-        },
-        /**
-         * set default option name
-         */
-        defaultOptionName: {
-            type: String,
             required: false
         },
         /**
@@ -174,13 +230,11 @@ export default {
                 }
             }
 
-            // if nothing is selected return the set default option name
-            if (this.defaultOptionName) {
-                return this.defaultOptionName
+            else if (this.selectData?.length) {
+                return this.selectData[0].text
             }
 
-            // if nothing is selected and no default option name is set, return default text (so selectbox is not empty)
-            return "Please select\u2026"
+            return "Please select"
         },
         // get the displayed icon (only available for default selectbox)
         optionIcon() {
@@ -214,18 +268,33 @@ export default {
                 this.showOptions = !this.showOptions
             }
         },
+        // check is an option is selected for default-selectbox
+        selectOption(optionValue) {
+            this.validationStatus = "success"
+            if(this.$attrs.required !== undefined) {
+                if(!optionValue) {
+                    this.validationStatus = "error"
+                }
+            }
+
+            this.showOptions = false
+            this.$emit('update:value', optionValue);
+        },
+        // check if a checkbox is changed for selectbox with checkboxes
         optionSelect(event) {
+            this.validationStatus = "success"
+
             let value = [...this.value] // copy array from props
             if (event.target.checked) {
                 value.push(event.target.value); // attention: value will be transformed into string!
             } else {
                 value = value.filter(v => v !== event.target.value);
             }
+            if(this.$attrs.required !== undefined && !value.length) {
+                this.validationStatus = "error"
+            }
+
             this.$emit('update:value', value);
-        },
-        selectOption(optionValue) {
-            this.showOptions = false
-            this.$emit('update:value', optionValue);
         },
         closeOptions() {
             this.showOptions = false
@@ -234,7 +303,7 @@ export default {
             return this.pathFlags + "/flag-" + isoCode + ".svg"
         },
         onBlur() {
-            if(this.$attrs.required !== undefined && !this.value) {
+            if (this.$attrs.required !== undefined && !this.value) {
                 this.hasError = true
             }
         }
@@ -401,6 +470,7 @@ export default {
 
                     &:hover, &:active, &:focus {
                         border-color: var(--error-color);
+
                         span {
                             color: var(--error-color);
                         }

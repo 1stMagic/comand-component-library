@@ -6,7 +6,7 @@
             :role="status === 'error' ? 'alert' : 'dialog'"
         >
             <a
-                v-if="iconClose.iconClass"
+                v-if="iconClose.show && iconClose.iconClass"
                 :class="iconClose.iconClass"
                 href="#"
                 @click.prevent="showSystemMessage = false"
@@ -40,14 +40,14 @@ export default {
             required: true
         },
         /**
-         * activate to stretch message-box as wide as parent container (else message-box is as wide as message)
+         * activate to stretch message-box as wide as parent container (else message-box is as wide as message (+padding))
          */
         fullWidth: {
             type: Boolean,
             default: true
         },
         /**
-         * set icon-class for message (will be displayed left from
+         * set icon-class for message (will be displayed left from message)
          */
         iconMessage: {
             type: Object,
@@ -72,8 +72,9 @@ export default {
             type: Object,
             default: function () {
                 return {
+                    show: true,
                     iconClass: "icon-cancel",
-                    tooltip: "Close"
+                    tooltip: "Close this message"
                 }
             }
         }

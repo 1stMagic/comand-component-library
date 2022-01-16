@@ -19,6 +19,7 @@
                     <li><a href="#section-boxes">Boxes</a></li>
                     <li><a href="#section-breadcrumbs">Breadcrumbs</a></li>
                     <li><a href="#section-cookie-disclaimer">Cookie-Disclaimer</a></li>
+                    <li><a href="#section-custom-headline">Custom Headline</a></li>
                 </ul>
                 <ul>
                     <li><a href="#section-fancybox">Fancybox</a></li>
@@ -140,6 +141,7 @@
                                         :status="formElementStatus"
                                         placeholder="Type in text"
                                         tooltipText="This is a tooltip"
+                                        v-bind="{useCustomTooltip: false}"
                         />
                         <CmdFormElement labelText="Input for selectbox:"
                                         element="select"
@@ -179,7 +181,10 @@
                                        :selectData="fakeSelectOptionsData"
                                        v-model:value="fakeSelectCheckbox"
                                        defaultOptionName="Filters:"
+                                       :required="true"
+                                       id="selectbox-with-checkboxes"
                                        type="checkboxOptions"
+                                       :useCustomTooltip="true"
                         />
                         <CmdFakeSelect labelText="Selectbox with slot-content:"
                                        :status="formElementStatus"
@@ -206,7 +211,6 @@
                                        :status="formElementStatus"
                                        :selectData="fakeSelectColorsData"
                                        v-model:value="selectedColor"
-                                       defaultOptionName="Select color:"
                                        required="required"
                                        type="color"
                         />
@@ -322,24 +326,44 @@
                     <!-- end toggle-switch-radio with switch-label (colored) -->
 
                     <h2>Inputfields in Columns</h2>
-                    <CmdFormElement element="input"
-                                    required="required"
-                                    labelText="Label for inputfield (with tooltip):"
-                                    type="text"
-                                    id="inputfield1"
-                                    placeholder="This is placeholder text"
-                                    v-model:value="inputField1"
-                                    tooltipText="This is a tooltip!"
-                                    :status="formElementStatus"/>
-                    <CmdFormElement element="input"
-                                    labelText="Label for inputfield (with pattern):"
-                                    type="text"
-                                    id="inputfield-pattern"
-                                    placeholder="This is placeholder text"
-                                    v-model:value="inputFieldPattern"
-                                    tooltipText="This is a tooltip!"
-                                    pattern="\d+"
-                                    :status="formElementStatus"/>
+                    <div class="flex-container">
+                        <CmdFormElement element="input"
+                                        labelText="Label for inputfield (with tooltip):"
+                                        type="text"
+                                        minlength="5"
+                                        id="inputfield1"
+                                        placeholder="This is placeholder text"
+                                        v-model:value="inputField1"
+                                        tooltipText="This is a tooltip!"
+                                        :status="formElementStatus"
+                                        v-bind="{
+                                            useCustomTooltip: true
+                                        }"
+                        />
+                        <CmdFormElement element="input"
+                                        labelText="Label for inputfield (required):"
+                                        type="text"
+                                        required="required"
+                                        minlength="5"
+                                        id="inputfield-required"
+                                        placeholder="This is placeholder text"
+                                        v-model:value="inputFieldRequired"
+                                        tooltipText="This is a tooltip!"
+                                        :status="formElementStatus"
+                                        v-bind="{useCustomTooltip: true}"
+                        />
+                        <CmdFormElement element="input"
+                                        labelText="Label for inputfield (with pattern):"
+                                        type="text"
+                                        id="inputfield-pattern"
+                                        placeholder="This is placeholder text"
+                                        v-model:value="inputFieldPattern"
+                                        tooltipText="This is a tooltip!"
+                                        pattern="\d+"
+                                        :status="formElementStatus"
+                                        v-bind="{useCustomTooltip: true}"
+                        />
+                    </div>
                     <!-- begin inputfield in two columns -->
                     <div class="flex-container">
                         <CmdFormElement labelText="Label for inputfield (with icon):"
@@ -351,7 +375,9 @@
                                         tooltipText="This is a tooltip!"
                                         maxlength="100"
                                         v-model:value="inputUsername"
-                                        :status="formElementStatus"/>
+                                        :status="formElementStatus"
+                                        v-bind="{useCustomTooltip: true}"
+                                        />
                         <CmdFormElement element="input"
                                         labelText="Label for passwordfield:"
                                         type="password"
@@ -360,6 +386,7 @@
                                         placeholder="Type in password"
                                         tooltipText="This is a tooltip!"
                                         v-model:value="inputPassword"
+                                        v-bind="{useCustomTooltip: true}"
                                         :status="formElementStatus"/>
                     </div>
                     <!-- end inputfield in two columns -->
@@ -373,6 +400,7 @@
                                     min="0"
                                     max="9"
                                     v-model:value="inputNumber"
+                                    v-bind="{useCustomTooltip: true}"
                                     :status="formElementStatus"/>
                     <CmdFormElement element="input"
                                     labelText="Label (inline) for inputfield (date):"
@@ -380,6 +408,7 @@
                                     type="date"
                                     id="inputfield5"
                                     v-model:value="inputDate"
+                                    v-bind="{useCustomTooltip: true}"
                                     :status="formElementStatus"/>
                     <CmdFormElement element="input"
                                     labelText="Label (inline) for inputfield (search):"
@@ -388,6 +417,7 @@
                                     id="inputfield6"
                                     placeholder="Keyword(s)"
                                     v-model:value="inputSearch"
+                                    v-bind="{useCustomTooltip: true}"
                                     :status="formElementStatus"/>
                     <CmdFormElement element="textarea"
                                     labelText="Label for textarea:"
@@ -660,6 +690,17 @@
             </a>
         </CmdWidthLimitationWrapper>
 
+        <a id="section-custom-headline"></a>
+        <CmdWidthLimitationWrapper>
+            <h2 class="headline-demopage">Custom Headline</h2>
+            <CmdCustomHeadline icon-class="icon-home" pre-headline="Pre-headline" :headline="{ text: 'Headline level 1', level: '1'}"/>
+            <CmdCustomHeadline :headline="{ text: 'Headline level 2', level: '2'}"/>
+            <CmdCustomHeadline :headline="{ text: 'Headline level 3', level: '3'}"/>
+            <CmdCustomHeadline :headline="{ text: 'Headline level 4', level: '4'}"/>
+            <CmdCustomHeadline :headline="{ text: 'Headline level 5', level: '5'}"/>
+            <CmdCustomHeadline :headline="{ text: 'Headline level 6', level: '6'}"/>
+        </CmdWidthLimitationWrapper>
+
         <a id="section-fancybox"></a>
         <CmdWidthLimitationWrapper>
             <h2 class="headline-demopage">Fancybox</h2>
@@ -695,12 +736,6 @@
             <h2 class="headline-demopage">Login Form</h2>
             <CmdLoginForm v-model="loginData" v-focus />
             <p>LoginData: {{loginData}}</p>
-        </CmdWidthLimitationWrapper>
-
-        <a id="section-main-headline"></a>
-        <CmdWidthLimitationWrapper>
-            <h2 class="headline-demopage">Main Headline</h2>
-            <CmdMainHeadline icon-class="icon-home" pre-headline="Pre-headline" main-headline="Main headline"/>
         </CmdWidthLimitationWrapper>
 
         <a id="section-main-navigation"></a>
@@ -920,6 +955,7 @@ import CmdBreadcrumbs from "@/components/CmdBreadcrumbs.vue"
 import CmdCompanyLogo from "@/components/CmdCompanyLogo.vue"
 import CmdCopyrightInformation from "@/components/CmdCopyrightInformation.vue"
 import CmdCookieDisclaimer from "@/components/CmdCookieDisclaimer.vue"
+import CmdCustomHeadline from "@/components/CmdCustomHeadline.vue"
 import CmdFakeSelect from "@/components/CmdFakeSelect.vue"
 import CmdFancyBox from "@/components/CmdFancyBox.vue"
 import CmdFooterNavigation from "@/components/CmdFooterNavigation.vue"
@@ -930,7 +966,6 @@ import CmdGoogleMaps from "./components/CmdGoogleMaps"
 import CmdImageGallery from "@/components/CmdImageGallery.vue"
 import CmdImageZoom from "@/components/CmdImageZoom.vue"
 import CmdLoginForm from "@/components/CmdLoginForm.vue"
-import CmdMainHeadline from "@/components/CmdMainHeadline.vue"
 import CmdMainNavigation from "@/components/CmdMainNavigation.vue"
 import CmdMultipleSwitch from "@/components/CmdMultipleSwitch.vue"
 import CmdMultistepFormProgressBar from "@/components/CmdMultistepFormProgressBar.vue"
@@ -964,6 +999,7 @@ export default {
         CmdCompanyLogo,
         CmdCopyrightInformation,
         CmdCookieDisclaimer,
+        CmdCustomHeadline,
         CmdFakeSelect,
         CmdFancyBox,
         CmdFooterNavigation,
@@ -974,7 +1010,6 @@ export default {
         CmdImageGallery,
         CmdImageZoom,
         CmdLoginForm,
-        CmdMainHeadline,
         CmdMainNavigation,
         CmdMultistepFormProgressBar,
         CmdMultipleSwitch,
@@ -1020,6 +1055,7 @@ export default {
             inputUsername: "",
             inputPassword: "",
             inputField1: "",
+            inputFieldRequired: "",
             checkboxValue: true,
             checkboxRequiredValue: false,
             checkboxValues: ["checkboxValue1"],

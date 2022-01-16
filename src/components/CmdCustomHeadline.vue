@@ -1,24 +1,33 @@
 <template>
-    <header class="cmd-main-headline">
+    <header class="cmd-custom-headline">
         <span v-if="iconClass" :class="iconClass"></span>
         <div v-if="preHeadline">
             <p>{{ preHeadline }}</p>
-            <h1>{{ mainHeadline }}</h1>
+            <component :is="getHeadlineTag">
+                <slot>{{ headline.text }}</slot>
+            </component>
         </div>
-        <h1 v-else>{{ mainHeadline }}</h1>
+        <component v-else :is="getHeadlineTag">
+            <slot>{{ headline.text }}</slot>
+        </component>
     </header>
 </template>
 
 <script>
 export default {
-    name: "CmdMainHeadline",
+    name: "CmdCustomHeadline",
     props: {
         /**
-         * main/h1-headline
+         *
          */
-        mainHeadline: {
-            type: String,
-            required: true
+        headline: {
+            type: Object,
+            default() {
+                return {
+                    text: "",
+                    level: "h2"
+                }
+            }
         },
         /**
          * small pre-headline above main-headline
@@ -34,6 +43,11 @@ export default {
             type: String,
             required: false
         }
+    },
+    computed: {
+        getHeadlineTag() {
+            return "h" + this.headline.level
+        }
     }
 }
 </script>
@@ -41,8 +55,8 @@ export default {
 <style lang="scss">
 @import '../assets/styles/variables';
 
-/* begin cmd-main-headline ------------------------------------------------------------------------------------------ */
-.cmd-main-headline {
+/* begin cmd-custom-headline ------------------------------------------------------------------------------------------ */
+.cmd-custom-headline {
     display: flex;
     align-items: center;
     margin-bottom: var(--default-margin);
@@ -52,7 +66,7 @@ export default {
         margin-bottom: 0;
     }
 
-    h1 {
+    h1, h2, h3, h4, h5 ,h6 {
         margin: 0;
         display: flex;
         align-items: center;
@@ -71,5 +85,5 @@ export default {
     }
 }
 
-/* end cmd-main-headline ------------------------------------------------------------------------------------------ */
+/* end cmd-custom-headline ------------------------------------------------------------------------------------------ */
 </style>

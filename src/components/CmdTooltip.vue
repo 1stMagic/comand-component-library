@@ -1,14 +1,24 @@
 <template>
-    <span :class="['cmd-tooltip', status]" ref="tooltip" aria-role="tooltip">
+    <div v-if="tooltipVisibility" :class="['cmd-tooltip', status]" ref="tooltip" aria-role="tooltip">
+        <div v-if="headline || iconClose.show" class="headline-wrapper">
+            <CmdCustomHeadline :headline="headline"></CmdCustomHeadline>
+            <a v-if="iconClose.show && toggleVisibilityByClick" href="#" @click.prevent="tooltipVisibility = false" :title="iconClose.tooltip">
+                <span :class="iconClose.iconClass"></span>
+            </a>
+        </div>
         <slot>
             {{ tooltipText }}
         </slot>
-    </span>
+    </div>
 </template>
 
 <script>
+// import components
+import CmdCustomHeadline from "./CmdCustomHeadline";
+
 export default {
     name: "CmdTooltip",
+    components: {CmdCustomHeadline},
     data() {
         return {
             tooltipVisibility: false,
@@ -17,21 +27,47 @@ export default {
         }
     },
     props: {
+        headline: {
+            type: Object,
+            default() {}
+        },
         /**
-         * text for tooltip
+         * text shown as tooltip
          */
         tooltipText: {
             type: String,
             required: false
         },
+        /**
+         * id of related input-element
+         */
         relatedId: {
             type: String,
             required: false
         },
+        /**
+         * status
+         */
         status: {
             type: String,
             required: false
         },
+        /**
+         * close-icon
+         */
+        iconClose: {
+          type: Object,
+          default() {
+              return {
+                  show: true,
+                  iconClass: "icon-cancel",
+                  tooltip: "Close this tooltip!"
+              }
+          }
+        },
+        /**
+         * enable toggling tooltip-visibility by click
+         */
         toggleVisibilityByClick: {
             type: Boolean,
             default: false
@@ -39,13 +75,18 @@ export default {
     },
     mounted() {
         if(this.relatedId) {
-            document.getElementById(this.relatedId).addEventListener("mouseenter", this.showTooltip)
-            document.addEventListener("scroll", this.hideTooltip)
+            const relatedElement = document.getElementById(this.relatedId)
 
-            if(this.toggleVisibilityByClick) {
-                document.getElementById(this.relatedId).addEventListener("click", this.toggleTooltipVisibility)
-            } else {
-                document.getElementById(this.relatedId).addEventListener("mouseleave", this.hideTooltip)
+            if(relatedElement) {
+                relatedElement.addEventListener("mouseenter", this.showTooltip)
+                document.addEventListener("scroll", this.hideTooltip) // avoid fixed tooltip on scroll
+                document.addEventListener("keyup", this.hideTooltipOnEsc) // close tooltip by using "escape"-key
+
+                if (this.toggleVisibilityByClick) {
+                    relatedElement.addEventListener("click", this.toggleTooltipVisibility)
+                } else {
+                    relatedElement.addEventListener("mouseleave", this.hideTooltip)
+                }
             }
         }
     },
@@ -60,6 +101,13 @@ export default {
             }
             this.getPointerPosition(event)
         },
+        hideTooltipOnEsc(event) {
+            if(this.allowEscapeKey) {
+                if (event.key === 'Escape' || event.key === 'Esc') {
+                    this.hideTooltip()
+                }
+            }
+        },
         hideTooltip() {
             this.tooltipVisibility = false
         },
@@ -70,13 +118,18 @@ export default {
     },
     unmounted() {
         if(this.relatedId) {
-            document.getElementById(this.relatedId).removeEventListener("mouseenter", this.showTooltip)
-            document.removeEventListener("scroll", this.hideTooltip)
+            const relatedElement = document.getElementById(this.relatedId)
 
-            if(this.toggleVisibilityByClick) {
-                document.getElementById(this.relatedId).removeEventListener("click", this.toggleTooltipVisibility)
-            } else {
-                document.getElementById(this.relatedId).removeEventListener("mouseleave", this.showTooltip)
+            if(relatedElement) {
+                relatedElement.removeEventListener("mouseenter", this.showTooltip)
+                document.removeEventListener("scroll", this.hideTooltip)
+                document.removeEventListener("keyup", this.hideTooltipOnEsc)
+
+                if (this.toggleVisibilityByClick) {
+                    relatedElement.removeEventListener("click", this.toggleTooltipVisibility)
+                } else {
+                    relatedElement.removeEventListener("mouseleave", this.showTooltip)
+                }
             }
         }
     },
@@ -85,6 +138,7 @@ export default {
             if(this.tooltipVisibility) {
                 this.$nextTick( () => {
                     const verticalOffset = 25
+                    // this.$refs.tooltip.addEventListener("keyup", this.hideTooltip)
                     this.$refs.tooltip.style.left = this.pointerX + "px"
                     this.$refs.tooltip.style.top = this.pointerY + verticalOffset + "px"
                 })
@@ -107,6 +161,21 @@ export default {
     border-color: hsl(220, 2%, 25%);
     border-right-color: hsl(240, 1%, 81%);
     border-bottom-color: hsl(240, 1%, 81%);
+    display: flex;
+    flex-direction: column;
+
+    .headline-wrapper {
+        display: flex;
+
+        a {
+            margin-left: auto;
+
+            span[class*="icon"] {
+                padding-left: 1rem;
+                font-size: 1.2rem;
+            }
+        }
+    }
 }
 
 @-moz-document url-prefix() {
