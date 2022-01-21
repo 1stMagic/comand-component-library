@@ -16,12 +16,13 @@
                 <ul>
                     <li><a href="#section-accordion">Accordion</a></li>
                     <li><a href="#section-advanced-form-elements">Advanced Form Elements</a></li>
+                    <li><a href="#section-bank-account-data">Bank Account Data</a></li>
                     <li><a href="#section-boxes">Boxes</a></li>
                     <li><a href="#section-breadcrumbs">Breadcrumbs</a></li>
                     <li><a href="#section-cookie-disclaimer">Cookie-Disclaimer</a></li>
-                    <li><a href="#section-custom-headline">Custom Headline</a></li>
                 </ul>
                 <ul>
+                    <li><a href="#section-custom-headline">Custom Headline</a></li>
                     <li><a href="#section-fancybox">Fancybox</a></li>
                     <li><a href="#section-google-maps-integration">Google-Maps&trade;-Integration</a></li>
                     <li><a href="#section-image-gallery">Image Gallery</a></li>
@@ -34,9 +35,9 @@
                     <li><a href="#section-pager">Pager</a></li>
                     <li><a href="#section-share-buttons">Share Buttons</a></li>
                     <li><a href="#section-slideshow">Slideshow</a></li>
+                    <li><a href="#section-system-message">System-Message</a></li>
                 </ul>
                 <ul>
-                    <li><a href="#section-system-message">System-Message</a></li>
                     <li><a href="#section-tables">Tables</a></li>
                     <li><a href="#section-tabs">Tabs</a></li>
                     <li><a href="#section-thumbnail-scroller">Thumbnail-Scroller</a></li>

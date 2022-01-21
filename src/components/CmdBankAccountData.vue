@@ -9,7 +9,7 @@
             <dt>{{ entry.text }}</dt>
             <dd class="flex-container no-flex" v-if="allowCopyByClick && entry.allowCopy">
                 <span>{{ entry.value }}</span>
-                <a href="#" @click.prevent="copyToClipboard(entry)" :title="iconCopy.tooltip">
+                <a href="#" @click.prevent="copyToClipboard(entry.value)" :title="iconCopy.tooltip">
                     <span :class="iconCopy.class"></span>
                 </a>
             </dd>
@@ -18,9 +18,9 @@
     </dl>
     <!-- end account data -->
 
-    <!-- begin additional information-->
+    <!-- begin additional information -->
     <p v-if="additionalInformation">{{ additionalInformation }}</p>
-    <!-- end additional information-->
+    <!-- end additional information -->
 </template>
 
 <script>
@@ -74,10 +74,11 @@ export default {
         }
     },
     methods: {
-        copyToClipboard(value) {
+        copyToClipboard(entry) {
             // get data, remove spaces and copy to clipboard
-            navigator.clipboard.writeText(value.value.replace(/\s/g, ""))
-            alert("copied:" + value)
+            entry = entry.replace(/\s/g, "")
+            navigator.clipboard.writeText(entry)
+            alert(entry + " was copied to clipboard")
         }
     }
 }
