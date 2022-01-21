@@ -1,0 +1,22 @@
+[
+  {
+    "text": "Account owner:",
+    "value": "Company name",
+    "allowCopy": false
+  },
+  {
+    "text": "Bank:",
+    "value": "Name of bank",
+    "allowCopy": false
+  },
+  {
+    "text": "IBAN:",
+    "value": "DE 0536 0100 4306 4812 8438",
+    "allowCopy": true
+  },
+  {
+    "text": "SWIFT/BIC:",
+    "value": "PBNKDEFF",
+    "allowCopy": true
+  }
+]

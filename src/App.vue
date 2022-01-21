@@ -323,6 +323,63 @@
                       v-model:value="switchButtonRadio"/>
                 </span>
                     </div>
+                    <hr />
+                    <h3>Toggle Switches with CmdFormElement</h3>
+                    <CmdFormElement element="input"
+                                    type="checkbox"
+                                    id="toggle-switch-checkbox"
+                                    v-model:value="switchButtonCheckbox"
+                                    :displayLabelInline="true"
+                                    labelText="Labeltext for Single-SwitchButton (Checkbox)"
+                                    :toggleSwitch="true"
+                                    :status="formElementStatus"
+                    />
+                    <CmdFormElement element="input"
+                                    type="checkbox"
+                                    id="toggle-switch-checkbox"
+                                    v-model:value="switchButtonCheckbox"
+                                    :displayLabelInline="true"
+                                    labelText="Labeltext for SwitchButton (Checkbox)"
+                                    onLabel="Label on"
+                                    offLabel="Label off"
+                                    :toggleSwitch="true"
+                                    :status="formElementStatus"
+                    />
+                    <CmdFormElement element="input"
+                                    type="checkbox"
+                                    id="toggle-switch-checkbox-colored"
+                                    v-model:value="switchButtonCheckbox"
+                                    labelText="Labeltext for SwitchButton (Checkbox, colored)"
+                                    onLabel="Label on"
+                                    offLabel="Label off"
+                                    :colored="true"
+                                    :toggleSwitch="true"
+                                    :status="formElementStatus"
+                    />
+                    <CmdFormElement element="input"
+                                    type="radio"
+                                    name="radiogroup"
+                                    id="toggle-switch-radio1"
+                                    v-model:value="switchButtonCheckbox"
+                                    onLabel="Label on"
+                                    offLabel="Label off"
+                                    :colored="true"
+                                    :toggleSwitch="true"
+                                    :status="formElementStatus"
+                                    inputValue="radio1"
+                    />
+                    <CmdFormElement element="input"
+                                    type="radio"
+                                    name="radiogroup"
+                                    id="toggle-switch-radio2"
+                                    v-model:value="switchButtonCheckbox"
+                                    onLabel="Label on"
+                                    offLabel="Label off"
+                                    :colored="true"
+                                    :toggleSwitch="true"
+                                    :status="formElementStatus"
+                                    inputValue="radio2"
+                    />
                     <!-- end toggle-switch-radio with switch-label (colored) -->
 
                     <h2>Inputfields in Columns</h2>
@@ -574,6 +631,14 @@
         <!-- end advanced form elements ----------------------------------------------------------------------------------------------------------------------------------------------------->
 
         <CmdBackToTopButton/>
+
+        <!-- begin bank account data ----------------------------------------------------------------------------------------------------------------------------------------------------->
+        <a id="section-bank-account-data"></a>
+        <CmdWidthLimitationWrapper>
+            <h2 class="headline-demopage">Bank Account Data</h2>
+            <CmdBankAccountData :account-data="bankAccountData" :cmd-custom-headline="{ text: 'Bank Account', level: 3}" :allow-copy-by-click="true" />
+        </CmdWidthLimitationWrapper>
+        <!-- end bank account data ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
         <a id="section-boxes"></a>
         <CmdWidthLimitationWrapper>
@@ -918,6 +983,7 @@
 // import used example data
 import accordionData from '@/assets/data/accordion.json'
 import addressData from '@/assets/data/address.json'
+import bankAccountData from '@/assets/data/bank-account-data.json'
 import boxUserData from '@/assets/data/box-user.json'
 import boxProductData from '@/assets/data/box-product.json'
 import breadcrumbData from '@/assets/data/breadcrumbs.json'
@@ -949,6 +1015,7 @@ import topHeaderNavigationData from '@/assets/data/top-header-navigation.json'
 import CmdAccordion from "@/components/CmdAccordion.vue"
 import CmdAddressData from "@/components/CmdAddressData"
 import CmdBackToTopButton from "@/components/CmdBackToTopButton.vue"
+import CmdBankAccountData from "./components/CmdBankAccountData"
 import CmdBox from "@/components/CmdBox.vue"
 import CmdBoxSiteSearch from "@/components/CmdBoxSiteSearch.vue"
 import CmdBreadcrumbs from "@/components/CmdBreadcrumbs.vue"
@@ -993,6 +1060,7 @@ export default {
         CmdAccordion, // short form of 'CmdAccordion': CmdAccordion
         CmdAddressData,
         CmdBackToTopButton,
+        CmdBankAccountData,
         CmdBox,
         CmdBoxSiteSearch,
         CmdBreadcrumbs,
@@ -1080,6 +1148,7 @@ export default {
             // assign data from json files to data-properties
             accordionData,
             addressData,
+            bankAccountData,
             boxProductData,
             boxUserData,
             breadcrumbData,

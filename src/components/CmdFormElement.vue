@@ -7,27 +7,32 @@
             disabled: $attrs.disabled,
             inline : displayLabelInline,
             checked: isChecked,
+            'toggle-switch-label': toggleSwitch,
+            colored: colored,
+            on: colored && isChecked,
+            off: colored && !isChecked,
             'has-state': validationStatus
            }]"
            :for="id"
            ref="label">
 
         <!-- begin label-text (+ required asterisk) -->
-        <span v-if="labelText && $attrs.type !== 'checkbox' && $attrs.type !== 'radio'"
-              :class="hideLabel ? 'hidden' : undefined">
-          <span>{{ labelText }}</span>
-          <sup v-if="$attrs.required">*</sup>
-          <a href="#"
-             @click.prevent
-             :class="getStatusIconClass"
-             :title="!useCustomTooltip ? getValidationMessage : undefined"
-             :aria-errormessage="getValidationMessage"
-             aria-live="assertive"
-             :id="tooltipId"
-             :role="validationStatus === 'error' ? 'alert' : 'dialog'">
-          </a>
-        </span>
+            <span v-if="labelText && $attrs.type !== 'checkbox' && $attrs.type !== 'radio'"
+                  :class="hideLabel ? 'hidden' : undefined">
+              <span>{{ labelText }}</span>
+              <sup v-if="$attrs.required">*</sup>
+              <a href="#"
+                 @click.prevent
+                 :class="getStatusIconClass"
+                 :title="!useCustomTooltip ? getValidationMessage : undefined"
+                 :aria-errormessage="getValidationMessage"
+                 aria-live="assertive"
+                 :id="tooltipId"
+                 :role="validationStatus === 'error' ? 'alert' : 'dialog'">
+              </a>
+            </span>
         <!-- end label-text (+ required asterisk) -->
+
 
         <!-- begin icon -->
         <span
@@ -89,16 +94,29 @@
                    :role="$attrs.type"
                    :aria-checked="isChecked"
                    :value="inputValue"
-                   :class="[htmlClass, validationStatus, { 'replace-input-type': replaceInputType }]"
+                   :class="[htmlClass, validationStatus, { 'replace-input-type': replaceInputType, 'toggle-switch': toggleSwitch }]"
                    :id="id"
                    :aria-invalid="validationStatus === 'error'"
                    :aria-describedby="`status-message-${id}`"
             />
-            <span v-if="labelText">
-            <span>{{ labelText }}</span>
+
+            <!-- begin labels for toggle-switch -->
+            <span v-if="!(onLabel && offLabel)" :class="{ hidden: hideLabel }">
+                <span v-if="labelText">{{ labelText }}</span>
                 <sup v-if="$attrs.required">*</sup>
             </span>
+            <template v-else-if="onLabel && offLabel">
+                <span v-if="labelText">
+                    <span>{{ labelText }}</span>
+                    <sup v-if="$attrs.required">*</sup>
+                </span>
+                <div class="toggle-switch switch-label">
+                    <span class="label">{{ onLabel }}</span>
+                    <span class="label">{{ offLabel }}</span>
+                </div>
+            </template>
             <slot v-else></slot>
+            <!-- end labels for toggle-switch -->
         </template>
         <!-- end checkbox and radiobutton -->
 
@@ -107,8 +125,7 @@
                 v-bind="$attrs"
                 :id="id"
                 @blur="onBlur"
-                @change="$emit('input', $event.target.value)"
-        >
+                @change="$emit('input', $event.target.value)">
             <option v-for="(option, index) in selectOptions" :key="index" :value="option.value"
                     :selected="option.value === value">{{ option.text }}
             </option>
@@ -157,6 +174,7 @@
     <CmdTooltip v-if="useCustomTooltip" class="box" :class="{errorOccurred : 'error'}" :relatedId="tooltipId" :toggle-visibility-by-click="true">
         <CmdSystemMessage v-if="getValidationMessage" :message="getValidationMessage" :status="validationStatus" :iconClose="{show: false}" />
         <template v-if="showRequirements && (validationStatus === '' || validationStatus === 'error')">
+            <!-- begin list of requirements -->
             <h6>Requirements for input<br />"{{labelText}}"</h6>
             <dl class="list-of-requirements">
                 <template v-for="(requirement, index) in inputRequirements" :key="index">
@@ -166,11 +184,15 @@
                     </dd>
                 </template>
             </dl>
+            <!-- end list of requirements -->
+
+            <!-- begin helplink -->
             <hr v-if="helplink?.show" />
             <a v-if="helplink?.show && helplink?.url" :href="helplink.url" :target="helplink.target" @click.prevent>
                 <span v-if="helplink.icon?.iconClass" :class="helplink.icon?.iconClass" :title="helplink.icon?.tooltip"></span>
                 <span v-if="helplink.text">{{ helplink.text }}</span>
             </a>
+            <!-- end helplink -->
         </template>
     </CmdTooltip>
     <!-- end tooltip -->
@@ -235,6 +257,48 @@ export default {
          */
         labelText: {
             type: String,
+            required: false
+        },
+        /**
+         * set to activate to use toggle-switch-styling
+         *
+         * element-prop must be set to "input" and type-attribute must be set to "checkbox" or "radio"
+         */
+        toggleSwitch: {
+            type: Boolean,
+            default: false
+        },
+        /**
+         * text for on-label
+         *
+         * set to activate switch-label (=label is placed on toggle-switch (not behind))
+         * toggleSwitch-prop must be set to "true"
+         * element-prop must be set to "input" and type-attribute must be set to "checkbox" or "radio"
+         */
+        onLabel: {
+            type: String,
+            required: false
+        },
+        /**
+         * text for off-label
+         *
+         * set to activate switch-label (=label is placed on toggle-switch (not behind))
+         * toggleSwitch-prop must be set to "true"
+         * element-prop must be set to "input" and type-attribute must be set to "checkbox" or "radio"
+         */
+        offLabel: {
+            type: String,
+            required: false
+        },
+        /**
+         * on/off-, yes/no-color-styling
+         *
+         * set to true, if checkbox/radio-buttons should have green/checked and red/unchecked color-coding
+         * toggleSwitch-prop must be set to "true"
+         * element-prop must be set to "input" and type-attribute must be set to "checkbox" or "radio"
+         */
+        colored: {
+            type: Boolean,
             required: false
         },
         /**
@@ -590,5 +654,62 @@ export default {
             }
         }
     }
+
+    /* begin toggle-switch */
+    /* no cmd-prefix-styling (class based on frontend-framework */
+    &.toggle-switch {
+        &.switch-label {
+            input {
+                & + .label {
+                    padding-right: calc(var(--default-padding) / 3 * 2);
+
+                    &::before {
+                        top: 0.2rem;
+                    }
+
+                    & + .label {
+                        padding-left: calc(var(--default-padding) / 3 * 2);
+
+                        &::before {
+                            top: 0.2rem;
+                        }
+                    }
+                }
+            }
+
+            &.colored {
+                &.off {
+                    border-color: var(--error-color);
+
+                    span {
+                        &.label {
+                            color: var(--error-color);
+
+                            &::before {
+                                border-color: var(--error-color);
+                                background-color: var(--pure-white);
+                            }
+                        }
+                    }
+                }
+
+                &.on {
+                    border-color: var(--success-color);
+
+                    span {
+                        &.label {
+                            color: var(--success-color);
+
+                            &::before {
+                                border-color: var(--success-color);
+                                background-color: var(--success-color);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    /* end toggle-switch ------------------------------------------------------------------------------------------ */
 }
 </style>
