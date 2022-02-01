@@ -7,9 +7,9 @@
             </a>
         </li>
         <li v-for="(option, index) in options" :key="index">
-            <a href="#" @click.prevent="deleteClickedFilter(index)">
-                <span :class="deleteFilter.iconClass"></span>
+            <a href="#" @click.prevent="deleteClickedFilter(index)" :title="deleteFilter.icon.tooltip">
                 <span>{{ selectedOptionsName(option) }}</span>
+                <span :class="deleteFilter.icon.iconClass"></span>
             </a>
         </li>
     </ul>
@@ -41,21 +41,21 @@ export default {
                     text: "Delete all filters",
                     icon: {
                         show: true,
-                        iconClass: "icon-cancel",
+                        iconClass: "icon-error-circle",
                         tooltip: ""
                     }
                 }
             }
         },
         /**
-         * icon for delete (a single) filter)
+         * icon for deleting (a single) filter
          */
         deleteFilter: {
             type: Object,
             default() {
                 return {
                     icon: {
-                        iconClass: "icon-cancel",
+                        iconClass: "icon-error-circle",
                         tooltip: "Delete this filter"
                     }
                 }
@@ -101,12 +101,22 @@ export default {
 
     li {
         list-style-type: none;
-        padding: 0 .5rem;
         margin-left: 0;
         margin-right: var(--default-margin);
-        border: .1rem dotted var(--text-color);
+        border: var(--default-border);
         background: var(--pure-white);
         font-size: 1.1rem;
+
+        &:hover, &:active, &:focus {
+            border-color: var(--primary-color);
+        }
+
+        a {
+            padding: 0 calc(var(--default-padding) / 2);
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
 
         &:last-of-type {
             margin-right: 0;

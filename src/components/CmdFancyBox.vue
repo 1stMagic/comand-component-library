@@ -274,7 +274,6 @@
             },
 
             showNextItem() {
-                console.log(this.index);
                 if (this.index < this.fancyBoxGallery.length - 1) {
                     this.index++;
                 } else {

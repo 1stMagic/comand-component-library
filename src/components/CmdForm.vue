@@ -1,5 +1,5 @@
 <template>
-    <form :data-use-validation="useValidation" @submit="onSubmit" :class="{error: errorOccurred}">
+    <form class="cmd-form" :data-use-validation="useValidation" @submit="onSubmit" :class="{error: errorOccurred}">
         <template v-if="useFieldset">
             <fieldset>
                 <legend v-if="showLegend">{{ textLegend }}</legend>
@@ -21,18 +21,34 @@ export default {
         }
     },
     props: {
+        /**
+         * if activated the entire form will be validated by pre-coded validation
+         */
         useValidation: {
           type: Boolean,
           default: true
         },
+        /**
+         * activate if you want to use a fieldset (recommended for accessibility)
+         */
         useFieldset: {
             type: Boolean,
             default: true
         },
+        /**
+         * if a fieldset is used, the legend is required for accessibility
+         *
+         * useFieldset must be activated
+         */
         showLegend: {
             type: Boolean,
             default: true
         },
+        /**
+         * text for legend
+         *
+         * useFieldset must be activated
+         */
         textLegend: {
             type: String,
             required: false
@@ -55,13 +71,23 @@ export default {
 </script>
 
 <style lang="scss">
-form.error {
-    fieldset {
-        border-color: var(--error-color);
+.cmd-form {
+    &:not([data-use-validation="true"]) {
+        label.error :where(::placeholder, select option:first-child),
+        :where(input, select, textarea):invalid:focus {
+            color: var(--error-color);
+        }
+
+        :where(input, select, textarea):valid:focus[required],
+        select:invalid:focus[required] option:not(:first-child) {
+            color: var(--success-color);
+        }
     }
 
-    *:invalid {
-        border-color: var(--error-color);
+    &.error {
+        fieldset, *:invalid {
+            border-color: var(--error-color);
+        }
     }
 }
 </style>

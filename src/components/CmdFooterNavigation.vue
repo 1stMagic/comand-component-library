@@ -25,7 +25,7 @@ export default {
     name: "CmdFooterNavigation",
     props: {
         /**
-         * headlien above links
+         * headlinE above links
          */
         headline: {
             type: String,

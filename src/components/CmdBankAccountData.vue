@@ -76,9 +76,9 @@ export default {
     methods: {
         copyToClipboard(entry) {
             // get data, remove spaces and copy to clipboard
-            entry = entry.replace(/\s/g, "")
-            navigator.clipboard.writeText(entry)
-            alert(entry + " was copied to clipboard")
+            const output = entry.replace(/\s/g, "")
+            navigator.clipboard.writeText(output)
+            alert(output + " was copied to clipboard")
         }
     }
 }

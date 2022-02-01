@@ -1,6 +1,7 @@
 <template>
     <fieldset class="cmd-box-sitesearch flex-container">
-        <h3>Headline</h3>
+        <legend v-if="showLegend">{{ textLegend }}</legend>
+        <CmdCustomHeadline :headline="cmdCustomHeadline.headline" :preHeadline="cmdCustomHeadline.preHeadline" :iconClass="cmdCustomHeadline.iconClass" />
         <div class="flex-container">
             <CmdFormElement element="input"
                             type="text"
@@ -36,12 +37,14 @@ import I18n from "../mixins/I18n"
 import DefaultMessageProperties from "../mixins/CmdSiteSearch/DefaultMessageProperties"
 
 // import files for components
+import CmdCustomHeadline from "./CmdCustomHeadline.vue"
 import CmdFormElement from "./CmdFormElement.vue"
 
 export default {
     name: "CmdBoxSiteSearch.vue",
     mixins: [I18n, DefaultMessageProperties],
     components: {
+        CmdCustomHeadline,
         CmdFormElement
     },
     data() {
@@ -65,11 +68,43 @@ export default {
     },
     props: {
         /**
+         * text for legend
+         *
+         * must be set for accessibility
+         */
+        textLegend: {
+            type: String,
+            required: true
+        },
+        /**
+         * toggle legend visibility
+         *
+         * textLegend must be set
+         */
+        showLegend: {
+            type: Boolean,
+            default: true
+        },
+        /**
          * send search result from outside to display inside this component
          */
         results: {
             type: [Function, Number],
             required: false
+        },
+        /**
+         * properties for CmdCustomHeadline-component
+         */
+        cmdCustomHeadline: {
+            type: Object,
+            default() {
+                return {
+                    headline: {
+                        text: "",
+                        level: "h2"
+                    }
+                }
+            }
         }
     },
     computed: {

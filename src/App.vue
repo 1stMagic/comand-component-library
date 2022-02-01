@@ -122,14 +122,9 @@
                 </ul>
             </div>
 
-            <!-- begin formfilters -->
-            <CmdFormFilters v-model:selectedOptions="selectedOptions"
-                            :selectedOptionsName="getOptionName"
-                            labelDeleteAllFilters="Delete all filters"
-                            iconClassDeleteAllFilters="icon-delete"
-                            iconClassDeleteFilter="icon-cancel"
-            />
-            <!-- end formfilters -->
+            <!-- begin cmd-form-filters -->
+            <CmdFormFilters v-model:selectedOptions="fakeSelectFilters" :selectedOptionsName="getOptionName" />
+            <!-- end cmd-form-filters -->
 
             <CmdForm :use-fieldset="false" id="advanced-form-elements" novalidate="novalidate">
                 <fieldset class="grid-container-create-columns">
@@ -181,9 +176,18 @@
                                        :status="formElementStatus"
                                        :selectData="fakeSelectOptionsData"
                                        v-model:value="fakeSelectCheckbox"
-                                       defaultOptionName="Filters:"
+                                       defaultOptionName="Options:"
                                        :required="true"
                                        id="selectbox-with-checkboxes"
+                                       type="checkboxOptions"
+                                       :useCustomTooltip="true"
+                        />
+                        <CmdFakeSelect labelText="Selectbox with filters:"
+                                       :status="formElementStatus"
+                                       :selectData="fakeSelectFilterOptionsData"
+                                       v-model:value="fakeSelectFilters"
+                                       defaultOptionName="Filters:"
+                                       id="selectbox-with-filters"
                                        type="checkboxOptions"
                                        :useCustomTooltip="true"
                         />
@@ -227,17 +231,17 @@
                     <label for="range-slider" :class="formElementStatus">
                         <span>Single-Slider (with in- and output):</span>
                         <span class="flex-container no-flex">
-                  <input type="number" :class="formElementStatus" v-model="rangeValue"
-                         :disabled="formElementStatus === 'disabled'" min="0" max="100"/>
-                  <input type="range"
-                         class="range-slider"
-                         :class="{'disabled': formElementStatus === 'disabled'}"
-                         id="range-slider"
-                         v-model="rangeValue"
-                         :disabled="formElementStatus === 'disabled'"
-                         min="0"
-                         max="100"/>
-                </span>
+                        <input type="number" :class="formElementStatus" v-model="rangeValue"
+                                 :disabled="formElementStatus === 'disabled'" min="0" max="100"/>
+                        <input type="range"
+                                 class="range-slider"
+                                 :class="{'disabled': formElementStatus === 'disabled'}"
+                                 id="range-slider"
+                                 v-model="rangeValue"
+                                 :disabled="formElementStatus === 'disabled'"
+                                 min="0"
+                                 max="100"/>
+                        </span>
                     </label>
                     <!-- end slider -->
 
@@ -248,34 +252,34 @@
                     <div class="label inline">
                         <span>Label for Toggle-Switch-Checkbox with Switch-Label:</span>
                         <span class="flex-container no-flex">
-                  <CmdSwitchButton
-                      type="checkbox"
-                      id="checkbox1"
-                      name="checkbox1"
-                      onLabel="Label on"
-                      offLabel="Label off"
-                      inputValue="checkbox1"
-                      :disabled="formElementStatus === 'disabled'"
-                      v-model:value="switchButtonCheckbox"/>
-                  <CmdSwitchButton
-                      type="checkbox"
-                      id="checkbox2"
-                      name="checkbox2"
-                      onLabel="Label on"
-                      offLabel="Label off"
-                      labelText="Labeltext"
-                      inputValue="checkbox2"
-                      :disabled="formElementStatus === 'disabled'"
-                      v-model:value="switchButtonCheckbox"/>
-                    <CmdSwitchButton
-                        type="checkbox"
-                        id="checkbox3"
-                        name="checkbox3"
-                        inputValue="checkbox3"
-                        labelText="Labeltext"
-                        :disabled="formElementStatus === 'disabled'"
-                        v-model:value="switchButtonCheckbox"/>
-                </span>
+                            <CmdSwitchButton
+                              type="checkbox"
+                              id="checkbox1"
+                              name="checkbox1"
+                              onLabel="Label on"
+                              offLabel="Label off"
+                              inputValue="checkbox1"
+                              :disabled="formElementStatus === 'disabled'"
+                              v-model:value="switchButtonCheckbox"/>
+                            <CmdSwitchButton
+                              type="checkbox"
+                              id="checkbox2"
+                              name="checkbox2"
+                              onLabel="Label on"
+                              offLabel="Label off"
+                              labelText="Labeltext"
+                              inputValue="checkbox2"
+                              :disabled="formElementStatus === 'disabled'"
+                              v-model:value="switchButtonCheckbox"/>
+                            <CmdSwitchButton
+                                type="checkbox"
+                                id="checkbox3"
+                                name="checkbox3"
+                                inputValue="checkbox3"
+                                labelText="Labeltext"
+                                :disabled="formElementStatus === 'disabled'"
+                                v-model:value="switchButtonCheckbox"/>
+                        </span>
                         <span>Current value: {{ switchButtonCheckbox }}</span>
                     </div>
                     <!-- end toggle-switch-radio with switch-label -->
@@ -283,17 +287,17 @@
                     <div class="label inline">
                         <span>Label for Toggle-Switch-Checkbox with Switch-Label (colored):</span>
                         <span class="flex-container no-flex">
-                  <CmdSwitchButton
-                      type="checkbox"
-                      id="checkbox4"
-                      name="checkbox4"
-                      onLabel="Label on"
-                      offLabel="Label off"
-                      :colored="true"
-                      inputValue="checkbox3"
-                      :disabled="formElementStatus === 'disabled'"
-                      v-model:value="switchButtonCheckboxColored"/>
-                </span>
+                            <CmdSwitchButton
+                              type="checkbox"
+                              id="checkbox4"
+                              name="checkbox4"
+                              onLabel="Label on"
+                              offLabel="Label off"
+                              :colored="true"
+                              inputValue="checkbox3"
+                              :disabled="formElementStatus === 'disabled'"
+                              v-model:value="switchButtonCheckboxColored"/>
+                        </span>
                         <span>Current value: {{ switchButtonCheckboxColored }}</span>
                     </div>
                     <!-- end toggle-switch-radio with switch-label -->
@@ -394,9 +398,6 @@
                                         v-model:value="inputField1"
                                         tooltipText="This is a tooltip!"
                                         :status="formElementStatus"
-                                        v-bind="{
-                                            useCustomTooltip: true
-                                        }"
                         />
                         <CmdFormElement element="input"
                                         labelText="Label for inputfield (required):"
@@ -408,18 +409,16 @@
                                         v-model:value="inputFieldRequired"
                                         tooltipText="This is a tooltip!"
                                         :status="formElementStatus"
-                                        v-bind="{useCustomTooltip: true}"
                         />
                         <CmdFormElement element="input"
                                         labelText="Label for inputfield (with pattern):"
                                         type="text"
                                         id="inputfield-pattern"
                                         placeholder="This is placeholder text"
+                                        pattern="/\d/"
                                         v-model:value="inputFieldPattern"
                                         tooltipText="This is a tooltip!"
-                                        pattern="\d+"
                                         :status="formElementStatus"
-                                        v-bind="{useCustomTooltip: true}"
                         />
                     </div>
                     <!-- begin inputfield in two columns -->
@@ -427,24 +426,25 @@
                         <CmdFormElement labelText="Label for inputfield (with icon):"
                                         element="input"
                                         type="text"
-                                        id="inputfield2"
+                                        id="inputfield-username"
                                         fieldIconClass="icon-user-profile"
                                         placeholder="Type in username"
                                         tooltipText="This is a tooltip!"
                                         maxlength="100"
                                         v-model:value="inputUsername"
                                         :status="formElementStatus"
-                                        v-bind="{useCustomTooltip: true}"
                                         />
                         <CmdFormElement element="input"
                                         labelText="Label for passwordfield:"
                                         type="password"
-                                        id="inputfield3"
+                                        minlength="8"
+                                        maxlength="255"
+                                        id="inputfield-password"
                                         fieldIconClass="icon-security-settings"
                                         placeholder="Type in password"
                                         tooltipText="This is a tooltip!"
+                                        :customRequirements="customRequirements"
                                         v-model:value="inputPassword"
-                                        v-bind="{useCustomTooltip: true}"
                                         :status="formElementStatus"/>
                     </div>
                     <!-- end inputfield in two columns -->
@@ -453,35 +453,33 @@
                                     labelText="Label (inline) for inputfield (number):"
                                     :displayLabelInline="true"
                                     type="number"
-                                    id="inputfield4"
+                                    id="inputfield-number"
                                     required="required"
                                     min="0"
                                     max="9"
                                     v-model:value="inputNumber"
-                                    v-bind="{useCustomTooltip: true}"
+                                    :customRequirements="[customRequirements[2]]"
                                     :status="formElementStatus"/>
                     <CmdFormElement element="input"
                                     labelText="Label (inline) for inputfield (date):"
                                     :displayLabelInline="true"
                                     type="date"
-                                    id="inputfield5"
+                                    id="inputfield-date"
                                     v-model:value="inputDate"
-                                    v-bind="{useCustomTooltip: true}"
                                     :status="formElementStatus"/>
                     <CmdFormElement element="input"
                                     labelText="Label (inline) for inputfield (search):"
                                     :displayLabelInline="true"
                                     type="search"
-                                    id="inputfield6"
+                                    id="inputfield-search"
                                     placeholder="Keyword(s)"
                                     v-model:value="inputSearch"
-                                    v-bind="{useCustomTooltip: true}"
                                     :status="formElementStatus"/>
                     <CmdFormElement element="textarea"
                                     labelText="Label for textarea:"
                                     id="textarea"
                                     minlength="1"
-                                    maxlength="10"
+                                    maxlength="100"
                                     placeholder="Type in your message"
                                     v-model:value="textarea"
                                     :status="formElementStatus"/>
@@ -618,20 +616,23 @@
                 <div class="button-wrapper">
                     <small><sup>*</sup>values will not be submitted with the form!</small>
                     <CmdFormElement element="button"
-                                    :nativeButton="{text: 'Native submit button'}"
-                                    type="button"
+                                    :nativeButton="{text: 'Submit-button from component'}"
+                                    type="submit"
                                     id="submitbutton"
                                     name="submitbutton"
                                     :status="formElementStatus"/>
                     <button type="submit" :disabled="formElementStatus === 'disabled'">
-                        <span class="icon-check"></span><span>Submit button</span>
+                        <span class="icon-check"></span>
+                        <span>Native submit-button</span>
                     </button>
                 </div>
          </CmdForm>
         </CmdWidthLimitationWrapper>
         <!-- end advanced form elements ----------------------------------------------------------------------------------------------------------------------------------------------------->
 
+        <!-- begin back to top button ----------------------------------------------------------------------------------------------------------------------------------------------------->
         <CmdBackToTopButton/>
+        <!-- end back to top button ----------------------------------------------------------------------------------------------------------------------------------------------------->
 
         <!-- begin bank account data ----------------------------------------------------------------------------------------------------------------------------------------------------->
         <a id="section-bank-account-data"></a>
@@ -641,6 +642,7 @@
         </CmdWidthLimitationWrapper>
         <!-- end bank account data ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
+        <!-- begin boxes ------------------------------------------------------------------------------------------------------------------------------------------------------->
         <a id="section-boxes"></a>
         <CmdWidthLimitationWrapper>
             <h2 class="headline-demopage">Boxes</h2>
@@ -715,12 +717,12 @@
                             <img src="media/images/content-images/logo-business-edition-landscape.jpg" alt="Alternative text"/>
                             <div class="default-padding">
                                 <h4>Headline</h4>
-                                <p>This some text i.e a short-text for news.</p>
+                                <p>This is some text information i.e a short-text for a news teaser.</p>
                             </div>
                         </template>
                         <template v-slot:footer>
                             <p>
-                                <a href="#">Mehr erfahren&hellip;</a>
+                                <a href="#">Read more&hellip;</a>
                             </p>
                         </template>
                     </CmdBox>
@@ -741,13 +743,17 @@
             <h3>Box Site Search</h3>
             <CmdBoxSiteSearch :results="executeSearch()" @click="executeSearch($event)"/>
         </CmdWidthLimitationWrapper>
+        <!-- end boxes ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
+        <!-- begin breadcrumbs ------------------------------------------------------------------------------------------------------------------------------------------------------->
         <a id="section-breadcrumbs"></a>
         <CmdWidthLimitationWrapper inner-component="div">
             <h2 class="headline-demopage">Breadcrumbs</h2>
             <CmdBreadcrumbs :breadcrumbLinks="breadcrumbData" breadcrumbLabel="You are here:"/>
         </CmdWidthLimitationWrapper>
+        <!-- end breadcrumbs ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
+        <!-- begin cookie-disclaimer ------------------------------------------------------------------------------------------------------------------------------------------------------->
         <a id="section-cookie-disclaimer"></a>
         <CmdWidthLimitationWrapper>
             <h2 class="headline-demopage">Cookie Disclaimer</h2>
@@ -755,7 +761,9 @@
                 <span>Open Cookie Disclaimer</span>
             </a>
         </CmdWidthLimitationWrapper>
+        <!-- end cookie-disclaimer ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
+        <!-- begin custom-headline ------------------------------------------------------------------------------------------------------------------------------------------------------->
         <a id="section-custom-headline"></a>
         <CmdWidthLimitationWrapper>
             <h2 class="headline-demopage">Custom Headline</h2>
@@ -766,7 +774,9 @@
             <CmdCustomHeadline :headline="{ text: 'Headline level 5', level: '5'}"/>
             <CmdCustomHeadline :headline="{ text: 'Headline level 6', level: '6'}"/>
         </CmdWidthLimitationWrapper>
+        <!-- end custom-headline ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
+        <!-- begin fancybox ------------------------------------------------------------------------------------------------------------------------------------------------------->
         <a id="section-fancybox"></a>
         <CmdWidthLimitationWrapper>
             <h2 class="headline-demopage">Fancybox</h2>
@@ -777,6 +787,7 @@
                 <img src="media/images/content-images/logo-business-edition-landscape.jpg" alt="Alternative text"/>
             </a>
         </CmdWidthLimitationWrapper>
+        <!-- end fancybox ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
         <a id="section-google-maps-integration"></a>
         <CmdWidthLimitationWrapper>
@@ -992,6 +1003,7 @@ import companyLogoData from '@/assets/data/company-logo.json'
 import cookieDisclaimerData from '@/assets/data/cookie-disclaimer.json'
 import fakeSelectColorsData from '@/assets/data/fake-select-colors.json'
 import fakeSelectCountriesData from '@/assets/data/fake-select-countries.json'
+import fakeSelectFilterOptionsData from '@/assets/data/fake-select-filter-options.json'
 import fakeSelectOptionsData from '@/assets/data/fake-select-options.json'
 import fakeSelectOptionsWithIconsData from '@/assets/data/fake-select-options-with-icons.json'
 import footerNavigationData from '@/assets/data/footer-navigation.json'
@@ -1054,6 +1066,9 @@ import CmdTopHeaderNavigation from "@/components/CmdTopHeaderNavigation.vue"
 import CmdUploadForm from "@/components/CmdUploadForm.vue"
 import CmdWidthLimitationWrapper from "@/components/CmdWidthLimitationWrapper"
 import {openFancyBox} from "@/components/CmdFancyBox"
+
+// import external functions
+import * as functions from "@/mixins/FieldValidation.js"
 
 export default {
     name: "App",
@@ -1136,7 +1151,8 @@ export default {
             fancyBoxCookieDisclaimer: false,
             fakeSelectDefault: "2",
             fakeSelectDefaultWithIcons: "1",
-            fakeSelectCheckbox: ["2"],
+            fakeSelectCheckbox: [],
+            fakeSelectFilters: [],
             datalist: {
                 id: "datalist-id",
                 options: [
@@ -1145,6 +1161,13 @@ export default {
                     "Option 3"
                 ]
             },
+            customRequirements: [
+                functions.validateCharacters(),
+                functions.validateNumbers(),
+                functions.validateNumbersOnly(),
+                functions.validateSpecialCharacters(),
+                functions.validateCapitalLetters()
+            ],
 
             // assign data from json files to data-properties
             accordionData,
@@ -1157,6 +1180,7 @@ export default {
             cookieDisclaimerData,
             fakeSelectColorsData,
             fakeSelectCountriesData,
+            fakeSelectFilterOptionsData,
             fakeSelectOptionsData,
             fakeSelectOptionsWithIconsData,
             footerNavigationData,
@@ -1191,9 +1215,9 @@ export default {
             }
         },
         getOptionName(option) {
-            for (let i = 0; i < this.fakeSelectOptionsData.length; i++) {
-                if (option === this.fakeSelectOptionsData[i].value) {
-                    return this.fakeSelectOptionsData[i].text
+            for (let i = 0; i < this.fakeSelectFilterOptionsData.length; i++) {
+                if (option === this.fakeSelectFilterOptionsData[i].value) {
+                    return this.fakeSelectFilterOptionsData[i].text
                 }
             }
             return null

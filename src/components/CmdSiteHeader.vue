@@ -5,8 +5,9 @@
             <slot name="logo"></slot>
             <slot name="header"></slot>
         </header>
-        <CmdMainNavigation :navigationEntries="mainNavigationEntries" v-if="mainNavigationEntries"
-                           :closeOffcanvas="closeOffcanvas"/>
+        <!-- begin CmdMainNavigation -->
+        <CmdMainNavigation v-if="mainNavigationEntries" :navigationEntries="mainNavigationEntries" :closeOffcanvas="closeOffcanvas"/>
+        <!-- end CmdMainNavigation -->
     </div>
 </template>
 

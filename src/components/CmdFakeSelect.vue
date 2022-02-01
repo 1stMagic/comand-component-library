@@ -4,21 +4,24 @@
     {color: type === 'color',
     'has-state': validationStatus && validationStatus !== 'none'}]
 "
-         :aria-labelledby="labelText"
-         :aria-required="$attrs.required !== undefined"
+     :aria-labelledby="labelText"
+     :aria-required="$attrs.required !== undefined"
+     ref="fakeselect"
     >
         <span>
-            {{ labelText }}
-            <sup v-if="$attrs.required !== undefined">*</sup>
-          <a href="#"
-             @click.prevent
-             :class="getStatusIconClass"
-             :title="!useCustomTooltip ? getValidationMessage : ''"
-             :aria-errormessage="getValidationMessage"
-             aria-live="assertive"
-             :id="tooltipId"
-             :role="validationStatus === 'error' ? 'alert' : 'dialog'">
-          </a>
+            <span>
+                {{ labelText }}<sup v-if="$attrs.required !== undefined">*</sup>
+            </span>
+            <a v-if="$attrs.required || inputRequirements.length"
+                href="#"
+                @click.prevent
+                :class="getStatusIconClass"
+                :title="!useCustomTooltip ? getValidationMessage : ''"
+                :aria-errormessage="getValidationMessage"
+                aria-live="assertive"
+                :id="tooltipId"
+                :role="validationStatus === 'error' ? 'alert' : 'dialog'">
+            </a>
         </span>
         <ul :class="{'open': showOptions}" @clickout="closeOptions">
             <li>
@@ -27,7 +30,7 @@
                     <img v-if="type === 'country' && optionCountry" :src="pathFlag(optionCountry)" :alt="optionCountry" :class="['flag', optionCountry]"/>
                     <span v-else-if="type === 'color'" :style="'background: ' + optionColor"></span>
                     <span v-if="optionIcon" :class="optionIcon"></span>
-                    <span>{{ optionName }}</span>
+                    <span class="option-name" :style="limitWidthStyle">{{ optionName }}</span>
                     <span v-if="dropdownIcon" :class="dropdownIcon.iconClass" :title="dropdownIcon.tooltip"></span>
                 </a>
                 <!-- end default/selected-option-->
@@ -59,9 +62,15 @@
                             <span>{{ option.text }}</span>
                         </a>
 
-                        <a v-else href="#" @click.prevent="selectOption(option.value)" :class="{'active' : option.value === value}">
+                        <a v-else-if="type === 'color'" href="#" @click.prevent="selectOption(option.value)" :class="{'active' : option.value === value}">
                             <span class="color" :style="'background: ' + option.value"></span>
                             <span>{{ option.text }}</span>
+                        </a>
+                    </li>
+                    <li v-if="showSelectAllOptions && type === 'checkboxOptions'" class="select-all-options">
+                        <a href="#" @click.prevent="toggleAllOptions">
+                            <span :class="selectAllOptionsIcon"></span>
+                            <span>{{ selectAllOptionsText }}</span>
                         </a>
                     </li>
                 </ul>
@@ -76,47 +85,28 @@
         </ul>
     </div>
     <!-- begin tooltip -->
-    <!--        <CmdTooltip v-if="tooltipText && $attrs.type === 'password'" :tooltipText="tooltipText" :status="validationStatus" />-->
-    <CmdTooltip v-if="useCustomTooltip" class="box" :relatedId="tooltipId" :toggle-visibility-by-click="true">
-        <template v-if="getValidationMessage">
-            {{ getValidationMessage }}
-        </template>
-        <template v-if="validationStatus === '' || validationStatus === 'error'">
-            <h6>Requirements</h6>
-<!--            <dl class="list-of-requirements">-->
-<!--                <template v-for="(requirement, index) in inputRequirements" :key="index">-->
-<!--                    <dt :class="requirement.valid(value, $attrs) ? 'success' : 'error'">{{requirement.message}}:</dt>-->
-<!--                    <dd :class="requirement.valid(value, $attrs) ? 'success' : 'error'">{{ requirement.condition(value, $attrs) }}</dd>-->
-<!--                </template>-->
-<!--            </dl>-->
-            <!--
+    <CmdTooltip v-if="useCustomTooltip" class="box" :class="validationStatus" :relatedId="tooltipId" :toggle-visibility-by-click="true">
+        <CmdSystemMessage v-if="getValidationMessage" :message="getValidationMessage" :status="validationStatus" :iconClose="{show: false}" />
+        <template v-if="showRequirements && (validationStatus === '' || validationStatus === 'error')">
+            <!-- begin list of requirements -->
+            <h6>Requirements for input<br />"{{labelText}}"</h6>
             <dl class="list-of-requirements">
-                <dt :class="($attrs.required && !value) ? 'error' : 'success'">Required:</dt>
-                <dd :class="($attrs.required && !value) ? 'error' : 'success'">{{ $attrs.required ? 'yes' : 'no' }}</dd>
-                <dt>Allowed characters:</dt>
-                <dd>{{ allowedCharacters }}</dd>
-                <dt :class="($attrs.minlength && (value.length < $attrs.minlength)) ? 'error' : 'success'">Minlength:</dt>
-                <dd :class="($attrs.minlength && (value.length < $attrs.minlength)) ? 'error' : 'success'"><template v-if="$attrs.minlength">{{value.length}}/</template>{{ $attrs.minlength ? $attrs.minlength : 'none' }}</dd>
-                <dt :class="($attrs.maxlength && (value.length <= $attrs.maxlength)) ? 'error' : 'success'">Maxlength:</dt>
-                <dd :class="($attrs.maxlength && (value.length <= $attrs.maxlength)) ? 'error' : 'success'">{{ $attrs.maxlength ? $attrs.maxlength : 'none' }}</dd>
-                <template v-if="$attrs.type === 'number'">
-                    <dt :class="($attrs.min && (Number(value) < Number($attrs.min))) ? 'error' : 'success'">Min (value):</dt>
-                    <dd :class="($attrs.min && (Number(value) < Number($attrs.min))) ? 'error' : 'success'">{{ $attrs.min ? $attrs.min : 'none' }}</dd>
-                    <dt :class="($attrs.max && (Number(value) > Number($attrs.max))) ? 'error' : 'success'">Max (value):</dt>
-                    <dd :class="($attrs.max && (Number(value) > Number($attrs.max))) ? 'error' : 'success'">{{ $attrs.max ? $attrs.max : 'none' }}</dd>
+                <template v-for="(requirement, index) in inputRequirements" :key="index">
+                    <dt aria-live="assertive" :class="requirement.valid(value, $attrs) ? 'success' : 'error'">{{requirement.message}}:</dt>
+                    <dd :class="requirement.valid(value, $attrs) ? 'success' : 'error'">
+                        <span aria-live="assertive" :class="requirement.valid(value, $attrs) ? 'icon-check-circle' : 'icon-error-circle'" :title="requirement.valid(value, $attrs) ? 'success' : 'error'"></span>
+                    </dd>
                 </template>
             </dl>
-            <ul>
-                <li v-for="(requirement, index) in additionalRequirements" :key="index">
-                    {{ requirement.message }}: {{ requirement.valid(value) }}<br />
-                    value: {{value}}
-                </li>
-            </ul>
-            -->
-            <a v-if="helplink?.url" :href="helplink.url" :target="helplink.target" @click.prevent>
+            <!-- end list of requirements -->
+
+            <!-- begin helplink -->
+            <hr v-if="helplink?.show" />
+            <a v-if="helplink?.show && helplink?.url" :href="helplink.url" :target="helplink.target" @click.prevent>
                 <span v-if="helplink.icon?.iconClass" :class="helplink.icon?.iconClass" :title="helplink.icon?.tooltip"></span>
                 <span v-if="helplink.text">{{ helplink.text }}</span>
             </a>
+            <!-- end helplink -->
         </template>
     </CmdTooltip>
     <!-- end tooltip -->
@@ -128,6 +118,7 @@ import FieldValidation from "../mixins/FieldValidation.js"
 import Tooltip from "../mixins/Tooltip.js"
 
 // import components
+import CmdSystemMessage from "./CmdSystemMessage"
 import CmdTooltip from "./CmdTooltip"
 
 export default {
@@ -135,24 +126,21 @@ export default {
     inheritAttrs: false,
     mixins: [FieldValidation, Tooltip],
     components: {
+        CmdSystemMessage,
         CmdTooltip
     },
     data() {
         return {
             showOptions: false,
             validationStatus: "",
-            hasError: false
+            limitWidthStyle: {}
         }
     },
     props: {
-        helplink: {
-            type: Object,
-            default() {}
-        },
         /**
          * set different default selectbox-types for
          *
-         * values: "(none), color, country, filterlist"
+         * values: "(default === default list, similar to native selectbox), color, country, checkboxOptions"
          */
         type: {
             type: String,
@@ -167,10 +155,21 @@ export default {
         },
         /**
          * list of options to select (incl. displayed names and values)
+         *
+         * type-property must be set to "checkboxOptions"
          */
         selectData: {
             type: Array,
             required: false
+        },
+        /**
+         * toggles option to (de)select all options in a checkbox-list
+         *
+         * type-property must be set to "checkboxOptions"
+         */
+        showSelectAllOptions: {
+            type: Boolean,
+            default: true
         },
         /**
          * status (i.e. for validation)
@@ -257,12 +256,48 @@ export default {
             }
             return null
         },
-        overflowWidth() {
-            let outerWidth = document.querySelector(".cmd-fake-select").outerWidth()
-            return "width: " + outerWidth + "px;"
+        selectAllOptionsText() {
+            if(Array.isArray(this.value) && this.value.length === this.selectData.length) {
+                return "Deselect all options"
+            }
+            return "Select all options"
+        },
+        selectAllOptionsIcon() {
+            return "icon-check"
         }
     },
+    mounted() {
+        //this.$nextTick(this.limitWidth)
+        //setTimeout(this.limitWidth, 250)
+        const hnd = setInterval(() => {
+            if (this.$refs.fakeselect) {
+                clearInterval(hnd)
+                this.limitWidth()
+            }
+        }, 100)
+    },
     methods: {
+        toggleAllOptions() {
+            this.validationStatus = "success"
+            const checkboxValues = []
+            if(this.value.length === this.selectData.length) {
+                if(this.$attrs.required) {
+                    this.validationStatus = "error"
+                }
+            } else {
+                for (let i = 0; i < this.selectData.length; i++) {
+                    checkboxValues.push(this.selectData[i].value)
+                }
+            }
+
+            this.$emit("update:value", checkboxValues)
+        },
+        limitWidth() {
+            if(this.$refs.fakeselect) {
+                const outerWidth = this.$refs.fakeselect.offsetWidth
+                this.limitWidthStyle = {width: outerWidth / 100 * 90 + "px"}
+            }
+        },
         toggleOptions() {
             if (this.status !== 'disabled') {
                 this.showOptions = !this.showOptions
@@ -303,9 +338,14 @@ export default {
             return this.pathFlags + "/flag-" + isoCode + ".svg"
         },
         onBlur() {
-            if (this.$attrs.required !== undefined && !this.value) {
-                this.hasError = true
+            this.validationStatus = "success"
+
+            if (this.$attrs.required !== undefined && (!this.value || this.value.length === 0)) {
+                this.validationStatus = "error"
             }
+        },
+        getRequirementMessage() {
+            return "An option is selected"
         }
     },
     watch: {
@@ -328,6 +368,18 @@ export default {
 }
 
 .cmd-fake-select {
+    align-self: flex-end;
+
+    & + .cmd-tooltip {
+        border-color: var(--status-color);
+    }
+
+    > span:first-child {
+        a {
+            align-self: flex-end;
+        }
+    }
+
     > ul {
         height: var(--input-height);
         margin: 0;
@@ -345,10 +397,9 @@ export default {
                     height: inherit;
                     border: var(--default-border);
 
-                    > span:not([class*="icon"]) {
+                    .option-name {
                         text-overflow: ellipsis;
                         overflow: hidden;
-                        width: 95%;
                     }
 
                     > [class*="icon-"]:last-child {
@@ -453,6 +504,11 @@ export default {
             &.checkbox-options {
                 li {
                     padding: calc(var(--default-padding) / 2);
+
+                    &.select-all-options {
+                        border-top: var(--primary-border);
+                        padding: 0;
+                    }
                 }
             }
         }
@@ -469,7 +525,7 @@ export default {
                     }
 
                     &:hover, &:active, &:focus {
-                        border-color: var(--error-color);
+                        background: var(--pure-white);
 
                         span {
                             color: var(--error-color);

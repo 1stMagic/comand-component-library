@@ -1,9 +1,7 @@
 <template>
     <!-- begin cmd-back-to-top-button -->
     <transition name="fade">
-        <a :class="iconBackToTop.iconClass" class="cmd-back-to-top-button" href="#" :title="iconBackToTop.tooltip"
-           @click.prevent="onBackToTop"
-           v-if="show"></a>
+        <a v-if="show" :class="iconBackToTop.iconClass" class="cmd-back-to-top-button" href="#" :title="iconBackToTop.tooltip" @click.prevent="onBackToTop"></a>
     </transition>
     <!-- end cmd-back-to-top-button -->
 </template>

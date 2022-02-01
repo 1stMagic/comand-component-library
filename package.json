@@ -17,7 +17,7 @@
   ],
   "dependencies": {
     "clickout-event": "^1.1.2",
-    "comand-frontend-framework": "^3.2.32",
+    "comand-frontend-framework": "^3.2.34",
     "core-js": "^3.20.1",
     "vue": "^3.2.26",
     "vue-router": "^4.0.12",

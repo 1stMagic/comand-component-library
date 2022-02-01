@@ -3,7 +3,7 @@
         <a class="button" v-for="(shareButton, index) in shareButtons" :key="index" :id="shareButton.id"
            :href="shareButton.path" :title="shareButton.tooltip">
             <span v-if="shareButton.iconClass" :class="shareButton.iconClass"></span>
-            <span v-if="shareButton.linkName">{{ shareButton.linkName }}</span>
+            <span v-if="shareButton.linkText">{{ shareButton.linkText }}</span>
         </a>
     </div>
 </template>

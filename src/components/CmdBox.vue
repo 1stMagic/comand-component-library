@@ -12,24 +12,24 @@
     </div>
     <a v-else-if="boxType === 'product'" class="cmd-box box product" href="#" @click.prevent="">
         <div>
-            <img v-if="product.img" :src="product.img.src" :alt="product.img.alt"/>
+            <img v-if="product.image" :src="product.image.src" :alt="product.image.alt"/>
             <div class="ribbon-new" v-if="product.new">
-                <span>New</span>
+                <span>{{ getMessage("cmdbox.productbox.new") }}</span>
             </div>
-            <div class="ribbon-discount" v-if="product.discount">
+            <div v-if="product.discount" class="ribbon-discount">
                 <span>{{ product.discount }}</span>
             </div>
         </div>
         <div class="box-body">
-            <h3>{{ product.name }}</h3>
-            <p v-if="product.articleNumber">Article No.: {{ product.articleNumber }}</p>
+            <h3 v-if="product.name">{{ product.name }}</h3>
+            <p v-if="product.articleNumber">{{ getMessage("cmdbox.productbox.article_no") }} {{ product.articleNumber }}</p>
             <p v-if="product.price" class="price">{{ product.price }}</p>
             <p v-if="product.description">{{ product.description }}</p>
         </div>
     </a>
     <div v-else-if="boxType === 'user'" class="cmd-box box user">
         <div>
-            <img v-if="user.image" src="" alt=""/>
+            <img v-if="user.image" :src="user.image.src" :alt="user.image.alt"/>
             <div v-else class="icon-user-profile"></div>
             <h3 v-if="user.name">{{ user.name }}</h3>
         </div>
@@ -49,8 +49,13 @@
 </template>
 
 <script>
+// import files for translations
+import I18n from "../mixins/I18n"
+import DefaultMessageProperties from "../mixins/CmdSiteSearch/DefaultMessageProperties"
+
 export default {
     name: "CmdBox",
+    mixins: [I18n, DefaultMessageProperties],
     props: {
         /**
          * set boxtype to show different types of boxes/contents

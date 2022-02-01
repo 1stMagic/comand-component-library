@@ -10,7 +10,7 @@
                 </slot>
                 <span class="toggle-icon" :class="[accordionContent.status ? iconOpen.icon.iconClass : iconClosed.icon.iconClass]"></span>
             </a>
-            <a v-else href="#" :title="tooltip" @click.prevent="toggleContentVisibility(accordionContent)">
+            <a v-else href="#" :title="accordionContent.status ? iconOpen.icon.tooltip : iconClosed.icon.tooltip" @click.prevent="toggleContentVisibility(accordionContent)">
                 <slot :name="'customHeadline' + index"><p>{{ accordionContent.headline }}</p></slot>
                 <span class="toggle-icon" :class="[accordionContent.status ?  iconOpen.icon.iconClass : iconClosed.icon.iconClass]"></span>
             </a>
@@ -120,7 +120,10 @@ export default {
     },
     computed: {
         toggleTransition() {
-            return this.useTransition && 'fade'
+            if(this.useTransition) {
+                return "fade"
+            }
+            return ""
         }
     },
     methods: {
@@ -175,8 +178,6 @@ export default {
 <style lang="scss">
 /* begin cmd-accordion ---------------------------------------------------------------------------------------- */
 .cmd-accordion {
-    margin-bottom: var(--default-margin);
-
     > div {
         > a, > div:first-child {
             display: flex;

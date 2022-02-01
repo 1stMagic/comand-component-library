@@ -17,14 +17,16 @@
            ref="label">
 
         <!-- begin label-text (+ required asterisk) -->
-            <span v-if="labelText && $attrs.type !== 'checkbox' && $attrs.type !== 'radio'"
-                  :class="hideLabel ? 'hidden' : undefined">
-              <span>{{ labelText }}</span>
-              <sup v-if="$attrs.required">*</sup>
-              <a href="#"
+        <span v-if="labelText && $attrs.type !== 'checkbox' && $attrs.type !== 'radio'"
+              :class="hideLabel ? 'hidden' : undefined">
+              <span>
+                  {{ labelText }}<sup v-if="$attrs.required">*</sup>
+              </span>
+              <a v-if="$attrs.required || inputRequirements.length"
+                 href="#"
                  @click.prevent
                  :class="getStatusIconClass"
-                 :title="!useCustomTooltip ? getValidationMessage : undefined"
+                 :title="validationTooltip"
                  :aria-errormessage="getValidationMessage"
                  aria-live="assertive"
                  :id="tooltipId"
@@ -39,9 +41,9 @@
             v-if="
         $attrs.type !== 'checkbox' &&
           $attrs.type !== 'radio' &&
-          (iconClass || fieldIconClass)
+          fieldIconClass
       "
-            :class="['place-inside', fieldIconClass, iconClass]"
+            :class="['place-inside', fieldIconClass]"
         ></span>
         <!-- end icon -->
 
@@ -67,8 +69,8 @@
 
         <!-- begin show-password-icon -->
         <a v-if="$attrs.type === 'password'"
-           class="place-inside icon-visible"
            href="#"
+           class="place-inside icon-visible"
            @mousedown.prevent="showPassword"
            @mouseup.prevent="hidePassword"
            @mouseleave.prevent="hidePassword"
@@ -102,13 +104,11 @@
 
             <!-- begin labels for toggle-switch -->
             <span v-if="!(onLabel && offLabel)" :class="{ hidden: hideLabel }">
-                <span v-if="labelText">{{ labelText }}</span>
-                <sup v-if="$attrs.required">*</sup>
+                <span v-if="labelText">{{ labelText }}<sup v-if="$attrs.required">*</sup></span>
             </span>
             <template v-else-if="onLabel && offLabel">
                 <span v-if="labelText">
-                    <span>{{ labelText }}</span>
-                    <sup v-if="$attrs.required">*</sup>
+                    <span>{{ labelText }}<sup v-if="$attrs.required">*</sup></span>
                 </span>
                 <div class="toggle-switch switch-label">
                     <span class="label">{{ onLabel }}</span>
@@ -137,11 +137,12 @@
                   v-bind="$attrs"
                   :id="id"
                   :value="value"
-                  :maxlength="$attrs.maxlength > 0 ? $attrs.maxlength : 255"
+                  :maxlength="getMaxLength"
                   @input="onInput"
                   @focus="tooltip = true"
                   @blur="onBlur">
         </textarea>
+        <span v-if="element === 'textarea' && showCharactersTextarea">{{ charactersTextarea }}</span>
         <!-- end textarea -->
 
         <!-- begin searchfield -->
@@ -171,23 +172,24 @@
     <!-- end button -->
 
     <!-- begin tooltip -->
-    <CmdTooltip v-if="useCustomTooltip" class="box" :class="{errorOccurred : 'error'}" :relatedId="tooltipId" :toggle-visibility-by-click="true">
-        <CmdSystemMessage v-if="getValidationMessage" :message="getValidationMessage" :status="validationStatus" :iconClose="{show: false}" />
+    <CmdTooltip v-if="useCustomTooltip" class="box" :class="validationStatus" :relatedId="tooltipId" :toggle-visibility-by-click="true">
+        <CmdSystemMessage v-if="getValidationMessage" :message="getValidationMessage" :status="validationStatus" :iconClose="{show: false}"/>
         <template v-if="showRequirements && (validationStatus === '' || validationStatus === 'error')">
             <!-- begin list of requirements -->
-            <h6>Requirements for input<br />"{{labelText}}"</h6>
+            <h6>Requirements for input<br/>"{{ labelText }}"</h6>
             <dl class="list-of-requirements">
                 <template v-for="(requirement, index) in inputRequirements" :key="index">
-                    <dt aria-live="assertive" :class="requirement.valid(value, $attrs) ? 'success' : 'error'">{{requirement.message}}:</dt>
+                    <dt aria-live="assertive" :class="requirement.valid(value, $attrs) ? 'success' : 'error'">{{ requirement.message }}:</dt>
                     <dd :class="requirement.valid(value, $attrs) ? 'success' : 'error'">
-                        <span aria-live="assertive" :class="requirement.valid(value, $attrs) ? 'icon-check-circle' : 'icon-error-circle'" :title="requirement.valid(value, $attrs) ? 'success' : 'error'"></span>
+                        <span aria-live="assertive" :class="requirement.valid(value, $attrs) ? 'icon-check-circle' : 'icon-error-circle'"
+                              :title="requirement.valid(value, $attrs) ? 'success' : 'error'"></span>
                     </dd>
                 </template>
             </dl>
             <!-- end list of requirements -->
 
             <!-- begin helplink -->
-            <hr v-if="helplink?.show" />
+            <hr v-if="helplink?.show"/>
             <a v-if="helplink?.show && helplink?.url" :href="helplink.url" :target="helplink.target" @click.prevent>
                 <span v-if="helplink.icon?.iconClass" :class="helplink.icon?.iconClass" :title="helplink.icon?.tooltip"></span>
                 <span v-if="helplink.text">{{ helplink.text }}</span>
@@ -407,48 +409,14 @@ export default {
             type: String,
             required: false
         },
-        customRequirements: {
-            type: Array,
-            default() {
-                return [
-                    {
-                        message: "Field contains special character",
-                        condition(value, attributes) {
-                            return attributes.required ? "Yes" : "No"
-                        },
-                        valid(value) {
-                            return value.length >= 8
-                        }
-                    },
-                    {
-                        message: "Field contains numbers",
-                        condition(value, attributes) {
-                            return attributes.required ? "Yes" : "No"
-                        },
-                        valid(value) {
-                            return /\d/.test(value)
-                        }
-                    },
-                    {
-                        message: "Field contains characters",
-                        condition(value, attributes) {
-                            return attributes.required ? "Yes" : "No"
-                        },
-                        valid(value) {
-                            return /[a-z]/.test(value)
-                        }
-                    },
-                    {
-                        message: "Field contains capital letter",
-                        condition(value, attributes) {
-                            return attributes.required ? "Yes" : "No"
-                        },
-                        valid(value) {
-                            return /[A-Z]/.test(value)
-                        }
-                    }
-                ]
-            }
+        /**
+         * toggle display of number of used and allowed characters for textarea
+         *
+         * type-property must be set to textarea
+         */
+        showCharactersTextarea: {
+            type: Boolean,
+            default: true
         }
     },
     computed: {
@@ -457,34 +425,6 @@ export default {
                 text: this.labelText,
                 level: "5"
             }
-        },
-        inputRequirements() {
-            const standardRequirements = [
-                {
-                    message: "Required field is filled",
-                    condition(value, attributes) {
-                        return attributes.required ? "Yes" : "No"
-                    },
-                    valid(value, attributes) {
-                        return !attributes.required || value.length > 0
-                    }
-                },
-                {
-                    message: "Input has minimum length",
-                    condition(value, attributes) {
-                        return attributes.minlength ? value.length + "/" + attributes.minlength : "none"
-                    },
-                    valid(value, attributes) {
-                        return value.length >= attributes.minlength
-                    }
-                }
-
-            ]
-            if(!this.customRequirements || !this.customRequirements.length) {
-                return standardRequirements
-            }
-            // duplicate existing requirements into new (combined) array
-            return [...standardRequirements, ...this.customRequirements]
         },
         isChecked() {
             if (typeof this.value === "boolean") {
@@ -500,11 +440,32 @@ export default {
                 return this.value.includes(this.inputValue)
             }
             return false
+        },
+        charactersTextarea() {
+            return "Characters: " + this.value.length + "/" + this.getMaxLength()
+        },
+        validationTooltip() {
+            if (!this.useCustomTooltip) {
+                return this.getValidationMessage
+            }
+
+            // set default-tooltip if customTooltip is not set
+            if (this.validationStatus === 'error') {
+                return "An error occurred!"
+            } else if (this.validationStatus === 'success') {
+                return "This information is filled correctly!"
+            } else if (this.capsLockActivated) {
+                return "Attention: Caps lock is activated!"
+            }
+            return "Open field requirements!"
         }
     },
     methods: {
         getDomElement() {
             return this.$refs.label
+        },
+        getMaxLength() {
+            return this.$attrs.maxlength > 0 ? this.$attrs.maxlength : 5000
         },
         onBlur(event) {
             // check if surrounding form with data-use-validation exists
@@ -521,20 +482,32 @@ export default {
 
                 if (typeof event.target.checkValidity === "function" && !event.target.checkValidity()) {
                     this.validationStatus = "error"
+                } else {
+                    if (this.customRequirements) {
+                        // check if customRequirement returns invalid result
+                        const invalidCustomRequirement = this.customRequirements.some(requirement => {
+                            return !requirement.valid(this.value)
+                        })
+
+                        // set validation-status if invalidCustomRequirement returns at least one invalid entry
+                        if (invalidCustomRequirement) {
+                            this.validationStatus = "error"
+                        }
+                    }
                 }
             }
         },
-        onChange(e) {
+        onChange(event) {
             if (typeof this.value === "boolean") {
-                this.$emit("update:value", e.target.checked)
+                this.$emit("update:value", event.target.checked)
             } else if (typeof this.value === "string") {
-                this.$emit("update:value", e.target.value)
+                this.$emit("update:value", event.target.value)
             } else if (this.value !== undefined) {
                 let values = [...this.value]
-                if (e.target.checked) {
-                    values.push(e.target.value)
+                if (event.target.checked) {
+                    values.push(event.target.value)
                 } else {
-                    values = values.filter(value => value !== e.target.value)
+                    values = values.filter(value => value !== event.target.value)
                 }
                 this.$emit("update:value", values)
             }
@@ -545,8 +518,8 @@ export default {
                 this.$refs.label.focus()
             }
         },
-        onInput(e) {
-            this.$emit('update:value', e.target.value)
+        onInput(event) {
+            this.$emit('update:value', event.target.value)
         },
         showPassword() {
             // get password-field
@@ -585,7 +558,11 @@ export default {
         right: .5rem
     }
 
-    &.has-state {
+    &.has-state, & + .cmd-tooltip {
+        &.error {
+            --status-color: var(--error-color);
+        }
+
         &.warning {
             --status-color: var(--warning-color);
         }
@@ -598,6 +575,10 @@ export default {
             --status-color: var(--info-color);
         }
 
+        ::placeholder {
+            color: var(--status-color);
+        }
+
         > span {
             color: var(--status-color);
 
@@ -608,43 +589,7 @@ export default {
     }
 
     & + .cmd-tooltip {
-        h6:last-of-type {
-            margin-top: 0;
-        }
-
-        .list-of-requirements {
-            .error {
-                color: var(--error-color);
-            }
-
-            .warning {
-                color: var(--warning-color);
-            }
-
-            .success {
-                color: var(--success-color);
-            }
-
-            .info {
-                color: var(--info-color);
-            }
-
-            span[class*="icon"] {
-                font-size: 1.2rem;
-            }
-
-            & ~ a {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                text-align: center;
-                text-decoration: none;
-
-                span[class*="icon"] {
-                    font-size: 1.2rem;
-                }
-            }
-        }
+        border-color: var(--status-color);
     }
 
     &.inline {
@@ -710,6 +655,7 @@ export default {
             }
         }
     }
+
     /* end toggle-switch ------------------------------------------------------------------------------------------ */
 }
 </style>

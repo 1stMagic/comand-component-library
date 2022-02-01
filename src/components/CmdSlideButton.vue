@@ -52,7 +52,7 @@ export default {
             if(this.slideButtons[this.slideButtonType]) {
                 return this.slideButtons[this.slideButtonType]
             }
-            console.log("Property 'slideButtonType' does not match slideButtons-key")
+            console.warn("Property 'slideButtonType' does not match slideButtons-key")
             return {}
         }
     }

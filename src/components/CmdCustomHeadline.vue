@@ -18,7 +18,7 @@ export default {
     name: "CmdCustomHeadline",
     props: {
         /**
-         *
+         * headline-text and headline-level
          */
         headline: {
             type: Object,

@@ -4,8 +4,9 @@ import 'comand-frontend-framework/src/assets/css/framework.css'
 import 'comand-frontend-framework/src/assets/css/framework-iconfont.css'
 
 import { createApp } from 'vue'
-import App from './App.vue'
-import { createRouter, createWebHistory } from 'vue-router'
+// import App from './App.vue'
+import Help from './Help.vue'
+//import { createRouter, createWebHistory } from 'vue-router'
 import "clickout-event"
 
 /* import directives */
@@ -29,15 +30,18 @@ import '@/assets/styles/template.css'
 /* import css for demopage only */
 import 'comand-frontend-framework/public/demopage-only.css'
 
-const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes: [
-    {
-      path: '/:pathMatch(.*)*',
-      name: 'somename',
-      component: App
-    }
-  ]
-})
+import router from "./router"
 
-createApp(App).use(router).directive('telephone', directiveTelephone).directive('focus', directiveFocus).mount('#app')
+// const router = createRouter({
+//   history: createWebHistory(process.env.BASE_URL),
+//   routes: [
+//     {
+//       path: '/:pathMatch(.*)*',
+//       name: 'somename',
+//       component: App
+//     }
+//   ]
+// })
+
+// createApp(App).use(router).directive('telephone', directiveTelephone).directive('focus', directiveFocus).mount('#app')
+createApp(Help).use(router).directive('telephone', directiveTelephone).directive('focus', directiveFocus).mount('#app')

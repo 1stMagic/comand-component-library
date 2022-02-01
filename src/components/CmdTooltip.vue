@@ -1,7 +1,7 @@
 <template>
     <div v-if="tooltipVisibility" :class="['cmd-tooltip', status]" ref="tooltip" aria-role="tooltip">
         <div v-if="headline || iconClose.show" class="headline-wrapper">
-            <CmdCustomHeadline :headline="headline"></CmdCustomHeadline>
+            <CmdCustomHeadline v-if="headline" :headline="headline"></CmdCustomHeadline>
             <a v-if="iconClose.show && toggleVisibilityByClick" href="#" @click.prevent="tooltipVisibility = false" :title="iconClose.tooltip">
                 <span :class="iconClose.iconClass"></span>
             </a>
@@ -139,8 +139,8 @@ export default {
                 this.$nextTick( () => {
                     const verticalOffset = 25
                     // this.$refs.tooltip.addEventListener("keyup", this.hideTooltip)
-                    this.$refs.tooltip.style.left = this.pointerX + "px"
-                    this.$refs.tooltip.style.top = this.pointerY + verticalOffset + "px"
+                    this.$refs.tooltip.style.left = this.pointerX / 10 + "rem"
+                    this.$refs.tooltip.style.top = (this.pointerY + verticalOffset) / 10  + "rem"
                 })
             }
         }

@@ -1,0 +1,162 @@
+{
+  "CmdAccordion": {
+    "headline": "Accordion",
+    "shorttext": "Collapsable box, mostly used in groups i.e. FAQs, News etc."
+  },
+  "CmdAddressData": {
+    "headline": "Address Data",
+    "shorttext": "Address data in a list and wrapped in a address-tag"
+  },
+  "CmdBackToTop": {
+    "headline": "Back-To-Top-Button",
+    "shorttext": "Button at the bottom of the page, to jump back to top"
+  },
+  "CmdBox": {
+    "headline": "Box",
+    "shorttext": "Just a simple box for different types of content (like text, images, user-profiles, products etc.)"
+  },
+  "CmdBoxSiteSearch": {
+    "headline": "Box Site Search",
+    "shorttext": "Box with search field to search the content"
+  },
+  "CmdBreadcrumbs": {
+    "headline": "Breadcrumbs",
+    "shorttext": "Hierachic navigation, that shows the current page in relation to upper levels. Mostly placed at the top of the content."
+  },
+  "CmdCompanyLogo": {
+    "headline": "Company Logo",
+    "shorttext": "Main logo for the website, that can also be linked to the homepage. Also used in the site-header."
+  },
+  "CmdCookieDisclaimer": {
+    "headline": "Cookie Disclaimer",
+    "shorttext": "The required cookie disclaimer for a web sites. Must show basic information about the used cookies and the possibility to disable not necessary ones."
+  },
+  "CmdCopyrightInformation": {
+    "headline": "Copyright Information",
+    "shorttext": "Copyright information for CoManD-Software linked to the web site. Mostly used at the bottom of the site."
+  },
+  "CmdCustomHeadline": {
+    "headline": "Custom Headline",
+    "shorttext": "A custom headline, where the h-level can be defined and an optional pre-headline and icon can be set."
+  },
+  "CmdFakeSelect": {
+    "headline": "Fake Select",
+    "shorttext": "A dropdown, that looks like a native selectbox, but can also be filled with different option-types (i.e. checkboxes) or content."
+  },
+  "CmdFancyBox": {
+    "headline": "Fancy Box",
+    "shorttext": "The Fancy Box is a PopUp-Box similar to a modal, that can be filled with different content (i.e. image slider, print preview)."
+  },
+  "CmdFooterNavigation": {
+    "headline": "Footer Navigation",
+    "shorttext": "Contains a list of navigation entries, mostly used for secondary content (i.e. data privacy, imprint)."
+  },
+  "CmdForm": {
+    "headline": "Form",
+    "shorttext": "An empty form-wrapper with an optional fieldset and legend, which can be filled with form elements."
+  },
+  "CmdFormElements": {
+    "headline": "Form Elements",
+    "shorttext": "All types of form elements (.ie. inputs, selectboxes, checkboxes, radiobuttons etc.)."
+  },
+  "CmdFormFilters": {
+    "headline": "Form Filters",
+    "shorttext": "List of selected filters (without functionality) that can be set by a form element or a fake select."
+  },
+  "CmdGoogleMaps": {
+    "headline": "Google Maps",
+    "shorttext": "A Google Map in an iframe, that can be linked with an address."
+  },
+  "CmdImageGallery": {
+    "headline": "Image Gallery",
+    "shorttext": "A list if images arranged in a grid. The images can be enlarge in a fancybox."
+  },
+  "CmdImageZoom": {
+    "headline": "Image Zoom",
+    "shorttext": "Shows a movable section of a hovered image in a very large version."
+  },
+  "CmdLoginForm": {
+    "headline": "Login Form",
+    "shorttext": "Shows a standard login form (with username- and password-field) and toggle form to prepare sending the password by email."
+  },
+  "CmdMainNavigation": {
+    "headline": "Main Navigation",
+    "shorttext": "This component should be us to contain the main navigation for a project. Is already wrapped in a nav-tag, that can contain up to three levels of links."
+  },
+  "CmdMultipleSwitch": {
+    "headline": "Multiple Switch",
+    "shorttext": "TEXT FEHLT"
+  },
+  "CmdMultistepFormProgressBar": {
+    "headline": "Multistep Form Progress Bar",
+    "shorttext": "A horizontal progress bar, mostly used for forms, that are separated over multiple pages."
+  },
+  "CmdOpeningHours": {
+    "headline": "Opening Hours",
+    "shorttext": "A list of opening hours with additional options."
+  },
+  "CmdPager": {
+    "headline": "Pager",
+    "shorttext": "Buttons to switch pages, mostly used for list (.i.e. search results) that are displayed of several pages."
+  },
+  "CmdProgressBar": {
+    "headline": "Progress Bar",
+    "shorttext": "Based on a native progress bar, this component can be used with a label and an output of the percentage loaded."
+  },
+  "CmdShareButtons": {
+    "headline": "Share Buttons",
+    "shorttext": "Based on a native progress bar, this component can be used with a label and an output of the percentage loaded."
+  },
+  "CmdSiteHeader": {
+    "headline": "Site Header",
+    "shorttext": "The header for the entire site. It can be configured with the main navigation inside or be filled by slot-elements."
+  },
+  "CmdSlideButton": {
+    "headline": "Slide Button",
+    "shorttext": "Button to slide content (.i.e. images, thumbnails, text) that is used in components like slideshow or thumbnail-scroller."
+  },
+  "CmdSlideshow": {
+    "headline": "Slideshow",
+    "shorttext": "This component is used as an image-slider. It also can load different images for different screen-resolutions."
+  },
+  "CmdSwitchButton": {
+    "headline": "Switch Button",
+    "shorttext": "TEXT FEHLT"
+  },
+  "CmdSwitchLanguage": {
+    "headline": "Switch Language",
+    "shorttext": "A list with country flags, to symbolize switching languages on a web site."
+  },
+  "CmdSystemMessage": {
+    "headline": "System Message",
+    "shorttext": "A universal message, which can be used for global messages or form validation. It already contains the common cases 'error', 'warning', 'success' and 'info'."
+  },
+  "CmdTable": {
+    "headline": "Table",
+    "shorttext": "Based on a the native table, this table can also be configured to highlight rows or columns and has a default overflow-behavior for wide content."
+  },
+  "CmdTabs": {
+    "headline": "Tabs",
+    "shorttext": "Tabs to switch different section of content, that toggle visibility in frame below."
+  },
+  "CmdThumbnailScroller": {
+    "headline": "Thumbnail scroller",
+    "shorttext": "A horizontal image scroller for small images (thumbnails) that is also used inside if a group of images is enlarged with the fancybox."
+  },
+  "CmdTooltip": {
+    "headline": "Tooltip",
+    "shorttext": "A custom tooltip, that looks like the default tooltip (title) that appears on hovering elements. It also can be filled with customizable content and styled individually."
+  },
+  "CmdTopHeaderNavigation": {
+    "headline": "Top Header Navigation",
+    "shorttext": "Small, secondary navigitation ,that is mostly arranged horizontally above the site header."
+  },
+  "CmdUploadForm": {
+    "headline": "Upload form",
+    "shorttext": "Can be used as a complex, configurable form or as a simple drag-and-drop area to prepare the upload of files."
+  },
+  "CmdWidthLimitationWrapper": {
+    "headline": "Width limitation wrapper",
+    "shorttext": "A simple wrapper without content, that can be used to wrap the main content and limit its width on large screens."
+  }
+}

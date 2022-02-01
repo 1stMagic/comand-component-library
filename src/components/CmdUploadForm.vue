@@ -287,6 +287,7 @@ import CmdSystemMessage from "./CmdSystemMessage"
 
 export default {
     name: "CmdUploadForm",
+    emits: ["click", "error", "upload-complete", "upload-file-success"],
     data() {
         return {
             comment: "",
@@ -351,7 +352,7 @@ export default {
             default: ""
         },
         /**
-         * set an optional headlien for the fieldset
+         * set an optional headline for the fieldset
          */
         headline: {
             type: String,
@@ -415,10 +416,8 @@ export default {
     },
     computed: {
         fileTypeImage() {
-            if(this.allowedFileExtensions.some(extension => extension.includes('jpg'))) {
-                return true
-            }
-            return false
+            return this.allowedFileExtensions.some(extension => extension.includes('jpg'));
+
         },
         failedUpload() {
             return this.listOfFiles.some(file => file.error)
