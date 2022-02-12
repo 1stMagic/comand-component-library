@@ -58,6 +58,7 @@ export default {
          * icon 'copy'
          */
          iconCopy: {
+             type: Object,
              default() {
                  return {
                      class: "icon-file-copy",

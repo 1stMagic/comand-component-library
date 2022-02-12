@@ -1,14 +1,22 @@
 <template>
     <div v-if="boxType === 'content'" class="cmd-box box content">
-        <div>
-            <slot name="header"></slot>
-        </div>
-        <div class="box-body">
-            <slot name="body"></slot>
-        </div>
-        <footer>
-            <slot name="footer"></slot>
-        </footer>
+        <template v-if="useSlot">
+            <header>
+                <slot name="header"></slot>
+            </header>
+            <div class="box-body">
+                <slot name="body"></slot>
+            </div>
+            <footer>
+                <slot name="footer"></slot>
+            </footer>
+        </template>
+        <template v-else>
+            <CmdCustomHeadline :iconClass="cmdCustomHeadline.iconClass" :preHeadline="cmdCustomHeadline.preHeadline"  :headline="cmdCustomHeadline.headline"/>
+            <div class="box-body padding">
+                <p>{{ textBody }}</p>
+            </div>
+        </template>
     </div>
     <a v-else-if="boxType === 'product'" class="cmd-box box product" href="#" @click.prevent="">
         <div>
@@ -52,9 +60,11 @@
 // import files for translations
 import I18n from "../mixins/I18n"
 import DefaultMessageProperties from "../mixins/CmdSiteSearch/DefaultMessageProperties"
+import CmdCustomHeadline from "./CmdCustomHeadline";
 
 export default {
     name: "CmdBox",
+    components: {CmdCustomHeadline},
     mixins: [I18n, DefaultMessageProperties],
     props: {
         /**
@@ -83,6 +93,39 @@ export default {
         user: {
             type: Object,
             required: false
+        },
+        /**
+         * activated if all content (incl headline) is given by slot
+         *
+         * if false textBody-property must be set
+         */
+        useSlot: {
+            type: Boolean,
+            default: false
+        },
+        /**
+         * String used as content (placed in a paragraph-tag) for box-body
+         *
+         * should only be used, if no further html-structure is required for box-body
+         */
+        textBody: {
+            type: String,
+            default: ""
+        },
+        /**
+         * properties for CmdCustomHeadline-component
+         */
+        cmdCustomHeadline: {
+            type: Object,
+            default() {
+                return {
+                 headline:
+                    {
+                        text: 'Headline for box',
+                        level: '3'
+                    }
+                }
+            }
         }
     }
 }
@@ -111,7 +154,7 @@ export default {
             }
         }
 
-        > div:first-child {
+        > header {
             border-top-left-radius: var(--border-radius);
             border-top-right-radius: var(--border-radius);
             padding: calc(var(--default-padding) / 2) var(--default-padding);

@@ -21,17 +21,17 @@
                         <span class="country-name" v-if="addressData.country">{{ addressData.country }}</span>
                     </template>
                 </dd>
-                <dt v-if="addressData.telephone">{{ getMessage('cmdaddressdata.labeltext.telephone') }}Telephone:</dt>
+                <dt v-if="addressData.telephone">{{ getMessage('cmdaddressdata.labeltext.telephone') }}</dt>
                 <dd v-if="addressData.telephone">
                     <a :href="'tel:' + addressData.telephone" title="Call number" class="tel" v-telephone="addressData.telephone">{{ addressData.telephone }}</a>
                 </dd>
-                <dt v-if="addressData.mobilephone">{{ getMessage('cmdaddressdata.labeltext.mobile_phone') }}Mobile phone:</dt>
+                <dt v-if="addressData.mobilephone">{{ getMessage('cmdaddressdata.labeltext.mobile_phone') }}</dt>
                 <dd v-if="addressData.mobilephone">
                     <a :href="'tel:' + addressData.mobilephone" title="Call number" class="tel" v-telephone="addressData.mobilephone">{{ addressData.mobilephone }}</a>
                 </dd>
-                <dt v-if="addressData.fax">{{ getMessage('cmdaddressdata.labeltext.fax') }}Fax:</dt>
+                <dt v-if="addressData.fax">{{ getMessage('cmdaddressdata.labeltext.fax') }}</dt>
                 <dd v-if="addressData.fax" class="fax">{{ addressData.fax }}</dd>
-                <dt v-if="addressData.email">{{ getMessage('cmdaddressdata.labeltext.email') }}E-Mail:</dt>
+                <dt v-if="addressData.email">{{ getMessage('cmdaddressdata.labeltext.email') }}</dt>
                 <dd class="email" v-if="addressData.email">
                     <a :href="'mailto:' + addressData.email" class="email">{{ addressData.email }}</a>
                 </dd>
@@ -72,7 +72,7 @@
 <script>
 // import files for translations
 import I18n from "../mixins/I18n"
-import DefaultMessageProperties from "../mixins/CmdSiteSearch/DefaultMessageProperties"
+import DefaultMessageProperties from "../mixins/CmdAddressData/DefaultMessageProperties"
 
 export default {
     name: "CmdAddressData",

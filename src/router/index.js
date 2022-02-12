@@ -1,7 +1,25 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import ContainerPage from "../documentation/views/ContainerPage"
+import componentsDescription from "../documentation/data/componentsDescription.json"
 
-const routes = [
+const routes = []
+
+const componentNames = Object.keys(componentsDescription)
+
+for(let i = 0 ; i < componentNames.length ; i++) {
+    routes.push(
+        {
+          path: "/" + componentNames[i],
+          name: componentNames[i],
+          component: ContainerPage,
+          props: {
+              componentName: componentNames[i]
+          }
+        }
+    )
+}
+/*
+const routes2 = [
     {
         path: "/CmdAccordion",
         name: "CmdAccordion",
@@ -118,9 +136,9 @@ const routes = [
         component: ContainerPage, props: { componentName: "CmdMultipleSwitch" }
     },
     {
-        path: "/CmdMultipleFormProgressBar",
-        name: "CmdMultipleFormProgressBar",
-        component: ContainerPage, props: { componentName: "CmdMultipleFormProgressBar" }
+        path: "/CmdMultistepFormProgressBar",
+        name: "CmdMultistepFormProgressBar",
+        component: ContainerPage, props: { componentName: "CmdMultistepFormProgressBar" }
     },
     {
         path: "/CmdOpeningHours",
@@ -208,7 +226,7 @@ const routes = [
         component: ContainerPage, props: { componentName: "CmdWidthLimitationWrapper" }
     }
 ]
-
+*/
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes

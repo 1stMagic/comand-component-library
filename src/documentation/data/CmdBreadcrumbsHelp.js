@@ -1,0 +1,1 @@
+export default `<CmdBreadcrumbs :breadcrumbLinks="breadcrumbData" breadcrumbLabel="You are here:"/>`

@@ -1,40 +1,27 @@
+<script setup>
+import {defineProps, defineAsyncComponent, computed, watch, shallowRef} from "vue"
+import componentDescription from "../data/componentsDescription.json"
+const props = defineProps({
+    componentName: {
+        type: String,
+        required: true
+    }
+})
+const componentNameHelp = computed(() => props.componentName + "Help")
+const HelpView = shallowRef(null)
+HelpView.value = defineAsyncComponent(() => import("./" + componentNameHelp.value))
+watch(() => props.componentName, () => HelpView.value = defineAsyncComponent(() => import("./" + componentNameHelp.value)))
+</script>
+
 <template>
     <main>
-        <h1>{{ componentDescription[componentName]?.headline }}</h1>
-        <p>{{ componentDescription[componentName]?.shorttext }}</p>
+        <h1>{{ componentDescription[props.componentName]?.headline }}</h1>
+        <p>{{ componentDescription[props.componentName]?.shorttext }}</p>
         <div class="flex-container">
            <div>
-               <component :is="componentNameHelp" />
+               <HelpView />
            </div>
         </div>
         <footer></footer>
     </main>
 </template>
-
-<script>
-import componentDescription from "../data/componentsDescription.json"
-import CmdAccordionHelp from "./CmdAccordionHelp"
-
-export default {
-    name: "ContainerPage",
-    components: {
-        CmdAccordionHelp
-    },
-    data() {
-        return {
-            componentDescription
-        }
-    },
-    props: {
-       componentName: {
-           type: String,
-           required: true
-       }
-    },
-    computed: {
-        componentNameHelp() {
-            return this.componentName + "Help"
-        }
-    }
-}
-</script>

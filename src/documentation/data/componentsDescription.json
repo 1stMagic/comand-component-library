@@ -1,19 +1,30 @@
 {
   "CmdAccordion": {
     "headline": "Accordion",
-    "shorttext": "Collapsable box, mostly used in groups i.e. FAQs, News etc."
+    "shorttext": "Collapsable box, mostly used in groups i.e. FAQs, News etc.",
+    "config": {
+      "usesSlot": true
+    }
   },
   "CmdAddressData": {
     "headline": "Address Data",
     "shorttext": "Address data in a list and wrapped in a address-tag"
   },
-  "CmdBackToTop": {
+  "CmdBackToTopButton": {
     "headline": "Back-To-Top-Button",
     "shorttext": "Button at the bottom of the page, to jump back to top"
   },
+  "CmdBankAccountData": {
+    "headline": "Bank Account Data",
+    "shorttext": "Shows a list with bank data, which can be copied by click"
+  },
   "CmdBox": {
     "headline": "Box",
-    "shorttext": "Just a simple box for different types of content (like text, images, user-profiles, products etc.)"
+    "shorttext": "Just a simple box for different types of content (like text, images, user-profiles, products etc.)",
+    "config": {
+      "usesSlot": true,
+      "innerComponents": ["CmdCustomHeadline"]
+    }
   },
   "CmdBoxSiteSearch": {
     "headline": "Box Site Search",
@@ -55,7 +66,7 @@
     "headline": "Form",
     "shorttext": "An empty form-wrapper with an optional fieldset and legend, which can be filled with form elements."
   },
-  "CmdFormElements": {
+  "CmdFormElement": {
     "headline": "Form Elements",
     "shorttext": "All types of form elements (.ie. inputs, selectboxes, checkboxes, radiobuttons etc.)."
   },

@@ -16,7 +16,7 @@ export { default as CmdFooterNavigation } from '@/components/CmdFooterNavigation
 export { default as CmdImageGallery } from '@/components/CmdImageGallery'
 export { default as CmdImageZoom } from '@/components/CmdImageZoom'
 export { default as CmdLoginForm } from '@/components/CmdLoginForm'
-export { default as CmdMainHeadline } from '@/components/CmdMainHeadline'
+export { default as CmdCustomHeadline } from '@/components/CmdCustomHeadline'
 export { default as CmdMainNavigation } from '@/components/CmdMainNavigation'
 export { default as CmdMultipleSwitch } from '@/components/CmdMultipleSwitch'
 export { default as CmdMultistepFormProgressBar } from '@/components/CmdMultistepFormProgressBar'

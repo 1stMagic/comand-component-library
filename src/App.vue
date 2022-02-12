@@ -563,7 +563,7 @@
                         </div>
                     </div>
                     <p>
-                        radiobuttons with values: {{radiobuttonValue}}
+                        Radiobuttons with values: {{radiobuttonValue}}
                     </p>
                     <div class="label inline">
                         <span>Label for Replaced Input-Type-Radio:</span>
@@ -652,17 +652,17 @@
                     <CmdBox>
                         <template v-slot:header>
                             <h3>
-                                Box with text
+                                Headline for box
                             </h3>
                         </template>
                         <template v-slot:body>
                             <p class="padding">
-                                box body with paragraph
+                                Box body with paragraph
                             </p>
                         </template>
                         <template v-slot:footer>
                             <p>
-                                footer content
+                                Footer content
                             </p>
                         </template>
                     </CmdBox>

@@ -1,0 +1,1 @@
+export default `<CmdBoxSiteSearch text-legend="Site search" />`
