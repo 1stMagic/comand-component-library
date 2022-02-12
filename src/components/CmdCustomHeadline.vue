@@ -25,7 +25,7 @@ export default {
             default() {
                 return {
                     text: "",
-                    level: "h2"
+                    level: 2
                 }
             }
         },

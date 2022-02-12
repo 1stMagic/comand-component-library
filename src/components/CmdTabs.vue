@@ -2,7 +2,7 @@
     <div class="cmd-tabs">
         <ul :class="{'stretch-tabs' : stretchTabs}">
             <li :class="{active : showTab === index}" v-for="(tab, index) in tabs" :key="index" role="tab">
-                <a @click.prevent="showTab = index" :title="!tab.name ? tab.tooltip : false">
+                <a @click.prevent="setActiveTab(index)" :title="!tab.name ? tab.tooltip : false">
                     <span v-if="tab.iconClass">{{ tab.iconClass }}</span>
                     <span v-if="tab.name">{{ tab.name }}</span>
                 </a>
@@ -25,9 +25,10 @@ export default {
     name: "CmdTabs",
     data() {
         return {
-            showTab: 0
+            showTab: this.activeTab
         }
     },
+    emits: ["active-tab"],
     props: {
         /**
          * activate if tabs should be (equally) stretched horizontally over full width of tab-content
@@ -49,6 +50,24 @@ export default {
         useSlot: {
             type: Boolean,
             default: false
+        },
+        /**
+         * set default active/shown tab
+         */
+        activeTab: {
+            type: Number,
+            default: 0
+        }
+    },
+    methods: {
+      setActiveTab(index) {
+          this.showTab = index
+          this.$emit("active-tab", index)
+      }
+    },
+    watch: {
+        activeTab() {
+            this.showTab = this.activeTab
         }
     }
 }

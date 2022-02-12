@@ -5,8 +5,9 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "build-lib": "vue-cli-service build --target lib --name comand-component-library src/index.js && gulp",
+    "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
+    "build-lib": "vue-cli-service build --target lib --name comand-component-library src/index.js && gulp",
     "prepublishOnly": "npm run build-lib"
   },
   "main": "dist/comand-component-library.umd.min.js",
@@ -27,15 +28,19 @@
     "@vue/cli-plugin-babel": "^4.5.15",
     "@vue/cli-plugin-eslint": "^4.5.15",
     "@vue/cli-plugin-router": "^4.5.15",
+    "@vue/cli-plugin-unit-jest": "^4.5.15",
     "@vue/cli-plugin-vuex": "^4.5.15",
     "@vue/cli-service": "^4.5.15",
     "@vue/compiler-sfc": "^3.2.26",
+    "@vue/test-utils": "^2.0.0-0",
     "axios": "^0.24.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^7.20.0",
     "gulp": "^4.0.2",
     "node-sass": "^4.12.0",
-    "sass-loader": "^8.0.2"
+    "sass-loader": "^8.0.2",
+    "typescript": "~3.9.3",
+    "vue-jest": "^5.0.0-0"
   }
 }
