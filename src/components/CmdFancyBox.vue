@@ -154,26 +154,6 @@
                 default: true
             },
             /**
-             * show slide-buttons (left/previous and right/next)
-             */
-            slideButtons: {
-                type: Object,
-                default() {
-                    return {
-                        "next": {
-                            "buttonType": "next",
-                            "iconClass": "icon-single-arrow-right",
-                            "tooltip": "Next"
-                        },
-                        "previous": {
-                            "buttonType": "previous",
-                            "iconClass": "icon-single-arrow-left",
-                            "tooltip": "Previous"
-                        }
-                    }
-                }
-            },
-            /**
              * alternative text for large image (required for images)
              */
             altText: {

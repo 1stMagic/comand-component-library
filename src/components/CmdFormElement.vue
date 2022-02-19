@@ -233,7 +233,7 @@ export default {
         /**
          * set type of native form-element
          *
-         * values: input, select, textarea, button
+         * @allowedValues: input, select, textarea, button
          */
         element: {
             type: String,
@@ -364,15 +364,6 @@ export default {
                         tooltip: ""
                     }
                 }
-            }
-        },
-        /**
-         * set icon for native button
-         */
-        buttonIcon: {
-            type: Object,
-            default() {
-                return {}
             }
         },
         /**

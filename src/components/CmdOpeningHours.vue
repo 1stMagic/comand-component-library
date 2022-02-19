@@ -35,7 +35,7 @@ export default {
             required: false
         },
         /**
-         * toggles if "closed"-text will be shown
+         * toggles if "closed"-text will be shown (and styled)
          */
         closed: {
             type: Boolean,

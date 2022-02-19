@@ -53,8 +53,8 @@ export default {
             type: Object,
             default: function() {
                 return {
-                    iconClass: "icon-warning",
-                    show: true
+                    show: true,
+                    iconClass: "icon-warning"
                 }
             }
         },

@@ -1,0 +1,54 @@
+<script setup>
+import {defineProps} from "vue"
+import commonProps from "../commonProps"
+import CmdPager from "../../components/CmdPager"
+import ComponentProperties from "../components/ComponentProperties"
+import CmdTabs from "../../components/CmdTabs"
+import CmdCode from "../data/CmdPagerHelp"
+import pagerData from '../../assets/data/pager'
+
+const propertyDescriptions = {
+    items: "Description for property",
+    itemsPerPage: "Description for property",
+    showLinksAsButtons: "Description for property",
+    prevButton: "Description for property",
+    nextButton: "Description for property"
+}
+const propertyStructures = {
+    items: "-",
+    itemsPerPage: "-",
+    showLinksAsButtons: "-",
+    prevButton: {
+        iconClass: "<string>",
+        buttonText: "<string>"
+    },
+    nextButton: {
+        iconClass: "<string>",
+        buttonText: "<string>"
+    }
+}
+
+const props = defineProps(commonProps)
+
+const tabs = [{name: 'View'}, {name: 'Usage'}, {name: 'Properties'}]
+</script>
+
+<template>
+    <CmdTabs :stretchTabs="true" :tabs="tabs" :useSlot="true" :activeTab="props.activeTab" @active-tab="setActiveTab">
+        <template v-slot:tab-content-0>
+            <h3>View</h3>
+            <CmdPager
+                :items="pagerData.length"
+                :itemsPerPage="1"
+                @click="showPagePager = $event"
+            />
+        </template>
+        <template v-slot:tab-content-1>
+            <h3>Usage</h3>
+            <pre>{{ CmdCode }}</pre>
+        </template>
+        <template v-slot:tab-content-2>
+            <ComponentProperties :properties="CmdPager.props" :propertyDescriptions="propertyDescriptions" :propertyStructures="propertyStructures" />
+        </template>
+    </CmdTabs>
+</template>

@@ -29,13 +29,16 @@ export default {
          * activate if the inner content should be wrapped in inner component tag
          *
          * (if deactivated, content will be directly placed inside cmd-width-limitation-wrapper)
+         *
+         * @allowedValues: section, div, p
+         *
          */
         innerWrapper: {
             type: Boolean,
             default: true
         },
         /**
-         * activate if wrapper (and its content) should be sticky (=postion remains the same if content below is scrolled)
+         * activate if wrapper (and its content) should be sticky (=position remains the same if content below is scrolled)
          *
          * i.e. use for site-header
          *

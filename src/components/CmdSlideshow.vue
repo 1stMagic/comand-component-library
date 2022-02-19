@@ -98,9 +98,9 @@ export default {
             required: true
         },
         /**
-         * slide-buttons (next/previous) to switch images
+         * properties for cmdSlideButtons-component
          */
-        slideButtons: {
+        cmdSlideButtons: {
             type: Object,
             default() {
                 return {
@@ -127,7 +127,6 @@ export default {
             this.hnd = null;
         }
     },
-
     methods: {
         showPrevItem() {
             if (this.useSlot) {

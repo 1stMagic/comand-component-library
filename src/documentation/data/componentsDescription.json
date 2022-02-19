@@ -42,10 +42,6 @@
     "headline": "Cookie Disclaimer",
     "shorttext": "The required cookie disclaimer for a web sites. Must show basic information about the used cookies and the possibility to disable not necessary ones."
   },
-  "CmdCopyrightInformation": {
-    "headline": "Copyright Information",
-    "shorttext": "Copyright information for CoManD-Software linked to the web site. Mostly used at the bottom of the site."
-  },
   "CmdCustomHeadline": {
     "headline": "Custom Headline",
     "shorttext": "A custom headline, where the h-level can be defined and an optional pre-headline and icon can be set."
@@ -129,10 +125,6 @@
   "CmdSlideshow": {
     "headline": "Slideshow",
     "shorttext": "This component is used as an image-slider. It also can load different images for different screen-resolutions."
-  },
-  "CmdSwitchButton": {
-    "headline": "Switch Button",
-    "shorttext": "TEXT FEHLT"
   },
   "CmdSwitchLanguage": {
     "headline": "Switch Language",

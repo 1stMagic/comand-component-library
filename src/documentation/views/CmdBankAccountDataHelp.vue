@@ -6,13 +6,17 @@ import CmdBankAccountData from "../../components/CmdBankAccountData"
 import ComponentProperties from "../components/ComponentProperties"
 import * as componentPropertiesFunctions from "../components/ComponentProperties"
 import CmdTabs from "../../components/CmdTabs"
-import CmdCode from "../data/CmdBoxHelp"
+import CmdCode from "../data/CmdBankAccountDataHelp"
 import bankData from "../../assets/data/bank-account-data"
 
 const props = defineProps(commonProps)
 
 const propertyDescriptions = {
-    accountData: "Description for accountData"
+    accountData: "Description for accountData",
+    additionalInformation: "Description for additionalInformation",
+    allowCopyByClick: "Description for allowCopyByClick",
+    cmdCustomHeadline: "Description for cmdCustomHeadline",
+    iconCopy: "Description for iconCopy"
 }
 const propertyStructures = {
     accountData: [
@@ -21,7 +25,14 @@ const propertyStructures = {
             "value": "<string>",
             "allowCopy": "<boolean>"
         }
-    ]
+    ],
+    additionalInformation: "-",
+    allowCopyByClick: "-",
+    cmdCustomHeadline: "Description for cmdCustomHeadline",
+    iconCopy: {
+                "iconClass": "<string>",
+                "tooltip": "<string>"
+            }
 }
 
 const tabs = [{name: 'View'}, {name: 'Usage'}, {name: 'Properties'}]
@@ -63,10 +74,12 @@ function setActiveTab(index) {
                 <dd v-else><em>(none)</em></dd>
                 <dt>Required:</dt>
                 <dd>
-                    <span :class="componentPropertiesFunctions.getIcon(CmdBankAccountData.props.accountData.required)" :title="componentPropertiesFunctions.getTooltip(CmdBankAccountData.props.accountData.required)"></span>
+                    <span :class="componentPropertiesFunctions.getIcon(CmdBankAccountData.props.accountData.required)"
+                          :title="componentPropertiesFunctions.getTooltip(CmdBankAccountData.props.accountData.required)">
+                    </span>
                 </dd>
                 <dt>Structure:</dt>
-                <dd><code>{{ componentPropertiesFunctions.getPropertyStructure(propertyStructures, "accountData") }}</code></dd>
+                <dd><pre>{{ componentPropertiesFunctions.getPropertyStructure(propertyStructures, "accountData") }}</pre></dd>
                 <dt>Description:</dt>
                 <dd>{{ componentPropertiesFunctions.getPropertyDescription(propertyDescriptions, "accountData") }}</dd>
             </dl>

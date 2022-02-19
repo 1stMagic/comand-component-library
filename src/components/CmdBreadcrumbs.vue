@@ -1,8 +1,8 @@
 <template>
     <ul class="cmd-breadcrumbs">
         <li v-if="breadcrumbLabel">{{ breadcrumbLabel }}</li>
-        <li v-for="(link, index) in breadcrumbLinks" :key="index">
-            <a :href="link.path" v-if="link.type === 'href'">
+        <li v-for="(link, index) in breadcrumbLinks || []" :key="index">
+            <a  v-if="link.type === 'href'" :href="link.path">
                 <span v-if="link.iconClass" :class="link.iconClass"></span>
                 <span v-if="link.text">{{ link.text }}</span>
             </a>
@@ -24,17 +24,17 @@ export default {
     name: "CmdBreadcrumbs",
     props: {
         /**
-         * list of breadcrumb-links (incl. path, icon and text)
-         */
-        breadcrumbLinks: {
-            type: Array,
-            required: false
-        },
-        /**
          * label in front/left of breadcrumbs
          */
         breadcrumbLabel: {
             type: String,
+            required: false
+        },
+        /**
+         * list of breadcrumb-links (incl. path, icon and text)
+         */
+        breadcrumbLinks: {
+            type: Array,
             required: false
         },
         /**
@@ -55,7 +55,7 @@ export default {
     margin: 0;
 
     li {
-        display: flex;
+        display: inherit;
         align-items: center;
         list-style-type: none;
         margin: 0;
@@ -75,6 +75,8 @@ export default {
         }
 
         a {
+            display: inherit;
+            align-items: inherit;
             text-decoration: none;
 
             &:hover, &:active, &:focus {

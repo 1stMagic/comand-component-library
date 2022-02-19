@@ -10,7 +10,7 @@
             <dd class="flex-container no-flex" v-if="allowCopyByClick && entry.allowCopy">
                 <span>{{ entry.value }}</span>
                 <a href="#" @click.prevent="copyToClipboard(entry.value)" :title="iconCopy.tooltip">
-                    <span :class="iconCopy.class"></span>
+                    <span :class="iconCopy.iconClass"></span>
                 </a>
             </dd>
             <dd v-else :key="index">{{ entry.value }}</dd>
@@ -61,7 +61,7 @@ export default {
              type: Object,
              default() {
                  return {
-                     class: "icon-file-copy",
+                     iconClass: "icon-file-copy",
                      tooltip: "Copy data to clipboard!"
                  }
              }

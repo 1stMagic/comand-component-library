@@ -35,11 +35,37 @@ watch(() => props.componentName, () => HelpView.value = defineAsyncComponent(() 
            <div>
                <HelpView :activeTab="props.activeTab" />
            </div>
-            <div class="flex-container no-flex space-between">
-                <router-link :to="{name: previousComponentName, params: {tab: route.params.tab}}">{{ previousComponentName }}</router-link>
-                <router-link :to="{name: nextComponentName, params: {tab: route.params.tab}}">{{ nextComponentName }}</router-link>
+            <hr />
+            <div class="flex-container" id="component-link-wrapper">
+                <router-link :to="{name: previousComponentName, params: {tab: route.params.tab}}">
+                    <span class="icon-single-arrow-left"></span>
+                    <span>{{ previousComponentName }}</span>
+                </router-link>
+                <router-link :to="{name: nextComponentName, params: {tab: route.params.tab}}">
+                    <span>{{ nextComponentName }}</span>
+                    <span class="icon-single-arrow-right"></span>
+                </router-link>
             </div>
         </div>
         <footer></footer>
     </main>
 </template>
+
+<style lang="scss">
+#component-link-wrapper {
+    margin-top: auto;
+    justify-content: space-between;
+
+    a {
+        flex: none;
+        display: flex;
+        align-items: center;
+
+        span[class*="icon"] {
+            font-size: 1.2rem;
+            text-decoration: none;
+        }
+    }
+}
+</style>
+

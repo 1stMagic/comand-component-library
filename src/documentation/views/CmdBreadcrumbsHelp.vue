@@ -4,23 +4,50 @@ import commonProps from "../commonProps"
 import CmdBreadcrumbs from "../../components/CmdBreadcrumbs"
 import ComponentProperties from "../components/ComponentProperties"
 import CmdTabs from "../../components/CmdTabs"
+import breadcrumbData from '../../assets/data/breadcrumbs'
 import CmdCode from "../data/CmdBreadcrumbsHelp"
 
+console.log(breadcrumbData)
+
+const propertyDescriptions = {
+    breadcrumbLinks: "Description for property",
+    breadcrumbLabel: "Description for property",
+    breadcrumbSeparator: "Description for property"
+}
+const propertyStructures = {
+    breadcrumbLinks: {
+        "address": {
+            "streetNo": "<string>",
+            "zip": "<number>",
+            "city": "<string>"
+        },
+        "telephone": "<string>",
+        "mobilephone": "<string>",
+        "fax": "<string>",
+        "email": "<string>"
+    }
+}
+
 const props = defineProps(commonProps)
+
+const tabs = [{name: 'View'}, {name: 'Usage'}, {name: 'Properties'}]
 </script>
 
 <template>
-    <CmdTabs :stretchTabs="true" :tabs="[{name: 'View'}, {name: 'Usage'}, {name: 'Properties'}]" :useSlot="true" :activeTab="props.activeTab">
+    <CmdTabs :stretchTabs="true" :tabs="tabs" :useSlot="true" :activeTab="props.activeTab" @active-tab="setActiveTab">
         <template v-slot:tab-content-0>
             <h3>View</h3>
-            <CmdBreadcrumbs />
+            <CmdBreadcrumbs
+                :breadcrumbLinks="breadcrumbData"
+                breadcrumbLabel="You are here:"
+            />
         </template>
         <template v-slot:tab-content-1>
             <h3>Usage</h3>
-            <pre><code>{{ CmdCode }}</code></pre>
+            <pre>{{ CmdCode }}</pre>
         </template>
         <template v-slot:tab-content-2>
-            <ComponentProperties :properties="CmdBreadcrumbs.props" />
+            <ComponentProperties :properties="CmdBreadcrumbs.props" :propertyDescriptions="propertyDescriptions" :propertyStructures="propertyStructures" />
         </template>
     </CmdTabs>
 </template>

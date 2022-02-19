@@ -7,10 +7,49 @@ import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdAccordionHelp"
 
 const props = defineProps(commonProps)
+
+const propertyDescriptions = {
+    accordionData: "Description for property",
+    accordionHeadlineLevel: "Description for property",
+    gapBetween: "Description for property",
+    iconClosed: "Description for property",
+    iconOpen: "Description for property",
+    toggleMode: "Description for property",
+    useCustomHeader: "Description for property",
+    useTransition: "Description for property"
+}
+const propertyStructures = {
+    accordionData: [
+        {
+            "headline": "<string>",
+            "icon": {
+                "iconClass": "<string>",
+                "tooltip": "<string>"
+            },
+            "content": "<string>",
+            "status": "<boolean>"
+        }
+    ],
+    accordionHeadlineLevel: "-",
+    gapBetween: "-",
+    iconClosed: {
+        "iconClass": "<string>",
+        "tooltip": "<string>"
+    },
+    iconOpen: {
+        "iconClass": "<string>",
+        "tooltip": "<string>"
+    },
+    toggleMode: "-",
+    useCustomHeader: "-",
+    useTransition: "-"
+}
+
+const tabs = [{name: 'View'}, {name: 'Usage'}, {name: 'Properties'}]
 </script>
 
 <template>
-    <CmdTabs :stretchTabs="true" :tabs="[{name: 'View'}, {name: 'Usage'}, {name: 'Properties'}]" :useSlot="true" :activeTab="props.activeTab">
+    <CmdTabs :stretchTabs="true" :tabs="tabs" :useSlot="true" :activeTab="props.activeTab" @active-tab="setActiveTab">
         <template v-slot:tab-content-0>
             <h3>View</h3>
             <CmdAccordion headline="Accordion headline" :accordionData="2">
@@ -37,7 +76,7 @@ const props = defineProps(commonProps)
             <pre><code>{{ CmdCode }}</code></pre>
         </template>
         <template v-slot:tab-content-2>
-            <ComponentProperties :properties="CmdAccordion.props" />
+            <ComponentProperties :properties="CmdAccordion.props" :propertyDescriptions="propertyDescriptions" :propertyStructures="propertyStructures" />
         </template>
         <template v-slot:tab-content-3>
             <ComponentProperties :properties="CmdAccordion.props" />

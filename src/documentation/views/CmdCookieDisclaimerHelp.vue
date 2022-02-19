@@ -1,26 +1,107 @@
 <script setup>
 import {defineProps} from "vue"
 import commonProps from "../commonProps"
-import CmdCompanyLogo from "../../components/CmdCompanyLogo"
+import CmdCookieDisclaimer from "../../components/CmdCookieDisclaimer"
 import ComponentProperties from "../components/ComponentProperties"
+import cookieDisclaimerData from '../../assets/data/cookie-disclaimer'
 import CmdTabs from "../../components/CmdTabs"
-import CmdCode from "../data/CmdCompanyLogoHelp"
+import CmdCode from "../data/CmdCookieDisclaimerHelp"
+
+const propertyDescriptions = {
+    buttonLabelAcceptAllCookies: "Description for property",
+    buttonLabelAcceptCurrentSettings: "Description for property",
+    cookieOptions: "Description for property",
+    headline: "Description for property"
+}
+const propertyStructures = {
+    buttonLabelAcceptAllCookies: "-",
+    buttonLabelAcceptCurrentSettings: "-",
+    cookieOptions: {
+        "required": {
+            "headline": "<string>",
+            "cookies": [
+                {
+                    "id": "<string>",
+                    "description": "<string>",
+                    "labelText": "<string>",
+                    "checked": "<boolean>",
+                    "status": "<string>",
+                    "linkDataPrivacy": {
+                        "label": "<string>",
+                        "link": "<string>",
+                        "linkText": "<string>"
+                    }
+                },
+                {
+                    "id": "<string>",
+                    "description": "<string>",
+                    "labelText": "<string>",
+                    "checked": "<boolean>",
+                    "status": "<string>",
+                    "linkDataPrivacy": {
+                        "label": "<string>",
+                        "link": "<string>",
+                        "target": "<string>",
+                        "linkText": "<string>"
+                    }
+                }
+            ]
+        },
+        "optional": {
+            "headline": "Optional cookies",
+            "cookies": [
+                {
+                    "id": "<string>",
+                    "description": "<string>",
+                    "labelText": "<string>",
+                    "checked": "<boolean>",
+                    "linkDataPrivacy": {
+                        "label": "<string>",
+                        "link": "<string>",
+                        "target": "<string>",
+                        "linkText": "<string>"
+                    }
+                },
+                {
+                    "id": "<string>",
+                    "description": "<string>",
+                    "labelText": "<string>",
+                    "checked": "<boolean>",
+                    "linkDataPrivacy": {
+                        "label": "<string>",
+                        "link": "<string>",
+                        "target": "<string>",
+                        "linkText": "<string>"
+                    }
+                }
+            ]
+        }
+    },
+    headline: "-"
+}
 
 const props = defineProps(commonProps)
+
+const tabs = [{name: 'View'}, {name: 'Usage'}, {name: 'Properties'}]
 </script>
 
 <template>
-    <CmdTabs :stretchTabs="true" :tabs="[{name: 'View'}, {name: 'Usage'}, {name: 'Properties'}]" :useSlot="true" :activeTab="props.activeTab">
+    <CmdTabs :stretchTabs="true" :tabs="tabs" :useSlot="true" :activeTab="props.activeTab" @active-tab="setActiveTab">
         <template v-slot:tab-content-0>
             <h3>View</h3>
-            <CmdCompanyLogo :link="companyLogoData.link" altText="CoManD Logo" :pathDefaultLogo="require('@/assets/images/logo.svg')" :pathDarkmodeLogo="require('@/assets/images/logo-darkmode.svg')"/>
+            <CmdCookieDisclaimer headline="Usage of cookies on this web site"
+                                 :cookieOptions="cookieDisclaimerData"
+                                 buttonLabelAcceptAllCookies="Accept all cookies"
+                                 buttonLabelAcceptCurrentSettings="Accept current settings"
+                                 @closeCookieDisclaimer="fancyBoxCookieDisclaimer = false"
+            />
         </template>
         <template v-slot:tab-content-1>
             <h3>Usage</h3>
-            <pre><code>{{ CmdCode }}</code></pre>
+            <pre>{{ CmdCode }}</pre>
         </template>
         <template v-slot:tab-content-2>
-            <ComponentProperties :properties="CmdCompanyLogo.props" />
+            <ComponentProperties :properties="CmdCookieDisclaimer.props" :propertyDescriptions="propertyDescriptions" :propertyStructures="propertyStructures" />
         </template>
     </CmdTabs>
 </template>

@@ -1,7 +1,8 @@
 <template>
+    <!-- begin "login"-form -->
     <fieldset v-if="!sendLogin" class="flex-container">
-        <legend :class="{'hidden' : !legendLoginForm.show}">{{ legendLoginForm.text }}</legend>
-        <h2 v-if="headlineLoginForm">{{ headlineLoginForm }}</h2>
+        <legend :class="{'hidden' : !showLegend}">{{ textLegend }}</legend>
+        <CmdCustomHeadline v-if="cmdCustomHeadlineLoginForm.show" :headline="cmdCustomHeadlineLoginForm.text" :level="cmdCustomHeadlineLoginForm.text" />
         <div class="flex-container">
             <CmdFormElement
                 element="input"
@@ -89,9 +90,12 @@
             </button>
         </div>
     </fieldset>
+    <!-- end "login"-form -->
+
+    <!-- begin "send login"-form -->
     <fieldset v-else class="flex-container">
         <legend :class="{'hidden' : !legendSendLoginForm.show}">{{ legendSendLoginForm.text }}</legend>
-        <h2 v-if="headlineSendLoginForm">{{ headlineSendLoginForm }}</h2>
+        <CmdCustomHeadline v-if="cmdCustomHeadlineSendLoginForm.show" :headline="cmdCustomHeadlineSendLoginForm.text" :level="cmdCustomHeadlineSendLoginForm.text" />
         <CmdFormElement element="input"
                         type="email"
                         :inner-icon-class="cmdFormElementSendLogin.innerIconClass"
@@ -150,6 +154,7 @@
             </button>
         </div>
     </fieldset>
+    <!-- end "send login"-form -->
 </template>
 
 <script>
@@ -157,6 +162,7 @@
 import {getRoute} from "../utilities.js"
 
 // import components
+import CmdCustomHeadline from "./CmdCustomHeadline"
 import CmdFormElement from "./CmdFormElement"
 
 export default {
@@ -170,6 +176,7 @@ export default {
         }
     },
     components: {
+        CmdCustomHeadline,
         CmdFormElement
     },
     props: {
@@ -186,16 +193,18 @@ export default {
             }
         },
         /**
-         * legend for login-fieldset (required for accessibility)
+         * text used as legend for login-fieldset (required for accessibility)
          */
-        legendLoginForm: {
-            type: Object,
-            default() {
-                return {
-                    show: false,
-                    text: "Login form"
-                }
-            }
+        textLegend: {
+            type: String,
+            default: "Login form"
+        },
+        /**
+         * toggle legend visibility (the legend is required for accessibility)
+         */
+        showLegend: {
+            type: Boolean,
+            default: true
         },
         /**
          * legend for send-login-fieldset (required for accessibility)
@@ -210,18 +219,30 @@ export default {
             }
         },
         /**
-         * headline for login-form
+         * properties for CmdCustomHeadline for login-form
          */
-        headlineLoginForm: {
-            type: String,
-            default: "Login"
+        cmdCustomHeadlineLoginForm: {
+            type: Object,
+            default() {
+                return {
+                    show: true,
+                    text: "Login",
+                    level: 2
+                }
+            }
         },
         /**
-         * headline for send-login-form
+         * properties for CmdCustomHeadline for send-login-form
          */
-        headlineSendLoginForm: {
-            type: String,
-            default: "Forgot login"
+        cmdCustomHeadlineSendLoginForm: {
+            type: Object,
+            default() {
+                return {
+                    show: true,
+                    text: "Send Login",
+                    level: 2
+                }
+            }
         },
         /**
          * properties for CmdFormElement-component for username-field
@@ -275,37 +296,37 @@ export default {
          * createAccount: creates a link (href/router) which could lead to a register-form
          */
         options: {
-          type: Object,
-          default() {
-              return {
-                  forgotPassword: {
-                      icon: {
-                          show: true,
-                          iconClass: "icon-help",
-                          tooltip: ""
-                      },
-                      text: "Forgot password?"
-                  },
-                  createAccount: {
-                      linkType: "href",
-                      path: "#",
-                      icon: {
-                          show: true,
-                          iconClass: "icon-register",
-                          tooltip: ""
-                      },
-                      text: "Create new account!"
-                  },
-                  backToLoginForm: {
-                      icon: {
-                          show: true,
-                          iconClass: "icon-single-arrow-left",
-                          tooltip: ""
-                      },
-                      text: "Back to login form"    
-                  }
-              }
-          }  
+            type: Object,
+            default() {
+                return {
+                    forgotPassword: {
+                        icon: {
+                            show: true,
+                            iconClass: "icon-help",
+                            tooltip: ""
+                        },
+                        text: "Forgot password?"
+                    },
+                    createAccount: {
+                        linkType: "href",
+                        path: "#",
+                        icon: {
+                        show: true,
+                        iconClass: "icon-register",
+                        tooltip: ""
+                    },
+                        text: "Create new account!"
+                    },
+                    backToLoginForm: {
+                    icon: {
+                        show: true,
+                        iconClass: "icon-single-arrow-left",
+                        tooltip: ""
+                        },
+                    text: "Back to login form"
+                    }
+                }
+            }
         },
         /**
          * button to login

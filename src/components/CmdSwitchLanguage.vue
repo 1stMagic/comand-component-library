@@ -2,14 +2,17 @@
     <div class="cmd-switch-language">
         <ul>
             <li v-for="(language, index) in languages" :key="index">
-                <router-link v-if="language.link.type === 'router'" :class="['flag', language.iso2]"
+                <router-link v-if="language.link.type === 'router'"
+                             :class="['flag', language.iso2]"
                              :to="getRoute(language)" :title="language.tooltip"
-                             @click="$emit('click', $event, language)">
-                    <img :src="getFlagURL(language.iso2)" :alt="language.name"/>
+                             @click="$emit('click', { originalEvent:  $event, language})">
+                    <img :src="getFlagURL(language.iso2)" :alt="language.name" />
                 </router-link>
-                <a v-else :href="language.link.path" :class="['flag', language.iso2, {'active': language.active}]"
-                   :title="language.tooltip" @click="$emit('click', $event, language)">
-                    <img :src="getFlagURL(language.iso2)" :alt="language.name"/>
+                <a v-else :href="language.link.path"
+                   :class="['flag', language.iso2, {'active': language.active}]"
+                   :title="language.tooltip"
+                   @click="$emit('click', { originalEvent:  $event, language} )">
+                    <img :src="getFlagURL(language.iso2)" :alt="language.name" />
                 </a>
             </li>
         </ul>
@@ -31,9 +34,6 @@ export default {
     methods: {
         getRoute(language) {
             return getRoute(language)
-        },
-        switchLanguage(iso2) {
-            alert("Switch to " + iso2)
         },
         getFlagURL(isoCode) {
             return require("../assets/images/flags/flag-" + isoCode + ".svg")

@@ -6,7 +6,7 @@
                 <li class="close-nav" v-if="showOffcanvas">
                     <a href="#" @click.prevent="showOffcanvas = false">
                         <span v-if="closeOffcanvas.iconClass" :class="closeOffcanvas.iconClass"></span>
-                        <span :class="{'hidden': closeOffcanvas.hideText}">{{ closeOffcanvas.text }}</span>
+                        <span :class="{'hidden': !closeOffcanvas.showText}">{{ closeOffcanvas.text }}</span>
                     </a>
                 </li>
                 <li v-for="(navigationEntry, index) in navigationEntries" :key="index"
@@ -43,7 +43,7 @@
         <a href="#" class="button" id="toggle-offcanvas" @click.prevent="showOffcanvas = !showOffcanvas"
            v-if="persistOnMobile === false">
             <span :class="buttonOffcanvas.iconClass"></span>
-            <span :class="{'hidden' : buttonOffcanvas.hideText}">{{ buttonOffcanvas.text }}</span>
+            <span :class="{'hidden' : !buttonOffcanvas.showText}">{{ buttonOffcanvas.text }}</span>
         </a>
     </div>
 </template>
@@ -88,7 +88,7 @@ export default {
                 return {
                     iconClass: "icon-cancel",
                     text: "Close navigation",
-                    hideText: false
+                    showText: true
                 }
             }
         },
@@ -101,7 +101,7 @@ export default {
                 return {
                     iconClass: "icon-bars",
                     text: "Open navigation",
-                    hideText: true
+                    showText: false
                 }
             }
         },
