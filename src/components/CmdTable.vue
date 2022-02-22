@@ -85,6 +85,8 @@ export default {
         },
         /**
          * icon to expand table (vertically)
+         *
+         * @requiredForAccessibility: partial
          */
         iconExpand: {
             type: Object,
@@ -97,6 +99,8 @@ export default {
         },
         /**
          * icon to collapse table (vertically)
+         *
+         * @requiredForAccessibility: partial
          */
         iconCollapse: {
             type: Object,
@@ -109,6 +113,8 @@ export default {
         },
         /**
          * icon to shrink table (horizontally)
+         *
+         * @requiredForAccessibility: partial
          */
         iconShrink: {
             type: Object,
@@ -121,6 +127,8 @@ export default {
         },
         /**
          * icon to stretch table (horizontally)
+         *
+         * @requiredForAccessibility: partial
          */
         iconStretch: {
             type: Object,

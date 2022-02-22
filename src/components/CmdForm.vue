@@ -2,12 +2,18 @@
     <form class="cmd-form" :data-use-validation="useValidation" @submit="onSubmit" :class="{error: errorOccurred}">
         <template v-if="useFieldset">
             <fieldset>
-                <legend v-if="showLegend">{{ textLegend }}</legend>
+                <legend :class="{hidden : !showLegend}">{{ textLegend }}</legend>
+                <!-- begin default-slot-content -->
                 <slot></slot>
+                <!-- end default-slot-content -->
             </fieldset>
+            <!-- begin button-row-slot-content -->
             <slot name="button-row"></slot>
+            <!-- end button-row-slot-content -->
         </template>
+        <!-- begin default-slot-content -->
         <slot v-else></slot>
+        <!-- end default-slot-content -->
     </form>
 </template>
 
@@ -29,14 +35,16 @@ export default {
           default: true
         },
         /**
-         * activate if you want to use a fieldset (recommended for accessibility)
+         * activate if you want to use a fieldset
+         *
+         * @requiredForAccessibility: true
          */
         useFieldset: {
             type: Boolean,
             default: true
         },
         /**
-         * if a fieldset is used, the legend is required for accessibility
+         * toggle visibility for legend-text
          *
          * useFieldset must be activated
          */
@@ -48,6 +56,8 @@ export default {
          * text for legend
          *
          * useFieldset must be activated
+         *
+         * @requiredForAccessibility: true
          */
         textLegend: {
             type: String,

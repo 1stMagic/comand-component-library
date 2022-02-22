@@ -33,8 +33,7 @@ export default {
         /**
          * set id for input
          *
-         * required for accessibility
-         *
+         * @requiredForAccessibility: true
          */
         id: {
             type: String,
@@ -43,7 +42,7 @@ export default {
         /**
          * set name for input
          *
-         * require for radio-buttons (and form-submit by browser)
+         * required for radio-buttons (and form-submit by browser)
          */
         name: {
             type: String,
@@ -67,6 +66,8 @@ export default {
          * text for label
          *
          * required if onLabel/offLabel are not set
+         *
+         * @requiredForAccessibility: true
          */
         labelText: {
             type: String,
@@ -76,6 +77,8 @@ export default {
          * text for on-label
          *
          * set to activate switch-label (=label is placed on toggle-switch (not behind))
+         *
+         * @requiredForAccessibility: true
          */
         onLabel: {
             type: String,
@@ -85,6 +88,8 @@ export default {
          * text for off-label
          *
          * set to activate switch-label (=label is placed on toggle-switch (not behind))
+         *
+         * @requiredForAccessibility: true
          */
         offLabel: {
             type: String,
@@ -92,6 +97,8 @@ export default {
         },
         /**
          * set to true, if checkbox/radio-buttons should have green/checked and red/unchecked color-coding
+         *
+         * @affectsStyling: true
          */
         colored: {
             type: Boolean,

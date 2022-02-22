@@ -68,12 +68,11 @@
             <slot name="privacy-text">
             </slot>
             <div class="button-wrapper align-center">
-                <button type="button" @click="acceptCookies('currentSettings')" v-if="buttonLabelAcceptCurrentSettings">
-                    {{ buttonLabelAcceptCurrentSettings }}
+                <button  v-if="buttonLabelAcceptCurrentSettings" type="button" @click="acceptCookies('currentSettings')">
+                    <span>{{ buttonLabelAcceptCurrentSettings }}</span>
                 </button>
-                <button type="button" class="primary" @click="acceptCookies('allCookies')"
-                        v-if="buttonLabelAcceptAllCookies">
-                    {{ buttonLabelAcceptAllCookies }}
+                <button v-if="buttonLabelAcceptAllCookies" type="button" class="primary" @click="acceptCookies('allCookies')">
+                    <span>{{ buttonLabelAcceptAllCookies }}</span>
                 </button>
             </div>
         </div>
@@ -100,7 +99,7 @@ export default {
     },
     props: {
         /**
-         * properties for cmdCustomHeadline-component
+         * properties for CmdCustomHeadline-component
          */
         cmdCustomHeadline: {
             type: Object,

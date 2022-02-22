@@ -1,7 +1,7 @@
 <template>
     <!-- begin "login"-form -->
     <fieldset v-if="!sendLogin" class="flex-container">
-        <legend :class="{'hidden' : !showLegend}">{{ textLegend }}</legend>
+        <legend :class="{hidden : !showLegend}">{{ textLegend }}</legend>
         <CmdCustomHeadline v-if="cmdCustomHeadlineLoginForm.show" :headline="cmdCustomHeadlineLoginForm.text" :level="cmdCustomHeadlineLoginForm.text" />
         <div class="flex-container">
             <CmdFormElement
@@ -193,21 +193,25 @@ export default {
             }
         },
         /**
-         * text used as legend for login-fieldset (required for accessibility)
+         * text used as legend for login-fieldset
+         *
+         * @requiredForAccessibility: true
          */
         textLegend: {
             type: String,
             default: "Login form"
         },
         /**
-         * toggle legend visibility (the legend is required for accessibility)
+         * toggle legend visibility
          */
         showLegend: {
             type: Boolean,
             default: true
         },
         /**
-         * legend for send-login-fieldset (required for accessibility)
+         * legend for send-login-fieldset
+         *
+         * @requiredForAccessibility: true
          */
         legendSendLoginForm: {
             type: Object,
@@ -246,6 +250,8 @@ export default {
         },
         /**
          * properties for CmdFormElement-component for username-field
+         *
+         * @requiredForAccessibility: partial
          */
         cmdFormElementUsername: {
             type: Object,
@@ -260,7 +266,9 @@ export default {
             }
         },
         /**
-         * properties for cmdFormElement-component for password-field
+         * properties for CmdFormElement-component for password-field
+         *
+         * @requiredForAccessibility: partial
          */
         cmdFormElementPassword: {
             type: Object,
@@ -275,7 +283,9 @@ export default {
             }
         },
         /**
-         * properties for cmdFormElement-component for email-address-field (to send login-data)
+         * properties for CmdFormElement-component for email-address-field (to send login-data)
+         *
+         * @requiredForAccessibility: partial
          */
         cmdFormElementSendLogin: {
             type: Object,
@@ -330,6 +340,8 @@ export default {
         },
         /**
          * button to login
+         *
+         * @requiredForAccessibility: partial
          */
         buttons: {
             type: Object,

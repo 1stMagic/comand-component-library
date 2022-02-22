@@ -7,7 +7,7 @@
     <dl class="cmd-bank-account-data">
         <template v-for="(entry, index) in accountData" :key="index">
             <dt>{{ entry.text }}</dt>
-            <dd class="flex-container no-flex" v-if="allowCopyByClick && entry.allowCopy">
+            <dd  v-if="allowCopyByClick && entry.allowCopy" class="flex-container no-flex">
                 <span>{{ entry.value }}</span>
                 <a href="#" @click.prevent="copyToClipboard(entry.value)" :title="iconCopy.tooltip">
                     <span :class="iconCopy.iconClass"></span>
@@ -37,7 +37,7 @@ export default {
          * must contain: owner, name of bank, IBAN, SWIFT/BIC
          */
         accountData: {
-            type: Object,
+            type: Array,
             required: true
         },
         /**
@@ -56,6 +56,8 @@ export default {
         },
         /**
          * icon 'copy'
+         *
+         * @requiredForAccessibility: partial
          */
          iconCopy: {
              type: Object,
@@ -95,7 +97,6 @@ export default {
                 white-space: nowrap;
             }
         }
-
     }
 }
 </style>

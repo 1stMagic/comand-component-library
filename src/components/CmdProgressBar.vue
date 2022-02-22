@@ -1,6 +1,6 @@
 <template>
     <label class="cmd-progressbar" :for="id">
-        <span v-if="labelText">{{ labelText }}</span>
+        <span :class="{hidden: !showLabel}">{{ labelText }}</span>
         <span class="progressbar">
             <span>{{ loadingStatus }}%</span><!-- do not place inside progress-tag (will not be displayed then) -->
             <progress v-bind="$attrs" :id="id" :value="loadingStatus"></progress>
@@ -19,13 +19,24 @@ export default {
     props: {
         /**
          * label-text for progress-bar
+         *
+         * @requiredForAccessibility: true
          */
         labelText: {
             type: String,
             required: false
         },
         /**
+         * toggle visibility for label-text
+         */
+        showLabel: {
+            type: Boolean,
+            default: true
+        },
+        /**
          * id for progress-bar
+         *
+         * @requiredForAccessibility: true
          */
         id: {
             type: String,

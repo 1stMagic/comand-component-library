@@ -91,14 +91,16 @@ export default {
             default: false
         },
         /**
-         * list of images to display (use slot smust be set to false)
+         * list of images to display (use slot must be set to false)
          */
         slideshowItems: {
             type: Array,
             required: true
         },
         /**
-         * properties for cmdSlideButtons-component
+         * properties for CmdSlideButtons-component
+         *
+         * @requiredForAccessibility: partial
          */
         cmdSlideButtons: {
             type: Object,

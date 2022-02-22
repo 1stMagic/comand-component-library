@@ -29,7 +29,7 @@ export default {
             required: true
         },
         /**
-         * icon-class for separator shown inbetween multisteps
+         * icon-class for separator shown between multisteps
          */
         separatorIconClass: {
             type: String,

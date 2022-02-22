@@ -67,6 +67,8 @@ export default {
         },
         /**
          * icon to close system-message
+         *
+         * @requiredForAccessibility: partial
          */
         iconClose: {
             type: Object,

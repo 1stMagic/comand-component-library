@@ -182,6 +182,8 @@ export default {
         },
         /**
          * icon for dropdown-icon (i.e. an angle/arrow)
+         *
+         * @requiredForAccessibility: partial
          */
         dropdownIcon: {
             type: Object,
@@ -194,6 +196,8 @@ export default {
         },
         /**
          * label-text for fake-select
+         *
+         *  @requiredForAccessibility: true
          */
         labelText: {
             type: String,

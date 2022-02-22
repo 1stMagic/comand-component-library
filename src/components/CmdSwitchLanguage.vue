@@ -26,6 +26,9 @@ export default {
     name: "CmdSwitchLanguage",
     emits: ["click"],
     props: {
+        /**
+         * list of languages
+         */
         languages: {
             type: Array,
             required: true

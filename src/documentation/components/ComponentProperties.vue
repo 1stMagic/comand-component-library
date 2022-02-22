@@ -18,7 +18,7 @@ function getIcon(required) {
 }
 
 function getTooltip(required) {
-    return required ? "Property is required" : "Property is not required"
+    return required ? "Property is required for component" : "Property is not required for component"
 }
 
 function getPropertyDescription(propertyDescriptions, propertyName) {
@@ -125,8 +125,9 @@ function createDetailLink(type) {
                 <th>Required</th>
                 <th>Structure</th>
                 <th>Default</th>
-                <th>Description</th>
+                <th>Req. for Accessibility</th>
                 <th>Allowed Values</th>
+                <th>Description</th>
             </tr>
         </thead>
         <tbody>
@@ -157,15 +158,18 @@ function createDetailLink(type) {
                         <em>(none)</em>
                     </template>
                 </td>
-                <td v-html="getPropertyDescription(props.propertyDescriptions, propertyName)">
+                <td class="required-for-accessibility">
+                    <span v-if="getAnnotation(props.propertyDescriptions, propertyName, 'requiredForAccessibility').length" :class="getIcon(property.required)" :title="getTooltip(property.required)"></span>
                 </td>
                 <td class="allowed-values">
                     <ul v-if="getAnnotation(props.propertyDescriptions, propertyName, 'allowedValues').length">
                         <li v-for="value in getAnnotation(props.propertyDescriptions, propertyName, 'allowedValues')" :key="value">{{ value }}</li>
                     </ul>
                     <em v-else>
-                       (all)
+                        (all)
                     </em>
+                </td>
+                <td v-html="getPropertyDescription(props.propertyDescriptions, propertyName)">
                 </td>
             </tr>
         </tbody>

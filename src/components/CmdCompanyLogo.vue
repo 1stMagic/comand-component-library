@@ -43,6 +43,8 @@ export default {
         },
         /**
          * alternative text for image
+         *
+         * @requiredForAccessibility: true
          */
         altText: {
             type: String,

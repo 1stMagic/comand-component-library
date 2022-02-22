@@ -69,7 +69,9 @@ export default {
             default: true
         },
         /**
+         * button to switch to previous page
          *
+         * @requiredForAccessibility: partial
          */
         prevButton: {
             type: Object,
@@ -80,6 +82,11 @@ export default {
                 }
             }
         },
+        /**
+         * button to switch to next page
+         *
+         * @requiredForAccessibility: partial
+         */
         nextButton: {
             type: Object,
             default: function() {
@@ -100,14 +107,12 @@ export default {
             this.currentPage = page
             this.$emit('click', page)
         },
-
         nextPage() {
             if (this.currentPage < this.numberOfPages) {
                 this.showPage(this.currentPage + 1)
             }
 
         },
-
         previousPage() {
             if (this.currentPage > 1) {
                 this.showPage(this.currentPage - 1)

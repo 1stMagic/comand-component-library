@@ -22,6 +22,8 @@ export default {
         },
         /**
          * default slide-buttons
+         *
+         * @requiredForAccessibility: partial
          */
         slideButtons: {
             type: Object,

@@ -18,7 +18,7 @@
 
         <!-- begin label-text (+ required asterisk) -->
         <span v-if="labelText && $attrs.type !== 'checkbox' && $attrs.type !== 'radio'"
-              :class="hideLabel ? 'hidden' : undefined">
+              :class="!showLabel ? 'hidden' : undefined">
               <span>
                   {{ labelText }}<sup v-if="$attrs.required">*</sup>
               </span>
@@ -103,7 +103,7 @@
             />
 
             <!-- begin labels for toggle-switch -->
-            <span v-if="!(onLabel && offLabel)" :class="{ hidden: hideLabel }">
+            <span v-if="!(onLabel && offLabel)" :class="{ hidden: !showLabel }">
                 <span v-if="labelText">{{ labelText }}<sup v-if="$attrs.required">*</sup></span>
             </span>
             <template v-else-if="onLabel && offLabel">
@@ -250,9 +250,9 @@ export default {
          *
          * label may not be removed, because it is required for accessibility
          */
-        hideLabel: {
+        showLabel: {
             type: Boolean,
-            default: false
+            default: true
         },
         /**
          * text for label

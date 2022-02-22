@@ -70,7 +70,7 @@ export default {
         /**
          * text for legend
          *
-         * must be set for accessibility
+         * @requiredForAccessibility: true
          */
         textLegend: {
             type: String,

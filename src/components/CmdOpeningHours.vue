@@ -4,7 +4,7 @@
         <CmdCustomHeadline v-if="cmdCustomHeadline" :headline="cmdCustomHeadline" />
         <!-- end headline -->
 
-        <a v-if="pathToDetails" :href="pathToDetails" :class="{'closed': closed}">{{ textOpenClosed }}</a>
+        <a v-if="pathToDetails" :href="pathToDetails" :class="{closed: closed}">{{ textOpenClosed }}</a>
         <span v-else :class="{'closed': closed}">{{ textOpenClosed }}</span>
         <dl>
             <template v-for="day in openingHours" :key="day.day">
@@ -39,6 +39,8 @@ export default {
         },
         /**
          * toggles if "closed"-text will be shown (and styled)
+         *
+         * @affectsStyling: true
          */
         closed: {
             type: Boolean,

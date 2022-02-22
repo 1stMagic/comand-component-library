@@ -27,6 +27,8 @@ export default {
     props: {
         /**
          * list of images (incl. captions)
+         *
+         * @requiredForAccessibility: partial
          */
         images: {
             type: Array,

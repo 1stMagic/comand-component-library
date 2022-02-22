@@ -159,6 +159,8 @@
             },
             /**
              * alternative text for large image (required for images)
+             *
+             * @requiredForAccessibility: true
              */
             altText: {
                 type: String,

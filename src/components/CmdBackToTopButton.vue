@@ -19,6 +19,8 @@ export default {
     props: {
         /**
          * icon-class (and shown tooltip on hover) for back to top button
+         *
+         * @requiredForAccessibility: partial
          */
         iconBackToTop: {
             type: Object,

@@ -65,7 +65,9 @@ export default {
             }
         },
         /**
-         * properties for cmdSlideButtons-component
+         * properties for CmdSlideButtons-component
+         *
+         * @requiredForAccessibility: partial
          */
         cmdSlideButtons: {
             type: Object,

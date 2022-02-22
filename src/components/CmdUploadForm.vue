@@ -184,12 +184,10 @@
                     {{ getMessage("cmduploadform.drag_and_drop") }}
                     <template v-if="allowMultipleFileUploads && listOfFiles.length">
                         {{ getMessage("cmduploadform.additional") }}
-                    </template
-                    >
+                    </template>
                     <template v-if="!allowMultipleFileUploads && listOfFiles.length">
                         {{ getMessage("cmduploadform.new") }}
-                    </template
-                    >
+                    </template>
                     {{ getMessage("cmduploadform.files_to_this_area") }}
                 </strong>
             </p>
@@ -207,30 +205,30 @@
         <div class="button-wrapper no-flex">
             <button
                 :class="[
-          'button primary',
-          {
-            disabled:
-              listOfFiles.length === 0 ||
-              (maxTotalUploadSize > 0 && totalSize > maxTotalUploadSize) ||
-              uploadInitiated
-          }
-        ]"
+                    'button primary',
+                    {
+                        disabled:
+                        listOfFiles.length === 0 ||
+                        (maxTotalUploadSize > 0 && totalSize > maxTotalUploadSize) ||
+                        uploadInitiated
+                    }
+                ]"
                 :disabled="
-          listOfFiles.length === 0 ||
-            (maxTotalUploadSize > 0 && totalSize > maxTotalUploadSize) ||
-            uploadInitiated
-        "
+                    listOfFiles.length === 0 ||
+                    (maxTotalUploadSize > 0 && totalSize > maxTotalUploadSize) ||
+                    uploadInitiated
+                "
                 @click="uploadFiles"
             >
-        <span class="icon-upload"></span
-        ><span v-if="listOfFiles.length === 1 || !allowMultipleFileUploads">{{
-                    getMessage("cmduploadform.buttontext.upload_file")
-                }}</span>
+                <span class="icon-upload"></span>
+                <span v-if="listOfFiles.length === 1 || !allowMultipleFileUploads">
+                    {{ getMessage("cmduploadform.buttontext.upload_file") }}
+                </span>
                 <span v-else>{{ getMessage("cmduploadform.buttontext.upload_files") }}</span>
             </button>
             <button :class="['button', { disabled: listOfFiles.length === 0 }]" @click="cancel">
-        <span class="icon-cancel"></span
-        ><span>{{ getMessage("cmduploadform.buttontext.cancel") }}</span>
+                <span class="icon-cancel"></span>
+                <span>{{ getMessage("cmduploadform.buttontext.cancel") }}</span>
             </button>
         </div>
     </fieldset>
@@ -244,6 +242,7 @@
                 :title="totalBytesUploaded">
             </progress>
         </span>
+        <!-- begin slot-content -->
         <slot>
             <template v-if="enableDragAndDrop">
                 <template v-if="fileTypeImage">
@@ -259,9 +258,10 @@
                 <span>Drag and drop file here</span>
                 <span class="icon-drag-and-drop"></span>
             </template>
-            <small>Max. size: {{formatSize(maxFileUploadSize)}}</small>
-            <small>Alwd. types: {{allowedFileExtensions}}</small>
+            <small>Max. size: {{ formatSize(maxFileUploadSize) }}</small>
+            <small>Alwd. types: {{ allowedFileExtensions }}</small>
         </slot>
+        <!-- end slot-content -->
     </a>
     <CmdFormElement
         element="input"
@@ -285,7 +285,6 @@ import axios from "axios"
 // import components
 import CmdFormElement from "./CmdFormElement"
 import CmdSystemMessage from "./CmdSystemMessage"
-
 
 export default {
     name: "CmdUploadForm",
@@ -415,9 +414,9 @@ export default {
             default: false
         },
         /**
-         *   defines upload options if component handles upload itself
+         * defines upload options if component handles upload itself
          *
-         *   componentHandlesUpload-property must be true
+         * componentHandlesUpload-property must be true
          */
         uploadOptions: {
             type: Object,

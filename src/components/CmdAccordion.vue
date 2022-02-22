@@ -1,18 +1,18 @@
 <template>
     <div :class="['cmd-accordion flex-container vertical', {'no-gap' : !gapBetween, 'active' : active}]">
         <div v-for="(accordionContent, index) in accordion" :key="index">
-            <a v-if="!useCustomHeader" href="#" :title="accordionContent.status ? iconOpen.icon.tooltip : iconClosed.icon.tooltip" @click.prevent="toggleContentVisibility(accordionContent)">
+            <a v-if="!useCustomHeader" href="#" :title="accordionContent.status ? iconOpen.tooltip : iconClosed.tooltip" @click.prevent="toggleContentVisibility(accordionContent)">
                 <slot :name="'accordionHeadline' + index">
                     <component :is="accordionHeadlineLevel">
                         <span v-if="accordionContent.icon && accordionContent.icon.iconClass" :class="accordionContent.icon.iconClass" :title="accordionContent.icon.tooltip"></span>
                         <span v-if="accordionContent.headline">{{ accordionContent.headline }}</span>
                     </component>
                 </slot>
-                <span class="toggle-icon" :class="[accordionContent.status ? iconOpen.icon.iconClass : iconClosed.icon.iconClass]"></span>
+                <span class="toggle-icon" :class="[accordionContent.status ? iconOpen.iconClass : iconClosed.iconClass]"></span>
             </a>
-            <a v-else href="#" :title="accordionContent.status ? iconOpen.icon.tooltip : iconClosed.icon.tooltip" @click.prevent="toggleContentVisibility(accordionContent)">
+            <a v-else href="#" :title="accordionContent.status ? iconOpen.tooltip : iconClosed.tooltip" @click.prevent="toggleContentVisibility(accordionContent)">
                 <slot :name="'customHeadline' + index"><p>{{ accordionContent.headline }}</p></slot>
-                <span class="toggle-icon" :class="[accordionContent.status ?  iconOpen.icon.iconClass : iconClosed.icon.iconClass]"></span>
+                <span class="toggle-icon" :class="[accordionContent.status ?  iconOpen.iconClass : iconClosed.iconClass]"></span>
             </a>
             <transition :name="toggleTransition">
                 <div class="accordion-content" v-if="accordionContent.status" aria-expanded="true">
@@ -93,29 +93,29 @@ export default {
         },
         /**
          * icon to expand an accordion
+         *
+         * @requiredForAccessibility: partial
          */
         iconOpen: {
             type: Object,
             default: function() {
                 return {
-                    icon: {
-                        iconClass: "icon-single-arrow-up",
-                        tooltip: "Close content"
-                    }
+                    iconClass: "icon-single-arrow-up",
+                    tooltip: "Close content"
                 }
             },
         },
         /**
          * icon to collapse an accordion
+         *
+         * @requiredForAccessibility: partial
          */
         iconClosed: {
             type: Object,
             default: function() {
                 return {
-                    icon: {
-                        iconClass: "icon-single-arrow-down",
-                        tooltip: "Show content"
-                    }
+                    iconClass: "icon-single-arrow-down",
+                    tooltip: "Show content"
                 }
             }
         }

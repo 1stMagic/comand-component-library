@@ -1,6 +1,6 @@
 <template>
     <div :class="['label', 'multiple-switch', {disabled: status === 'disabled', error: status === 'error'}]">
-        <span v-if="labelText">{{ labelText }}</span>
+        <span :class="{hidden: !showLegend}">{{ labelText }}</span>
         <span class="flex-container no-gap no-flex">
             <label :class="{disabled: status === 'disabled'}" :for="multipleswitch.id"
                    v-for="(multipleswitch, index) in multipleSwitches" :key="index">
@@ -23,27 +23,58 @@
 export default {
     name: "CmdMultipleSwitch",
     props: {
-        value: { /* required for v-model */
+        /**
+         * value for v-model
+         */
+        value: {
             type: [String, Array],
             required: false,
             default: ""
         },
+        /**
+         * toggle label visibility
+         */
+        showLabel: {
+            type: Boolean,
+            default: true
+        },
+        /**
+         * text for label
+         *
+         * @requiredForAccessibility: true
+         */
         labelText: {
             type: String,
             required: false
         },
+        /**
+         * list of switches
+         */
         multipleSwitches: {
             type: Array,
             required: true
         },
+        /**
+         * set type for switches
+         *
+         * @allowedValues: checkbox, radio
+         */
         switchTypes: {
             type: String,
             required: true
         },
+        /**
+         * name-attribute for switches
+         */
         switchNames: {
             type: String,
             required: true
         },
+        /**
+         * status for all switches
+         *
+         * @allowedValues: error, disabled
+         */
         status: {
             type: String,
             required: false

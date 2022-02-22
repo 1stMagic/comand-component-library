@@ -6,7 +6,7 @@
             <slot name="header"></slot>
         </header>
         <!-- begin CmdMainNavigation -->
-        <CmdMainNavigation v-if="mainNavigationEntries" :navigationEntries="mainNavigationEntries" :closeOffcanvas="closeOffcanvas"/>
+        <CmdMainNavigation v-if="CmdMainNavigation" :navigationEntries="CmdMainNavigation" :closeOffcanvas="closeOffcanvas"/>
         <!-- end CmdMainNavigation -->
     </div>
 </template>
@@ -21,9 +21,9 @@ export default {
     },
     props: {
         /**
-         * list of main-navigation-entries (incl. sub-entries) given to inner navigationcomponent
+         * properties for CmdMainNavigation-component
          */
-        mainNavigationEntries: {
+        CmdMainNavigation: {
             type: Array,
             required: true
         },

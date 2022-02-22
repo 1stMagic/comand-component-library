@@ -59,7 +59,7 @@ export default {
     },
     props: {
         /**
-         * toggle if main-entries (on firt-level) should be (horizontally) stretched equally
+         * toggle if main-entries (on first-level) should be (horizontally) stretched equally
          */
         stretchMainItems: {
             type: Boolean,
@@ -81,6 +81,8 @@ export default {
         },
         /**
          * link shown inside off-canvas-navigation to close itself
+         *
+         * @requiredForAccessibility: partial
          */
         closeOffcanvas: {
             type: Object,
@@ -94,6 +96,8 @@ export default {
         },
         /**
          * button to open off-canvas-navigation
+         *
+         * @requiredForAccessibility: partial
          */
         buttonOffcanvas: {
             type: Object,

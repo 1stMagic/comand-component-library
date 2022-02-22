@@ -108,10 +108,6 @@ export default {
     }
 
     &#site-footer {
-
-    }
-
-    &#site-footer {
         padding: var(--grid-gap) 0;
         border-top: var(--default-border);
         background: var(--default-background-color);

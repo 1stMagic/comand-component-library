@@ -33,6 +33,8 @@ export default {
         },
         /**
          * delete-all-filters-link
+         *
+         * @requiredForAccessibility: partial
          */
         linkDeleteAllFilters: {
             type: Object,
@@ -49,6 +51,8 @@ export default {
         },
         /**
          * icon for deleting (a single) filter
+         *
+         * @requiredForAccessibility: partial
          */
         deleteFilter: {
             type: Object,

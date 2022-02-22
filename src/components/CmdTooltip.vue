@@ -29,6 +29,9 @@ export default {
         }
     },
     props: {
+        /**
+         * properties for CmdCustomHeadline-component
+         */
         cmdCustomHeadline: {
             type: Object,
             default() {}
@@ -57,7 +60,9 @@ export default {
             required: false
         },
         /**
-         * close-icon
+         * icon 'close'
+         *
+         * @requiredForAccessibility: partial
          */
         iconClose: {
           type: Object,

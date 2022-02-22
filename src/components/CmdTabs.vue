@@ -10,7 +10,9 @@
         </ul>
         <template v-if="useSlot">
             <div v-show="showTab === index" v-for="(tab, index) in tabs" :key="index" aria-live="assertive">
+                <!-- begin slot-content -->
                 <slot :name="'tab-content-' + index"></slot>
+                <!-- end slot-content -->
             </div>
         </template>
         <div v-else aria-live="assertive">
