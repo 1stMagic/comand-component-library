@@ -70,7 +70,7 @@ export default {
         /**
          * set boxtype to show different types of boxes/contents
          *
-         * values: "content, product, user"
+         * @allowedValues: content, product, user
          */
         boxType: {
             type: String,

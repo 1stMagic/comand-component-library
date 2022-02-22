@@ -6,11 +6,8 @@ import ComponentProperties from "../components/ComponentProperties"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdFooterNavigationHelp"
 import footerNavigationData from "../../assets/data/footer-navigation"
+import propertyDescriptions from "../generated/CmdFooterNavigationPropertyDescriptions"
 
-const propertyDescriptions = {
-    footerNavigation: "Description for property",
-    headline: "Description for property"
-}
 const propertyStructures = {
     footerNavigation: [
         {
@@ -22,8 +19,7 @@ const propertyStructures = {
             "tooltip": "<string>",
             "fancybox": "<boolean>"
         }
-    ],
-    headline: "-"
+    ]
 }
 
 const props = defineProps(commonProps)
@@ -35,7 +31,7 @@ const tabs = [{name: 'View'}, {name: 'Usage'}, {name: 'Properties'}]
     <CmdTabs :stretchTabs="true" :tabs="tabs" :useSlot="true" :activeTab="props.activeTab" @active-tab="setActiveTab">
         <template v-slot:tab-content-0>
             <h3>View</h3>
-            <CmdFooterNavigation :footerNavigation="footerNavigationData" headline="Headline" />
+            <CmdFooterNavigation :footerNavigation="footerNavigationData" :cmdCustomHeadline="{text: 'Links', level: '4'}" />
         </template>
         <template v-slot:tab-content-1>
             <h3>Usage</h3>

@@ -28,7 +28,7 @@ export default {
             required: true
         },
         /**
-         * activated sticky-header (stays on top if page is scrolled
+         * activated sticky-header (stays on top if page is scrolled)
          */
         sticky: {
             type: Boolean,

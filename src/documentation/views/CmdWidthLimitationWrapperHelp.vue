@@ -7,10 +7,6 @@ import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdWidthLimitationWrapperHelp"
 import propertyDescriptions from "../generated/CmdWidthLimitationWrapperPropertyDescriptions"
 
-const propertyStructures = {
-
-}
-
 const props = defineProps(commonProps)
 
 const tabs = [{name: 'View'}, {name: 'Usage'}, {name: 'Properties'}]

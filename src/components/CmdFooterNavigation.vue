@@ -1,6 +1,9 @@
 <template>
     <div class="cmd-footer-navigation">
-        <h4 v-if="headline">{{ headline }}</h4>
+        <!-- begin headline -->
+        <CmdCustomHeadline v-if="cmdCustomHeadline" :headline="cmdCustomHeadline" />
+        <!-- end headline -->
+
         <ul class="flex-container">
             <li v-for="(link, index) in footerNavigation" :key="index">
                 <router-link v-if="link.type === 'router'" :to="getRoute(link)" :title="link.tooltip">
@@ -25,10 +28,10 @@ export default {
     name: "CmdFooterNavigation",
     props: {
         /**
-         * headlinE above links
+         * properties for cmdCustomHeadline-component
          */
-        headline: {
-            type: String,
+        cmdCustomHeadline: {
+            type: Object,
             required: false
         },
         /**

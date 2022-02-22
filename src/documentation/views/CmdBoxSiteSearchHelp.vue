@@ -5,13 +5,8 @@ import CmdBoxSiteSearch from "../../components/CmdBoxSiteSearch"
 import ComponentProperties from "../components/ComponentProperties"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdBoxSiteSearchHelp"
+import propertyDescriptions from "../generated/CmdBoxSiteSearchPropertyDescriptions"
 
-const propertyDescriptions = {
-    cmdCustomHeadline: "Description for property",
-    results: "Description for property",
-    showLegend: "Description for property",
-    textLegend: "Description for property"
-}
 const propertyStructures = {
     cmdCustomHeadline: {
         "address": {

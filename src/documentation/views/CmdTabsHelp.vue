@@ -5,24 +5,16 @@ import CmdTabs from "../../components/CmdTabs"
 import ComponentProperties from "../components/ComponentProperties"
 import CmdCode from "../data/CmdTabsHelp"
 import tabsData from "../../assets/data/tabs"
+import propertyDescriptions from "../generated/CmdTabsPropertyDescriptions"
 
-const propertyDescriptions = {
-    stretchTabs: "Description for property",
-    tabs: "Description for property",
-    useSlot: "Description for property",
-    activeTab: "Description for property"
-}
 const propertyStructures = {
-    stretchTabs: "-",
     tabs: [
         {
             "name": "<string>",
             "headline": "<string>",
             "htmlContent": "<string>"
         }
-    ],
-    useSlot: "-",
-    activeTab: "-"
+    ]
 }
 
 const props = defineProps(commonProps)

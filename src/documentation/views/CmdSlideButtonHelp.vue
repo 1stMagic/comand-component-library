@@ -5,10 +5,8 @@ import CmdSlideButton from "../../components/CmdSlideButton"
 import ComponentProperties from "../components/ComponentProperties"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdSlideButtonHelp"
+import propertyDescriptions from "../generated/CmdSlideButtonPropertyDescriptions"
 
-const propertyDescriptions = {
-    slideButtonType: "Description for property"
-}
 const propertyStructures = {
     slideButtons: {
         prev: {

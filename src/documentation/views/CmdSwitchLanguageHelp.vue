@@ -9,19 +9,18 @@ import switchLanguagesData from '../../assets/data/switch-language'
 
 const currentLanguage = ref("")
 
-const propertyDescriptions = {
-    languages: "Description for property"
-}
 const propertyStructures = {
-    languages: {
-        "iso2": "<string>",
-        "name": "<string>",
-        "tooltip": "<string>",
-        "link": {
-            "type": "<string>",
-            "path": "<string>"
+    languages: [
+            {
+            "iso2": "<string>",
+            "name": "<string>",
+            "tooltip": "<string>",
+            "link": {
+                "type": "<string>",
+                "path": "<string>"
+            }
         }
-    }
+    ]
 }
 
 const props = defineProps(commonProps)

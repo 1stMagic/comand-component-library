@@ -6,43 +6,30 @@ import ComponentProperties from "../components/ComponentProperties"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdSlideshowHelp"
 import slideshowData from "../../assets/data/slideshow"
+import propertyDescriptions from "../generated/CmdSlideshowPropertyDescriptions"
 
-const propertyDescriptions = {
-    useSlot: "Description for property",
-    autoplay: "Description for property",
-    autoplayInterval: "Description for property",
-    showQuickLinkIcons: "Description for property",
-    showCounter: "Description for property",
-    slideshowItems: "Description for property",
-    cmdSlideButtons: "Description for property"
-}
 const propertyStructures = {
-    useSlot: "-",
-    autoplay: "-",
-    autoplayInterval: "-",
-    showQuickLinkIcons: "-",
-    showCounter: "-",
-    slideshowItems: {
-        "images": [
-            {
-                "maxWidth": "<number>",
-                "imgPath": "<string>"
-            },
-            {
-                "imgPath": "<string>",
-                "maxWidth": "<number>"
-            },
-            {
-                "imgPath": "<string>"
-            }
-        ],
-        "alt": "<string>",
-        "href": "<string>",
-        "title": "<string>",
-        "target": "<string>",
-        "figcaption": "<string>"
-    },
-    cmdSlideButtons: "-"
+    slideshowItems: [{
+            "images": [
+                {
+                    "maxWidth": "<number>",
+                    "imgPath": "<string>"
+                },
+                {
+                    "imgPath": "<string>",
+                    "maxWidth": "<number>"
+                },
+                {
+                    "imgPath": "<string>"
+                }
+            ],
+            "alt": "<string>",
+            "href": "<string>",
+            "title": "<string>",
+            "target": "<string>",
+            "figcaption": "<string>"
+        }
+    ]
 }
 
 const props = defineProps(commonProps)

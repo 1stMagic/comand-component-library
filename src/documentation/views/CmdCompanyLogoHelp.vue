@@ -6,22 +6,14 @@ import ComponentProperties from "../components/ComponentProperties"
 import companyLogoData from '../../assets/data/company-logo'
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdCompanyLogoHelp"
+import propertyDescriptions from "../generated/CmdCompanyLogoPropertyDescriptions"
 
-const propertyDescriptions = {
-    altText: "Description for property",
-    link: "Description for property",
-    pathDarkmodeLogo: "Description for property",
-    pathDefaultLogo: "Description for property"
-}
 const propertyStructures = {
-    altText: "-",
     link: {
         "type": "<string>",
         "path": "<string>",
         "tooltip": "<string>"
-    },
-    pathDarkmodeLogo: "-",
-    pathDefaultLogo: "-"
+    }
 }
 
 const props = defineProps(commonProps)

@@ -5,19 +5,10 @@ import CmdAccordion from "../../components/CmdAccordion"
 import ComponentProperties from "../components/ComponentProperties"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdAccordionHelp"
+import propertyDescriptions from "../generated/CmdAccordionPropertyDescriptions"
 
 const props = defineProps(commonProps)
 
-const propertyDescriptions = {
-    accordionData: "Description for property",
-    accordionHeadlineLevel: "Description for property",
-    gapBetween: "Description for property",
-    iconClosed: "Description for property",
-    iconOpen: "Description for property",
-    toggleMode: "Description for property",
-    useCustomHeader: "Description for property",
-    useTransition: "Description for property"
-}
 const propertyStructures = {
     accordionData: [
         {
@@ -30,8 +21,6 @@ const propertyStructures = {
             "status": "<boolean>"
         }
     ],
-    accordionHeadlineLevel: "-",
-    gapBetween: "-",
     iconClosed: {
         "iconClass": "<string>",
         "tooltip": "<string>"
@@ -39,10 +28,7 @@ const propertyStructures = {
     iconOpen: {
         "iconClass": "<string>",
         "tooltip": "<string>"
-    },
-    toggleMode: "-",
-    useCustomHeader: "-",
-    useTransition: "-"
+    }
 }
 
 const tabs = [{name: 'View'}, {name: 'Usage'}, {name: 'Properties'}]

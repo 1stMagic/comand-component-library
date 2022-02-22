@@ -17,6 +17,8 @@ export default {
     props: {
         /**
          * set a html-tag as inner tag
+         *
+         * @allowedValues: section, div
          */
         innerComponent: {
             type: String,
@@ -26,11 +28,9 @@ export default {
             }
         },
         /**
-         * activate if the inner content should be wrapped in inner component tag
+         * activate if the inner content should be wrapped in inner component tag (recommended)
          *
          * (if deactivated, content will be directly placed inside cmd-width-limitation-wrapper)
-         *
-         * @allowedValues: section, div, p
          *
          */
         innerWrapper: {

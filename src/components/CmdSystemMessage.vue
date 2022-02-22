@@ -33,7 +33,7 @@ export default {
         /**
          * status of message
          *
-         * values: error (red), warning (yellow), success (green), info (blue)
+         * @allowedValues: error, warning, success, info
          */
         status: {
             type: String,

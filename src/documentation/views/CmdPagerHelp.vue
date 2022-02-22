@@ -6,18 +6,9 @@ import ComponentProperties from "../components/ComponentProperties"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdPagerHelp"
 import pagerData from '../../assets/data/pager'
+import propertyDescriptions from "../generated/CmdPagerPropertyDescriptions"
 
-const propertyDescriptions = {
-    items: "Description for property",
-    itemsPerPage: "Description for property",
-    showLinksAsButtons: "Description for property",
-    prevButton: "Description for property",
-    nextButton: "Description for property"
-}
 const propertyStructures = {
-    items: "-",
-    itemsPerPage: "-",
-    showLinksAsButtons: "-",
     prevButton: {
         iconClass: "<string>",
         buttonText: "<string>"

@@ -45,7 +45,7 @@ export default {
         /**
          * toggle if mode if only one accordion can be opened (or multiple ones)
          *
-         * values: single, multiple
+         * @allowedValues: single, multiple
          */
         toggleMode: {
             type: String,
@@ -67,6 +67,8 @@ export default {
         },
         /**
          * headline for accordion-box that is also visible is accordion is collapsed
+         *
+         * @allowedValues: h2, h3, h4, h5, h6
          */
         accordionHeadlineLevel: {
             type: String,

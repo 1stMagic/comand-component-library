@@ -6,17 +6,16 @@ import ComponentProperties from "../components/ComponentProperties"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdMultistepFormProgressBarHelp"
 import multistepFormProgressBarData from '../../assets/data/multistep-form-progress-bar'
+import propertyDescriptions from "../generated/CmdMultistepFormProgressBarPropertyDescriptions"
 
-const propertyDescriptions = {
-    multisteps: "Description for property",
-    separatorIconClass: "Description for property"
-}
 const propertyStructures = {
-    multisteps:  {
-        "path": "<string>",
-        "name": "<string>",
-        "iconClass": "<string>"
-    }
+    multisteps:  [
+        {
+            "path": "<string>",
+            "name": "<string>",
+            "iconClass": "<string>"
+        }
+    ]
 }
 
 const props = defineProps(commonProps)

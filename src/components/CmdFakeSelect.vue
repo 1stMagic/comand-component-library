@@ -140,7 +140,7 @@ export default {
         /**
          * set different default selectbox-types for
          *
-         * values: "(default === default list, similar to native selectbox), color, country, checkboxOptions"
+         * @allowedValues: default, color, country, checkboxOptions
          */
         type: {
             type: String,
@@ -174,7 +174,7 @@ export default {
         /**
          * status (i.e. for validation)
          *
-         * values: "error, success, disabled"
+         * @allowedValues: error, success, disabled
          */
         status: {
             type: String,

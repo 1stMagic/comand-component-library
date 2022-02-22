@@ -5,26 +5,14 @@ import CmdTooltip from "../../components/CmdTooltip"
 import ComponentProperties from "../components/ComponentProperties"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdTooltipHelp"
+import propertyDescriptions from "../generated/CmdTooltipPropertyDescriptions"
 
-const propertyDescriptions = {
-    headline: "Description for property",
-    tooltipText: "Description for property",
-    relatedId: "Description for property",
-    status: "Description for property",
-    iconClose: "Description for property",
-    toggleVisibilityByClick: "Description for property"
-}
 const propertyStructures = {
-    headline: "-",
-    tooltipText: "-",
-    relatedId: "-",
-    status: "-",
     iconClose: {
         show: "<boolean>",
         iconClass: "<string>",
         tooltip: "<string>"
-    },
-    toggleVisibilityByClick: "-"
+    }
 }
 
 const props = defineProps(commonProps)

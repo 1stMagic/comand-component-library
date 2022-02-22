@@ -5,15 +5,7 @@ import CmdImageZoom from "../../components/CmdImageZoom"
 import ComponentProperties from "../components/ComponentProperties"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdImageZoomHelp"
-
-const propertyDescriptions = {
-    smallImageUrl: "Description for property",
-    largeImageUrl: "Description for property",
-}
-const propertyStructures = {
-    smallImageUrl: "-",
-    largeImageUrl: "-"
-}
+import propertyDescriptions from "../generated/CmdImageZoomPropertyDescriptions"
 
 const props = defineProps(commonProps)
 

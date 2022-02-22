@@ -219,7 +219,7 @@ export default {
             }
         },
         /**
-         * properties for CmdCustomHeadline for login-form
+         * properties for CmdCustomHeadline-component for login-form
          */
         cmdCustomHeadlineLoginForm: {
             type: Object,
@@ -232,7 +232,7 @@ export default {
             }
         },
         /**
-         * properties for CmdCustomHeadline for send-login-form
+         * properties for CmdCustomHeadline-component for send-login-form
          */
         cmdCustomHeadlineSendLoginForm: {
             type: Object,
@@ -318,12 +318,12 @@ export default {
                         text: "Create new account!"
                     },
                     backToLoginForm: {
-                    icon: {
-                        show: true,
-                        iconClass: "icon-single-arrow-left",
-                        tooltip: ""
+                        icon: {
+                            show: true,
+                            iconClass: "icon-single-arrow-left",
+                            tooltip: ""
                         },
-                    text: "Back to login form"
+                        text: "Back to login form"
                     }
                 }
             }

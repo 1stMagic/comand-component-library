@@ -6,16 +6,9 @@ import ComponentProperties from "../components/ComponentProperties"
 import cookieDisclaimerData from '../../assets/data/cookie-disclaimer'
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdCookieDisclaimerHelp"
+import propertyDescriptions from "../generated/CmdCookieDisclaimerPropertyDescriptions"
 
-const propertyDescriptions = {
-    buttonLabelAcceptAllCookies: "Description for property",
-    buttonLabelAcceptCurrentSettings: "Description for property",
-    cookieOptions: "Description for property",
-    headline: "Description for property"
-}
 const propertyStructures = {
-    buttonLabelAcceptAllCookies: "-",
-    buttonLabelAcceptCurrentSettings: "-",
     cookieOptions: {
         "required": {
             "headline": "<string>",
@@ -76,8 +69,7 @@ const propertyStructures = {
                 }
             ]
         }
-    },
-    headline: "-"
+    }
 }
 
 const props = defineProps(commonProps)
@@ -89,11 +81,12 @@ const tabs = [{name: 'View'}, {name: 'Usage'}, {name: 'Properties'}]
     <CmdTabs :stretchTabs="true" :tabs="tabs" :useSlot="true" :activeTab="props.activeTab" @active-tab="setActiveTab">
         <template v-slot:tab-content-0>
             <h3>View</h3>
-            <CmdCookieDisclaimer headline="Usage of cookies on this web site"
-                                 :cookieOptions="cookieDisclaimerData"
-                                 buttonLabelAcceptAllCookies="Accept all cookies"
-                                 buttonLabelAcceptCurrentSettings="Accept current settings"
-                                 @closeCookieDisclaimer="fancyBoxCookieDisclaimer = false"
+            <CmdCookieDisclaimer
+                 :cmdCustomHeadline="{text: 'Usage of cookies on this web site', level: '2'}"
+                 :cookieOptions="cookieDisclaimerData"
+                 buttonLabelAcceptAllCookies="Accept all cookies"
+                 buttonLabelAcceptCurrentSettings="Accept current settings"
+                 @closeCookieDisclaimer="fancyBoxCookieDisclaimer = false"
             />
         </template>
         <template v-slot:tab-content-1>

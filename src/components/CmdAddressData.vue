@@ -1,21 +1,33 @@
 <template>
     <div class="cmd-address-data vcard">
-        <h4 v-if="headline">{{ headline }}</h4>
+        <!-- begin headline -->
+        <CmdCustomHeadline v-if="cmdCustomHeadline" :headline="cmdCustomHeadline" />
+        <!-- end headline -->
+
+        <!-- begin address-data in vCard microformat -->
         <address class="adr">
             <dl v-if="showLabels">
-                <dt v-if="addressData.company">{{ getMessage('cmdaddressdata.labeltext.company')}}</dt>
+                <dt v-if="addressData.company">
+                    <template v-if="addressData.company.iconClass">
+                        <span :class="addressData.company.iconClass" :title="cmdaddressdata.labeltext?.company ? '' : cmdaddressdata.labeltext?.company"></span>
+                        <span v-if="cmdaddressdata.labeltext?.company">{{ getMessage('cmdaddressdata.labeltext.company')}}</span>
+                    </template>
+                    <template v-else>
+                        {{ getMessage('cmdaddressdata.labeltext.company')}}
+                    </template>
+                </dt>
                 <dd class="org">{{ addressData.company }}</dd>
                 <dt v-if="addressData.address">{{ getMessage('cmdaddressdata.labeltext.address') }}</dt>
                 <dd v-if="addressData.address">
                     <a :href="locateAddress" target="google-maps" v-if="linkGoogleMaps"
                        :title="getMessage('cmdaddressdata.title.open_address_on_google_maps')">
                         <span class="street-address" v-if="addressData.address.streetNo">{{ addressData.address.streetNo }}</span><br/>
-                        <span class="postal-code" v-if="addressData.address.zip">{{ addressData.address.zip }}</span>
+                        <span class="postal-code" v-if="addressData.address.zip">{{ addressData.address.zip }}&nbsp;</span>
                         <span class="locality" v-if="addressData.address.city">{{ addressData.address.city }}</span>
                         <span class="country-name" v-if="addressData.country">{{ addressData.country }}</span>
                     </a>
                     <template v-else>
-                    <span class="street-address" v-if="addressData.address.streetNo">{{addressData.address.streetNo }}</span><br/>
+                        <span class="street-address" v-if="addressData.address.streetNo">{{addressData.address.streetNo }}</span><br/>
                         <span class="postal-code" v-if="addressData.address.zip">{{ addressData.address.zip }}</span>
                         <span class="locality" v-if="addressData.address.city">{{ addressData.address.city }}</span>
                         <span class="country-name" v-if="addressData.country">{{ addressData.country }}</span>
@@ -66,6 +78,7 @@
                 </li>
             </ul>
         </address>
+        <!-- end address-data in vCard microformat -->
     </div>
 </template>
 
@@ -79,10 +92,10 @@ export default {
     mixins: [I18n, DefaultMessageProperties],
     props: {
         /**
-         * headline shown above address-data
+         * properties for CmdCustomHeadline-component
          */
-        headline: {
-            type: String,
+        cmdCustomHeadline: {
+            type: Object,
             required: false
         },
         /**
@@ -93,7 +106,7 @@ export default {
             default: true
         },
         /**
-         * all address-data (incl. lables) that will be shown
+         * all address-data (incl. labels) that will be shown
          */
         addressData: {
             type: Object,

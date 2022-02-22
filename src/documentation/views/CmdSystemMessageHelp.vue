@@ -5,22 +5,13 @@ import CmdSystemMessage from "../../components/CmdSystemMessage"
 import ComponentProperties from "../components/ComponentProperties"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdSystemMessageHelp"
+import propertyDescriptions from "../generated/CmdSystemMessagePropertyDescriptions"
 
-const propertyDescriptions = {
-    status: "Description for property",
-    fullWidth: "Description for property",
-    iconMessage: "Description for property",
-    message: "Description for property",
-    iconClose: "Description for property"
-}
 const propertyStructures = {
-    status: "-",
-    fullWidth: "-",
     iconMessage: {
         show: "<boolean>",
         iconClass: "<string>"
     },
-    message: "-",
     iconClose: {
         show: "<boolean>",
         iconClass: "<string>",

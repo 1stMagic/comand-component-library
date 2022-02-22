@@ -6,17 +6,8 @@ import ComponentProperties from "../components/ComponentProperties"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdTableHelp"
 import tableDataSmall from "../../assets/data/table-small"
+import propertyDescriptions from "../generated/CmdTablePropertyDescriptions"
 
-const propertyDescriptions = {
-    tableData: "Description for property",
-    collapsible: "Description for property",
-    fullWidthOnDefault: "Description for property",
-    userCanToggleWidth: "Description for property",
-    iconExpand: "Description for property",
-    iconCollapse: "Description for property",
-    iconShrink: "Description for property",
-    iconStretch: "Description for property"
-}
 const propertyStructures = {
     tableData: {
         "caption": {
@@ -29,12 +20,10 @@ const propertyStructures = {
         ],
         "tfoot": "<array>"
     },
-    collapsible: "-",
     fullWidthOnDefault: {
         show: "<boolean>",
         iconClass: "<string>"
     },
-    userCanToggleWidth: "-",
     iconExpand: {
         iconClass: "<string>",
         tooltip: "<string>"

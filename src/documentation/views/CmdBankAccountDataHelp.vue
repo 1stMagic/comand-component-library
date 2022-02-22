@@ -8,16 +8,10 @@ import * as componentPropertiesFunctions from "../components/ComponentProperties
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdBankAccountDataHelp"
 import bankData from "../../assets/data/bank-account-data"
+import propertyDescriptions from "../generated/CmdBankAccountDataPropertyDescriptions"
 
 const props = defineProps(commonProps)
 
-const propertyDescriptions = {
-    accountData: "Description for accountData",
-    additionalInformation: "Description for additionalInformation",
-    allowCopyByClick: "Description for allowCopyByClick",
-    cmdCustomHeadline: "Description for cmdCustomHeadline",
-    iconCopy: "Description for iconCopy"
-}
 const propertyStructures = {
     accountData: [
         {
@@ -26,13 +20,11 @@ const propertyStructures = {
             "allowCopy": "<boolean>"
         }
     ],
-    additionalInformation: "-",
-    allowCopyByClick: "-",
     cmdCustomHeadline: "Description for cmdCustomHeadline",
     iconCopy: {
-                "iconClass": "<string>",
-                "tooltip": "<string>"
-            }
+        "iconClass": "<string>",
+        "tooltip": "<string>"
+    }
 }
 
 const tabs = [{name: 'View'}, {name: 'Usage'}, {name: 'Properties'}]
@@ -54,7 +46,11 @@ function setActiveTab(index) {
     <CmdTabs :stretchTabs="true" :tabs="tabs" :useSlot="true" :activeTab="props.activeTab" @active-tab="setActiveTab">
         <template v-slot:tab-content-0>
             <h3>View</h3>
-            <CmdBankAccountData :account-data="bankData" :cmd-custom-headline="{ text: 'Bank Account', level: 3}" :allow-copy-by-click="true" />
+            <CmdBankAccountData
+                :account-data="bankData"
+                :allow-copy-by-click="true"
+                :cmd-custom-headline="{ text: 'Bank Account', level: 4}"
+            />
         </template>
         <template v-slot:tab-content-1>
             <h3>Usage</h3>

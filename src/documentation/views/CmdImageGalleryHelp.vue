@@ -6,13 +6,9 @@ import ComponentProperties from "../components/ComponentProperties"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdImageGalleryHelp"
 import imageGalleryData from '../../assets/data/image-gallery'
+import propertyDescriptions from "../generated/CmdImageGalleryPropertyDescriptions"
 
-const propertyDescriptions = {
-    figcaptionPosition: "Description for property",
-    images: "Description for property",
-}
 const propertyStructures = {
-    figcaptionPosition: "-",
     images: [
         {
             "imgId": "<number>",
@@ -33,7 +29,9 @@ const tabs = [{name: 'View'}, {name: 'Usage'}, {name: 'Properties'}]
     <CmdTabs :stretchTabs="true" :tabs="tabs" :useSlot="true" :activeTab="props.activeTab" @active-tab="setActiveTab">
         <template v-slot:tab-content-0>
             <h3>View</h3>
-            <CmdImageGallery :images="imageGalleryData" />
+            <CmdImageGallery
+                :images="imageGalleryData"
+            />
         </template>
         <template v-slot:tab-content-1>
             <h3>Usage</h3>

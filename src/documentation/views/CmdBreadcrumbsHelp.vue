@@ -6,14 +6,8 @@ import ComponentProperties from "../components/ComponentProperties"
 import CmdTabs from "../../components/CmdTabs"
 import breadcrumbData from '../../assets/data/breadcrumbs'
 import CmdCode from "../data/CmdBreadcrumbsHelp"
+import propertyDescriptions from "../generated/CmdBreadcrumbsPropertyDescriptions"
 
-console.log(breadcrumbData)
-
-const propertyDescriptions = {
-    breadcrumbLinks: "Description for property",
-    breadcrumbLabel: "Description for property",
-    breadcrumbSeparator: "Description for property"
-}
 const propertyStructures = {
     breadcrumbLinks: {
         "address": {

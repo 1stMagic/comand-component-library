@@ -1,6 +1,9 @@
 <template>
     <div class="cmd-opening-hours">
-        <h4 v-if="headline">{{ headline }}</h4>
+        <!-- begin headline -->
+        <CmdCustomHeadline v-if="cmdCustomHeadline" :headline="cmdCustomHeadline" />
+        <!-- end headline -->
+
         <a v-if="pathToDetails" :href="pathToDetails" :class="{'closed': closed}">{{ textOpenClosed }}</a>
         <span v-else :class="{'closed': closed}">{{ textOpenClosed }}</span>
         <dl>
@@ -21,10 +24,10 @@ export default {
     name: "CmdOpeningHours",
     props: {
         /**
-         * headline above displayed opening hours
+         * properties for CmdCustomHeadline-component
          */
-        headline: {
-            type: String,
+        cmdCustomHeadline: {
+            type: Object,
             required: false
         },
         /**

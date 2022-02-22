@@ -394,7 +394,7 @@ export default {
         /**
          * set status for label and form-element
          *
-         * values: error (red-styling), success (green-styling)
+         * @allowedValues: error, success
          */
         status: {
             type: String,

@@ -1,6 +1,6 @@
 <template>
     <div class="cmd-top-header-navigation">
-        <ul class="flex-container" role="navigation">
+        <ul :class="['flex-container', align]" role="navigation">
             <li v-for="(link, index) in topHeaderNavigationData" :key="index">
                 <a v-if="link.linkType === 'href'" :href="link.path" :target="link.target" :title="link.icon.tooltip">
                     <span v-if="link.icon && link.icon.iconClass" :class="link.icon.iconClass"></span>
@@ -25,6 +25,15 @@ export default {
         topHeaderNavigationData: {
             type: Array,
             required: false
+        },
+        /**
+         * horizontal alignment
+         *
+         * @allowedValues: left, center, right
+         */
+        align: {
+          type: String,
+          default: "right"
         }
     }
 }
@@ -36,8 +45,16 @@ export default {
 
 .cmd-top-header-navigation {
     > ul.flex-container {
-        justify-content: flex-end;
         margin: 0 auto;
+        justify-content: flex-end;
+
+        &.left {
+            justify-content: flex-start;
+        }
+
+        &.center {
+            justify-content: center;
+        }
 
         li {
             flex: none;

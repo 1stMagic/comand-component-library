@@ -14,7 +14,7 @@ function getPropertyDefault(defaultValue) {
 }
 
 function getIcon(required) {
-    return required ? "icon-check" : "icon-cancel"
+    return required ? "icon-check-circle" : "icon-cancel-circle not-required"
 }
 
 function getTooltip(required) {
@@ -122,9 +122,9 @@ function createDetailLink(type) {
             <tr>
                 <th>Name</th>
                 <th>Type</th>
-                <th>Default</th>
                 <th>Required</th>
                 <th>Structure</th>
+                <th>Default</th>
                 <th>Description</th>
                 <th>Allowed Values</th>
             </tr>
@@ -145,21 +145,21 @@ function createDetailLink(type) {
                 <td>
                     {{ getPropertyTypeName(property.type) }}
                 </td>
-                <td>
-                    <pre v-if="getPropertyDefault(property.default)">{{getPropertyDefault(property.default) }}</pre>
-                    <template v-else>
-                        <em>(none)</em>
-                    </template>
-                </td>
                 <td class="required">
                     <span :class="getIcon(property.required)" :title="getTooltip(property.required)"></span>
                 </td>
                 <td>
                     <pre v-if="getPropertyStructure(props.propertyStructures, propertyName)">{{ getPropertyStructure(props.propertyStructures, propertyName) }}</pre>
                 </td>
+                <td>
+                    <pre v-if="getPropertyDefault(property.default)">{{getPropertyDefault(property.default) }}</pre>
+                    <template v-else>
+                        <em>(none)</em>
+                    </template>
+                </td>
                 <td v-html="getPropertyDescription(props.propertyDescriptions, propertyName)">
                 </td>
-                <td>
+                <td class="allowed-values">
                     <ul v-if="getAnnotation(props.propertyDescriptions, propertyName, 'allowedValues').length">
                         <li v-for="value in getAnnotation(props.propertyDescriptions, propertyName, 'allowedValues')" :key="value">{{ value }}</li>
                     </ul>
@@ -179,6 +179,20 @@ function createDetailLink(type) {
 
             &.required {
                 text-align: center;
+
+                span[class*="icon"] {
+                    color: var(--success-color);
+
+                    &.not-required {
+                        color: var(--error-color);
+                    }
+                }
+            }
+
+            &.allowed-values {
+                ul {
+                    margin: 0;
+                }
             }
         }
     }

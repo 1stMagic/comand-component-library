@@ -6,28 +6,16 @@ import ComponentProperties from "../components/ComponentProperties"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdOpeningHoursHelp"
 import openingHoursData from '../../assets/data/opening-hours'
+import propertyDescriptions from "../generated/CmdOpeningHoursPropertyDescriptions"
 
-const propertyDescriptions = {
-    headline: "Description for property",
-    pathToDetails: "Description for property",
-    closed: "Description for property",
-    textOpenClosed: "Description for property",
-    openingHours: "Description for property",
-    textHolidaysClosed: "Description for property",
-    textMiscInfo: "Description for property"
-}
 const propertyStructures = {
-    headline: "-",
-    pathToDetails: "-",
-    closed: "-",
-    textOpenClosed: "-",
-    openingHours: {
-        "day": "<string>",
-        "fromTime": "<string>",
-        "tillTime": "<string>"
-    },
-    textHolidaysClosed: "-",
-    textMiscInfo: "-"
+    openingHours: [
+        {
+            "day": "<string>",
+            "fromTime": "<string>",
+            "tillTime": "<string>"
+        }
+    ]
 }
 
 const props = defineProps(commonProps)
@@ -42,7 +30,7 @@ const tabs = [{name: 'View'}, {name: 'Usage'}, {name: 'Properties'}]
             <CmdOpeningHours
                 :openingHours="openingHoursData"
                 :closed="true"
-                headline="Opening hours"
+                :cmdCustomHeadline="{headline: {text: 'Opening hours', level: '5'}}"
                 textOpenClosed="Closed right now!"
                 textHolidaysClosed="Closed on holidays"
                 textMiscInfo="Miscellaneous information"

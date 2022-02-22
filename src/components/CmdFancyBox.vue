@@ -72,6 +72,10 @@
 
     const FancyBox = defineComponent({
         name: "CmdFancyBox",
+        components: {
+            CmdSlideButton,
+            CmdThumbnailScroller
+        },
         props: {
             /**
              * set if content should be loaded by url
@@ -119,7 +123,7 @@
                 required: false
             },
             /**
-             *
+             * list of show elements (not images)
              */
             elements: {
                 type: Array,
@@ -160,10 +164,6 @@
                 type: String,
                 required: false
             }
-        },
-        components: {
-            CmdSlideButton,
-            CmdThumbnailScroller
         },
         data() {
             return {

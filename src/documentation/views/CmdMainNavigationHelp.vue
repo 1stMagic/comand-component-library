@@ -6,21 +6,9 @@ import ComponentProperties from "../components/ComponentProperties"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdMainNavigationHelp"
 import mainNavigationData from '../../assets/data/main-navigation'
+import propertyDescriptions from "../generated/CmdMainNavigationPropertyDescriptions"
 
-const propertyDescriptions = {
-    stretchMainItems: "Description for property",
-    persistOnMobile: "Description for property",
-    navigationEntries: "Description for property",
-    closeOffcanvas: "Description for property",
-    buttonOffcanvas: "Description for property",
-    subentriesIconClass: "Description for property",
-    subSubentriesIconClass: "Description for property",
-    showContentOverlay: "Description for property"
-}
 const propertyStructures = {
-    stretchMainItems: "-",
-    persistOnMobile: "-",
-    navigationEntries: "-",
     closeOffcanvas: {
         iconClass: "<string>",
         text: "<string>",
@@ -30,6 +18,19 @@ const propertyStructures = {
         iconClass: "<string>",
         text: "<string>",
         showText: "<boolean>"
+    },
+    navigationEntries: {
+        "name": "<string>",
+        "href": "<string>",
+        "target": "<string>",
+        "subentries": [
+            {
+                "name": "<string>",
+                "href": "<string>",
+                "target": "<string>",
+                "subentries": "<array>"
+            }
+        ]
     },
     subentriesIconClass: {
         labelText: "<string>",
@@ -44,8 +45,7 @@ const propertyStructures = {
         innerIconClass: "<string>",
         name: "<string>",
         id: "<string>"
-    },
-    showContentOverlay: "-"
+    }
 }
 
 const props = defineProps(commonProps)
@@ -57,9 +57,10 @@ const tabs = [{name: 'View'}, {name: 'Usage'}, {name: 'Properties'}]
     <CmdTabs :stretchTabs="true" :tabs="tabs" :useSlot="true" :activeTab="props.activeTab" @active-tab="setActiveTab">
         <template v-slot:tab-content-0>
             <h3>View</h3>
-            <CmdMainNavigation :stretchMainItems="false"
-                               :persistOnMobile="false"
-                               :navigationEntries="mainNavigationData"
+            <CmdMainNavigation
+                :stretchMainItems="false"
+                :persistOnMobile="false"
+                :navigationEntries="mainNavigationData"
             />
         </template>
         <template v-slot:tab-content-1>

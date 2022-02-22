@@ -1,6 +1,6 @@
 <template>
     <!-- begin headline -->
-    <CmdCustomHeadline v-if="cmdCustomHeadline" v-bind="cmdCustomHeadline" />
+    <CmdCustomHeadline v-if="cmdCustomHeadline" :headline="cmdCustomHeadline" />
     <!-- end headline -->
 
     <!-- begin account data -->

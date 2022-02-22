@@ -1,0 +1,15 @@
+{
+      "company": "Your company name",
+      "address": {
+            "streetNo": "Your street and number",
+            "zip": "Your zip/postal-code",
+            "city": "Your city",
+            "country": "Your country"
+      },
+      "telephone": "Your phone number",
+      "mobilephone": "Your mobile phone number",
+      "fax": "Your fax number",
+      "email": "Your email address"
+}
+
+

@@ -5,16 +5,12 @@ import CmdAddressData from "../../components/CmdAddressData"
 import ComponentProperties from "../components/ComponentProperties"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdAddressDataHelp"
-import addressData from '../../assets/data/address.json'
+import addressData from '../../assets/data/address-data'
+import propertyDescriptions from "../generated/CmdAddressDataPropertyDescriptions"
 
-const propertyDescriptions = {
-    addressData: "Description for property",
-    headline: "Description for property",
-    linkGoogleMaps: "Description for property",
-    showLabels: "Description for property"
-}
 const propertyStructures = {
     addressData: {
+        "company": "<string>",
         "address": {
             "streetNo": "<string>",
             "zip": "<number>",
@@ -24,10 +20,7 @@ const propertyStructures = {
         "mobilephone": "<string>",
         "fax": "<string>",
         "email": "<string>"
-    },
-    headline: "-",
-    linkGoogleMaps: "-",
-    showLabels: "-"
+    }
 }
 
 const props = defineProps(commonProps)
@@ -39,7 +32,13 @@ const tabs = [{name: 'View'}, {name: 'Usage'}, {name: 'Properties'}]
     <CmdTabs :stretchTabs="true" :tabs="tabs" :useSlot="true" :activeTab="props.activeTab" @active-tab="setActiveTab">
         <template v-slot:tab-content-0>
             <h3>View</h3>
-            <CmdAddressData :addressData="addressData" :linkGoogleMaps="true" headline="Contact" i18n="" />
+            <CmdAddressData
+                :addressData="addressData"
+                :linkGoogleMaps="true"
+                headline="Contact"
+                i18n=""
+                :cmdCustomHeadline="{ text: 'Address', level: '4'}"
+            />
         </template>
         <template v-slot:tab-content-1>
             <h3>Usage</h3>

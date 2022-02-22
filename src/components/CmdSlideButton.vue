@@ -14,7 +14,7 @@ export default {
         /**
          * set slide-button-type
          *
-         * possible default-values: next, prev, up, down
+         * @allowedValues: next, prev, up, down
          */
         slideButtonType: {
           type: String,

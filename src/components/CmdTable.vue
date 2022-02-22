@@ -15,13 +15,13 @@
             </a>
         </div>
         <table :class="{'full-width': fullWidth}">
-            <caption :class="{hidden: tableData.caption.hide}">{{ tableData.caption.text }}</caption>
+            <caption :class="{hidden: !tableData.caption.show}">{{ tableData.caption.text }}</caption>
             <thead>
-            <tr>
-                <th v-for="(tablehead, indexHead) in tableData.thead" :key="indexHead">
-                    {{ tablehead }}
-                </th>
-            </tr>
+                <tr>
+                    <th v-for="(tablehead, indexHead) in tableData.thead" :key="indexHead">
+                        {{ tablehead }}
+                    </th>
+                </tr>
             </thead>
             <transition name="fade">
                 <tbody v-show="showTableData" aria-expanded="true">

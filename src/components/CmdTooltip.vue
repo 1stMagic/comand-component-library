@@ -1,7 +1,9 @@
 <template>
     <div v-if="tooltipVisibility" :class="['cmd-tooltip', status]" ref="tooltip" aria-role="tooltip">
-        <div v-if="headline || iconClose.show" class="headline-wrapper">
-            <CmdCustomHeadline v-if="headline" :headline="headline"></CmdCustomHeadline>
+        <div v-if="cmdCustomHeadline || iconClose.show" class="headline-wrapper">
+            <!-- begin headline -->
+            <CmdCustomHeadline v-if="cmdCustomHeadline" :headline="cmdCustomHeadline"></CmdCustomHeadline>
+            <!-- end headline -->
             <a v-if="iconClose.show && toggleVisibilityByClick" href="#" @click.prevent="tooltipVisibility = false" :title="iconClose.tooltip">
                 <span :class="iconClose.iconClass"></span>
             </a>
@@ -27,7 +29,7 @@ export default {
         }
     },
     props: {
-        headline: {
+        cmdCustomHeadline: {
             type: Object,
             default() {}
         },
@@ -47,6 +49,8 @@ export default {
         },
         /**
          * status
+         *
+         * @allowedValues: error, warning, success, info
          */
         status: {
             type: String,

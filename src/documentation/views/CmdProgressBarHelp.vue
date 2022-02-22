@@ -5,15 +5,7 @@ import CmdProgressBar from "../../components/CmdProgressBar"
 import ComponentProperties from "../components/ComponentProperties"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdProgressBarHelp"
-
-const propertyDescriptions = {
-    labelText: "Description for property",
-    id: "Description for property"
-}
-const propertyStructures = {
-    labelText: "-",
-    id: "-"
-}
+import propertyDescriptions from "../generated/CmdProgressBarPropertyDescriptions"
 
 const props = defineProps(commonProps)
 

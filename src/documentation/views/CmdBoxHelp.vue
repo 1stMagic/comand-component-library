@@ -5,18 +5,9 @@ import CmdBox from "../../components/CmdBox"
 import ComponentProperties from "../components/ComponentProperties"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdBoxHelp"
+import propertyDescriptions from "../generated/CmdBoxPropertyDescriptions"
 
-const propertyDescriptions = {
-    boxType: "Description for property",
-    cmdCustomHeadline: "Description for property",
-    product: "Description for property",
-    textBody: "Description for property",
-    user: "Description for property",
-    useSlot: "Description for property"
-}
 const propertyStructures = {
-    boxType: "-",
-    cmdCustomHeadline: "-",
     product:   {
         "name": "<string>",
         "img": {
@@ -29,7 +20,6 @@ const propertyStructures = {
         "new": "<boolean>",
         "discount": "<number>"
     },
-    textBody: "-",
     user: {
         "name": "<string>",
         "img": {
@@ -47,8 +37,7 @@ const propertyStructures = {
                 "title": "<string>"
             }
         ]
-    },
-    useSlot: "-"
+    }
 }
 
 const props = defineProps(commonProps)

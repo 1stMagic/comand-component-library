@@ -6,10 +6,8 @@ import ComponentProperties from "../components/ComponentProperties"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdTopHeaderNavigationHelp"
 import topHeaderNavigationData from "../../assets/data/top-header-navigation"
+import propertyDescriptions from "../generated/CmdTopHeaderNavigationPropertyDescriptions"
 
-const propertyDescriptions = {
-    topHeaderNavigationData: "Description for property"
-}
 const propertyStructures = {
     topHeaderNavigationData: [
         {
@@ -34,6 +32,7 @@ const tabs = [{name: 'View'}, {name: 'Usage'}, {name: 'Properties'}]
         <template v-slot:tab-content-0>
             <h3>View</h3>
             <CmdTopHeaderNavigation
+                align="left"
                 :topHeaderNavigationData="topHeaderNavigationData"
             />
         </template>

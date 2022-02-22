@@ -6,26 +6,9 @@ import CmdFancyBox from "../../components/CmdFancyBox"
 import ComponentProperties from "../components/ComponentProperties"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdFancyBoxHelp"
+import propertyDescriptions from "../generated/CmdFancyBoxPropertyDescriptions"
 
-const propertyDescriptions = {
-    allowEscapeKey: "Description for property",
-    altText: "Description for property",
-    content: "Description for property",
-    defaultGalleryIndex: "Description for property",
-    elements: "Description for property",
-    fancyBoxGallery: "Description for property",
-    fancyboxOptions: "Description for property",
-    show: "Description for property",
-    showOverlay: "Description for property",
-    url: "Description for property"
-}
 const propertyStructures = {
-    allowEscapeKey: "-",
-    altText: "-",
-    content: "-",
-    defaultGalleryIndex: "-",
-    elements: "-",
-    fancyBoxGallery: "-",
     fancyboxOptions: {
         closeIcon: {
             "iconClass": "<string>",
@@ -41,9 +24,7 @@ const propertyStructures = {
                 "tooltip": "<string>"
             }
         }
-    },
-    show: "-",
-    url: "-"
+    }
 }
 
 function showFancyBox(type, content, altText) {
@@ -63,7 +44,7 @@ const tabs = [{name: 'View'}, {name: 'Usage'}, {name: 'Properties'}]
     <CmdTabs :stretchTabs="true" :tabs="tabs" :useSlot="true" :activeTab="props.activeTab" @active-tab="setActiveTab">
         <template v-slot:tab-content-0>
             <h3>View</h3>
-            <a href="#" @click.prevent="showFancyBox('text','Some text')">Open FancyBox with text</a>
+            <a href="#" @click.prevent="showFancyBox('text','Some text')">Open FancyBox with text</a><br />
             <a href="#"
                @click.prevent="showFancyBox('image', '/media/images/content-images/logo-business-edition-landscape.jpg', 'Alternative text')"
                title="Open FancyBox with large image">

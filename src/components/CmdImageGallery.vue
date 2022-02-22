@@ -33,13 +33,13 @@ export default {
             required: true
         },
         /**
-         * position of figcaption (if exists)
+         * position of figcaption
          *
-         * values: top, bottom
+         * @allowedValues: top, bottom
          */
         figcaptionPosition: {
             type: String,
-            default: "top"
+            default: "bottom"
         }
     },
     methods: {

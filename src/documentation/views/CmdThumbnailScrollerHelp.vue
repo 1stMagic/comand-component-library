@@ -6,17 +6,9 @@ import ComponentProperties from "../components/ComponentProperties"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdThumbnailScrollerHelp"
 import thumbnailScrollerData from "../../assets/data/thumbnail-scroller"
+import propertyDescriptions from "../generated/CmdThumbnailScrollerPropertyDescriptions"
 
-const propertyDescriptions = {
-    imgIndex: "Description for property",
-    allowOpenFancyBox: "Description for property",
-    thumbnailScrollerItems: "Description for property",
-    figcaption: "Description for property",
-    cmdSlideButtons: "Description for property"
-}
 const propertyStructures = {
-    imgIndex: "-",
-    allowOpenFancyBox: "-",
     thumbnailScrollerItems: [
         {
             "imgId": "<number>",
@@ -29,8 +21,7 @@ const propertyStructures = {
     figcaption: {
         show: "<boolean>",
         position: "<string>"
-    },
-    cmdSlideButtons: "-"
+    }
 }
 
 const props = defineProps(commonProps)

@@ -5,19 +5,7 @@ import CmdForm from "../../components/CmdForm"
 import ComponentProperties from "../components/ComponentProperties"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdFormHelp"
-
-const propertyDescriptions = {
-    showLegend: "Description for property",
-    textLegend: "Description for property",
-    useFieldset: "Description for property",
-    useValidation: "Description for property"
-}
-const propertyStructures = {
-    showLegend: "-",
-    textLegend: "-",
-    useFieldset: "-",
-    useValidation: "-"
-}
+import propertyDescriptions from "../generated/CmdFormPropertyDescriptions"
 
 const props = defineProps(commonProps)
 
@@ -28,8 +16,14 @@ const tabs = [{name: 'View'}, {name: 'Usage'}, {name: 'Properties'}]
     <CmdTabs :stretchTabs="true" :tabs="tabs" :useSlot="true" :activeTab="props.activeTab" @active-tab="setActiveTab">
         <template v-slot:tab-content-0>
             <h3>View</h3>
-            <CmdForm :use-fieldset="true" id="advanced-form-elements" novalidate="novalidate" text-legend="Legend">
+            <CmdForm
+                :use-fieldset="true"
+                id="advanced-form-elements"
+                novalidate="novalidate"
+                text-legend="Legend">
+                <!-- begin slot-content -->
                 Content
+                <!-- end slot-content -->
             </CmdForm>
         </template>
         <template v-slot:tab-content-1>

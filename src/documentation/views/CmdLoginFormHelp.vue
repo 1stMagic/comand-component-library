@@ -5,23 +5,9 @@ import CmdLoginForm from "../../components/CmdLoginForm"
 import ComponentProperties from "../components/ComponentProperties"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdLoginFormHelp"
+import propertyDescriptions from "../generated/CmdLoginFormPropertyDescriptions"
 
-const propertyDescriptions = {
-    modelValue: "Description for property",
-    textLegend: "Description for property",
-    showLegend: "Description for property",
-    cmdCustomHeadlineLoginForm: "Description for property",
-    cmdCustomHeadlineSendLoginForm: "Description for property",
-    cmdFormElementUsername: "Description for property",
-    cmdFormElementPassword: "Description for property",
-    cmdFormElementSendLogin: "Description for property",
-    options: "Description for property",
-    buttons: "Description for property"
-}
 const propertyStructures = {
-    modelValue: "-",
-    textLegend: "-",
-    showLegend: "-",
     cmdCustomHeadlineLoginForm: {
         show: "<boolean>",
         text: "<string>",

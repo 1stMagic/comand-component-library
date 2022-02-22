@@ -7,9 +7,9 @@ import ComponentProperties from "../components/ComponentProperties"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdFormFiltersHelp"
 import fakeSelectFilterOptionsData from '../../assets/data/fake-select-filter-options'
+import propertyDescriptions from "../generated/CmdFormFiltersPropertyDescriptions"
 
 function getOptionName(option) {
-    console.log(option)
     for (let i = 0; i < fakeSelectFilterOptionsData.length; i++) {
         if (option === fakeSelectFilterOptionsData[i].value) {
             return fakeSelectFilterOptionsData[i].text
@@ -18,11 +18,6 @@ function getOptionName(option) {
     return null
 }
 
-const propertyDescriptions = {
-    selectedOptions: "Description for property",
-    selectedOptionsName: "Description for property"
-
-}
 const propertyStructures = {
     selectedOptions: [
         {

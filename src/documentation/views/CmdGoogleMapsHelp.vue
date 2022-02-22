@@ -5,15 +5,15 @@ import CmdGoogleMaps from "../../components/CmdGoogleMaps"
 import ComponentProperties from "../components/ComponentProperties"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdGoogleMapsHelp"
-import addressData from '../../assets/data/address.json'
+import addressData from '../../assets/data/address-data'
 
 const propertyDescriptions = {
     addressData: "Description for property"
 
 }
 const propertyStructures = {
-    addressData:
-    {
+    addressData: {
+        "company": "<string>",
         "address": {
             "streetNo": "<string>",
             "zip": "<number>",

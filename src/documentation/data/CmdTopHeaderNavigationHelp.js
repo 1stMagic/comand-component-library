@@ -1,4 +1,5 @@
 export default
 `<CmdTopHeaderNavigation
-  :topHeaderNavigationData="topHeaderNavigationData"
+    align="left"
+    :topHeaderNavigationData="topHeaderNavigationData"
 />`

@@ -5,19 +5,13 @@ import CmdCustomHeadline from "../../components/CmdCustomHeadline"
 import ComponentProperties from "../components/ComponentProperties"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdCustomHeadlineHelp"
+import propertyDescriptions from "../generated/CmdCustomHeadlinePropertyDescriptions"
 
-const propertyDescriptions = {
-    headline: "Description for property",
-    iconClass: "Description for property",
-    preHeadline: "Description for property"
-}
 const propertyStructures = {
     headline: {
         "text": "<string>",
         "level": "<number>",
-    },
-    iconClass: "-",
-    preHeadline: "-"
+    }
 }
 
 const props = defineProps(commonProps)

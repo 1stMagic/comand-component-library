@@ -1,6 +1,8 @@
 <template>
     <fieldset v-if="advancedMode" :class="['cmd-upload-form flex-container', { 'upload-initiated': uploadInitiated }]">
-        <h3 v-if="headline">{{ headline }}</h3>
+        <!-- begin headline -->
+        <CmdCustomHeadline v-if="cmdCustomHeadline" :headline="cmdCustomHeadline"></CmdCustomHeadline>
+        <!-- end headline -->
         <CmdSystemMessage
             v-if="systemMessageStatus && allSystemMessages.length"
             :closeIcon="{ show: false }"
@@ -343,19 +345,29 @@ export default {
             type: Array,
             required: true
         },
+        /**
+         * activate if the comment given by the user should be mandatory
+         *
+         * enableComment-property must be set to true
+         */
         commentRequired: {
             type: Boolean,
             default: true
         },
+        /**
+         * show a message if mandatory comment-textarea is not filled
+         *
+         * enableComment-property and commentRequired-property must be set to true
+         */
         commentStatusMessage: {
             type: String,
             default: ""
         },
         /**
-         * set an optional headline for the fieldset
+         * properties for CmdCustomHeadline-component
          */
-        headline: {
-            type: String,
+        cmdCustomHeadline: {
+            type: Object,
             required: false
         },
         /**
@@ -365,9 +377,21 @@ export default {
             type: Boolean,
             default: false
         },
+        /**
+         * enable if a comment should be possible to left by the user
+         */
         enableComment: {
             type: Boolean,
             default: true
+        },
+        /**
+         * preset the comment-textarea
+         *
+         * enableComment-property must be set to true
+         */
+        presetComment: {
+            type: String,
+            default: ""
         },
         /**
          * set to 0 if no maximum for total upload size should be set
@@ -383,24 +407,17 @@ export default {
             type: Number,
             default: 10485760
         },
+        /**
+         * enable if more than file should be enabled to be selected for upload
+         */
         allowMultipleFileUploads: {
             type: Boolean,
             default: false
         },
-        presetComment: {
-            type: String,
-            default: ""
-        },
         /**
          *   defines upload options if component handles upload itself
-         *   (componentHandlesUpload-property must be true)
          *
-         *  Example:
-         *  <pre>
-         *       url: String,
-         *       filesParam: String,
-         *       additionalParams: {}
-         * </pre>
+         *   componentHandlesUpload-property must be true
          */
         uploadOptions: {
             type: Object,

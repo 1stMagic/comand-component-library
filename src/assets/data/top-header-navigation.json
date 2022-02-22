@@ -1,16 +1,15 @@
 [
   {
     "linkType": "href",
-    "path": "http://www.comand-cms.com",
-    "target": "_blank",
+    "path": "/",
     "icon": {
-      "iconClass": "icon-globe",
-      "tooltip": "CoManD-CMS"
+      "iconClass": "icon-home",
+      "tooltip": "Home"
     }
   },
   {
     "linkType": "href",
-    "path": "#anchor-section4",
+    "path": "/",
     "icon": {
       "iconClass": "icon-mail",
       "tooltip": "Contact"
@@ -18,7 +17,7 @@
   },
   {
     "linkType": "href",
-    "path": "#anchor-section3",
+    "path": "/",
     "icon": {
       "iconClass": "icon-user-profile",
       "tooltip": "Login"

@@ -1,7 +1,9 @@
 <template>
     <transition name="fade">
         <div class="cmd-cookie-disclaimer">
-            <h2 v-if="headline">{{ headline }}</h2>
+            <!-- begin headline -->
+            <CmdCustomHeadline v-if="cmdCustomHeadline" :headline="cmdCustomHeadline" />
+            <!-- end headline -->
             <slot name="cookie-options">
                     <div v-if="cookieOptions.required">
                         <h3>{{ cookieOptions.required.headline }}</h3>
@@ -81,10 +83,12 @@
 <script>
 import CmdAccordion from "./CmdAccordion";
 import CmdSwitchButton from "./CmdSwitchButton";
+import CmdCustomHeadline from "./CmdCustomHeadline";
 
 export default {
     name: "CmdCookieDisclaimer",
     components: {
+        CmdCustomHeadline,
         CmdAccordion,
         CmdSwitchButton
     },
@@ -96,10 +100,10 @@ export default {
     },
     props: {
         /**
-         * headline show above content
+         * properties for cmdCustomHeadline-component
          */
-        headline: {
-            type: String,
+        cmdCustomHeadline: {
+            type: Object,
             required: false
         },
         /**

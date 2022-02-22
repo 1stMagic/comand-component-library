@@ -10,24 +10,23 @@ import CmdCode from "../data/CmdSiteHeaderHelp"
 import navigationData from '../../assets/data/main-navigation'
 import topHeaderNavigationData from '../../assets/data/top-header-navigation'
 import companyLogoData from '../../assets/data/company-logo'
+import propertyDescriptions from "../generated/CmdSiteHeaderPropertyDescriptions"
 
-const propertyDescriptions = {
-    mainNavigationEntries: "Description for property",
-    sticky: "Description for property"
-}
 const propertyStructures = {
-    mainNavigationEntries: {
-        "name": "<string>",
-        "href": "<string>",
-        "target": "<string>",
-        "subentries": [
-            {
-                "name": "<string>",
-                "href": "<string>",
-                "target": "<string>"
-            }
-        ]
-    }
+    mainNavigationEntries: [
+        {
+            "name": "<string>",
+            "href": "<string>",
+            "target": "<string>",
+            "subentries": [
+                {
+                    "name": "<string>",
+                    "href": "<string>",
+                    "target": "<string>"
+                }
+            ]
+        }
+    ]
 }
 
 const props = defineProps(commonProps)

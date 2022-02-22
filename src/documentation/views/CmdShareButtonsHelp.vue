@@ -6,20 +6,18 @@ import ComponentProperties from "../components/ComponentProperties"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdShareButtonsHelp"
 import shareButtonsData from '../../assets/data/share-buttons'
+import propertyDescriptions from "../generated/CmdShareButtonsPropertyDescriptions"
 
-const propertyDescriptions = {
-    stretchButtons: "Description for property",
-    shareButtons: "Description for property"
-}
 const propertyStructures = {
-    stretchButtons: "-",
-    shareButtons: {
-        "id": "<string>",
-        "path": "<string>",
-        "tooltip": "<string>",
-        "iconClass": "<string>",
-        "linkText": "<string>"
-    }
+    shareButtons: [
+        {
+            "id": "<string>",
+            "path": "<string>",
+            "tooltip": "<string>",
+            "iconClass": "<string>",
+            "linkText": "<string>"
+        }
+    ]
 }
 
 const props = defineProps(commonProps)
