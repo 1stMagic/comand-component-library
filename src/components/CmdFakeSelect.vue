@@ -175,6 +175,7 @@ export default {
          * status (i.e. for validation)
          *
          * @allowedValues: error, success, disabled
+         * @affectsStyling: true
          */
         status: {
             type: String,

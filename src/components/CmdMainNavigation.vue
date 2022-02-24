@@ -67,6 +67,8 @@ export default {
         },
         /**
          * set if navigation should persist on mobile and not be collapsed to off-canvas
+         *
+         * @affectsStyling: true
          */
         persistOnMobile: {
             type: Boolean,
@@ -125,6 +127,8 @@ export default {
         },
         /**
          * toggle if overlay over content should be shown if off-canvas is open
+         *
+         * @affectsStyling: true
          */
         showContentOverlay: {
             type: Boolean,

@@ -152,6 +152,8 @@
             },
             /**
              * show/hide overlay (around fancybox, above website)
+             *
+             * @affectsStyling: true
              */
             showOverlay: {
                 type: Boolean,

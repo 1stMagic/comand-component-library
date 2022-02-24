@@ -29,7 +29,7 @@ const tabs = [{name: 'View'}, {name: 'Usage'}, {name: 'Properties'}]
         <template v-slot:tab-content-0>
             <h3>View</h3>
             <CmdSystemMessage
-                status="warning"
+                validationStatus="warning"
                 :fullWidth="true"
                 message="This is a warning message!">
                 <!-- begin slot-content -->

@@ -36,6 +36,8 @@ export default {
         },
         /**
          * use a grid for positioning of inner-elements (else a flex-container will be used)
+         *
+         * @affectsStyling: true
          */
         useGrid: {
             type: Boolean,

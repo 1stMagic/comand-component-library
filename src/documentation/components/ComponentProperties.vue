@@ -127,6 +127,7 @@ function createDetailLink(type) {
                 <th>Default</th>
                 <th>Req. for Accessibility</th>
                 <th>Allowed Values</th>
+                <th>Affects Styling</th>
                 <th>Description</th>
             </tr>
         </thead>
@@ -168,6 +169,9 @@ function createDetailLink(type) {
                     <em v-else>
                         (all)
                     </em>
+                </td>
+                <td class="affects-styling">
+                    <span v-if="getAnnotation(props.propertyDescriptions, propertyName, 'affectsStyling').length" :class="getIcon(property.required)" :title="getTooltip(property.required)"></span>
                 </td>
                 <td v-html="getPropertyDescription(props.propertyDescriptions, propertyName)">
                 </td>

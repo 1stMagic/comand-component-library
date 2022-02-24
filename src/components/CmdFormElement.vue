@@ -265,6 +265,8 @@ export default {
          * set to activate to use toggle-switch-styling
          *
          * element-prop must be set to "input" and type-attribute must be set to "checkbox" or "radio"
+         *
+         * @affectsStyling: true
          */
         toggleSwitch: {
             type: Boolean,
@@ -298,6 +300,8 @@ export default {
          * set to true, if checkbox/radio-buttons should have green/checked and red/unchecked color-coding
          * toggleSwitch-prop must be set to "true"
          * element-prop must be set to "input" and type-attribute must be set to "checkbox" or "radio"
+         *
+         * @affectsStyling: true
          */
         colored: {
             type: Boolean,
@@ -312,6 +316,8 @@ export default {
         },
         /**
          * for replacing native checkboxes/radio-buttons by custom ones (based on frontend-framework)
+         *
+         * @affectsStyling: true
          */
         replaceInputType: {
             type: Boolean,
@@ -395,6 +401,8 @@ export default {
          * set status for label and form-element
          *
          * @allowedValues: error, success
+         *
+         * @affectsStyling: true
          */
         status: {
             type: String,

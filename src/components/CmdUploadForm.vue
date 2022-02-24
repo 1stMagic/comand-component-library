@@ -424,6 +424,8 @@ export default {
         },
         /**
          * activate to use full upload-form-style and -functionality
+         *
+         * @affectsStyling: true
          */
         advancedMode: {
             type: Boolean,

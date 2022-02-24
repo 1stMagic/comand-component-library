@@ -29,6 +29,8 @@ export default {
     props: {
         /**
          * if activated the entire form will be validated by pre-coded validation
+         *
+         * @affectsStyling: true
          */
         useValidation: {
           type: Boolean,

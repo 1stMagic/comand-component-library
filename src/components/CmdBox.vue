@@ -71,6 +71,7 @@ export default {
          * set boxtype to show different types of boxes/contents
          *
          * @allowedValues: content, product, user
+         * @affectsStyling: true
          */
         boxType: {
             type: String,

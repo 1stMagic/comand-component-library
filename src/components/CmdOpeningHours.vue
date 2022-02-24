@@ -38,7 +38,7 @@ export default {
             required: false
         },
         /**
-         * toggles if "closed"-text will be shown (and styled)
+         * toggles if "closed"-text will be shown
          *
          * @affectsStyling: true
          */

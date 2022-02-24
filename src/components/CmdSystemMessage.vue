@@ -2,7 +2,7 @@
     <transition name="fade">
         <div
             v-if="showSystemMessage"
-            :class="['cmd-system-message', 'system-message', { 'full-width': fullWidth }, status]"
+            :class="['cmd-system-message', 'system-message', { 'full-width': fullWidth }, validationStatus]"
             :role="status === 'error' ? 'alert' : 'dialog'"
         >
             <a
@@ -31,11 +31,12 @@ export default {
     },
     props: {
         /**
-         * status of message
+         * validation-status for the message-box
          *
          * @allowedValues: error, warning, success, info
+         * @affectsStyling: true
          */
-        status: {
+        validationStatus: {
             type: String,
             required: true
         },

@@ -30,6 +30,7 @@ export default {
          * horizontal alignment
          *
          * @allowedValues: left, center, right
+         * @affectsStyling: true
          */
         align: {
           type: String,
