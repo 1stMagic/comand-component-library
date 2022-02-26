@@ -98,7 +98,7 @@ function processPropertyData(property, data) {
 }
 
 function processComment(context, comment) {
-    if (context.currentAnnotation) {
+    if (context.currentAnnotation && !comment.match(ANNOTATION_PATTERN)) {
         context.currentAnnotationValues.push(comment)
         return
     }

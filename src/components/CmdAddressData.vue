@@ -7,16 +7,11 @@
         <!-- begin address-data in vCard microformat -->
         <address class="adr">
             <dl v-if="showLabels">
-                <dt v-if="addressData.company">
-                    <template v-if="addressData.company.iconClass">
-                        <span :class="addressData.company.iconClass" :title="cmdaddressdata.labeltext?.company ? '' : cmdaddressdata.labeltext?.company"></span>
-                        <span v-if="cmdaddressdata.labeltext?.company">{{ getMessage('cmdaddressdata.labeltext.company')}}</span>
-                    </template>
-                    <template v-else>
-                        {{ getMessage('cmdaddressdata.labeltext.company')}}
-                    </template>
+                <dt v-if="addressData.company?.value">
+                    <span v-if="addressData.company.iconClass && showLabelIcons" :class="addressData.company.iconClass" :title="getMessage('cmdaddressdata.labeltext.company')"></span>
+                    <span v-if="showLabelTexts">{{ getMessage('cmdaddressdata.labeltext.company')}}</span>
                 </dt>
-                <dd class="org">{{ addressData.company }}</dd>
+                <dd  v-if="addressData.company?.value" class="org">{{ addressData.company.value }}</dd>
                 <dt v-if="addressData.address">{{ getMessage('cmdaddressdata.labeltext.address') }}</dt>
                 <dd v-if="addressData.address">
                     <a :href="locateAddress" target="google-maps" v-if="linkGoogleMaps"
@@ -87,10 +82,30 @@
 import I18n from "../mixins/I18n"
 import DefaultMessageProperties from "../mixins/CmdAddressData/DefaultMessageProperties"
 
+// import components
+import CmdCustomHeadline from "./CmdCustomHeadline"
+
 export default {
     name: "CmdAddressData",
     mixins: [I18n, DefaultMessageProperties],
+    components: {
+        CmdCustomHeadline
+    },
     props: {
+        /**
+         * show a label-icon (if exists)
+         */
+        showLabelIcons: {
+            type: Boolean,
+            default: true
+        },
+        /**
+         * show a label-text
+         */
+        showLabelTexts: {
+            type: Boolean,
+            default: true
+        },
         /**
          * properties for CmdCustomHeadline-component
          */

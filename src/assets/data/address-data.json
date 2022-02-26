@@ -1,5 +1,8 @@
 {
-      "company": "Your company name",
+      "company": {
+            "iconClass": "icon-home",
+            "value": "Your company name"
+      },
       "address": {
             "streetNo": "Your street and number",
             "zip": "Your zip/postal-code",

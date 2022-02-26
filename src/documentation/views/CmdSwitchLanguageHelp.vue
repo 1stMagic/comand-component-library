@@ -6,6 +6,7 @@ import ComponentProperties from "../components/ComponentProperties"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdSwitchLanguageHelp"
 import switchLanguagesData from '../../assets/data/switch-language'
+import propertyDescriptions from "../generated/CmdSwitchLanguagePropertyDescriptions"
 
 const currentLanguage = ref("")
 

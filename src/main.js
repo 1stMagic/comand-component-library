@@ -27,6 +27,9 @@ import '@/assets/styles/transitions.scss'
 /* import css for your custom styles */
 import '@/assets/styles/template.css'
 
+/* import css for prism-library (for styling syntax) */
+import "prismjs/themes/prism.css"
+
 /* import css for demopage only */
 import 'comand-frontend-framework/public/demopage-only.css'
 

@@ -1,1 +1,5 @@
-export default `<CmdAddressData :addressData="addressData" :linkGoogleMaps="true" headline="Contact"/>`
+export default `<CmdAddressData 
+    :addressData="addressData" 
+    :linkGoogleMaps="true" 
+    headline="Contact"
+/>`

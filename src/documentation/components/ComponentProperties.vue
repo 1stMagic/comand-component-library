@@ -13,8 +13,11 @@ function getPropertyDefault(defaultValue) {
     return defaultValue
 }
 
-function getIcon(required) {
-    return required ? "icon-check-circle" : "icon-cancel-circle not-required"
+function getIcon(value) {
+    if (value === "partial") {
+        return "icon-exclamation-circle"
+    }
+    return value ? "icon-check-circle" : "icon-cancel-circle not-required";
 }
 
 function getTooltip(required) {
@@ -30,14 +33,34 @@ function getPropertyDescription(propertyDescriptions, propertyName) {
     return ""
 }
 
-function getAnnotation(propertyDescriptions, propertyName, annotationName) {
-    if(propertyDescriptions) {
-        if(propertyDescriptions[propertyName]?.annotations?.[annotationName]?.length) {
-            return propertyDescriptions[propertyName].annotations[annotationName].join("").split(/\s*,\s*/)
-        }
-    }
-    return []
+function hasAnnotation(propertyDescriptions, propertyName, annotationName) {
+    return propertyDescriptions?.[propertyName]?.annotations?.[annotationName]?.length
 }
+
+// function hasAnnotationValue(propertyDescriptions, propertyName, annotationName, annotationValue) {
+//     return getAnnotationValues(propertyDescriptions, propertyName, annotationName).includes(annotationValue)
+// }
+
+function getAnnotationValues(propertyDescriptions, propertyName, annotationName) {
+    return (propertyDescriptions?.[propertyName]?.annotations?.[annotationName] || []).join("").split(/\s*,\s*/)
+}
+
+function getAnnotationValue(propertyDescriptions, propertyName, annotationName) {
+    const values = propertyDescriptions?.[propertyName]?.annotations?.[annotationName] || []
+    if (values.length) {
+        return values[0]
+    }
+    return null
+}
+
+// function getAnnotation(propertyDescriptions, propertyName, annotationName) {
+//     if(propertyDescriptions) {
+//         if(propertyDescriptions[propertyName]?.annotations?.[annotationName]?.length) {
+//             return propertyDescriptions[propertyName].annotations[annotationName].join("").split(/\s*,\s*/)
+//         }
+//     }
+//     return []
+// }
 
 function getPropertyStructure(propertyStructures, propertyName) {
     if(propertyStructures?.[propertyName]) {
@@ -160,18 +183,18 @@ function createDetailLink(type) {
                     </template>
                 </td>
                 <td class="required-for-accessibility">
-                    <span v-if="getAnnotation(props.propertyDescriptions, propertyName, 'requiredForAccessibility').length" :class="getIcon(property.required)" :title="getTooltip(property.required)"></span>
+                    <span :class="getIcon(getAnnotationValue(props.propertyDescriptions, propertyName, 'requiredForAccessibility'))" :title="getTooltip(property.required)"></span>
                 </td>
                 <td class="allowed-values">
-                    <ul v-if="getAnnotation(props.propertyDescriptions, propertyName, 'allowedValues').length">
-                        <li v-for="value in getAnnotation(props.propertyDescriptions, propertyName, 'allowedValues')" :key="value">{{ value }}</li>
+                    <ul v-if="hasAnnotation(props.propertyDescriptions, propertyName, 'allowedValues')">
+                        <li v-for="value in getAnnotationValues(props.propertyDescriptions, propertyName, 'allowedValues')" :key="value">{{ value }}</li>
                     </ul>
                     <em v-else>
                         (all)
                     </em>
                 </td>
                 <td class="affects-styling">
-                    <span v-if="getAnnotation(props.propertyDescriptions, propertyName, 'affectsStyling').length" :class="getIcon(property.required)" :title="getTooltip(property.required)"></span>
+                    <span :class="getIcon(hasAnnotation(props.propertyDescriptions, propertyName, 'affectsStyling'))" :title="getTooltip(property.required)"></span>
                 </td>
                 <td v-html="getPropertyDescription(props.propertyDescriptions, propertyName)">
                 </td>
