@@ -15,13 +15,16 @@ function getPropertyDefault(defaultValue) {
 
 function getIcon(value) {
     if (value === "partial") {
-        return "icon-exclamation-circle"
+        return "icon-exclamation-circle partial"
     }
     return value ? "icon-check-circle" : "icon-cancel-circle not-required";
 }
 
-function getTooltip(required) {
-    return required ? "Property is required for component" : "Property is not required for component"
+function getTooltip(value) {
+    if (value === "partial") {
+        return "Parts of this property are required"
+    }
+    return value ? "Property is required for component" : "Property is not required for component"
 }
 
 function getPropertyDescription(propertyDescriptions, propertyName) {
@@ -170,7 +173,7 @@ function createDetailLink(type) {
                 <td>
                     {{ getPropertyTypeName(property.type) }}
                 </td>
-                <td class="required">
+                <td class="contains-status-icons">
                     <span :class="getIcon(property.required)" :title="getTooltip(property.required)"></span>
                 </td>
                 <td>
@@ -182,7 +185,7 @@ function createDetailLink(type) {
                         <em>(none)</em>
                     </template>
                 </td>
-                <td class="required-for-accessibility">
+                <td class="contains-status-icons">
                     <span :class="getIcon(getAnnotationValue(props.propertyDescriptions, propertyName, 'requiredForAccessibility'))" :title="getTooltip(property.required)"></span>
                 </td>
                 <td class="allowed-values">
@@ -193,7 +196,7 @@ function createDetailLink(type) {
                         (all)
                     </em>
                 </td>
-                <td class="affects-styling">
+                <td class="contains-status-icons">
                     <span :class="getIcon(hasAnnotation(props.propertyDescriptions, propertyName, 'affectsStyling'))" :title="getTooltip(property.required)"></span>
                 </td>
                 <td v-html="getPropertyDescription(props.propertyDescriptions, propertyName)">
@@ -208,7 +211,7 @@ function createDetailLink(type) {
         td {
             text-align: left;
 
-            &.required {
+            &.contains-status-icons {
                 text-align: center;
 
                 span[class*="icon"] {
@@ -216,6 +219,10 @@ function createDetailLink(type) {
 
                     &.not-required {
                         color: var(--error-color);
+                    }
+
+                    &.partial {
+                        color: var(--warning-color);
                     }
                 }
             }

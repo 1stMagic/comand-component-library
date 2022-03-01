@@ -5,9 +5,10 @@ import commonProps from "../commonProps"
 import CmdBankAccountData from "../../components/CmdBankAccountData"
 import ComponentProperties from "../components/ComponentProperties"
 import * as componentPropertiesFunctions from "../components/ComponentProperties"
+import ComponentCode from "../components/ComponentCode"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdBankAccountDataHelp"
-import bankData from "../../assets/data/bank-account-data"
+import bankAccountData from "../../assets/data/bank-account-data"
 import propertyDescriptions from "../generated/CmdBankAccountDataPropertyDescriptions"
 
 const props = defineProps(commonProps)
@@ -27,37 +28,45 @@ const propertyStructures = {
     }
 }
 
-const tabs = [{name: 'View'}, {name: 'Usage'}, {name: 'Properties'}]
+const tabs = [{name: 'View'}, {name: 'Properties'}]
 
 const router = useRouter()
 
 // set url-parameter if tab is clicked
 function setActiveTab(index) {
     router.push({
-       name: "CmdBankAccountData",
-       params: {
-           tab: tabs[index].name.toLowerCase()
-       }
-   })
+        name: "CmdBankAccountData",
+        params: {
+            tab: tabs[index].name.toLowerCase()
+        }
+    })
 }
 </script>
 
 <template>
     <CmdTabs :stretchTabs="true" :tabs="tabs" :useSlot="true" :activeTab="props.activeTab" @active-tab="setActiveTab">
         <template v-slot:tab-content-0>
-            <h3>View</h3>
-            <CmdBankAccountData
-                :account-data="bankData"
-                :allow-copy-by-click="true"
-                :cmd-custom-headline="{ text: 'Bank Account', level: 4}"
-            />
+            <div class="flex-container">
+                <div>
+                    <h3>View</h3>
+                    <CmdBankAccountData
+                        :account-data="bankAccountData"
+                        :allow-copy-by-click="true"
+                        :cmd-custom-headline="{ text: 'Bank Account', level: 4}"
+                    />
+                </div>
+                <div>
+                    <h3>Code</h3>
+                    <ComponentCode :code="CmdCode"/>
+                </div>
+                <div>
+                    <h3>Data</h3>
+                    <ComponentCode :code="bankAccountData" language="json"/>
+                </div>
+            </div>
         </template>
         <template v-slot:tab-content-1>
-            <h3>Usage</h3>
-            <pre>{{ CmdCode }}</pre>
-        </template>
-        <template v-slot:tab-content-2>
-            <ComponentProperties :properties="CmdBankAccountData.props" :propertyDescriptions="propertyDescriptions" :propertyStructures="propertyStructures" />
+            <ComponentProperties :properties="CmdBankAccountData.props" :propertyDescriptions="propertyDescriptions" :propertyStructures="propertyStructures"/>
             <a id="accountData"></a>
             <h4>accountData</h4>
             <dl>
@@ -75,7 +84,9 @@ function setActiveTab(index) {
                     </span>
                 </dd>
                 <dt>Structure:</dt>
-                <dd><pre>{{ componentPropertiesFunctions.getPropertyStructure(propertyStructures, "accountData") }}</pre></dd>
+                <dd>
+                    <pre>{{ componentPropertiesFunctions.getPropertyStructure(propertyStructures, "accountData") }}</pre>
+                </dd>
                 <dt>Description:</dt>
                 <dd>{{ componentPropertiesFunctions.getPropertyDescription(propertyDescriptions, "accountData") }}</dd>
             </dl>

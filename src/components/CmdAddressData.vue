@@ -1,48 +1,84 @@
 <template>
     <div class="cmd-address-data vcard">
-        <!-- begin headline -->
+        <!-- begin cmdCustomHeadline -->
         <CmdCustomHeadline v-if="cmdCustomHeadline" :headline="cmdCustomHeadline" />
-        <!-- end headline -->
+        <!-- end cmdCustomHeadline -->
 
         <!-- begin address-data in vCard microformat -->
         <address class="adr">
+            <!-- begin list with labels -->
             <dl v-if="showLabels">
+                <!-- begin company -->
                 <dt v-if="addressData.company?.value">
                     <span v-if="addressData.company.iconClass && showLabelIcons" :class="addressData.company.iconClass" :title="getMessage('cmdaddressdata.labeltext.company')"></span>
                     <span v-if="showLabelTexts">{{ getMessage('cmdaddressdata.labeltext.company')}}</span>
                 </dt>
                 <dd  v-if="addressData.company?.value" class="org">{{ addressData.company.value }}</dd>
-                <dt v-if="addressData.address">{{ getMessage('cmdaddressdata.labeltext.address') }}</dt>
+                <!-- end company -->
+
+                <!-- begin address -->
+                <dt v-if="addressData.address && addressData.address.length">
+                    <span v-if="addressData.address.iconClass && showLabelIcons" :class="addressData.address.iconClass" :title="getMessage('cmdaddressdata.labeltext.address')"></span>
+                    <span v-if="showLabelTexts">{{ getMessage('cmdaddressdata.labeltext.address')}}</span>
+                </dt>
                 <dd v-if="addressData.address">
-                    <a :href="locateAddress" target="google-maps" v-if="linkGoogleMaps"
+                    <a  v-if="linkGoogleMaps" :href="locateAddress" target="google-maps"
                        :title="getMessage('cmdaddressdata.title.open_address_on_google_maps')">
-                        <span class="street-address" v-if="addressData.address.streetNo">{{ addressData.address.streetNo }}</span><br/>
-                        <span class="postal-code" v-if="addressData.address.zip">{{ addressData.address.zip }}&nbsp;</span>
-                        <span class="locality" v-if="addressData.address.city">{{ addressData.address.city }}</span>
-                        <span class="country-name" v-if="addressData.country">{{ addressData.country }}</span>
+                        <span v-if="addressData.address.streetNo" class="street-address">{{ addressData.address.streetNo }}</span><br/>
+                        <span v-if="addressData.address.zip" class="postal-code">{{ addressData.address.zip }}&nbsp;</span>
+                        <span v-if="addressData.address.city" class="locality">{{ addressData.address.city }}</span>
+                        <span  v-if="addressData.country" class="country-name">{{ addressData.country }}</span>
                     </a>
                     <template v-else>
-                        <span class="street-address" v-if="addressData.address.streetNo">{{addressData.address.streetNo }}</span><br/>
-                        <span class="postal-code" v-if="addressData.address.zip">{{ addressData.address.zip }}</span>
-                        <span class="locality" v-if="addressData.address.city">{{ addressData.address.city }}</span>
-                        <span class="country-name" v-if="addressData.country">{{ addressData.country }}</span>
+                        <span v-if="addressData.address.streetNo" class="street-address">{{addressData.address.streetNo }}</span><br/>
+                        <span v-if="addressData.address.zip" class="postal-code">{{ addressData.address.zip }}</span>
+                        <span v-if="addressData.address.city" class="locality">{{ addressData.address.city }}</span>
+                        <span  v-if="addressData.country" class="country-name">{{ addressData.country }}</span>
                     </template>
                 </dd>
-                <dt v-if="addressData.telephone">{{ getMessage('cmdaddressdata.labeltext.telephone') }}</dt>
+                <!-- end address -->
+
+                <!-- begin telephone -->
+                <dt v-if="addressData.telephone?.value">
+                    <span v-if="addressData.telephone.iconClass && showLabelIcons" :class="addressData.telephone.iconClass" :title="getMessage('cmdaddressdata.labeltext.telephone')"></span>
+                    <span v-if="showLabelTexts">{{ getMessage('cmdaddressdata.labeltext.telephone')}}</span>
+                </dt>
                 <dd v-if="addressData.telephone">
-                    <a :href="'tel:' + addressData.telephone" title="Call number" class="tel" v-telephone="addressData.telephone">{{ addressData.telephone }}</a>
+                    <a :href="'tel:' + addressData.telephone" title="Call number" class="tel" v-telephone="addressData.telephone">{{ addressData.telephone.value }}</a>
                 </dd>
-                <dt v-if="addressData.mobilephone">{{ getMessage('cmdaddressdata.labeltext.mobile_phone') }}</dt>
+                <!-- end telephone -->
+
+                <!-- begin mobilephone -->
+                <dt v-if="addressData.mobilephone?.value">
+                    <span v-if="addressData.mobilephone.iconClass && showLabelIcons" :class="addressData.mobilephone.iconClass" :title="getMessage('cmdaddressdata.labeltext.mobile_phone')"></span>
+                    <span v-if="showLabelTexts">{{ getMessage('cmdaddressdata.labeltext.mobile_phone')}}</span>
+                </dt>
                 <dd v-if="addressData.mobilephone">
-                    <a :href="'tel:' + addressData.mobilephone" title="Call number" class="tel" v-telephone="addressData.mobilephone">{{ addressData.mobilephone }}</a>
+                    <a :href="'tel:' + addressData.mobilephone" title="Call number" class="tel" v-telephone="addressData.mobilephone">{{ addressData.mobilephone.value  }}</a>
                 </dd>
-                <dt v-if="addressData.fax">{{ getMessage('cmdaddressdata.labeltext.fax') }}</dt>
-                <dd v-if="addressData.fax" class="fax">{{ addressData.fax }}</dd>
-                <dt v-if="addressData.email">{{ getMessage('cmdaddressdata.labeltext.email') }}</dt>
+                <!-- end mobilephone -->
+
+                <!-- begin fax -->
+                <dt v-if="addressData.fax?.value">
+                    <span v-if="addressData.fax.iconClass && showLabelIcons" :class="addressData.fax.iconClass" :title="getMessage('cmdaddressdata.labeltext.fax')"></span>
+                    <span v-if="showLabelTexts">{{ getMessage('cmdaddressdata.labeltext.fax')}}</span>
+                </dt>
+                <dd v-if="addressData.fax" class="fax">{{ addressData.fax.value  }}</dd>
+                <!-- end fax -->
+
+                <!-- begin email -->
+                <dt v-if="addressData.email?.value">
+                    <span v-if="addressData.email.iconClass && showLabelIcons" :class="addressData.email.iconClass" :title="getMessage('cmdaddressdata.labeltext.email')"></span>
+                    <span v-if="showLabelTexts">{{ getMessage('cmdaddressdata.labeltext.email')}}</span>
+                </dt>
                 <dd class="email" v-if="addressData.email">
-                    <a :href="'mailto:' + addressData.email" class="email">{{ addressData.email }}</a>
+                    <a :href="'mailto:' + addressData.email" class="email">{{ addressData.email.value  }}</a>
                 </dd>
+                <!-- end email -->
             </dl>
+            <!-- end list with labels -->
+
+            <!-- begin list without labels -->
             <ul v-else class="flex-container">
                 <li v-if="addressData.company">
                     <span> class="org">{{ addressData.company }}</span>
@@ -72,6 +108,7 @@
                     <a :href="'mailto:' + addressData.email" class="email">{{ addressData.email }}</a>
                 </li>
             </ul>
+            <!-- end list without labels -->
         </address>
         <!-- end address-data in vCard microformat -->
     </div>
@@ -146,9 +183,15 @@ export default {
 <style lang="scss">
 /* begin cmd-address-data ---------------------------------------------------------------------------------------- */
 .cmd-address-data {
-    dd {
-        margin-bottom: var(--default-margin);
+    dl {
+        grid-row-gap: calc(var(--default-gap) / 2);
+
+        dt, dd {
+            display: flex;
+            align-items: center;
+        }
     }
+
 
     ul {
         flex-direction: column;

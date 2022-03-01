@@ -2,7 +2,7 @@
     <transition name="fade">
         <div
             v-if="showSystemMessage"
-            :class="['cmd-system-message', 'system-message', { 'full-width': fullWidth }, validationStatus]"
+            :class="['cmd-system-message', 'system-message', 'flex-container', 'vertical', { 'full-width': fullWidth }, validationStatus]"
             :role="status === 'error' ? 'alert' : 'dialog'"
         >
             <a
@@ -14,7 +14,7 @@
             ></a>
             <h6>
                 <span v-if="iconMessage && iconMessage.iconClass" :class="iconMessage.iconClass"></span>
-                <strong v-if="message">{{ message }}</strong>
+                <strong v-if="systemMessage">{{ systemMessage }}</strong>
             </h6>
             <slot></slot>
         </div>
@@ -62,7 +62,7 @@ export default {
         /**
          * the system-message-text
          */
-        message: {
+        systemMessage: {
             type: String,
             required: false
         },
@@ -94,11 +94,9 @@ export default {
 /* begin cmd-system-message ---------------------------------------------------------------------------------------- */
 .cmd-system-message {
     margin: var(--default-margin) 0;
+    align-items: center;
 
     h6 {
-        display: table;
-        margin: 0 auto var(--default-margin) auto;
-
         strong {
             margin-left: calc(var(--default-margin) / 2);
         }
@@ -109,6 +107,9 @@ export default {
     }
 
     ul {
+        display: flex;
+        flex-direction: column;
+
         li {
             margin-left: 0;
         }

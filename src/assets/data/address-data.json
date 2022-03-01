@@ -4,15 +4,28 @@
             "value": "Your company name"
       },
       "address": {
+            "iconClass": "icon-home",
             "streetNo": "Your street and number",
             "zip": "Your zip/postal-code",
             "city": "Your city",
             "country": "Your country"
       },
-      "telephone": "Your phone number",
-      "mobilephone": "Your mobile phone number",
-      "fax": "Your fax number",
-      "email": "Your email address"
+      "telephone": {
+            "iconClass": "icon-phone",
+            "value": "Your phone number"
+      },
+      "mobilephone": {
+            "iconClass": "icon-mobilephone",
+            "value": "Your mobile phone number"
+      },
+      "fax": {
+            "iconClass": "icon-fax",
+            "value": "Your fax number"
+      },
+      "email": {
+            "iconClass": "icon-mail",
+            "value": "Your email address"
+      }
 }
 
 

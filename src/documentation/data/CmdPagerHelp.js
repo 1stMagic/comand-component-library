@@ -1,6 +1,6 @@
 export default
-`<CmdProgressBar 
-  labelText="Progress Bar (with optional output):" 
-  id="progress-bar" 
-  max="100"
+`<CmdPager
+    :items="pagerData.length"
+    :itemsPerPage="1"
+    @click="showPagePager = $event"
 />`

@@ -42,7 +42,11 @@ export default {
         "cmduploadform.files_to_this_area": "files to this area",
         "cmduploadform.tooltip.toggle_list_of_allowed_file_types": "Toggle list of allowed file types",
         "cmduploadform.reset_upload": "Reset upload",
-        "cmduploadform.tooltip.all_files_will_be_removed": "All files will be remove from upload-list!"
+        "cmduploadform.tooltip.all_files_will_be_removed": "All files will be remove from upload-list!",
+        "cmduploadform.select_image": "Select image",
+        "cmduploadform.select_file": "Select file",
+        "cmduploadform.drag_and_drop_file_here": "Drag and drop file here",
+        "cmduploadform.max_upload_size": "Max. upload size:"
       }
     }
   }

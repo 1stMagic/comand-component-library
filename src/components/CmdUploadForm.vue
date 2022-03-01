@@ -1,12 +1,14 @@
 <template>
     <fieldset v-if="advancedMode" :class="['cmd-upload-form flex-container', { 'upload-initiated': uploadInitiated }]">
-        <!-- begin headline -->
+        <!-- begin cmdCustomHeadline -->
         <CmdCustomHeadline v-if="cmdCustomHeadline" :headline="cmdCustomHeadline"></CmdCustomHeadline>
-        <!-- end headline -->
+        <!-- end cmdCustomHeadline -->
+
+        <!-- begin cmdSystemMessage -->
         <CmdSystemMessage
             v-if="systemMessageStatus && allSystemMessages.length"
-            :closeIcon="{ show: false }"
-            :status="systemMessageStatus"
+            :iconClose="{ show: false }"
+            :validationStatus="systemMessageStatus"
             :systemMessage="
         allSystemMessages.length === 1
           ? allSystemMessages[0]
@@ -19,6 +21,8 @@
                 </li>
             </ul>
         </CmdSystemMessage>
+        <!-- end cmdSystemMessage -->
+
         <div :class="['box drop-area', { 'allow-drop': allowDrop }]" v-on="dragAndDropHandler">
             <template v-if="!listOfFiles.length">
                 <h4 v-if="allowMultipleFileUploads">
@@ -246,20 +250,20 @@
         <slot>
             <template v-if="enableDragAndDrop">
                 <template v-if="fileTypeImage">
-                    <span>Select image</span>
+                    <span>{{ getMessage("cmduploadform.select_image") }}</span>
                     <span class="icon-image"></span>
                 </template>
                 <template v-else>
-                    <span>Select file</span>
+                    <span>{{ getMessage("cmduploadform.select_file") }}</span>
                     <span class="icon-file"></span>
                 </template>
             </template>
             <template v-else>
-                <span>Drag and drop file here</span>
+                <span>{{ getMessage("cmduploadform.drag_and_drop_file_here") }}</span>
                 <span class="icon-drag-and-drop"></span>
             </template>
-            <small>Max. size: {{ formatSize(maxFileUploadSize) }}</small>
-            <small>Alwd. types: {{ allowedFileExtensions }}</small>
+            <small>{{ getMessage("cmduploadform.max_upload_size") }} {{ formatSize(maxFileUploadSize) }}</small>
+            <small>{{ getMessage("cmduploadform.allowed_file_types") }} {{ allowedFileExtensions }}</small>
         </slot>
         <!-- end slot-content -->
     </a>

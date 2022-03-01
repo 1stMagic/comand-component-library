@@ -3,8 +3,9 @@ import {defineProps} from "vue"
 import commonProps from "../commonProps"
 import CmdCookieDisclaimer from "../../components/CmdCookieDisclaimer"
 import ComponentProperties from "../components/ComponentProperties"
-import cookieDisclaimerData from '../../assets/data/cookie-disclaimer'
+import ComponentCode from "../components/ComponentCode"
 import CmdTabs from "../../components/CmdTabs"
+import cookieDisclaimer from '../../assets/data/cookie-disclaimer'
 import CmdCode from "../data/CmdCookieDisclaimerHelp"
 import propertyDescriptions from "../generated/CmdCookieDisclaimerPropertyDescriptions"
 
@@ -74,26 +75,35 @@ const propertyStructures = {
 
 const props = defineProps(commonProps)
 
-const tabs = [{name: 'View'}, {name: 'Usage'}, {name: 'Properties'}]
+const tabs = [{name: 'View'}, {name: 'Properties'}]
 </script>
 
 <template>
     <CmdTabs :stretchTabs="true" :tabs="tabs" :useSlot="true" :activeTab="props.activeTab" @active-tab="setActiveTab">
         <template v-slot:tab-content-0>
-            <h3>View</h3>
-            <CmdCookieDisclaimer
-                 :cmdCustomHeadline="{text: 'Usage of cookies on this web site', level: '2'}"
-                 :cookieOptions="cookieDisclaimerData"
-                 buttonLabelAcceptAllCookies="Accept all cookies"
-                 buttonLabelAcceptCurrentSettings="Accept current settings"
-                 @closeCookieDisclaimer="fancyBoxCookieDisclaimer = false"
-            />
+           <div class="flex-container">
+                <div>
+                    <h3>View</h3>
+                    <CmdCookieDisclaimer
+                         :cmdCustomHeadline="{text: 'Usage of cookies on this web site', level: '2'}"
+                         :cookieOptions="cookieDisclaimer"
+                         buttonLabelAcceptAllCookies="Accept all cookies"
+                         buttonLabelAcceptCurrentSettings="Accept current settings"
+                         @closeCookieDisclaimer="fancyBoxCookieDisclaimer = false"
+                    />
+                </div>
+                <div>
+                    <h3>Code</h3>
+                    <ComponentCode :code="CmdCode"/>
+                </div>
+                <div>
+                    <h3>Data</h3>
+                    <ComponentCode :code="cookieDisclaimer" language="json"/>
+                </div>
+            </div>
         </template>
+
         <template v-slot:tab-content-1>
-            <h3>Usage</h3>
-            <pre>{{ CmdCode }}</pre>
-        </template>
-        <template v-slot:tab-content-2>
             <ComponentProperties :properties="CmdCookieDisclaimer.props" :propertyDescriptions="propertyDescriptions" :propertyStructures="propertyStructures" />
         </template>
     </CmdTabs>
