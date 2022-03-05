@@ -1,6 +1,6 @@
 <script setup>
-import {defineProps} from "vue"
-import commonProps from "../commonProps"
+
+import {tabProps, tabHandlers} from "../tabs"
 import CmdUploadForm from "../../components/CmdUploadForm"
 import ComponentProperties from "../components/ComponentProperties"
 import ComponentCode from "../components/ComponentCode"
@@ -16,18 +16,18 @@ const propertyStructures = {
     }
 }
 
-const props = defineProps(commonProps)
 
-const tabs = [{name: 'View'}, {name: 'Properties'}]
+
+
 </script>
 
 <template>
-    <CmdTabs :stretchTabs="true" :tabs="tabs" :useSlot="true" :activeTab="props.activeTab" @active-tab="setActiveTab">
+    <CmdTabs v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
             <div class="flex-container">
                 <div>
                     <h3>View</h3>
-                    <h3>Advanced mode</h3>
+                    <h4>Advanced mode</h4>
                     <CmdUploadForm
                         headline="Select files to upload"
                         :enableDragAndDrop="true"
@@ -35,7 +35,7 @@ const tabs = [{name: 'View'}, {name: 'Properties'}]
                         :allowMultipleFileUploads="true"
                         :uploadOptions="{url: 'http://localhost:8888'}"
                     />
-                    <h3>Simple mode</h3>
+                    <h4>Simple mode</h4>
                     <CmdUploadForm
                         headline="Select files to upload"
                         :advancedMode="false"

@@ -1,6 +1,6 @@
 <script setup>
-import {defineProps} from "vue"
-import commonProps from "../commonProps"
+
+import {tabProps, tabHandlers} from "../tabs"
 import {openFancyBox} from "@/components/CmdFancyBox"
 import CmdFancyBox from "../../components/CmdFancyBox"
 import ComponentProperties from "../components/ComponentProperties"
@@ -36,13 +36,13 @@ function showFancyBox(type, content, altText) {
     }
 }
 
-const props = defineProps(commonProps)
 
-const tabs = [{name: 'View'}, {name: 'Properties'}]
+
+
 </script>
 
 <template>
-    <CmdTabs :stretchTabs="true" :tabs="tabs" :useSlot="true" :activeTab="props.activeTab" @active-tab="setActiveTab">
+    <CmdTabs v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
            <div class="flex-container">
                 <div>

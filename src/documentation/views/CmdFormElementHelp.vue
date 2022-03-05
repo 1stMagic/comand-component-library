@@ -1,6 +1,6 @@
 <script setup>
-import {defineProps} from "vue"
-import commonProps from "../commonProps"
+
+import {tabProps, tabHandlers} from "../tabs"
 import CmdFormElement from "../../components/CmdFormElement"
 import ComponentProperties from "../components/ComponentProperties"
 import ComponentCode from "../components/ComponentCode"
@@ -31,7 +31,7 @@ const propertyStructures = {
     ]
 }
 
-const props = defineProps(commonProps)
+
 const selectedOption = []
 const datalist = {
     id: "datalist-id",
@@ -42,11 +42,11 @@ const datalist = {
     ]
 }
 
-const tabs = [{name: 'View'}, {name: 'Properties'}]
+
 </script>
 
 <template>
-    <CmdTabs :stretchTabs="true" :tabs="tabs" :useSlot="true" :activeTab="props.activeTab" @active-tab="setActiveTab">
+    <CmdTabs v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
             <div class="flex-container">
                 <div>
@@ -77,7 +77,6 @@ const tabs = [{name: 'View'}, {name: 'Properties'}]
                         :datalist="datalist"
                         tooltipText="This is a tooltip"
                     />
-                </div>
                 </div>
                 <div>
                     <h3>Code</h3>

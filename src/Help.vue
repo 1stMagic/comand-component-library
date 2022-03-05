@@ -1,6 +1,6 @@
 <template>
     <div id="documentation">
-        <nav class="flex-container">
+        <nav v-if="!isFrameMode()" class="flex-container">
             <template v-for="startingLetter in startingLetters" :key="startingLetter">
                 <h4>{{ startingLetter }}</h4>
                 <ul>
@@ -18,6 +18,7 @@
 <script>
 import componentsDescription from "./documentation/data/componentsDescription.json"
 import CmdBackToTopButton from "./components/CmdBackToTopButton"
+import {isFrameMode} from "./utils/common"
 
 export default {
     components: {CmdBackToTopButton},
@@ -37,6 +38,9 @@ export default {
         }
     },
     methods: {
+        isFrameMode() {
+            return isFrameMode()
+        },
         componentNameText(componentName) {
             return componentName.replace("Cmd", "")
         },

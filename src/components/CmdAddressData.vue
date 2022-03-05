@@ -43,8 +43,8 @@
                     <span v-if="addressData.telephone.iconClass && showLabelIcons" :class="addressData.telephone.iconClass" :title="getMessage('cmdaddressdata.labeltext.telephone')"></span>
                     <span v-if="showLabelTexts">{{ getMessage('cmdaddressdata.labeltext.telephone')}}</span>
                 </dt>
-                <dd v-if="addressData.telephone">
-                    <a :href="'tel:' + addressData.telephone" title="Call number" class="tel" v-telephone="addressData.telephone">{{ addressData.telephone.value }}</a>
+                <dd v-if="addressData.telephone?.value">
+                    <a :href="'tel:' + addressData.telephone" title="Call number" class="tel" v-telephone="addressData.telephone.value">{{ addressData.telephone.value }}</a>
                 </dd>
                 <!-- end telephone -->
 
@@ -53,8 +53,8 @@
                     <span v-if="addressData.mobilephone.iconClass && showLabelIcons" :class="addressData.mobilephone.iconClass" :title="getMessage('cmdaddressdata.labeltext.mobile_phone')"></span>
                     <span v-if="showLabelTexts">{{ getMessage('cmdaddressdata.labeltext.mobile_phone')}}</span>
                 </dt>
-                <dd v-if="addressData.mobilephone">
-                    <a :href="'tel:' + addressData.mobilephone" title="Call number" class="tel" v-telephone="addressData.mobilephone">{{ addressData.mobilephone.value  }}</a>
+                <dd v-if="addressData.mobilephone?.value">
+                    <a :href="'tel:' + addressData.mobilephone" title="Call number" class="tel" v-telephone="addressData.mobilephone.value">{{ addressData.mobilephone.value  }}</a>
                 </dd>
                 <!-- end mobilephone -->
 
@@ -63,7 +63,7 @@
                     <span v-if="addressData.fax.iconClass && showLabelIcons" :class="addressData.fax.iconClass" :title="getMessage('cmdaddressdata.labeltext.fax')"></span>
                     <span v-if="showLabelTexts">{{ getMessage('cmdaddressdata.labeltext.fax')}}</span>
                 </dt>
-                <dd v-if="addressData.fax" class="fax">{{ addressData.fax.value  }}</dd>
+                <dd v-if="addressData.fax?.value" class="fax">{{ addressData.fax.value  }}</dd>
                 <!-- end fax -->
 
                 <!-- begin email -->
@@ -71,8 +71,8 @@
                     <span v-if="addressData.email.iconClass && showLabelIcons" :class="addressData.email.iconClass" :title="getMessage('cmdaddressdata.labeltext.email')"></span>
                     <span v-if="showLabelTexts">{{ getMessage('cmdaddressdata.labeltext.email')}}</span>
                 </dt>
-                <dd class="email" v-if="addressData.email">
-                    <a :href="'mailto:' + addressData.email" class="email">{{ addressData.email.value  }}</a>
+                <dd class="email" v-if="addressData.email?.value">
+                    <a :href="'mailto:' + addressData.email?.value" class="email">{{ addressData.email.value  }}</a>
                 </dd>
                 <!-- end email -->
             </dl>

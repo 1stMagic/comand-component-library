@@ -1,6 +1,6 @@
 <script setup>
-import {defineProps, ref} from "vue"
-import commonProps from "../commonProps"
+import {ref} from "vue"
+import {tabProps, tabHandlers} from "../tabs"
 import CmdFormFilters from "../../components/CmdFormFilters"
 import CmdFakeSelect from "../../components/CmdFakeSelect"
 import ComponentProperties from "../components/ComponentProperties"
@@ -28,14 +28,14 @@ const propertyStructures = {
     ]
 }
 
-const props = defineProps(commonProps)
+
 const filterValues = ref(fakeSelectFilterOptions.map(option => option.value))
 const fakeSelectFilters = ref([])
-const tabs = [{name: 'View'}, {name: 'Properties'}]
+
 </script>
 
 <template>
-    <CmdTabs :stretchTabs="true" :tabs="tabs" :useSlot="true" :activeTab="props.activeTab" @active-tab="setActiveTab">
+    <CmdTabs v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
             <div class="flex-container">
                 <div>

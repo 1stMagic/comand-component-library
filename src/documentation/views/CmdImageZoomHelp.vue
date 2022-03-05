@@ -1,6 +1,6 @@
 <script setup>
-import {defineProps} from "vue"
-import commonProps from "../commonProps"
+
+import {tabProps, tabHandlers} from "../tabs"
 import CmdImageZoom from "../../components/CmdImageZoom"
 import ComponentProperties from "../components/ComponentProperties"
 import ComponentCode from "../components/ComponentCode"
@@ -8,13 +8,13 @@ import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdImageZoomHelp"
 import propertyDescriptions from "../generated/CmdImageZoomPropertyDescriptions"
 
-const props = defineProps(commonProps)
 
-const tabs = [{name: 'View'}, {name: 'Properties'}]
+
+
 </script>
 
 <template>
-    <CmdTabs :stretchTabs="true" :tabs="tabs" :useSlot="true" :activeTab="props.activeTab" @active-tab="setActiveTab">
+    <CmdTabs v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
            <div class="flex-container">
                 <div>

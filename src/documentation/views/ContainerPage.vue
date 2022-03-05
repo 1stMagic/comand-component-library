@@ -1,7 +1,8 @@
 <script setup>
 import {defineProps, defineAsyncComponent, computed, watch, shallowRef} from "vue"
-import {useRoute} from "vue-router"
-import componentDescription from "../data/componentsDescription.json"
+import {useRoute, useRouter} from "vue-router"
+import {isFrameMode} from "../../utils/common"
+import componentDescription from "../data/componentsDescription"
 const props = defineProps({
     componentName: {
         type: String,
@@ -23,29 +24,36 @@ const props = defineProps({
 const componentNameHelp = computed(() => props.componentName + "Help")
 const HelpView = shallowRef(null)
 const route = useRoute()
+const router = useRouter()
 HelpView.value = defineAsyncComponent(() => import("./" + componentNameHelp.value))
 watch(() => props.componentName, () => HelpView.value = defineAsyncComponent(() => import("./" + componentNameHelp.value)))
 </script>
 
 <template>
     <main>
-        <h1>{{ componentDescription[props.componentName]?.headline }}</h1>
-        <p>{{ componentDescription[props.componentName]?.shorttext }}</p>
+        <template v-if="!isFrameMode()">
+            <a href="#" @click.prevent="router.go(-1)">Back to previous component</a>
+            <h1>{{ componentDescription[props.componentName]?.headline }}</h1>
+            <p>{{ componentDescription[props.componentName]?.shorttext }}</p>
+        </template>
         <div class="flex-container vertical">
            <div>
+               <div v-if="isFrameMode()" id="frameComponentTarget"></div>
                <HelpView :activeTab="props.activeTab" />
            </div>
-            <hr />
-            <div class="flex-container" id="component-link-wrapper">
-                <router-link :to="{name: previousComponentName, params: {tab: route.params.tab}}">
-                    <span class="icon-single-arrow-left"></span>
-                    <span>{{ previousComponentName }}</span>
-                </router-link>
-                <router-link :to="{name: nextComponentName, params: {tab: route.params.tab}}">
-                    <span>{{ nextComponentName }}</span>
-                    <span class="icon-single-arrow-right"></span>
-                </router-link>
-            </div>
+            <template v-if="!isFrameMode()">
+                <hr />
+                <div class="flex-container" id="component-link-wrapper">
+                    <router-link :to="{name: previousComponentName, params: {tab: route.params.tab}}">
+                        <span class="icon-single-arrow-left"></span>
+                        <span>{{ previousComponentName }}</span>
+                    </router-link>
+                    <router-link :to="{name: nextComponentName, params: {tab: route.params.tab}}">
+                        <span>{{ nextComponentName }}</span>
+                        <span class="icon-single-arrow-right"></span>
+                    </router-link>
+                </div>
+            </template>
         </div>
         <footer></footer>
     </main>

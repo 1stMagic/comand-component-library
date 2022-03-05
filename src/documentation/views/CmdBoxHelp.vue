@@ -1,12 +1,13 @@
 <script setup>
-import {defineProps} from "vue"
-import commonProps from "../commonProps"
+
+import {tabProps, tabHandlers} from "../tabs"
 import CmdBox from "../../components/CmdBox"
 import ComponentProperties from "../components/ComponentProperties"
 import ComponentCode from "../components/ComponentCode"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdBoxHelp"
-import boxUser from "../../assets/data/box-user"
+import boxesProduct from "../../assets/data/box-product"
+import boxesUser from "../../assets/data/box-user"
 import propertyDescriptions from "../generated/CmdBoxPropertyDescriptions"
 
 const propertyStructures = {
@@ -42,18 +43,20 @@ const propertyStructures = {
     }
 }
 
-const props = defineProps(commonProps)
 
-const tabs = [{name: 'View'}, {name: 'Properties'}]
+
+
 </script>
 
 <template>
-    <CmdTabs :stretchTabs="true" :tabs="tabs" :useSlot="true" :activeTab="props.activeTab" @active-tab="setActiveTab">
+    <CmdTabs v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
            <div class="flex-container">
                 <div>
                     <h3>View</h3>
+                    <h4>Box (default)</h4>
                     <CmdBox :cmdCustomHeadline="{ headline: {text: 'Headline given by property', level: '3'}}" textBody="Content given by property" />
+                    <h4>Box with slot</h4>
                     <CmdBox :useSlot="true">
                         <template v-slot:header>
                             <h3>
@@ -71,6 +74,10 @@ const tabs = [{name: 'View'}, {name: 'Properties'}]
                             </p>
                         </template>
                     </CmdBox>
+                    <h4>Box product</h4>
+                    <CmdBox boxType="product" :product="boxesProduct[0]"/>
+                    <h4>Box user</h4>
+                    <CmdBox boxType="user" :user="boxesUser[0]"/>
                 </div>
                 <div>
                     <h3>Code</h3>
@@ -78,7 +85,7 @@ const tabs = [{name: 'View'}, {name: 'Properties'}]
                 </div>
                 <div>
                     <h3>Data</h3>
-                    <ComponentCode :code="boxUser" language="json" />
+                    <ComponentCode :code="boxesUser[0]" language="json" />
                 </div>
             </div>
         </template>

@@ -1,6 +1,6 @@
 <script setup>
-import {defineProps} from "vue"
-import commonProps from "../commonProps"
+import {ref, onMounted} from "vue"
+import {tabProps, tabHandlers} from "../tabs"
 import CmdBackToTopButton from "../../components/CmdBackToTopButton"
 import ComponentProperties from "../components/ComponentProperties"
 import ComponentCode from "../components/ComponentCode"
@@ -17,18 +17,25 @@ const propertyStructures = {
     }
 }
 
-const props = defineProps(commonProps)
 
-const tabs = [{name: 'View'}, {name: 'Properties'}]
+
+const backToTop = ref(null)
+onMounted(() => {
+    backToTop.value.windowScrollY = 1
+    backToTop.value.windowInnerHeight = 0
+    backToTop.value.bodyScrollHeight = 1
+    window.removeEventListener('resize', backToTop.value.onViewportChange);
+    window.removeEventListener('scroll', backToTop.value.onViewportChange);
+})
 </script>
 
 <template>
-    <CmdTabs :stretchTabs="true" :tabs="tabs" :useSlot="true" :activeTab="props.activeTab" @active-tab="setActiveTab">
+    <CmdTabs v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
            <div class="flex-container">
                 <div>
                     <h3>View</h3>
-                    <CmdBackToTopButton id="view-component" />
+                    <CmdBackToTopButton id="view-component" ref="backToTop" />
                 </div>
                 <div>
                     <h3>Code</h3>

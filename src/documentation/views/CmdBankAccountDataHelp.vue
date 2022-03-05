@@ -1,7 +1,5 @@
 <script setup>
-import {defineProps} from "vue"
-import {useRouter} from "vue-router"
-import commonProps from "../commonProps"
+import {tabProps, tabHandlers} from "../tabs"
 import CmdBankAccountData from "../../components/CmdBankAccountData"
 import ComponentProperties from "../components/ComponentProperties"
 import * as componentPropertiesFunctions from "../components/ComponentProperties"
@@ -10,8 +8,6 @@ import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdBankAccountDataHelp"
 import bankAccountData from "../../assets/data/bank-account-data"
 import propertyDescriptions from "../generated/CmdBankAccountDataPropertyDescriptions"
-
-const props = defineProps(commonProps)
 
 const propertyStructures = {
     accountData: [
@@ -27,24 +23,10 @@ const propertyStructures = {
         "tooltip": "<string>"
     }
 }
-
-const tabs = [{name: 'View'}, {name: 'Properties'}]
-
-const router = useRouter()
-
-// set url-parameter if tab is clicked
-function setActiveTab(index) {
-    router.push({
-        name: "CmdBankAccountData",
-        params: {
-            tab: tabs[index].name.toLowerCase()
-        }
-    })
-}
 </script>
 
 <template>
-    <CmdTabs :stretchTabs="true" :tabs="tabs" :useSlot="true" :activeTab="props.activeTab" @active-tab="setActiveTab">
+    <CmdTabs v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
             <div class="flex-container">
                 <div>
