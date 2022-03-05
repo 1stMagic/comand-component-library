@@ -38,8 +38,14 @@ const tabs = [{name: 'View'}, {name: 'Properties'}]
                     <CmdAddressData
                         :addressData="addressData"
                         :linkGoogleMaps="true"
-                        headline="Contact"
-                        :cmdCustomHeadline="{ text: 'Address', level: 4}"
+                        :cmdCustomHeadline="{ text: 'Address (with labels)', level: 4}"
+                    />
+
+                    <CmdAddressData
+                        :addressData="addressData"
+                        :showLabels="false"
+                        :linkGoogleMaps="false"
+                        :cmdCustomHeadline="{ text: 'Address (without labels)', level: 4}"
                     />
                 </div>
                 <div>

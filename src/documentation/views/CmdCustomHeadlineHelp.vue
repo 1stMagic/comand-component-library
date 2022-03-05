@@ -26,7 +26,14 @@ const tabs = [{name: 'View'}, {name: 'Properties'}]
            <div class="flex-container">
                 <div>
                     <h3>View</h3>
-                    <CmdCustomHeadline :headline="{text: 'Headline given by property', level: '3'}" preHeadline="Pre-headline" iconClass="icon-user-profile" />
+                    <CmdCustomHeadline :headline="{text: 'Headline level 1', level: '1'}" preHeadline="Pre-headline" iconClass="icon-user-profile" />
+                    <CmdCustomHeadline :headline="{text: 'Headline level 1', level: '1'}" iconClass="icon-user-profile" />
+                    <CmdCustomHeadline :headline="{text: 'Headline level 1', level: '1'}" />
+                    <CmdCustomHeadline :headline="{text: 'Headline level 2', level: '2'}" />
+                    <CmdCustomHeadline :headline="{text: 'Headline level 3', level: '3'}" />
+                    <CmdCustomHeadline :headline="{text: 'Headline level 4', level: '4'}" />
+                    <CmdCustomHeadline :headline="{text: 'Headline level 5', level: '5'}" />
+                    <CmdCustomHeadline :headline="{text: 'Headline level 6', level: '6'}" />
                 </div>
                 <div>
                     <h3>Code</h3>

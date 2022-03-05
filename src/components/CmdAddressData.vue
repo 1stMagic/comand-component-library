@@ -81,7 +81,7 @@
             <!-- begin list without labels -->
             <ul v-else class="flex-container">
                 <li v-if="addressData.company">
-                    <span> class="org">{{ addressData.company }}</span>
+                    <span class="org">{{ addressData.company.value }}</span>
                 </li>
                 <li>
                     <a :href="locateAddress" target="google-maps" v-if="linkGoogleMaps"
@@ -98,14 +98,14 @@
                         <span class="country-name" v-if="addressData.country">{{ addressData.country }}</span>
                     </template>
                 </li>
-                <li v-if="addressData.telephone">
-                    <a :href="'tel:' + addressData.telephone" :title="getMessage('cmdaddressdata.title.call_number')" class="tel">{{ addressData.telephone }}</a>
+                <li v-if="addressData.telephone?.value">
+                    <a :href="'tel:' + addressData.telephone.value" :title="getMessage('cmdaddressdata.title.call_number')" class="tel">{{ addressData.telephone.value }}</a>
                 </li>
-                <li v-if="addressData.fax">
-                    <span class="fax">{{ addressData.fax }}</span>
+                <li v-if="addressData.fax?.value">
+                    <span class="fax">{{ addressData.fax.value }}</span>
                 </li>
-                <li v-if="addressData.email" :title="getMessage('cmdaddressdata.title.send_email')">
-                    <a :href="'mailto:' + addressData.email" class="email">{{ addressData.email }}</a>
+                <li v-if="addressData.email?.value" :title="getMessage('cmdaddressdata.title.send_email')">
+                    <a :href="'mailto:' + addressData.email.value" class="email">{{ addressData.email.value }}</a>
                 </li>
             </ul>
             <!-- end list without labels -->

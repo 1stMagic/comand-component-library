@@ -28,7 +28,7 @@ const tabs = [{name: 'View'}, {name: 'Properties'}]
            <div class="flex-container">
                 <div>
                     <h3>View</h3>
-                    <CmdBackToTopButton />
+                    <CmdBackToTopButton id="view-component" />
                 </div>
                 <div>
                     <h3>Code</h3>
@@ -45,3 +45,12 @@ const tabs = [{name: 'View'}, {name: 'Properties'}]
         </template>
     </CmdTabs>
 </template>
+
+<style lang="scss">
+#view-component {
+    position: relative;
+    bottom: auto;
+    left: 0;
+    right: auto;
+}
+</style>

@@ -15,7 +15,7 @@
             "value": "Your phone number"
       },
       "mobilephone": {
-            "iconClass": "icon-mobilephone",
+            "iconClass": "icon-device-smartphone",
             "value": "Your mobile phone number"
       },
       "fax": {

@@ -51,7 +51,7 @@ const tabs = [{name: 'View'}, {name: 'Properties'}]
                     <div class="flex-container">
                         <CmdAccordion headline="Accordion headline" :accordionData="2">
                             <template v-slot:accordionHeadline0>
-                                <h3><span class="icon-user-group"></span><span>User groups1</span></h3>
+                                <h3>Accordion 1</h3>
                             </template>
                             <template v-slot:accordionContent0>
                                 <p>
@@ -59,7 +59,7 @@ const tabs = [{name: 'View'}, {name: 'Properties'}]
                                 </p>
                             </template>
                             <template v-slot:accordionHeadline1>
-                                <h3><span class="icon-user-group"></span><span>User groups2</span></h3>
+                                <h3>Accordion 2</h3>
                             </template>
                             <template v-slot:accordionContent1>
                                 <p>
@@ -67,6 +67,8 @@ const tabs = [{name: 'View'}, {name: 'Properties'}]
                                 </p>
                             </template>
                         </CmdAccordion>
+
+                        <CmdAccordion headline="Accordion headline" :accordionData="accordion" />
                     </div>
                 </div>
                 <div>

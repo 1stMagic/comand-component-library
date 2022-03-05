@@ -137,7 +137,6 @@ export default {
 .cmd-box {
     display: flex;
     flex-direction: column;
-    height: 100%;
     padding: 0;
 
     .box-body {

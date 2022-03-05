@@ -1,5 +1,5 @@
 <template>
-    <header class="cmd-custom-headline">
+    <header :class="['cmd-custom-headline', { 'pre-headline': preHeadline}]">
         <span v-if="iconClass" :class="iconClass"></span>
         <div v-if="preHeadline">
             <p>{{ preHeadline }}</p>
@@ -62,6 +62,12 @@ export default {
     margin-bottom: var(--default-margin);
     gap: calc(var(--default-gap) / 2);
 
+    &.pre-headline {
+        [class*="icon"] {
+            font-size: 5rem;
+        }
+    }
+
     p {
         margin-bottom: 0;
     }
@@ -70,10 +76,6 @@ export default {
         margin: 0;
         display: flex;
         align-items: center;
-    }
-
-    [class*="icon"] {
-        font-size: 5rem;
     }
 
     @media only screen and ($small-max-width) {

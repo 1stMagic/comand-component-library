@@ -2,7 +2,7 @@
     <label class="cmd-progressbar" :for="id">
         <span :class="{hidden: !showLabel}">{{ labelText }}</span>
         <span class="progressbar">
-            <span>{{ loadingStatus }}%</span><!-- do not place inside progress-tag (will not be displayed then) -->
+            <span v-if="showLoadingStatus">{{ loadingStatus }}%</span><!-- do not place inside progress-tag (will not be displayed then) -->
             <progress v-bind="$attrs" :id="id" :value="loadingStatus"></progress>
         </span>
     </label>
@@ -34,6 +34,13 @@ export default {
             default: true
         },
         /**
+         * toggle visibility for loading-status
+         */
+        showLoadingStatus: {
+            type: Boolean,
+            default: true
+        },
+        /**
          * id for progress-bar
          *
          * @requiredForAccessibility: true
@@ -60,6 +67,5 @@ export default {
         }
     }
 }
-
 /* end cmd-progressbar ------------------------------------------------------------------------------------------ */
 </style>

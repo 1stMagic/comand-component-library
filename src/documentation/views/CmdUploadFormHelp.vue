@@ -31,8 +31,18 @@ const tabs = [{name: 'View'}, {name: 'Properties'}]
                     <CmdUploadForm
                         headline="Select files to upload"
                         :enableDragAndDrop="true"
-                        :allowedFileExtensions="['jpg']"
+                        :allowedFileExtensions="['gif','png','jpg']"
                         :allowMultipleFileUploads="true"
+                        :uploadOptions="{url: 'http://localhost:8888'}"
+                    />
+                    <h3>Simple mode</h3>
+                    <CmdUploadForm
+                        headline="Select files to upload"
+                        :advancedMode="false"
+                        :maxFileUploadSize="5242880"
+                        :enableDragAndDrop="true"
+                        :allowedFileExtensions="['pdf']"
+                        :allowMultipleFileUploads="false"
                         :uploadOptions="{url: 'http://localhost:8888'}"
                     />
                 </div>

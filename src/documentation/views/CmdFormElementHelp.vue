@@ -6,6 +6,7 @@ import ComponentProperties from "../components/ComponentProperties"
 import ComponentCode from "../components/ComponentCode"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdFormElementHelp"
+import selectOptions from '../../assets/data/select-options'
 import propertyDescriptions from "../generated/CmdFormElementPropertyDescriptions"
 
 const propertyStructures = {
@@ -31,6 +32,15 @@ const propertyStructures = {
 }
 
 const props = defineProps(commonProps)
+const selectedOption = []
+const datalist = {
+    id: "datalist-id",
+        options: [
+        "Option 1",
+        "Option 2",
+        "Option 3"
+    ]
+}
 
 const tabs = [{name: 'View'}, {name: 'Properties'}]
 </script>
@@ -50,6 +60,24 @@ const tabs = [{name: 'View'}, {name: 'Properties'}]
                         tooltipText="This is a tooltip"
                         v-bind="{useCustomTooltip: false}"
                     />
+                    <CmdFormElement
+                        labelText="Input for selectbox:"
+                        element="select"
+                        required="required"
+                        :status="formElementStatus"
+                        v-model:value="selectedOption"
+                        :selectOptions="selectOptions"
+                    />
+                    <CmdFormElement
+                        labelText="Input for datalist:"
+                        element="input"
+                        type="text"
+                        :status="formElementStatus"
+                        placeholder="Type in option"
+                        :datalist="datalist"
+                        tooltipText="This is a tooltip"
+                    />
+                </div>
                 </div>
                 <div>
                     <h3>Code</h3>

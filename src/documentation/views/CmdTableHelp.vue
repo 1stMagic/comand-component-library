@@ -7,6 +7,7 @@ import ComponentCode from "../components/ComponentCode"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdTableHelp"
 import tableSmall from "../../assets/data/table-small"
+import tableLarge from "../../assets/data/table-large"
 import propertyDescriptions from "../generated/CmdTablePropertyDescriptions"
 
 const propertyStructures = {
@@ -54,12 +55,18 @@ const tabs = [{name: 'View'}, {name: 'Properties'}]
            <div class="flex-container">
                 <div>
                     <h3>View</h3>
-            <CmdTable
-                :collapsible="true"
-                :fullWidthOnDefault="false"
-                :userCanToggleWidth="true"
-                :table-data="tableSmall"
-/>
+                    <CmdTable
+                        :collapsible="true"
+                        :fullWidthOnDefault="false"
+                        :userCanToggleWidth="true"
+                        :table-data="tableSmall"
+                    />
+                    <CmdTable
+                        :collapsible="false"
+                        :fullWidthOnDefault="false"
+                        :userCanToggleWidth="false"
+                        :table-data="tableLarge"
+                    />
                 </div>
                 <div>
                     <h3>Code</h3>

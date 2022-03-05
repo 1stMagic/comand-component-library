@@ -1,5 +1,5 @@
 export default
 `<CmdFormFilters
-  v-model:selectedOptions="fakeSelectFilterOptionsData"
+  v-model:selectedOptions="fakeSelectFilterOptions"
   :selectedOptionsName="getOptionName"
 />`
