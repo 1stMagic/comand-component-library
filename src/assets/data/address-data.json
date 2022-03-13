@@ -5,10 +5,13 @@
       },
       "address": {
             "iconClass": "icon-home",
-            "streetNo": "Your street and number",
-            "zip": "Your zip/postal-code",
+            "streetNo": "Your Street/No",
+            "zip": "Your zip",
             "city": "Your city",
-            "country": "Your country"
+            "country": "Your country",
+            "longitude": "0.0",
+            "latitude": "0.0",
+            "location": ""
       },
       "telephone": {
             "iconClass": "icon-phone",

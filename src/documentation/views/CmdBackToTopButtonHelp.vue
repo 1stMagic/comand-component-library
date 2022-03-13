@@ -3,7 +3,8 @@ import {ref, onMounted} from "vue"
 import {tabProps, tabHandlers} from "../tabs"
 import CmdBackToTopButton from "../../components/CmdBackToTopButton"
 import ComponentProperties from "../components/ComponentProperties"
-import ComponentCode from "../components/ComponentCode"
+import {isFrameMode} from "../../utils/common"
+import ViewCodeData from "../components/ViewCodeData"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdBackToTopButtonHelp"
 import propertyDescriptions from "../generated/CmdBackToTopButtonPropertyDescriptions"
@@ -17,8 +18,6 @@ const propertyStructures = {
     }
 }
 
-
-
 const backToTop = ref(null)
 onMounted(() => {
     backToTop.value.windowScrollY = 1
@@ -30,22 +29,13 @@ onMounted(() => {
 </script>
 
 <template>
-    <CmdTabs v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
+    <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
-           <div class="flex-container">
-                <div>
-                    <h3>View</h3>
+            <ViewCodeData :isFirstComponent="true" :code="CmdCode">
+                <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
                     <CmdBackToTopButton id="view-component" ref="backToTop" />
-                </div>
-                <div>
-                    <h3>Code</h3>
-                    <ComponentCode :code="CmdCode" />
-                </div>
-                <div>
-                    <h3>Data</h3>
-
-                </div>
-            </div>
+                </teleport>
+            </ViewCodeData>
         </template>
         <template v-slot:tab-content-1>
             <ComponentProperties :properties="CmdBackToTopButton.props" :propertyDescriptions="propertyDescriptions" :propertyStructures="propertyStructures" />

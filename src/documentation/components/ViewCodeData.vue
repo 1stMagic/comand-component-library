@@ -1,7 +1,7 @@
 <script setup>
 import {defineProps, ref, computed} from "vue"
 import {isFrameMode} from "../../utils/common"
-import ComponentCode from "../components/ComponentCode"
+import ComponentCode from "./ComponentCode"
 
 defineProps({
     code: {
@@ -32,20 +32,23 @@ function changeWidth(width) {
 <template>
     <div class="flex-container vertical">
         <div>
-            <header class="flex-container">
+            <header class="flex-container" id="switch-device-view">
                 <h3>View</h3>
                 <ul v-if="isFirstComponent" class="flex-container">
                     <li>
-                        <a class="icon-device-smartphone" href="#" @click.prevent="changeWidth(600)" title="Change view to smartphone (0-600px)"></a>
+                        Toggle width:
                     </li>
                     <li>
-                        <a class="icon-device-tablet" href="#" @click.prevent="changeWidth(1023)" title="Change view to tablet (601px-1023px)"></a>
+                        <a :class="['icon-device-smartphone', {'active': responsiveWidth === '600px'}]" href="#" @click.prevent="changeWidth(600)" title="Change view to smartphone (0-600px)"></a>
                     </li>
                     <li>
-                        <a class="icon-device-laptop" href="#" @click.prevent="changeWidth(1280)" title="Change view to laptop (1024px-1280px)"></a>
+                        <a :class="['icon-device-tablet', {'active': responsiveWidth === '1023px'}]" href="#" @click.prevent="changeWidth(1023)" title="Change view to tablet (601px-1023px)"></a>
                     </li>
                     <li>
-                        <a class="icon-device-desktop" href="#" @click.prevent="changeWidth(0)" title="Change view to desktop (1281px+)"></a>
+                        <a :class="['icon-device-laptop', {'active': responsiveWidth === '1280px'}]" href="#" @click.prevent="changeWidth(1280)" title="Change view to laptop (1024px-1280px)"></a>
+                    </li>
+                    <li>
+                        <a :class="['icon-device-desktop', {'active': responsiveWidth === '0px'}]" href="#" @click.prevent="changeWidth(0)" title="Change view to desktop (1281px+)"></a>
                     </li>
                 </ul>
             </header>
@@ -68,5 +71,26 @@ function changeWidth(width) {
 <style lang="scss">
 #responsive-view {
     border: .1rem dotted var(--text-color);
+}
+
+#switch-device-view {
+    justify-content: space-between;
+
+    > * {
+        flex: none;
+    }
+
+    ul {
+        align-items: center;
+
+        li {
+            list-style-type: none;
+            margin: 0;
+
+            &:first-child {
+                white-space: nowrap;
+            }
+        }
+    }
 }
 </style>

@@ -97,14 +97,7 @@ export default {
          */
         cmdCustomHeadline: {
             type: Object,
-            default() {
-                return {
-                    headline: {
-                        text: "",
-                        level: "h2"
-                    }
-                }
-            }
+            required: false
         }
     },
     computed: {

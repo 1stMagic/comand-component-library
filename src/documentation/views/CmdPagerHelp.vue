@@ -1,12 +1,12 @@
 <script setup>
-
+import {ref} from "vue"
 import {tabProps, tabHandlers} from "../tabs"
 import CmdPager from "../../components/CmdPager"
 import ComponentProperties from "../components/ComponentProperties"
-import ComponentCode from "../components/ComponentCode"
+import {isFrameMode} from "../../utils/common"
+import ViewCodeData from "../components/ViewCodeData"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdPagerHelp"
-import pager from '../../assets/data/pager'
 import propertyDescriptions from "../generated/CmdPagerPropertyDescriptions"
 
 const propertyStructures = {
@@ -20,32 +20,25 @@ const propertyStructures = {
     }
 }
 
-
-
-
+const showPagePager = ref(1)
+const totalNumberOfPages = 4
 </script>
 
 <template>
-    <CmdTabs v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
+    <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
-            <div class="flex-container">
-                <div>
-                    <h3>View</h3>
+            <ViewCodeData :isFirstComponent="true" :code="CmdCode">
+                <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
+                    <p>
+                        Content: {{ showPagePager }} of {{ totalNumberOfPages }}
+                    </p>
                     <CmdPager
-                        :items="pager.length"
+                        :items="totalNumberOfPages"
                         :itemsPerPage="1"
                         @click="showPagePager = $event"
                     />
-                </div>
-                <div>
-                    <h3>Code</h3>
-                    <ComponentCode :code="CmdCode"/>
-                </div>
-                <div>
-                    <h3>Data</h3>
-                    <ComponentCode :code="pager" language="json"/>
-                </div>
-            </div>
+                </teleport>
+            </ViewCodeData>
         </template>
         <template v-slot:tab-content-1>
             <ComponentProperties :properties="CmdPager.props" :propertyDescriptions="propertyDescriptions" :propertyStructures="propertyStructures"/>

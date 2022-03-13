@@ -27,7 +27,7 @@ export default {
         /**
          * list of all selected options
          */
-        selectedOptions: {
+        modelValue: {
             type: Array,
             required: true
         },
@@ -83,13 +83,13 @@ export default {
             this.updateSelectedOptions()
         },
         updateSelectedOptions() {
-            this.$emit("update:selectedOptions", this.options)
+            this.$emit("update:modelValue", this.options)
         }
     },
     watch: {
-        selectedOptions: {
+        modelValue: {
             handler() {
-                this.options = JSON.parse(JSON.stringify(this.selectedOptions))
+                this.options = JSON.parse(JSON.stringify(this.modelValue))
             },
             immediate: true,
             deep: true

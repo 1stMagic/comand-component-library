@@ -1,7 +1,7 @@
 import {ref} from "vue"
 import router from "../router"
 
-const tabs = [{name: 'View'}, {name: 'Properties'}]
+const tabs = [{name: 'Component'}, {name: 'Properties'}]
 const tabProps = {
     tabs,
     stretchTabs: true,

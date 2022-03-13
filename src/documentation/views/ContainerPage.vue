@@ -32,18 +32,20 @@ watch(() => props.componentName, () => HelpView.value = defineAsyncComponent(() 
 <template>
     <main>
         <template v-if="!isFrameMode()">
-            <a href="#" @click.prevent="router.go(-1)">Back to previous component</a>
+            <a href="#" @click.prevent="router.go(-1)">
+                <span class="icon-single-arrow-left"></span>
+                <span>Back to previous component</span>
+            </a>
             <h1>{{ componentDescription[props.componentName]?.headline }}</h1>
             <p>{{ componentDescription[props.componentName]?.shorttext }}</p>
         </template>
         <div class="flex-container vertical">
-           <div>
+           <section id="tabs-wrapper">
                <div v-if="isFrameMode()" id="frameComponentTarget"></div>
                <HelpView :activeTab="props.activeTab" />
-           </div>
+           </section>
             <template v-if="!isFrameMode()">
-                <hr />
-                <div class="flex-container" id="component-link-wrapper">
+                <section class="flex-container" id="component-link-wrapper">
                     <router-link :to="{name: previousComponentName, params: {tab: route.params.tab}}">
                         <span class="icon-single-arrow-left"></span>
                         <span>{{ previousComponentName }}</span>
@@ -52,7 +54,7 @@ watch(() => props.componentName, () => HelpView.value = defineAsyncComponent(() 
                         <span>{{ nextComponentName }}</span>
                         <span class="icon-single-arrow-right"></span>
                     </router-link>
-                </div>
+                </section>
             </template>
         </div>
         <footer></footer>
@@ -60,6 +62,30 @@ watch(() => props.componentName, () => HelpView.value = defineAsyncComponent(() 
 </template>
 
 <style lang="scss">
+#tabs-wrapper {
+    .cmd-tabs {
+        > ul > li {
+            border: 0;
+            border-bottom: var(--default-border);
+            font-weight: bold;
+
+            &:first-child {
+                border-right: var(--default-border);
+            }
+
+            &.active {
+                top: 0;
+            }
+        }
+
+        > div {
+            border: 0;
+            border-bottom: var(--default-border);
+            padding: calc(var(--default-padding) * 2)
+        }
+    }
+}
+
 #component-link-wrapper {
     margin-top: auto;
     justify-content: space-between;

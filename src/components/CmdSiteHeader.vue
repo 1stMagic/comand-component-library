@@ -1,10 +1,16 @@
 <template>
     <div :class="['cmd-site-header', { sticky: sticky }]" role="banner">
+        <!-- begin slot for elements above header -->
         <slot name="top-header"></slot>
+        <!-- end for elements above header -->
+
+        <!-- begin header-wrapper with slots for logo and other header elements -->
         <header :class="useGrid ? 'grid-container-create-columns': 'flex-container'">
             <slot name="logo"></slot>
             <slot name="header"></slot>
         </header>
+        <!-- end header-wrapper with slots for logo and other header elements -->
+
         <!-- begin CmdMainNavigation -->
         <CmdMainNavigation v-if="CmdMainNavigation" :navigationEntries="CmdMainNavigation" :closeOffcanvas="closeOffcanvas"/>
         <!-- end CmdMainNavigation -->
@@ -12,6 +18,7 @@
 </template>
 
 <script>
+// import components
 import CmdMainNavigation from "./CmdMainNavigation"
 
 export default {
@@ -28,6 +35,13 @@ export default {
             required: true
         },
         /**
+         * use only if default-button of inner navigation-component should not be used
+         */
+        closeOffcanvas: {
+            type: Object,
+            required: false
+        },
+        /**
          * activated sticky-header (stays on top if page is scrolled)
          */
         sticky: {
@@ -42,13 +56,6 @@ export default {
         useGrid: {
             type: Boolean,
             default: true
-        },
-        /**
-         * use only if default-button of inner navigation-component should not be used
-         */
-        closeOffcanvas: {
-            type: Object,
-            required: false
         }
     }
 }

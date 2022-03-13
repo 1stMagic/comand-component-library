@@ -3,7 +3,8 @@
 import {tabProps, tabHandlers} from "../tabs"
 import CmdTable from "../../components/CmdTable"
 import ComponentProperties from "../components/ComponentProperties"
-import ComponentCode from "../components/ComponentCode"
+import {isFrameMode} from "../../utils/common"
+import ViewCodeData from "../components/ViewCodeData"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdTableHelp"
 import tableSmall from "../../assets/data/table-small"
@@ -43,43 +44,32 @@ const propertyStructures = {
         tooltip: "<string>"
     }
 }
-
-
-
-
 </script>
 
 <template>
-    <CmdTabs v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
+    <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
-           <div class="flex-container">
-                <div>
-                    <h3>View</h3>
+            <ViewCodeData :isFirstComponent="true" :code="CmdCode">
+                <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
                     <CmdTable
                         :collapsible="true"
                         :fullWidthOnDefault="false"
                         :userCanToggleWidth="true"
                         :table-data="tableSmall"
                     />
-                    <CmdTable
-                        :collapsible="false"
-                        :fullWidthOnDefault="false"
-                        :userCanToggleWidth="false"
-                        :table-data="tableLarge"
-                    />
-                </div>
-                <div>
-                    <h3>Code</h3>
-                    <ComponentCode :code="CmdCode"/>
-                </div>
-                <div>
-                    <h3>Data</h3>
-                    <ComponentCode :code="tableSmall" language="json"/>
-                </div>
-            </div>
+                </teleport>
+            </ViewCodeData>
+            <ViewCodeData :code="CmdCode">
+                <CmdTable
+                    :collapsible="false"
+                    :fullWidthOnDefault="false"
+                    :userCanToggleWidth="false"
+                    :table-data="tableLarge"
+                />
+            </ViewCodeData>
         </template>
         <template v-slot:tab-content-1>
-            <ComponentProperties :properties="CmdTable.props" :propertyDescriptions="propertyDescriptions" :propertyStructures="propertyStructures" />
+            <ComponentProperties :properties="CmdTable.props" :propertyDescriptions="propertyDescriptions" :propertyStructures="propertyStructures"/>
         </template>
     </CmdTabs>
 </template>

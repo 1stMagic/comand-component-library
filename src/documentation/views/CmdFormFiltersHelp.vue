@@ -4,7 +4,8 @@ import {tabProps, tabHandlers} from "../tabs"
 import CmdFormFilters from "../../components/CmdFormFilters"
 import CmdFakeSelect from "../../components/CmdFakeSelect"
 import ComponentProperties from "../components/ComponentProperties"
-import ComponentCode from "../components/ComponentCode"
+import {isFrameMode} from "../../utils/common"
+import ViewCodeData from "../components/ViewCodeData"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdFormFiltersHelp"
 import fakeSelectFilterOptions from '../../assets/data/fake-select-filter-options'
@@ -28,44 +29,28 @@ const propertyStructures = {
     ]
 }
 
-
-const filterValues = ref(fakeSelectFilterOptions.map(option => option.value))
 const fakeSelectFilters = ref([])
-
 </script>
 
 <template>
-    <CmdTabs v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
+    <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
-            <div class="flex-container">
-                <div>
-                    <h3>View</h3>
+            <ViewCodeData :isFirstComponent="true" :code="CmdCode">
+                <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
                     <CmdFormFilters
-                        v-model:selectedOptions="filterValues"
-                        :selectedOptionsName="getOptionName"
-                    />
-                    <CmdFormFilters
-                        v-model:selectedOptions="fakeSelectFilters"
+                        v-model="fakeSelectFilters"
                         :selectedOptionsName="getOptionName"
                     />
                     <CmdFakeSelect labelText="Selectbox with filters:"
                                    :selectData="fakeSelectFilterOptions"
-                                   v-model:value="fakeSelectFilters"
+                                   v-model="fakeSelectFilters"
                                    defaultOptionName="Filters:"
                                    id="selectbox-with-filters"
                                    type="checkboxOptions"
                                    :useCustomTooltip="true"
                     />
-                </div>
-                <div>
-                    <h3>Code</h3>
-                    <ComponentCode :code="CmdCode"/>
-                </div>
-                <div>
-                    <h3>Data</h3>
-                    <ComponentCode :code="fakeSelectFilterOptions" language="json"/>
-                </div>
-            </div>
+                </teleport>
+            </ViewCodeData>
         </template>
         <template v-slot:tab-content-1>
             <ComponentProperties :properties="CmdFormFilters.props" :propertyDescriptions="propertyDescriptions" :propertyStructures="propertyStructures"/>

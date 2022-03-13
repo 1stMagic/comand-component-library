@@ -35,11 +35,13 @@ const propertyStructures = {
 <template>
     <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
-            <ViewCodeData :isFirstComponent="true" :code="CmdCode">
+            <h2>Component</h2>
+            <h3>Example #1 (content given by slot)</h3>
+            <ViewCodeData :isFirstComponent="true" :code="CmdCode[0]">
                 <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
                     <CmdAccordion headline="Accordion headline" :accordionData="2" toggleMode="multiple">
                         <template v-slot:accordionHeadline0>
-                            <h3>Accordion 1</h3>
+                            <h4>Accordion 1</h4>
                         </template>
                         <template v-slot:accordionContent0>
                             <p>
@@ -47,7 +49,7 @@ const propertyStructures = {
                             </p>
                         </template>
                         <template v-slot:accordionHeadline1>
-                            <h3>Accordion 2</h3>
+                            <h4>Accordion 2</h4>
                         </template>
                         <template v-slot:accordionContent1>
                             <p>
@@ -58,7 +60,8 @@ const propertyStructures = {
                 </teleport>
             </ViewCodeData>
             <hr />
-            <ViewCodeData :code="CmdCode" :data="accordion.accordionData1">
+            <h3>Example #2 (content given by json-file)</h3>
+            <ViewCodeData :code="CmdCode[1]" :data="accordion.accordionData1">
                 <CmdAccordion headline="Accordion headline" :accordionData="accordion.accordionData1" />
             </ViewCodeData>
         </template>

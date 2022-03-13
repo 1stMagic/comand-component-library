@@ -3,7 +3,8 @@
 import {tabProps, tabHandlers} from "../tabs"
 import CmdImageGallery from "../../components/CmdImageGallery"
 import ComponentProperties from "../components/ComponentProperties"
-import ComponentCode from "../components/ComponentCode"
+import {isFrameMode} from "../../utils/common"
+import ViewCodeData from "../components/ViewCodeData"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdImageGalleryHelp"
 import imageGallery from '../../assets/data/image-gallery'
@@ -20,31 +21,18 @@ const propertyStructures = {
         }
     ]
 }
-
-
-
-
 </script>
 
 <template>
-    <CmdTabs v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
+    <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
-           <div class="flex-container">
-                <div>
-                    <h3>View</h3>
+            <ViewCodeData :isFirstComponent="true" :code="CmdCode">
+                <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
                     <CmdImageGallery
                         :images="imageGallery"
                     />
-                </div>
-                <div>
-                    <h3>Code</h3>
-                    <ComponentCode :code="CmdCode"/>
-                </div>
-                <div>
-                    <h3>Data</h3>
-                    <ComponentCode :code="imageGallery" language="json"/>
-                </div>
-            </div>
+                </teleport>
+            </ViewCodeData>>
         </template>
         <template v-slot:tab-content-1>
             <ComponentProperties :properties="CmdImageGallery.props" :propertyDescriptions="propertyDescriptions" :propertyStructures="propertyStructures"/>

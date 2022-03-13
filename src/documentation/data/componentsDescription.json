@@ -54,10 +54,6 @@
     "headline": "Fancy Box",
     "shorttext": "The Fancy Box is a PopUp-Box similar to a modal, that can be filled with different content (i.e. image slider, print preview)."
   },
-  "CmdFooterNavigation": {
-    "headline": "Footer Navigation",
-    "shorttext": "Contains a list of navigation entries, mostly used for secondary content (i.e. data privacy, imprint)."
-  },
   "CmdForm": {
     "headline": "Form",
     "shorttext": "An empty form-wrapper with an optional fieldset and legend, which can be filled with form elements."
@@ -81,6 +77,10 @@
   "CmdImageZoom": {
     "headline": "Image Zoom",
     "shorttext": "Shows a movable section of a hovered image in a very large version."
+  },
+  "CmdListOfLinks": {
+    "headline": "List Of Links",
+    "shorttext": "Contains a list of links, mostly used for secondary content (above the header, inside the footer, for pdf-downloads)."
   },
   "CmdLoginForm": {
     "headline": "Login Form",

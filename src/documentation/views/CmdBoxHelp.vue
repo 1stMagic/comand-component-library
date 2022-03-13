@@ -3,7 +3,8 @@
 import {tabProps, tabHandlers} from "../tabs"
 import CmdBox from "../../components/CmdBox"
 import ComponentProperties from "../components/ComponentProperties"
-import ComponentCode from "../components/ComponentCode"
+import {isFrameMode} from "../../utils/common"
+import ViewCodeData from "../components/ViewCodeData"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdBoxHelp"
 import boxesProduct from "../../assets/data/box-product"
@@ -42,20 +43,20 @@ const propertyStructures = {
         ]
     }
 }
-
-
-
-
 </script>
 
 <template>
-    <CmdTabs v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
+    <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
-           <div class="flex-container">
-                <div>
-                    <h3>View</h3>
-                    <h4>Box (default)</h4>
+            <h2>Example #1 (content given by property)</h2>
+            <ViewCodeData :isFirstComponent="true" :code="CmdCode">
+                <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
                     <CmdBox :cmdCustomHeadline="{ headline: {text: 'Headline given by property', level: '3'}}" textBody="Content given by property" />
+                </teleport>
+            </ViewCodeData>
+            <hr />
+            <h2>Example #2 (content given by slot)</h2>
+            <ViewCodeData :code="CmdCode">
                     <h4>Box with slot</h4>
                     <CmdBox :useSlot="true">
                         <template v-slot:header>
@@ -74,22 +75,20 @@ const propertyStructures = {
                             </p>
                         </template>
                     </CmdBox>
-                    <h4>Box product</h4>
-                    <CmdBox boxType="product" :product="boxesProduct[0]"/>
-                    <h4>Box user</h4>
-                    <CmdBox boxType="user" :user="boxesUser[0]"/>
-                </div>
-                <div>
-                    <h3>Code</h3>
-                    <ComponentCode :code="CmdCode" />
-                </div>
-                <div>
-                    <h3>Data</h3>
-                    <ComponentCode :code="boxesUser[0]" language="json" />
-                </div>
-            </div>
+            </ViewCodeData>
+            <hr />
+            <h2>Example #3 (Box product)</h2>
+            <ViewCodeData :code="CmdCode">
+                <h4>Box product</h4>
+                <CmdBox boxType="product" :product="boxesProduct[0]"/>
+            </ViewCodeData>
+            <hr />
+            <h2>Example #4 (Box user)</h2>
+            <ViewCodeData :code="CmdCode">
+                <h4>Box user</h4>
+                <CmdBox boxType="user" :user="boxesUser[0]"/>
+            </ViewCodeData>
         </template>
-
         <template v-slot:tab-content-1>
             <ComponentProperties :properties="CmdBox.props" :propertyDescriptions="propertyDescriptions" :propertyStructures="propertyStructures" />
         </template>

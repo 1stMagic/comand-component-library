@@ -1,11 +1,12 @@
 <script setup>
-
 import {tabProps, tabHandlers} from "../tabs"
 import CmdBoxSiteSearch from "../../components/CmdBoxSiteSearch"
 import ComponentProperties from "../components/ComponentProperties"
-import ComponentCode from "../components/ComponentCode"
+import {isFrameMode} from "../../utils/common"
+import ViewCodeData from "../components/ViewCodeData"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdBoxSiteSearchHelp"
+
 import propertyDescriptions from "../generated/CmdBoxSiteSearchPropertyDescriptions"
 
 const propertyStructures = {
@@ -24,30 +25,17 @@ const propertyStructures = {
     showLegend: "-",
     textLegend: "-"
 }
-
-
-
-
 </script>
 
 <template>
-    <CmdTabs v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
+    <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
-           <div class="flex-container">
-                <div>
-                    <h3>View</h3>
-                    <CmdBoxSiteSearch text-legend="Legend" />
-                </div>
-                <div>
-                    <h3>Code</h3>
-                    <ComponentCode :code="CmdCode" />
-                </div>
-                <div>
-                    <h3>Data</h3>
-                </div>
-            </div>
+            <ViewCodeData :isFirstComponent="true" :code="CmdCode">
+                <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
+                    <CmdBoxSiteSearch text-legend="Legend" :results="420" :cmdCustomHeadline="{text: 'Search site', level: 3}" />
+                </teleport>
+            </ViewCodeData>
         </template>
-
         <template v-slot:tab-content-1>
             <ComponentProperties :properties="CmdBoxSiteSearch.props" :propertyDescriptions="propertyDescriptions" :propertyStructures="propertyStructures" />
         </template>

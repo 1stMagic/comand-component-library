@@ -1,5 +1,5 @@
 <template>
-    <div :class="['cmd-share-buttons',{'stretch': stretchButtons}]">
+    <div :class="['cmd-share-buttons',{'stretch': stretchButtons, 'align-right': align === 'right'}]">
         <a class="button" v-for="(shareButton, index) in shareButtons" :key="index" :id="shareButton.id"
            :href="shareButton.path" :title="shareButton.tooltip">
             <span v-if="shareButton.iconClass" :class="shareButton.iconClass"></span>
@@ -13,11 +13,20 @@ export default {
     name: "CmdContentFooter",
     props: {
         /**
+         * set horizontal alignment
+         *
+         * @allowedValues: left, right
+         */
+        align: {
+            type: String,
+            required: false
+        },
+        /**
          * stretch-buttons to share horizontal space vertically
          */
         stretchButtons: {
             type: Boolean,
-            default: true
+            default: false
         },
         /**
          * list of share-buttons (i.e. facebook, twitter etc.)
@@ -35,11 +44,14 @@ export default {
 /* begin cmd-share-buttons -------------------------------------------------------------------------------------------- */
 .cmd-share-buttons {
     display: flex;
-    margin: calc(var(--default-margin) * 2) 0 0 0;
+    gap: var(--default-gap);
+
+    &.align-right {
+        justify-content: flex-end;
+    }
 
     .button {
         padding: calc(var(--default-padding) / 2) var(--default-padding);
-        margin-left: var(--default-margin);
 
         &:first-of-type {
             margin: 0;

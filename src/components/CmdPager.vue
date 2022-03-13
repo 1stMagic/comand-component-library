@@ -1,8 +1,5 @@
 <template>
     <div class="cmd-pager">
-        <p>
-            Content: {{ currentPage }} of {{ numberOfPages }}
-        </p>
         <div class="pager">
             <!-- begin button to previous page -->
             <a class="page-change" :class="{'disabled': currentPage === 1, 'button': showLinksAsButtons}"

@@ -3,7 +3,8 @@
 import {tabProps, tabHandlers} from "../tabs"
 import CmdTooltip from "../../components/CmdTooltip"
 import ComponentProperties from "../components/ComponentProperties"
-import ComponentCode from "../components/ComponentCode"
+import {isFrameMode} from "../../utils/common"
+import ViewCodeData from "../components/ViewCodeData"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdTooltipHelp"
 import propertyDescriptions from "../generated/CmdTooltipPropertyDescriptions"
@@ -15,18 +16,13 @@ const propertyStructures = {
         tooltip: "<string>"
     }
 }
-
-
-
-
 </script>
 
 <template>
-    <CmdTabs v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
+    <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
-            <div class="flex-container">
-                <div>
-                    <h3>View</h3>
+            <ViewCodeData :isFirstComponent="true" :code="CmdCode">
+                <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
                     <p>
                         <a href="#" @click.prevent id="hoverme">Hover me!</a><br/>
                         <a href="#" @click.prevent id="clickme" title="Native tooltip">Click me!</a>
@@ -40,15 +36,8 @@ const propertyStructures = {
                         :toggle-visibility-by-click="true">
                         Tooltip for click
                     </CmdTooltip>
-                </div>
-                <div>
-                    <h3>Code</h3>
-                    <ComponentCode :code="CmdCode"/>
-                </div>
-                <div>
-                    <h3>Data</h3>
-                </div>
-            </div>
+                </teleport>
+            </ViewCodeData>
         </template>
         <template v-slot:tab-content-1>
             <ComponentProperties :properties="CmdTooltip.props" :propertyDescriptions="propertyDescriptions" :propertyStructures="propertyStructures"/>

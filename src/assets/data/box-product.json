@@ -1,7 +1,7 @@
 [
   {
     "name": "Product name 1",
-    "img": {
+    "image": {
       "src": "media/images/thumbnail-scroller/original/logo-cmd-blue-landscape.jpg",
       "alt": "Alternative text"
     },
@@ -13,7 +13,7 @@
   },
   {
     "name": "Product name 2",
-    "img": {
+    "image": {
       "src": "media/images/thumbnail-scroller/original/logo-cmd-green-landscape.jpg",
       "alt": "Alternative text"
     },
@@ -25,7 +25,7 @@
   },
   {
     "name": "Product name 3",
-    "img": {
+    "image": {
       "src": "media/images/thumbnail-scroller/original/logo-cmd-red-landscape.jpg",
       "alt": "Alternative text"
     },
@@ -37,7 +37,7 @@
   },
   {
     "name": "Product name 4",
-    "img": {
+    "image": {
       "src": "media/images/thumbnail-scroller/original/logo-cmd-yellow-landscape.jpg",
       "alt": "Alternative text"
     },

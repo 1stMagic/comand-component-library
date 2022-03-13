@@ -59,8 +59,8 @@
 <script>
 // import files for translations
 import I18n from "../mixins/I18n"
-import DefaultMessageProperties from "../mixins/CmdSiteSearch/DefaultMessageProperties"
-import CmdCustomHeadline from "./CmdCustomHeadline";
+import DefaultMessageProperties from "../mixins/CmdBox/DefaultMessageProperties"
+import CmdCustomHeadline from "./CmdCustomHeadline"
 
 export default {
     name: "CmdBox",

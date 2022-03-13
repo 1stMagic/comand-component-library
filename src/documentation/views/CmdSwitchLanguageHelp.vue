@@ -3,7 +3,8 @@ import {ref} from "vue"
 import {tabProps, tabHandlers} from "../tabs"
 import CmdSwitchLanguage from "../../components/CmdSwitchLanguage"
 import ComponentProperties from "../components/ComponentProperties"
-import ComponentCode from "../components/ComponentCode"
+import {isFrameMode} from "../../utils/common"
+import ViewCodeData from "../components/ViewCodeData"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdSwitchLanguageHelp"
 import switchLanguage from '../../assets/data/switch-language'
@@ -25,10 +26,6 @@ const propertyStructures = {
     ]
 }
 
-
-
-
-
 function selectLanguage(event) {
     // event contains the original event and the language as an object
     event.originalEvent.preventDefault() // prevent original event
@@ -37,29 +34,22 @@ function selectLanguage(event) {
 </script>
 
 <template>
-    <CmdTabs v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
+    <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
-            <div class="flex-container">
-                <div>
-                    <h3>View</h3>
+            <ViewCodeData :isFirstComponent="true" :code="CmdCode" :data="switchLanguage">
+                <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
                     <CmdSwitchLanguage
                         :languages="switchLanguage"
                         @click="selectLanguage"
                     />
-                    <dl v-if="currentLanguage">
-                        <dt>Current language:</dt>
-                        <dd>{{ currentLanguage.name }}</dd>
-                    </dl>
-                </div>
-                <div>
-                    <h3>Code</h3>
-                    <ComponentCode :code="CmdCode"/>
-                </div>
-                <div>
-                    <h3>Data</h3>
-                    <ComponentCode :code="switchLanguage" language="json"/>
-                </div>
-            </div>
+                </teleport>
+                <dl v-if="currentLanguage">
+                    <dt>Current language:</dt>
+                    <dd>
+                        <output>{{ currentLanguage.name }}</output>
+                    </dd>
+                </dl>
+            </ViewCodeData>
         </template>
         <template v-slot:tab-content-1>
             <ComponentProperties :properties="CmdSwitchLanguage.props" :propertyDescriptions="propertyDescriptions" :propertyStructures="propertyStructures"/>

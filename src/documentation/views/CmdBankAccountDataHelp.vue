@@ -3,7 +3,8 @@ import {tabProps, tabHandlers} from "../tabs"
 import CmdBankAccountData from "../../components/CmdBankAccountData"
 import ComponentProperties from "../components/ComponentProperties"
 import * as componentPropertiesFunctions from "../components/ComponentProperties"
-import ComponentCode from "../components/ComponentCode"
+import {isFrameMode} from "../../utils/common"
+import ViewCodeData from "../components/ViewCodeData"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdBankAccountDataHelp"
 import bankAccountData from "../../assets/data/bank-account-data"
@@ -26,26 +27,17 @@ const propertyStructures = {
 </script>
 
 <template>
-    <CmdTabs v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
+    <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
-            <div class="flex-container">
-                <div>
-                    <h3>View</h3>
+            <ViewCodeData :isFirstComponent="true" :code="CmdCode">
+                <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
                     <CmdBankAccountData
                         :account-data="bankAccountData"
                         :allow-copy-by-click="true"
                         :cmd-custom-headline="{ text: 'Bank Account', level: 4}"
                     />
-                </div>
-                <div>
-                    <h3>Code</h3>
-                    <ComponentCode :code="CmdCode"/>
-                </div>
-                <div>
-                    <h3>Data</h3>
-                    <ComponentCode :code="bankAccountData" language="json"/>
-                </div>
-            </div>
+                </teleport>
+            </ViewCodeData>
         </template>
         <template v-slot:tab-content-1>
             <ComponentProperties :properties="CmdBankAccountData.props" :propertyDescriptions="propertyDescriptions" :propertyStructures="propertyStructures"/>

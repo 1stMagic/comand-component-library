@@ -38,7 +38,7 @@
                 <!-- begin default dropdown (incl. optional icon) -->
                 <ul v-if="type === 'default' && showOptions" :aria-expanded="showOptions">
                     <li v-for="(option, index) in selectData" :key="index" role="option">
-                        <a href="#" @click.prevent="selectOption(option.value)" :class="{'active' : option.value === value}">
+                        <a href="#" @click.prevent="selectOption(option.value)" :class="{'active' : option.value === modelValue}">
                             <span v-if="option.icon?.iconClass" :class="option.icon.iconClass"></span>
                             <span>{{ option.text }}</span>
                         </a>
@@ -49,20 +49,20 @@
                 <!-- begin dropdown with checkboxes -->
                 <ul v-else-if="type !== 'default' && type !== 'content' && showOptions" :class="{'checkbox-options': type === 'checkboxOptions'}" :aria-expanded="showOptions">
                     <li v-for="(option, index) in selectData" :key="index">
-                        <label v-if="type === 'checkboxOptions'" :for="'option-' + (index + 1)" :class="{'active' : value.includes(`${option.value}`)}">
+                        <label v-if="type === 'checkboxOptions'" :for="'option-' + (index + 1)" :class="{'active' : modelValue.includes(`${option.value}`)}">
                             <input type="checkbox" :value="option.value" @change="optionSelect"
-                                   :checked="value.includes(`${option.value}`)" :id="'option-' + (index + 1)"/>
+                                   :checked="modelValue.includes(`${option.value}`)" :id="'option-' + (index + 1)"/>
                             <span>{{ option.text }}</span>
                         </label>
 
                         <a v-else-if="type === 'country'" href="#"
-                           @click.prevent="selectOption(option.value)" :class="{'active' : option.value === value}">
+                           @click.prevent="selectOption(option.value)" :class="{'active' : option.value === modelValue}">
                             <img class="flag" :src="pathFlag(option.value)"
                                  :alt="option.text"/>
                             <span>{{ option.text }}</span>
                         </a>
 
-                        <a v-else-if="type === 'color'" href="#" @click.prevent="selectOption(option.value)" :class="{'active' : option.value === value}">
+                        <a v-else-if="type === 'color'" href="#" @click.prevent="selectOption(option.value)" :class="{'active' : option.value === modelValue}">
                             <span class="color" :style="'background: ' + option.value"></span>
                             <span>{{ option.text }}</span>
                         </a>
@@ -92,9 +92,9 @@
             <h6>Requirements for input<br />"{{labelText}}"</h6>
             <dl class="list-of-requirements">
                 <template v-for="(requirement, index) in inputRequirements" :key="index">
-                    <dt aria-live="assertive" :class="requirement.valid(value, $attrs) ? 'success' : 'error'">{{requirement.message}}:</dt>
-                    <dd :class="requirement.valid(value, $attrs) ? 'success' : 'error'">
-                        <span aria-live="assertive" :class="requirement.valid(value, $attrs) ? 'icon-check-circle' : 'icon-error-circle'" :title="requirement.valid(value, $attrs) ? 'success' : 'error'"></span>
+                    <dt aria-live="assertive" :class="requirement.valid(modelValue, $attrs) ? 'success' : 'error'">{{requirement.message}}:</dt>
+                    <dd :class="requirement.valid(modelValue, $attrs) ? 'success' : 'error'">
+                        <span aria-live="assertive" :class="requirement.valid(modelValue, $attrs) ? 'icon-check-circle' : 'icon-error-circle'" :title="requirement.valid(modelValue, $attrs) ? 'success' : 'error'"></span>
                     </dd>
                 </template>
             </dl>
@@ -147,9 +147,9 @@ export default {
             default: "default"
         },
         /**
-         * set default value
+         * set default v-model (must be named modelValue in Vue3)
          */
-        value: {
+        modelValue: {
             type: [String, Array],
             required: false
         },
@@ -216,8 +216,8 @@ export default {
         // get the displayed option name
         optionName() {
             // fake a normal checkbox
-            if (this.type !== "checkboxOptions" && this.type !== "content" && this.value) {
-                const result = this.selectData.find(option => option.value === this.value)?.text
+            if (this.type !== "checkboxOptions" && this.type !== "content" && this.modelValue) {
+                const result = this.selectData.find(option => option.value === this.modelValue)?.text
 
                 // if find() returns some data, return this data
                 if (result) {
@@ -227,10 +227,10 @@ export default {
 
             // selectbox with checkbox-options
             else if (this.type === "checkboxOptions") {
-                if (this.value.length === 1) {
-                    return this.selectData.find(option => option.value === this.value[0])?.text
-                } else if (this.value.length > 1) {
-                    return this.value.length + " options selected"
+                if (this.modelValue.length === 1) {
+                    return this.selectData.find(option => option.value === this.modelValue[0])?.text
+                } else if (this.modelValue.length > 1) {
+                    return this.modelValue.length + " options selected"
                 }
             }
 
@@ -244,25 +244,25 @@ export default {
         optionIcon() {
             if (this.type === "default") {
                 return this.selectData.find(option => {
-                    return option.value === this.value
+                    return option.value === this.modelValue
                 })?.icon?.iconClass
             }
             return null
         },
         optionCountry() {
             if (this.type === "country") {
-                return this.value
+                return this.modelValue
             }
             return null
         },
         optionColor() {
             if (this.type === "color") {
-                return this.value
+                return this.modelValue
             }
             return null
         },
         selectAllOptionsText() {
-            if(Array.isArray(this.value) && this.value.length === this.selectData.length) {
+            if(Array.isArray(this.modelValue) && this.modelValue.length === this.selectData.length) {
                 return "Deselect all options"
             }
             return "Select all options"
@@ -285,7 +285,7 @@ export default {
         toggleAllOptions() {
             this.validationStatus = "success"
             const checkboxValues = []
-            if(this.value.length === this.selectData.length) {
+            if(this.modelValue.length === this.selectData.length) {
                 if(this.$attrs.required) {
                     this.validationStatus = "error"
                 }
@@ -295,7 +295,7 @@ export default {
                 }
             }
 
-            this.$emit("update:value", checkboxValues)
+            this.$emit("update:modelValue", checkboxValues)
         },
         limitWidth() {
             if(this.$refs.fakeselect) {
@@ -318,13 +318,13 @@ export default {
             }
 
             this.showOptions = false
-            this.$emit('update:value', optionValue);
+            this.$emit('update:modelValue', optionValue);
         },
         // check if a checkbox is changed for selectbox with checkboxes
         optionSelect(event) {
             this.validationStatus = "success"
 
-            let value = [...this.value] // copy array from props
+            let value = [...this.modelValue] // copy array from props
             if (event.target.checked) {
                 value.push(event.target.value); // attention: value will be transformed into string!
             } else {
@@ -334,7 +334,7 @@ export default {
                 this.validationStatus = "error"
             }
 
-            this.$emit('update:value', value);
+            this.$emit('update:modelValue', value);
         },
         closeOptions() {
             this.showOptions = false
@@ -345,10 +345,11 @@ export default {
         onBlur() {
             this.validationStatus = "success"
 
-            if (this.$attrs.required !== undefined && (!this.value || this.value.length === 0)) {
+            if (this.$attrs.required !== undefined && (!this.modelValue || this.modelValue.length === 0)) {
                 this.validationStatus = "error"
             }
         },
+        // overwrite requirement-message form fieldValidation.js
         getRequirementMessage() {
             return "An option is selected"
         }
@@ -359,6 +360,16 @@ export default {
                 this.validationStatus = this.status
             },
             immediate: true
+        },
+        selectData: {
+            handler() {
+              // check if given value by modelValue exists (else pre-select first option)
+              if(this.selectData?.length && !this.selectData.some((option) => option.value === this.modelValue)) {
+                  this.$emit("update:modelValue", this.selectData[0].value)
+              }
+            },
+            immediate: true,
+            deep: true
         }
     }
 }

@@ -3,13 +3,14 @@
 import {tabProps, tabHandlers} from "../tabs"
 import CmdSiteHeader from "../../components/CmdSiteHeader"
 import CmdCompanyLogo from "../../components/CmdCompanyLogo"
-import CmdTopHeaderNavigation from "../../components/CmdTopHeaderNavigation"
+import CmdListOfLinks from "../../components/CmdListOfLinks"
 import ComponentProperties from "../components/ComponentProperties"
-import ComponentCode from "../components/ComponentCode"
+import {isFrameMode} from "../../utils/common"
+import ViewCodeData from "../components/ViewCodeData"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdSiteHeaderHelp"
 import mainNavigation from '../../assets/data/main-navigation'
-import topHeaderNavigation from '../../assets/data/top-header-navigation'
+import listOfLinks from '../../assets/data/list-of-links-top-header-navigation'
 import companyLogo from '../../assets/data/company-logo'
 import propertyDescriptions from "../generated/CmdSiteHeaderPropertyDescriptions"
 
@@ -29,22 +30,19 @@ const propertyStructures = {
         }
     ]
 }
-
-
-
-
 </script>
 
 <template>
-    <CmdTabs v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
+    <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
-            <div class="flex-container">
-                <div>
-                    <h3>View</h3>
+            <ViewCodeData :isFirstComponent="true" :code="CmdCode">
+                <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
                     <CmdSiteHeader :mainNavigationEntries="mainNavigation" :sticky="true">
                         <template v-slot:top-header>
-                            <CmdTopHeaderNavigation
-                                :topHeaderNavigationData="topHeaderNavigation"
+                            <CmdListOfLinks
+                                :links="listOfLinks"
+                                orientation="horizontal"
+                                align="right"
                             />
                         </template>
                         <template v-slot:logo>
@@ -56,16 +54,8 @@ const propertyStructures = {
                             />
                         </template>
                     </CmdSiteHeader>
-                </div>
-                <div>
-                    <h3>Code</h3>
-                    <ComponentCode :code="CmdCode" />
-                </div>
-                <div>
-                    <h3>Data</h3>
-                    <ComponentCode :code="mainNavigation" language="json" />
-                </div>
-            </div>
+                </teleport>
+            </ViewCodeData>
         </template>
         <template v-slot:tab-content-1>
             <ComponentProperties :properties="CmdSiteHeader.props" :propertyDescriptions="propertyDescriptions" :propertyStructures="propertyStructures"/>

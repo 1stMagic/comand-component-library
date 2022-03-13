@@ -142,7 +142,7 @@ function createDetailLink(type) {
 </script>
 
 <template>
-    <h3>Properties</h3>
+    <h2>Properties</h2>
     <table class="table-properties">
         <thead>
             <tr>

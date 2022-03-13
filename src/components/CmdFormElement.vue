@@ -60,7 +60,7 @@
                    @keyup="checkForCapsLock"
                    :autocomplete="datalist ? 'off' : 'on'"
                    :list="datalist ? datalist.id : false"
-                   :value="value"
+                   :value="modelValue"
                    :maxlength="$attrs.maxlength > 0 ? $attrs.maxlength : 255"
                    ref="input"
             />
@@ -125,9 +125,9 @@
                 v-bind="$attrs"
                 :id="id"
                 @blur="onBlur"
-                @change="$emit('input', $event.target.value)">
+                @change="$emit('update:modelValue', $event.target.value)">
             <option v-for="(option, index) in selectOptions" :key="index" :value="option.value"
-                    :selected="option.value === value">{{ option.text }}
+                    :selected="option.value === modelValue">{{ option.text }}
             </option>
         </select>
         <!-- end selectbox -->
@@ -136,7 +136,7 @@
         <textarea v-if="element === 'textarea'"
                   v-bind="$attrs"
                   :id="id"
-                  :value="value"
+                  :value="modelValue"
                   :maxlength="getMaxLength"
                   @input="onInput"
                   @focus="tooltip = true"
@@ -152,7 +152,7 @@
                 :id="id"
                 @input="onInput"
                 :maxlength="$attrs.maxlength > 0 ? $attrs.maxlength : 255"
-                :value="value"/>
+                :value="modelValue"/>
             <button class="no-flex" type="button">
                 <span class="icon-search"></span>
             </button>
@@ -161,8 +161,8 @@
     </label>
 
     <!-- begin button -->
-    <button v-else class="button" v-bind="$attrs">
-        <span v-if="nativeButton?.icon?.show && nativeButton?.icon?.position === 'before'" :class="nativeButton?.icon?.iconClass"></span>
+    <button v-else class="button" v-bind="buttonAttrs">
+        <span v-if="nativeButton?.icon?.show && (nativeButton?.icon?.position === 'before' || !nativeButton?.icon?.position)" :class="nativeButton?.icon?.iconClass"></span>
         <span v-if="nativeButton?.icon && nativeButton?.text">{{ nativeButton.text }}</span>
         <template v-else>
             {{ nativeButton.text }}
@@ -179,10 +179,10 @@
             <h6>Requirements for input<br/>"{{ labelText }}"</h6>
             <dl class="list-of-requirements">
                 <template v-for="(requirement, index) in inputRequirements" :key="index">
-                    <dt aria-live="assertive" :class="requirement.valid(value, $attrs) ? 'success' : 'error'">{{ requirement.message }}:</dt>
-                    <dd :class="requirement.valid(value, $attrs) ? 'success' : 'error'">
-                        <span aria-live="assertive" :class="requirement.valid(value, $attrs) ? 'icon-check-circle' : 'icon-error-circle'"
-                              :title="requirement.valid(value, $attrs) ? 'success' : 'error'"></span>
+                    <dt aria-live="assertive" :class="requirement.valid(modelValue, $attrs) ? 'success' : 'error'">{{ requirement.message }}:</dt>
+                    <dd :class="requirement.valid(modelValue, $attrs) ? 'success' : 'error'">
+                        <span aria-live="assertive" :class="requirement.valid(modelValue, $attrs) ? 'icon-check-circle' : 'icon-error-circle'"
+                              :title="requirement.valid(modelValue, $attrs) ? 'success' : 'error'"></span>
                     </dd>
                 </template>
             </dl>
@@ -224,9 +224,9 @@ export default {
     },
     props: {
         /**
-         * set value for v-model
+         * set value for v-model (must be names modelValue in vue3)
          */
-        value: {
+        modelValue: {
             type: [String, Boolean, Array, Number],
             default: ""
         },
@@ -419,6 +419,17 @@ export default {
         }
     },
     computed: {
+        buttonAttrs() {
+            // copy all native attributes
+            const allAttrs = {...this.$attrs}
+
+            // check if specific tooltip for icon is set (and add as title-attribute)
+            if(this.nativeButton.icon?.tooltip) {
+                allAttrs.title = this.nativeButton.icon?.tooltip
+            }
+
+            return allAttrs
+        },
         tooltipHeadline() {
             return {
                 text: this.labelText,
@@ -426,22 +437,22 @@ export default {
             }
         },
         isChecked() {
-            if (typeof this.value === "boolean") {
-                return this.value
+            if (typeof this.modelValue === "boolean") {
+                return this.modelValue
             }
-            if (typeof this.value === "string") {
-                return this.value === this.inputValue
+            if (typeof this.modelValue === "string") {
+                return this.modelValue === this.inputValue
             }
-            if (typeof this.value === "number") {
-                return this.value === this.inputValue
+            if (typeof this.modelValue === "number") {
+                return this.modelValue === this.inputValue
             }
-            if (this.value !== undefined) {
-                return this.value.includes(this.inputValue)
+            if (this.modelValue !== undefined) {
+                return this.modelValue.includes(this.inputValue)
             }
             return false
         },
         charactersTextarea() {
-            return "Characters: " + this.value.length + "/" + this.getMaxLength()
+            return "Characters: " + this.modelValue.length + "/" + this.getMaxLength()
         },
         validationTooltip() {
             if (!this.useCustomTooltip) {
@@ -475,7 +486,7 @@ export default {
                 this.validationStatus = ""
 
                 // if input is filled, set status to success (expect for checkboxes and radiobuttons)
-                if (!["checkbox", "radio"].includes(this.$attrs.type) && this.value) {
+                if (!["checkbox", "radio"].includes(this.$attrs.type) && this.modelValue) {
                     this.validationStatus = "success"
                 }
 
@@ -485,7 +496,7 @@ export default {
                     if (this.customRequirements) {
                         // check if customRequirement returns invalid result
                         const invalidCustomRequirement = this.customRequirements.some(requirement => {
-                            return !requirement.valid(this.value)
+                            return !requirement.valid(this.modelValue)
                         })
 
                         // set validation-status if invalidCustomRequirement returns at least one invalid entry
@@ -497,18 +508,18 @@ export default {
             }
         },
         onChange(event) {
-            if (typeof this.value === "boolean") {
-                this.$emit("update:value", event.target.checked)
-            } else if (typeof this.value === "string") {
-                this.$emit("update:value", event.target.value)
-            } else if (this.value !== undefined) {
-                let values = [...this.value]
+            if (typeof this.modelValue === "boolean") {
+                this.$emit("update:modelValue", event.target.checked)
+            } else if (typeof this.modelValue === "string") {
+                this.$emit("update:modelValue", event.target.value)
+            } else if (this.modelValue !== undefined) {
+                let values = [...this.modelValue]
                 if (event.target.checked) {
                     values.push(event.target.value)
                 } else {
                     values = values.filter(value => value !== event.target.value)
                 }
-                this.$emit("update:value", values)
+                this.$emit("update:modelValue", values)
             }
         },
         datalistFocus() {
@@ -518,7 +529,7 @@ export default {
             }
         },
         onInput(event) {
-            this.$emit('update:value', event.target.value)
+            this.$emit('update:modelValue', event.target.value)
         },
         showPassword() {
             // get password-field

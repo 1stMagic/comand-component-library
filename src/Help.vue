@@ -1,17 +1,19 @@
 <template>
     <div id="documentation">
-        <nav v-if="!isFrameMode()" class="flex-container">
-            <template v-for="startingLetter in startingLetters" :key="startingLetter">
-                <h4>{{ startingLetter }}</h4>
-                <ul>
-                    <li v-for="componentName in componentNamesWithStartingLetter(startingLetter)" :key="componentName">
-                        <router-link :to="{name: componentName}">{{ componentNameText(componentName) }}</router-link>
-                    </li>
-                </ul>
-            </template>
-        </nav>
+        <div class="nav-wrapper">
+            <nav v-if="!isFrameMode()" class="flex-container">
+                <template v-for="startingLetter in startingLetters" :key="startingLetter">
+                    <h4>{{ startingLetter }}</h4>
+                    <ul>
+                        <li v-for="componentName in componentNamesWithStartingLetter(startingLetter)" :key="componentName">
+                            <router-link :to="{name: componentName}">{{ componentNameText(componentName) }}</router-link>
+                        </li>
+                    </ul>
+                </template>
+            </nav>
+        </div>
         <router-view></router-view>
-        <CmdBackToTopButton />
+        <CmdBackToTopButton/>
     </div>
 </template>
 
@@ -28,9 +30,9 @@ export default {
         },
         startingLetters() {
             const startingLetters = []
-            for(let i = 0 ; i < this.componentNames.length ; i++) {
+            for (let i = 0; i < this.componentNames.length; i++) {
                 const componentStartingLetter = this.getComponentStartingLetter(this.componentNames[i])
-                if(!startingLetters.includes(componentStartingLetter)) {
+                if (!startingLetters.includes(componentStartingLetter)) {
                     startingLetters.push(componentStartingLetter)
                 }
             }
@@ -46,10 +48,10 @@ export default {
         },
         componentNamesWithStartingLetter(startingLetter) {
             const components = []
-            for(let i = 0 ; i < this.componentNames.length ; i++) {
+            for (let i = 0; i < this.componentNames.length; i++) {
                 const componentStartingLetter = this.getComponentStartingLetter(this.componentNames[i])
 
-                if(startingLetter === componentStartingLetter) {
+                if (startingLetter === componentStartingLetter) {
                     components.push(this.componentNames[i])
                 }
             }
@@ -66,30 +68,38 @@ export default {
 #documentation {
     display: flex;
 
-    > nav  {
-        flex: none;
-        width: auto;
-        flex-direction: column;
-        gap: 0;
-        padding: var(--default-padding) 0;
+    .nav-wrapper {
         background: var(--default-background-color);
+        flex: none;
         border-right: var(--default-border);
         box-shadow: .2rem 0 .4rem #999;
 
-        h4 {
-            padding-left: var(--default-padding);
-            margin-bottom: 0;
-        }
-
-        ul {
+        nav {
+            width: auto;
             flex-direction: column;
-            border: 0;
-            background: none;
-            border-top: var(--border-color);
+            gap: 0;
+            padding: var(--default-padding) 0;
 
-            li {
+            h4 {
+                padding-left: var(--default-padding);
+                margin-bottom: 0;
+            }
+
+            ul {
+                flex-direction: column;
                 border: 0;
-                border-bottom: var(--default-border);
+                background: none;
+                border-top: var(--border-color);
+
+                li {
+                    border: 0;
+                    border-bottom: var(--default-border);
+
+                    a.router-link-active {
+                        background: var(--primary-color);
+                        color: var(--pure-white);
+                    }
+                }
             }
         }
     }

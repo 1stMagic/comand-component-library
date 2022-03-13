@@ -1,7 +1,7 @@
 {
-    "value": {
+    "modelValue": {
         "comments": [
-            "set value for v-model"
+            "set value for v-model (must be names modelValue in vue3)"
         ]
     },
     "element": {

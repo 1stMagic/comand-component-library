@@ -1,0 +1,25 @@
+[
+  {
+    "iconClass": "icon-user-profile",
+    "type": "href",
+    "text": "",
+    "path": "#",
+    "target": "",
+    "tooltip": "Link without name, but tooltip"
+  },
+  {
+    "type": "href",
+    "text": "Link as href",
+    "path": "",
+    "target": "",
+    "fancybox": true
+  },
+  {
+    "iconClass": "icon-export",
+    "type": "href",
+    "text": "CoManD-Website",
+    "path": "http://www.comand-cms.com",
+    "target": "_blank",
+    "tooltip": "Open CoManD-Website in new tab"
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "type": "href",
+    "path": "/",
+    "iconClass": "icon-home",
+    "tooltip": "Home"
+  },
+  {
+    "type": "href",
+    "path": "/",
+    "iconClass": "icon-mail",
+    "tooltip": "Contact"
+  },
+  {
+    "type": "href",
+    "path": "/",
+    "iconClass": "icon-user-profile",
+    "tooltip": "Login"
+  }
+]

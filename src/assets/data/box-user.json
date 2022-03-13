@@ -1,7 +1,7 @@
 [
   {
     "name": "User name 1",
-    "img": "",
+    "image": "",
     "profession": "User profession",
     "position": "User position",
     "description": "Some short description text for further information about the user",
@@ -16,7 +16,7 @@
   },
   {
     "name": "User name 2",
-    "img": "",
+    "image": "",
     "profession": "User profession",
     "position": "User position",
     "links": [
@@ -36,7 +36,7 @@
   },
   {
     "name": "User name 3",
-    "img": "",
+    "image": "",
     "profession": "User profession",
     "position": "User position",
     "links":  [
@@ -62,7 +62,7 @@
   },
   {
     "name": "User name 4",
-    "img": "",
+    "image": "",
     "profession": "User profession",
     "position": "User position",
     "links":  [
