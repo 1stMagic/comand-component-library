@@ -1,7 +1,11 @@
 <template>
     <div :class="['cmd-share-buttons',{'stretch': stretchButtons, 'align-right': align === 'right'}]">
-        <a class="button" v-for="(shareButton, index) in shareButtons" :key="index" :id="shareButton.id"
-           :href="shareButton.path" :title="shareButton.tooltip">
+        <a v-for="shareButton in validShareButtons"
+           :key="shareButton.path" class="button"
+           :id="shareButton.id"
+           :href="getUrl(shareButton)"
+           target="_blank"
+           :title="shareButton.tooltip">
             <span v-if="shareButton.iconClass" :class="shareButton.iconClass"></span>
             <span v-if="shareButton.linkText">{{ shareButton.linkText }}</span>
         </a>
@@ -10,7 +14,7 @@
 
 <script>
 export default {
-    name: "CmdContentFooter",
+    name: "CmdShareButtons",
     props: {
         /**
          * set horizontal alignment
@@ -34,14 +38,53 @@ export default {
         shareButtons: {
             type: Array,
             required: true
+        },
+        /**
+         * page to share (appended to social-bookmark-url)
+         *
+         * appendPage-property must be activated
+         */
+        page: {
+            type: String,
+            required: false
+        },
+        /**
+         * activate if page to share is not given by json-data)
+         */
+        appendPage: {
+            type: Boolean,
+            default: true
+        }
+    },
+    computed: {
+        validShareButtons() {
+            return this.shareButtons.filter(item => item.path)
+        }
+    },
+    methods: {
+        getUrl(shareButton) {
+            // if path is not given completely by json-data
+            if(this.appendPage) {
+                // if page to share is given by property
+                if (this.page) {
+                    return shareButton.path + encodeURIComponent(this.page)
+                }
+
+                // if current page should be append to url
+                return shareButton.path + encodeURIComponent(location.href)
+            }
+
+            // if path is given completely by json-data
+            return shareButton.path
         }
     }
 }
 </script>
 
 <style lang="scss">
-@import '../assets/styles/variables';
 /* begin cmd-share-buttons -------------------------------------------------------------------------------------------- */
+@import '../assets/styles/variables';
+
 .cmd-share-buttons {
     display: flex;
     gap: var(--default-gap);

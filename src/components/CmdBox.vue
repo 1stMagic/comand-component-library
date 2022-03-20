@@ -1,24 +1,37 @@
 <template>
+    <!-- begin boxType 'content' -->
     <div v-if="boxType === 'content'" class="cmd-box box content">
         <template v-if="useSlot">
             <header>
+                <!-- begin slot 'header' -->
                 <slot name="header"></slot>
+                <!-- end slot 'header' -->
             </header>
             <div class="box-body">
+                <!-- begin slot 'body' -->
                 <slot name="body"></slot>
+                <!-- end slot 'body' -->
             </div>
             <footer>
+                <!-- begin slot 'footer' -->
                 <slot name="footer"></slot>
+                <!-- end slot 'footer' -->
             </footer>
         </template>
         <template v-else>
-            <CmdCustomHeadline :iconClass="cmdCustomHeadline.iconClass" :preHeadline="cmdCustomHeadline.preHeadline"  :headline="cmdCustomHeadline.headline"/>
-            <div class="box-body padding">
-                <p>{{ textBody }}</p>
+            <!-- begin CmdCustomHeadline -->
+            <CmdCustomHeadline v-if="cmdCustomHeadline?.headlineText"
+                               v-bind="cmdCustomHeadline || {}" />
+            <!-- end CmdCustomHeadline -->
+            <div class="box-body">
+                <p class="padding">{{ textBody }}</p>
             </div>
         </template>
     </div>
-    <a v-else-if="boxType === 'product'" class="cmd-box box product" href="#" @click.prevent="">
+    <!-- end boxType 'content' -->
+
+    <!-- begin boxType 'product' -->
+    <a v-else-if="boxType === 'product' && product" class="cmd-box box product" href="#" @click.prevent="clickOnProduct(product)">
         <div>
             <img v-if="product.image" :src="product.image.src" :alt="product.image.alt"/>
             <div class="ribbon-new" v-if="product.new">
@@ -27,19 +40,30 @@
             <div v-if="product.discount" class="ribbon-discount">
                 <span>{{ product.discount }}</span>
             </div>
+            <!-- begin CmdCustomHeadline -->
+            <CmdCustomHeadline v-if="cmdCustomHeadline?.headlineText || product.name"
+                               v-bind="cmdCustomHeadline || {}"
+                               :headlineText="cmdCustomHeadline?.headlineText ? cmdCustomHeadline?.headlineText : product.name"/>
+            <!-- end CmdCustomHeadline -->
         </div>
         <div class="box-body">
-            <h3 v-if="product.name">{{ product.name }}</h3>
             <p v-if="product.articleNumber">{{ getMessage("cmdbox.productbox.article_no") }} {{ product.articleNumber }}</p>
             <p v-if="product.price" class="price">{{ product.price }}</p>
             <p v-if="product.description">{{ product.description }}</p>
         </div>
     </a>
-    <div v-else-if="boxType === 'user'" class="cmd-box box user">
+    <!-- end boxType 'product' -->
+
+    <!-- begin boxType 'user' -->
+    <div v-else-if="boxType === 'user' && user" class="cmd-box box user">
         <div>
             <img v-if="user.image" :src="user.image.src" :alt="user.image.alt"/>
-            <div v-else class="icon-user-profile"></div>
-            <h3 v-if="user.name">{{ user.name }}</h3>
+            <div v-else :class="defaultProfileIconClass" :title="user.name"></div>
+            <!-- begin CmdCustomHeadline -->
+            <CmdCustomHeadline v-if="cmdCustomHeadline?.headlineText || user.name"
+                               v-bind="cmdCustomHeadline || {}"
+                               :headlineText="cmdCustomHeadline?.headlineText ? cmdCustomHeadline?.headlineText : user.name"/>
+            <!-- end CmdCustomHeadline -->
         </div>
         <div class="box-body">
             <p v-if="user.profession">{{ user.profession }}</p>
@@ -47,25 +71,31 @@
             <p v-if="user.description" class="description">{{ user.description }}</p>
         </div>
         <footer v-if="user.links">
-            <ul class="flex-container no-gap">
-                <li v-for="(link, linkIndex) in user.links" :key="linkIndex">
-                    <a :href="link.href" :target="link.target" :title="link.title" :class="link.iconClass"></a>
-                </li>
-            </ul>
+            <CmdListOfLinks :links="user.links" orientation="horizontal" :useGap="false" />
         </footer>
     </div>
+    <!-- end boxType 'user' -->
 </template>
 
 <script>
-// import files for translations
+// import mixins
 import I18n from "../mixins/I18n"
 import DefaultMessageProperties from "../mixins/CmdBox/DefaultMessageProperties"
+
+// import components
 import CmdCustomHeadline from "./CmdCustomHeadline"
+import CmdListOfLinks from "./CmdListOfLinks"
 
 export default {
     name: "CmdBox",
-    components: {CmdCustomHeadline},
-    mixins: [I18n, DefaultMessageProperties],
+    components: {
+        CmdCustomHeadline,
+        CmdListOfLinks,
+    },
+    mixins: [
+        I18n, DefaultMessageProperties
+    ],
+    emits: ['click'],
     props: {
         /**
          * set boxtype to show different types of boxes/contents
@@ -78,9 +108,16 @@ export default {
             default: "content"
         },
         /**
+         * set default profile-icon (will eb shown if no user-image exists)
+         */
+        defaultProfileIconClass: {
+            type: String,
+            default: "icon-user-profile"
+        },
+        /**
          * the shown product (incl. name, price, image, description)
          *
-         * limitations: only available for boxtype===product
+         * @required: only available for boxtype===product
          */
         product: {
             type: Object,
@@ -89,7 +126,7 @@ export default {
         /**
          * the shown user-profile (incl. name, image, contact-data)
          *
-         * limitations: only available for boxtype===user
+         * @required: only available for boxtype===user
          */
         user: {
             type: Object,
@@ -118,15 +155,12 @@ export default {
          */
         cmdCustomHeadline: {
             type: Object,
-            default() {
-                return {
-                 headline:
-                    {
-                        text: 'Headline for box',
-                        level: '3'
-                    }
-                }
-            }
+            required: false
+        }
+    },
+    methods: {
+        clickOnProduct(product) {
+            this.$emit('click', product)
         }
     }
 }
@@ -138,6 +172,10 @@ export default {
     display: flex;
     flex-direction: column;
     padding: 0;
+
+    > .cmd-custom-headline {
+        margin-bottom: 0;
+    }
 
     .box-body {
         padding: var(--default-padding);
@@ -213,6 +251,15 @@ export default {
             border-bottom-right-radius: var(--border-radius);
             padding: var(--default-padding);
             border-top: var(--default-border);
+        }
+    }
+
+    &.product, &.user {
+        > div {
+            > .cmd-custom-headline {
+                margin-top: var(--default-margin);
+                justify-content: center;
+            }
         }
     }
 
@@ -294,12 +341,6 @@ export default {
                 font-size: 6rem;
                 color: var(--pure-white);
             }
-
-            h3 {
-                margin-top: var(--default-margin);
-                margin-bottom: 0;
-                text-align: center;
-            }
         }
 
         .box-body {
@@ -321,28 +362,34 @@ export default {
             margin-top: auto;
             border-top: var(--default-border);
 
-            ul {
-                margin: 0;
 
+            .cmd-list-of-links {
+                a {
+                   flex: 1;
+                   text-align: center;
+                }
+            }
+
+            ul {
                 li {
                     flex: 1;
-                    margin: 0;
                     list-style-type: none;
 
                     a {
-                        display: block;
                         padding: var(--default-padding);
                         text-align: center;
                         background: var(--pure-white);
                         border-left: var(--default-border);
-
-
                     }
 
                     &:hover, &:active, &:focus {
                         a {
                             background: var(--primary-color);
                             color: var(--pure-white);
+
+                            span, span[class*="icon"] {
+                                color: var(--pure-white);
+                            }
                         }
                     }
 

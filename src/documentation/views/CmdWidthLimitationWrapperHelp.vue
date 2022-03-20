@@ -1,11 +1,15 @@
 <script setup>
-
+// import functions
 import {tabProps, tabHandlers} from "../tabs"
+import {isFrameMode} from "../../utils/common"
+
+// import components
 import CmdWidthLimitationWrapper from "../../components/CmdWidthLimitationWrapper"
 import ComponentProperties from "../components/ComponentProperties"
-import {isFrameMode} from "../../utils/common"
 import ViewCodeData from "../components/ViewCodeData"
 import CmdTabs from "../../components/CmdTabs"
+
+// import example-data
 import CmdCode from "../data/CmdWidthLimitationWrapperHelp"
 import propertyDescriptions from "../generated/CmdWidthLimitationWrapperPropertyDescriptions"
 </script>
@@ -13,6 +17,7 @@ import propertyDescriptions from "../generated/CmdWidthLimitationWrapperProperty
 <template>
     <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
+            <h2>Component</h2>
             <ViewCodeData :isFirstComponent="true" :code="CmdCode">
                 <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
                 <CmdWidthLimitationWrapper>

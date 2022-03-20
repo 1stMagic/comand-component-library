@@ -1,18 +1,19 @@
 <template>
     <div :class="['cmd-list-of-links', 'align-' + align, {box: styleAsBox, horizontal: orientation === 'horizontal'}]">
-        <!-- begin cmd-custom-headline -->
-        <CmdCustomHeadline v-if="cmdCustomHeadline" :headline="cmdCustomHeadline" />
-        <!-- end cmd-custom-headline -->
+        <!-- begin CmdCustomHeadline -->
+        <CmdCustomHeadline v-if="cmdCustomHeadline"
+                           v-bind="cmdCustomHeadline" />
+        <!-- end CmdCustomHeadline -->
 
         <!-- begin list of links -->
-        <ul class="flex-container">
+        <ul :class="['flex-container', {'no-gap': !useGap}]">
             <li v-for="(link, index) in links" :key="index">
                 <!-- begin use href -->
                 <a v-if="link.type === 'href' || link.type === undefined"
                    :href="link.path"
                    :target="link.target"
-                   @click="executeLink(link.path, $event)"
-                   :title="link.tooltip && link.tooltip !== undefined">
+                   @click="executeLink(link, $event)"
+                   :title="link.tooltip && link.tooltip !== undefined ? link.tooltip : undefined">
                     <span v-if="link.iconClass" :class="link.iconClass"></span>
                     <span v-if="link.text">{{ link.text }}</span>
                 </a>
@@ -20,21 +21,12 @@
 
                 <!-- begin use router-link -->
                 <router-link v-else-if="link.type === 'router'"
-                             :to="getRoute(link.path)"
+                             :to="getRoute(link)"
                              :title="link.tooltip">
                     <span v-if="link.iconClass" :class="link.iconClass"></span>
                     <span v-if="link.text">{{ link.text }}</span>
                 </router-link>
                 <!-- end use router-link -->
-
-                <!-- begin use button -->
-                <button v-else-if="link.type === 'button'"
-                    @click="executeLink(link.path, $event)"
-                    :title="link.tooltip">
-                    <span v-if="link.iconClass" :class="link.iconClass"></span>
-                    <span v-if="link.text">{{ link.text }}</span>
-                </button>
-                <!-- end use button -->
             </li>
         </ul>
         <!-- end list of links -->
@@ -42,6 +34,7 @@
 </template>
 
 <script>
+// import functions
 import {getRoute} from "../utilities.js"
 import {openFancyBox} from "./CmdFancyBox.vue"
 
@@ -50,7 +43,9 @@ import CmdCustomHeadline from "./CmdCustomHeadline"
 
 export default {
     name: "CmdListOfLinks",
-    components: {CmdCustomHeadline},
+    components: {
+        CmdCustomHeadline
+    },
     props: {
         /**
          * set horizontal alignment
@@ -87,6 +82,13 @@ export default {
             default: "vertical"
         },
         /**
+         * toggle gab between links
+         */
+        useGap: {
+            type: Boolean,
+            default: true
+        },
+        /**
          * style component like a box
          *
          * @affectsStyling: true
@@ -103,7 +105,7 @@ export default {
         executeLink(link, event) {
             if (link.fancybox) {
                 event.preventDefault()
-                openFancyBox({url: link.link.path})
+                openFancyBox({url: link.path})
             }
         }
     }

@@ -2,14 +2,20 @@
     <ul class="cmd-breadcrumbs">
         <li v-if="breadcrumbLabel">{{ breadcrumbLabel }}</li>
         <li v-for="(link, index) in breadcrumbLinks || []" :key="index">
+            <!-- begin type 'href' -->
             <a  v-if="link.type === 'href'" :href="link.path">
                 <span v-if="link.iconClass" :class="link.iconClass"></span>
                 <span v-if="link.text">{{ link.text }}</span>
             </a>
-            <router-link v-else-if="link.type === 'router'" :to="link.to">
+            <!-- end type 'href' -->
+
+            <!-- begin type 'router' -->
+            <router-link v-else-if="link.type === 'router'" :to="link.path">
                 <span v-if="link.iconClass" :class="link.iconClass"></span>
                 <span v-if="link.text">{{ link.text }}</span>
             </router-link>
+            <!-- end type 'router' -->
+
             <span v-else>
                 <span v-if="link.iconClass" :class="link.iconClass"></span>
                 <span v-if="link.text">{{ link.text }}</span>

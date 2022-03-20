@@ -5,22 +5,24 @@
          role="dialog"
          aria-labelledby="fancybox">
       <div class="popup" :class="{'image' : fancyBoxImageUrl || fancyBoxGallery }">
+        <!-- begin print button -->
         <div class="button-wrapper no-flex"
              v-if="(fancyboxOptions.printButtons && (fancyboxOptions.printButtons.color || fancyboxOptions.printButtons.grayscale)) || fancyboxOptions.closeIcon">
           <a href="#"
-             v-if="fancyboxOptions.printButtons && fancyboxOptions.printButtons.color"
+             v-if="fancyboxOptions.printButtons && fancyboxOptions.printButtons.color && fancyboxOptions.printButtons.color.show"
              :class="['button', fancyboxOptions.printButtons.color.iconClass]"
              :title="fancyboxOptions.printButtons.color.tooltip"
              id="print-color"
              @click.prevent="printInGrayscale = false">
           </a>
           <a href="#"
-             v-if="fancyboxOptions.printButtons && fancyboxOptions.printButtons.grayscale"
+             v-if="fancyboxOptions.printButtons && fancyboxOptions.printButtons.grayscale && fancyboxOptions.printButtons.grayscale.show"
              :class="['button', fancyboxOptions.printButtons.grayscale.iconClass]"
              :title="fancyboxOptions.printButtons.grayscale.tooltip"
              id="print-grayscale"
              @click.prevent="printInGrayscale = true">
           </a>
+          <!-- end print button -->
           <a href="#"
              v-if="fancyboxOptions.closeIcon"
              :class="fancyboxOptions.closeIcon.iconClass"
@@ -35,20 +37,37 @@
           <div v-else-if="fancyBoxContent" class="content" v-html="fancyBoxContent"></div>
           <div v-else-if="fancyBoxElements" class="content"></div>
           <div v-else-if="fancyBoxGallery" class="content">
+            <!-- begin CmdSlideButton -->
             <CmdSlideButton @click.prevent="showPrevItem" slideButtonType="prev" />
+            <!-- end CmdSlideButton -->
+
+            <!-- begin enlarged image -->
             <figure>
-              <img :src="fancyBoxGallery[index].srcImageLarge" :alt="fancyBoxGallery[index].alt"/>
-              <figcaption>{{ fancyBoxGallery[index].figcaption }}</figcaption>
+                <img :src="fancyBoxGallery[index].srcImageLarge" :alt="fancyBoxGallery[index].alt"/>
+                <figcaption>{{ fancyBoxGallery[index].figcaption }}</figcaption>
             </figure>
-            <CmdSlideButton @click.prevent="showNextItem" />
+            <!-- end enlarged image -->
+
+            <!-- begin CmdSlideButton -->
+            <CmdSlideButton @click.prevent="showNextItem"/>
+            <!-- end CmdSlideButton -->
           </div>
           <div v-else class="content">
+            <!-- begin slot-content -->
             <slot></slot>
+            <!-- end slot-content -->
           </div>
         </div>
       </div>
-      <CmdThumbnailScroller v-if="fancyBoxGallery" :thumbnailScrollerItems="[...fancyBoxGallery]"
-                            :allowOpenFancyBox="false" @click="showItem" :imgIndex="index"/>
+      <!-- begin CmdThumbnailScroller -->
+      <CmdThumbnailScroller
+          v-if="fancyBoxGallery"
+          :thumbnailScrollerItems="[...fancyBoxGallery]"
+          :allowOpenFancyBox="false"
+          @click="showItem"
+          :imgIndex="index"
+      />
+      <!-- end CmdThumbnailScroller -->
     </div>
   </transition>
 </template>
@@ -97,10 +116,12 @@
                         },
                         printButtons: {
                             "color": {
+                                show: true,
                                 "iconClass": "icon-print",
                                 "tooltip": "print in color"
                             },
                             "grayscale": {
+                                show: true,
                                 "iconClass": "icon-print",
                                 "tooltip": "print in grayscale"
                             }
@@ -197,7 +218,6 @@
             this.$_FancyBox_scrollHandler = () => {
                 window.scrollTo(0, this.$_FancyBox_verticalScrollPosition)
             }
-
             /* -- end avoid scrolling if fancybox is shown */
 
             this.$watch(

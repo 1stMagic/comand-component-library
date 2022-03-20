@@ -29,12 +29,13 @@ const propertyStructures = {
 <template>
     <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
-            <ViewCodeData :isFirstComponent="true" :code="CmdCode">
+            <h2>Component</h2>
+            <ViewCodeData :isFirstComponent="true" :code="CmdCode" :data="bankAccountData">
                 <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
                     <CmdBankAccountData
                         :account-data="bankAccountData"
                         :allow-copy-by-click="true"
-                        :cmd-custom-headline="{ text: 'Bank Account', level: 4}"
+                        :cmd-custom-headline="{ headlineText: 'Bank Account', headlineLevel: 4}"
                     />
                 </teleport>
             </ViewCodeData>

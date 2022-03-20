@@ -2,18 +2,16 @@
     <div :class="['cmd-accordion flex-container vertical', {'no-gap' : !gapBetween, 'active' : active}]">
         <div v-for="(accordionContent, index) in accordion" :key="index">
             <a v-if="!useCustomHeader" href="#" :title="accordionContent.status ? iconOpen.tooltip : iconClosed.tooltip" @click.prevent="toggleContentVisibility(accordionContent)">
+                <!-- begin slot for headline -->
                 <slot :name="'accordionHeadline' + index">
-                    <component :is="accordionHeadlineLevel">
-                        <span v-if="accordionContent.icon && accordionContent.icon.iconClass" :class="accordionContent.icon.iconClass" :title="accordionContent.icon.tooltip"></span>
-                        <span v-if="accordionContent.headline">{{ accordionContent.headline }}</span>
-                    </component>
+                    <!-- begin CmdCustomHeadline -->
+                    <CmdCustomHeadline v-if="cmdCustomHeadline" v-bind="cmdCustomHeadline" />
+                    <!-- end CmdCustomHeadline -->
                 </slot>
+                <!-- end slot for headline -->
                 <span class="toggle-icon" :class="[accordionContent.status ? iconOpen.iconClass : iconClosed.iconClass]"></span>
             </a>
-            <a v-else href="#" :title="accordionContent.status ? iconOpen.tooltip : iconClosed.tooltip" @click.prevent="toggleContentVisibility(accordionContent)">
-                <slot :name="'customHeadline' + index"><p>{{ accordionContent.headline }}</p></slot>
-                <span class="toggle-icon" :class="[accordionContent.status ?  iconOpen.iconClass : iconClosed.iconClass]"></span>
-            </a>
+            <!-- begin accordion-content -->
             <transition :name="toggleTransition">
                 <div class="accordion-content" v-if="accordionContent.status" aria-expanded="true">
                     <slot :name="'accordionContent' + index">
@@ -21,13 +19,20 @@
                     </slot>
                 </div>
             </transition>
+            <!-- end accordion-content -->
         </div>
     </div>
 </template>
 
 <script>
+// import components
+import CmdCustomHeadline from "./CmdCustomHeadline"
+
 export default {
     name: "CmdAccordion",
+    components: {
+        CmdCustomHeadline
+    },
     data() {
         return {
             accordion: [],
@@ -35,6 +40,13 @@ export default {
         }
     },
     props: {
+        /**
+         * properties for CmdCustomHeadline-component
+         */
+        cmdCustomHeadline: {
+            type: Object,
+            required: false
+        },
         /**
          * use transition to expand accordion-content
          */
@@ -59,30 +71,11 @@ export default {
             default: false
         },
         /**
-         * set if a gap is shown between multiple accordions
+         * set if a gap should be shown between multiple accordions
          */
         gapBetween: {
             type: Boolean,
             default: true
-        },
-        /**
-         * headline for accordion-box that is also visible is accordion is collapsed
-         *
-         * @allowedValues: h2, h3, h4, h5, h6
-         */
-        accordionHeadlineLevel: {
-            type: String,
-            default: "h3",
-            validator(value) {
-                const allowedTags = ["h2", "h3", "h4", "h5", "h6"]
-
-                // check if allowedTags includes given value for this property (if not output warning in console)
-                if (!allowedTags.includes(value)) {
-                    console.warn("Not allowed tag (" + value + ") used for accordionHeadline-property! Allowed tags are: " + allowedTags)
-                    return false
-                }
-                return true
-            }
         },
         /**
          * all information about the contents in all shown accordions
@@ -199,7 +192,7 @@ export default {
                     border-color: var(--primary-color);
                 }
 
-                > * {
+                * {
                     color: var(--pure-white);
                 }
             }
@@ -208,7 +201,7 @@ export default {
                 margin: 0;
             }
 
-            > h2, > h3, > h4, > h5, > h6 {
+            > h2, > h3, > h4, > h5, > h6, .cmd-custom-headline {
                 margin-bottom: 0;
                 display: flex;
                 align-items: center;

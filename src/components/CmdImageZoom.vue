@@ -1,15 +1,23 @@
 <template>
     <div class="grid-container-create-columns cmd-imagezoom">
         <div class="grid-small-item">
+            <!-- begin small image -->
             <a href="#" class="thumbnails-imagezoom">
-                <img :src="smallImageUrl" alt="Small Image" @mouseover="onMouseOver" @mousemove="onMouseMove"
+                <img :src="smallImageUrl"
+                     alt="Small Image"
+                     @mouseover="onMouseOver"
+                     @mousemove="onMouseMove"
                      @mouseout="onMouseOut"/>
             </a>
+            <!-- end small image -->
         </div>
+
+        <!-- begin large image -->
         <div v-if="showLargeImage" class="zoom-container grid-large-item">
             <img :src="largeImageUrl" alt="Large Image"/>
         </div>
         <div v-if="showLargeImage" class="zoom-overlay"></div>
+        <!-- end large image -->
     </div>
 </template>
 

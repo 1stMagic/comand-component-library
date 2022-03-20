@@ -1,27 +1,33 @@
 [
   {
+    "type": "href",
     "path": "",
-    "name": "Contact",
+    "text": "Contact",
+    "tooltip": "This is a tooltip for step 1",
     "iconClass": "icon-address"
   },
   {
+    "type": "href",
     "path": "",
-    "name": "Settings",
+    "text": "Settings",
     "iconClass": "icon-configuration"
   },
   {
+    "type": "href",
     "path": "",
-    "name": "Attachments",
+    "text": "Attachments",
     "iconClass": "icon-attachment"
   },
   {
+    "type": "href",
     "path": "",
-    "name": "Terms and Conditions",
+    "text": "Terms and Conditions",
     "iconClass": "icon-section-sign"
   },
   {
+    "type": "href",
     "path": "",
-    "name": "Summary",
+    "text": "Summary",
     "iconClass": "icon-rows"
   }
 ]

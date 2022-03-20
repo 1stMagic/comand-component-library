@@ -1,17 +1,23 @@
 <template>
-    <div :class="[validationStatus,
-    'cmd-fake-select label',
-    {color: type === 'color',
-    'has-state': validationStatus && validationStatus !== 'none'}]
-"
-     :aria-labelledby="labelText"
-     :aria-required="$attrs.required !== undefined"
-     ref="fakeselect"
+    <div
+        :class="[
+            validationStatus,
+            'cmd-fake-select label',
+            {
+                color: type === 'color',
+                'has-state': validationStatus && validationStatus !== 'none'
+            }
+        ]"
+         :aria-labelledby="labelText"
+         :aria-required="$attrs.required !== undefined"
+         ref="fakeselect"
     >
         <span>
+            <!-- begin label -->
             <span>
                 {{ labelText }}<sup v-if="$attrs.required !== undefined">*</sup>
             </span>
+            <!-- end label -->
             <a v-if="$attrs.required || inputRequirements.length"
                 href="#"
                 @click.prevent
@@ -38,10 +44,19 @@
                 <!-- begin default dropdown (incl. optional icon) -->
                 <ul v-if="type === 'default' && showOptions" :aria-expanded="showOptions">
                     <li v-for="(option, index) in selectData" :key="index" role="option">
-                        <a href="#" @click.prevent="selectOption(option.value)" :class="{'active' : option.value === modelValue}">
-                            <span v-if="option.icon?.iconClass" :class="option.icon.iconClass"></span>
+                        <!-- begin type 'href' -->
+                        <a v-if="optionLinkType === 'href'" href="#" @click.prevent="selectOption(option.value)" :class="{'active' : option.value === modelValue}">
+                            <span v-if="option.iconClass" :class="option.iconClass"></span>
                             <span>{{ option.text }}</span>
                         </a>
+                        <!-- end type 'href' -->
+
+                        <!-- begin type 'router' -->
+                        <router-link v-if="optionLinkType === 'router'" to="#" @click.prevent="selectOption(option.value)" :class="{'active' : option.value === modelValue}">
+                            <span v-if="option.iconClass" :class="option.iconClass"></span>
+                            <span>{{ option.text }}</span>
+                        </router-link>
+                        <!-- end type 'router' -->
                     </li>
                 </ul>
                 <!-- end default dropdown (incl. optional icon) -->
@@ -84,12 +99,20 @@
             </li>
         </ul>
     </div>
-    <!-- begin tooltip -->
+    <!-- begin CmdTooltip -->
     <CmdTooltip v-if="useCustomTooltip" class="box" :class="validationStatus" :relatedId="tooltipId" :toggle-visibility-by-click="true">
-        <CmdSystemMessage v-if="getValidationMessage" :message="getValidationMessage" :status="validationStatus" :iconClose="{show: false}" />
+        <!-- begin CmdSystemMessage -->
+        <CmdSystemMessage
+            v-if="getValidationMessage"
+            :message="getValidationMessage"
+            :validatioStatus="validationStatus"
+            :iconClose="{show: false}"
+        />
+        <!-- end CmdSystemMessage -->
+
         <template v-if="showRequirements && (validationStatus === '' || validationStatus === 'error')">
             <!-- begin list of requirements -->
-            <h6>Requirements for input<br />"{{labelText}}"</h6>
+            <h6>{{ getMessage("cmdfakeselect.headline.requirements_for_input") }}<br />"{{labelText}}"</h6>
             <dl class="list-of-requirements">
                 <template v-for="(requirement, index) in inputRequirements" :key="index">
                     <dt aria-live="assertive" :class="requirement.valid(modelValue, $attrs) ? 'success' : 'error'">{{requirement.message}}:</dt>
@@ -101,19 +124,31 @@
             <!-- end list of requirements -->
 
             <!-- begin helplink -->
-            <hr v-if="helplink?.show" />
-            <a v-if="helplink?.show && helplink?.url" :href="helplink.url" :target="helplink.target" @click.prevent>
-                <span v-if="helplink.icon?.iconClass" :class="helplink.icon?.iconClass" :title="helplink.icon?.tooltip"></span>
-                <span v-if="helplink.text">{{ helplink.text }}</span>
-            </a>
+            <template v-if="helplink">
+                <hr v-if="helplink.show" />
+                <a v-if="helplink.show && helplink.url"
+                   :href="helplink.url"
+                   :target="helplink.target"
+                   @click.prevent>
+                    <span v-if="helplink.icon?.iconClass"
+                          :class="helplink.icon?.iconClass"
+                          :title="helplink.icon?.tooltip">
+                    </span>
+                    <span v-if="helplink.text">
+                        {{ helplink.text }}
+                    </span>
+                </a>
+            </template>
             <!-- end helplink -->
         </template>
     </CmdTooltip>
-    <!-- end tooltip -->
+    <!-- end CmdTooltip -->
 </template>
 
 <script>
 // import mixins
+import I18n from "../mixins/I18n"
+import DefaultMessageProperties from "../mixins/CmdBox/DefaultMessageProperties"
 import FieldValidation from "../mixins/FieldValidation.js"
 import Tooltip from "../mixins/Tooltip.js"
 
@@ -124,7 +159,12 @@ import CmdTooltip from "./CmdTooltip"
 export default {
     name: 'CmdFakeSelect',
     inheritAttrs: false,
-    mixins: [FieldValidation, Tooltip],
+    mixins: [
+        I18n,
+        DefaultMessageProperties,
+        FieldValidation,
+        Tooltip
+    ],
     components: {
         CmdSystemMessage,
         CmdTooltip
@@ -145,6 +185,15 @@ export default {
         type: {
             type: String,
             default: "default"
+        },
+        /**
+         * set type of option-links
+         *
+         * @allowedValues: href, router
+         */
+        optionLinkType: {
+            type: String,
+            default: "href"
         },
         /**
          * set default v-model (must be named modelValue in Vue3)
@@ -185,6 +234,7 @@ export default {
          * icon for dropdown-icon (i.e. an angle/arrow)
          *
          * @requiredForAccessibility: partial
+         * @defaultIcon: icon-single-arrow-down
          */
         dropdownIcon: {
             type: Object,

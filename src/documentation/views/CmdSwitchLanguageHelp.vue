@@ -36,6 +36,7 @@ function selectLanguage(event) {
 <template>
     <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
+            <h2>Component</h2>
             <ViewCodeData :isFirstComponent="true" :code="CmdCode" :data="switchLanguage">
                 <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
                     <CmdSwitchLanguage
@@ -43,7 +44,7 @@ function selectLanguage(event) {
                         @click="selectLanguage"
                     />
                 </teleport>
-                <dl v-if="currentLanguage">
+                <dl class="v-model" v-if="currentLanguage">
                     <dt>Current language:</dt>
                     <dd>
                         <output>{{ currentLanguage.name }}</output>

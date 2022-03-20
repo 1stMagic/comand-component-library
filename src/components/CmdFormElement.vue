@@ -35,7 +35,6 @@
             </span>
         <!-- end label-text (+ required asterisk) -->
 
-
         <!-- begin icon -->
         <span
             v-if="
@@ -171,12 +170,19 @@
     </button>
     <!-- end button -->
 
-    <!-- begin tooltip -->
+    <!-- begin CmdTooltip -->
     <CmdTooltip v-if="useCustomTooltip" class="box" :class="validationStatus" :relatedId="tooltipId" :toggle-visibility-by-click="true">
-        <CmdSystemMessage v-if="getValidationMessage" :message="getValidationMessage" :status="validationStatus" :iconClose="{show: false}"/>
+        <!-- begin CmdSystemMessage -->
+        <CmdSystemMessage
+            v-if="getValidationMessage"
+            :message="getValidationMessage"
+            :status="validationStatus"
+            :iconClose="{show: false}"
+        />
+        <!-- end CmdSystemMessage -->
         <template v-if="showRequirements && (validationStatus === '' || validationStatus === 'error')">
             <!-- begin list of requirements -->
-            <h6>Requirements for input<br/>"{{ labelText }}"</h6>
+            <h6>{{ getMessage("cmdformelement.headline.requirements_for_input") }}<br/>"{{ labelText }}"</h6>
             <dl class="list-of-requirements">
                 <template v-for="(requirement, index) in inputRequirements" :key="index">
                     <dt aria-live="assertive" :class="requirement.valid(modelValue, $attrs) ? 'success' : 'error'">{{ requirement.message }}:</dt>
@@ -197,17 +203,19 @@
             <!-- end helplink -->
         </template>
     </CmdTooltip>
-    <!-- end tooltip -->
+    <!-- end CmdTooltip -->
 </template>
 
 <script>
 // import mixins
+import I18n from "../mixins/I18n"
+import DefaultMessageProperties from "../mixins/CmdBox/DefaultMessageProperties"
 import FieldValidation from "../mixins/FieldValidation.js"
 import Tooltip from "../mixins/Tooltip.js"
 
 // import components
+import CmdSystemMessage from "./CmdSystemMessage"
 import CmdTooltip from "./CmdTooltip"
-import CmdSystemMessage from "./CmdSystemMessage";
 
 export default {
     inheritAttrs: false,
@@ -216,7 +224,12 @@ export default {
         CmdSystemMessage,
         CmdTooltip
     },
-    mixins: [FieldValidation, Tooltip],
+    mixins: [
+        I18n,
+        DefaultMessageProperties,
+        FieldValidation,
+        Tooltip
+    ],
     data() {
         return {
             errorOccurred: 0

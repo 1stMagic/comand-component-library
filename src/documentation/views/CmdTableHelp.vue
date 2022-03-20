@@ -6,6 +6,7 @@ import ComponentProperties from "../components/ComponentProperties"
 import {isFrameMode} from "../../utils/common"
 import ViewCodeData from "../components/ViewCodeData"
 import CmdTabs from "../../components/CmdTabs"
+import CmdCustomHeadline from "../../components/CmdCustomHeadline"
 import CmdCode from "../data/CmdTableHelp"
 import tableSmall from "../../assets/data/table-small"
 import tableLarge from "../../assets/data/table-large"
@@ -49,6 +50,8 @@ const propertyStructures = {
 <template>
     <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
+            <h2>Component</h2>
+            <CmdCustomHeadline headlineText="Table (with few data)" :headlineLevel="3" preHeadlineText="Example #1" />
             <ViewCodeData :isFirstComponent="true" :code="CmdCode">
                 <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
                     <CmdTable
@@ -59,6 +62,8 @@ const propertyStructures = {
                     />
                 </teleport>
             </ViewCodeData>
+            <hr />
+            <CmdCustomHeadline headlineText="Table (with lots of data and highlighted row and column)" :headlineLevel="3" preHeadlineText="Example 2" />
             <ViewCodeData :code="CmdCode">
                 <CmdTable
                     :collapsible="false"

@@ -8,8 +8,8 @@
   {
     "text": "Subpage",
     "type": "router",
-    "to": {
-      "path": "/subpage",
+    "path": "/subpage",
+    "route": {
       "params": {
         "lang": "de"
       }

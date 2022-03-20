@@ -1,26 +1,28 @@
 <template>
-    <!-- begin headline -->
-    <CmdCustomHeadline v-if="cmdCustomHeadline" :headline="cmdCustomHeadline" />
-    <!-- end headline -->
+    <div class="cmd-bank-account-data">
+        <!-- begin CmdCustomHeadline -->
+        <CmdCustomHeadline v-if="cmdCustomHeadline" v-bind="cmdCustomHeadline"/>
+        <!-- end CmdCustomHeadline -->
 
-    <!-- begin account data -->
-    <dl class="cmd-bank-account-data">
-        <template v-for="(entry, index) in accountData" :key="index">
-            <dt>{{ entry.text }}</dt>
-            <dd  v-if="allowCopyByClick && entry.allowCopy" class="flex-container no-flex">
-                <span>{{ entry.value }}</span>
-                <a href="#" @click.prevent="copyToClipboard(entry.value)" :title="iconCopy.tooltip">
-                    <span :class="iconCopy.iconClass"></span>
-                </a>
-            </dd>
-            <dd v-else :key="index">{{ entry.value }}</dd>
-        </template>
-    </dl>
-    <!-- end account data -->
+        <!-- begin account data -->
+        <dl>
+            <template v-for="(entry, index) in accountData" :key="index">
+                <dt>{{ entry.text }}</dt>
+                <dd v-if="allowCopyByClick && entry.allowCopy" class="flex-container no-flex">
+                    <span>{{ entry.value }}</span>
+                    <a href="#" @click.prevent="copyToClipboard(entry.value)" :title="iconCopy.tooltip">
+                        <span :class="iconCopy.iconClass"></span>
+                    </a>
+                </dd>
+                <dd v-else :key="index">{{ entry.value }}</dd>
+            </template>
+        </dl>
+        <!-- end account data -->
 
-    <!-- begin additional information -->
-    <p v-if="additionalInformation">{{ additionalInformation }}</p>
-    <!-- end additional information -->
+        <!-- begin additional information -->
+        <p v-if="additionalInformation">{{ additionalInformation }}</p>
+        <!-- end additional information -->
+    </div>
 </template>
 
 <script>
@@ -59,17 +61,17 @@ export default {
          *
          * @requiredForAccessibility: partial
          */
-         iconCopy: {
-             type: Object,
-             default() {
-                 return {
-                     iconClass: "icon-file-copy",
-                     tooltip: "Copy data to clipboard!"
-                 }
-             }
+        iconCopy: {
+            type: Object,
+            default() {
+                return {
+                    iconClass: "icon-file-copy",
+                    tooltip: "Copy data to clipboard!"
+                }
+            }
         },
         /**
-         * properties for CmdCustomHeadline
+         * properties for CmdCustomHeadline-component
          */
         cmdCustomHeadline: {
             type: Object,

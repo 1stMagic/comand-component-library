@@ -9,6 +9,7 @@ const componentNames = Object.keys(componentsDescription)
 
 routes.push({
     path: "/",
+    name: "home",
     redirect: {
         name: componentNames[0]
     }

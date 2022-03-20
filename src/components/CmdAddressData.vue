@@ -1,8 +1,8 @@
 <template>
     <div class="cmd-address-data vcard">
-        <!-- begin cmdCustomHeadline -->
-        <CmdCustomHeadline v-if="cmdCustomHeadline" :headline="cmdCustomHeadline" />
-        <!-- end cmdCustomHeadline -->
+        <!-- begin CmdCustomHeadline -->
+        <CmdCustomHeadline v-if="cmdCustomHeadline" v-bind="cmdCustomHeadline" />
+        <!-- end CmdCustomHeadline -->
 
         <!-- begin address-data in vCard microformat -->
         <address class="adr">
@@ -115,7 +115,7 @@
 </template>
 
 <script>
-// import files for translations
+// import mixins
 import I18n from "../mixins/I18n"
 import DefaultMessageProperties from "../mixins/CmdAddressData/DefaultMessageProperties"
 

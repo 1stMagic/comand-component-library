@@ -1,6 +1,13 @@
 <template>
     <div :class="['cmd-thumbnail-scroller', {'gallery-scroller' : !allowOpenFancyBox}]">
-        <CmdSlideButton @click.prevent="showPrevItem" slideButtonType="prev" />
+        <!-- begin CmdSlideButton -->
+        <CmdSlideButton
+            @click.prevent="showPrevItem"
+            slideButtonType="prev"
+        />
+        <!-- end CmdSlideButton -->
+
+        <!-- begin list of images to slide -->
         <transition-group name="slide" tag="ul">
             <li v-for="(image, index) in thumbnails" :key="image.imgId" :class="{'active' : imgIndex === index}">
                 <a href="#" @click.prevent="showFancyBox(index)">
@@ -12,7 +19,14 @@
                 </a>
             </li>
         </transition-group>
-        <CmdSlideButton @click.prevent="showNextItem" :slideButtons="cmdSlideButtons.next"/>
+        <!-- end list of images to slide -->
+
+        <!-- begin CmdSlideButton -->
+        <CmdSlideButton
+            @click.prevent="showNextItem"
+            :slideButtons="cmdSlideButtons.next"
+        />
+        <!-- end CmdSlideButton -->
     </div>
 </template>
 
@@ -22,13 +36,13 @@ import CmdSlideButton from "./CmdSlideButton.vue"
 
 export default {
     name: "CmdThumbnailScroller",
+    components: {
+        CmdSlideButton
+    },
     data() {
         return {
             thumbnails: []
         }
-    },
-    components: {
-        CmdSlideButton
     },
     props: {
         /**

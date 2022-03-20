@@ -53,7 +53,8 @@ const textarea = ref("")
 <template>
     <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
-            <CmdCustomHeadline pre-headline="Example #1" :headline="{text: 'Input (type text)', level: 2}"/>
+            <h2>Component</h2>
+            <CmdCustomHeadline preHeadlineText="Example #1" headlineText="Input (type text)" :headlineLevel="2" />
             <ViewCodeData :isFirstComponent="true" :code="CmdCode">
                 <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
                     <CmdFormElement
@@ -68,7 +69,7 @@ const textarea = ref("")
                 </teleport>
             </ViewCodeData>
             <hr/>
-            <CmdCustomHeadline pre-headline="Example #2" :headline="{text: 'Input (type number)', level: 2}"/>
+            <CmdCustomHeadline preHeadlineText="Example #2" headlineText="Input (type number)" :headlineLevel="2" />
             <ViewCodeData :code="CmdCode">
                 <CmdFormElement
                     labelText="Input (type number):"
@@ -81,7 +82,7 @@ const textarea = ref("")
                 />
             </ViewCodeData>
             <hr/>
-            <CmdCustomHeadline pre-headline="Example #3" :headline="{text: 'Input (type color)', level: 2}"/>
+            <CmdCustomHeadline preHeadlineText="Example #3" headlineText="Input (type color)" :headlineLevel="2" />
             <ViewCodeData :code="CmdCode">
                 <CmdFormElement
                     labelText="Input (type color):"
@@ -93,7 +94,7 @@ const textarea = ref("")
                 />
             </ViewCodeData>
             <hr/>
-            <CmdCustomHeadline pre-headline="Example #4" :headline="{text: 'Input (type date)', level: 2}"/>
+            <CmdCustomHeadline preHeadlineText="Example #4" headlineText="Input (type date)" :headlineLevel="2" />
             <ViewCodeData :code="CmdCode">
                 <CmdFormElement
                     labelText="Input (type date):"
@@ -105,7 +106,7 @@ const textarea = ref("")
                 />
             </ViewCodeData>
             <hr/>
-            <CmdCustomHeadline pre-headline="Example #5" :headline="{text: 'Input (type datetime-local)', level: 2}"/>
+            <CmdCustomHeadline preHeadlineText="Example #5" headlineText="Input (type datetime-local)" :headlineLevel="2" />
             <ViewCodeData :code="CmdCode">
                 <CmdFormElement
                     labelText="Input (type datetime-local):"
@@ -117,7 +118,7 @@ const textarea = ref("")
                 />
             </ViewCodeData>
             <hr/>
-            <CmdCustomHeadline pre-headline="Example #6" :headline="{text: 'Input (type password)', level: 2}"/>
+            <CmdCustomHeadline preHeadlineText="Example #6" headlineText="Input (type password)" :headlineLevel="2" />
             <ViewCodeData :code="CmdCode">
                 <CmdFormElement
                     labelText="Input (type password):"
@@ -130,7 +131,7 @@ const textarea = ref("")
                 />
             </ViewCodeData>
             <hr/>
-            <CmdCustomHeadline pre-headline="Example #7" :headline="{text: 'Input (type file)', level: 2}"/>
+            <CmdCustomHeadline preHeadlineText="Example #7" headlineText="Input (type file)" :headlineLevel="2" />
             <ViewCodeData :code="CmdCode">
                 <CmdFormElement
                     labelText="Input (type file):"
@@ -142,7 +143,7 @@ const textarea = ref("")
                 />
             </ViewCodeData>
             <hr/>
-            <CmdCustomHeadline pre-headline="Example #8" :headline="{text: 'Input (type range)', level: 2}"/>
+            <CmdCustomHeadline preHeadlineText="Example #8" headlineText="Input (type range)" :headlineLevel="2" />
             <ViewCodeData :code="CmdCode">
                 <CmdFormElement
                     labelText="Input (type range):"
@@ -160,7 +161,7 @@ const textarea = ref("")
                 </dl>
             </ViewCodeData>
             <hr/>
-            <CmdCustomHeadline pre-headline="Example #9" :headline="{text: 'Input (type submit)', level: 2}"/>
+            <CmdCustomHeadline preHeadlineText="Example #9" headlineText="Input (type submit)" :headlineLevel="2" />
             <ViewCodeData :code="CmdCode">
                 <CmdFormElement
                     :nativeButton="{ text: 'Submit', icon: {iconClass: 'icon-edit', show: true}}"
@@ -171,7 +172,7 @@ const textarea = ref("")
                 />
             </ViewCodeData>
             <hr/>
-            <CmdCustomHeadline pre-headline="Example #10" :headline="{text: 'Input (type button)', level: 2}"/>
+            <CmdCustomHeadline preHeadlineText="Example #10" headlineText="Input (type button)" :headlineLevel="2" />
             <ViewCodeData :code="CmdCode">
                 <CmdFormElement
                     :nativeButton="{ icon: {iconClass: 'icon-edit', show: true, tooltip: 'I am a tooltip'}}"
@@ -182,7 +183,7 @@ const textarea = ref("")
                 />
             </ViewCodeData>
             <hr/>
-            <CmdCustomHeadline pre-headline="Example #11" :headline="{text: 'Input (type checkbox)', level: 2}"/>
+            <CmdCustomHeadline preHeadlineText="Example #11" headlineText="Input (type checkbox)" :headlineLevel="2" />
             <ViewCodeData :code="CmdCode">
                 <CmdFormElement
                     labelText="Input (type checkbox)"
@@ -201,7 +202,7 @@ const textarea = ref("")
                 </dl>
             </ViewCodeData>
             <hr/>
-            <CmdCustomHeadline pre-headline="Example #12" :headline="{text: 'Input (type radio)', level: 2}"/>
+            <CmdCustomHeadline preHeadlineText="Example #12" headlineText="Input (type radio)" :headlineLevel="2" />
             <ViewCodeData :code="CmdCode">
                 <CmdFormElement
                     labelText="Input #1 (type radio)"
@@ -235,7 +236,7 @@ const textarea = ref("")
                 </dl>
             </ViewCodeData>
             <hr/>
-            <CmdCustomHeadline pre-headline="Example #11" :headline="{text: 'Input (type checkbox, replaced)', level: 2}"/>
+            <CmdCustomHeadline preHeadlineText="Example #13" headlineText="Input (type checkbox, replaced)" :headlineLevel="2" />
             <ViewCodeData :code="CmdCode">
                 <CmdFormElement
                     labelText="Input (type checkbox)"
@@ -255,7 +256,7 @@ const textarea = ref("")
                 </dl>
             </ViewCodeData>
             <hr/>
-            <CmdCustomHeadline pre-headline="Example #12" :headline="{text: 'Input (type radio, replaced)', level: 2}"/>
+            <CmdCustomHeadline preHeadlineText="Example #14" headlineText="Input (type radio, replaced)" :headlineLevel="2" />
             <ViewCodeData :code="CmdCode">
                 <CmdFormElement
                     labelText="Input #1 (type radio)"
@@ -291,7 +292,7 @@ const textarea = ref("")
                 </dl>
             </ViewCodeData>
             <hr/>
-            <CmdCustomHeadline pre-headline="Example #13" :headline="{text: 'Selectbox', level: 2}"/>
+            <CmdCustomHeadline preHeadlineText="Example #15" headlineText="Select" :headlineLevel="2" />
             <ViewCodeData :code="CmdCode">
                 <CmdFormElement
                     labelText="Selectbox"
@@ -309,7 +310,7 @@ const textarea = ref("")
                 </dl>
             </ViewCodeData>
             <hr/>
-            <CmdCustomHeadline pre-headline="Example #14" :headline="{text: 'Datalist', level: 2}"/>
+            <CmdCustomHeadline preHeadlineText="Example #16" headlineText="Datalist" :headlineLevel="2" />
             <ViewCodeData :code="CmdCode">
                 <CmdFormElement
                     labelText="Datalist:"
@@ -322,7 +323,7 @@ const textarea = ref("")
                 />
             </ViewCodeData>
             <hr/>
-            <CmdCustomHeadline pre-headline="Example #15" :headline="{text: 'Textarea', level: 2}"/>
+            <CmdCustomHeadline preHeadlineText="Example #16" headlineText="Textarea" :headlineLevel="2" />
             <ViewCodeData :code="CmdCode">
                 <CmdFormElement
                     labelText="Textarea:"

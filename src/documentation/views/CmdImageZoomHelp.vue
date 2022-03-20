@@ -13,6 +13,7 @@ import propertyDescriptions from "../generated/CmdImageZoomPropertyDescriptions"
 <template>
     <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
+            <h2>Component</h2>
             <ViewCodeData :isFirstComponent="true" :code="CmdCode">
                 <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
                     <CmdImageZoom

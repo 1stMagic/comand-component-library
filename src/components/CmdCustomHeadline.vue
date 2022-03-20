@@ -1,14 +1,14 @@
 <template>
-    <header :class="['cmd-custom-headline', { 'pre-headline': preHeadline}]">
+    <header :class="['cmd-custom-headline', { 'pre-headline-text': preHeadlineText}]">
         <span v-if="iconClass" :class="iconClass"></span>
-        <div v-if="preHeadline">
-            <p>{{ preHeadline }}</p>
+        <div v-if="preHeadlineText">
+            <p>{{ preHeadlineText }}</p>
             <component :is="getHeadlineTag">
-                <slot>{{ headline.text }}</slot>
+                <slot>{{ headlineText }}</slot>
             </component>
         </div>
         <component v-else :is="getHeadlineTag">
-            <slot>{{ headline.text }}</slot>
+            <slot>{{ headlineText }}</slot>
         </component>
     </header>
 </template>
@@ -18,21 +18,23 @@ export default {
     name: "CmdCustomHeadline",
     props: {
         /**
-         * headline-text and headline-level
+         * text for headline
          */
-        headline: {
-            type: Object,
-            default() {
-                return {
-                    text: "",
-                    level: 2
-                }
-            }
+        headlineText: {
+            type: String,
+            required: true
         },
         /**
-         * small pre-headline above main-headline
+         * level for headline
          */
-        preHeadline: {
+        headlineLevel: {
+            type: [String, Number],
+            required: true
+        },
+        /**
+         * small pre-headline-text above main-headline
+         */
+        preHeadlineText: {
             type: String,
             required: false
         },
@@ -46,7 +48,7 @@ export default {
     },
     computed: {
         getHeadlineTag() {
-            return "h" + this.headline.level
+            return "h" + this.headlineLevel
         }
     }
 }
@@ -62,7 +64,7 @@ export default {
     margin-bottom: var(--default-margin);
     gap: calc(var(--default-gap) / 2);
 
-    &.pre-headline {
+    &.pre-headline-text {
         [class*="icon"] {
             font-size: 5rem;
         }

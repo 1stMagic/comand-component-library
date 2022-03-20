@@ -30,9 +30,10 @@ const propertyStructures = {
 <template>
     <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
+            <h2>Component</h2>
             <ViewCodeData :isFirstComponent="true" :code="CmdCode">
                 <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
-                    <CmdBoxSiteSearch text-legend="Legend" :results="420" :cmdCustomHeadline="{text: 'Search site', level: 3}" />
+                    <CmdBoxSiteSearch text-legend="Legend" :results="420" :cmdCustomHeadline="{headlineText: 'Search site', headlineLevel: 3}" />
                 </teleport>
             </ViewCodeData>
         </template>

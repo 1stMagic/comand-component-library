@@ -1,72 +1,114 @@
 <template>
-    <fieldset class="cmd-box-sitesearch flex-container">
+    <fieldset class="cmd-box-site-search flex-container">
+        <!-- begin legend -->
         <legend v-if="showLegend">{{ textLegend }}</legend>
-        <CmdCustomHeadline :headline="cmdCustomHeadline.headline" :preHeadline="cmdCustomHeadline.preHeadline" :iconClass="cmdCustomHeadline.iconClass" />
+        <!-- begin legend -->
+
+        <!-- begin CmdCustomHeadline -->
+        <CmdCustomHeadline
+            v-if="cmdCustomHeadline"
+            v-bind="cmdCustomHeadline"
+        />
+        <!-- end CmdCustomHeadline -->
+
+        <!-- begin form-elements -->
         <div class="flex-container">
-            <CmdFormElement element="input"
-                            type="text"
-                            :labelText="getMessage('cmdsitesearch.labeltext.what_to_search')"
-                            :placeholder="getMessage('cmdsitesearch.placeholder.what_to_search')"/>
-            <CmdFormElement element="input"
-                            type="text"
-                            :labelText="getMessage('cmdsitesearch.labeltext.where_to_search')"
-                            :placeholder="getMessage('cmdsitesearch.placeholder.where_to_search')"/>
-            <CmdFormElement element="button"
-                            :buttonText="buttonText"
-                            :buttonIcon="{iconClass: 'icon-search', iconPosition: 'before'}"
-                            @click="$emit('click', $event)"
-                            aria-live="assertive"/>
+            <!-- begin CmdFormElement -->
+            <CmdFormElement
+                element="input"
+                type="text"
+                :labelText="getMessage('cmdsitesearch.labeltext.what_to_search')"
+                :placeholder="getMessage('cmdsitesearch.placeholder.what_to_search')"
+            />
+            <!-- end CmdFormElement -->
+
+            <!-- begin CmdFormElement -->
+            <CmdFormElement
+                element="input"
+                type="text"
+                :labelText="getMessage('cmdsitesearch.labeltext.where_to_search')"
+                :placeholder="getMessage('cmdsitesearch.placeholder.where_to_search')"
+            />
+            <!-- end CmdFormElement -->
+
+            <!-- begin CmdFormElement -->
+            <CmdFormElement
+                element="button"
+                :buttonText="buttonText"
+                :buttonIcon="{iconClass: 'icon-search', iconPosition: 'before'}"
+                @click="$emit('click', $event)"
+                aria-live="assertive"
+            />
+            <!-- end CmdFormElement -->
         </div>
-        <a href="#" @click.prevent="showFilter = !showFilter">
-            <span :class="showFilter ? 'icon-single-arrow-up' : 'icon-single-arrow-down'"></span>
-            <span v-if="showFilter">{{ getMessage("cmdsitesearch.hide_filter_options") }}</span>
-            <span v-else>{{ getMessage("cmdsitesearch.show_filter_options") }}</span>
-        </a>
-        <transition name="fade">
-            <div class="flex-container no-flex" v-if="showFilter" aria-expanded="true">
-                <CmdFormElement v-for="(filter, index) in filters" element="input" type="checkbox"
-                                :labelText="filter.labelText" :inputValue="filter.value" :key="index"/>
-            </div>
-        </transition>
+        <!-- end form-elements -->
+
+        <!-- begin filters -->
+        <template v-if="useFilters">
+            <a href="#" @click.prevent="showFilters = !showFilters">
+                <span :class="showFilters ? 'icon-single-arrow-up' : 'icon-single-arrow-down'"></span>
+                <span v-if="showFilters">{{ getMessage("cmdsitesearch.hide_filter_options") }}</span>
+                <span v-else>{{ getMessage("cmdsitesearch.show_filter_options") }}</span>
+            </a>
+            <transition name="fade">
+                <div v-if="showFilters && listOfFilters.length" class="flex-container no-flex" aria-expanded="true">
+                    <!-- begin CmdFakeSelect -->
+                    <CmdFakeSelect
+                        v-for="(filter, index) in listOfFilters"
+                        element="input"
+                        type="checkbox"
+                        :labelText="filter.labelText"
+                        :inputValue="filter.value"
+                        :key="index"
+                    />
+                    <!-- end CmdFakeSelect -->
+                </div>
+            </transition>
+        </template>
+        <!-- end filters -->
     </fieldset>
 </template>
 
 <script>
-// import files for translations
+// import mixins
 import I18n from "../mixins/I18n"
 import DefaultMessageProperties from "../mixins/CmdSiteSearch/DefaultMessageProperties"
 
 // import files for components
-import CmdCustomHeadline from "./CmdCustomHeadline.vue"
-import CmdFormElement from "./CmdFormElement.vue"
+import CmdCustomHeadline from "./CmdCustomHeadline"
+import CmdFakeSelect from "./CmdFakeSelect"
+import CmdFormElement from "./CmdFormElement"
 
 export default {
-    name: "CmdBoxSiteSearch.vue",
+    name: "CmdBoxSiteSearch",
     mixins: [I18n, DefaultMessageProperties],
     components: {
         CmdCustomHeadline,
+        CmdFakeSelect,
         CmdFormElement
     },
     data() {
         return {
-            showFilter: false,
-            filters: [
-                {
-                    labelText: "Filter 1",
-                    value: "1"
-                },
-                {
-                    labelText: "Filter 2",
-                    value: "2"
-                },
-                {
-                    labelText: "Filter 3",
-                    value: "3"
-                }
-            ]
+            showFilters: false
         }
     },
     props: {
+        /**
+         * toggle use of filters (must configured)
+         */
+        useFilters: {
+            type: Boolean,
+            default: true
+        },
+        /**
+         * set list of filters
+         *
+         * useFilters-property must be activated
+         */
+        listOfFilters: {
+            type: Array,
+            required: false
+        },
         /**
          * text for legend
          *
@@ -112,7 +154,7 @@ export default {
 </script>
 
 <style lang="scss">
-.cmd-box-sitesearch {
+.cmd-box-site-search {
     > a {
         [class*='icon'] {
             font-size: 1rem;

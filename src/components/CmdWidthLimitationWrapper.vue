@@ -2,11 +2,15 @@
     <div class="cmd-width-limitation-wrapper" :class="{'sticky': sticky}">
         <component v-if="innerWrapper" :is="innerComponent" :class="setInnerClass">
             <a v-if="anchorId" :id="anchorId"></a>
+            <!-- begin slot-content -->
             <slot></slot>
+            <!-- end slot-content -->
         </component>
         <template v-else>
+            <!-- begin slot-content -->
             <a v-if="anchorId" :id="anchorId"></a>
             <slot></slot>
+            <!-- end slot-content -->
         </template>
     </div>
 </template>

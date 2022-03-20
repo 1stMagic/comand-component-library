@@ -17,7 +17,7 @@
 <script>
 import {openFancyBox} from "./CmdFancyBox"
 
-// import files for translations
+// import mixins
 import I18n from "../mixins/I18n"
 import DefaultMessageProperties from "../mixins/CmdSiteSearch/DefaultMessageProperties"
 

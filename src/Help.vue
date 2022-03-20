@@ -1,7 +1,7 @@
 <template>
     <div id="documentation">
-        <div class="nav-wrapper">
-            <nav v-if="!isFrameMode()" class="flex-container">
+        <div v-if="!isFrameMode()" class="nav-wrapper">
+            <nav class="flex-container">
                 <template v-for="startingLetter in startingLetters" :key="startingLetter">
                     <h4>{{ startingLetter }}</h4>
                     <ul>
@@ -107,6 +107,7 @@ export default {
     main {
         width: 100%;
         padding: calc(var(--default-padding) * 2);
+        resize: vertical;
     }
 }
 </style>

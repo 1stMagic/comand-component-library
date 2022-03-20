@@ -1,47 +1,48 @@
 [
   {
-    "name": "Entry 1",
-    "href": "",
-    "target": "",
+    "type": "href",
+    "text": "Entry 1",
+    "path": "#",
     "subentries": []
   },
   {
-    "name": "Entry 2",
-    "href": "",
-    "target": "",
+    "type": "href",
+    "text": "Entry 2",
+    "path": "",
     "subentries": [
       {
-        "name": "Entry 2.1",
-        "href": "",
-        "target": "",
+        "type": "href",
+        "text": "Entry 2.1",
+        "path": "",
         "subentries": [
             {
-              "name": "Entry 2.1.1",
-              "href": "",
-              "target": ""
+              "type": "href",
+              "text": "Entry 2.1.1",
+              "path": "#"
             },
             {
-              "name": "Entry 2.1.2",
-              "href": "",
-              "target": ""
+              "type": "href",
+              "text": "Entry 2.1.2",
+              "path": "#"
             },
             {
-              "name": "Entry 2.1.3",
-              "href": "",
-              "target": ""
+              "type": "href",
+              "text": "Entry 2.1.3",
+              "path": "#"
             }
         ]
       },
       {
-        "name": "Entry 2.2",
-        "href": "",
-        "target": ""
+        "type": "href",
+        "text": "Entry 2.2",
+        "path": "#"
       }
     ]
   },
   {
-    "name": "CoManD-CMS",
-    "href": "http://www.comand-cms.com",
-    "target": "_blank"
+    "type": "href",
+    "text": "CoManD-CMS",
+    "path": "http://www.comand-cms.com",
+    "target": "comand-website"
   }
 ]

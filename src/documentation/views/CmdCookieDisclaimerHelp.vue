@@ -78,10 +78,11 @@ const propertyStructures = {
 <template>
     <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
+            <h2>Component</h2>
             <ViewCodeData :isFirstComponent="true" :code="CmdCode" :data="cookieDisclaimer">
                 <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
                     <CmdCookieDisclaimer
-                         :cmdCustomHeadline="{text: 'Usage of cookies on this web site', level: '2'}"
+                         :cmdCustomHeadline="{headlineText: 'Usage of cookies on this web site', headlineLevel: 3}"
                          :cookieOptions="cookieDisclaimer"
                          buttonLabelAcceptAllCookies="Accept all cookies"
                          buttonLabelAcceptCurrentSettings="Accept current settings"

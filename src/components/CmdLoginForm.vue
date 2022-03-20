@@ -1,9 +1,18 @@
 <template>
-    <!-- begin "login"-form -->
+    <!-- begin login-form -->
     <fieldset v-if="!sendLogin" class="flex-container">
         <legend :class="{hidden : !showLegend}">{{ textLegend }}</legend>
-        <CmdCustomHeadline v-if="cmdCustomHeadlineLoginForm.show" :headline="cmdCustomHeadlineLoginForm.text" :level="cmdCustomHeadlineLoginForm.text" />
+        <!-- begin CmdCustomHeadline -->
+        <CmdCustomHeadline v-if="cmdCustomHeadlineLoginForm"
+                           :iconClass="cmdCustomHeadlineLoginForm.iconClass"
+                           :preHeadline="cmdCustomHeadlineLoginForm.preHeadline"
+                           :headlineLevel="cmdCustomHeadlineLoginForm.preHeadline"
+                           :headlineText="cmdCustomHeadlineLoginForm.headlineText"/>
+        <!-- end CmdCustomHeadline -->
+
+        <!-- being form elements -->
         <div class="flex-container">
+            <!-- begin CmdFormElement -->
             <CmdFormElement
                 element="input"
                 type="text"
@@ -14,6 +23,9 @@
                 :labelText="cmdFormElementUsername.labelText"
                 :placeholder="cmdFormElementUsername.placeholder"
             />
+            <!-- end CmdFormElement -->
+
+            <!-- begin CmdFormElement -->
             <CmdFormElement
                 element="input"
                 type="password"
@@ -24,7 +36,10 @@
                 :labelText="cmdFormElementPassword.labelText"
                 :placeholder="cmdFormElementPassword.placeholder"
             />
+            <!-- end CmdFormElement -->
         </div>
+        <!-- end form elements -->
+
         <div class="option-wrapper flex-container" v-focus>
             <template v-if="options.forgotPassword || options.createAccount">
                 <a v-if="options.forgotPassword" href="#" @click.prevent="sendLogin = true">
@@ -34,6 +49,7 @@
                     </span>
                     <span v-if="options.forgotPassword.text">{{ options.forgotPassword.text }}</span>
                 </a>
+                <!-- begin link-type 'href' -->
                 <a v-if="options.createAccount && options.createAccount.linkType === 'href'" :href="options.createAccount.path">
                     <span v-if="options.createAccount.icon && options.createAccount.icon.show && options.createAccount.icon.iconClass"
                           :class="options.createAccount.icon.iconClass"
@@ -41,6 +57,9 @@
                     </span>
                     <span v-if="options.createAccount.text">{{ options.createAccount.text }}</span>
                 </a>
+                <!-- end link-type 'href' -->
+
+                <!-- begin link-type 'router' -->
                 <router-link v-else-if="options.createAccount && options.createAccount.linkType === 'router'" :to="options.createAccount.path">
                     <span v-if="options.createAccount.icon && options.createAccount.icon.show && options.createAccount.icon.iconClass"
                           :class="options.createAccount.icon.iconClass"
@@ -48,7 +67,10 @@
                     </span>
                     <span v-if="options.createAccount.text">{{ options.createAccount.text }}</span>
                 </router-link>
+                <!-- end link-type 'router -->
             </template>
+
+            <!-- begin link-type 'href' -->
             <a
                 v-if="buttons.login.linkType === 'href'"
                 :class="['button', { primary: buttons.login.primary }]"
@@ -62,6 +84,9 @@
                   ></span>
                 <span v-if="buttons.login.text">{{ buttons.login.text }}</span>
             </a>
+            <!-- begin link-type 'href' -->
+
+            <!-- begin link-type 'router' -->
             <router-link
                 v-if="buttons.login.linkType === 'router'"
                 :class="['button', { primary: buttons.login.primary }]"
@@ -75,6 +100,9 @@
                   ></span>
                 <span v-if="buttons.login.text">{{ buttons.login.text }}</span>
             </router-link>
+            <!-- begin link-type 'router' -->
+
+            <!-- begin link-type 'button' -->
             <button
                 v-if="buttons.login.linkType === 'button'"
                 :type="buttons.login.type === 'submit' ? 'submit' : 'button'"
@@ -88,22 +116,35 @@
                   ></span>
                 <span v-if="buttons.login.text">{{ buttons.login.text }}</span>
             </button>
+            <!-- begin link-type 'button' -->
         </div>
     </fieldset>
-    <!-- end "login"-form -->
+    <!-- end login-form -->
 
-    <!-- begin "send login"-form -->
+    <!-- begin send-login-form -->
     <fieldset v-else class="flex-container">
         <legend :class="{'hidden' : !legendSendLoginForm.show}">{{ legendSendLoginForm.text }}</legend>
-        <CmdCustomHeadline v-if="cmdCustomHeadlineSendLoginForm.show" :headline="cmdCustomHeadlineSendLoginForm.text" :level="cmdCustomHeadlineSendLoginForm.text" />
-        <CmdFormElement element="input"
-                        type="email"
-                        :inner-icon-class="cmdFormElementSendLogin.innerIconClass"
-                        :labelText="cmdFormElementSendLogin.labelText"
-                        :placeholder="cmdFormElementSendLogin.placeholder"
-                        :name="cmdFormElementSendLogin.name"
-                        :id="cmdFormElementSendLogin.id"
-                        v-model:value="sendLoginMail" />
+        <!-- begin CmdCustomHeadline -->
+        <CmdCustomHeadline v-if="cmdCustomHeadlineSendLoginForm"
+                           :iconClass="cmdCustomHeadlineSendLoginForm.iconClass"
+                           :preHeadline="cmdCustomHeadlineSendLoginForm.preHeadline"
+                           :headlineLevel="cmdCustomHeadlineSendLoginForm.preHeadline"
+                           :headlineText="cmdCustomHeadlineSendLoginForm.headlineText"/>
+        <!-- end CmdCustomHeadline -->
+
+        <!-- begin CmdFormElement -->
+        <CmdFormElement
+            element="input"
+            type="email"
+            :inner-icon-class="cmdFormElementSendLogin.innerIconClass"
+            :labelText="cmdFormElementSendLogin.labelText"
+            :placeholder="cmdFormElementSendLogin.placeholder"
+            :name="cmdFormElementSendLogin.name"
+            :id="cmdFormElementSendLogin.id"
+            v-model:value="sendLoginMail"
+        />
+        <!-- end CmdFormElement -->
+
         <div class="option-wrapper flex-container">
             <a href="#" @click.prevent="sendLogin = false">
                 <span v-if="options.backToLoginForm && options.backToLoginForm.icon && options.backToLoginForm.icon.show && options.backToLoginForm.icon.iconClass"
@@ -114,6 +155,8 @@
                   {{ options.backToLoginForm.text }}
                 </span>
             </a>
+
+            <!-- begin link-type 'href' -->
             <a
                 v-if="buttons.sendLogin.linkType === 'href'"
                 :class="['button', { primary: buttons.sendLogin.primary }]"
@@ -127,6 +170,9 @@
                   ></span>
                 <span v-if="buttons.sendLogin.text">{{ buttons.sendLogin.text }}</span>
             </a>
+            <!-- end link-type 'href' -->
+
+            <!-- begin link-type 'router' -->
             <router-link
                 v-if="buttons.sendLogin.linkType === 'router'"
                 :class="['button', { primary: buttons.sendLogin.primary }]"
@@ -140,6 +186,9 @@
                   ></span>
                 <span v-if="buttons.sendLogin.text">{{ buttons.sendLogin.text }}</span>
             </router-link>
+            <!-- end link-type 'router' -->
+
+            <!-- begin link-type 'button' -->
             <button
                 v-if="buttons.sendLogin.linkType === 'button'"
                 :type="buttons.sendLogin.type === 'submit' ? 'submit' : 'button'"
@@ -152,9 +201,10 @@
                   ></span>
                 <span v-if="buttons.sendLogin.text">{{ buttons.sendLogin.text }}</span>
             </button>
+            <!-- end link-type 'button' -->
         </div>
     </fieldset>
-    <!-- end "send login"-form -->
+    <!-- end send-login-form -->
 </template>
 
 <script>

@@ -4,6 +4,7 @@ import CmdAccordion from "../../components/CmdAccordion"
 import ComponentProperties from "../components/ComponentProperties"
 import {isFrameMode} from "../../utils/common"
 import ViewCodeData from "../components/ViewCodeData"
+import CmdCustomHeadline from "../../components/CmdCustomHeadline"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdAccordionHelp"
 import accordion from '../../assets/data/accordion'
@@ -36,10 +37,10 @@ const propertyStructures = {
     <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
             <h2>Component</h2>
-            <h3>Example #1 (content given by slot)</h3>
+            <CmdCustomHeadline preHeadlineText="Example #1" headlineText="Content given by slot" :headlineLevel="3" />
             <ViewCodeData :isFirstComponent="true" :code="CmdCode[0]">
                 <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
-                    <CmdAccordion headline="Accordion headline" :accordionData="2" toggleMode="multiple">
+                    <CmdAccordion :accordionData="2" toggleMode="multiple">
                         <template v-slot:accordionHeadline0>
                             <h4>Accordion 1</h4>
                         </template>
@@ -60,9 +61,9 @@ const propertyStructures = {
                 </teleport>
             </ViewCodeData>
             <hr />
-            <h3>Example #2 (content given by json-file)</h3>
+            <CmdCustomHeadline preHeadlineText="Example #2" headlineText="Content given by json-file" :headlineLevel="3" />
             <ViewCodeData :code="CmdCode[1]" :data="accordion.accordionData1">
-                <CmdAccordion headline="Accordion headline" :accordionData="accordion.accordionData1" />
+                <CmdAccordion :cmdCustomHeadline="{ headlineText: 'Accordion headline', headlineLevel: 4}" :accordionData="accordion.accordionData1" />
             </ViewCodeData>
         </template>
         <template v-slot:tab-content-1>

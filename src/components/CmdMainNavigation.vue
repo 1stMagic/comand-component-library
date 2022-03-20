@@ -1,7 +1,16 @@
 <template>
     <div
-        :class="['cmd-main-navigation main-navigation-wrapper', {'hide-sub-navigation' : !showSubNavigations, 'open': showOffcanvas, 'persist-on-mobile': persistOnMobile, 'show-content-overlay': showContentOverlay}]">
+        :class="[
+            'cmd-main-navigation main-navigation-wrapper',
+            {
+                'hide-sub-navigation' : !showSubNavigations,
+                'open-off-canvas': showOffcanvas,
+                'persist-on-mobile': persistOnMobile,
+                'show-content-overlay': showContentOverlay
+            }
+        ]">
         <nav>
+            <!-- begin main-level -->
             <ul :class="{'stretch-items' : stretchMainItems}">
                 <li class="close-nav" v-if="showOffcanvas">
                     <a href="#" @click.prevent="showOffcanvas = false">
@@ -11,44 +20,123 @@
                 </li>
                 <li v-for="(navigationEntry, index) in navigationEntries" :key="index"
                     :class="{'open' : navigationEntry.open}">
-                    <a :href="navigationEntry.href" :target="navigationEntry.target"
-                       @click="clickLink($event, navigationEntry)">
-                        <span :class="navigationEntry.iconClass" v-if="navigationEntry.iconClass"></span>
-                        <span>{{ navigationEntry.name }}</span>
+                    <!-- begin type === href -->
+                    <a
+                       v-if="navigationEntry.type === 'href'"
+                       :href="navigationEntry.path"
+                       :title="navigationEntry.tooltip"
+                       :target="navigationEntry.target"
+                       @click="executeLink($event, navigationEntry)"
+                    >
+                        <span v-if="navigationEntry.iconClass" :class="navigationEntry.iconClass"></span>
+                        <span v-if="navigationEntry.text">{{ navigationEntry.text }}</span>
+                        <span v-if="navigationEntry.subentries && navigationEntry.subentries.length > 0"
+                              :class="subentriesIconClass"
+                        ></span>
+                    </a>
+                    <!-- end type === href -->
+
+                    <!-- begin type === router -->
+                    <router-link
+                        v-if="navigationEntry.type === 'router'"
+                        :to="getRoute(navigationEntry)"
+                        :title="navigationEntry.tooltip"
+                        :target="navigationEntry.target"
+                        @click="executeLink($event, navigationEntry)"
+                    >
+                        <span v-if="navigationEntry.iconClass" :class="navigationEntry.iconClass"></span>
+                        <span v-if="navigationEntry.text">{{ navigationEntry.text }}</span>
                         <span v-if="navigationEntry.subentries && navigationEntry.subentries.length > 0"
                               :class="subentriesIconClass"></span>
-                    </a>
+                    </router-link>
+                    <!-- end type === router -->
+
+                    <!-- begin sub-level 1 -->
                     <ul v-if="navigationEntry.subentries" aria-expanded="true">
                         <li v-for="(navigationSubEntry, subindex) in navigationEntry.subentries" :key="subindex"
                             :class="{'open' : navigationSubEntry.open}">
-                            <a :href="navigationSubEntry.href" :target="navigationSubEntry.target"
-                               @click="clickLink($event, navigationSubEntry)">
-                                <span>{{ navigationSubEntry.name }}</span>
-                                <span :class="subSubentriesIconClass" v-if="navigationSubEntry.subentries"></span>
+                            <!-- begin type === href -->
+                            <a v-if="navigationSubEntry.type === 'href'"
+                               :href="navigationSubEntry.path"
+                               :title="navigationSubEntry.tooltip"
+                               :target="navigationSubEntry.target"
+                               @click="executeLink($event, navigationSubEntry)">
+                                <span v-if="navigationSubEntry.iconClass" :class="navigationSubEntry.iconClass"></span>
+                                <span v-if="navigationSubEntry.text">{{ navigationSubEntry.text }}</span>
+                                <span v-if="navigationSubEntry.subentries && navigationSubEntry.subentries.length > 0"
+                                      :class="subentriesIconClass"
+                                ></span>
                             </a>
+                            <!-- end type === href -->
+
+                            <!-- begin type === router -->
+                            <router-link v-if="navigationSubEntry.type === 'router'"
+                                         :to="getRoute(navigationSubEntry)"
+                                         :title="navigationSubEntry.tooltip"
+                                         :target="navigationSubEntry.target"
+                                         @click="executeLink($event, navigationSubEntry)">
+                                <span v-if="navigationSubEntry.iconClass" :class="navigationSubEntry.iconClass"></span>
+                                <span v-if="navigationSubEntry.text">{{ navigationSubEntry.text }}</span>
+                                <span v-if="navigationSubEntry.subentries && navigationSubEntry.subentries.length > 0"
+                                      :class="subentriesIconClass"></span>
+                            </router-link>
+                            <!-- end type === router -->
+
+                            <!-- begin sub-level 2 -->
                             <ul v-if="navigationSubEntry.subentries">
                                 <li v-for="(navigationSubSubEntry, subsubindex) in navigationSubEntry.subentries"
                                     :key="subsubindex">
-                                    <a :href="navigationSubSubEntry.href" :target="navigationSubSubEntry.target"
-                                       @click="clickLink($event, navigationSubSubEntry)">
-                                        <span>{{ navigationSubSubEntry.name }}</span>
+                                    <!-- begin type === href -->
+                                    <a v-if="navigationEntry.type === 'href'"
+                                       :href="navigationSubSubEntry.path"
+                                       :title="navigationSubSubEntry.tooltip"
+                                       :target="navigationSubSubEntry.target"
+                                       @click="executeLink($event, navigationSubSubEntry)">
+                                        <span v-if="navigationSubSubEntry.iconClass" :class="navigationSubSubEntry.iconClass"></span>
+                                        <span v-if="navigationSubSubEntry.text">{{ navigationSubSubEntry.text }}</span>
+                                        <span v-if="navigationSubSubEntry.subentries && navigationSubSubEntry.subentries.length > 0"
+                                              :class="subentriesIconClass"
+                                        ></span>
                                     </a>
+                                    <!-- end type === href -->
+
+                                    <!-- begin type === router -->
+                                    <router-link v-if="navigationEntry.type === 'router'"
+                                                 :to="getRoute(navigationSubSubEntry)"
+                                                 :target="navigationSubSubEntry.target"
+                                                 :title="navigationSubSubEntry.tooltip"
+                                                 @click="executeLink($event, navigationSubSubEntry)">
+                                        <span v-if="navigationSubSubEntry.iconClass" :class="navigationSubSubEntry.iconClass"></span>
+                                        <span v-if="navigationSubSubEntry.text">{{ navigationSubSubEntry.text }}</span>
+                                        <span v-if="navigationSubSubEntry.subentries && navigationSubSubEntry.subentries.length > 0"
+                                              :class="subentriesIconClass"></span>
+                                    </router-link>
+                                    <!-- end type === router -->
                                 </li>
                             </ul>
+                            <!-- end sub-level 2 -->
                         </li>
                     </ul>
+                    <!-- begin sub-level 1 -->
                 </li>
             </ul>
+            <!-- end main-level -->
         </nav>
+
+        <!-- begin offCanvasButton -->
         <a href="#" class="button" id="toggle-offcanvas" @click.prevent="showOffcanvas = !showOffcanvas"
            v-if="persistOnMobile === false">
             <span :class="buttonOffcanvas.iconClass"></span>
             <span :class="{'hidden' : !buttonOffcanvas.showText}">{{ buttonOffcanvas.text }}</span>
         </a>
+        <!-- end offCanvasButton -->
     </div>
 </template>
 
 <script>
+// import functions
+import {getRoute} from "../utilities.js"
+
 export default {
     name: "CmdMainNavigation",
     data() {
@@ -116,14 +204,14 @@ export default {
          */
         subentriesIconClass: {
             type: String,
-            default: "icon-single-arrow-down"
+            default: "icon-single-arrow-right"
         },
         /**
          * icon to show if a sub-entry has further sub-entries
          */
         subSubentriesIconClass: {
             type: String,
-            default: "icon-single-arrow-right"
+            default: "icon-single-arrow-down"
         },
         /**
          * toggle if overlay over content should be shown if off-canvas is open
@@ -136,13 +224,13 @@ export default {
         }
     },
     methods: {
-        clickLink(event, navigationEntry) {
-            if (navigationEntry.target || (navigationEntry.href.length > 1)) {
+        executeLink(event, navigationEntry) {
+            if (navigationEntry.target || (navigationEntry.path.length > 1)) {
                 return true
             }
-            if (navigationEntry.href === '#' || navigationEntry.href === '') {
+            if (navigationEntry.path === '#' || navigationEntry.path === '') {
                 event.preventDefault()
-                this.$emit('click', navigationEntry.href)
+                this.$emit('click', navigationEntry.path)
 
             }
             if (!(navigationEntry.subentries && navigationEntry.subentries.length > 0)) {
@@ -151,6 +239,9 @@ export default {
                 // add entry "open" to navigationEntry-object (will be watched by vue3 automatically)
                 navigationEntry.open = !navigationEntry.open
             }
+        },
+        getRoute(navigationEntry) {
+            return getRoute(navigationEntry)
         }
     }
 }
@@ -222,7 +313,7 @@ export default {
                 width: auto;
             }
 
-            &.open {
+            &.open-off-canvas {
                 nav {
                     left: 0;
                     opacity: 1;
@@ -231,13 +322,27 @@ export default {
                     background: var(--default-background-color);
                     border-right: var(--default-border);
                 }
+
+                &.show-content-overlay {
+                    nav {
+                        &::after {
+                            content: "";
+                            position: fixed;
+                            width: calc(100% - var(--nav-width));
+                            top: 0;
+                            left: var(--nav-width);
+                            height: 100%;
+                            display: block;
+                            background: var(--pure-black-reduced-opacity);
+                        }
+                    }
+                }
             }
 
             nav {
                 --nav-width: 30%;
 
-                position: fixed;
-                top: 0;
+                position: absolute;
                 left: -100%;
                 width: var(--nav-width);
                 height: 100%;
@@ -351,21 +456,6 @@ export default {
                             }
                         }
                     }
-                }
-            }
-        }
-
-        &.show-content-overlay {
-            nav {
-                &::after {
-                    content: "";
-                    position: fixed;
-                    width: calc(100% - var(--nav-width));
-                    top: 0;
-                    left: var(--nav-width);
-                    height: 100%;
-                    display: block;
-                    background: var(--pure-black-reduced-opacity);
                 }
             }
         }

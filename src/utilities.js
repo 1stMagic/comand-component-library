@@ -1,11 +1,8 @@
 function getRoute (entry) {
-    if(entry.link.path) {
-        return entry.link.path
+    if(entry.path) {
+        return entry.path
     }
-    return {
-        name: entry.link.name,
-        params: entry.link.params || {} // if entry.link.params is set (or return empty object)
-    }
+    return entry.route
 }
 
 export { getRoute }

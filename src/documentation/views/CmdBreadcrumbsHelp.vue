@@ -28,7 +28,8 @@ const propertyStructures = {
 <template>
     <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
-            <ViewCodeData :isFirstComponent="true" :code="CmdCode">
+            <h2>Component</h2>
+            <ViewCodeData :isFirstComponent="true" :code="CmdCode" :data="breadcrumbs">
                 <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
                     <CmdBreadcrumbs
                         :breadcrumbLinks="breadcrumbs"

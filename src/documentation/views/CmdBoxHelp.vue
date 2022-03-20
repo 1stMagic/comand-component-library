@@ -1,11 +1,16 @@
 <script setup>
-
+// import functions
 import {tabProps, tabHandlers} from "../tabs"
+import {isFrameMode} from "../../utils/common"
+
+// import components
 import CmdBox from "../../components/CmdBox"
 import ComponentProperties from "../components/ComponentProperties"
-import {isFrameMode} from "../../utils/common"
 import ViewCodeData from "../components/ViewCodeData"
 import CmdTabs from "../../components/CmdTabs"
+import CmdCustomHeadline from "../../components/CmdCustomHeadline"
+
+// import example-data
 import CmdCode from "../data/CmdBoxHelp"
 import boxesProduct from "../../assets/data/box-product"
 import boxesUser from "../../assets/data/box-user"
@@ -48,16 +53,16 @@ const propertyStructures = {
 <template>
     <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
-            <h2>Example #1 (content given by property)</h2>
+            <h2>Component</h2>
+            <CmdCustomHeadline preHeadlineText="Example #1" headlineText="Box 'content' (content given by property)" :headlineLevel="3" />
             <ViewCodeData :isFirstComponent="true" :code="CmdCode">
                 <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
-                    <CmdBox :cmdCustomHeadline="{ headline: {text: 'Headline given by property', level: '3'}}" textBody="Content given by property" />
+                    <CmdBox :cmdCustomHeadline="{headlineText: 'Headline given by property', headlineLevel: 4}" textBody="Content given by property" />
                 </teleport>
             </ViewCodeData>
             <hr />
-            <h2>Example #2 (content given by slot)</h2>
+            <CmdCustomHeadline preHeadlineText="Example #2" headlineText="Box 'content' (content given by slot)" :headlineLevel="3" />
             <ViewCodeData :code="CmdCode">
-                    <h4>Box with slot</h4>
                     <CmdBox :useSlot="true">
                         <template v-slot:header>
                             <h3>
@@ -77,16 +82,14 @@ const propertyStructures = {
                     </CmdBox>
             </ViewCodeData>
             <hr />
-            <h2>Example #3 (Box product)</h2>
-            <ViewCodeData :code="CmdCode">
-                <h4>Box product</h4>
-                <CmdBox boxType="product" :product="boxesProduct[0]"/>
+            <CmdCustomHeadline preHeadlineText="Example #3" headlineText="Box 'product'" :headlineLevel="3" />
+            <ViewCodeData :code="CmdCode" :data="boxesProduct[0]">
+                <CmdBox boxType="product" :product="boxesProduct[0]" :cmdCustomHeadline="{ headlineLevel: 3}"/>
             </ViewCodeData>
             <hr />
-            <h2>Example #4 (Box user)</h2>
-            <ViewCodeData :code="CmdCode">
-                <h4>Box user</h4>
-                <CmdBox boxType="user" :user="boxesUser[0]"/>
+            <CmdCustomHeadline preHeadlineText="Example #4" headlineText="Box 'user'" :headlineLevel="3" />
+            <ViewCodeData :code="CmdCode" :data="boxesUser[2]">
+                <CmdBox boxType="user" :user="boxesUser[2]" :cmdCustomHeadline="{ headlineLevel: 3}"/>
             </ViewCodeData>
         </template>
         <template v-slot:tab-content-1>

@@ -1,7 +1,14 @@
 <template>
     <div class="cmd-slideshow" :class="{'full-width': fullWidth}">
         <div class="inner-slideshow-wrapper" @mouseenter="pause = true" @mouseleave="pause = false">
-            <CmdSlideButton @click.prevent="showPrevItem" slideButtonType="prev" />
+            <!-- begin CmdSlideButton -->
+            <CmdSlideButton
+                @click.prevent="showPrevItem"
+                slideButtonType="prev"
+            />
+            <!-- end CmdSlideButton -->
+
+            <!-- begin area to slide -->
             <transition name="fade">
                 <a v-if="currentItem.href" :href="currentItem.href" :key="index" :title="currentItem.title">
                     <figure v-if="currentItem && !useSlot" class="slideshow-item">
@@ -22,7 +29,14 @@
                     <slot :name="'item' + currentSlotItem"></slot>
                 </div>
             </transition>
-            <CmdSlideButton @click.prevent="showNextItem" />
+            <!-- end area to slide -->
+
+            <!-- begin CmdSlideButton -->
+            <CmdSlideButton
+                @click.prevent="showNextItem"
+            />
+            <!-- end CmdSlideButton -->
+
             <ol v-if="showQuickLinkIcons">
                 <li v-for="(item, i) in slideshowItems" :key="i" :class="{active: i === index }">
                     <a href="#" @click.prevent="index = i" :aria-label="index"></a>
@@ -34,7 +48,8 @@
 </template>
 
 <script>
-import CmdSlideButton from "./CmdSlideButton.vue"
+// import components
+import CmdSlideButton from "./CmdSlideButton"
 
 const NOT_YET_PRELOADED_IMAGE = image => !image.loaded
 const NOT_YET_PRELOADED_IMAGES = item => item.images && item.images.find(NOT_YET_PRELOADED_IMAGE)

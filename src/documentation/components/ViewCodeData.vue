@@ -33,7 +33,7 @@ function changeWidth(width) {
     <div class="flex-container vertical">
         <div>
             <header class="flex-container" id="switch-device-view">
-                <h3>View</h3>
+                <h4>View</h4>
                 <ul v-if="isFirstComponent" class="flex-container">
                     <li>
                         Toggle width:
@@ -57,11 +57,11 @@ function changeWidth(width) {
         </div>
         <div v-if="!isFrameMode()" class="flex-container">
             <div>
-                <h3>Code</h3>
+                <h4>Code</h4>
                 <ComponentCode :code="code" />
             </div>
             <div v-if="data">
-                <h3>Data</h3>
+                <h4>Data</h4>
                 <ComponentCode :code="data" language="json" />
             </div>
         </div>
@@ -71,6 +71,7 @@ function changeWidth(width) {
 <style lang="scss">
 #responsive-view {
     border: .1rem dotted var(--text-color);
+    height: 25rem;
 }
 
 #switch-device-view {

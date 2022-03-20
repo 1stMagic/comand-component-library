@@ -1,19 +1,17 @@
 <template>
+    <!-- begin advanced mode -->
     <fieldset v-if="advancedMode" :class="['cmd-upload-form flex-container', { 'upload-initiated': uploadInitiated }]">
-        <!-- begin cmdCustomHeadline -->
-        <CmdCustomHeadline v-if="cmdCustomHeadline" :headline="cmdCustomHeadline"></CmdCustomHeadline>
-        <!-- end cmdCustomHeadline -->
+        <!-- begin CmdCustomHeadline -->
+        <CmdCustomHeadline v-if="cmdCustomHeadline"
+                           v-bind="cmdCustomHeadline" />
+        <!-- end CmdCustomHeadline -->
 
-        <!-- begin cmdSystemMessage -->
+        <!-- begin CmdSystemMessage -->
         <CmdSystemMessage
             v-if="systemMessageStatus && allSystemMessages.length"
             :iconClose="{ show: false }"
             :validationStatus="systemMessageStatus"
-            :systemMessage="
-        allSystemMessages.length === 1
-          ? allSystemMessages[0]
-          : getMessage('cmduploadform.system_message.the_following_errors_occurred')
-      "
+            :systemMessage="allSystemMessages.length === 1 ? allSystemMessages[0] : getMessage('cmduploadform.system_message.the_following_errors_occurred')"
         >
             <ul v-if="allSystemMessages.length > 1">
                 <li v-for="(systemMessage, index) in allSystemMessages" :key="index">
@@ -21,7 +19,7 @@
                 </li>
             </ul>
         </CmdSystemMessage>
-        <!-- end cmdSystemMessage -->
+        <!-- end CmdSystemMessage -->
 
         <div :class="['box drop-area', { 'allow-drop': allowDrop }]" v-on="dragAndDropHandler">
             <template v-if="!listOfFiles.length">
@@ -196,6 +194,7 @@
                 </strong>
             </p>
         </div>
+        <!-- begin CmdFormElement -->
         <CmdFormElement
             v-if="enableComment"
             element="textarea"
@@ -206,6 +205,8 @@
             :placeholder="getMessage('cmduploadform.placeholder.comment')"
             :status="commentStatusMessage ? 'error' : ''"
         />
+        <!-- end CmdFormElement -->
+
         <div class="button-wrapper no-flex">
             <button
                 :class="[
@@ -236,7 +237,9 @@
             </button>
         </div>
     </fieldset>
+    <!-- end advanced mode -->
 
+    <!-- begin simple mode -->
     <a v-else href="#" @click.prevent="selectFiles" :class="['cmd-upload-form  drop-area', {'allow-drop': allowDrop }]" v-on="dragAndDropHandler">
         <span class="progressbar" v-if="uploadInitiated">
             <span>{{ getPercentage(totalUploadProgress) }}</span>
@@ -246,6 +249,7 @@
                 :title="totalBytesUploaded">
             </progress>
         </span>
+
         <!-- begin slot-content -->
         <slot>
             <template v-if="enableDragAndDrop">
@@ -267,6 +271,9 @@
         </slot>
         <!-- end slot-content -->
     </a>
+    <!-- end simple mode -->
+
+    <!-- begin CmdFormElement -->
     <CmdFormElement
         element="input"
         type="file"
@@ -276,10 +283,11 @@
         @change="filesSelected"
         ref="formElement"
     />
+    <!-- end CmdFormElement -->
 </template>
 
 <script>
-// import files for translations
+// import mixins
 import I18n from "../mixins/I18n"
 import DefaultMessageProperties from "../mixins/CmdUploadForm/DefaultMessageProperties"
 
@@ -287,12 +295,19 @@ import {getFileExtension} from "../utils/GetFileExtension.js"
 import axios from "axios"
 
 // import components
+import CmdCustomHeadline from "./CmdCustomHeadline"
 import CmdFormElement from "./CmdFormElement"
 import CmdSystemMessage from "./CmdSystemMessage"
 
 export default {
     name: "CmdUploadForm",
     emits: ["click", "error", "upload-complete", "upload-file-success"],
+    mixins: [I18n, DefaultMessageProperties],
+    components: {
+        CmdCustomHeadline,
+        CmdFormElement,
+        CmdSystemMessage,
+    },
     data() {
         return {
             comment: "",
@@ -305,11 +320,6 @@ export default {
             uploadInitiated: false,
             errors: {}
         }
-    },
-    mixins: [I18n, DefaultMessageProperties],
-    components: {
-        CmdSystemMessage,
-        CmdFormElement
     },
     created() {
         // Set initial data for resetForm.

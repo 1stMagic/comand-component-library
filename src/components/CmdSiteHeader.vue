@@ -12,7 +12,10 @@
         <!-- end header-wrapper with slots for logo and other header elements -->
 
         <!-- begin CmdMainNavigation -->
-        <CmdMainNavigation v-if="CmdMainNavigation" :navigationEntries="CmdMainNavigation" :closeOffcanvas="closeOffcanvas"/>
+        <CmdMainNavigation
+            v-if="cmdMainNavigation?.navigationEntries?.length"
+            v-bind="cmdMainNavigation"
+            :closeOffcanvas="closeOffcanvas"/>
         <!-- end CmdMainNavigation -->
     </div>
 </template>
@@ -30,7 +33,7 @@ export default {
         /**
          * properties for CmdMainNavigation-component
          */
-        CmdMainNavigation: {
+        cmdMainNavigation: {
             type: Array,
             required: true
         },

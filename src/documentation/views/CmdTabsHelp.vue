@@ -2,11 +2,12 @@
 
 import {tabProps, tabHandlers} from "../tabs"
 import CmdTabs from "../../components/CmdTabs"
+import CmdCustomHeadline from "../../components/CmdCustomHeadline"
 import ComponentProperties from "../components/ComponentProperties"
 import {isFrameMode} from "../../utils/common"
 import ViewCodeData from "../components/ViewCodeData"
 import CmdCode from "../data/CmdTabsHelp"
-import tabsData from "../../assets/data/tabs"
+import tabs from "../../assets/data/tabs"
 import propertyDescriptions from "../generated/CmdTabsPropertyDescriptions"
 
 const propertyStructures = {
@@ -23,16 +24,20 @@ const propertyStructures = {
 <template>
     <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
-            <ViewCodeData :isFirstComponent="true" :code="CmdCode">
+            <h2>Component</h2>
+            <CmdCustomHeadline headlineText="Tabs (not stretched)" :headlineLevel="3" preHeadlineText="Example #1" />
+            <ViewCodeData :isFirstComponent="true" :code="CmdCode" :data="tabs">
                 <CmdTabs
                     :stretchTabs="false"
-                    :tabs="tabsData"
+                    :tabs="tabs"
                 />
             </ViewCodeData>
-            <ViewCodeData :code="CmdCode">
+            <hr />
+            <CmdCustomHeadline headlineText="Tabs (stretched)" :headlineLevel="3" preHeadlineText="Example #2" />
+            <ViewCodeData :code="CmdCode" :data="tabs">
                 <CmdTabs
                     :stretchTabs="true"
-                    :tabs="tabsData"
+                    :tabs="tabs"
                 />
             </ViewCodeData>
         </template>

@@ -16,15 +16,27 @@
             </div>
         </template>
         <div v-else aria-live="assertive">
-            <h3 class="headline">{{ tabs[showTab].headline }}</h3>
+            <!-- begin CmdCustomHeadline -->
+            <CmdCustomHeadline
+               v-bind="cmdCustomHeadline"
+               :headlineText="tabs[showTab].headline"
+            />
+            <!-- end CmdCustomHeadline -->
+
             <div v-html="tabs[showTab].htmlContent"></div>
         </div>
     </div>
 </template>
 
 <script>
+// import components
+import CmdCustomHeadline from "./CmdCustomHeadline"
+
 export default {
     name: "CmdTabs",
+    components: {
+        CmdCustomHeadline
+    },
     data() {
         return {
             showTab: this.activeTab
@@ -32,6 +44,13 @@ export default {
     },
     emits: ["active-tab"],
     props: {
+        /**
+         * properties for CmdCustomHeadline-component
+         */
+        cmdCustomHeadline: {
+            type: Object,
+            required: false
+        },
         /**
          * activate if tabs should be (equally) stretched horizontally over full width of tab-content
          */

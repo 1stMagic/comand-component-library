@@ -1,4 +1,4 @@
-// import files for translations
+// import mixins
 import I18n from "./I18n"
 import GlobalDefaultMessageProperties from "./GlobalDefaultMessageProperties"
 

@@ -14,7 +14,11 @@ const propertyStructures = {
     multisteps: [
         {
             "path": "<string>",
+            "tooltip": "<string>",
+            "type": "<string>",
             "name": "<string>",
+            "formaction": "<string>",
+            "text": "<string>",
             "iconClass": "<string>"
         }
     ]
@@ -24,13 +28,14 @@ const propertyStructures = {
 <template>
     <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
+            <h2>Component</h2>
             <ViewCodeData :isFirstComponent="true" :code="CmdCode" :data="multistepFormProgressBar">
                 <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
-                <CmdMultistepFormProgressBar
-                    :multisteps="multistepFormProgressBar"
-                    separatorIconClass="icon-single-arrow-right"
-                    @click="showPageMultistep = $event.index + 1"
-                />
+                    <CmdMultistepFormProgressBar
+                        :multisteps="multistepFormProgressBar"
+                        separatorIconClass="icon-single-arrow-right"
+                        @click="showPageMultistep = $event.index + 1"
+                    />
                 </teleport>
             </ViewCodeData>
         </template>

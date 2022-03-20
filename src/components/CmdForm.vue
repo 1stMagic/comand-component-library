@@ -7,10 +7,12 @@
                 <slot></slot>
                 <!-- end default-slot-content -->
             </fieldset>
+
             <!-- begin button-row-slot-content -->
             <slot name="button-row"></slot>
             <!-- end button-row-slot-content -->
         </template>
+
         <!-- begin default-slot-content -->
         <slot v-else></slot>
         <!-- end default-slot-content -->

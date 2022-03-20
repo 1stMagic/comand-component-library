@@ -1,26 +1,37 @@
 <template>
     <div v-if="tooltipVisibility" :class="['cmd-tooltip', status]" ref="tooltip" aria-role="tooltip">
         <div v-if="cmdCustomHeadline || iconClose.show" class="headline-wrapper">
-            <!-- begin headline -->
-            <CmdCustomHeadline v-if="cmdCustomHeadline" :headline="cmdCustomHeadline"></CmdCustomHeadline>
-            <!-- end headline -->
+            <!-- begin CmdCustomHeadline -->
+            <CmdCustomHeadline v-if="cmdCustomHeadline"
+                               :iconClass="cmdCustomHeadline.iconClass"
+                               :preHeadline="cmdCustomHeadline.preHeadline"
+                               :headlineLevel="cmdCustomHeadline.headlineLevel"
+                               :headlineText="cmdCustomHeadline.headlineText"/>
+            <!-- end CmdCustomHeadline -->
+
+            <!-- begin icon to close tooltip -->
             <a v-if="iconClose.show && toggleVisibilityByClick" href="#" @click.prevent="tooltipVisibility = false" :title="iconClose.tooltip">
                 <span :class="iconClose.iconClass"></span>
             </a>
+            <!-- end icon to close tooltip -->
         </div>
+        <!-- begin slot-content -->
         <slot>
             {{ tooltipText }}
         </slot>
+        <!-- end slot-content -->
     </div>
 </template>
 
 <script>
 // import components
-import CmdCustomHeadline from "./CmdCustomHeadline";
+import CmdCustomHeadline from "./CmdCustomHeadline"
 
 export default {
     name: "CmdTooltip",
-    components: {CmdCustomHeadline},
+    components: {
+        CmdCustomHeadline
+    },
     data() {
         return {
             tooltipVisibility: false,

@@ -35,19 +35,21 @@ const fakeSelectFilters = ref([])
 <template>
     <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
+            <h2>Component</h2>
             <ViewCodeData :isFirstComponent="true" :code="CmdCode">
                 <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
                     <CmdFormFilters
                         v-model="fakeSelectFilters"
                         :selectedOptionsName="getOptionName"
                     />
-                    <CmdFakeSelect labelText="Selectbox with filters:"
-                                   :selectData="fakeSelectFilterOptions"
-                                   v-model="fakeSelectFilters"
-                                   defaultOptionName="Filters:"
-                                   id="selectbox-with-filters"
-                                   type="checkboxOptions"
-                                   :useCustomTooltip="true"
+                    <CmdFakeSelect
+                        labelText="Selectbox with filters:"
+                        :selectData="fakeSelectFilterOptions"
+                        v-model="fakeSelectFilters"
+                        defaultOptionName="Filters:"
+                        id="selectbox-with-filters"
+                        type="checkboxOptions"
+                        :useCustomTooltip="true"
                     />
                 </teleport>
             </ViewCodeData>

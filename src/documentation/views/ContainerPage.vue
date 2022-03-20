@@ -63,7 +63,7 @@ watch(() => props.componentName, () => HelpView.value = defineAsyncComponent(() 
 
 <style lang="scss">
 #tabs-wrapper {
-    .cmd-tabs {
+    > .cmd-tabs {
         > ul > li {
             border: 0;
             border-bottom: var(--default-border);

@@ -150,10 +150,6 @@
     "headline": "Tooltip",
     "shorttext": "A custom tooltip, that looks like the default tooltip (title) that appears on hovering elements. It also can be filled with customizable content and styled individually."
   },
-  "CmdTopHeaderNavigation": {
-    "headline": "Top Header Navigation",
-    "shorttext": "Small, secondary navigitation ,that is mostly arranged horizontally above the site header."
-  },
   "CmdUploadForm": {
     "headline": "Upload form",
     "shorttext": "Can be used as a complex, configurable form or as a simple drag-and-drop area to prepare the upload of files."

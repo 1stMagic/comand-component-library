@@ -1,11 +1,16 @@
 <script setup>
-
+// import functions
+import {ref} from "vue"
 import {tabProps, tabHandlers} from "../tabs"
+import {isFrameMode} from "../../utils/common"
+
+// import components
 import CmdMainNavigation from "../../components/CmdMainNavigation"
 import ComponentProperties from "../components/ComponentProperties"
-import {isFrameMode} from "../../utils/common"
 import ViewCodeData from "../components/ViewCodeData"
 import CmdTabs from "../../components/CmdTabs"
+
+// import example-data
 import CmdCode from "../data/CmdMainNavigationHelp"
 import mainNavigation from '../../assets/data/main-navigation'
 import propertyDescriptions from "../generated/CmdMainNavigationPropertyDescriptions"
@@ -49,17 +54,21 @@ const propertyStructures = {
         id: "<string>"
     }
 }
+
+// use ref and assign to const to make reactive
+const navigationEntries = ref(mainNavigation)
 </script>
 
 <template>
     <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
-            <ViewCodeData :isFirstComponent="true" :code="CmdCode">
+            <h2>Component</h2>
+            <ViewCodeData :isFirstComponent="true" :code="CmdCode" :data="navigationEntries">
                 <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
                     <CmdMainNavigation
                         :stretchMainItems="false"
                         :persistOnMobile="false"
-                        :navigationEntries="mainNavigation"
+                        :navigationEntries="navigationEntries"
                     />
                 </teleport>
             </ViewCodeData>

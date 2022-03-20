@@ -47,7 +47,7 @@
 
 <script>
 export default {
-    name: "CmdTableWrapper",
+    name: "CmdTable",
     data() {
         return {
             showTableData: true,

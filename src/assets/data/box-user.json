@@ -7,10 +7,10 @@
     "description": "Some short description text for further information about the user",
     "links": [
         {
-        "href": "mailto:",
+        "path": "mailto:",
         "target": "",
         "iconClass": "icon-mail",
-        "title": "Send mail"
+        "tooltip": "Send mail"
       }
     ]
   },
@@ -21,16 +21,16 @@
     "position": "User position",
     "links": [
       {
-        "href": "mailto:",
+        "path": "mailto:",
         "target": "",
         "iconClass": "icon-mail",
-        "title": "Send mail"
+        "tooltip": "Send mail"
       },
       {
-        "href": "http://www.comand-cms.com",
+        "path": "http://www.comand-cms.com",
         "target": "comand",
         "iconClass": "icon-globe",
-        "title": "Visit website"
+        "tooltip": "Visit website"
       }
     ]
   },
@@ -41,22 +41,22 @@
     "position": "User position",
     "links":  [
       {
-        "href": "mailto:",
+        "path": "mailto:",
         "target": "",
         "iconClass": "icon-mail",
-        "title": "Send mail"
+        "tooltip": "Send mail"
       },
       {
-        "href": "http://www.comand-cms.com",
+        "path": "http://www.comand-cms.com",
         "target": "comand",
         "iconClass": "icon-globe",
-        "title": "Visit website"
+        "tooltip": "Visit website"
       },
       {
-        "href": "tel:",
+        "path": "tel:",
         "target": "",
         "iconClass": "icon-phone",
-        "title": "Make call"
+        "tooltip": "Make call"
       }
     ]
   },
@@ -67,22 +67,22 @@
     "position": "User position",
     "links":  [
       {
-        "href": "mailto:",
+        "path": "mailto:",
         "target": "",
         "iconClass": "icon-mail",
-        "title": "Send mail"
+        "tooltip": "Send mail"
       },
       {
-        "href": "http://www.comand-cms.com",
+        "path": "http://www.comand-cms.com",
         "target": "comand",
         "iconClass": "icon-globe",
-        "title": "Visit website"
+        "tooltip": "Visit website"
       },
       {
-        "href": "tel:",
+        "path": "tel:",
         "target": "",
         "iconClass": "icon-phone",
-        "title": "Make call"
+        "tooltip": "Make call"
       }
     ]
   }

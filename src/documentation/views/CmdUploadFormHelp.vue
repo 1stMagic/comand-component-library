@@ -6,6 +6,7 @@ import ComponentProperties from "../components/ComponentProperties"
 import {isFrameMode} from "../../utils/common"
 import ViewCodeData from "../components/ViewCodeData"
 import CmdTabs from "../../components/CmdTabs"
+import CmdCustomHeadline from "../../components/CmdCustomHeadline"
 import CmdCode from "../data/CmdUploadFormHelp"
 import propertyDescriptions from "../generated/CmdUploadFormPropertyDescriptions"
 
@@ -23,11 +24,12 @@ const propertyStructures = {
 <template>
     <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
+            <h2>Component</h2>
+            <CmdCustomHeadline headlineText="Advanced mode" :headlineLevel="3" preHeadlineText="Example #1" />
             <ViewCodeData :isFirstComponent="true" :code="CmdCode">
-                <h4>Advanced mode</h4>
                 <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
                 <CmdUploadForm
-                    headline="Select files to upload"
+                    :cmdCustomHeadline="{headlineText: 'Select files to upload', headlineLevel: 5}"
                     :enableDragAndDrop="true"
                     :allowedFileExtensions="['gif','png','jpg']"
                     :allowMultipleFileUploads="true"
@@ -35,10 +37,10 @@ const propertyStructures = {
                 />
                 </teleport>
             </ViewCodeData>
+            <hr />
+            <CmdCustomHeadline headlineText="Simple mode" :headlineLevel="3" preHeadlineText="Example #2" />
             <ViewCodeData :code="CmdCode">
-                <h4>Simple mode</h4>
                 <CmdUploadForm
-                    headline="Select files to upload"
                     :advancedMode="false"
                     :maxFileUploadSize="5242880"
                     :enableDragAndDrop="true"

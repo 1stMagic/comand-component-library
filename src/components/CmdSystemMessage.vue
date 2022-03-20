@@ -16,7 +16,9 @@
                 <span v-if="iconMessage && iconMessage.iconClass" :class="iconMessage.iconClass"></span>
                 <strong v-if="systemMessage">{{ systemMessage }}</strong>
             </h6>
+            <!-- begin slot-content -->
             <slot></slot>
+            <!-- end slot-content -->
         </div>
     </transition>
 </template>

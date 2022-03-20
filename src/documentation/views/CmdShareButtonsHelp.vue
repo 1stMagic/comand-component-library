@@ -1,13 +1,19 @@
 <script setup>
-
+// import functions
 import {tabProps, tabHandlers} from "../tabs"
+import {isFrameMode} from "../../utils/common"
+
+// import components
 import CmdShareButtons from "../../components/CmdShareButtons"
 import ComponentProperties from "../components/ComponentProperties"
-import {isFrameMode} from "../../utils/common"
 import ViewCodeData from "../components/ViewCodeData"
 import CmdTabs from "../../components/CmdTabs"
+import CmdCustomHeadline from "../../components/CmdCustomHeadline"
+
+// import example-data
 import CmdCode from "../data/CmdShareButtonsHelp"
-import shareButtons from '../../assets/data/share-buttons'
+import shareButtonsJson from '../../assets/data/share-buttons-page-by-json'
+import shareButtonsPage from '../../assets/data/share-buttons-page-by-property'
 import propertyDescriptions from "../generated/CmdShareButtonsPropertyDescriptions"
 
 const propertyStructures = {
@@ -26,12 +32,30 @@ const propertyStructures = {
 <template>
     <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
-            <ViewCodeData :isFirstComponent="true" :code="CmdCode" :data="shareButtons">
+            <h2>Component</h2>
+            <CmdCustomHeadline headlineText="Data given by json-file" :headlineLevel="3" preHeadlineText="Example #1" />
+            <ViewCodeData :isFirstComponent="true" :code="CmdCode" :data="shareButtonsJson">
                 <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
                     <CmdShareButtons
-                        :share-buttons="shareButtons"
+                        :append-page="false"
+                        :share-buttons="shareButtonsJson"
                     />
                 </teleport>
+            </ViewCodeData>
+            <hr />
+            <CmdCustomHeadline headlineText="Page given by property" :headlineLevel="3" preHeadlineText="Example #2" />
+            <ViewCodeData :code="CmdCode" :data="shareButtonsPage">
+                    <CmdShareButtons
+                        page="http://development.comand-cms.com/module/team.html"
+                        :share-buttons="shareButtonsPage"
+                    />
+            </ViewCodeData>
+            <hr />
+            <CmdCustomHeadline headlineText="Page taken from browser" headlineLevel="3" preHeadlineText="Example #3" />
+            <ViewCodeData :code="CmdCode" :data="shareButtonsPage">
+                    <CmdShareButtons
+                        :share-buttons="shareButtonsPage"
+                    />
             </ViewCodeData>
         </template>
         <template v-slot:tab-content-1>

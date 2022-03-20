@@ -1,26 +1,70 @@
 <template>
     <ol class="cmd-multistep-form-progress-bar">
         <li v-for="(step, index) in multisteps" :key="index" :class="{active : activeLink === index}">
-            <a :href="step.path" @click.stop.prevent="clickedStep($event, index)">
-                <span class="number" v-if="showStepNumber">{{ index + 1 }}</span>
-                <span v-else :class="step.iconClass"></span>
-                <span>{{ step.name }}</span>
+            <!-- begin type === href -->
+            <a v-if="step.type === 'href'"
+               :href="step.path" @click.stop.prevent="clickedStep($event, index)"
+               :title="step.tooltip"
+            >
+                <span  v-if="showStepNumber" class="number">{{ index + 1 }}</span>
+                <span v-if="step.iconClass" :class="step.iconClass"></span>
+                <span v-if="step.text">{{ step.text }}</span>
                 <span :class="separatorIconClass"></span>
             </a>
+            <!-- end type === href -->
+
+            <!-- begin type === router -->
+            <router-link
+                v-if="step.type === 'router'"
+                :to="getRoute(step)"
+                :title="step.tooltip"
+            >
+                <span v-if="showStepNumber" class="number">{{ index + 1 }}</span>
+                <span v-if="step.iconClass" :class="step.iconClass"></span>
+                <span v-if="step.text">{{ step.text }}</span>
+                <span :class="separatorIconClass"></span>
+            </router-link>
+            <!-- end type === router -->
+
+            <!-- begin type === button/submit -->
+            <button
+                v-if="step.type === 'button' || step.type === 'submit'"
+                class="button"
+                :type="step.type"
+                :name="step.name"
+                :title="step.tooltip"
+                :formaction="step.formaction"
+                @click.stop.prevent="clickedStep($event, index)"
+            >
+                <span v-if="showStepNumber" class="number">{{ index + 1 }}</span>
+                <span v-if="step.iconClass" :class="step.iconClass"></span>
+                <span v-if="step.text">{{ step.text }}</span>
+                <span :class="separatorIconClass"></span>
+            </button>
+            <!-- end type === button/submit -->
         </li>
     </ol>
 </template>
 
 <script>
+// import functions
+import {getRoute} from "../utilities.js"
+
 export default {
     name: 'CmdMultistepFormProgressBar',
     data() {
         return {
-            activeLink: 0,
-            showStepNumber: true
+            activeLink: 0
         }
     },
     props: {
+        /**
+         * toggle visibility of step-number in front/left of link-icon and -name
+         */
+        showStepNumber: {
+            type: Boolean,
+            default: false
+        },
         /**
          * list of multisteps
          */
@@ -40,6 +84,9 @@ export default {
         clickedStep(event, index) {
             this.activeLink = index;
             this.$emit('click', {event: event, index: index, stepPath: this.multisteps[index].path})
+        },
+        getRoute(step) {
+            return getRoute(step)
         }
     }
 }
@@ -165,7 +212,9 @@ export default {
 
                     &:hover, &:active, &:focus {
                         span, span[class*="icon"] {
-                            color: var(--primary-color);
+                            &:not(:last-child) {
+                                color: var(--primary-color);
+                            }
                         }
                     }
                 }
@@ -185,7 +234,6 @@ export default {
         li {
             &:not(:last-child) {
                 border-bottom: var(--default-border);
-                border-bottom-width: .2rem;
             }
 
             a {
