@@ -1,16 +1,17 @@
 <script setup>
-
+// import functions
 import {tabProps, tabHandlers} from "../tabs"
 import {isFrameMode} from "../../utils/common"
+
+// import components
 import CmdTooltip from "../../components/CmdTooltip"
 import ComponentProperties from "../components/ComponentProperties"
-
 import ViewCodeData from "../components/ViewCodeData"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCustomHeadline from "../../components/CmdCustomHeadline"
-import CmdCode from "../data/CmdTooltipHelp"
 
 // import example-data
+import CmdCode from "../data/CmdTooltipHelp"
 import propertyDescriptions from "../generated/CmdTooltipPropertyDescriptions"
 
 const propertyStructures = {
@@ -27,8 +28,8 @@ const propertyStructures = {
         <template v-slot:tab-content-0>
             <h2>Component</h2>
             <CmdCustomHeadline headlineText="Tooltip opened by hover" :headlineLevel="3" preHeadlineText="Example #1" />
-            <ViewCodeData :isFirstComponent="true" :code="CmdCode">
-                <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
+            <ViewCodeData :isFirstComponent="true" :code="CmdCode[0]">
+                <teleport to="#frame-component-target" :disabled="!isFrameMode()">
                     <p>
                         <a href="#" @click.prevent id="hoverme">Hover me!</a><br/>
                     </p>
@@ -40,7 +41,7 @@ const propertyStructures = {
             </ViewCodeData>
             <hr />
             <CmdCustomHeadline headlineText="Tooltip opened (and closed) by click" :headlineLevel="3" preHeadlineText="Example #2" />
-            <ViewCodeData :code="CmdCode">
+            <ViewCodeData :code="CmdCode[1]">
                 <p>
                     <a href="#" @click.prevent id="clickme" title="Native tooltip">Click me!</a>
                 </p>

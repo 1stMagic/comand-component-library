@@ -1,4 +1,7 @@
-export default
-`<CmdFancyBox :allowEscapeKey="false">
+export default [
+`<CmdFancyBox 
+  :allowEscapeKey="false"
+  >
     Content
 </CmdFancyBox>`
+]

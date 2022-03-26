@@ -63,8 +63,8 @@ const navigationEntries = ref(mainNavigation)
     <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
             <h2>Component</h2>
-            <ViewCodeData :isFirstComponent="true" :code="CmdCode" :data="navigationEntries">
-                <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
+            <ViewCodeData :isFirstComponent="true" :code="CmdCode[0]" :data="navigationEntries">
+                <teleport to="#frame-component-target" :disabled="!isFrameMode()">
                     <CmdMainNavigation
                         :stretchMainItems="false"
                         :persistOnMobile="false"
@@ -78,3 +78,17 @@ const navigationEntries = ref(mainNavigation)
         </template>
     </CmdTabs>
 </template>
+
+<style lang="scss">
+@import '../../assets/styles/variables';
+
+main#cmd-main-navigation {
+    padding: 0;
+
+    @media only screen and (max-width: $medium-max-width) {
+        #toggle-offcanvas {
+            margin-top: var(--default-margin);
+        }
+    }
+}
+</style>

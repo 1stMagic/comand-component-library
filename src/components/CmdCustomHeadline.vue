@@ -1,8 +1,8 @@
 <template>
-    <header :class="['cmd-custom-headline', { 'pre-headline-text': preHeadlineText}]">
+    <header :class="['cmd-custom-headline', { 'has-pre-headline-text': preHeadlineText}]">
         <span v-if="iconClass" :class="iconClass"></span>
         <div v-if="preHeadlineText">
-            <p>{{ preHeadlineText }}</p>
+            <span class="pre-headline-text">{{ preHeadlineText }}</span>
             <component :is="getHeadlineTag">
                 <slot>{{ headlineText }}</slot>
             </component>
@@ -64,7 +64,7 @@ export default {
     margin-bottom: var(--default-margin);
     gap: calc(var(--default-gap) / 2);
 
-    &.pre-headline-text {
+    &.has-pre-headline-text {
         [class*="icon"] {
             font-size: 5rem;
         }

@@ -1,11 +1,17 @@
 <script setup>
+// import functions
 import {tabProps, tabHandlers} from "../tabs"
+import {isFrameMode} from "../../utils/common"
+
+// import component
 import CmdBankAccountData from "../../components/CmdBankAccountData"
+import CmdCustomHeadline from "../../components/CmdCustomHeadline"
 import ComponentProperties from "../components/ComponentProperties"
 import * as componentPropertiesFunctions from "../components/ComponentProperties"
-import {isFrameMode} from "../../utils/common"
 import ViewCodeData from "../components/ViewCodeData"
 import CmdTabs from "../../components/CmdTabs"
+
+// import example-data
 import CmdCode from "../data/CmdBankAccountDataHelp"
 import bankAccountData from "../../assets/data/bank-account-data"
 import propertyDescriptions from "../generated/CmdBankAccountDataPropertyDescriptions"
@@ -30,15 +36,18 @@ const propertyStructures = {
     <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
             <h2>Component</h2>
-            <ViewCodeData :isFirstComponent="true" :code="CmdCode" :data="bankAccountData">
-                <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
-                    <CmdBankAccountData
-                        :account-data="bankAccountData"
-                        :allow-copy-by-click="true"
-                        :cmd-custom-headline="{ headlineText: 'Bank Account', headlineLevel: 4}"
-                    />
-                </teleport>
-            </ViewCodeData>
+            <section class="example-section">
+                <CmdCustomHeadline headlineText="Default bank account data" :headlineLevel="3" />
+                <ViewCodeData :isFirstComponent="true" :code="CmdCode[0]" :data="bankAccountData[0]">
+                    <teleport to="#frame-component-target" :disabled="!isFrameMode()">
+                        <CmdBankAccountData
+                            :account-data="bankAccountData"
+                            :allow-copy-by-click="true"
+                            :cmd-custom-headline="{ headlineText: 'Bank Account', headlineLevel: 5}"
+                        />
+                    </teleport>
+                </ViewCodeData>
+            </section>
         </template>
         <template v-slot:tab-content-1>
             <ComponentProperties :properties="CmdBankAccountData.props" :propertyDescriptions="propertyDescriptions" :propertyStructures="propertyStructures"/>

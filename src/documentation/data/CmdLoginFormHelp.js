@@ -1,2 +1,6 @@
-export default
-`<CmdLoginForm v-model="loginData" v-focus />`
+export default [
+`<CmdLoginForm 
+  v-model="loginData" 
+  v-focus
+/>`
+]

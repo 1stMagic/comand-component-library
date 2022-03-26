@@ -3,7 +3,8 @@
     <fieldset v-if="advancedMode" :class="['cmd-upload-form flex-container', { 'upload-initiated': uploadInitiated }]">
         <!-- begin CmdCustomHeadline -->
         <CmdCustomHeadline v-if="cmdCustomHeadline"
-                           v-bind="cmdCustomHeadline" />
+                           v-bind="cmdCustomHeadline"
+        />
         <!-- end CmdCustomHeadline -->
 
         <!-- begin CmdSystemMessage -->

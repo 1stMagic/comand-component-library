@@ -1,4 +1,6 @@
-export default
+export default [
 `<CmdSwitchLanguage 
     :languages="switchLanguagesData"
+    @click="selectLanguage"
 />`
+]

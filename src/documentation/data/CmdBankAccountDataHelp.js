@@ -1,6 +1,8 @@
-export default
-`<CmdBankAccountData 
-  :account-data="bankAccountData" 
-  :cmd-custom-headline="{ text: 'Bank Account', level: 3}" 
-  :allow-copy-by-click="true" 
-/>`
+export default [`<CmdBankAccountData
+    :account-data="bankAccountData"
+    :allow-copy-by-click="true"
+    :cmd-custom-headline="{ 
+      headlineText: 'Bank Account', 
+      headlineLevel: 5
+    }"
+/>`]

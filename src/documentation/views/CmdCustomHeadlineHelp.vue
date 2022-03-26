@@ -9,7 +9,7 @@ import ComponentProperties from "../components/ComponentProperties"
 import ViewCodeData from "../components/ViewCodeData"
 import CmdTabs from "../../components/CmdTabs"
 
-// import data
+// import example-data
 import CmdCode from "../data/CmdCustomHeadlineHelp"
 import propertyDescriptions from "../generated/CmdCustomHeadlinePropertyDescriptions"
 </script>
@@ -18,8 +18,9 @@ import propertyDescriptions from "../generated/CmdCustomHeadlinePropertyDescript
     <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
             <h2>Component</h2>
-            <ViewCodeData :isFirstComponent="true" :code="CmdCode">
-                <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
+            <CmdCustomHeadline preHeadlineText="Example #1" headlineText="Headline level 1 (with icon and pre-headline)" :headlineLevel="3" />
+            <ViewCodeData :isFirstComponent="true" :code="CmdCode[0]">
+                <teleport to="#frame-component-target" :disabled="!isFrameMode()">
                     <CmdCustomHeadline headlineText="Headline level 1"  :headlineLevel="1" preHeadlineText="Pre-headline text" iconClass="icon-user-profile" />
                     <CmdCustomHeadline headlineText="Headline level 1"  :headlineLevel="1" iconClass="icon-user-profile" />
                     <CmdCustomHeadline headlineText="Headline level 1"  :headlineLevel="1" />

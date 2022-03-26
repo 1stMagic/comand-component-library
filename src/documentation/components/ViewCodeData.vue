@@ -52,7 +52,9 @@ function changeWidth(width) {
                     </li>
                 </ul>
             </header>
-            <iframe v-if="showFrame" :src="frameUrl.href" id="responsive-view" :style="{width: responsiveWidth}"></iframe>
+            <div v-if="showFrame" id="responsive-view-wrapper" :style="{width: responsiveWidth}">
+                <iframe :src="frameUrl.href" id="responsive-view"  :style="{width: responsiveWidth}"></iframe>
+            </div>
             <slot v-if="!showFrame"></slot>
         </div>
         <div v-if="!isFrameMode()" class="flex-container">
@@ -69,9 +71,16 @@ function changeWidth(width) {
 </template>
 
 <style lang="scss">
-#responsive-view {
-    border: .1rem dotted var(--text-color);
-    height: 25rem;
+
+#responsive-view-wrapper {
+    resize: vertical;
+    overflow:hidden;
+    display: flex;
+
+    #responsive-view {
+        flex-grow: 1;
+        border: .1rem dotted var(--text-color);
+    }
 }
 
 #switch-device-view {

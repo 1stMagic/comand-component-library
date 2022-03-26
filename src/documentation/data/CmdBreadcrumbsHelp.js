@@ -1,1 +1,6 @@
-export default `<CmdBreadcrumbs :breadcrumbLinks="breadcrumbData" breadcrumbLabel="You are here:"/>`
+export default [
+`<CmdBreadcrumbs 
+    :breadcrumbLinks="breadcrumbs" 
+    breadcrumbLabel="You are here:"
+/>`
+]

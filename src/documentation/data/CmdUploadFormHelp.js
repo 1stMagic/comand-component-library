@@ -1,8 +1,17 @@
-export default
-`<CmdUploadForm 
-    headline="Select files to upload"
+export default [
+`<CmdUploadForm
+    :cmdCustomHeadline="{headlineText: 'Select files to upload', headlineLevel: 5}"
     :enableDragAndDrop="true"
-    :allowedFileExtensions="['jpg']"
+    :allowedFileExtensions="['gif','png','jpg']"
     :allowMultipleFileUploads="true"
-    :uploadOptions="{url: 'http://localhost:8888'}"
+    :uploadOptions="{url: 'some url'}"
+/>`,
+`<CmdUploadForm
+    :advancedMode="false"
+    :maxFileUploadSize="5242880"
+    :enableDragAndDrop="true"
+    :allowedFileExtensions="['pdf']"
+    :allowMultipleFileUploads="false"
+    :uploadOptions="{url: 'some url'}"
 />`
+]

@@ -1,4 +1,5 @@
-export default
+export default [
 `<CmdGoogleMaps 
-  :addressData="addressData"
+  :address="coordinates(addressData.address)"
 />`
+]

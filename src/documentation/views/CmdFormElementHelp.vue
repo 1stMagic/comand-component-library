@@ -1,15 +1,21 @@
 <script setup>
+// import functions
 import {ref} from "vue"
 import {tabProps, tabHandlers} from "../tabs"
+import {isFrameMode} from "../../utils/common"
+import {useScrollspy} from "../../composables/scrollspy"
+
+// import components
 import CmdFormElement from "../../components/CmdFormElement"
 import ComponentProperties from "../components/ComponentProperties"
-import {isFrameMode} from "../../utils/common"
 import ViewCodeData from "../components/ViewCodeData"
 import CmdTabs from "../../components/CmdTabs"
+import CmdCustomHeadline from "../../components/CmdCustomHeadline"
+
+// import example-data
 import CmdCode from "../data/CmdFormElementHelp"
 import selectOptions from '../../assets/data/select-options'
 import propertyDescriptions from "../generated/CmdFormElementPropertyDescriptions"
-import CmdCustomHeadline from "../../components/CmdCustomHeadline"
 
 const propertyStructures = {
     datalist: {
@@ -44,19 +50,26 @@ const datalist = {
 
 // set consts for v-models
 const checkbox = ref(false)
-const radio = ref("Radiobutton1")
+const radio = ref("radiobutton1")
+const replacedRadio = ref("radiobutton2")
 const range = ref(50)
 const select = ref("2")
 const textarea = ref("")
+const formElementStatus = ref("")
+
+const firstChild = ref(null)
+const activeItem = useScrollspy(() => firstChild.value.parentElement.querySelectorAll(":scope > .cmd-custom-headline"))
+// TODO: formElementStatus
 </script>
 
 <template>
+    <div style="position: fixed; right: 0; top: 0; width: 4rem; height: 4rem; background-color: magenta; z-index: 10000;">{{ activeItem }}</div>
     <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
-            <h2>Component</h2>
+            <h2 ref="firstChild">Component</h2>
             <CmdCustomHeadline preHeadlineText="Example #1" headlineText="Input (type text)" :headlineLevel="2" />
-            <ViewCodeData :isFirstComponent="true" :code="CmdCode">
-                <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
+            <ViewCodeData :isFirstComponent="true" :code="CmdCode[0]">
+                <teleport to="#frame-component-target" :disabled="!isFrameMode()">
                     <CmdFormElement
                         labelText="Input (type text):"
                         element="input"
@@ -70,7 +83,7 @@ const textarea = ref("")
             </ViewCodeData>
             <hr/>
             <CmdCustomHeadline preHeadlineText="Example #2" headlineText="Input (type number)" :headlineLevel="2" />
-            <ViewCodeData :code="CmdCode">
+            <ViewCodeData :code="CmdCode[1]">
                 <CmdFormElement
                     labelText="Input (type number):"
                     element="input"
@@ -83,7 +96,7 @@ const textarea = ref("")
             </ViewCodeData>
             <hr/>
             <CmdCustomHeadline preHeadlineText="Example #3" headlineText="Input (type color)" :headlineLevel="2" />
-            <ViewCodeData :code="CmdCode">
+            <ViewCodeData :code="CmdCode[2]">
                 <CmdFormElement
                     labelText="Input (type color):"
                     element="input"
@@ -95,7 +108,7 @@ const textarea = ref("")
             </ViewCodeData>
             <hr/>
             <CmdCustomHeadline preHeadlineText="Example #4" headlineText="Input (type date)" :headlineLevel="2" />
-            <ViewCodeData :code="CmdCode">
+            <ViewCodeData :code="CmdCode[3]">
                 <CmdFormElement
                     labelText="Input (type date):"
                     element="input"
@@ -107,7 +120,7 @@ const textarea = ref("")
             </ViewCodeData>
             <hr/>
             <CmdCustomHeadline preHeadlineText="Example #5" headlineText="Input (type datetime-local)" :headlineLevel="2" />
-            <ViewCodeData :code="CmdCode">
+            <ViewCodeData :code="CmdCode[4]">
                 <CmdFormElement
                     labelText="Input (type datetime-local):"
                     element="input"
@@ -119,7 +132,7 @@ const textarea = ref("")
             </ViewCodeData>
             <hr/>
             <CmdCustomHeadline preHeadlineText="Example #6" headlineText="Input (type password)" :headlineLevel="2" />
-            <ViewCodeData :code="CmdCode">
+            <ViewCodeData :code="CmdCode[5]">
                 <CmdFormElement
                     labelText="Input (type password):"
                     element="input"
@@ -132,7 +145,7 @@ const textarea = ref("")
             </ViewCodeData>
             <hr/>
             <CmdCustomHeadline preHeadlineText="Example #7" headlineText="Input (type file)" :headlineLevel="2" />
-            <ViewCodeData :code="CmdCode">
+            <ViewCodeData :code="CmdCode[6]">
                 <CmdFormElement
                     labelText="Input (type file):"
                     element="input"
@@ -144,7 +157,7 @@ const textarea = ref("")
             </ViewCodeData>
             <hr/>
             <CmdCustomHeadline preHeadlineText="Example #8" headlineText="Input (type range)" :headlineLevel="2" />
-            <ViewCodeData :code="CmdCode">
+            <ViewCodeData :code="CmdCode[7]">
                 <CmdFormElement
                     labelText="Input (type range):"
                     element="input"
@@ -162,7 +175,7 @@ const textarea = ref("")
             </ViewCodeData>
             <hr/>
             <CmdCustomHeadline preHeadlineText="Example #9" headlineText="Input (type submit)" :headlineLevel="2" />
-            <ViewCodeData :code="CmdCode">
+            <ViewCodeData :code="CmdCode[8]">
                 <CmdFormElement
                     :nativeButton="{ text: 'Submit', icon: {iconClass: 'icon-edit', show: true}}"
                     element="button"
@@ -173,7 +186,7 @@ const textarea = ref("")
             </ViewCodeData>
             <hr/>
             <CmdCustomHeadline preHeadlineText="Example #10" headlineText="Input (type button)" :headlineLevel="2" />
-            <ViewCodeData :code="CmdCode">
+            <ViewCodeData :code="CmdCode[9]">
                 <CmdFormElement
                     :nativeButton="{ icon: {iconClass: 'icon-edit', show: true, tooltip: 'I am a tooltip'}}"
                     element="button"
@@ -184,7 +197,7 @@ const textarea = ref("")
             </ViewCodeData>
             <hr/>
             <CmdCustomHeadline preHeadlineText="Example #11" headlineText="Input (type checkbox)" :headlineLevel="2" />
-            <ViewCodeData :code="CmdCode">
+            <ViewCodeData :code="CmdCode[10]">
                 <CmdFormElement
                     labelText="Input (type checkbox)"
                     element="input"
@@ -203,7 +216,7 @@ const textarea = ref("")
             </ViewCodeData>
             <hr/>
             <CmdCustomHeadline preHeadlineText="Example #12" headlineText="Input (type radio)" :headlineLevel="2" />
-            <ViewCodeData :code="CmdCode">
+            <ViewCodeData :code="CmdCode[11]">
                 <CmdFormElement
                     labelText="Input #1 (type radio)"
                     element="input"
@@ -214,7 +227,7 @@ const textarea = ref("")
                     tooltipText="This is a tooltip"
                     :useCustomTooltip="false"
                     v-model="radio"
-                    inputValue="Radiobutton1"
+                    inputValue="radiobutton1"
                 />
                 <CmdFormElement
                     labelText="Input #2 (type radio)"
@@ -226,7 +239,7 @@ const textarea = ref("")
                     tooltipText="This is a tooltip"
                     :useCustomTooltip="false"
                     v-model="radio"
-                    inputValue="Radiobutton2"
+                    inputValue="radiobutton2"
                 />
                 <dl class="vmodel">
                     <dt>v-model:</dt>
@@ -237,7 +250,7 @@ const textarea = ref("")
             </ViewCodeData>
             <hr/>
             <CmdCustomHeadline preHeadlineText="Example #13" headlineText="Input (type checkbox, replaced)" :headlineLevel="2" />
-            <ViewCodeData :code="CmdCode">
+            <ViewCodeData :code="CmdCode[12]">
                 <CmdFormElement
                     labelText="Input (type checkbox)"
                     element="input"
@@ -257,43 +270,43 @@ const textarea = ref("")
             </ViewCodeData>
             <hr/>
             <CmdCustomHeadline preHeadlineText="Example #14" headlineText="Input (type radio, replaced)" :headlineLevel="2" />
-            <ViewCodeData :code="CmdCode">
+            <ViewCodeData :code="CmdCode[13]">
                 <CmdFormElement
                     labelText="Input #1 (type radio)"
                     element="input"
                     type="radio"
                     :replace-input-type="true"
-                    name="radio-group"
-                    id="example-radio1"
+                    name="replaced-radio-group"
+                    id="example-replaced-radio1"
                     :status="formElementStatus"
                     tooltipText="This is a tooltip"
                     :useCustomTooltip="false"
-                    v-model="radio"
-                    inputValue="Radiobutton1"
+                    v-model="replacedRadio"
+                    inputValue="radiobutton1"
                 />
                 <CmdFormElement
                     labelText="Input #2 (type radio)"
                     element="input"
                     type="radio"
-                    name="radio-group"
+                    name="replaced-radio-group"
                     :replace-input-type="true"
-                    id="example-radio2"
+                    id="example-replaced-radio2"
                     :status="formElementStatus"
                     tooltipText="This is a tooltip"
                     :useCustomTooltip="false"
-                    v-model="radio"
-                    inputValue="Radiobutton2"
+                    v-model="replacedRadio"
+                    inputValue="radiobutton2"
                 />
                 <dl class="vmodel">
                     <dt>v-model:</dt>
                     <dd>
-                        <output>{{ radio }}</output>
+                        <output>{{ replacedRadio }}</output>
                     </dd>
                 </dl>
             </ViewCodeData>
             <hr/>
             <CmdCustomHeadline preHeadlineText="Example #15" headlineText="Select" :headlineLevel="2" />
-            <ViewCodeData :code="CmdCode">
+            <ViewCodeData :code="CmdCode[14]">
                 <CmdFormElement
                     labelText="Selectbox"
                     element="select"
@@ -311,7 +324,7 @@ const textarea = ref("")
             </ViewCodeData>
             <hr/>
             <CmdCustomHeadline preHeadlineText="Example #16" headlineText="Datalist" :headlineLevel="2" />
-            <ViewCodeData :code="CmdCode">
+            <ViewCodeData :code="CmdCode[15]">
                 <CmdFormElement
                     labelText="Datalist:"
                     element="input"
@@ -323,8 +336,8 @@ const textarea = ref("")
                 />
             </ViewCodeData>
             <hr/>
-            <CmdCustomHeadline preHeadlineText="Example #16" headlineText="Textarea" :headlineLevel="2" />
-            <ViewCodeData :code="CmdCode">
+            <CmdCustomHeadline preHeadlineText="Example #17" headlineText="Textarea" :headlineLevel="2" />
+            <ViewCodeData :code="CmdCode[16]">
                 <CmdFormElement
                     labelText="Textarea:"
                     element="textarea"

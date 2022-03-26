@@ -1,11 +1,15 @@
 <script setup>
-
+// import functions
 import {tabProps, tabHandlers} from "../tabs"
+import {isFrameMode} from "../../utils/common"
+
+// import components
 import CmdCookieDisclaimer from "../../components/CmdCookieDisclaimer"
 import ComponentProperties from "../components/ComponentProperties"
-import {isFrameMode} from "../../utils/common"
 import ViewCodeData from "../components/ViewCodeData"
 import CmdTabs from "../../components/CmdTabs"
+
+// import example-data
 import cookieDisclaimer from '../../assets/data/cookie-disclaimer'
 import CmdCode from "../data/CmdCookieDisclaimerHelp"
 import propertyDescriptions from "../generated/CmdCookieDisclaimerPropertyDescriptions"
@@ -79,8 +83,8 @@ const propertyStructures = {
     <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
             <h2>Component</h2>
-            <ViewCodeData :isFirstComponent="true" :code="CmdCode" :data="cookieDisclaimer">
-                <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
+            <ViewCodeData :isFirstComponent="true" :code="CmdCode[0]" :data="cookieDisclaimer">
+                <teleport to="#frame-component-target" :disabled="!isFrameMode()">
                     <CmdCookieDisclaimer
                          :cmdCustomHeadline="{headlineText: 'Usage of cookies on this web site', headlineLevel: 3}"
                          :cookieOptions="cookieDisclaimer"

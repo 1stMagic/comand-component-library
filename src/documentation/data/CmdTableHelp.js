@@ -1,7 +1,14 @@
-export default
-`  <CmdTable
+export default [
+`<CmdTable
     :collapsible="true"
     :fullWidthOnDefault="false"
     :userCanToggleWidth="true"
-    :table-data="tableDataSmall"
+    :table-data="tableSmall"
+/>`,
+`<CmdTable
+    :collapsible="true"
+    :fullWidthOnDefault="false"
+    :userCanToggleWidth="true"
+    :table-data="tableLarge"
 />`
+]

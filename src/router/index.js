@@ -15,6 +15,14 @@ routes.push({
     }
 })
 
+routes.push({
+    path: "/subsubpage/:param1/:param2",
+    name: "subsubpage",
+    redirect: {
+        name: componentNames[0]
+    }
+})
+
 for(let i = 0 ; i < componentNames.length ; i++) {
     routes.push(
         {

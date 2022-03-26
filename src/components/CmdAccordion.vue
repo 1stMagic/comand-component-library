@@ -5,7 +5,12 @@
                 <!-- begin slot for headline -->
                 <slot :name="'accordionHeadline' + index">
                     <!-- begin CmdCustomHeadline -->
-                    <CmdCustomHeadline v-if="cmdCustomHeadline" v-bind="cmdCustomHeadline" />
+                    <CmdCustomHeadline
+                        v-if="accordionContent.headlineText && accordionContent.headlineLevel"
+                        :headlineText="accordionContent.headlineText"
+                        :headlineLevel="accordionContent.headlineLevel"
+                        :iconClass="accordionContent.iconClass"
+                    />
                     <!-- end CmdCustomHeadline -->
                 </slot>
                 <!-- end slot for headline -->

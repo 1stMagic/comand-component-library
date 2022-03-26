@@ -1,12 +1,16 @@
 <script setup>
-
+// import functions
 import {tabProps, tabHandlers} from "../tabs"
+import {isFrameMode} from "../../utils/common"
+
+// import components
 import CmdTable from "../../components/CmdTable"
 import ComponentProperties from "../components/ComponentProperties"
-import {isFrameMode} from "../../utils/common"
 import ViewCodeData from "../components/ViewCodeData"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCustomHeadline from "../../components/CmdCustomHeadline"
+
+// import example-data
 import CmdCode from "../data/CmdTableHelp"
 import tableSmall from "../../assets/data/table-small"
 import tableLarge from "../../assets/data/table-large"
@@ -52,8 +56,8 @@ const propertyStructures = {
         <template v-slot:tab-content-0>
             <h2>Component</h2>
             <CmdCustomHeadline headlineText="Table (with few data)" :headlineLevel="3" preHeadlineText="Example #1" />
-            <ViewCodeData :isFirstComponent="true" :code="CmdCode">
-                <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
+            <ViewCodeData :isFirstComponent="true" :code="CmdCode[0]">
+                <teleport to="#frame-component-target" :disabled="!isFrameMode()">
                     <CmdTable
                         :collapsible="true"
                         :fullWidthOnDefault="false"
@@ -64,7 +68,7 @@ const propertyStructures = {
             </ViewCodeData>
             <hr />
             <CmdCustomHeadline headlineText="Table (with lots of data and highlighted row and column)" :headlineLevel="3" preHeadlineText="Example 2" />
-            <ViewCodeData :code="CmdCode">
+            <ViewCodeData :code="CmdCode[1]">
                 <CmdTable
                     :collapsible="false"
                     :fullWidthOnDefault="false"

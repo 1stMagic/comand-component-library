@@ -54,12 +54,11 @@
                 <div v-if="showFilters && listOfFilters.length" class="flex-container no-flex" aria-expanded="true">
                     <!-- begin CmdFakeSelect -->
                     <CmdFakeSelect
-                        v-for="(filter, index) in listOfFilters"
-                        element="input"
-                        type="checkbox"
-                        :labelText="filter.labelText"
-                        :inputValue="filter.value"
-                        :key="index"
+                        :selectData="listOfFilters"
+                        v-model="fakeSelectFilters"
+                        defaultOptionName="Select filters:"
+                        type="checkboxOptions"
+                        labelText="Filters:"
                     />
                     <!-- end CmdFakeSelect -->
                 </div>
@@ -67,6 +66,7 @@
         </template>
         <!-- end filters -->
     </fieldset>
+    <CmdFormFilters v-if="useFilters" v-model="fakeSelectFilters" :selectedOptionsName="getOptionName"/>
 </template>
 
 <script>
@@ -78,6 +78,7 @@ import DefaultMessageProperties from "../mixins/CmdSiteSearch/DefaultMessageProp
 import CmdCustomHeadline from "./CmdCustomHeadline"
 import CmdFakeSelect from "./CmdFakeSelect"
 import CmdFormElement from "./CmdFormElement"
+import CmdFormFilters from "./CmdFormFilters"
 
 export default {
     name: "CmdBoxSiteSearch",
@@ -85,14 +86,20 @@ export default {
     components: {
         CmdCustomHeadline,
         CmdFakeSelect,
-        CmdFormElement
+        CmdFormElement,
+        CmdFormFilters
     },
     data() {
         return {
-            showFilters: false
+            showFilters: false,
+            fakeSelectFilters: []
         }
     },
     props: {
+        modelValue: {
+            type: Array,
+            required: false
+        },
         /**
          * toggle use of filters (must configured)
          */
@@ -148,6 +155,16 @@ export default {
                 return this.results + " Results"
             }
             return "Search"
+        }
+    },
+    methods: {
+        getOptionName(option) {
+            for (let i = 0; i < this.listOfFilters.length; i++) {
+                if (option === this.listOfFilters[i].value) {
+                    return this.listOfFilters[i].text
+                }
+            }
+            return null
         }
     }
 }

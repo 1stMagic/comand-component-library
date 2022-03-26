@@ -1,4 +1,4 @@
-export default
+export default [
 `<CmdSiteHeader :mainNavigationEntries="navigationData" :sticky="true">
     <!-- begin slot:top-header -->
     <template v-slot:top-header>
@@ -18,3 +18,4 @@ export default
     </template>
     <!-- end slot:logo -->
 </CmdSiteHeader>`
+]

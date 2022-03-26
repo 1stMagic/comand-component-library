@@ -1,8 +1,11 @@
 <script setup>
-import {defineProps, defineAsyncComponent, computed, watch, shallowRef} from "vue"
+import {defineProps, defineAsyncComponent, computed, onMounted, watch, shallowRef, ref} from "vue"
 import {useRoute, useRouter} from "vue-router"
 import {isFrameMode} from "../../utils/common"
+import {useScrollspy} from "../../composables/scrollspy"
 import componentDescription from "../data/componentsDescription"
+import CmdListOfLinks from "../../components/CmdListOfLinks"
+
 const props = defineProps({
     componentName: {
         type: String,
@@ -22,15 +25,52 @@ const props = defineProps({
     }
 })
 const componentNameHelp = computed(() => props.componentName + "Help")
+const idMainContainer = computed(() => {
+    if(isFrameMode()) {
+        // cmdMainNavigation
+        return  props.componentName.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase()
+    }
+    return null
+})
 const HelpView = shallowRef(null)
 const route = useRoute()
 const router = useRouter()
+const examples = ref(null)
+const listOfLinks = ref([])
 HelpView.value = defineAsyncComponent(() => import("./" + componentNameHelp.value))
 watch(() => props.componentName, () => HelpView.value = defineAsyncComponent(() => import("./" + componentNameHelp.value)))
+
+const activeSection = useScrollspy(() => {
+    return examples.value.querySelectorAll(".example-section")
+})
+
+function getAnchorId(sectionSelector) {
+    if (sectionSelector.querySelector(".pre-headline-text")) {
+        const preHeadlineText = sectionSelector.querySelector(".pre-headline-text").innerText
+        return "#" + preHeadlineText.replace(/[# ]/g, "").toLowerCase()
+    }
+}
+
+function getHeadlineText(sectionSelector) {
+    if (sectionSelector.classList.contains("has-pre-headline-text")) {
+        return sectionSelector.querySelector(".pre-headline-text + *").innerText
+    }
+    return sectionSelector.querySelector("*:first-child").innerText
+}
+
+onMounted(() => {
+    window.setTimeout(() => {
+        const sectionSelector = examples.value.querySelectorAll(".example-section > .cmd-custom-headline")
+        for (let i = 0 ; i < sectionSelector.length; i++) {
+            listOfLinks.value.push({ text: getHeadlineText(sectionSelector.item(i)), path: getAnchorId(sectionSelector.item(i))})
+        }
+    }, 1000)
+})
 </script>
 
 <template>
-    <main>
+    <main :id="idMainContainer">
+        <CmdListOfLinks v-if="listOfLinks.length > 1" :sectionAnchors="true" :activeSection="activeSection-1" :links="listOfLinks" />
         <template v-if="!isFrameMode()">
             <a href="#" @click.prevent="router.go(-1)">
                 <span class="icon-single-arrow-left"></span>
@@ -40,8 +80,8 @@ watch(() => props.componentName, () => HelpView.value = defineAsyncComponent(() 
             <p>{{ componentDescription[props.componentName]?.shorttext }}</p>
         </template>
         <div class="flex-container vertical">
-           <section id="tabs-wrapper">
-               <div v-if="isFrameMode()" id="frameComponentTarget"></div>
+           <section id="tabs-wrapper" ref="examples">
+               <div v-show="isFrameMode()" id="frame-component-target"></div>
                <HelpView :activeTab="props.activeTab" />
            </section>
             <template v-if="!isFrameMode()">
@@ -61,7 +101,16 @@ watch(() => props.componentName, () => HelpView.value = defineAsyncComponent(() 
     </main>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
+main {
+    > .cmd-list-of-links:first-child {
+        position: fixed;
+        right: 0;
+        z-index: 100;
+        background: white;
+    }
+}
+
 #tabs-wrapper {
     > .cmd-tabs {
         > ul > li {

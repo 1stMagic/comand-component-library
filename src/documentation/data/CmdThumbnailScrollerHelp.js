@@ -1,4 +1,5 @@
-export default
+export default [
 `<CmdThumbnailScroller 
-    :thumbnail-scroller-items="thumbnailScrollerData"
+    :thumbnail-scroller-items="thumbnailScroller"
 />`
+]

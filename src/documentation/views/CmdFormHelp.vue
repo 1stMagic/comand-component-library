@@ -1,10 +1,15 @@
 <script setup>
+// import functions
 import {tabProps, tabHandlers} from "../tabs"
+import {isFrameMode} from "../../utils/common"
+
+// import components
 import CmdForm from "../../components/CmdForm"
 import ComponentProperties from "../components/ComponentProperties"
-import {isFrameMode} from "../../utils/common"
 import ViewCodeData from "../components/ViewCodeData"
 import CmdTabs from "../../components/CmdTabs"
+
+// import example-data
 import CmdCode from "../data/CmdFormHelp"
 import propertyDescriptions from "../generated/CmdFormPropertyDescriptions"
 </script>
@@ -13,11 +18,10 @@ import propertyDescriptions from "../generated/CmdFormPropertyDescriptions"
     <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
             <h2>Component</h2>
-            <ViewCodeData :isFirstComponent="true" :code="CmdCode">
-                <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
+            <ViewCodeData :isFirstComponent="true" :code="CmdCode[0]">
+                <teleport to="#frame-component-target" :disabled="!isFrameMode()">
                     <CmdForm
                         :use-fieldset="true"
-                        id="advanced-form-elements"
                         novalidate="novalidate"
                         text-legend="Legend">
                         <!-- begin slot-content -->

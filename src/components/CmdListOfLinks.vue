@@ -1,5 +1,5 @@
 <template>
-    <div :class="['cmd-list-of-links', 'align-' + align, {box: styleAsBox, horizontal: orientation === 'horizontal'}]">
+    <div :class="['cmd-list-of-links', 'align-' + align, {box: styleAsBox, horizontal: orientation === 'horizontal', 'section-anchors': sectionAnchors}]">
         <!-- begin CmdCustomHeadline -->
         <CmdCustomHeadline v-if="cmdCustomHeadline"
                            v-bind="cmdCustomHeadline" />
@@ -7,7 +7,7 @@
 
         <!-- begin list of links -->
         <ul :class="['flex-container', {'no-gap': !useGap}]">
-            <li v-for="(link, index) in links" :key="index">
+            <li v-for="(link, index) in links" :key="index" :class="{'active': sectionAnchors && activeSection === index}">
                 <!-- begin use href -->
                 <a v-if="link.type === 'href' || link.type === undefined"
                    :href="link.path"
@@ -47,6 +47,14 @@ export default {
         CmdCustomHeadline
     },
     props: {
+        activeSection: {
+            type: Number,
+            default: 0
+        },
+        sectionAnchors: {
+            type: Boolean,
+            default: false
+        },
         /**
          * set horizontal alignment
          *
@@ -56,7 +64,7 @@ export default {
          */
         align: {
             type: String,
-            required: false
+            default: "left"
         },
         /**
          * properties for cmdCustomHeadline-component
@@ -99,8 +107,8 @@ export default {
         }
     },
     methods: {
-        getRoute(language) {
-            return getRoute(language)
+        getRoute(link) {
+            return getRoute(link)
         },
         executeLink(link, event) {
             if (link.fancybox) {
@@ -125,6 +133,10 @@ export default {
         li {
             list-style: none;
             margin-left: 0;
+
+            &.active {
+                border: 1px solid red;
+            }
         }
     }
 

@@ -1,4 +1,5 @@
 <script setup>
+// import functions
 import {tabProps, tabHandlers} from "../tabs"
 import {isFrameMode} from "../../utils/common"
 
@@ -9,7 +10,7 @@ import ViewCodeData from "../components/ViewCodeData"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdThumbnailScrollerHelp"
 
-// import data
+// import example-data
 import thumbnailScroller from "../../assets/data/thumbnail-scroller"
 import propertyDescriptions from "../generated/CmdThumbnailScrollerPropertyDescriptions"
 
@@ -34,8 +35,8 @@ const propertyStructures = {
     <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
             <h2>Component</h2>
-            <ViewCodeData :isFirstComponent="true" :code="CmdCode" :data="thumbnailScroller">
-                <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
+            <ViewCodeData :isFirstComponent="true" :code="CmdCode[0]" :data="thumbnailScroller">
+                <teleport to="#frame-component-target" :disabled="!isFrameMode()">
                     <CmdThumbnailScroller
                         :thumbnail-scroller-items="thumbnailScroller"
                     />

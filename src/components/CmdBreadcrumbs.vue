@@ -10,7 +10,7 @@
             <!-- end type 'href' -->
 
             <!-- begin type 'router' -->
-            <router-link v-else-if="link.type === 'router'" :to="link.path">
+            <router-link v-else-if="link.type === 'router'" :to="getRoute(link)">
                 <span v-if="link.iconClass" :class="link.iconClass"></span>
                 <span v-if="link.text">{{ link.text }}</span>
             </router-link>
@@ -26,6 +26,9 @@
 </template>
 
 <script>
+// import functions
+import {getRoute} from "../utilities.js"
+
 export default {
     name: "CmdBreadcrumbs",
     props: {
@@ -49,6 +52,11 @@ export default {
         breadcrumbSeparator: {
             type: String,
             default: ">"
+        }
+    },
+    methods: {
+        getRoute(link) {
+            return getRoute(link)
         }
     }
 }

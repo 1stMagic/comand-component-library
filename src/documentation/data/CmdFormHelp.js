@@ -1,10 +1,10 @@
-export default
+export default [
 `<CmdForm
     :use-fieldset="true"
-    id="advanced-form-elements"
     novalidate="novalidate"
     text-legend="Legend">
     <!-- begin slot-content -->
-    Content
+    Form content (put form elements here)
     <!-- end slot-content -->
 </CmdForm>`
+]

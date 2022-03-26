@@ -46,8 +46,8 @@ const fakeSelectColor = ref("")
         <template v-slot:tab-content-0>
             <h2>Component</h2>
             <CmdCustomHeadline preHeadlineText="Example #1" headlineText="Selectbox 'default'" :headlineLevel="3" />
-            <ViewCodeData :isFirstComponent="true" :code="CmdCode" :data="fakeSelectOptions">
-                <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
+            <ViewCodeData :isFirstComponent="true" :code="CmdCode[0]" :data="fakeSelectOptions">
+                <teleport to="#frame-component-target" :disabled="!isFrameMode()">
                     <CmdFakeSelect
                         labelText="Labeltext for default selectbox:"
                         :status="formElementStatus"
@@ -66,12 +66,13 @@ const fakeSelectColor = ref("")
             </ViewCodeData>
             <hr />
             <CmdCustomHeadline preHeadlineText="Example #2" headlineText="Selectbox 'default' (with icons)" :headlineLevel="3" />
-            <ViewCodeData :code="CmdCode">
-                <CmdFakeSelect labelText="Selectbox with icons:"
-                               :status="formElementStatus"
-                               :selectData="fakeSelectOptionsWithIcons"
-                               v-model="fakeSelectDefaultWithIcons"
-                               defaultOptionName="Select an option:"
+            <ViewCodeData :code="CmdCode[1]">
+                <CmdFakeSelect
+                    labelText="Selectbox with icons:"
+                   :status="formElementStatus"
+                   :selectData="fakeSelectOptionsWithIcons"
+                   v-model="fakeSelectDefaultWithIcons"
+                   defaultOptionName="Select an option:"
                 />
                 <dl class="vmodel">
                     <dt>v-model:</dt>
@@ -82,17 +83,21 @@ const fakeSelectColor = ref("")
             </ViewCodeData>
             <hr />
             <CmdCustomHeadline preHeadlineText="Example #3" headlineText="Selectbox 'checkboxOptions' (shows checkboxes)" :headlineLevel="3" />
-            <ViewCodeData :code="CmdCode">
-                <CmdFakeSelect labelText="Selectbox with checkboxes:"
-                               :status="formElementStatus"
-                               :selectData="fakeSelectOptions"
-                               v-model="fakeSelectCheckbox"
-                               defaultOptionName="Options:"
-                               :required="true"
-                               id="selectbox-with-checkboxes"
-                               type="checkboxOptions"
-                               :useCustomTooltip="true"
+            <ViewCodeData :code="CmdCode[2]">
+                <CmdFakeSelect
+                    labelText="Selectbox with checkboxes:"
+                   :status="formElementStatus"
+                   :selectData="fakeSelectOptions"
+                   v-model="fakeSelectCheckbox"
+                   defaultOptionName="Options:"
+                   :required="true"
+                   id="selectbox-with-checkboxes"
+                   type="checkboxOptions"
+                   :useCustomTooltip="true"
                 />
+                <p>
+                    fakeSelectOptions: {{fakeSelectOptions}}
+                </p>
                 <dl class="vmodel">
                     <dt>v-model:</dt>
                     <dd>
@@ -102,11 +107,13 @@ const fakeSelectColor = ref("")
             </ViewCodeData>
             <hr />
             <CmdCustomHeadline preHeadlineText="Example #4" headlineText="Selectbox 'content' (content given by slot)" :headlineLevel="3" />
-            <ViewCodeData :code="CmdCode">
-                <CmdFakeSelect labelText="Selectbox with slot-content:"
-                               :status="formElementStatus"
-                               type="content"
-                               defaultOptionName="HTML-Content:">
+            <ViewCodeData :code="CmdCode[3]">
+                <CmdFakeSelect
+                    labelText="Selectbox with slot-content:"
+                   :status="formElementStatus"
+                   type="content"
+                   defaultOptionName="HTML-Content:"
+                >
                     <ul class="custom-fake-select-content">
                         <li>
                             <div>
@@ -120,13 +127,14 @@ const fakeSelectColor = ref("")
             </ViewCodeData>
             <hr />
             <CmdCustomHeadline preHeadlineText="Example #5" headlineText="Selectbox 'country' (shows country flags)" :headlineLevel="3" />
-            <ViewCodeData :code="CmdCode">
-                <CmdFakeSelect labelText="Selectbox with country flags:"
-                               :status="formElementStatus"
-                               :selectData="fakeSelectCountries"
-                               v-model="fakeSelectCountry"
-                               defaultOptionName="Select country:"
-                               type="country"
+            <ViewCodeData :code="CmdCode[4]">
+                <CmdFakeSelect
+                    labelText="Selectbox with country flags:"
+                   :status="formElementStatus"
+                   :selectData="fakeSelectCountries"
+                   v-model="fakeSelectCountry"
+                   defaultOptionName="Select country:"
+                   type="country"
                 />
                 <dl class="vmodel">
                     <dt>v-model:</dt>
@@ -137,13 +145,14 @@ const fakeSelectColor = ref("")
             </ViewCodeData>
             <hr />
             <CmdCustomHeadline preHeadlineText="Example #6" headlineText="Selectbox 'colors' (show squares with colors)" :headlineLevel="3" />
-            <ViewCodeData :code="CmdCode">
-                <CmdFakeSelect labelText="Selectbox with colors:"
-                               :status="formElementStatus"
-                               :selectData="fakeSelectColors"
-                               v-model="fakeSelectColor"
-                               required="required"
-                               type="color"
+            <ViewCodeData :code="CmdCode[5]">
+                <CmdFakeSelect
+                    labelText="Selectbox with colors:"
+                   :status="formElementStatus"
+                   :selectData="fakeSelectColors"
+                   v-model="fakeSelectColor"
+                   required="required"
+                   type="color"
                 />
                 <dl class="vmodel">
                     <dt>v-model:</dt>

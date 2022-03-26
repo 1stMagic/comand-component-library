@@ -4,10 +4,7 @@
         <legend :class="{hidden : !showLegend}">{{ textLegend }}</legend>
         <!-- begin CmdCustomHeadline -->
         <CmdCustomHeadline v-if="cmdCustomHeadlineLoginForm"
-                           :iconClass="cmdCustomHeadlineLoginForm.iconClass"
-                           :preHeadline="cmdCustomHeadlineLoginForm.preHeadline"
-                           :headlineLevel="cmdCustomHeadlineLoginForm.preHeadline"
-                           :headlineText="cmdCustomHeadlineLoginForm.headlineText"/>
+                           v-bind="cmdCustomHeadlineLoginForm"/>
         <!-- end CmdCustomHeadline -->
 
         <!-- being form elements -->

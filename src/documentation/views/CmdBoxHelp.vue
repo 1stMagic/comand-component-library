@@ -48,6 +48,10 @@ const propertyStructures = {
         ]
     }
 }
+
+function clickedOnProduct(event) {
+    console.log("event", event)
+}
 </script>
 
 <template>
@@ -55,19 +59,25 @@ const propertyStructures = {
         <template v-slot:tab-content-0>
             <h2>Component</h2>
             <CmdCustomHeadline preHeadlineText="Example #1" headlineText="Box 'content' (content given by property)" :headlineLevel="3" />
-            <ViewCodeData :isFirstComponent="true" :code="CmdCode">
-                <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
-                    <CmdBox :cmdCustomHeadline="{headlineText: 'Headline given by property', headlineLevel: 4}" textBody="Content given by property" />
+            <ViewCodeData :isFirstComponent="true" :code="CmdCode[0]">
+                <teleport to="#frame-component-target" :disabled="!isFrameMode()">
+                    <CmdBox
+                        :cmdCustomHeadline="{
+                            headlineText: 'Headline given by property',
+                            headlineLevel: 5
+                        }"
+                        textBody="Content given by property"
+                    />
                 </teleport>
             </ViewCodeData>
             <hr />
             <CmdCustomHeadline preHeadlineText="Example #2" headlineText="Box 'content' (content given by slot)" :headlineLevel="3" />
-            <ViewCodeData :code="CmdCode">
+            <ViewCodeData :code="CmdCode[1]">
                     <CmdBox :useSlot="true">
                         <template v-slot:header>
-                            <h3>
+                            <h5>
                                 Headline given by slot
-                            </h3>
+                            </h5>
                         </template>
                         <template v-slot:body>
                             <p class="padding">
@@ -83,13 +93,22 @@ const propertyStructures = {
             </ViewCodeData>
             <hr />
             <CmdCustomHeadline preHeadlineText="Example #3" headlineText="Box 'product'" :headlineLevel="3" />
-            <ViewCodeData :code="CmdCode" :data="boxesProduct[0]">
-                <CmdBox boxType="product" :product="boxesProduct[0]" :cmdCustomHeadline="{ headlineLevel: 3}"/>
+            <ViewCodeData :code="CmdCode[2]" :data="boxesProduct[0]">
+                <CmdBox
+                    boxType="product"
+                    :product="boxesProduct[0]"
+                    :cmdCustomHeadline="{ headlineLevel: 5}"
+                    @click="clickedOnProduct"
+                />
             </ViewCodeData>
             <hr />
             <CmdCustomHeadline preHeadlineText="Example #4" headlineText="Box 'user'" :headlineLevel="3" />
-            <ViewCodeData :code="CmdCode" :data="boxesUser[2]">
-                <CmdBox boxType="user" :user="boxesUser[2]" :cmdCustomHeadline="{ headlineLevel: 3}"/>
+            <ViewCodeData :code="CmdCode[3]" :data="boxesUser[2]">
+                <CmdBox
+                    boxType="user"
+                    :user="boxesUser[2]"
+                    :cmdCustomHeadline="{ headlineLevel: 5}"
+                />
             </ViewCodeData>
         </template>
         <template v-slot:tab-content-1>

@@ -1,4 +1,4 @@
-export default
+export default [
 `<CmdOpeningHours 
     :openingHours="openingHoursData" 
     :closed="true" 
@@ -7,3 +7,4 @@ export default
     textHolidaysClosed="Closed on holidays"
     textMiscInfo="Miscellaneous information" 
 />`
+]

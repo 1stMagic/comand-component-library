@@ -1,0 +1,23 @@
+[
+  {
+    "iconClass": "icon-user-profile",
+    "type": "href",
+    "text": "Section 1",
+    "path": "#section1",
+    "target": "",
+    "tooltip": "Go to section 1"
+  },
+  {
+    "type": "href",
+    "text": "Section 2",
+    "path": "#section2",
+    "tooltip": "Go to section 2"
+  },
+  {
+    "iconClass": "icon-export",
+    "type": "href",
+    "text": "Section 3",
+    "path": "#section3",
+    "tooltip": "Go to section 3"
+  }
+]

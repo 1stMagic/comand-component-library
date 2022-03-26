@@ -8,6 +8,7 @@ import CmdAddressData from "../../components/CmdAddressData"
 import ComponentProperties from "../components/ComponentProperties"
 import ViewCodeData from "../components/ViewCodeData"
 import CmdTabs from "../../components/CmdTabs"
+import CmdCustomHeadline from "../../components/CmdCustomHeadline"
 
 // import example-data
 import CmdCode from "../data/CmdAddressDataHelp"
@@ -34,26 +35,32 @@ const propertyStructures = {
     <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
             <h2>Component</h2>
-            <CmdCustomHeadline preHeadlineText="Example #1" headlineText="List with labels" :headlineLevel="3" />
-            <ViewCodeData :isFirstComponent="true" :code="CmdCode" :data="addressData">
-                <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
+            <section class="example-section">
+                <a id="example1"></a>
+                <CmdCustomHeadline preHeadlineText="Example #1" headlineText="List with labels" :headlineLevel="3" />
+                <ViewCodeData :isFirstComponent="true" :code="CmdCode[0]" :data="addressData">
+                    <teleport to="#frame-component-target" :disabled="!isFrameMode()">
+                        <CmdAddressData
+                            :addressData="addressData"
+                            :linkGoogleMaps="true"
+                            :cmdCustomHeadline="{ headlineText: 'Address', headlineLevel: 5}"
+                        />
+                    </teleport>
+                </ViewCodeData>
+            </section>
+            <hr />
+            <section class="example-section">
+                <a id="example2"></a>
+                <CmdCustomHeadline preHeadlineText="Example #2" headlineText="List without labels" :headlineLevel="3" />
+                <ViewCodeData :code="CmdCode[1]" :data="addressData">
                     <CmdAddressData
                         :addressData="addressData"
-                        :linkGoogleMaps="true"
-                        :cmdCustomHeadline="{ headlineText: 'Address headline', headlineLevel: 4}"
+                        :showLabels="false"
+                        :linkGoogleMaps="false"
+                        :cmdCustomHeadline="{ headlineText: 'Address', headlineLevel: 5}"
                     />
-                </teleport>
-            </ViewCodeData>
-            <hr />
-            <CmdCustomHeadline preHeadlineText="Example #2" headlineText="List without labels" :headlineLevel="3" />
-            <ViewCodeData :code="CmdCode" :data="addressData">
-                <CmdAddressData
-                    :addressData="addressData"
-                    :showLabels="false"
-                    :linkGoogleMaps="false"
-                    :cmdCustomHeadline="{ headlineText: 'Address headline', headlineLevel: 4}"
-                />
-            </ViewCodeData>
+                </ViewCodeData>
+            </section>
         </template>
         <template v-slot:tab-content-1>
             <ComponentProperties :properties="CmdAddressData.props" :propertyDescriptions="propertyDescriptions" :propertyStructures="propertyStructures" />

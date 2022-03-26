@@ -34,8 +34,8 @@ const propertyStructures = {
         <template v-slot:tab-content-0>
             <h2>Component</h2>
             <CmdCustomHeadline headlineText="Data given by json-file" :headlineLevel="3" preHeadlineText="Example #1" />
-            <ViewCodeData :isFirstComponent="true" :code="CmdCode" :data="shareButtonsJson">
-                <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
+            <ViewCodeData :isFirstComponent="true" :code="CmdCode[0]" :data="shareButtonsJson">
+                <teleport to="#frame-component-target" :disabled="!isFrameMode()">
                     <CmdShareButtons
                         :append-page="false"
                         :share-buttons="shareButtonsJson"
@@ -44,15 +44,15 @@ const propertyStructures = {
             </ViewCodeData>
             <hr />
             <CmdCustomHeadline headlineText="Page given by property" :headlineLevel="3" preHeadlineText="Example #2" />
-            <ViewCodeData :code="CmdCode" :data="shareButtonsPage">
+            <ViewCodeData :code="CmdCode[1]" :data="shareButtonsPage">
                     <CmdShareButtons
-                        page="http://development.comand-cms.com/module/team.html"
+                        page="some url"
                         :share-buttons="shareButtonsPage"
                     />
             </ViewCodeData>
             <hr />
             <CmdCustomHeadline headlineText="Page taken from browser" headlineLevel="3" preHeadlineText="Example #3" />
-            <ViewCodeData :code="CmdCode" :data="shareButtonsPage">
+            <ViewCodeData :code="CmdCode[2]" :data="shareButtonsPage">
                     <CmdShareButtons
                         :share-buttons="shareButtonsPage"
                     />

@@ -21,7 +21,7 @@
         <template v-else>
             <!-- begin CmdCustomHeadline -->
             <CmdCustomHeadline v-if="cmdCustomHeadline?.headlineText"
-                               v-bind="cmdCustomHeadline || {}" />
+                               v-bind="cmdCustomHeadline" />
             <!-- end CmdCustomHeadline -->
             <div class="box-body">
                 <p class="padding">{{ textBody }}</p>

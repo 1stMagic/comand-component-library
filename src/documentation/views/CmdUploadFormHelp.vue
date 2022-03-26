@@ -1,12 +1,16 @@
 <script setup>
-
+// import functions
 import {tabProps, tabHandlers} from "../tabs"
+import {isFrameMode} from "../../utils/common"
+
+// import components
 import CmdUploadForm from "../../components/CmdUploadForm"
 import ComponentProperties from "../components/ComponentProperties"
-import {isFrameMode} from "../../utils/common"
 import ViewCodeData from "../components/ViewCodeData"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCustomHeadline from "../../components/CmdCustomHeadline"
+
+// import example-data
 import CmdCode from "../data/CmdUploadFormHelp"
 import propertyDescriptions from "../generated/CmdUploadFormPropertyDescriptions"
 
@@ -17,8 +21,6 @@ const propertyStructures = {
         additionalParams: "<object>",
     }
 }
-
-
 </script>
 
 <template>
@@ -26,27 +28,27 @@ const propertyStructures = {
         <template v-slot:tab-content-0>
             <h2>Component</h2>
             <CmdCustomHeadline headlineText="Advanced mode" :headlineLevel="3" preHeadlineText="Example #1" />
-            <ViewCodeData :isFirstComponent="true" :code="CmdCode">
-                <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
+            <ViewCodeData :isFirstComponent="true" :code="CmdCode[0]">
+                <teleport to="#frame-component-target" :disabled="!isFrameMode()">
                 <CmdUploadForm
                     :cmdCustomHeadline="{headlineText: 'Select files to upload', headlineLevel: 5}"
                     :enableDragAndDrop="true"
                     :allowedFileExtensions="['gif','png','jpg']"
                     :allowMultipleFileUploads="true"
-                    :uploadOptions="{url: 'http://localhost:8888'}"
+                    :uploadOptions="{url: 'some url'}"
                 />
                 </teleport>
             </ViewCodeData>
             <hr />
             <CmdCustomHeadline headlineText="Simple mode" :headlineLevel="3" preHeadlineText="Example #2" />
-            <ViewCodeData :code="CmdCode">
+            <ViewCodeData :code="CmdCode[1]">
                 <CmdUploadForm
                     :advancedMode="false"
                     :maxFileUploadSize="5242880"
                     :enableDragAndDrop="true"
                     :allowedFileExtensions="['pdf']"
                     :allowMultipleFileUploads="false"
-                    :uploadOptions="{url: 'http://localhost:8888'}"
+                    :uploadOptions="{url: 'some url'}"
                 />
             </ViewCodeData>
         </template>

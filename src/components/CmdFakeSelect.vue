@@ -200,7 +200,7 @@ export default {
          */
         modelValue: {
             type: [String, Array],
-            required: false
+            default: ""
         },
         /**
          * list of options to select (incl. displayed names and values)
@@ -414,7 +414,7 @@ export default {
         selectData: {
             handler() {
               // check if given value by modelValue exists (else pre-select first option)
-              if(this.selectData?.length && !this.selectData.some((option) => option.value === this.modelValue)) {
+              if(this.type === "default" && this.selectData?.length && !this.selectData.some((option) => option.value === this.modelValue)) {
                   this.$emit("update:modelValue", this.selectData[0].value)
               }
             },

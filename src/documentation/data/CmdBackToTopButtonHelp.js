@@ -1,1 +1,3 @@
-export default `<CmdBackToTopButton />`
+export default [
+`<CmdBackToTopButton />`
+]

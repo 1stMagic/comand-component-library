@@ -77,7 +77,9 @@ export default {
          */
         separatorIconClass: {
             type: String,
-            required: true
+            default() {
+                return "icon-single-arrow-right"
+            }
         }
     },
     methods: {

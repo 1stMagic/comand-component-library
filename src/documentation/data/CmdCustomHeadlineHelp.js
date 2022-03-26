@@ -1,5 +1,8 @@
-export default `<CmdCustomHeadline 
-    :headline="{text: 'Headline given by property', level: '3'}" 
-    preHeadline="Pre-headline" 
+export default [
+`<CmdCustomHeadline 
+    headlineText="Headline level 1"  
+    :headlineLevel="1" 
+    preHeadlineText="Pre-headline text" 
     iconClass="icon-user-profile" 
 />`
+]

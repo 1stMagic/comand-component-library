@@ -1,12 +1,17 @@
 <script setup>
+// import functions
 import {ref} from "vue"
 import {tabProps, tabHandlers} from "../tabs"
+import {isFrameMode} from "../../utils/common"
+
+// import components
 import CmdFormFilters from "../../components/CmdFormFilters"
 import CmdFakeSelect from "../../components/CmdFakeSelect"
 import ComponentProperties from "../components/ComponentProperties"
-import {isFrameMode} from "../../utils/common"
 import ViewCodeData from "../components/ViewCodeData"
 import CmdTabs from "../../components/CmdTabs"
+
+// import example-data
 import CmdCode from "../data/CmdFormFiltersHelp"
 import fakeSelectFilterOptions from '../../assets/data/fake-select-filter-options'
 import propertyDescriptions from "../generated/CmdFormFiltersPropertyDescriptions"
@@ -36,8 +41,8 @@ const fakeSelectFilters = ref([])
     <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
             <h2>Component</h2>
-            <ViewCodeData :isFirstComponent="true" :code="CmdCode">
-                <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
+            <ViewCodeData :isFirstComponent="true" :code="CmdCode[0]">
+                <teleport to="#frame-component-target" :disabled="!isFrameMode()">
                     <CmdFormFilters
                         v-model="fakeSelectFilters"
                         :selectedOptionsName="getOptionName"

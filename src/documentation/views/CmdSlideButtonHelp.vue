@@ -46,12 +46,20 @@ function showNextItem() {
     <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
             <h2>Component</h2>
-            <ViewCodeData :isFirstComponent="true" :code="CmdCode">
-                <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
+            <ViewCodeData :isFirstComponent="true" :code="CmdCode[0]">
+                <teleport to="#frame-component-target" :disabled="!isFrameMode()">
                     <div class="flex-container" id="slider">
-                        <CmdSlideButton @click.prevent="showPrevItem" slideButtonType="prev"/>
-                        <p>Content {{ currentItem }}</p>
-                        <CmdSlideButton @click.prevent="showNextItem" slideButtonType="next"/>
+                        <CmdSlideButton
+                            slideButtonType="prev"
+                            @click.prevent="showPrevItem"
+                        />
+                        <p>
+                            Content {{ currentItem }}
+                        </p>
+                        <CmdSlideButton
+                            slideButtonType="next"
+                            @click.prevent="showNextItem"
+                        />
                     </div>
                 </teleport>
             </ViewCodeData>

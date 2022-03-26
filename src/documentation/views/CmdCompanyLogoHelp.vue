@@ -23,8 +23,8 @@ const propertyStructures = {
     <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
             <h2>Component</h2>
-            <ViewCodeData :isFirstComponent="true" :code="CmdCode" :data="companyLogo">
-                <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
+            <ViewCodeData :isFirstComponent="true" :code="CmdCode[0]" :data="companyLogo">
+                <teleport to="#frame-component-target" :disabled="!isFrameMode()">
                     <CmdCompanyLogo
                         :link="companyLogo.link"
                         altText="CoManD Logo"

@@ -1,47 +1,44 @@
 {
   "accordionData1": [
     {
-      "headline": "First",
-      "icon": {
-        "iconClass": "icon-globe",
-        "tooltip": "Globe"
-      },
-      "content": "Text 1",
+      "headlineText": "First",
+      "headlineLevel": 5,
+      "iconClass": "icon-globe",
+      "content": "Content 1",
       "status": false
     },
     {
-      "headline": "Second",
-      "icon": {
-        "iconClass": "icon-user-profile",
-        "tooltip": "User profile"
-      },
-      "content": "Text 2",
+      "headlineText": "Second",
+      "headlineLevel": 5,
+      "iconClass": "icon-user-profile",
+      "content": "Content 2",
       "status": true
     },
     {
-      "headline": "Third",
-      "icon": {
-        "iconClass": "icon-home",
-        "tooltip": "Home"
-      },
-      "content": "Text 3",
+      "headlineText": "Third",
+      "headlineLevel": 5,
+      "iconClass": "icon-home",
+      "content": "Content 3",
       "status": false
     }
   ],
   "accordionData2": [
     {
-      "headline": "First",
-      "content": "Text 1",
+      "headlineText": "First",
+      "headlineLevel": 5,
+      "content": "Content 1",
       "status": false
     },
     {
-      "headline": "Second",
-      "content": "Text 2",
+      "headlineText": "Second",
+      "headlineLevel": 5,
+      "content": "Content 2",
       "status": false
     },
     {
-      "headline": "Third",
-      "content": "Text 3",
+      "headlineText": "Third",
+      "headlineLevel": 5,
+      "content": "Content 3",
       "status": false
     }
   ]

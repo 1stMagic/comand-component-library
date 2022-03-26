@@ -1,9 +1,10 @@
 <script setup>
+// import functions
 import {ref} from "vue"
 import {tabProps, tabHandlers} from "../tabs"
 import {isFrameMode} from "../../utils/common"
 
-
+// import components
 import CmdSiteHeader from "../../components/CmdSiteHeader"
 import CmdCompanyLogo from "../../components/CmdCompanyLogo"
 import CmdListOfLinks from "../../components/CmdListOfLinks"
@@ -12,6 +13,7 @@ import ViewCodeData from "../components/ViewCodeData"
 import CmdTabs from "../../components/CmdTabs"
 import CmdCode from "../data/CmdSiteHeaderHelp"
 
+// import example-data
 import mainNavigation from '../../assets/data/main-navigation'
 import listOfLinks from '../../assets/data/list-of-links-top-header-navigation'
 import companyLogo from '../../assets/data/company-logo'
@@ -41,8 +43,8 @@ const navigationEntries = ref(mainNavigation)
     <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
             <h2>Component</h2>
-            <ViewCodeData :isFirstComponent="true" :code="CmdCode">
-                <teleport to="#frameComponentTarget" :disabled="!isFrameMode()">
+            <ViewCodeData :isFirstComponent="true" :code="CmdCode[0]">
+                <teleport to="#frame-component-target" :disabled="!isFrameMode()">
                     <CmdSiteHeader :cmdMainNavigation="{navigationEntries}" :sticky="true">
                         <template v-slot:top-header>
                             <CmdListOfLinks

@@ -65,6 +65,10 @@ export default {
 </script>
 
 <style lang="scss">
+#responsive-view {
+    resize: vertical;
+}
+
 #documentation {
     display: flex;
 
@@ -107,7 +111,6 @@ export default {
     main {
         width: 100%;
         padding: calc(var(--default-padding) * 2);
-        resize: vertical;
     }
 }
 </style>
