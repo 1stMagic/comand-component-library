@@ -1,5 +1,5 @@
 <template>
-    <pre><code :class="classLanguage" v-html="codeFormatted"></code></pre>
+    <pre :class="classLanguage"><code :class="classLanguage" v-html="codeFormatted"></code></pre>
     <p v-if="codeCopied">Code was copied to clipboard!</p>
     <a href="#" @click.prevent="copyToClipboard">
         <span class="icon-duplicate-content"></span>

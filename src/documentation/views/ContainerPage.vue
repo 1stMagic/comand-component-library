@@ -1,5 +1,5 @@
 <script setup>
-import {defineProps, defineAsyncComponent, computed, onMounted, watch, shallowRef, ref} from "vue"
+import {defineProps, defineAsyncComponent, computed, ref} from "vue"
 import {useRoute, useRouter} from "vue-router"
 import {isFrameMode} from "../../utils/common"
 import {useScrollspy} from "../../composables/scrollspy"
@@ -27,45 +27,46 @@ const props = defineProps({
 const componentNameHelp = computed(() => props.componentName + "Help")
 const idMainContainer = computed(() => {
     if(isFrameMode()) {
-        // cmdMainNavigation
-        return  props.componentName.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase()
+        return props.componentName.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase()
     }
     return null
 })
-const HelpView = shallowRef(null)
+const HelpView = computed(
+    () => componentNameHelp.value
+        ? defineAsyncComponent(() => import("./" + componentNameHelp.value))
+        : {render: () => ""}
+)
+
 const route = useRoute()
 const router = useRouter()
+const activeSection = useScrollspy(() => examples.value.querySelectorAll(".example-section"))
 const examples = ref(null)
 const listOfLinks = ref([])
-HelpView.value = defineAsyncComponent(() => import("./" + componentNameHelp.value))
-watch(() => props.componentName, () => HelpView.value = defineAsyncComponent(() => import("./" + componentNameHelp.value)))
-
-const activeSection = useScrollspy(() => {
-    return examples.value.querySelectorAll(".example-section")
-})
 
 function getAnchorId(sectionSelector) {
-    if (sectionSelector.querySelector(".pre-headline-text")) {
-        const preHeadlineText = sectionSelector.querySelector(".pre-headline-text").innerText
-        return "#" + preHeadlineText.replace(/[# ]/g, "").toLowerCase()
-    }
+    return "#" + sectionSelector.querySelector(".pre-headline-text")
+        ?.innerText
+        .replace(/[# ]/g, "")
+        .toLowerCase()
 }
 
 function getHeadlineText(sectionSelector) {
     if (sectionSelector.classList.contains("has-pre-headline-text")) {
-        return sectionSelector.querySelector(".pre-headline-text + *").innerText
+        return sectionSelector.querySelector(".pre-headline-text + *")?.innerText
     }
-    return sectionSelector.querySelector("*:first-child").innerText
+    return sectionSelector.querySelector("*:first-child")?.innerText
 }
 
-onMounted(() => {
-    window.setTimeout(() => {
-        const sectionSelector = examples.value.querySelectorAll(".example-section > .cmd-custom-headline")
-        for (let i = 0 ; i < sectionSelector.length; i++) {
-            listOfLinks.value.push({ text: getHeadlineText(sectionSelector.item(i)), path: getAnchorId(sectionSelector.item(i))})
-        }
-    }, 1000)
-})
+function onViewResolve() {
+    listOfLinks.value = []
+    const sectionSelector = examples.value.querySelectorAll(".example-section > .cmd-custom-headline")
+    for (let i = 0 ; i < sectionSelector.length; i++) {
+        listOfLinks.value.push({
+            text: getHeadlineText(sectionSelector.item(i)),
+            path: getAnchorId(sectionSelector.item(i))
+        })
+    }
+}
 </script>
 
 <template>
@@ -82,7 +83,9 @@ onMounted(() => {
         <div class="flex-container vertical">
            <section id="tabs-wrapper" ref="examples">
                <div v-show="isFrameMode()" id="frame-component-target"></div>
-               <HelpView :activeTab="props.activeTab" />
+               <Suspense @resolve="onViewResolve">
+                   <HelpView />
+               </Suspense>
            </section>
             <template v-if="!isFrameMode()">
                 <section class="flex-container" id="component-link-wrapper">
