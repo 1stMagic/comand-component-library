@@ -3,7 +3,6 @@
 import {ref} from "vue"
 import {tabProps, tabHandlers} from "../tabs"
 import {isFrameMode} from "../../utils/common"
-import {useScrollspy} from "../../composables/scrollspy"
 
 // import components
 import CmdFormElement from "../../components/CmdFormElement"
@@ -56,17 +55,13 @@ const range = ref(50)
 const select = ref("2")
 const textarea = ref("")
 const formElementStatus = ref("")
-
-const firstChild = ref(null)
-const activeItem = useScrollspy(() => firstChild.value.parentElement.querySelectorAll(":scope > .cmd-custom-headline"))
 // TODO: formElementStatus
 </script>
 
 <template>
-    <div style="position: fixed; right: 0; top: 0; width: 4rem; height: 4rem; background-color: magenta; z-index: 10000;">{{ activeItem }}</div>
     <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
-            <h2 ref="firstChild">Component</h2>
+            <h2>Component</h2>
             <CmdCustomHeadline preHeadlineText="Example #1" headlineText="Input (type text)" :headlineLevel="2" />
             <ViewCodeData :isFirstComponent="true" :code="CmdCode[0]">
                 <teleport to="#frame-component-target" :disabled="!isFrameMode()">

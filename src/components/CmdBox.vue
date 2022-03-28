@@ -1,6 +1,7 @@
 <template>
     <!-- begin boxType 'content' -->
-    <div v-if="boxType === 'content'" class="cmd-box box content">
+    <div v-if="boxType === 'content'" :class="['cmd-box box content', {'open' : open}]">
+        <!-- begin useSlot -->
         <template v-if="useSlot">
             <header>
                 <!-- begin slot 'header' -->
@@ -18,15 +19,34 @@
                 <!-- end slot 'footer' -->
             </footer>
         </template>
+        <!-- end useSlot -->
+
+        <!-- begin !useSlot -->
         <template v-else>
+            <!-- begin header -->
+            <a v-if="collapsible" href="#" :title="open ? iconClosed.tooltip : iconOpen.tooltip" @click.prevent="toggleContentVisibility">
+                <!-- begin CmdCustomHeadline -->
+                <CmdCustomHeadline v-if="cmdCustomHeadline?.headlineText"
+                                   v-bind="cmdCustomHeadline" />
+                <!-- end CmdCustomHeadline -->
+                <span class="toggle-icon" :class="[open ? iconClosed.iconClass : iconOpen.iconClass]"></span>
+            </a>
+            <!-- end header -->
+
             <!-- begin CmdCustomHeadline -->
-            <CmdCustomHeadline v-if="cmdCustomHeadline?.headlineText"
+            <CmdCustomHeadline v-else-if="!collapsible && cmdCustomHeadline?.headlineText"
                                v-bind="cmdCustomHeadline" />
             <!-- end CmdCustomHeadline -->
-            <div class="box-body">
-                <p class="padding">{{ textBody }}</p>
-            </div>
+
+            <!-- begin box-body -->
+            <transition :name="toggleTransition">
+                <div v-if="open" class="box-body" aria-expanded="true">
+                    <p class="padding">{{ textBody }}</p>
+                </div>
+            </transition>
+            <!-- end box-body -->
         </template>
+        <!-- end !useSlot -->
     </div>
     <!-- end boxType 'content' -->
 
@@ -95,10 +115,16 @@ export default {
     mixins: [
         I18n, DefaultMessageProperties
     ],
+    data() {
+      return {
+          open: true,
+          active: true
+        }
+    },
     emits: ['click'],
     props: {
         /**
-         * set boxtype to show different types of boxes/contents
+         * set boyType to show different types of boxes/contents
          *
          * @allowedValues: content, product, user
          * @affectsStyling: true
@@ -106,6 +132,22 @@ export default {
         boxType: {
             type: String,
             default: "content"
+        },
+        /**
+         * activate if box should be collapsible
+         */
+        collapsible: {
+            type: Boolean,
+            default: false
+        },
+        /**
+         * use transition to expand and collapse box-body
+         *
+         * boyType must be 'content' and 'collapsible' must be activated
+         */
+        useTransition: {
+            type: Boolean,
+            default: true
         },
         /**
          * set default profile-icon (will eb shown if no user-image exists)
@@ -133,7 +175,7 @@ export default {
             required: false
         },
         /**
-         * activated if all content (incl headline) is given by slot
+         * activated if all content (incl. headline) is given by slot
          *
          * if false textBody-property must be set
          */
@@ -151,6 +193,34 @@ export default {
             default: ""
         },
         /**
+         * icon to expand an accordion
+         *
+         * @requiredForAccessibility: partial
+         */
+        iconOpen: {
+            type: Object,
+            default: function() {
+                return {
+                    iconClass: "icon-single-arrow-up",
+                    tooltip: "Close content"
+                }
+            },
+        },
+        /**
+         * icon to collapse an accordion
+         *
+         * @requiredForAccessibility: partial
+         */
+        iconClosed: {
+            type: Object,
+            default: function() {
+                return {
+                    iconClass: "icon-single-arrow-down",
+                    tooltip: "Show content"
+                }
+            }
+        },
+        /**
          * properties for CmdCustomHeadline-component
          */
         cmdCustomHeadline: {
@@ -158,7 +228,29 @@ export default {
             required: false
         }
     },
+    computed: {
+        toggleTransition() {
+            if(this.useTransition) {
+                return "fade"
+            }
+            return ""
+        }
+    },
     methods: {
+        // for collapsible boxes of boxType === content
+        toggleContentVisibility() {
+            this.open = !this.open
+            this.active = !this.active
+
+            // if (this.toggleMode === 'single' || this.toggleMode === '') {
+            //     for (let i = 0; i < this.accordion.length; i++) {
+            //         if (this.accordion[i] !== accordionContent) {
+            //             this.accordion[i].status = false;
+            //         }
+            //     }
+            // }
+        },
+        // for boxType === product
         clickOnProduct(product) {
             this.$emit('click', product)
         }
@@ -192,14 +284,27 @@ export default {
             }
         }
 
-        > header {
+        > header, > a {
+            display: flex;
+            align-items: center;
             border-top-left-radius: var(--border-radius);
             border-top-right-radius: var(--border-radius);
             padding: calc(var(--default-padding) / 2) var(--default-padding);
             background: var(--primary-color);
+            color: var(--pure-white);
+            text-decoration: none;
 
-            > * {
+            > .cmd-custom-headline {
+                margin-bottom: 0;
+            }
+
+            * {
                 color: var(--pure-white);
+            }
+
+            > [class*="icon"]:last-child {
+                font-size: 1rem;
+                margin-left: auto;
             }
         }
 
@@ -364,38 +469,35 @@ export default {
 
 
             .cmd-list-of-links {
-                a {
-                   flex: 1;
-                   text-align: center;
-                }
-            }
+                ul {
+                    margin-bottom: 0;
 
-            ul {
-                li {
-                    flex: 1;
-                    list-style-type: none;
+                    li {
+                        flex: 1;
 
-                    a {
-                        padding: var(--default-padding);
-                        text-align: center;
-                        background: var(--pure-white);
-                        border-left: var(--default-border);
-                    }
-
-                    &:hover, &:active, &:focus {
                         a {
-                            background: var(--primary-color);
-                            color: var(--pure-white);
+                            flex: 1;
+                            padding: var(--default-padding);
+                            text-align: center;
+                            background: var(--pure-white);
+                            border-left: var(--default-border);
+                        }
 
-                            span, span[class*="icon"] {
+                        &:hover, &:active, &:focus {
+                            a {
+                                background: var(--primary-color);
                                 color: var(--pure-white);
+
+                                span, span[class*="icon"] {
+                                    color: var(--pure-white);
+                                }
                             }
                         }
-                    }
 
-                    &:first-child {
-                        a {
-                            border: 0;
+                        &:first-child {
+                            a {
+                                border: 0;
+                            }
                         }
                     }
                 }
