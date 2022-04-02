@@ -30,6 +30,10 @@
     "headline": "Box Site Search",
     "shorttext": "Box with search field to search the content"
   },
+  "CmdBoxWrapper": {
+    "headline": "Box Wrapper",
+    "shorttext": "Box wrapper for different types of content arranged in a flex- or grid-container"
+  },
   "CmdBreadcrumbs": {
     "headline": "Breadcrumbs",
     "shorttext": "Hierachic navigation, that shows the current page in relation to upper levels. Mostly placed at the top of the content."
