@@ -1,6 +1,6 @@
 <template>
     <!-- begin boxType 'content' -->
-    <div v-if="boxType === 'content'" :class="['cmd-box box content', {'open' : open}]">
+    <div v-if="boxType === 'content'" :class="['cmd-box box content', {open : open, collapsible: collapsible}]">
         <!-- begin useSlot -->
         <template v-if="useSlot">
             <header>

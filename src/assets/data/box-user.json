@@ -85,5 +85,31 @@
         "tooltip": "Make call"
       }
     ]
+  },
+  {
+    "name": "User name 5",
+    "image": "",
+    "profession": "User profession",
+    "position": "User position",
+    "links":  [
+      {
+        "path": "mailto:",
+        "target": "",
+        "iconClass": "icon-mail",
+        "tooltip": "Send mail"
+      },
+      {
+        "path": "http://www.comand-cms.com",
+        "target": "comand",
+        "iconClass": "icon-globe",
+        "tooltip": "Visit website"
+      },
+      {
+        "path": "tel:",
+        "target": "",
+        "iconClass": "icon-phone",
+        "tooltip": "Make call"
+      }
+    ]
   }
 ]

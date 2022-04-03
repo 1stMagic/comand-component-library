@@ -46,5 +46,15 @@
     "description": "short description text",
     "new": true,
     "discount": "-50%"
+  },
+  {
+    "name": "Product name 5",
+    "image": {
+      "src": "media/images/thumbnail-scroller/original/logo-cmd-yellow-landscape.jpg",
+      "alt": "Alternative text"
+    },
+    "articleNumber": "AB12349",
+    "price": 123.49,
+    "description": "short description text"
   }
 ]
