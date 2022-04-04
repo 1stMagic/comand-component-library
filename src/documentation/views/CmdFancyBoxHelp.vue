@@ -47,28 +47,34 @@ function showFancyBox(type, content, altText) {
     <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
             <h2>Component</h2>
-            <CmdCustomHeadline preHeadlineText="Example #1" headlineText="Fancybox with text" :headlineLevel="3" />
-            <ViewCodeData :isFirstComponent="true" :code="CmdCode[0]">
-                <teleport to="#frame-component-target" :disabled="!isFrameMode()">
-                    <div>
-                        <a href="#" @click.prevent="showFancyBox('text','Some text')">Open Fancybox with text</a><br/>
-                        <CmdFancyBox
-                            :allowEscapeKey="false"
-                        >
-                            Content
-                        </CmdFancyBox>
-                    </div>
-                </teleport>
-            </ViewCodeData>
-            <hr />
-            <CmdCustomHeadline preHeadlineText="Example #2" headlineText="Fancybox with image" :headlineLevel="3" />
-            <ViewCodeData :code="CmdCode[0]">
-                <a href="#"
-                   @click.prevent="showFancyBox('image', '/media/images/content-images/logo-business-edition-landscape.jpg', 'Alternative text')"
-                   title="Open Fancybox with large image">
-                    Open Fancybox with image
-                </a>
-            </ViewCodeData>
+            <section class="example-section">
+                <a id="example1"></a>
+                <CmdCustomHeadline preHeadlineText="Example #1" headlineText="Fancybox with text" :headlineLevel="3"/>
+                <ViewCodeData :isFirstComponent="true" :code="CmdCode[0]">
+                    <teleport to="#frame-component-target" :disabled="!isFrameMode()">
+                        <div>
+                            <a href="#" @click.prevent="showFancyBox('text','Some text')">Open Fancybox with text</a><br/>
+                            <CmdFancyBox
+                                :allowEscapeKey="false"
+                            >
+                                Content
+                            </CmdFancyBox>
+                        </div>
+                    </teleport>
+                </ViewCodeData>
+            </section>
+            <hr/>
+            <section class="example-section">
+                <a id="example2"></a>
+                <CmdCustomHeadline preHeadlineText="Example #2" headlineText="Fancybox with image" :headlineLevel="3"/>
+                <ViewCodeData :code="CmdCode[0]">
+                    <a href="#"
+                       @click.prevent="showFancyBox('image', '/media/images/content-images/logo-business-edition-landscape.jpg', 'Alternative text')"
+                       title="Open Fancybox with large image">
+                        Open Fancybox with image
+                    </a>
+                </ViewCodeData>
+            </section>
         </template>
         <template v-slot:tab-content-1>
             <ComponentProperties :properties="CmdFancyBox.props" :propertyDescriptions="propertyDescriptions" :propertyStructures="propertyStructures"/>

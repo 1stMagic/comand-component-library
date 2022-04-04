@@ -76,6 +76,7 @@ const propertyStructures = {
                     </CmdBoxWrapper>
                 </ViewCodeData>
             </section>
+            <hr />
             <section class="example-section">
                 <a id="example5"></a>
                 <CmdCustomHeadline preHeadlineText="Example #5" headlineText="Box Wrapper with Box 'user' using a custom grid" :headlineLevel="3" />
