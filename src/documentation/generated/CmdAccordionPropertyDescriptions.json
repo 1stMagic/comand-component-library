@@ -1,0 +1,57 @@
+{
+    "cmdCustomHeadline": {
+        "comments": [
+            "properties for CmdCustomHeadline-component"
+        ]
+    },
+    "useTransition": {
+        "comments": [
+            "use transition to expand accordion-content"
+        ]
+    },
+    "toggleMode": {
+        "comments": [
+            "toggle if mode if only one accordion can be opened (or multiple ones)"
+        ],
+        "annotations": {
+            "allowedValues": [
+                "single, multiple"
+            ]
+        }
+    },
+    "useCustomHeader": {
+        "comments": [
+            "activate if you want to use a customized header"
+        ]
+    },
+    "gapBetween": {
+        "comments": [
+            "set if a gap should be shown between multiple accordions"
+        ]
+    },
+    "accordionData": {
+        "comments": [
+            "all information about the contents in all shown accordions"
+        ]
+    },
+    "iconOpen": {
+        "comments": [
+            "icon to expand an accordion"
+        ],
+        "annotations": {
+            "requiredForAccessibility": [
+                "partial"
+            ]
+        }
+    },
+    "iconClosed": {
+        "comments": [
+            "icon to collapse an accordion"
+        ],
+        "annotations": {
+            "requiredForAccessibility": [
+                "partial"
+            ]
+        }
+    }
+}

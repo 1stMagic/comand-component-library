@@ -1,11 +1,4 @@
 {
-  "CmdAccordion": {
-    "headline": "Accordion",
-    "shorttext": "Collapsable box, mostly used in groups i.e. FAQs, News etc.",
-    "config": {
-      "usesSlot": true
-    }
-  },
   "CmdAddressData": {
     "headline": "Address Data",
     "shorttext": "Address data in a list and wrapped in a address-tag"

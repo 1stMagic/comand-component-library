@@ -152,7 +152,7 @@
                 @input="onInput"
                 :maxlength="$attrs.maxlength > 0 ? $attrs.maxlength : 255"
                 :value="modelValue"/>
-            <button class="no-flex" type="button">
+            <button v-if="showSearchButton" class="no-flex" type="button">
                 <span class="icon-search"></span>
             </button>
         </span>
@@ -427,6 +427,13 @@ export default {
          * type-property must be set to textarea
          */
         showCharactersTextarea: {
+            type: Boolean,
+            default: true
+        },
+        /**
+         * toggle visibility of search-button (next to search-field)
+         */
+        showSearchButton: {
             type: Boolean,
             default: true
         }

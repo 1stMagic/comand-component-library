@@ -51,8 +51,37 @@ const propertyStructures = {
                 <a id="example2"></a>
                 <CmdCustomHeadline preHeadlineText="Example #2" headlineText="Box Wrapper with Box 'content (collapsible)' using the default grid" :headlineLevel="3" />
                 <ViewCodeData :code="CmdCode[0]">
-                    <CmdBoxWrapper>
-                        <CmdBox v-for="index in 7" :key="index" textBody="Content" :collapsible="true" :cmd-custom-headline="{headlineText: 'Headline ' + index, headlineLevel: 3}" />
+                    <CmdBoxWrapper :allowTogglingCollapsingBoxes="true" v-slot="slotprops">
+                        <CmdBox v-for="index in 7"
+                                :key="index"
+                                textBody="Content"
+                                :collapsible="true"
+                                :collapsingBoxesOpen="slotprops.collapsingBoxesOpen"
+                                :cmd-custom-headline="{
+                                    headlineText: 'Headline ' + index,
+                                    headlineLevel: 3
+                                }"
+                        />
+                    </CmdBoxWrapper>
+                </ViewCodeData>
+            </section>
+            <hr />
+            <section class="example-section">
+                <a id="example2b"></a>
+                <CmdCustomHeadline preHeadlineText="Example #2" headlineText="Box Wrapper with single box open at once using the default grid" :headlineLevel="3" />
+                <ViewCodeData :code="CmdCode[0]">
+                    <CmdBoxWrapper v-slot="slotprops">
+                        <CmdBox v-for="index in 7"
+                                :key="index"
+                                textBody="Content"
+                                :collapsible="true"
+                                :collapsingBoxesOpen="slotprops.currentOpenBox === index || (slotprops.currentOpenBox === 0 && index === 1)"
+                                :cmd-custom-headline="{
+                                    headlineText: 'Headline ' + index,
+                                    headlineLevel: 3
+                                }"
+                                @toggle-collapse="slotprops.boxToggled(index, $event)"
+                        />
                     </CmdBoxWrapper>
                 </ViewCodeData>
             </section>
@@ -82,7 +111,7 @@ const propertyStructures = {
                 <CmdCustomHeadline preHeadlineText="Example #5" headlineText="Box Wrapper with Box 'user' using a custom grid" :headlineLevel="3" />
                 <ViewCodeData :code="CmdCode[0]" :data="boxUser">
                     <CmdBoxWrapper :boxesPerRow="[5, 2, 1]">
-                        <CmdBox v-for="index in boxUser.length" :key="index" boxType="user" :product="boxUser[index - 1]" :cmdCustomHeadline="{headlineLevel: 5}" />
+                        <CmdBox v-for="index in boxUser.length" :key="index" boxType="user" :user="boxUser[index - 1]" :cmdCustomHeadline="{headlineLevel: 5}" />
                     </CmdBoxWrapper>
                 </ViewCodeData>
             </section>

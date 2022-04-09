@@ -39,7 +39,7 @@ const HelpView = computed(
 
 const route = useRoute()
 const router = useRouter()
-const activeSection = useScrollspy(() => examples.value.querySelectorAll(".example-section"))
+const scrollSpy = useScrollspy(() => examples.value.querySelectorAll(".example-section"))
 const examples = ref(null)
 const listOfLinks = ref([])
 
@@ -58,6 +58,7 @@ function getHeadlineText(sectionSelector) {
 }
 
 function onViewResolve() {
+    scrollSpy.reset()
     listOfLinks.value = []
     const sectionSelector = examples.value.querySelectorAll(".example-section > .cmd-custom-headline")
     for (let i = 0 ; i < sectionSelector.length; i++) {
@@ -71,7 +72,7 @@ function onViewResolve() {
 
 <template>
     <main :id="idMainContainer">
-        <CmdListOfLinks v-if="listOfLinks.length > 1" :sectionAnchors="true" :activeSection="activeSection-1" :links="listOfLinks" />
+        <CmdListOfLinks v-if="listOfLinks.length > 1" :sectionAnchors="true" :activeSection="scrollSpy.activeItem" :links="listOfLinks" />
         <template v-if="!isFrameMode()">
             <a href="#" @click.prevent="router.go(-1)">
                 <span class="icon-single-arrow-left"></span>

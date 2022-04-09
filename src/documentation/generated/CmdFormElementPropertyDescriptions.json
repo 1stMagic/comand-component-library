@@ -151,5 +151,10 @@
             "",
             "type-property must be set to textarea"
         ]
+    },
+    "showSearchButton": {
+        "comments": [
+            "toggle visibility of search-button (next to search-field)"
+        ]
     }
 }

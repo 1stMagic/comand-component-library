@@ -1,12 +1,15 @@
 <template>
     <div class="cmd-box-wrapper">
-        <div v-if="allowUserToToggleView" class="flex-container no-flex toggle-view">
-            <a href="#" @click.prevent="oneBoxPerRow = !oneBoxPerRow" :title="oneBoxPerRow ? iconGridView.tooltip : iconRowView.tooltip">
+        <div v-if="allowUserToToggleView || allowTogglingCollapsingBoxes" class="flex-container no-flex toggle-view">
+            <a v-if="allowTogglingCollapsingBoxes" href="#" @click.prevent="toggleCollapsingBoxes" :title="collapsingBoxesOpen ? collapseBoxesIcon.tooltip : expandBoxesIcon.tooltip">
+                <span :class="collapsingBoxesOpen ? expandBoxesIcon.iconClass : collapseBoxesIcon.iconClass"></span>
+            </a>
+            <a v-if="allowUserToToggleView" href="#" @click.prevent="oneBoxPerRow = !oneBoxPerRow" :title="oneBoxPerRow ? iconRowView.tooltip : iconGridView.tooltip">
                 <span :class="oneBoxPerRow ? iconGridView.iconClass : iconRowView.iconClass"></span>
             </a>
         </div>
         <div :class="[useFlexbox ? 'flex-container' : 'grid-container-create-columns', {'one-box-per-row': oneBoxPerRow}]">
-            <slot></slot>
+            <slot :collapsingBoxesOpen="collapsingBoxesOpen" :boxToggled="boxToggled" :currentOpenBox="currentOpenBox"></slot>
         </div>
     </div>
 </template>
@@ -16,7 +19,9 @@ export default {
     name: "CmdBoxWrapper",
     data() {
         return {
-            oneBoxPerRow: this.useRowViewAsDefault
+            oneBoxPerRow: this.useRowViewAsDefault,
+            collapsingBoxesOpen: true,
+            currentOpenBox: 0
         }
     },
     props: {
@@ -34,6 +39,32 @@ export default {
             type: Boolean,
             default: true
         },
+        /**
+         * activate if user can toggle grid- and row-view by himself
+         */
+        allowTogglingCollapsingBoxes: {
+            type: Boolean,
+            default: false
+        },
+        collapseBoxesIcon: {
+            type: Object,
+            default() {
+                return {
+                    iconClass: "icon-double-arrow-down",
+                    tooltip: "Collapse all boxes"
+                }
+            }
+        },
+        expandBoxesIcon: {
+            type: Object,
+            default() {
+                return {
+                    iconClass: "icon-double-arrow-up",
+                    tooltip: "Expand all boxes"
+                }
+            }
+        },
+
         /**
          * activate if you want to use a flex-container instead of a css-grid-container
          */
@@ -53,19 +84,21 @@ export default {
          */
         iconGridView: {
             type: Object,
-            default() {
+            default
+                () {
                 return {
                     iconClass: 'icon-blocks-small',
                     tooltip: 'Toggle to row view'
                 }
             }
-        },
+        }
+        ,
         /**
          * define icon for row-view
          */
         iconRowView: {
             type: Object,
-            default() {
+            default () {
                 return {
                     iconClass: 'icon-rows',
                     tooltip: 'Toggle to grid view'
@@ -77,34 +110,43 @@ export default {
         // if a custom grid is used, the number of boxes per row (in grid-view) can be customized
         boxesPerRowLarge() {
             return this.boxesPerRowResponsive(0, 4)
-        },
+        }
+        ,
         boxesPerRowMedium() {
             return this.boxesPerRowResponsive(1, 3)
-        },
+        }
+        ,
         boxesPerRowSmall() {
             return this.boxesPerRowResponsive(2, 1)
         }
-    },
+    }
+    ,
     methods: {
         boxesPerRowResponsive(index, defaultBoxesPerRow) {
             // show only one box per row in row-view
-            if(this.allowUserToToggleView && this.oneBoxPerRow) {
+            if (this.allowUserToToggleView && this.oneBoxPerRow) {
                 return 1
             }
 
             // if a boxes per row is defined
             if (typeof this.boxesPerRow === 'number') {
-                if(index === 0) {
+                if (index === 0) {
                     return this.boxesPerRow
                 }
                 return Math.min(this.boxesPerRow, defaultBoxesPerRow)
             }
 
-            if(this.boxesPerRow.length > index) {
+            if (this.boxesPerRow.length > index) {
                 return this.boxesPerRow[index]
             }
 
             return defaultBoxesPerRow
+        },
+        toggleCollapsingBoxes() {
+            this.collapsingBoxesOpen = !this.collapsingBoxesOpen
+        },
+        boxToggled(boxIndex, open) {
+            this.currentOpenBox = open ? boxIndex : 0
         }
     },
     watch: {
@@ -118,6 +160,7 @@ export default {
 <style lang="scss">
 /* begin cmd-box-wrapper ---------------------------------------------------------------------------------------- */
 @import '../assets/styles/variables';
+
 .cmd-box-wrapper {
     > .toggle-view {
         justify-content: flex-end;
@@ -153,5 +196,6 @@ export default {
         }
     }
 }
+
 /* end cmd-box-wrapper ---------------------------------------------------------------------------------------- */
 </style>

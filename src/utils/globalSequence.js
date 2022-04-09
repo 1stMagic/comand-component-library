@@ -6,4 +6,8 @@ function nextSequenceValue(sequenceName = "defaultSequence") {
     return sequences[sequenceName]
 }
 
-export {nextSequenceValue}
+function currentSequenceValue(sequenceName = "defaultSequence") {
+    return sequences[sequenceName] || 0 // get currentValue for specific sequence (else set value to 0)
+}
+
+export {nextSequenceValue, currentSequenceValue}

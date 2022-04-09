@@ -24,12 +24,12 @@
         <!-- begin !useSlot -->
         <template v-else>
             <!-- begin header -->
-            <a v-if="collapsible" href="#" :title="open ? iconClosed.tooltip : iconOpen.tooltip" @click.prevent="toggleContentVisibility">
+            <a v-if="collapsible" href="#" :title="open ? iconOpen.tooltip : iconClosed.tooltip" @click.prevent="toggleContentVisibility">
                 <!-- begin CmdCustomHeadline -->
                 <CmdCustomHeadline v-if="cmdCustomHeadline?.headlineText"
                                    v-bind="cmdCustomHeadline" />
                 <!-- end CmdCustomHeadline -->
-                <span class="toggle-icon" :class="[open ? iconClosed.iconClass : iconOpen.iconClass]"></span>
+                <span class="toggle-icon" :class="[open ? iconOpen.iconClass : iconClosed.iconClass]"></span>
             </a>
             <!-- end header -->
 
@@ -117,12 +117,16 @@ export default {
     ],
     data() {
       return {
-          open: true,
+          open: this.collapsible ? this.collapsingBoxesOpen : true,
           active: true
         }
     },
     emits: ['click'],
     props: {
+        collapsingBoxesOpen: {
+            type: Boolean,
+            required: false
+        },
         /**
          * set boyType to show different types of boxes/contents
          *
@@ -242,17 +246,19 @@ export default {
             this.open = !this.open
             this.active = !this.active
 
-            // if (this.toggleMode === 'single' || this.toggleMode === '') {
-            //     for (let i = 0; i < this.accordion.length; i++) {
-            //         if (this.accordion[i] !== accordionContent) {
-            //             this.accordion[i].status = false;
-            //         }
-            //     }
-            // }
+            this.$emit('toggle-collapse', this.open)
         },
         // for boxType === product
         clickOnProduct(product) {
             this.$emit('click', product)
+        }
+    },
+    watch: {
+        collapsingBoxesOpen() {
+            // toggle collapse-status of all boxes if changed in outer component
+            if(this.collapsible) {
+                this.open = this.collapsingBoxesOpen
+            }
         }
     }
 }

@@ -3,6 +3,7 @@
 import {ref} from "vue"
 import {tabProps, tabHandlers} from "../tabs"
 import {isFrameMode} from "../../utils/common"
+import {nextSequenceValue, currentSequenceValue} from "../../utils/globalSequence"
 
 // import components
 import CmdFormElement from "../../components/CmdFormElement"
@@ -56,6 +57,14 @@ const select = ref("2")
 const textarea = ref("")
 const formElementStatus = ref("")
 // TODO: formElementStatus
+
+function getExampleId() {
+    return "example" + nextSequenceValue("CmdFormElementHelp")
+}
+
+function getPreHeadlineText() {
+    return "Example #" + currentSequenceValue("CmdFormElementHelp")
+}
 </script>
 
 <template>
@@ -63,8 +72,8 @@ const formElementStatus = ref("")
         <template v-slot:tab-content-0>
             <h2>Component</h2>
             <section class="example-section">
-                <a id="example1"></a>
-                <CmdCustomHeadline preHeadlineText="Example #1" headlineText="Input (type text)" :headlineLevel="2"/>
+                <a :id="getExampleId()"></a>
+                <CmdCustomHeadline :preHeadlineText="getPreHeadlineText()" headlineText="Input (type text)" :headlineLevel="2"/>
                 <ViewCodeData :isFirstComponent="true" :code="CmdCode[0]">
                     <teleport to="#frame-component-target" :disabled="!isFrameMode()">
                         <CmdFormElement
@@ -81,8 +90,8 @@ const formElementStatus = ref("")
             </section>
             <hr/>
             <section class="example-section">
-                <a id="example2"></a>
-                <CmdCustomHeadline preHeadlineText="Example #2" headlineText="Input (type number)" :headlineLevel="2"/>
+                <a :id="getExampleId()"></a>
+                <CmdCustomHeadline :preHeadlineText="getPreHeadlineText()" headlineText="Input (type number)" :headlineLevel="2"/>
                 <ViewCodeData :code="CmdCode[1]">
                     <CmdFormElement
                         labelText="Input (type number):"
@@ -150,6 +159,7 @@ const formElementStatus = ref("")
                         labelText="Input (type password):"
                         element="input"
                         type="password"
+                        fieldIconClass="icon-security-settings"
                         :status="formElementStatus"
                         placeholder="Type in password"
                         tooltipText="This is a tooltip"

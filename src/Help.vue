@@ -1,6 +1,17 @@
 <template>
     <div id="documentation">
         <div v-if="!isFrameMode()" class="nav-wrapper">
+            <CmdFormElement element="input"
+                            type="search"
+                            id="component-search"
+                            labelText="Search components"
+                            placeholder="Search components"
+                            :showLabel="false"
+                            :showSearchButton="false"
+                            fieldIconClass="icon-search"
+                            v-model="filterComponents"
+                            />
+            <CmdSystemMessage v-if="!componentNames.length" validationStatus="warning" :systemMessage="'Cannot find component name including &quot;' + filterComponents + '&quot;'" />
             <nav class="flex-container">
                 <template v-for="startingLetter in startingLetters" :key="startingLetter">
                     <h4>{{ startingLetter }}</h4>
@@ -18,14 +29,37 @@
 </template>
 
 <script>
-import componentsDescription from "./documentation/data/componentsDescription.json"
-import CmdBackToTopButton from "./components/CmdBackToTopButton"
+// import functions
 import {isFrameMode} from "./utils/common"
 
+// import components
+import CmdBackToTopButton from "./components/CmdBackToTopButton"
+import CmdFormElement from "./components/CmdFormElement"
+import CmdSystemMessage from "./components/CmdSystemMessage"
+
+// import list of components
+import componentsDescription from "./documentation/data/componentsDescription.json"
+
 export default {
-    components: {CmdBackToTopButton},
+    components: {
+        CmdBackToTopButton,
+        CmdFormElement,
+        CmdSystemMessage
+    },
+    data() {
+        return {
+            filterComponents: ""
+        }
+    },
     computed: {
         componentNames() {
+            const filterTerm = this.filterComponents.trim().toLowerCase()
+
+            if(filterTerm) {
+                return Object.keys(componentsDescription).filter((componentName) => {
+                    return componentName.toLowerCase().includes(filterTerm)
+                })
+            }
             return Object.keys(componentsDescription)
         },
         startingLetters() {

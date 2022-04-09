@@ -1,4 +1,4 @@
-import {ref} from "vue"
+import {reactive} from "vue"
 import {useEventListener} from "./event"
 import {getOffsetTop} from "../utils/dom"
 
@@ -29,19 +29,24 @@ function buildItemList(itemSupplier, itemList) {
     }
 }
 
-export function useScrollspy(itemSupplier, initialActiveItem = 1) {
-    const activeItem = ref(initialActiveItem)
+export function useScrollspy(itemSupplier, initialActiveItem = 0) {
     const itemList = []
+    const scrollSpy = reactive({
+        activeItem: initialActiveItem,
+        reset() {
+            this.activeItem = 0
+            itemList.length = 0
+        }
+    })
     useEventListener(window, "scroll", () => {
         const sy = window.scrollY
         buildItemList(itemSupplier, itemList)
         for (let i = 0, c = itemList.length; i < c; i++) {
             if (sy < itemList[i].offsetTop + itemList[i].height / 2) {
-                activeItem.value = i + 1
+                scrollSpy.activeItem = i
                 break
             }
         }
     })
-
-    return activeItem
+    return scrollSpy
 }
