@@ -30,6 +30,21 @@ module.exports = {
             })
             .end()
 
+        config.module
+            .rule("cmdIconFontCss")
+            .test(/-iconfont\.css$/)
+            .use("iconfont-css-loader")
+            .loader("iconfont-css-loader")
+            .tap(options => {
+                return {
+                    ...(options || {}),
+                    targetFilenameTemplate: "{cssName}Icons.json",
+                    targetDirectory: path.resolve(__dirname, "src/documentation/generated")
+                }
+            })
+            .end()
+
         config.resolveLoader.alias.set("props-loader", path.resolve(__dirname, "build/plugins/propsLoader.js"))
+        config.resolveLoader.alias.set("iconfont-css-loader", path.resolve(__dirname, "build/plugins/iconFontCssLoader.js"))
     }
 }
