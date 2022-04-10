@@ -5,11 +5,12 @@ import {isFrameMode} from "../../utils/common"
 
 // import component
 import CmdBankAccountData from "../../components/CmdBankAccountData"
-import CmdCustomHeadline from "../../components/CmdCustomHeadline"
 import ComponentProperties from "../components/ComponentProperties"
-import * as componentPropertiesFunctions from "../components/ComponentProperties"
-import ViewCodeData from "../components/ViewCodeData"
 import CmdTabs from "../../components/CmdTabs"
+import ViewCodeData from "../components/ViewCodeData"
+import ExampleSectionWrapper from "../components/ExampleSectionWrapper"
+
+import * as componentPropertiesFunctions from "../components/ComponentProperties"
 
 // import example-data
 import CmdCode from "../data/CmdBankAccountDataHelp"
@@ -36,8 +37,7 @@ const propertyStructures = {
     <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
             <h2>Component</h2>
-            <section class="example-section">
-                <CmdCustomHeadline headlineText="Default bank account data" :headlineLevel="3" />
+            <ExampleSectionWrapper componentName="CmdABankAccountData" headlineText="Band Account Data">
                 <ViewCodeData :isFirstComponent="true" :code="CmdCode[0]" :data="bankAccountData[0]">
                     <teleport to="#frame-component-target" :disabled="!isFrameMode()">
                         <CmdBankAccountData
@@ -47,7 +47,7 @@ const propertyStructures = {
                         />
                     </teleport>
                 </ViewCodeData>
-            </section>
+            </ExampleSectionWrapper>
         </template>
         <template v-slot:tab-content-1>
             <ComponentProperties :properties="CmdBankAccountData.props" :propertyDescriptions="propertyDescriptions" :propertyStructures="propertyStructures"/>

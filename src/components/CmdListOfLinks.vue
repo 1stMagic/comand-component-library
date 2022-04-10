@@ -47,13 +47,21 @@ export default {
         CmdCustomHeadline
     },
     props: {
-        activeSection: {
-            type: Number,
-            default: 0
-        },
+        /**
+         * activate if component should contain a list of anchors for the section within th page
+         */
         sectionAnchors: {
             type: Boolean,
             default: false
+        },
+        /**
+         * given active section from outside to set class for styling
+         *
+         * sectionAnchors-property must be activated
+         */
+        activeSection: {
+            type: Number,
+            default: 0
         },
         /**
          * set horizontal alignment
@@ -133,10 +141,6 @@ export default {
         li {
             list-style: none;
             margin-left: 0;
-
-            &.active {
-                border: 1px solid red;
-            }
         }
     }
 

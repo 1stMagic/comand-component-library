@@ -46,6 +46,9 @@ export default {
             type: Boolean,
             default: false
         },
+        /**
+         * icon for collapsed box
+         */
         collapseBoxesIcon: {
             type: Object,
             default() {
@@ -55,6 +58,9 @@ export default {
                 }
             }
         },
+        /**
+         * icon for expanded box
+         */
         expandBoxesIcon: {
             type: Object,
             default() {
@@ -64,7 +70,6 @@ export default {
                 }
             }
         },
-
         /**
          * activate if you want to use a flex-container instead of a css-grid-container
          */

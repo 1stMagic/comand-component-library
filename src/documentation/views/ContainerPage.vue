@@ -1,10 +1,15 @@
 <script setup>
+// import functions
 import {defineProps, defineAsyncComponent, computed, ref} from "vue"
 import {useRoute, useRouter} from "vue-router"
 import {isFrameMode} from "../../utils/common"
 import {useScrollspy} from "../../composables/scrollspy"
-import componentDescription from "../data/componentsDescription"
+
+// import components
 import CmdListOfLinks from "../../components/CmdListOfLinks"
+
+// import data
+import componentDescription from "../data/componentsDescription"
 
 const props = defineProps({
     componentName: {
@@ -72,7 +77,14 @@ function onViewResolve() {
 
 <template>
     <main :id="idMainContainer">
-        <CmdListOfLinks v-if="listOfLinks.length > 1" :sectionAnchors="true" :activeSection="scrollSpy.activeItem" :links="listOfLinks" />
+        <CmdListOfLinks
+            v-if="listOfLinks.length > 1"
+            :cmdCustomHeadline="{headlineText: 'Iterations', headlineLevel: 6}"
+            :sectionAnchors="true"
+            :activeSection="scrollSpy.activeItem"
+            :links="listOfLinks"
+            id="page-anchors"
+        />
         <template v-if="!isFrameMode()">
             <a href="#" @click.prevent="router.go(-1)">
                 <span class="icon-single-arrow-left"></span>
@@ -105,13 +117,51 @@ function onViewResolve() {
     </main>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 main {
-    > .cmd-list-of-links:first-child {
+    > #page-anchors {
         position: fixed;
         right: 0;
         z-index: 100;
-        background: white;
+        background: var(--pure-white);
+        border: var(--default-border);
+        border-right: 0;
+        top: var(--default-margin);
+
+        .cmd-custom-headline {
+            margin: 0;
+            padding: var(--default-padding);
+        }
+
+        ul {
+            gap: 0;
+            margin: 0;
+
+            li {
+                transition: var(--default-transition);
+
+                a {
+                    display: block;
+                    padding: calc(var(--default-padding) / 2);
+                    transition: var(--default-transition);
+                    font-size: 1.2rem;
+                }
+
+                &.active {
+                    background: var(--primary-color);
+                    transition: var(--default-transition);
+                    color: var(--pure-white);
+
+                    a {
+                        span, span[class*="icon"] {
+                            color: var(--pure-white);
+                            transition: var(--default-transition);
+                        }
+                    }
+
+                }
+            }
+        }
     }
 }
 

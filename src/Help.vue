@@ -1,17 +1,22 @@
 <template>
     <div id="documentation">
         <div v-if="!isFrameMode()" class="nav-wrapper">
-            <CmdFormElement element="input"
-                            type="search"
-                            id="component-search"
-                            labelText="Search components"
-                            placeholder="Search components"
-                            :showLabel="false"
-                            :showSearchButton="false"
-                            fieldIconClass="icon-search"
-                            v-model="filterComponents"
-                            />
-            <CmdSystemMessage v-if="!componentNames.length" validationStatus="warning" :systemMessage="'Cannot find component name including &quot;' + filterComponents + '&quot;'" />
+            <CmdFormElement
+                element="input"
+                type="search"
+                id="component-search"
+                labelText="Search components"
+                placeholder="Search components"
+                :showLabel="false"
+                :showSearchButton="false"
+                fieldIconClass="icon-search"
+                v-model="filterComponents"
+            />
+            <CmdSystemMessage
+                v-if="!componentNames.length"
+                validationStatus="warning"
+                :systemMessage="'Cannot find component name including &quot;' + filterComponents + '&quot;'"
+            />
             <nav class="flex-container">
                 <template v-for="startingLetter in startingLetters" :key="startingLetter">
                     <h4>{{ startingLetter }}</h4>

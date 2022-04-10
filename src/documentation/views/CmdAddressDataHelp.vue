@@ -8,7 +8,7 @@ import CmdAddressData from "../../components/CmdAddressData"
 import ComponentProperties from "../components/ComponentProperties"
 import ViewCodeData from "../components/ViewCodeData"
 import CmdTabs from "../../components/CmdTabs"
-import CmdCustomHeadline from "../../components/CmdCustomHeadline"
+import ExampleSectionWrapper from "../components/ExampleSectionWrapper"
 
 // import example-data
 import CmdCode from "../data/CmdAddressDataHelp"
@@ -35,9 +35,7 @@ const propertyStructures = {
     <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
             <h2>Component</h2>
-            <section class="example-section">
-                <a id="example1"></a>
-                <CmdCustomHeadline preHeadlineText="Example #1" headlineText="List with labels" :headlineLevel="3" />
+            <ExampleSectionWrapper componentName="CmdAddressData" headlineText="List with labels">
                 <ViewCodeData :isFirstComponent="true" :code="CmdCode[0]" :data="addressData">
                     <teleport to="#frame-component-target" :disabled="!isFrameMode()">
                         <CmdAddressData
@@ -47,11 +45,9 @@ const propertyStructures = {
                         />
                     </teleport>
                 </ViewCodeData>
-            </section>
+            </ExampleSectionWrapper>
             <hr />
-            <section class="example-section">
-                <a id="example2"></a>
-                <CmdCustomHeadline preHeadlineText="Example #2" headlineText="List without labels" :headlineLevel="3" />
+            <ExampleSectionWrapper componentName="CmdAddressData" headlineText="List without labels">
                 <ViewCodeData :code="CmdCode[1]" :data="addressData">
                     <CmdAddressData
                         :addressData="addressData"
@@ -60,7 +56,7 @@ const propertyStructures = {
                         :cmdCustomHeadline="{ headlineText: 'Address', headlineLevel: 5}"
                     />
                 </ViewCodeData>
-            </section>
+            </ExampleSectionWrapper>
         </template>
         <template v-slot:tab-content-1>
             <ComponentProperties :properties="CmdAddressData.props" :propertyDescriptions="propertyDescriptions" :propertyStructures="propertyStructures" />
