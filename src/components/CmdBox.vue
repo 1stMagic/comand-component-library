@@ -1,52 +1,47 @@
 <template>
     <!-- begin boxType 'content' -->
     <div v-if="boxType === 'content'" :class="['cmd-box box content', {open : open, collapsible: collapsible}]">
-        <!-- begin useSlot -->
-        <template v-if="useSlot">
-            <header>
-                <!-- begin slot 'header' -->
-                <slot name="header"></slot>
-                <!-- end slot 'header' -->
-            </header>
-            <div class="box-body">
-                <!-- begin slot 'body' -->
-                <slot name="body"></slot>
-                <!-- end slot 'body' -->
-            </div>
-            <footer>
-                <!-- begin slot 'footer' -->
-                <slot name="footer"></slot>
-                <!-- end slot 'footer' -->
-            </footer>
-        </template>
-        <!-- end useSlot -->
-
-        <!-- begin !useSlot -->
+        <header v-if="useSlots.includes('header')">
+            <!-- begin slot 'header' -->
+            <slot name="header"></slot>
+            <!-- end slot 'header' -->
+        </header>
         <template v-else>
-            <!-- begin header -->
+            <!-- begin header for collapsible -->
             <a v-if="collapsible" href="#" :title="open ? iconOpen.tooltip : iconClosed.tooltip" @click.prevent="toggleContentVisibility">
                 <!-- begin CmdCustomHeadline -->
                 <CmdCustomHeadline v-if="cmdCustomHeadline?.headlineText"
-                                   v-bind="cmdCustomHeadline" />
+                                   v-bind="cmdCustomHeadline"/>
                 <!-- end CmdCustomHeadline -->
                 <span class="toggle-icon" :class="[open ? iconOpen.iconClass : iconClosed.iconClass]"></span>
             </a>
-            <!-- end header -->
+            <!-- end header for collapsible -->
 
             <!-- begin CmdCustomHeadline -->
             <CmdCustomHeadline v-else-if="!collapsible && cmdCustomHeadline?.headlineText"
-                               v-bind="cmdCustomHeadline" />
+                               v-bind="cmdCustomHeadline"/>
             <!-- end CmdCustomHeadline -->
-
-            <!-- begin box-body -->
-            <transition :name="toggleTransition">
-                <div v-if="open" class="box-body" aria-expanded="true">
-                    <p class="padding">{{ textBody }}</p>
-                </div>
-            </transition>
-            <!-- end box-body -->
         </template>
-        <!-- end !useSlot -->
+
+        <!-- begin box-body -->
+        <div v-if="useSlots.includes('body') && open" class="box-body" aria-expanded="true">
+            <!-- begin slot 'body' -->
+            <slot name="body">
+                <transition :name="toggleTransition">
+                    <div class="box-body" aria-expanded="true">
+                        <p class="padding">{{ textBody }}</p>
+                    </div>
+                </transition>
+            </slot>
+            <!-- end slot 'body' -->
+        </div>
+        <!-- end box-body -->
+
+        <footer v-if="useSlots.includes('footer')">
+            <!-- begin slot 'footer' -->
+            <slot name="footer"></slot>
+            <!-- end slot 'footer' -->
+        </footer>
     </div>
     <!-- end boxType 'content' -->
 
@@ -91,7 +86,7 @@
             <p v-if="user.description" class="description">{{ user.description }}</p>
         </div>
         <footer v-if="user.links">
-            <CmdListOfLinks :links="user.links" orientation="horizontal" :useGap="false" />
+            <CmdListOfLinks :links="user.links" orientation="horizontal" :useGap="false"/>
         </footer>
     </div>
     <!-- end boxType 'user' -->
@@ -116,9 +111,9 @@ export default {
         I18n, DefaultMessageProperties
     ],
     data() {
-      return {
-          open: this.collapsible ? this.collapsingBoxesOpen : true,
-          active: true
+        return {
+            open: this.collapsible ? this.collapsingBoxesOpen : true,
+            active: true
         }
     },
     emits: ['click'],
@@ -183,9 +178,9 @@ export default {
          *
          * if false textBody-property must be set
          */
-        useSlot: {
-            type: Boolean,
-            default: false
+        useSlots: {
+            type: Array,
+            required: false
         },
         /**
          * String used as content (placed in a paragraph-tag) for box-body
@@ -203,7 +198,7 @@ export default {
          */
         iconOpen: {
             type: Object,
-            default: function() {
+            default: function () {
                 return {
                     iconClass: "icon-single-arrow-up",
                     tooltip: "Close content"
@@ -217,7 +212,7 @@ export default {
          */
         iconClosed: {
             type: Object,
-            default: function() {
+            default: function () {
                 return {
                     iconClass: "icon-single-arrow-down",
                     tooltip: "Show content"
@@ -234,7 +229,7 @@ export default {
     },
     computed: {
         toggleTransition() {
-            if(this.useTransition) {
+            if (this.useTransition) {
                 return "fade"
             }
             return ""
@@ -256,7 +251,7 @@ export default {
     watch: {
         collapsingBoxesOpen() {
             // toggle collapse-status of all boxes if changed in outer component
-            if(this.collapsible) {
+            if (this.collapsible) {
                 this.open = this.collapsingBoxesOpen
             }
         }

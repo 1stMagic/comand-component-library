@@ -2,6 +2,7 @@
 import {defineProps, ref, computed} from "vue"
 import {isFrameMode} from "../../utils/common"
 import ComponentCode from "./ComponentCode"
+import CmdBox from "../../components/CmdBox"
 
 defineProps({
     code: {
@@ -53,18 +54,24 @@ function changeWidth(width) {
                 </ul>
             </header>
             <div v-if="showFrame" id="responsive-view-wrapper" :style="{width: responsiveWidth}">
-                <iframe :src="frameUrl.href" id="responsive-view"  :style="{width: responsiveWidth}"></iframe>
+                <iframe :src="frameUrl.href" id="responsive-view" :style="{width: responsiveWidth}"></iframe>
             </div>
             <slot v-if="!showFrame"></slot>
         </div>
         <div v-if="!isFrameMode()" class="flex-container">
             <div>
-                <h4>Code</h4>
-                <ComponentCode :code="code" />
+                <CmdBox :useSlots="['body']" :collapsible="true" :collapsingBoxesOpen="true" :cmdCustomHeadline="{headlineText: 'Code', headlineLevel: 4}">
+                    <template v-slot:body>
+                        <ComponentCode :code="code"/>
+                    </template>
+                </CmdBox>
             </div>
             <div v-if="data">
-                <h4>Data</h4>
-                <ComponentCode :code="data" language="json" />
+                <CmdBox :useSlots="['body']" :collapsible="true" :collapsingBoxesOpen="true" :cmdCustomHeadline="{headlineText: 'Data', headlineLevel: 4}">
+                    <template v-slot:body>
+                        <ComponentCode :code="data" language="json"/>
+                    </template>
+                </CmdBox>
             </div>
         </div>
     </div>
@@ -74,7 +81,7 @@ function changeWidth(width) {
 
 #responsive-view-wrapper {
     resize: vertical;
-    overflow:hidden;
+    overflow: hidden;
     display: flex;
 
     #responsive-view {

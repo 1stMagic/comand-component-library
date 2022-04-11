@@ -8,8 +8,8 @@ import {isFrameMode} from "../../utils/common"
 import CmdFancyBox from "../../components/CmdFancyBox"
 import ComponentProperties from "../components/ComponentProperties"
 import ViewCodeData from "../components/ViewCodeData"
-import CmdCustomHeadline from "../../components/CmdCustomHeadline"
 import CmdTabs from "../../components/CmdTabs"
+import ExampleSectionWrapper from "../components/ExampleSectionWrapper"
 
 // import example-data
 import CmdCode from "../data/CmdFancyBoxHelp"
@@ -47,9 +47,7 @@ function showFancyBox(type, content, altText) {
     <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
             <h2>Component</h2>
-            <section class="example-section">
-                <a id="example1"></a>
-                <CmdCustomHeadline preHeadlineText="Example #1" headlineText="Fancybox with text" :headlineLevel="3"/>
+            <ExampleSectionWrapper componentName="CmdFancyBox" headlineText="Fancybox with text">
                 <ViewCodeData :isFirstComponent="true" :code="CmdCode[0]">
                     <teleport to="#frame-component-target" :disabled="!isFrameMode()">
                         <div>
@@ -62,11 +60,9 @@ function showFancyBox(type, content, altText) {
                         </div>
                     </teleport>
                 </ViewCodeData>
-            </section>
+            </ExampleSectionWrapper>
             <hr/>
-            <section class="example-section">
-                <a id="example2"></a>
-                <CmdCustomHeadline preHeadlineText="Example #2" headlineText="Fancybox with image" :headlineLevel="3"/>
+            <ExampleSectionWrapper componentName="CmdFancyBox" headlineText="Fancybox with image">
                 <ViewCodeData :code="CmdCode[0]">
                     <a href="#"
                        @click.prevent="showFancyBox('image', '/media/images/content-images/logo-business-edition-landscape.jpg', 'Alternative text')"
@@ -74,7 +70,7 @@ function showFancyBox(type, content, altText) {
                         Open Fancybox with image
                     </a>
                 </ViewCodeData>
-            </section>
+            </ExampleSectionWrapper>
         </template>
         <template v-slot:tab-content-1>
             <ComponentProperties :properties="CmdFancyBox.props" :propertyDescriptions="propertyDescriptions" :propertyStructures="propertyStructures"/>

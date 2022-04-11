@@ -5,14 +5,14 @@ import {tabProps, tabHandlers} from "../tabs"
 import {isFrameMode} from "../../utils/common"
 
 // import components
-import CmdCustomHeadline from "../../components/CmdCustomHeadline"
 import CmdFakeSelect from "../../components/CmdFakeSelect"
 import ComponentProperties from "../components/ComponentProperties"
 import ViewCodeData from "../components/ViewCodeData"
 import CmdTabs from "../../components/CmdTabs"
-import CmdCode from "../data/CmdFakeSelectHelp"
+import ExampleSectionWrapper from "../components/ExampleSectionWrapper"
 
 // import example-data
+import CmdCode from "../data/CmdFakeSelectHelp"
 import fakeSelectOptions from "../../assets/data/fake-select-options"
 import fakeSelectColors from '../../assets/data/fake-select-colors'
 import fakeSelectCountries from '../../assets/data/fake-select-countries'
@@ -45,9 +45,7 @@ const fakeSelectColor = ref("")
     <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
             <h2>Component</h2>
-            <section class="example-section">
-                <a id="example1"></a>
-                <CmdCustomHeadline preHeadlineText="Example #1" headlineText="Selectbox 'default'" :headlineLevel="3"/>
+            <ExampleSectionWrapper componentName="CmdFakeSelect" headlineText="Selectbox 'default'">
                 <ViewCodeData :isFirstComponent="true" :code="CmdCode[0]" :data="fakeSelectOptions">
                     <teleport to="#frame-component-target" :disabled="!isFrameMode()">
                         <CmdFakeSelect
@@ -66,11 +64,9 @@ const fakeSelectColor = ref("")
                         </dl>
                     </teleport>
                 </ViewCodeData>
-            </section>
+            </ExampleSectionWrapper>
             <hr/>
-            <section class="example-section">
-                <a id="example2"></a>
-                <CmdCustomHeadline preHeadlineText="Example #2" headlineText="Selectbox 'default' (with icons)" :headlineLevel="3"/>
+            <ExampleSectionWrapper componentName="CmdFakeSelect" headlineText="Selectbox 'default' (with icons)">
                 <ViewCodeData :code="CmdCode[1]">
                     <CmdFakeSelect
                         labelText="Selectbox with icons:"
@@ -86,11 +82,9 @@ const fakeSelectColor = ref("")
                         </dd>
                     </dl>
                 </ViewCodeData>
-            </section>
+            </ExampleSectionWrapper>
             <hr/>
-            <section class="example-section">
-                <a id="example3"></a>
-                <CmdCustomHeadline preHeadlineText="Example #3" headlineText="Selectbox 'checkboxOptions' (shows checkboxes)" :headlineLevel="3"/>
+            <ExampleSectionWrapper componentName="CmdFakeSelect" headlineText="Selectbox 'checkboxOptions' (shows checkboxes)">
                 <ViewCodeData :code="CmdCode[2]">
                     <CmdFakeSelect
                         labelText="Selectbox with checkboxes:"
@@ -113,11 +107,9 @@ const fakeSelectColor = ref("")
                         </dd>
                     </dl>
                 </ViewCodeData>
-            </section>
+            </ExampleSectionWrapper>
             <hr/>
-            <section class="example-section">
-                <a id="example4"></a>
-                <CmdCustomHeadline preHeadlineText="Example #4" headlineText="Selectbox 'content' (content given by slot)" :headlineLevel="3"/>
+            <ExampleSectionWrapper componentName="CmdFakeSelect" headlineText="Selectbox 'content' (content given by slot)">
                 <ViewCodeData :code="CmdCode[3]">
                     <CmdFakeSelect
                         labelText="Selectbox with slot-content:"
@@ -136,11 +128,9 @@ const fakeSelectColor = ref("")
                         </ul>
                     </CmdFakeSelect>
                 </ViewCodeData>
-            </section>
+            </ExampleSectionWrapper>
             <hr/>
-            <section class="example-section">
-                <a id="example5"></a>
-                <CmdCustomHeadline preHeadlineText="Example #5" headlineText="Selectbox 'country' (shows country flags)" :headlineLevel="3"/>
+            <ExampleSectionWrapper componentName="CmdFakeSelect" headlineText="Selectbox 'country' (shows country flags)">
                 <ViewCodeData :code="CmdCode[4]">
                     <CmdFakeSelect
                         labelText="Selectbox with country flags:"
@@ -157,11 +147,9 @@ const fakeSelectColor = ref("")
                         </dd>
                     </dl>
                 </ViewCodeData>
-            </section>
+            </ExampleSectionWrapper>
             <hr/>
-            <section class="example-section">
-                <a id="example6"></a>
-                <CmdCustomHeadline preHeadlineText="Example #6" headlineText="Selectbox 'colors' (show squares with colors)" :headlineLevel="3"/>
+            <ExampleSectionWrapper componentName="CmdFakeSelect" headlineText="Selectbox 'colors' (show squares with colors)">
                 <ViewCodeData :code="CmdCode[5]">
                     <CmdFakeSelect
                         labelText="Selectbox with colors:"
@@ -178,7 +166,7 @@ const fakeSelectColor = ref("")
                         </dd>
                     </dl>
                 </ViewCodeData>
-            </section>
+            </ExampleSectionWrapper>
         </template>
         <template v-slot:tab-content-1>
             <ComponentProperties :properties="CmdFakeSelect.props" :propertyDescriptions="propertyDescriptions" :propertyStructures="propertyStructures"/>
