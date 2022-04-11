@@ -26,7 +26,7 @@ module.exports = function(source) {
         }
         if (icons.length) {
             const match = filename.match(FILENAME_PATTERN)
-            const cssName = camelize(match?.[1] || filename.slice(0, -4))
+            const cssName = camelize(match[1] || filename.slice(0, -4))
             const options = loaderUtils.getOptions(this)
             const targetFilename = buildTargetFilename(cssName, options.targetFilenameTemplate)
             const targetFile = path.resolve(options.targetDirectory, targetFilename)

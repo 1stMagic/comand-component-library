@@ -37,7 +37,7 @@ const propertyStructures = {
     <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
             <h2>Component</h2>
-            <ExampleSectionWrapper componentName="CmdABankAccountData" headlineText="Band Account Data">
+            <ExampleSectionWrapper componentName="CmdBankAccountData" headlineText="Band Account Data">
                 <ViewCodeData :isFirstComponent="true" :code="CmdCode[0]" :data="bankAccountData[0]">
                     <teleport to="#frame-component-target" :disabled="!isFrameMode()">
                         <CmdBankAccountData

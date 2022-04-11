@@ -8,7 +8,7 @@ import CmdBox from "../../components/CmdBox"
 import ComponentProperties from "../components/ComponentProperties"
 import ViewCodeData from "../components/ViewCodeData"
 import CmdTabs from "../../components/CmdTabs"
-import CmdCustomHeadline from "../../components/CmdCustomHeadline"
+import ExampleSectionWrapper from "../components/ExampleSectionWrapper"
 
 // import example-data
 import CmdCode from "../data/CmdBoxHelp"
@@ -58,9 +58,7 @@ function clickedOnProduct(event) {
     <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
             <h2>Component</h2>
-            <section class="example-section">
-                <a id="example1"></a>
-                <CmdCustomHeadline preHeadlineText="Example #1" headlineText="Box 'content' (content given by property)" :headlineLevel="3"/>
+            <ExampleSectionWrapper componentName="CmdBox" headlineText="Box 'content' (content given by property)">
                 <ViewCodeData :isFirstComponent="true" :code="CmdCode[0]">
                     <teleport to="#frame-component-target" :disabled="!isFrameMode()">
                         <CmdBox
@@ -72,11 +70,9 @@ function clickedOnProduct(event) {
                         />
                     </teleport>
                 </ViewCodeData>
-            </section>
+            </ExampleSectionWrapper>
             <hr/>
-            <section class="example-section">
-                <a id="example2"></a>
-                <CmdCustomHeadline preHeadlineText="Example #2" headlineText="Box 'content' (collapsible)" :headlineLevel="3"/>
+                <ExampleSectionWrapper componentName="CmdBox" headlineText="Box 'content' (collapsible)">
                 <ViewCodeData :code="CmdCode[1]">
                     <teleport to="#frame-component-target" :disabled="!isFrameMode()">
                         <CmdBox
@@ -89,11 +85,9 @@ function clickedOnProduct(event) {
                         />
                     </teleport>
                 </ViewCodeData>
-            </section>
+                </ExampleSectionWrapper>
             <hr/>
-            <section class="example-section">
-                <a id="example3"></a>
-                <CmdCustomHeadline preHeadlineText="Example #3" headlineText="Box 'content' (content given by slot)" :headlineLevel="3"/>
+            <ExampleSectionWrapper componentName="CmdBox" headlineText="Box 'content' (content given by slot)">
                 <ViewCodeData :code="CmdCode[2]">
                     <CmdBox :useSlot="true">
                         <template v-slot:header>
@@ -113,11 +107,9 @@ function clickedOnProduct(event) {
                         </template>
                     </CmdBox>
                 </ViewCodeData>
-            </section>
+            </ExampleSectionWrapper>
             <hr/>
-            <section class="example-section">
-                <a id="example4"></a>
-                <CmdCustomHeadline preHeadlineText="Example #4" headlineText="Box 'product'" :headlineLevel="3"/>
+            <ExampleSectionWrapper componentName="CmdBox" headlineText="Box 'product'">
                 <ViewCodeData :code="CmdCode[3]" :data="boxesProduct[0]">
                     <CmdBox
                         boxType="product"
@@ -126,11 +118,9 @@ function clickedOnProduct(event) {
                         @click="clickedOnProduct"
                     />
                 </ViewCodeData>
-            </section>
+            </ExampleSectionWrapper>
             <hr/>
-            <section class="example-section">
-                <a id="example5"></a>
-                <CmdCustomHeadline preHeadlineText="Example #5" headlineText="Box 'user'" :headlineLevel="3"/>
+            <ExampleSectionWrapper componentName="CmdBox" headlineText="Box 'user'">
                 <ViewCodeData :code="CmdCode[4]" :data="boxesUser[2]">
                     <CmdBox
                         boxType="user"
@@ -138,7 +128,7 @@ function clickedOnProduct(event) {
                         :cmdCustomHeadline="{ headlineLevel: 5}"
                     />
                 </ViewCodeData>
-            </section>
+            </ExampleSectionWrapper>
         </template>
         <template v-slot:tab-content-1>
             <ComponentProperties :properties="CmdBox.props" :propertyDescriptions="propertyDescriptions" :propertyStructures="propertyStructures"/>

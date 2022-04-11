@@ -8,6 +8,7 @@ import CmdBreadcrumbs from "../../components/CmdBreadcrumbs"
 import ComponentProperties from "../components/ComponentProperties"
 import ViewCodeData from "../components/ViewCodeData"
 import CmdTabs from "../../components/CmdTabs"
+import ExampleSectionWrapper from "../components/ExampleSectionWrapper"
 
 // import example-data
 import breadcrumbs from '../../assets/data/breadcrumbs'
@@ -32,17 +33,19 @@ const propertyStructures = {
     <CmdTabs v-show="!isFrameMode()" v-bind="tabProps" :active-tab="tabProps.activeTab" v-on="tabHandlers">
         <template v-slot:tab-content-0>
             <h2>Component</h2>
-            <ViewCodeData :isFirstComponent="true" :code="CmdCode[0]" :data="breadcrumbs">
-                <teleport to="#frame-component-target" :disabled="!isFrameMode()">
-                    <CmdBreadcrumbs
-                        :breadcrumbLinks="breadcrumbs"
-                        breadcrumbLabel="You are here:"
-                    />
-                </teleport>
-            </ViewCodeData>
+            <ExampleSectionWrapper componentName="CmdBreadcrumbs" headlineText="Breadcrumbs">
+                <ViewCodeData :isFirstComponent="true" :code="CmdCode[0]" :data="breadcrumbs">
+                    <teleport to="#frame-component-target" :disabled="!isFrameMode()">
+                        <CmdBreadcrumbs
+                            :breadcrumbLinks="breadcrumbs"
+                            breadcrumbLabel="You are here:"
+                        />
+                    </teleport>
+                </ViewCodeData>
+            </ExampleSectionWrapper>
         </template>
         <template v-slot:tab-content-1>
-            <ComponentProperties :properties="CmdBreadcrumbs.props" :propertyDescriptions="propertyDescriptions" :propertyStructures="propertyStructures" />
+            <ComponentProperties :properties="CmdBreadcrumbs.props" :propertyDescriptions="propertyDescriptions" :propertyStructures="propertyStructures"/>
         </template>
     </CmdTabs>
 </template>
