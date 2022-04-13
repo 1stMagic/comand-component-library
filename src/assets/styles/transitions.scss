@@ -1,3 +1,4 @@
+/* begin fade-transition */
 .fade-enter-active, .fade-leave-active {
   transition: var(--default-transition);
 }
@@ -9,6 +10,7 @@
 .fade-enter-to, .fade-leave-from {
   opacity: 1;
 }
+/* end fade-transition */
 
 .cmd-slideshow {
   .fade-enter-from, .fade-leave-to {
@@ -16,6 +18,24 @@
   }
 }
 
-.slide-move {
+/* begin slide-transition */
+[class^="slide-"][class$="-enter-active"], [class^="slide-"][class$="-enter-active"] {
   transition: transform 1s ease-in-out;
 }
+
+.slide-left-enter-from, .slide-left-leave-to {
+  left: -100%;
+}
+
+.slide-left-enter-to, .slide-left-leave-from {
+  left: 0;
+}
+
+.slide-right-enter-from, .slide-right-leave-to {
+  right: -100%;
+}
+
+.slide-right-enter-to, .slide-right-leave-from {
+  right: 0;
+}
+/* end slide-transition */

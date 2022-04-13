@@ -41,12 +41,14 @@ const HelpView = computed(
         ? defineAsyncComponent(() => import("./" + componentNameHelp.value))
         : {render: () => ""}
 )
+const iconToggleSidebar = computed(() => showPageAnchors.value ? "icon-double-arrow-right" : "icon-double-arrow-left")
 
 const route = useRoute()
 const router = useRouter()
 const scrollSpy = useScrollspy(() => examples.value.querySelectorAll(".example-section"))
 const examples = ref(null)
 const listOfLinks = ref([])
+const showPageAnchors = ref(true)
 
 function getAnchorId(sectionSelector) {
     return "#" + sectionSelector.querySelector(".pre-headline-text")
@@ -77,14 +79,21 @@ function onViewResolve() {
 
 <template>
     <main :id="idMainContainer">
-        <CmdListOfLinks
-            v-if="listOfLinks.length > 1"
-            :cmdCustomHeadline="{headlineText: 'Iterations', headlineLevel: 6}"
-            :sectionAnchors="true"
-            :activeSection="scrollSpy.activeItem"
-            :links="listOfLinks"
-            id="page-anchors"
-        />
+        <aside class="flex-container no-gap" id="page-anchors">
+            <a href="#" @click.prevent="showPageAnchors = !showPageAnchors" title="Toggle Iterations-Sidebar">
+                <span :class="iconToggleSidebar"></span>
+            </a>
+            <transition v-show="showPageAnchors" name="slide-right">
+                <CmdListOfLinks
+                    v-if="listOfLinks.length > 1"
+                    :cmdCustomHeadline="{headlineText: 'Iterations', headlineLevel: 6}"
+                    :sectionAnchors="true"
+                    :activeSection="scrollSpy.activeItem"
+                    :links="listOfLinks"
+
+                />
+            </transition>
+        </aside>
         <template v-if="!isFrameMode()">
             <a href="#" @click.prevent="router.go(-1)">
                 <span class="icon-single-arrow-left"></span>
@@ -119,7 +128,7 @@ function onViewResolve() {
 
 <style lang="scss">
 main {
-    > #page-anchors {
+    #page-anchors {
         position: fixed;
         right: 0;
         z-index: 100;
@@ -127,6 +136,28 @@ main {
         border: var(--default-border);
         border-right: 0;
         top: var(--default-margin);
+        box-shadow: -.2rem .2rem .4rem #999;
+
+        > a {
+            flex: none;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            padding: .2rem;
+            border-right: var(--default-border);
+
+            span[class*="icon"] {
+                font-size: 1rem;
+            }
+
+            &:hover, &:active, &:focus {
+                background: var(--primary-color);
+
+                span[class*="icon"] {
+                    color: var(--pure-white);
+                }
+            }
+        }
 
         .cmd-custom-headline {
             margin: 0;

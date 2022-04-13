@@ -145,15 +145,17 @@
         <!-- end textarea -->
 
         <!-- begin searchfield -->
-        <span v-else-if="element === 'input' && $attrs.type === 'search'" class="flex-container no-gap">
+        <span v-else-if="element === 'input' && $attrs.type === 'search'" class="search-field-wrapper flex-container no-gap">
+            <a v-if="iconDelete.show" href="#" @click.prevent="$emit('update:modelValue', '')" :class="iconDelete.iconClass" :title="iconDelete.tooltip"/>
             <input
                 v-bind="$attrs"
                 :id="id"
                 @input="onInput"
                 :maxlength="$attrs.maxlength > 0 ? $attrs.maxlength : 255"
-                :value="modelValue"/>
-            <button v-if="showSearchButton" class="no-flex" type="button">
-                <span class="icon-search"></span>
+                :value="modelValue"
+            />
+            <button v-if="showSearchButton" class="no-flex" type="button" :title="iconSearch.tooltip">
+                <span :class="iconSearch.iconClass"></span>
             </button>
         </span>
         <!-- end searchfield -->
@@ -176,13 +178,17 @@
         <CmdSystemMessage
             v-if="getValidationMessage"
             :message="getValidationMessage"
-            :status="validationStatus"
+            :validation-status="validationStatus"
             :iconClose="{show: false}"
         />
         <!-- end CmdSystemMessage -->
+
         <template v-if="showRequirements && (validationStatus === '' || validationStatus === 'error')">
             <!-- begin list of requirements -->
-            <h6>{{ getMessage("cmdformelement.headline.requirements_for_input") }}<br/>"{{ labelText }}"</h6>
+            <h6>
+                {{ getMessage("cmdformelement.headline.requirements_for_input") }}<br/>
+                "{{ labelText }}"
+            </h6>
             <dl class="list-of-requirements">
                 <template v-for="(requirement, index) in inputRequirements" :key="index">
                     <dt aria-live="assertive" :class="requirement.valid(modelValue, $attrs) ? 'success' : 'error'">{{ requirement.message }}:</dt>
@@ -436,6 +442,40 @@ export default {
         showSearchButton: {
             type: Boolean,
             default: true
+        },
+        /**
+         * icon to delete search term
+         *
+         * element-property must me set to 'input'
+         * type-property must be set to 'search'
+         *
+         */
+        iconDelete: {
+            type: Object,
+            default() {
+                return {
+                    show: true,
+                    iconClass: "icon-cancel-circle",
+                    tooltip: "Delete term"
+                }
+            }
+        },
+        /**
+         * icon to search term
+         *
+         * element-property must me set to 'input'
+         * type-property must be set to 'search'
+         *
+         */
+        iconSearch: {
+            type: Object,
+            default() {
+                return {
+                    show: true,
+                    iconClass: "icon-search",
+                    tooltip: "Search"
+                }
+            }
         }
     },
     computed: {
@@ -444,7 +484,7 @@ export default {
             const allAttrs = {...this.$attrs}
 
             // check if specific tooltip for icon is set (and add as title-attribute)
-            if(this.nativeButton.icon?.tooltip) {
+            if (this.nativeButton.icon?.tooltip) {
                 allAttrs.title = this.nativeButton.icon?.tooltip
             }
 
@@ -626,6 +666,30 @@ export default {
         & > span {
             & > a {
                 margin-left: calc(var(--default-margin) / 2);
+            }
+        }
+    }
+
+    .search-field-wrapper {
+        margin: 0;
+    }
+
+    .place-inside {
+        + .search-field-wrapper {
+            a {
+                position: absolute;
+                top: 50%;
+                right: 1rem;
+                transform: translateY(-50%);
+                z-index: 100;
+
+                & + input {
+                    padding-right: calc(var(--default-padding) * 3);
+                }
+            }
+
+            input {
+                padding-left: calc(var(--default-padding) * 3);
             }
         }
     }

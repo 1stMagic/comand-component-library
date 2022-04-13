@@ -156,5 +156,23 @@
         "comments": [
             "toggle visibility of search-button (next to search-field)"
         ]
+    },
+    "iconDelete": {
+        "comments": [
+            "icon to delete search term",
+            "",
+            "element-property must me set to 'input'",
+            "type-property must be set to 'search'",
+            ""
+        ]
+    },
+    "iconSearch": {
+        "comments": [
+            "icon to search term",
+            "",
+            "element-property must me set to 'input'",
+            "type-property must be set to 'search'",
+            ""
+        ]
     }
 }
