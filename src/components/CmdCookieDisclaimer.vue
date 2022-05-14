@@ -13,70 +13,70 @@
                 <div v-if="cookieOptions.required">
                     <h3>{{ cookieOptions.required.headline }}</h3>
 
-                    <!-- begin CmdAccordion -->
-                    <CmdAccordion :accordion-data="cookieOptions.required.cookies.length" :accordionData="2">
-                        <template v-for="(cookie, index) in cookieOptions.required.cookies"
-                                  v-slot:[`accordionHeadline${index}`]
-                                  :key="index">
-                            <!-- begin CmdSwitchButton -->
-                            <CmdSwitchButton
-                                type="checkbox"
-                                :id="cookie.id"
-                                :labelText="cookie.labelText"
-                                v-model="cookie.checked"
-                                :status="cookie.status"
-                                disabled="disabled"
-                            />
-                            <!-- end CmdSwitchButton -->
-                        </template>
-                        <template v-for="(cookie, index) in cookieOptions.required.cookies"
-                                  v-slot:[`accordionContent${index}`]
-                                  :key="index">
-                            <p v-if="cookie.description">{{ cookie.description }}</p>
-                            <p v-if="cookie.linkDataPrivacy">
-                                {{ cookie.linkDataPrivacy.label }}
-                                <a @click="openDataPrivacy"
-                                   :href="cookie.linkDataPrivacy.link"
-                                   :target="cookie.linkDataPrivacy.target">
-                                    {{ cookie.linkDataPrivacy.linkText }}
-                                </a>
-                            </p>
-                            <div v-if="dataPrivacyContent" v-html="dataPrivacyContent"></div>
-                        </template>
-                    </CmdAccordion>
-                    <!-- end CmdAccordion -->
+<!--                    &lt;!&ndash; begin CmdAccordion &ndash;&gt;-->
+<!--                    <CmdAccordion :accordion-data="cookieOptions.required.cookies.length" :accordionData="2">-->
+<!--                        <template v-for="(cookie, index) in cookieOptions.required.cookies"-->
+<!--                                  v-slot:[`accordionHeadline${index}`]-->
+<!--                                  :key="index">-->
+<!--                            &lt;!&ndash; begin CmdSwitchButton &ndash;&gt;-->
+<!--                            <CmdSwitchButton-->
+<!--                                type="checkbox"-->
+<!--                                :id="cookie.id"-->
+<!--                                :labelText="cookie.labelText"-->
+<!--                                v-model="cookie.checked"-->
+<!--                                :status="cookie.status"-->
+<!--                                disabled="disabled"-->
+<!--                            />-->
+<!--                            &lt;!&ndash; end CmdSwitchButton &ndash;&gt;-->
+<!--                        </template>-->
+<!--                        <template v-for="(cookie, index) in cookieOptions.required.cookies"-->
+<!--                                  v-slot:[`accordionContent${index}`]-->
+<!--                                  :key="index">-->
+<!--                            <p v-if="cookie.description">{{ cookie.description }}</p>-->
+<!--                            <p v-if="cookie.linkDataPrivacy">-->
+<!--                                {{ cookie.linkDataPrivacy.label }}-->
+<!--                                <a @click="openDataPrivacy"-->
+<!--                                   :href="cookie.linkDataPrivacy.link"-->
+<!--                                   :target="cookie.linkDataPrivacy.target">-->
+<!--                                    {{ cookie.linkDataPrivacy.linkText }}-->
+<!--                                </a>-->
+<!--                            </p>-->
+<!--                            <div v-if="dataPrivacyContent" v-html="dataPrivacyContent"></div>-->
+<!--                        </template>-->
+<!--                    </CmdAccordion>-->
+<!--                    &lt;!&ndash; end CmdAccordion &ndash;&gt;-->
                 </div>
                 <hr />
                 <div v-if="cookieOptions.optional">
                     <h3>{{ cookieOptions.optional.headline }}</h3>
-                    <!-- begin CmdAccordion -->
-                    <CmdAccordion :accordion-data="cookieOptions.optional.cookies.length" :accordionData="2">
-                        <template v-for="(cookie, index) in cookieOptions.optional.cookies"
-                                  v-slot:[`accordionHeadline${index}`]
-                                  :key="index">
-                            <!-- begin CmdSwitchButton -->
-                            <CmdSwitchButton
-                                type="checkbox"
-                                :id="cookie.id"
-                                :labelText="cookie.labelText"
-                                v-model="cookie.checked"
-                                :status="cookie.status"
-                            />
-                            <!-- end CmdSwitchButton -->
-                        </template>
-                        <template v-for="(cookie, index) in cookieOptions.optional.cookies"
-                                  v-slot:[`accordionContent${index}`]
-                                  :key="index">
-                            <p>{{ cookie.description }}</p>
-                            <p v-if="cookie.linkDataPrivacy">
-                                {{ cookie.linkDataPrivacy.label }}
-                                <a @click="openDataPrivacy" :href="cookie.linkDataPrivacy.link"
-                                   :target="cookie.linkDataPrivacy.target">{{ cookie.linkDataPrivacy.linkText }}</a>
-                            </p>
-                            <div v-if="dataPrivacyContent" v-html="dataPrivacyContent"></div>
-                        </template>
-                    </CmdAccordion>
-                    <!-- end CmdAccordion -->
+<!--                    &lt;!&ndash; begin CmdAccordion &ndash;&gt;-->
+<!--                    <CmdAccordion :accordion-data="cookieOptions.optional.cookies.length" :accordionData="2">-->
+<!--                        <template v-for="(cookie, index) in cookieOptions.optional.cookies"-->
+<!--                                  v-slot:[`accordionHeadline${index}`]-->
+<!--                                  :key="index">-->
+<!--                            &lt;!&ndash; begin CmdSwitchButton &ndash;&gt;-->
+<!--                            <CmdSwitchButton-->
+<!--                                type="checkbox"-->
+<!--                                :id="cookie.id"-->
+<!--                                :labelText="cookie.labelText"-->
+<!--                                v-model="cookie.checked"-->
+<!--                                :status="cookie.status"-->
+<!--                            />-->
+<!--                            &lt;!&ndash; end CmdSwitchButton &ndash;&gt;-->
+<!--                        </template>-->
+<!--                        <template v-for="(cookie, index) in cookieOptions.optional.cookies"-->
+<!--                                  v-slot:[`accordionContent${index}`]-->
+<!--                                  :key="index">-->
+<!--                            <p>{{ cookie.description }}</p>-->
+<!--                            <p v-if="cookie.linkDataPrivacy">-->
+<!--                                {{ cookie.linkDataPrivacy.label }}-->
+<!--                                <a @click="openDataPrivacy" :href="cookie.linkDataPrivacy.link"-->
+<!--                                   :target="cookie.linkDataPrivacy.target">{{ cookie.linkDataPrivacy.linkText }}</a>-->
+<!--                            </p>-->
+<!--                            <div v-if="dataPrivacyContent" v-html="dataPrivacyContent"></div>-->
+<!--                        </template>-->
+<!--                    </CmdAccordion>-->
+<!--                    &lt;!&ndash; end CmdAccordion &ndash;&gt;-->
                 </div>
             </slot>
             <!-- end slot for cookie-options -->
@@ -101,16 +101,14 @@
 
 <script>
 // import components
-import CmdAccordion from "./CmdAccordion"
 import CmdCustomHeadline from "./CmdCustomHeadline"
-import CmdSwitchButton from "./CmdSwitchButton"
+// import CmdSwitchButton from "./CmdSwitchButton"
 
 export default {
     name: "CmdCookieDisclaimer",
     components: {
-        CmdAccordion,
-        CmdCustomHeadline,
-        CmdSwitchButton
+        CmdCustomHeadline
+        // CmdSwitchButton
     },
     data() {
         return {

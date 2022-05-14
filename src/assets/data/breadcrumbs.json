@@ -7,14 +7,14 @@
   },
   {
     "text": "Subpage",
-    "type": "router",
+    "type": "href",
     "route": {
       "path": "/subpage"
     }
   },
   {
     "text": "Subsubpage",
-    "type": "router",
+    "type": "href",
     "route": {
       "name": "subsubpage",
       "params": {

@@ -1,7 +1,7 @@
 <template>
     <!-- begin boxType 'content' -->
     <div v-if="boxType === 'content'" :class="['cmd-box box content', {open : open, collapsible: collapsible}]">
-        <header v-if="useSlots.includes('header')">
+        <header v-if="useSlots?.includes('header')">
             <!-- begin slot 'header' -->
             <slot name="header"></slot>
             <!-- end slot 'header' -->
@@ -24,20 +24,18 @@
         </template>
 
         <!-- begin box-body -->
-        <div v-if="useSlots.includes('body') && open" class="box-body" aria-expanded="true">
+        <div v-if="open" class="box-body" aria-expanded="true">
             <!-- begin slot 'body' -->
             <slot name="body">
                 <transition :name="toggleTransition">
-                    <div class="box-body" aria-expanded="true">
-                        <p class="padding">{{ textBody }}</p>
-                    </div>
+                    <p class="padding">{{ textBody }}</p>
                 </transition>
             </slot>
             <!-- end slot 'body' -->
         </div>
         <!-- end box-body -->
 
-        <footer v-if="useSlots.includes('footer')">
+        <footer v-if="useSlots?.includes('footer')">
             <!-- begin slot 'footer' -->
             <slot name="footer"></slot>
             <!-- end slot 'footer' -->
@@ -63,7 +61,7 @@
         </div>
         <div class="box-body">
             <p v-if="product.articleNumber">{{ getMessage("cmdbox.productbox.article_no") }} {{ product.articleNumber }}</p>
-            <p v-if="product.price" class="price">{{ product.price }}</p>
+            <p v-if="product.price" class="price"><span>{{ product.price }}</span><span :title="globalCurrency.name">{{ globalCurrency.symbol }}</span></p>
             <p v-if="product.description">{{ product.description }}</p>
         </div>
     </a>
@@ -96,6 +94,7 @@
 // import mixins
 import I18n from "../mixins/I18n"
 import DefaultMessageProperties from "../mixins/CmdBox/DefaultMessageProperties"
+import GlobalCurrency from "../mixins/GlobalCurrency"
 
 // import components
 import CmdCustomHeadline from "./CmdCustomHeadline"
@@ -108,7 +107,9 @@ export default {
         CmdListOfLinks,
     },
     mixins: [
-        I18n, DefaultMessageProperties
+        I18n,
+        DefaultMessageProperties,
+        GlobalCurrency
     ],
     data() {
         return {
@@ -116,7 +117,7 @@ export default {
             active: true
         }
     },
-    emits: ['click'],
+    emits: ["click"],
     props: {
         collapsingBoxesOpen: {
             type: Boolean,
@@ -315,6 +316,7 @@ export default {
 
             .padding {
                 padding: var(--default-padding);
+                margin: 0;
             }
 
             img {

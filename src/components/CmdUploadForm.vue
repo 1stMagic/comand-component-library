@@ -857,6 +857,11 @@ export default {
 <style lang="scss">
 /* begin cmd-upload-form -------------------------------------------------------------------------------------------- */
 .cmd-upload-form {
+
+    .cmd-custom-headline {
+        margin: 0;
+    }
+
     .box {
         background: var(--pure-white-reduced-opacity);
 

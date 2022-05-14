@@ -96,6 +96,9 @@ export default {
         }
     },
     props: {
+        /**
+         * the native modelValue for v-model given from outside for pre-sets
+         */
         modelValue: {
             type: Array,
             required: false

@@ -5,7 +5,7 @@
         <!-- end for elements above header -->
 
         <!-- begin header-wrapper with slots for logo and other header elements -->
-        <header :class="useGrid ? 'grid-container-create-columns': 'flex-container'">
+        <header v-if="$slots.logo || $slots.header" :class="useGrid ? 'grid-container-create-columns': 'flex-container'">
             <slot name="logo"></slot>
             <slot name="header"></slot>
         </header>
@@ -34,7 +34,7 @@ export default {
          * properties for CmdMainNavigation-component
          */
         cmdMainNavigation: {
-            type: Array,
+            type: Object,
             required: true
         },
         /**

@@ -672,21 +672,23 @@ export default {
 
     .search-field-wrapper {
         margin: 0;
+
+        a {
+            position: absolute;
+            top: 50%;
+            right: 1rem;
+            transform: translateY(-50%);
+            z-index: 100;
+
+            & + input {
+                padding-right: calc(var(--default-padding) * 3);
+            }
+        }
     }
 
     .place-inside {
         + .search-field-wrapper {
-            a {
-                position: absolute;
-                top: 50%;
-                right: 1rem;
-                transform: translateY(-50%);
-                z-index: 100;
 
-                & + input {
-                    padding-right: calc(var(--default-padding) * 3);
-                }
-            }
 
             input {
                 padding-left: calc(var(--default-padding) * 3);

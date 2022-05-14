@@ -127,7 +127,7 @@ export default {
             // check if filed has a minimum length
             if(this.$attrs.minlength) {
                 standardRequirements.push({
-                    message: "Input has minimum length (" + this.value.length + "/" + this.$attrs.minlength + ")",
+                    message: "Input has minimum length (" + this.modelValue.length + "/" + this.$attrs.minlength + ")",
                     valid(value, attributes) {
                         return value.length >= attributes.minlength
                     }

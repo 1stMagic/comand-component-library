@@ -12,7 +12,7 @@
          :aria-required="$attrs.required !== undefined"
          ref="fakeselect"
     >
-        <span>
+        <span v-if="showLabel">
             <!-- begin label -->
             <span>
                 {{ labelText }}<sup v-if="$attrs.required !== undefined">*</sup>
@@ -66,7 +66,7 @@
                     <li v-for="(option, index) in selectData" :key="index">
                         <label v-if="type === 'checkboxOptions'" :for="'option-' + (index + 1)" :class="{'active' : modelValue.includes(`${option.value}`)}">
                             <input type="checkbox" :value="option.value" @change="optionSelect"
-                                   :checked="modelValue.includes(`${option.value}`)" :id="'option-' + (index + 1)"/>
+                                   :checked="modelValue.includes(option.value)" :id="'option-' + (index + 1)"/>
                             <span>{{ option.text }}</span>
                         </label>
 
@@ -199,7 +199,7 @@ export default {
          * set default v-model (must be named modelValue in Vue3)
          */
         modelValue: {
-            type: [String, Array],
+            type: [String, Number, Array],
             default: ""
         },
         /**
@@ -253,6 +253,13 @@ export default {
         labelText: {
             type: String,
             required: false
+        },
+        /**
+         * toggle label visibility
+         */
+        showLabel: {
+            type: Boolean,
+            default: true
         },
         /**
          * path to flag-files (will be combined with flag isoCode to load svg)

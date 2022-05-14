@@ -204,14 +204,14 @@ export default {
          */
         subentriesIconClass: {
             type: String,
-            default: "icon-single-arrow-right"
+            default: "icon-single-arrow-down"
         },
         /**
          * icon to show if a sub-entry has further sub-entries
          */
         subSubentriesIconClass: {
             type: String,
-            default: "icon-single-arrow-down"
+            default: "icon-single-arrow-right"
         },
         /**
          * toggle if overlay over content should be shown if off-canvas is open
@@ -342,7 +342,7 @@ export default {
             nav {
                 --nav-width: 30%;
 
-                position: absolute;
+                position: fixed;
                 left: -100%;
                 width: var(--nav-width);
                 height: 100%;

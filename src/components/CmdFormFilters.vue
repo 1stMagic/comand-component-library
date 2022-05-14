@@ -89,7 +89,11 @@ export default {
     watch: {
         modelValue: {
             handler() {
-                this.options = JSON.parse(JSON.stringify(this.modelValue))
+                if(this.modelValue) {
+                    this.options = JSON.parse(JSON.stringify(this.modelValue))
+                } else {
+                    this.options = []
+                }
             },
             immediate: true,
             deep: true

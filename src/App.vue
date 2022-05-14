@@ -46,59 +46,6 @@
             </div>
             <hr/>
         </CmdWidthLimitationWrapper>
-
-        <a id="section-accordion"></a>
-        <CmdWidthLimitationWrapper>
-            <h2 class="headline-demopage">Accordion</h2>
-            <h3>Single mode (only one can be opened)</h3>
-            <a href="#" @click.prevent="toggleAllAccordions()">Toggle all accordions</a>
-            <CmdAccordion :accordionData="accordionData.accordionData1"
-                          toggleMode="single"
-                          tooltip="Click to toggle content"
-                          openIconClass="icon-single-arrow-up"
-                          closeIconClass="icon-single-arrow-down"
-                          ref="accordionGroup1"
-            />
-            <h3>Multiple mode (all can be opened)</h3>
-            <CmdAccordion :accordionData="accordionData.accordionData2"
-                          toggleMode="multiple"
-                          tooltip="Click to toggle content"
-                          openIconClass="icon-single-arrow-up"
-                          closeIconClass="icon-single-arrow-down"
-                          ref="accordionGroup2"
-            />
-            <h3>Customized headline-level (without transition of content)</h3>
-            <CmdAccordion :accordionData="accordionData.accordionData2"
-                          toggleMode="multiple"
-                          tooltip="Click to toggle content"
-                          openIconClass="icon-single-arrow-up"
-                          closeIconClass="icon-single-arrow-down"
-                          accordion-headline-level="h4"
-                          :use-transition="false"
-            />
-            <h3>Data given by slots</h3>
-            <CmdAccordion :accordionData="1">
-                <template v-slot:accordionHeadline0>
-                    <h3><span class="icon-user-group"></span><span>User groups</span></h3>
-                </template>
-                <template v-slot:accordionContent0>
-                    <p>
-                        Content
-                    </p>
-                </template>
-            </CmdAccordion>
-            <CmdAccordion :accordionData="1" :useCustomHeader="true">
-                <template v-slot:customHeadline0>
-                    <h4>Some headline</h4>
-                </template>
-                <template v-slot:accordionContent0>
-                    <p>
-                        Content
-                    </p>
-                </template>
-            </CmdAccordion>
-        </CmdWidthLimitationWrapper>
-
         <!-- begin advanced form elements --------------------------------------------------------------------------------------------------------------------------------------------------->
         <a id="section-advanced-form-elements"></a>
         <CmdWidthLimitationWrapper>
@@ -123,7 +70,7 @@
             </div>
 
             <!-- begin cmd-form-filters -->
-            <CmdFormFilters v-model:selectedOptions="fakeSelectFilters" :selectedOptionsName="getOptionName" />
+            <CmdFormFilters v-model="fakeSelectFilters" :selectedOptionsName="getOptionName" />
             <!-- end cmd-form-filters -->
 
             <CmdForm :use-fieldset="false" id="advanced-form-elements" novalidate="novalidate">
@@ -143,7 +90,7 @@
                                         element="select"
                                         required="required"
                                         :status="formElementStatus"
-                                        v-model:value="selectedOption"
+                                        v-model="selectedOption"
                                         :selectOptions="selectOptionsData"
                         />
                         <CmdFormElement labelText="Input for datalist:"
@@ -161,23 +108,24 @@
                         <CmdFakeSelect labelText="Default selectbox:"
                                         :status="formElementStatus"
                                         :selectData="fakeSelectOptionsData"
-                                        v-model:value="fakeSelectDefault"
+                                        v-model="fakeSelectDefault"
                                         required
                                         defaultOptionName="Select an option:"
                         />
                         <CmdFakeSelect labelText="Default selectbox with icons:"
                                        :status="formElementStatus"
                                        :selectData="fakeSelectOptionsWithIconsData"
-                                       v-model:value="fakeSelectDefaultWithIcons"
+                                       v-model="fakeSelectDefaultWithIcons"
                                        defaultOptionName="Select an option:"
                         />
                         <!-- type === checkboxOptions: selectbox with checkboxes for each option -->
                         <CmdFakeSelect labelText="Selectbox with checkboxes:"
                                        :status="formElementStatus"
                                        :selectData="fakeSelectOptionsData"
-                                       v-model:value="fakeSelectCheckbox"
+                                       v-model="fakeSelectCheckbox"
                                        defaultOptionName="Options:"
                                        :required="true"
+                                       :showLabel="false"
                                        id="selectbox-with-checkboxes"
                                        type="checkboxOptions"
                                        :useCustomTooltip="true"
@@ -185,7 +133,7 @@
                         <CmdFakeSelect labelText="Selectbox with filters:"
                                        :status="formElementStatus"
                                        :selectData="fakeSelectFilterOptionsData"
-                                       v-model:value="fakeSelectFilters"
+                                       v-model="fakeSelectFilters"
                                        defaultOptionName="Filters:"
                                        id="selectbox-with-filters"
                                        type="checkboxOptions"
@@ -208,14 +156,14 @@
                         <CmdFakeSelect labelText="Selectbox with country flags:"
                                        :status="formElementStatus"
                                        :selectData="fakeSelectCountriesData"
-                                       v-model:value="selectedCountry"
+                                       v-model="selectedCountry"
                                        defaultOptionName="Select country:"
                                        type="country"
                         />
                         <CmdFakeSelect labelText="Selectbox with colors:"
                                        :status="formElementStatus"
                                        :selectData="fakeSelectColorsData"
-                                       v-model:value="selectedColor"
+                                       v-model="selectedColor"
                                        required="required"
                                        type="color"
                         />
@@ -260,7 +208,7 @@
                               offLabel="Label off"
                               inputValue="checkbox1"
                               :disabled="formElementStatus === 'disabled'"
-                              v-model:value="switchButtonCheckbox"/>
+                              v-model="switchButtonCheckbox"/>
                             <CmdSwitchButton
                               type="checkbox"
                               id="checkbox2"
@@ -270,7 +218,7 @@
                               labelText="Labeltext"
                               inputValue="checkbox2"
                               :disabled="formElementStatus === 'disabled'"
-                              v-model:value="switchButtonCheckbox"/>
+                              v-model="switchButtonCheckbox"/>
                             <CmdSwitchButton
                                 type="checkbox"
                                 id="checkbox3"
@@ -278,7 +226,7 @@
                                 inputValue="checkbox3"
                                 labelText="Labeltext"
                                 :disabled="formElementStatus === 'disabled'"
-                                v-model:value="switchButtonCheckbox"/>
+                                v-model="switchButtonCheckbox"/>
                         </span>
                         <span>Current value: {{ switchButtonCheckbox }}</span>
                     </div>
@@ -296,7 +244,7 @@
                               :colored="true"
                               inputValue="checkbox3"
                               :disabled="formElementStatus === 'disabled'"
-                              v-model:value="switchButtonCheckboxColored"/>
+                              v-model="switchButtonCheckboxColored"/>
                         </span>
                         <span>Current value: {{ switchButtonCheckboxColored }}</span>
                     </div>
@@ -315,7 +263,7 @@
                       :colored="true"
                       inputValue="radio1"
                       :disabled="formElementStatus === 'disabled'"
-                      v-model:value="switchButtonRadio"/>
+                      v-model="switchButtonRadio"/>
                   <CmdSwitchButton
                       type="radio"
                       id="radio2"
@@ -325,7 +273,7 @@
                       :colored="true"
                       inputValue="radio2"
                       :disabled="formElementStatus === 'disabled'"
-                      v-model:value="switchButtonRadio"/>
+                      v-model="switchButtonRadio"/>
                 </span>
                     </div>
                     <hr />
@@ -333,7 +281,7 @@
                     <CmdFormElement element="input"
                                     type="checkbox"
                                     id="toggle-switch-checkbox"
-                                    v-model:value="switchButtonCheckbox"
+                                    v-model="switchButtonCheckbox"
                                     :displayLabelInline="true"
                                     labelText="Labeltext for Single-SwitchButton (Checkbox)"
                                     :toggleSwitch="true"
@@ -342,7 +290,7 @@
                     <CmdFormElement element="input"
                                     type="checkbox"
                                     id="toggle-switch-checkbox"
-                                    v-model:value="switchButtonCheckbox"
+                                    v-model="switchButtonCheckbox"
                                     :displayLabelInline="true"
                                     labelText="Labeltext for SwitchButton (Checkbox)"
                                     onLabel="Label on"
@@ -353,7 +301,7 @@
                     <CmdFormElement element="input"
                                     type="checkbox"
                                     id="toggle-switch-checkbox-colored"
-                                    v-model:value="switchButtonCheckbox"
+                                    v-model="switchButtonCheckbox"
                                     labelText="Labeltext for SwitchButton (Checkbox, colored)"
                                     onLabel="Label on"
                                     offLabel="Label off"
@@ -365,7 +313,7 @@
                                     type="radio"
                                     name="radiogroup"
                                     id="toggle-switch-radio1"
-                                    v-model:value="switchButtonCheckbox"
+                                    v-model="switchButtonCheckbox"
                                     onLabel="Label on"
                                     offLabel="Label off"
                                     :colored="true"
@@ -377,7 +325,7 @@
                                     type="radio"
                                     name="radiogroup"
                                     id="toggle-switch-radio2"
-                                    v-model:value="switchButtonCheckbox"
+                                    v-model="switchButtonCheckbox"
                                     onLabel="Label on"
                                     offLabel="Label off"
                                     :colored="true"
@@ -395,7 +343,7 @@
                                         minlength="5"
                                         id="inputfield1"
                                         placeholder="This is placeholder text"
-                                        v-model:value="inputField1"
+                                        v-model="inputField1"
                                         tooltipText="This is a tooltip!"
                                         :status="formElementStatus"
                         />
@@ -406,7 +354,7 @@
                                         minlength="5"
                                         id="inputfield-required"
                                         placeholder="This is placeholder text"
-                                        v-model:value="inputFieldRequired"
+                                        v-model="inputFieldRequired"
                                         tooltipText="This is a tooltip!"
                                         :status="formElementStatus"
                         />
@@ -416,7 +364,7 @@
                                         id="inputfield-pattern"
                                         placeholder="This is placeholder text"
                                         pattern="/\d/"
-                                        v-model:value="inputFieldPattern"
+                                        v-model="inputFieldPattern"
                                         tooltipText="This is a tooltip!"
                                         :status="formElementStatus"
                         />
@@ -431,7 +379,7 @@
                                         placeholder="Type in username"
                                         tooltipText="This is a tooltip!"
                                         maxlength="100"
-                                        v-model:value="inputUsername"
+                                        v-model="inputUsername"
                                         :status="formElementStatus"
                                         />
                         <CmdFormElement element="input"
@@ -444,7 +392,7 @@
                                         placeholder="Type in password"
                                         tooltipText="This is a tooltip!"
                                         :customRequirements="customRequirements"
-                                        v-model:value="inputPassword"
+                                        v-model="inputPassword"
                                         :status="formElementStatus"/>
                     </div>
                     <!-- end inputfield in two columns -->
@@ -457,7 +405,7 @@
                                     required="required"
                                     min="0"
                                     max="9"
-                                    v-model:value="inputNumber"
+                                    v-model="inputNumber"
                                     :customRequirements="[customRequirements[2]]"
                                     :status="formElementStatus"/>
                     <CmdFormElement element="input"
@@ -465,7 +413,7 @@
                                     :displayLabelInline="true"
                                     type="date"
                                     id="inputfield-date"
-                                    v-model:value="inputDate"
+                                    v-model="inputDate"
                                     :status="formElementStatus"/>
                     <CmdFormElement element="input"
                                     labelText="Label (inline) for inputfield (search):"
@@ -473,7 +421,7 @@
                                     type="search"
                                     id="inputfield-search"
                                     placeholder="Keyword(s)"
-                                    v-model:value="inputSearch"
+                                    v-model="inputSearch"
                                     :status="formElementStatus"/>
                     <CmdFormElement element="textarea"
                                     labelText="Label for textarea:"
@@ -481,7 +429,7 @@
                                     minlength="1"
                                     maxlength="100"
                                     placeholder="Type in your message"
-                                    v-model:value="textarea"
+                                    v-model="textarea"
                                     :status="formElementStatus"/>
                     <div class="label inline">
                         <span>Label for native checkboxes:</span>
@@ -490,18 +438,18 @@
                                             labelText="Label for checkbox with boolean"
                                             type="checkbox"
                                             id="checkbox-with-boolean"
-                                            v-model:value="checkboxValue"
+                                            v-model="checkboxValue"
                                             :status="formElementStatus"/>
                             <CmdFormElement element="input"
                                             labelText="Label for checkbox with value"
-                                            v-model:value="checkboxValues"
+                                            v-model="checkboxValues"
                                             inputValue="checkboxValue1"
                                             type="checkbox"
                                             id="checkbox-with-value-1"
                                             :status="formElementStatus"/>
                             <CmdFormElement element="input"
                                             labelText="Label for checkbox with value"
-                                            v-model:value="checkboxValues"
+                                            v-model="checkboxValues"
                                             inputValue="checkboxValue2"
                                             type="checkbox"
                                             id="checkbox-with-value-2"
@@ -513,7 +461,7 @@
                                     type="checkbox"
                                     required="required"
                                     id="checkbox-required-with-boolean"
-                                    v-model:value="checkboxRequiredValue"
+                                    v-model="checkboxRequiredValue"
                                     :status="formElementStatus"/>
                     <p>
                         checkbox (required) with boolean: {{checkboxRequiredValue}}<br />
@@ -528,12 +476,12 @@
                                             type="checkbox"
                                             class="replace-input-type"
                                             id="inputfield9"
-                                            v-model:value="replacedCheckboxValue"
+                                            v-model="replacedCheckboxValue"
                                             inputValue="checkboxValue1"
                                             :status="formElementStatus"/>
                             <CmdFormElement element="input"
                                             labelText="Label for replaced checkbox"
-                                            v-model:value="replacedCheckboxValue"
+                                            v-model="replacedCheckboxValue"
                                             inputValue="checkboxValue2"
                                             type="checkbox"
                                             class="replace-input-type"
@@ -550,7 +498,7 @@
                                             id="inputfield11"
                                             name="radiogroup"
                                             inputValue="radiobuttonValue1"
-                                            v-model:value="radiobuttonValue"
+                                            v-model="radiobuttonValue"
                                             :status="formElementStatus"/>
                             <CmdFormElement element="input"
                                             labelText="Label for native radiobutton"
@@ -558,7 +506,7 @@
                                             id="inputfield12"
                                             name="radiogroup"
                                             inputValue="radiobuttonValue2"
-                                            v-model:value="radiobuttonValue"
+                                            v-model="radiobuttonValue"
                                             :status="formElementStatus"/>
                         </div>
                     </div>
@@ -575,7 +523,7 @@
                                             id="inputfield13"
                                             name="replaced-radiogroup"
                                             inputValue="radiobuttonValue1"
-                                            v-model:value="replacedRadiobuttonValue"
+                                            v-model="replacedRadiobuttonValue"
                                             :status="formElementStatus"/>
                             <CmdFormElement element="input"
                                             labelText="Label for replaced radiobutton"
@@ -584,7 +532,7 @@
                                             id="inputfield14"
                                             name="replaced-radiogroup"
                                             inputValue="radiobuttonValue2"
-                                            v-model:value="replacedRadiobuttonValue"
+                                            v-model="replacedRadiobuttonValue"
                                             :status="formElementStatus"/>
                         </div>
                     </div>
@@ -593,7 +541,7 @@
                                        switchTypes="checkbox"
                                        switchNames="checkboxgroup"
                                        :status="formElementStatus"
-                                       v-model:value="multipleSwitchCheckbox"/>
+                                       v-model="multipleSwitchCheckbox"/>
                     <dl>
                         <dt>Selected value:</dt>
                         <dd>
@@ -605,7 +553,7 @@
                                        switchTypes="radio"
                                        switchNames="swtich-names"
                                        :status="formElementStatus"
-                                       v-model:value="multipleSwitchRadio"/>
+                                       v-model="multipleSwitchRadio"/>
                     <dl>
                         <dt>Selected value:</dt>
                         <dd>
@@ -841,7 +789,7 @@
                 <p>Page {{ showPagePager }}</p>
             </div>
             <CmdPager
-                :items="pagerData.length"
+                :items="4"
                 :itemsPerPage="1"
                 @click="showPagePager = $event"
             />
@@ -994,7 +942,7 @@
 <script>
 // import used example data
 import accordionData from '@/assets/data/accordion.json'
-import addressData from '@/assets/data/address.json'
+import addressData from '@/assets/data/address-data.json'
 import bankAccountData from '@/assets/data/bank-account-data.json'
 import boxUserData from '@/assets/data/box-user.json'
 import boxProductData from '@/assets/data/box-product.json'
@@ -1006,7 +954,7 @@ import fakeSelectCountriesData from '@/assets/data/fake-select-countries.json'
 import fakeSelectFilterOptionsData from '@/assets/data/fake-select-filter-options.json'
 import fakeSelectOptionsData from '@/assets/data/fake-select-options.json'
 import fakeSelectOptionsWithIconsData from '@/assets/data/fake-select-options-with-icons.json'
-import footerNavigationData from '@/assets/data/footer-navigation.json'
+import footerNavigationData from '@/assets/data/list-of-links.json'
 import imageGalleryData from '@/assets/data/image-gallery.json'
 import languagesData from '@/assets/data/switch-language.json'
 import multistepsData from '@/assets/data/multistep-form-progress-bar.json'
@@ -1014,18 +962,16 @@ import multipleSwitchCheckboxData from '@/assets/data/multipleswitch-checkbox.js
 import multipleSwitchRadioData from '@/assets/data/multipleswitch-radio.json'
 import navigationData from '@/assets/data/main-navigation.json'
 import openingHoursData from '@/assets/data/opening-hours.json'
-import pagerData from '@/assets/data/pager.json'
 import selectOptionsData from '@/assets/data/select-options.json'
-import shareButtonsData from '@/assets/data/share-buttons.json'
+import shareButtonsData from '@/assets/data/share-buttons-page-by-json.json'
 import slideshowData from '@/assets/data/slideshow.json'
 import tabsData from '@/assets/data/tabs.json'
 import tableDataSmall from '@/assets/data/table-small.json'
 import tableDataLarge from '@/assets/data/table-large.json'
 import thumbnailScrollerData from '@/assets/data/thumbnail-scroller.json'
-import topHeaderNavigationData from '@/assets/data/top-header-navigation.json'
+import topHeaderNavigationData from '@/assets/data/list-of-links-top-header-navigation.json'
 
 // import used components
-import CmdAccordion from "@/components/CmdAccordion.vue"
 import CmdAddressData from "@/components/CmdAddressData"
 import CmdBackToTopButton from "@/components/CmdBackToTopButton.vue"
 import CmdBankAccountData from "./components/CmdBankAccountData"
@@ -1038,7 +984,6 @@ import CmdCookieDisclaimer from "@/components/CmdCookieDisclaimer.vue"
 import CmdCustomHeadline from "@/components/CmdCustomHeadline.vue"
 import CmdFakeSelect from "@/components/CmdFakeSelect.vue"
 import CmdFancyBox from "@/components/CmdFancyBox.vue"
-import CmdFooterNavigation from "@/components/CmdFooterNavigation.vue"
 import CmdForm from "@/components/CmdForm.vue"
 import CmdFormElement from "@/components/CmdFormElement.vue"
 import CmdFormFilters from "@/components/CmdFormFilters.vue"
@@ -1062,7 +1007,6 @@ import CmdTabs from "@/components/CmdTabs.vue"
 import CmdTable from "@/components/CmdTable.vue"
 import CmdThumbnailScroller from "@/components/CmdThumbnailScroller.vue"
 import CmdTooltip from "@/components/CmdTooltip.vue"
-import CmdTopHeaderNavigation from "@/components/CmdTopHeaderNavigation.vue"
 import CmdUploadForm from "@/components/CmdUploadForm.vue"
 import CmdWidthLimitationWrapper from "@/components/CmdWidthLimitationWrapper"
 import {openFancyBox} from "@/components/CmdFancyBox"
@@ -1073,7 +1017,6 @@ import * as functions from "@/mixins/FieldValidation.js"
 export default {
     name: "App",
     components: {
-        CmdAccordion, // short form of 'CmdAccordion': CmdAccordion
         CmdAddressData,
         CmdBackToTopButton,
         CmdBankAccountData,
@@ -1086,7 +1029,6 @@ export default {
         CmdCustomHeadline,
         CmdFakeSelect,
         CmdFancyBox,
-        CmdFooterNavigation,
         CmdForm,
         CmdFormFilters,
         CmdFormElement,
@@ -1110,7 +1052,6 @@ export default {
         CmdTable,
         CmdThumbnailScroller,
         CmdTooltip,
-        CmdTopHeaderNavigation,
         CmdUploadForm,
         CmdWidthLimitationWrapper
     },
@@ -1151,7 +1092,7 @@ export default {
             fancyBoxCookieDisclaimer: false,
             fakeSelectDefault: "2",
             fakeSelectDefaultWithIcons: "1",
-            fakeSelectCheckbox: [],
+            fakeSelectCheckbox: [1],
             fakeSelectFilters: [],
             datalist: {
                 id: "datalist-id",
@@ -1191,7 +1132,6 @@ export default {
             multipleSwitchRadioData,
             navigationData,
             openingHoursData,
-            pagerData,
             selectOptionsData,
             shareButtonsData,
             slideshowData,
