@@ -3,7 +3,7 @@
         <div
             v-if="showSystemMessage"
             :class="['cmd-system-message', 'system-message', 'flex-container', 'vertical', { 'full-width': fullWidth }, validationStatus]"
-            :role="status === 'error' ? 'alert' : 'dialog'"
+            :role="validationStatus === 'error' ? 'alert' : 'dialog'"
         >
             <a
                 v-if="iconClose.show && iconClose.iconClass"

@@ -125,7 +125,6 @@
                                        v-model="fakeSelectCheckbox"
                                        defaultOptionName="Options:"
                                        :required="true"
-                                       :showLabel="false"
                                        id="selectbox-with-checkboxes"
                                        type="checkboxOptions"
                                        :useCustomTooltip="true"

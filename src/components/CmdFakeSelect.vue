@@ -8,9 +8,9 @@
                 'has-state': validationStatus && validationStatus !== 'none'
             }
         ]"
-         :aria-labelledby="labelText"
-         :aria-required="$attrs.required !== undefined"
-         ref="fakeselect"
+        :aria-labelledby="labelText"
+        :aria-required="$attrs.required !== undefined"
+        ref="fakeselect"
     >
         <span v-if="showLabel">
             <!-- begin label -->
@@ -19,14 +19,14 @@
             </span>
             <!-- end label -->
             <a v-if="$attrs.required || inputRequirements.length"
-                href="#"
-                @click.prevent
-                :class="getStatusIconClass"
-                :title="!useCustomTooltip ? getValidationMessage : ''"
-                :aria-errormessage="getValidationMessage"
-                aria-live="assertive"
-                :id="tooltipId"
-                :role="validationStatus === 'error' ? 'alert' : 'dialog'">
+               href="#"
+               @click.prevent
+               :class="getStatusIconClass"
+               :title="!useCustomTooltip ? getValidationMessage : ''"
+               :aria-errormessage="getValidationMessage"
+               aria-live="assertive"
+               :id="tooltipId"
+               :role="validationStatus === 'error' ? 'alert' : 'dialog'">
             </a>
         </span>
         <ul :class="{'open': showOptions}" @clickout="closeOptions">
@@ -66,7 +66,7 @@
                     <li v-for="(option, index) in selectData" :key="index">
                         <label v-if="type === 'checkboxOptions'" :for="'option-' + (index + 1)" :class="{'active' : modelValue.includes(`${option.value}`)}">
                             <input type="checkbox" :value="option.value" @change="optionSelect"
-                                   :checked="modelValue.includes(option.value)" :id="'option-' + (index + 1)"/>
+                                   :checked="compareValues(option.value)" :id="'option-' + (index + 1)"/>
                             <span>{{ option.text }}</span>
                         </label>
 
@@ -82,12 +82,14 @@
                             <span>{{ option.text }}</span>
                         </a>
                     </li>
+                    <!-- begin (de)select all options -->
                     <li v-if="showSelectAllOptions && type === 'checkboxOptions'" class="select-all-options">
                         <a href="#" @click.prevent="toggleAllOptions">
                             <span :class="selectAllOptionsIcon"></span>
                             <span>{{ selectAllOptionsText }}</span>
                         </a>
                     </li>
+                    <!-- end (de)select all options -->
                 </ul>
                 <!-- end dropdown with checkboxes -->
 
@@ -105,19 +107,20 @@
         <CmdSystemMessage
             v-if="getValidationMessage"
             :message="getValidationMessage"
-            :validatioStatus="validationStatus"
+            :validationStatus="validationStatus"
             :iconClose="{show: false}"
         />
         <!-- end CmdSystemMessage -->
 
         <template v-if="showRequirements && (validationStatus === '' || validationStatus === 'error')">
             <!-- begin list of requirements -->
-            <h6>{{ getMessage("cmdfakeselect.headline.requirements_for_input") }}<br />"{{labelText}}"</h6>
+            <h6>{{ getMessage("cmdfakeselect.headline.requirements_for_input") }}<br/>"{{ labelText }}"</h6>
             <dl class="list-of-requirements">
                 <template v-for="(requirement, index) in inputRequirements" :key="index">
-                    <dt aria-live="assertive" :class="requirement.valid(modelValue, $attrs) ? 'success' : 'error'">{{requirement.message}}:</dt>
+                    <dt aria-live="assertive" :class="requirement.valid(modelValue, $attrs) ? 'success' : 'error'">{{ requirement.message }}:</dt>
                     <dd :class="requirement.valid(modelValue, $attrs) ? 'success' : 'error'">
-                        <span aria-live="assertive" :class="requirement.valid(modelValue, $attrs) ? 'icon-check-circle' : 'icon-error-circle'" :title="requirement.valid(modelValue, $attrs) ? 'success' : 'error'"></span>
+                        <span aria-live="assertive" :class="requirement.valid(modelValue, $attrs) ? 'icon-check-circle' : 'icon-error-circle'"
+                              :title="requirement.valid(modelValue, $attrs) ? 'success' : 'error'"></span>
                     </dd>
                 </template>
             </dl>
@@ -125,7 +128,7 @@
 
             <!-- begin helplink -->
             <template v-if="helplink">
-                <hr v-if="helplink.show" />
+                <hr v-if="helplink.show"/>
                 <a v-if="helplink.show && helplink.url"
                    :href="helplink.url"
                    :target="helplink.target"
@@ -272,7 +275,7 @@ export default {
     computed: {
         // get the displayed option name
         optionName() {
-            // fake a normal checkbox
+            // fake a native selectbox
             if (this.type !== "checkboxOptions" && this.type !== "content" && this.modelValue) {
                 const result = this.selectData.find(option => option.value === this.modelValue)?.text
 
@@ -285,13 +288,11 @@ export default {
             // selectbox with checkbox-options
             else if (this.type === "checkboxOptions") {
                 if (this.modelValue.length === 1) {
-                    return this.selectData.find(option => option.value === this.modelValue[0])?.text
+                    return this.selectData.find(option => String(option.value) === String(this.modelValue[0]))?.text
                 } else if (this.modelValue.length > 1) {
                     return this.modelValue.length + " options selected"
                 }
-            }
-
-            else if (this.selectData?.length) {
+            } else if (this.selectData?.length) {
                 return this.selectData[0].text
             }
 
@@ -319,7 +320,7 @@ export default {
             return null
         },
         selectAllOptionsText() {
-            if(Array.isArray(this.modelValue) && this.modelValue.length === this.selectData.length) {
+            if (Array.isArray(this.modelValue) && this.modelValue.length === this.selectData.length) {
                 return "Deselect all options"
             }
             return "Select all options"
@@ -342,20 +343,20 @@ export default {
         toggleAllOptions() {
             this.validationStatus = "success"
             const checkboxValues = []
-            if(this.modelValue.length === this.selectData.length) {
-                if(this.$attrs.required) {
+            if (this.modelValue.length === this.selectData.length) {
+                if (this.$attrs.required) {
                     this.validationStatus = "error"
                 }
             } else {
                 for (let i = 0; i < this.selectData.length; i++) {
-                    checkboxValues.push(this.selectData[i].value)
+                    checkboxValues.push(String(this.selectData[i].value))
                 }
             }
 
             this.$emit("update:modelValue", checkboxValues)
         },
         limitWidth() {
-            if(this.$refs.fakeselect) {
+            if (this.$refs.fakeselect) {
                 const outerWidth = this.$refs.fakeselect.offsetWidth
                 this.limitWidthStyle = {width: outerWidth / 100 * 90 + "px"}
             }
@@ -365,17 +366,23 @@ export default {
                 this.showOptions = !this.showOptions
             }
         },
-        // check is an option is selected for default-selectbox
+        // check if array of selected options includes number or string version of value
+        compareValues(option) {
+            return this.modelValue.some((item) => {
+                return item === option || item === String(option)
+            })
+        },
+        // check if an option is selected for default-selectbox
         selectOption(optionValue) {
             this.validationStatus = "success"
-            if(this.$attrs.required !== undefined) {
-                if(!optionValue) {
+            if (this.$attrs.required !== undefined) {
+                if (!optionValue) {
                     this.validationStatus = "error"
                 }
             }
 
             this.showOptions = false
-            this.$emit('update:modelValue', optionValue);
+            this.$emit('update:modelValue', optionValue)
         },
         // check if a checkbox is changed for selectbox with checkboxes
         optionSelect(event) {
@@ -383,15 +390,15 @@ export default {
 
             let value = [...this.modelValue] // copy array from props
             if (event.target.checked) {
-                value.push(event.target.value); // attention: value will be transformed into string!
+                value.push(event.target.value) // attention: value will be transformed into string!
             } else {
-                value = value.filter(v => v !== event.target.value);
+                value = value.filter(item => item !== event.target.value && String(item) !== event.target.value)
             }
-            if(this.$attrs.required !== undefined && !value.length) {
+            if (this.$attrs.required !== undefined && !value.length) {
                 this.validationStatus = "error"
             }
 
-            this.$emit('update:modelValue', value);
+            this.$emit('update:modelValue', value)
         },
         closeOptions() {
             this.showOptions = false
@@ -420,10 +427,10 @@ export default {
         },
         selectData: {
             handler() {
-              // check if given value by modelValue exists (else pre-select first option)
-              if(this.type === "default" && this.selectData?.length && !this.selectData.some((option) => option.value === this.modelValue)) {
-                  this.$emit("update:modelValue", this.selectData[0].value)
-              }
+                // check if given value by modelValue exists (else pre-select first option)
+                if (this.type === "default" && this.selectData?.length && !this.selectData.some((option) => option.value === this.modelValue)) {
+                    this.$emit("update:modelValue", this.selectData[0].value)
+                }
             },
             immediate: true,
             deep: true

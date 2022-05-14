@@ -1,7 +1,7 @@
 <template>
     <div class="cmd-opening-hours">
         <!-- begin cmd-custom-headline -->
-        <CmdCustomHeadline v-if="cmdCustomHeadline" :headline="cmdCustomHeadline" />
+        <CmdCustomHeadline v-if="cmdCustomHeadline" v-bind="cmdCustomHeadline" />
         <!-- end cmd-custom-headline -->
 
         <!-- begin opening-status with link to detail-page -->

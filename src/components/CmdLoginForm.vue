@@ -15,7 +15,7 @@
                 type="text"
                 :name="cmdFormElementUsername.name"
                 :id="cmdFormElementUsername.id"
-                v-model:value="username"
+                v-model="username"
                 :inner-icon-class="cmdFormElementUsername.innerIconClass"
                 :labelText="cmdFormElementUsername.labelText"
                 :placeholder="cmdFormElementUsername.placeholder"
@@ -29,7 +29,7 @@
                 :name="cmdFormElementPassword.name"
                 :id="cmdFormElementPassword.id"
                 :inner-icon-class="cmdFormElementPassword.innerIconClass"
-                v-model:value="password"
+                v-model="password"
                 :labelText="cmdFormElementPassword.labelText"
                 :placeholder="cmdFormElementPassword.placeholder"
             />
@@ -274,13 +274,7 @@ export default {
          */
         cmdCustomHeadlineLoginForm: {
             type: Object,
-            default() {
-                return {
-                    show: true,
-                    text: "Login",
-                    level: 2
-                }
-            }
+            required: false
         },
         /**
          * properties for CmdCustomHeadline-component for send-login-form
@@ -290,8 +284,8 @@ export default {
             default() {
                 return {
                     show: true,
-                    text: "Send Login",
-                    level: 2
+                    headlineText: "Send Login",
+                    headlineLevel: 2
                 }
             }
         },
