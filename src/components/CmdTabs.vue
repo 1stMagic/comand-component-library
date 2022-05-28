@@ -9,9 +9,9 @@
             </li>
         </ul>
         <template v-if="useSlot">
-            <div v-show="showTab === index" v-for="index in tabs.length" :key="index" aria-live="assertive">
+            <div v-show="showTab === index - 1" v-for="index in tabs.length" :key="index" aria-live="assertive">
                 <!-- begin slot-content -->
-                <slot :name="'tab-content-' + index"></slot>
+                <slot :name="'tab-content-' + (index - 1)"></slot>
                 <!-- end slot-content -->
             </div>
         </template>
@@ -23,7 +23,6 @@
                :headlineLevel="tabs[showTab].headlineLevel"
             />
             <!-- end CmdCustomHeadline -->
-
             <div v-html="tabs[showTab].htmlContent"></div>
         </div>
     </div>

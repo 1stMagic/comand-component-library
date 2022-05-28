@@ -1,11 +1,11 @@
 <template>
-    <div :class="['cmd-table-wrapper', {'collapsed': !showTableData, 'full-width': fullWidth}]">
+    <div :class="['cmd-table-wrapper', {'collapsed': !showTableData, 'full-width': fullWidth, 'has-caption': hasCaption}]">
         <div v-if="collapsible || userCanToggleWidth" class="button-wrapper">
             <a v-if="userCanToggleWidth" class="button"
                href="#" @click.prevent="fullWidth = !fullWidth"
-               :title="fullWidth ? iconStretch.tooltip : iconShrink.tooltip"
+               :title="iconToggleWidth.tooltip"
             >
-                <span :class="fullWidth ? iconStretch.iconClass : iconShrink.iconClass"></span>
+                <span :class="iconToggleWidth.iconClass"></span>
             </a>
             <a v-if="collapsible" class="button"
                href="#" @click.prevent="showTableData = !showTableData"
@@ -14,34 +14,38 @@
                 <span :class="showTableData ? iconCollapse.iconClass : iconExpand.iconClass"></span>
             </a>
         </div>
-        <table :class="{'full-width': fullWidth}">
-            <caption :class="{hidden: !tableData.caption.show}">{{ tableData.caption.text }}</caption>
-            <thead>
+        <div class="inner-wrapper">
+            <table :class="{'full-width': fullWidth}">
+                <caption v-if="tableData.caption?.text || caption?.text" :class="{ hidden: hideCaption }">
+                    {{ caption?.text || tableData.caption?.text }}
+                </caption>
+                <thead>
                 <tr>
                     <th v-for="(tablehead, indexHead) in tableData.thead" :key="indexHead">
                         {{ tablehead }}
                     </th>
                 </tr>
-            </thead>
-            <transition name="fade">
-                <tbody v-show="showTableData" aria-expanded="true">
+                </thead>
+                <transition name="fade">
+                    <tbody v-show="showTableData" aria-expanded="true">
                     <tr :class="{'highlighted' : tableData.rowIndexHighlighted === indexRows}" v-for="(tablerows, indexRows) in tableData.tbody" :key="indexRows">
                         <td :class="{'highlighted' : tableData.columnIndexHighlighted === indexData}" v-for="(tabledata, indexData) in tablerows" :key="indexData">
                             {{ tabledata }}
                         </td>
                     </tr>
-                </tbody>
-            </transition>
-            <transition name="fade">
-                <tfoot v-if="tableData.tfoot && tableData.tfoot.length && showTableData" aria-expanded="true">
+                    </tbody>
+                </transition>
+                <transition name="fade">
+                    <tfoot v-if="tableData.tfoot && tableData.tfoot.length && showTableData" aria-expanded="true">
                     <tr>
                         <td :class="{'highlighted' : tableData.columnIndexHighlighted === indexFoot}" v-for="(tablefoot, indexFoot) in tableData.tfoot" :key="indexFoot">
                             {{ tablefoot }}
                         </td>
                     </tr>
-                </tfoot>
-            </transition>
-        </table>
+                    </tfoot>
+                </transition>
+            </table>
+        </div>
     </div>
 </template>
 
@@ -61,6 +65,15 @@ export default {
         tableData: {
             type: Object,
             required: true
+        },
+        /**
+         * caption for table (shown above table)
+         *
+         * @requiredForAccessibility: true
+         */
+        caption: {
+            type: Object,
+            required: false
         },
         /**
          * activate if table should be collapsible
@@ -116,12 +129,12 @@ export default {
          *
          * @requiredForAccessibility: partial
          */
-        iconShrink: {
+        iconToggleWidth: {
             type: Object,
             default: function () {
                 return {
-                    iconClass: "icon-single-arrow-left",
-                    tooltip: "Shrink table"
+                    iconClass: "icon-table",
+                    tooltip: "Toggle table width"
                 }
             }
         },
@@ -139,6 +152,19 @@ export default {
                 }
             }
         }
+    },
+    computed: {
+        hasCaption() {
+            if (this.hideCaption) {
+                return false
+            }
+
+            // check is a caption-text is defined
+            return this.tableData.caption?.text || this.caption?.text
+        },
+        hideCaption() {
+            return this.caption?.show === false || (this.caption?.show !== true && !this.tableData.caption?.show)
+        }
     }
 }
 </script>
@@ -147,9 +173,10 @@ export default {
 /* begin cmd-table-wrapper ---------------------------------------------------------------------------------------- */
 .cmd-table-wrapper {
     display: inline-flex;
+    flex-direction: column;
     max-width: 100%;
-    overflow-x: auto;
     margin-bottom: var(--default-margin);
+    gap: calc(var(--default-margin) / 2);
 
     &.collapsed, &.full-width {
         overflow: hidden;
@@ -162,7 +189,6 @@ export default {
     }
 
     > .button-wrapper {
-        position: absolute;
         right: 0;
         z-index: 100;
         gap: calc(var(--default-gap) / 2);
@@ -172,6 +198,7 @@ export default {
             padding: 0;
             min-width: 2rem;
             min-height: 2rem;
+            background: var(--pure-white);
 
             span[class*="icon"] {
                 color: var(--primary-color);
@@ -182,25 +209,39 @@ export default {
                 }
             }
         }
-
-        & + table {
-            margin-top: calc(var(--default-margin) / 2);
-        }
     }
 
-    table {
-        table-layout: fixed;
-        margin: 0;
+    .inner-wrapper {
+        overflow-x: auto;
+        width: 100%;
 
-        th {
-            a[class*='icon-'] {
-                &, &:hover, &:active, &:focus {
-                    font-size: 1rem;
-                    color: var(--pure-white);
+        table {
+            table-layout: fixed;
+            margin: 0;
+
+            th {
+                a[class*='icon-'] {
+                    &, &:hover, &:active, &:focus {
+                        font-size: 1rem;
+                        color: var(--pure-white);
+                    }
                 }
             }
         }
     }
+
+    &.has-caption {
+        flex-direction: row;
+
+        .button-wrapper {
+            position: absolute;
+        }
+
+        table {
+            margin-top: calc(var(--default-margin) / 2);
+        }
+    }
+
 }
 
 /* end cmd-table-wrapper ------------------------------------------------------------------------------------------ */

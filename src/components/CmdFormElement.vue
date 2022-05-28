@@ -69,12 +69,12 @@
         <!-- begin show-password-icon -->
         <a v-if="$attrs.type === 'password'"
            href="#"
-           class="place-inside icon-visible"
+           :class="['place-inside', iconPasswordVisible.iconClass]"
            @mousedown.prevent="showPassword"
            @mouseup.prevent="hidePassword"
            @mouseleave.prevent="hidePassword"
            @click.prevent
-           title="Toggle password visibility">
+           :title="iconPasswordVisible.tooltip">
         </a>
         <!-- end show-password-icon -->
 
@@ -145,21 +145,23 @@
         <!-- end textarea -->
 
         <!-- begin searchfield -->
-        <span v-else-if="element === 'input' && $attrs.type === 'search'" class="search-field-wrapper flex-container no-gap">
-            <a v-if="iconDelete.show" href="#" @click.prevent="$emit('update:modelValue', '')" :class="iconDelete.iconClass" :title="iconDelete.tooltip"/>
-            <input
-                v-bind="$attrs"
-                :id="id"
-                @input="onInput"
-                :maxlength="$attrs.maxlength > 0 ? $attrs.maxlength : 255"
-                :value="modelValue"
-            />
+        <template v-else-if="element === 'input' && $attrs.type === 'search'">
+            <div class="search-field-wrapper flex-container no-gap">
+                <a v-if="iconDelete.show" href="#" @click.prevent="$emit('update:modelValue', '')" :class="iconDelete.iconClass" :title="iconDelete.tooltip"/>
+                <input
+                    v-bind="$attrs"
+                    :id="id"
+                    @input="onInput"
+                    :maxlength="$attrs.maxlength > 0 ? $attrs.maxlength : 255"
+                    :value="modelValue"
+                />
+            </div>
             <button v-if="showSearchButton" class="no-flex" type="button" :title="iconSearch.tooltip">
                 <span :class="iconSearch.iconClass"></span>
             </button>
-        </span>
-        <!-- end searchfield -->
+        </template>
     </label>
+    <!-- end searchfield -->
 
     <!-- begin button -->
     <button v-else class="button" v-bind="buttonAttrs">
@@ -193,8 +195,8 @@
                 <template v-for="(requirement, index) in inputRequirements" :key="index">
                     <dt aria-live="assertive" :class="requirement.valid(modelValue, $attrs) ? 'success' : 'error'">{{ requirement.message }}:</dt>
                     <dd :class="requirement.valid(modelValue, $attrs) ? 'success' : 'error'">
-                        <span aria-live="assertive" :class="requirement.valid(modelValue, $attrs) ? 'icon-check-circle' : 'icon-error-circle'"
-                              :title="requirement.valid(modelValue, $attrs) ? 'success' : 'error'"></span>
+                        <span aria-live="assertive" :class="requirement.valid(modelValue, $attrs) ? iconHasStateSuccess.iconClass : iconHasStateError.iconClass"
+                              :title="requirement.valid(modelValue, $attrs) ? iconHasStateSuccess.tooltip : iconHasStateError.tooltip"></span>
                     </dd>
                 </template>
             </dl>
@@ -243,7 +245,7 @@ export default {
     },
     props: {
         /**
-         * set value for v-model (must be names modelValue in vue3)
+         * set value for v-model (must be named modelValue in vue3 if default v-model should be used)
          */
         modelValue: {
             type: [String, Boolean, Array, Number],
@@ -476,6 +478,74 @@ export default {
                     tooltip: "Search"
                 }
             }
+        },
+        /**
+         * icon for error-validated items in list-of-requirements
+         *
+         * element-property must me set to 'input'
+         * showRequirements-property must be set to 'true'
+         *
+         */
+        iconHasStateError: {
+            type: Object,
+            default() {
+                return {
+                    show: true,
+                    iconClass: "icon-error-circle",
+                    tooltip: "Error"
+                }
+            }
+        },
+        /**
+         * icon for warning-validated items in list-of-requirements
+         *
+         * element-property must me set to 'input'
+         * showRequirements-property must be set to 'true'
+         *
+         */
+        iconHasStateWarning: {
+            type: Object,
+            default() {
+                return {
+                    show: true,
+                    iconClass: "icon-warning-circle",
+                    tooltip: "Warning"
+                }
+            }
+        },
+        /**
+         * icon for success-validated items in list-of-requirements
+         *
+         * element-property must me set to 'input'
+         * showRequirements-property must be set to 'true'
+         *
+         */
+        iconHasStateSuccess: {
+            type: Object,
+            default() {
+                return {
+                    show: true,
+                    iconClass: "icon-check-circle",
+                    tooltip: "Success"
+                }
+            }
+        },
+        /**
+         * icon for info-validated items in list-of-requirements
+         *
+         * element-property must me set to 'input'
+         * showRequirements-property must be set to 'true'
+         *
+         */
+        iconHasStateInfo: {
+            type: Object,
+            default() {
+                return {
+                    show: true,
+                    iconClass: "icon-info-circle",
+                    tooltip: "Info"
+                }
+            }
         }
     },
     computed: {
@@ -521,13 +591,13 @@ export default {
 
             // set default-tooltip if customTooltip is not set
             if (this.validationStatus === 'error') {
-                return "An error occurred!"
+                return this.getMessage("cmdformelement.validationTooltip.an_error_occurred")
             } else if (this.validationStatus === 'success') {
-                return "This information is filled correctly!"
+                return this.getMessage("cmdformelement.validationTooltip.information_is_filled_correctly")
             } else if (this.capsLockActivated) {
-                return "Attention: Caps lock is activated!"
+                return this.getMessage("cmdformelement.validationTooltip.caps_lock_is_activated")
             }
-            return "Open field requirements!"
+            return this.getMessage("cmdformelement.validationTooltip.open_field_requirements")
         }
     },
     methods: {
@@ -599,14 +669,14 @@ export default {
             const password = passwordField.value
 
             // toggle input-type to make password visible
-            passwordField.nextElementSibling.classList.replace("icon-visible", "icon-not-visible")
+            passwordField.nextElementSibling.classList.replace(this.iconPasswordVisible.iconClass, this.iconPasswordInvisible.iconClass)
             passwordField.setAttribute("type", "text")
 
             // assign saved password back to field
             passwordField.setAttribute("value", password)
         },
         hidePassword() {
-            this.$refs.input.nextElementSibling.classList.replace("icon-not-visible", "icon-visible")
+            this.$refs.input.nextElementSibling.classList.replace(this.iconPasswordInvisible.iconClass, this.iconPasswordVisible.iconClass)
             this.$refs.input.setAttribute("type", "password")
         }
     },

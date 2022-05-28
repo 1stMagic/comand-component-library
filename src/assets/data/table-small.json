@@ -1,6 +1,6 @@
 {
   "caption": {
-    "show": false,
+    "show": true,
     "text": "This is a caption for a small table"
   },
   "thead": [

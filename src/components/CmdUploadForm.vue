@@ -1,11 +1,11 @@
 <template>
     <!-- begin advanced mode -->
     <fieldset v-if="advancedMode" :class="['cmd-upload-form flex-container', { 'upload-initiated': uploadInitiated }]">
-        <!-- begin CmdCustomHeadline -->
-        <CmdCustomHeadline v-if="cmdCustomHeadline"
-                           v-bind="cmdCustomHeadline"
+        <!-- begin CmdCustomHeadlineFieldset -->
+        <CmdCustomHeadline v-if="cmdCustomHeadlineFieldset"
+                           v-bind="cmdCustomHeadlineFieldset"
         />
-        <!-- end CmdCustomHeadline -->
+        <!-- end CmdCustomHeadlineFieldset -->
 
         <!-- begin CmdSystemMessage -->
         <CmdSystemMessage
@@ -24,12 +24,12 @@
 
         <div :class="['box drop-area', { 'allow-drop': allowDrop }]" v-on="dragAndDropHandler">
             <template v-if="!listOfFiles.length">
-                <h4 v-if="allowMultipleFileUploads">
+                <CmdCustomHeadline v-if="allowMultipleFileUploads" v-bind="cmdCustomHeadline">
                     {{ getMessage("cmduploadform.no_files_to_upload") }}
-                </h4>
-                <h4 v-else>
+                </CmdCustomHeadline>
+                <CmdCustomHeadline v-else v-bind="cmdCustomHeadline">
                     {{ getMessage("cmduploadform.no_file_to_upload") }}
-                </h4>
+                </CmdCustomHeadline>
             </template>
 
             <!-- begin total-upload information -->
@@ -150,7 +150,7 @@
                 </dt>
                 <dd>
                     <a
-                        :class="showListOfFileExtensions ? 'icon-not-visible' : 'icon-visible'"
+                        :class="showListOfFileExtensions ? 'invisibleIconClass' : 'visibleIconClass'"
                         href="#"
                         @click.prevent="showListOfFileExtensions = !showListOfFileExtensions"
                         :title="getMessage('cmduploadform.tooltip.toggle_list_of_allowed_file_types')"
@@ -175,7 +175,7 @@
                 :disabled="uploadInitiated"
                 @click="selectFiles()"
             >
-                <span class="icon-file-upload"></span>
+                <span :class="fileUploadIconClass"></span>
                 <span v-if="allowMultipleFileUploads">{{
                         getMessage("cmduploadform.labeltext.select_files")
                     }}</span>
@@ -226,14 +226,14 @@
                 "
                 @click="uploadFiles"
             >
-                <span class="icon-upload"></span>
+                <span :class="uploadIconClass"></span>
                 <span v-if="listOfFiles.length === 1 || !allowMultipleFileUploads">
                     {{ getMessage("cmduploadform.buttontext.upload_file") }}
                 </span>
                 <span v-else>{{ getMessage("cmduploadform.buttontext.upload_files") }}</span>
             </button>
             <button :class="['button', { disabled: listOfFiles.length === 0 }]" @click="cancel">
-                <span class="icon-cancel"></span>
+                <span :class="cancelIconClass"></span>
                 <span>{{ getMessage("cmduploadform.buttontext.cancel") }}</span>
             </button>
         </div>
@@ -256,16 +256,16 @@
             <template v-if="enableDragAndDrop">
                 <template v-if="fileTypeImage">
                     <span>{{ getMessage("cmduploadform.select_image") }}</span>
-                    <span class="icon-image"></span>
+                    <span :class="imageIconClass"></span>
                 </template>
                 <template v-else>
                     <span>{{ getMessage("cmduploadform.select_file") }}</span>
-                    <span class="icon-file"></span>
+                    <span :class="fileUploadIconClass"></span>
                 </template>
             </template>
             <template v-else>
                 <span>{{ getMessage("cmduploadform.drag_and_drop_file_here") }}</span>
-                <span class="icon-drag-and-drop"></span>
+                <span :class="dragAndDropIconClass"></span>
             </template>
             <small>{{ getMessage("cmduploadform.max_upload_size") }} {{ formatSize(maxFileUploadSize) }}</small>
             <small>{{ getMessage("cmduploadform.allowed_file_types") }} {{ allowedFileExtensions }}</small>
@@ -332,13 +332,6 @@ export default {
     },
     props: {
         /**
-         * set icon class for delete-icons
-         */
-        deleteIconClass: {
-            type: String,
-            default: "icon-delete"
-        },
-        /**
          * toggle visibility of total upload (number of files, total size, total progress
          */
         showTotalUpload: {
@@ -380,7 +373,7 @@ export default {
         /**
          * properties for CmdCustomHeadline-component
          */
-        cmdCustomHeadline: {
+        cmdCustomHeadlineFieldset: {
             type: Object,
             required: false
         },
@@ -445,6 +438,69 @@ export default {
         advancedMode: {
             type: Boolean,
             default: true
+        },
+        /**
+         * set icon class for delete-icons
+         */
+        deleteIconClass: {
+            type: String,
+            default: "icon-delete"
+        },
+        /**
+         * set icon class for file-upload-icon
+         */
+        fileUploadIconClass: {
+            type: String,
+            default: "icon-file-upload"
+        },
+        /**
+         * set icon class for file-icon
+         */
+        fileIconClass: {
+            type: String,
+            default: "icon-file"
+        },
+        /**
+         * set icon class for invisible-icon
+         */
+        invisibleIconClass: {
+            type: String,
+            default: "icon-not-visible"
+        },
+        /**
+         * set icon class for visible-icon
+         */
+        visibleIconClass: {
+            type: String,
+            default: "icon-visible"
+        },
+        /**
+         * set icon class for image-icon
+         */
+        imageIconClass: {
+            type: String,
+            default: "icon-image"
+        },
+        /**
+         * set icon class for upload-icon
+         */
+        uploadIconClass: {
+            type: String,
+            default: "icon-upload"
+        },
+        /**
+         * set icon class for drag-and-drop-icon
+         */
+        dragAndDropIconClass: {
+            type: String,
+            default: "icon-drag-and-drop"
+        },
+        /**
+         * set icon class for cancel-icon
+         */
+        cancelIconClass: {
+            type: String,
+            default: "icon-cancel"
         }
     },
     computed: {

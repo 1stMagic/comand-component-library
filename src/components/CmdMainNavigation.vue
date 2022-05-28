@@ -343,6 +343,7 @@ export default {
                 --nav-width: 30%;
 
                 position: fixed;
+                top: 0;
                 left: -100%;
                 width: var(--nav-width);
                 height: 100%;

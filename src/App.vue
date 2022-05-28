@@ -415,6 +415,15 @@
                                     v-model="inputDate"
                                     :status="formElementStatus"/>
                     <CmdFormElement element="input"
+                                    labelText="Label (inline) for inputfield (search) without search-button:"
+                                    :displayLabelInline="true"
+                                    type="search"
+                                    id="inputfield-search"
+                                    placeholder="Keyword(s)"
+                                    v-model="inputSearch"
+                                    :showSearchButton="false"
+                                    :status="formElementStatus"/>
+                    <CmdFormElement element="input"
                                     labelText="Label (inline) for inputfield (search):"
                                     :displayLabelInline="true"
                                     type="search"
@@ -835,8 +844,10 @@
         <a id="section-tables"></a>
         <CmdWidthLimitationWrapper>
             <h2 class="headline-demopage">Tables</h2>
-            <h3>Table as wide as its content</h3>
-            <CmdTable :collapsible="true" :fullWidthOnDefault="false" :userCanToggleWidth="true" :table-data="tableDataSmall"/>
+            <h3>Table as wide as its content (with caption)</h3>
+            <CmdTable :collapsible="true" :fullWidthOnDefault="false"  :userCanToggleWidth="true" :table-data="tableDataSmall"/>
+            <h3>Table as wide as its content (without caption)</h3>
+            <CmdTable :collapsible="true" :fullWidthOnDefault="false"  :userCanToggleWidth="true" :caption="{ text: 'Hidden caption', show: false}" :table-data="tableDataSmall"/>
             <h3>Table as wide as possible</h3>
             <CmdTable :collapsible="true" :fullWidthOnDefault="false" :userCanToggleWidth="true" :table-data="tableDataLarge"/>
         </CmdWidthLimitationWrapper>

@@ -35,6 +35,5 @@ export default {
 .cmd-google-maps {
     border: var(--default-border);
 }
-
 /* end cmd-google-maps ------------------------------------------------------------------------------------------ */
 </style>

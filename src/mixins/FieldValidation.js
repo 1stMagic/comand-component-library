@@ -32,7 +32,6 @@ export default {
                     url: "helpurl",
                     target: "help",
                     text: "Open help",
-                    // text: this.getMessage("cmdfieldvalidation.open_detailed_help"),
                     icon: {
                         iconClass: "icon-questionmark-circle",
                         tooltip: "Open help in new tab"
@@ -56,29 +55,93 @@ export default {
             type: Boolean,
             default: true
         },
-        iconError: {
+        /**
+         * icon to show that the validation-status of a field is 'error'
+         * icon will be displayed inside the field on the left (in front of the input)
+         * icon is also used in 'list-of-requirements' (showRequirements-property must be set to true)
+         */
+        iconHasStateError: {
             type: String,
-            default: "icon-error-circle"
+            default() {
+                return {
+                  iconClass: "icon-error-circle",
+                  tooltip: "Error"
+                }
+            }
         } ,
-        iconWarning: {
+        /**
+         * icon to show that the validation-status of a field is 'warning'
+         * icon will be displayed inside the field on the left (in front of the input)
+         */
+        iconHasStateWarning: {
             type: String,
-            default: "icon-exclamation-circle"
+            default() {
+                return {
+                    iconClass: "icon-exclamation-circle",
+                    tooltip: "Warning"
+                }
+            }
         },
-        iconSuccess: {
+        /**
+         * icon to show that the validation-status of a field is 'success'
+         * icon will be displayed inside the field on the left (in front of the input)
+         * icon is also used in 'list-of-requirements' (showRequirements-property must be set to true)
+         */
+        iconHasStateSuccess: {
             type: String,
-            default: "icon-check-circle"
+            default() {
+                return {
+                    iconClass: "icon-check-circle",
+                    tooltip: "Success"
+                }
+            }
         },
-        iconInfo: {
+        /**
+         * icon to show that the validation-status of a field is 'info'
+         * icon will be displayed inside the field on the left (in front of the input)
+         */
+        iconHasStateInfo: {
             type: String,
-            default: "icon-info-circle"
+            default() {
+                return {
+                    iconClass: "icon-info-circle",
+                    tooltip: "Info"
+                }
+            }
         },
+        /**
+         * icon to show that caps-lock is activated
+         */
         iconCapsLock: {
             type: String,
-            default: "icon-home"
+            default() {
+                return {
+                    iconClass: "icon-home"
+                }
+            }
         },
-        iconHelp: {
+        /**
+         * icon displayed if password-field is clicked to show password
+         */
+        iconPasswordVisible: {
             type: String,
-            default: "icon-questionmark-circle"
+            default() {
+                return {
+                    iconClass: "icon-visible",
+                    tooltip: "Show password"
+                }
+            }
+        },
+        /**
+         * icon displayed to show password of a password-field
+         */
+        iconPasswordInvisible: {
+            type: String,
+            default() {
+                return {
+                    iconClass: "icon-not-visible"
+                }
+            }
         }
     },
     computed: {
@@ -100,18 +163,18 @@ export default {
             if (this.validationStatus !== "") {
                 if (!this.capsLockActivated) {
                     if (this.validationStatus === "error") {
-                        return this.iconError
+                        return this.iconHasStateError.iconClass
                     } else if (this.validationStatus === "warning") {
-                        return this.iconWarning
+                        return this.iconHasStateWarning.iconClass
                     } else if (this.validationStatus === "success") {
-                        return this.iconSuccess
+                        return this.iconHasStateSuccess.iconClass
                     }
-                    return this.iconInfo
+                    return this.iconHasStateInfo.iconClass
                 } else {
-                    return this.iconCapsLock
+                    return this.iconCapsLock.iconClass
                 }
             }
-            return this.iconHelp
+            return this.helplink.icon.iconClass
         },
         inputRequirements() {
             const standardRequirements = []
