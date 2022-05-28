@@ -546,7 +546,40 @@ export default {
                     tooltip: "Info"
                 }
             }
-        }
+        },
+        /**
+         * icon to toggle password-visibility
+         *
+         * element-property must me set to 'input'
+         * type-property must be set to 'password'
+         *
+         */
+        iconPasswordVisible: {
+            type: Object,
+            default() {
+                return {
+                    show: true,
+                    iconClass: "icon-visible",
+                    tooltip: "Show password"
+                }
+            }
+        },
+        /**
+         * icon to toggle password-visibility
+         *
+         * element-property must me set to 'input'
+         * type-property must be set to 'password'
+         *
+         */
+        iconPasswordInvisible: {
+            type: Object,
+            default() {
+                return {
+                    show: true,
+                    iconClass: "icon-not-visible",
+                }
+            }
+        },
     },
     computed: {
         buttonAttrs() {

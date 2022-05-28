@@ -1,13 +1,13 @@
 <!--suppress HtmlUnknownTarget, NpmUsedModulesInstalled, JSUnresolvedVariable -->
 <template>
     <a id="anchor-back-to-top"></a>
-    <CmdSiteHeader :mainNavigationEntries="navigationData" :sticky="true">
-        <template v-slot:top-header>
-            <CmdTopHeaderNavigation :topHeaderNavigationData="topHeaderNavigationData" v-if="topHeaderNavigationData"/>
-        </template>
+    <CmdSiteHeader :cmdMainNavigation="navigationData" :sticky="true">
         <template v-slot:logo>
-            <CmdCompanyLogo :link="companyLogoData.link" altText="CoManD Logo" :pathDefaultLogo="require('@/assets/images/logo.svg')"
-                            :pathDarkmodeLogo="require('@/assets/images/logo-darkmode.svg')"/>
+            <CmdCompanyLogo :link="companyLogoData.link"
+                            altText="CoManD Logo"
+                            :pathDefaultLogo="require('@/assets/images/logo.svg')"
+                            :pathDarkmodeLogo="require('@/assets/images/logo-darkmode.svg')"
+            />
         </template>
     </CmdSiteHeader>
     <main>
@@ -594,7 +594,7 @@
         <a id="section-bank-account-data"></a>
         <CmdWidthLimitationWrapper>
             <h2 class="headline-demopage">Bank Account Data</h2>
-            <CmdBankAccountData :account-data="bankAccountData" :cmd-custom-headline="{ text: 'Bank Account', level: 3}" :allow-copy-by-click="true" />
+            <CmdBankAccountData :account-data="bankAccountData" :cmd-custom-headline="{ headlineText: 'Bank Account', headlineLevel: 3}" :allow-copy-by-click="true" />
         </CmdWidthLimitationWrapper>
         <!-- end bank account data ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
@@ -723,12 +723,12 @@
         <a id="section-custom-headline"></a>
         <CmdWidthLimitationWrapper>
             <h2 class="headline-demopage">Custom Headline</h2>
-            <CmdCustomHeadline icon-class="icon-home" pre-headline="Pre-headline" :headline="{ text: 'Headline level 1', level: '1'}"/>
-            <CmdCustomHeadline :headline="{ text: 'Headline level 2', level: '2'}"/>
-            <CmdCustomHeadline :headline="{ text: 'Headline level 3', level: '3'}"/>
-            <CmdCustomHeadline :headline="{ text: 'Headline level 4', level: '4'}"/>
-            <CmdCustomHeadline :headline="{ text: 'Headline level 5', level: '5'}"/>
-            <CmdCustomHeadline :headline="{ text: 'Headline level 6', level: '6'}"/>
+            <CmdCustomHeadline icon-class="icon-home" pre-headline-text="Pre-headline" :headline="{ headlineText: 'Headline level 1', headlineLevel: '1'}"/>
+            <CmdCustomHeadline :headline="{ headlineText: 'Headline level 2', headlineLevel: '2'}"/>
+            <CmdCustomHeadline :headline="{ headlineText: 'Headline level 3', headlineLevel: '3'}"/>
+            <CmdCustomHeadline :headline="{ headlineText: 'Headline level 4', headlineLevel: '4'}"/>
+            <CmdCustomHeadline :headline="{ headlineText: 'Headline level 5', headlineLevel: '5'}"/>
+            <CmdCustomHeadline :headline="{ headlineText: 'Headline level 6', headlineLevel: '6'}"/>
         </CmdWidthLimitationWrapper>
         <!-- end custom-headline ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
@@ -748,7 +748,7 @@
         <a id="section-google-maps-integration"></a>
         <CmdWidthLimitationWrapper>
             <h2 class="headline-demopage">Google Maps&trade;-Integration</h2>
-            <CmdGoogleMaps :addressData="addressData"/>
+            <CmdGoogleMaps :address="addressData"/>
         </CmdWidthLimitationWrapper>
 
         <a id="section-image-gallery"></a>
@@ -818,9 +818,9 @@
         <a id="section-system-message"></a>
         <CmdWidthLimitationWrapper>
             <h2 class="headline-demopage">System Message</h2>
-            <CmdSystemMessage status="error"
+            <CmdSystemMessage validationStatus="error"
                               :fullWidth="true"
-                              message="This is an error message!"
+                              systemMessage="This is an error message!"
                               :iconMessage="{iconClass: 'icon-error-circle'}">
                 <ul>
                     <li>Error #1</li>
@@ -828,14 +828,20 @@
                     <li>Error #3</li>
                 </ul>
             </CmdSystemMessage>
-            <CmdSystemMessage status="warning" :fullWidth="true" message="This is a warning message!">
+            <CmdSystemMessage validationStatus="warning"
+                              :fullWidth="true"
+                              systemMessage="This is a warning message!">
                 <p>This is additional text!</p>
             </CmdSystemMessage>
-            <CmdSystemMessage status="success" :fullWidth="true" message="This is a success message!"
+            <CmdSystemMessage validationStatus="success"
+                              :fullWidth="true"
+                              systemMessage="This is a success message!"
                               :iconMessage="{iconClass: 'icon-check-circle'}">
                 <p>This is additional text!</p>
             </CmdSystemMessage>
-            <CmdSystemMessage status="info" :fullWidth="true" message="This is an info message!"
+            <CmdSystemMessage validationStatus="info"
+                              :fullWidth="true"
+                              systemMessage="This is an info message!"
                               :iconMessage="{iconClass: 'icon-info-circle'}">
                 <p>This is additional text!</p>
             </CmdSystemMessage>
@@ -902,9 +908,9 @@
         <CmdWidthLimitationWrapper>
             <h2 class="headline-demopage">Upload-Form</h2>
             <h3>Simple mode</h3>
-            <CmdUploadForm headline="Select files to upload"
+            <CmdUploadForm :cmdCustomHeadlineFieldset="{headlineText: 'Select files to upload', headlineLevel: 3}"
                            :enableDragAndDrop="true"
-                           :allowedFileExtensions="['jpg']"
+                           :allowedFileExtensions="['jpg', 'png']"
                            :allowMultipleFileUploads="true"
                            :advancedMode="false"
                            @error="showError"
@@ -922,11 +928,20 @@
 
     <CmdWidthLimitationWrapper id="site-footer" inner-component="footer">
         <CmdSwitchLanguage :languages="languagesData" @click="doSomething"/>
-        <CmdFooterNavigation :footerNavigation="footerNavigationData" headline="Links"/>
-        <CmdOpeningHours :openingHours="openingHoursData" :closed="true" headline="Opening hours"
-                         textOpenClosed="Closed right now!" textHolidaysClosed="Closed on holidays"
-                         textMiscInfo="Miscellaneous information"/>
-        <CmdAddressData :addressData="addressData" :linkGoogleMaps="true" headline="Contact"/>
+        <CmdListOfLinks :links="footerNavigationData"
+                        :cmdCustomHeadline="{headlineText: 'List of links', headlineLevel: 6}"
+        />
+        <CmdOpeningHours :openingHours="openingHoursData"
+                         :closed="true"
+                         :cmdCustomHeadline="{headlineText: 'Opening hours', headlineLevel: 6}"
+                         textOpenClosed="Closed right now!"
+                         textHolidaysClosed="Closed on holidays"
+                         textMiscInfo="Miscellaneous information"
+        />
+        <CmdAddressData :addressData="addressData"
+                        :linkGoogleMaps="true"
+                        :cmdCustomHeadline="{headlineText: 'Address data', headlineLevel: 6}"
+        />
     </CmdWidthLimitationWrapper>
 
     <CmdCopyrightInformation/>
@@ -979,7 +994,6 @@ import tabsData from '@/assets/data/tabs.json'
 import tableDataSmall from '@/assets/data/table-small.json'
 import tableDataLarge from '@/assets/data/table-large.json'
 import thumbnailScrollerData from '@/assets/data/thumbnail-scroller.json'
-import topHeaderNavigationData from '@/assets/data/list-of-links-top-header-navigation.json'
 
 // import used components
 import CmdAddressData from "@/components/CmdAddressData"
@@ -1023,10 +1037,12 @@ import {openFancyBox} from "@/components/CmdFancyBox"
 
 // import external functions
 import * as functions from "@/mixins/FieldValidation.js"
+import CmdListOfLinks from "./components/CmdListOfLinks";
 
 export default {
     name: "App",
     components: {
+        CmdListOfLinks,
         CmdAddressData,
         CmdBackToTopButton,
         CmdBankAccountData,
@@ -1148,8 +1164,7 @@ export default {
             tableDataSmall,
             tableDataLarge,
             tabsData,
-            thumbnailScrollerData,
-            topHeaderNavigationData
+            thumbnailScrollerData
         }
     },
     methods: {

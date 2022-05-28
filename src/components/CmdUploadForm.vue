@@ -1,6 +1,7 @@
 <template>
     <!-- begin advanced mode -->
     <fieldset v-if="advancedMode" :class="['cmd-upload-form flex-container', { 'upload-initiated': uploadInitiated }]">
+        <legend :class="{hidden : !showLegend}">{{ textLegend }}</legend>
         <!-- begin CmdCustomHeadlineFieldset -->
         <CmdCustomHeadline v-if="cmdCustomHeadlineFieldset"
                            v-bind="cmdCustomHeadlineFieldset"
@@ -24,10 +25,10 @@
 
         <div :class="['box drop-area', { 'allow-drop': allowDrop }]" v-on="dragAndDropHandler">
             <template v-if="!listOfFiles.length">
-                <CmdCustomHeadline v-if="allowMultipleFileUploads" v-bind="cmdCustomHeadline">
+                <CmdCustomHeadline v-if="allowMultipleFileUploads" v-bind="cmdCustomHeadlineNoFilesToUpload" headlineLevel="4">
                     {{ getMessage("cmduploadform.no_files_to_upload") }}
                 </CmdCustomHeadline>
-                <CmdCustomHeadline v-else v-bind="cmdCustomHeadline">
+                <CmdCustomHeadline v-else v-bind="cmdCustomHeadlineNoFilesToUpload" headlineLevel="4">
                     {{ getMessage("cmduploadform.no_file_to_upload") }}
                 </CmdCustomHeadline>
             </template>
@@ -35,7 +36,9 @@
             <!-- begin total-upload information -->
             <template v-else>
                 <template v-if="showTotalUpload && listOfFiles.length !== 1">
-                    <h4>{{ getMessage("cmduploadform.headline.summary_of_all_files") }}</h4>
+                    <CmdCustomHeadline v-bind="cmdCustomHeadlineSummaryOfAllFiles" headlineLevel="4">
+                        {{ getMessage("cmduploadform.headline.summary_of_all_files") }}
+                    </CmdCustomHeadline>
                     <ul v-if="showTotalUpload && listOfFiles.length !== 1" class="list-of-files">
                         <li class="flex-container no-flex">
                             <a
@@ -75,7 +78,9 @@
                 <!-- end total-upload information -->
 
                 <!-- begin list of selected files -->
-                <h4>{{ getMessage("cmduploadform.headline.list_of_selected_files") }}</h4>
+                <CmdCustomHeadline v-bind="cmdCustomHeadlineListOfSelectedFiles" headlineLevel="4">
+                    {{ getMessage("cmduploadform.headline.list_of_selected_files") }}
+                </CmdCustomHeadline>
                 <ul class="list-of-files">
                     <li
                         v-for="(uploadFile, index) in listOfFiles"
@@ -124,12 +129,12 @@
             <!-- end list of selected files -->
 
             <!-- begin upload conditions -->
-            <h4 v-if="allowMultipleFileUploads && listOfFiles.length">
+            <CmdCustomHeadline v-if="allowMultipleFileUploads && listOfFiles.length" v-bind="cmdCustomHeadlineSelectAdditionalFiles" headlineLevel="4">
                 {{ getMessage("cmduploadform.headline.select_additional_files") }}
-            </h4>
-            <h4 v-if="!allowMultipleFileUploads && listOfFiles.length">
+            </CmdCustomHeadline>
+            <CmdCustomHeadline v-if="!allowMultipleFileUploads && listOfFiles.length" v-bind="cmdCustomHeadlineSelectNewFile" headlineLevel="4">
                 {{ getMessage("cmduploadform.headline.select_new_file") }}
-            </h4>
+            </CmdCustomHeadline>
             <dl class="small">
                 <template v-if="maxTotalUploadSize > 0">
                     <dt :class="{ error: totalSize > maxTotalUploadSize }">
@@ -169,6 +174,7 @@
                 </dd>
             </dl>
             <!-- end upload conditions -->
+
             <button
                 type="button"
                 :class="['button upload primary', { disabled: uploadInitiated }]"
@@ -371,13 +377,6 @@ export default {
             default: ""
         },
         /**
-         * properties for CmdCustomHeadline-component
-         */
-        cmdCustomHeadlineFieldset: {
-            type: Object,
-            required: false
-        },
-        /**
          * enable if files can also be dragged (and dropped) into upload-area
          */
         enableDragAndDrop: {
@@ -501,12 +500,76 @@ export default {
         cancelIconClass: {
             type: String,
             default: "icon-cancel"
+        },
+        /**
+         * properties for CmdCustomHeadline-component at of the fieldset
+         */
+        cmdCustomHeadlineFieldset: {
+            type: Object,
+            required: false
+        },
+        /**
+         * properties for CmdCustomHeadline-component shown if no files for upload exist
+         */
+        cmdCustomHeadlineNoFilesToUpload: {
+            type: Object,
+            required: false
+        },
+        /**
+         * properties for CmdCustomHeadline-component shown if no file for upload exist
+         */
+        cmdCustomHeadlineNoFileToUpload: {
+            type: Object,
+            required: false
+        },
+        /**
+         * properties for CmdCustomHeadline-component for 'summary of all files'
+         */
+        cmdCustomHeadlineSummaryOfAllFiles: {
+            type: Object,
+            required: false
+        },
+        /**
+         * properties for CmdCustomHeadline-component for 'list of selected files'
+         */
+        cmdCustomHeadlineListOfSelectedFiles: {
+            type: Object,
+            required: false
+        },
+        /**
+         * properties for CmdCustomHeadline-component for 'select additional files'
+         */
+        cmdCustomHeadlineSelectAdditionalFiles: {
+            type: Object,
+            required: false
+        },
+        /**
+         * properties for CmdCustomHeadline-component for 'select new file'
+         */
+        cmdCustomHeadlineSelectNewFile: {
+            type: Object,
+            required: false
+        },
+        /**
+         * toggle visibility for legend-text
+         */
+        showLegend: {
+            type: Boolean,
+            default: true
+        },
+        /**
+         * text for legend
+         *
+         * @requiredForAccessibility: true
+         */
+        textLegend: {
+            type: String,
+            required: false
         }
     },
     computed: {
         fileTypeImage() {
             return this.allowedFileExtensions.some(extension => extension.includes('jpg'));
-
         },
         failedUpload() {
             return this.listOfFiles.some(file => file.error)

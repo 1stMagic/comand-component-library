@@ -1,6 +1,6 @@
 <template>
     <div :class="['label', 'multiple-switch', {disabled: status === 'disabled', error: status === 'error'}]">
-        <span :class="{hidden: !showLegend}">{{ labelText }}</span>
+        <span :class="{hidden: !showLabel}">{{ labelText }}</span>
         <span class="flex-container no-gap no-flex">
             <label :class="{disabled: status === 'disabled'}" :for="multipleswitch.id"
                    v-for="(multipleswitch, index) in multipleSwitches" :key="index">

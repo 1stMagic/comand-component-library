@@ -126,7 +126,7 @@ export default {
          */
         textLegend: {
             type: String,
-            required: true
+            required: false
         },
         /**
          * toggle legend visibility

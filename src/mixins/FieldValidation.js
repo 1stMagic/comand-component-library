@@ -61,7 +61,7 @@ export default {
          * icon is also used in 'list-of-requirements' (showRequirements-property must be set to true)
          */
         iconHasStateError: {
-            type: String,
+            type: Object,
             default() {
                 return {
                   iconClass: "icon-error-circle",
@@ -74,7 +74,7 @@ export default {
          * icon will be displayed inside the field on the left (in front of the input)
          */
         iconHasStateWarning: {
-            type: String,
+            type: Object,
             default() {
                 return {
                     iconClass: "icon-exclamation-circle",
@@ -88,7 +88,7 @@ export default {
          * icon is also used in 'list-of-requirements' (showRequirements-property must be set to true)
          */
         iconHasStateSuccess: {
-            type: String,
+            type: Object,
             default() {
                 return {
                     iconClass: "icon-check-circle",
@@ -101,7 +101,7 @@ export default {
          * icon will be displayed inside the field on the left (in front of the input)
          */
         iconHasStateInfo: {
-            type: String,
+            type: Object,
             default() {
                 return {
                     iconClass: "icon-info-circle",
@@ -113,7 +113,7 @@ export default {
          * icon to show that caps-lock is activated
          */
         iconCapsLock: {
-            type: String,
+            type: Object,
             default() {
                 return {
                     iconClass: "icon-home"
@@ -124,7 +124,7 @@ export default {
          * icon displayed if password-field is clicked to show password
          */
         iconPasswordVisible: {
-            type: String,
+            type: Object,
             default() {
                 return {
                     iconClass: "icon-visible",
@@ -136,7 +136,7 @@ export default {
          * icon displayed to show password of a password-field
          */
         iconPasswordInvisible: {
-            type: String,
+            type: Object,
             default() {
                 return {
                     iconClass: "icon-not-visible"

@@ -21,22 +21,5 @@
     "path": "http://www.comand-cms.com",
     "target": "_blank",
     "tooltip": "Open CoManD-Website in new tab"
-  },
-  {
-    "type":"router",
-    "text": "Router-link with path",
-    "path": "/"
-  },
-  {
-    "type":"router",
-    "text": "Router-link with name",
-    "tooltip": "Go to homepage",
-    "route": {
-      "name": "home",
-      "params": {
-        "param1": "value",
-        "param2": "value"
-      }
-    }
   }
 ]
