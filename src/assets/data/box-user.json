@@ -8,7 +8,6 @@
     "links": [
         {
         "path": "mailto:",
-        "target": "",
         "iconClass": "icon-mail",
         "tooltip": "Send mail"
       }
@@ -22,7 +21,6 @@
     "links": [
       {
         "path": "mailto:",
-        "target": "",
         "iconClass": "icon-mail",
         "tooltip": "Send mail"
       },
@@ -42,7 +40,6 @@
     "links":  [
       {
         "path": "mailto:",
-        "target": "",
         "iconClass": "icon-mail",
         "tooltip": "Send mail"
       },
@@ -54,7 +51,6 @@
       },
       {
         "path": "tel:",
-        "target": "",
         "iconClass": "icon-phone",
         "tooltip": "Make call"
       }
@@ -68,7 +64,6 @@
     "links":  [
       {
         "path": "mailto:",
-        "target": "",
         "iconClass": "icon-mail",
         "tooltip": "Send mail"
       },
@@ -80,7 +75,6 @@
       },
       {
         "path": "tel:",
-        "target": "",
         "iconClass": "icon-phone",
         "tooltip": "Make call"
       }
@@ -94,7 +88,6 @@
     "links":  [
       {
         "path": "mailto:",
-        "target": "",
         "iconClass": "icon-mail",
         "tooltip": "Send mail"
       },
@@ -106,7 +99,6 @@
       },
       {
         "path": "tel:",
-        "target": "",
         "iconClass": "icon-phone",
         "tooltip": "Make call"
       }

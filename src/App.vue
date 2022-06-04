@@ -418,7 +418,7 @@
                                     labelText="Label (inline) for inputfield (search) without search-button:"
                                     :displayLabelInline="true"
                                     type="search"
-                                    id="inputfield-search"
+                                    id="inputfield-search-without-searchbutton"
                                     placeholder="Keyword(s)"
                                     v-model="inputSearch"
                                     :showSearchButton="false"
@@ -427,7 +427,7 @@
                                     labelText="Label (inline) for inputfield (search):"
                                     :displayLabelInline="true"
                                     type="search"
-                                    id="inputfield-search"
+                                    id="inputfield-search-with-searchbutton"
                                     placeholder="Keyword(s)"
                                     v-model="inputSearch"
                                     :status="formElementStatus"/>

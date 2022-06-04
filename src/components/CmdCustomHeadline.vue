@@ -1,5 +1,5 @@
 <template>
-    <header :class="['cmd-custom-headline', { 'has-pre-headline-text': preHeadlineText}]">
+    <div :class="['cmd-custom-headline', { 'has-pre-headline-text': preHeadlineText}]">
         <span v-if="iconClass" :class="iconClass"></span>
         <div v-if="preHeadlineText">
             <span class="pre-headline-text">{{ preHeadlineText }}</span>
@@ -10,7 +10,7 @@
         <component v-else :is="getHeadlineTag">
             <slot>{{ headlineText }}</slot>
         </component>
-    </header>
+    </div>
 </template>
 
 <script>

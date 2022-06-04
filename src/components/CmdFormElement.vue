@@ -57,10 +57,10 @@
                    @input="onInput"
                    @mouseover="datalistFocus"
                    @keyup="checkForCapsLock"
-                   :autocomplete="datalist ? 'off' : 'on'"
-                   :list="datalist ? datalist.id : false"
+                   :autocomplete="autocomplete"
+                   :list="datalist ? datalist.id : null"
                    :value="modelValue"
-                   :maxlength="$attrs.maxlength > 0 ? $attrs.maxlength : 255"
+                   :maxlength="getMaxLength()"
                    ref="input"
             />
         </template>
@@ -92,8 +92,6 @@
                    @change="onChange"
                    @blur="onBlur"
                    :checked="isChecked"
-                   :role="$attrs.type"
-                   :aria-checked="isChecked"
                    :value="inputValue"
                    :class="[htmlClass, validationStatus, { 'replace-input-type': replaceInputType, 'toggle-switch': toggleSwitch }]"
                    :id="id"
@@ -109,10 +107,10 @@
                 <span v-if="labelText">
                     <span>{{ labelText }}<sup v-if="$attrs.required">*</sup></span>
                 </span>
-                <div class="toggle-switch switch-label">
+                <span class="toggle-switch switch-label">
                     <span class="label">{{ onLabel }}</span>
                     <span class="label">{{ offLabel }}</span>
-                </div>
+                </span>
             </template>
             <slot v-else></slot>
             <!-- end labels for toggle-switch -->
@@ -136,7 +134,7 @@
                   v-bind="$attrs"
                   :id="id"
                   :value="modelValue"
-                  :maxlength="getMaxLength"
+                  :maxlength="getMaxLength()"
                   @input="onInput"
                   @focus="tooltip = true"
                   @blur="onBlur">
@@ -156,9 +154,9 @@
                     :value="modelValue"
                 />
             </div>
-            <button v-if="showSearchButton" class="no-flex" type="button" :title="iconSearch.tooltip">
+            <a v-if="showSearchButton" href="#" class="no-flex" :title="iconSearch.tooltip" @click.prevent="executeSearch">
                 <span :class="iconSearch.iconClass"></span>
-            </button>
+            </a>
         </template>
     </label>
     <!-- end searchfield -->
@@ -631,6 +629,12 @@ export default {
                 return this.getMessage("cmdformelement.validationTooltip.caps_lock_is_activated")
             }
             return this.getMessage("cmdformelement.validationTooltip.open_field_requirements")
+        },
+        autocomplete() {
+            if(this.$attrs.type !== 'file') {
+                return this.datalist ? 'off' : 'on'
+            }
+            return null
         }
     },
     methods: {
@@ -638,7 +642,15 @@ export default {
             return this.$refs.label
         },
         getMaxLength() {
-            return this.$attrs.maxlength > 0 ? this.$attrs.maxlength : 5000
+            if (this.$attrs.element === 'textarea') {
+                return this.$attrs.maxlength > 0 ? this.$attrs.maxlength : 5000
+            }
+
+            if (this.$attrs.type !== 'file') {
+              return this.$attrs.maxlength > 0 ? this.$attrs.maxlength : 255
+            }
+
+            return null
         },
         onBlur(event) {
             // check if surrounding form with data-use-validation exists
@@ -711,6 +723,9 @@ export default {
         hidePassword() {
             this.$refs.input.nextElementSibling.classList.replace(this.iconPasswordInvisible.iconClass, this.iconPasswordVisible.iconClass)
             this.$refs.input.setAttribute("type", "password")
+        },
+        executeSearch() {
+            this.$emit("search", this.value)
         }
     },
     watch: {

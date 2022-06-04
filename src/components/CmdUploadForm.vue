@@ -212,7 +212,7 @@
             :labelText="getMessage('cmduploadform.labeltext.comment')"
             v-model="comment"
             :required="commentRequired"
-            :statusMessage="commentStatusMessage"
+            :validationMessage="commentStatusMessage"
             :placeholder="getMessage('cmduploadform.placeholder.comment')"
             :status="commentStatusMessage ? 'error' : ''"
         />

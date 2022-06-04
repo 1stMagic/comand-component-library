@@ -11,6 +11,7 @@
 <script>
 export default {
     name: "CmdProgressBar",
+    inheritAttrs: false,
     data() {
         return {
             loadingStatus: 30

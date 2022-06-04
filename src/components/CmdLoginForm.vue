@@ -16,7 +16,7 @@
                 :name="cmdFormElementUsername.name"
                 :id="cmdFormElementUsername.id"
                 v-model="username"
-                :inner-icon-class="cmdFormElementUsername.innerIconClass"
+                :fieldIconClass="cmdFormElementUsername.innerIconClass"
                 :labelText="cmdFormElementUsername.labelText"
                 :placeholder="cmdFormElementUsername.placeholder"
             />
@@ -28,7 +28,7 @@
                 type="password"
                 :name="cmdFormElementPassword.name"
                 :id="cmdFormElementPassword.id"
-                :inner-icon-class="cmdFormElementPassword.innerIconClass"
+                :fieldIconClass="cmdFormElementPassword.innerIconClass"
                 v-model="password"
                 :labelText="cmdFormElementPassword.labelText"
                 :placeholder="cmdFormElementPassword.placeholder"
@@ -133,7 +133,7 @@
         <CmdFormElement
             element="input"
             type="email"
-            :inner-icon-class="cmdFormElementSendLogin.innerIconClass"
+            :fieldIconClass="cmdFormElementSendLogin.innerIconClass"
             :labelText="cmdFormElementSendLogin.labelText"
             :placeholder="cmdFormElementSendLogin.placeholder"
             :name="cmdFormElementSendLogin.name"

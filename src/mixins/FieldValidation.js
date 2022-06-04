@@ -157,7 +157,7 @@ export default {
                     return this.getMessage("cmdfieldvalidation.information_filled_correctly")
                 }
             }
-            return ""
+            return null
         },
         getStatusIconClass() {
             if (this.validationStatus !== "") {

@@ -1,6 +1,6 @@
 <template>
     <div class="cmd-tabs">
-        <ul :class="{'stretch-tabs' : stretchTabs}">
+        <ul :class="{'stretch-tabs' : stretchTabs}" role="tablist">
             <li :class="{active : showTab === index}" v-for="(tab, index) in tabs" :key="index" role="tab">
                 <a @click.prevent="setActiveTab(index)" :title="!tab.name ? tab.tooltip : false">
                     <span v-if="tab.iconClass">{{ tab.iconClass }}</span>
