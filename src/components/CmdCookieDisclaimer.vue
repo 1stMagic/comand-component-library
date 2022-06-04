@@ -3,80 +3,84 @@
         <div class="cmd-cookie-disclaimer flex-container vertical">
             <!-- begin CmdCustomHeadline -->
             <CmdCustomHeadline
-                v-if="cmdCustomHeadline"
-                v-bind="cmdCustomHeadline"
+                v-if="cmdCustomHeadlineCookieDisclaimer?.show && cmdCustomHeadlineCookieDisclaimer?.headlineText && cmdCustomHeadlineCookieDisclaimer?.headlineLevel"
+                v-bind="cmdCustomHeadlineCookieDisclaimer"
+                :headlineText="cmdCustomHeadlineCookieDisclaimer.headlineText"
+                :headlineLevel="cmdCustomHeadlineCookieDisclaimer.headlineLevel"
             />
             <!-- end CmdCustomHeadline -->
 
             <!-- begin slot for cookie-options -->
             <slot name="cookie-options">
-                <div v-if="cookieOptions.required">
-                    <h3>{{ cookieOptions.required.headline }}</h3>
-
-<!--                    &lt;!&ndash; begin CmdAccordion &ndash;&gt;-->
-<!--                    <CmdAccordion :accordion-data="cookieOptions.required.cookies.length" :accordionData="2">-->
-<!--                        <template v-for="(cookie, index) in cookieOptions.required.cookies"-->
-<!--                                  v-slot:[`accordionHeadline${index}`]-->
-<!--                                  :key="index">-->
-<!--                            &lt;!&ndash; begin CmdSwitchButton &ndash;&gt;-->
-<!--                            <CmdSwitchButton-->
-<!--                                type="checkbox"-->
-<!--                                :id="cookie.id"-->
-<!--                                :labelText="cookie.labelText"-->
-<!--                                v-model="cookie.checked"-->
-<!--                                :status="cookie.status"-->
-<!--                                disabled="disabled"-->
-<!--                            />-->
-<!--                            &lt;!&ndash; end CmdSwitchButton &ndash;&gt;-->
-<!--                        </template>-->
-<!--                        <template v-for="(cookie, index) in cookieOptions.required.cookies"-->
-<!--                                  v-slot:[`accordionContent${index}`]-->
-<!--                                  :key="index">-->
-<!--                            <p v-if="cookie.description">{{ cookie.description }}</p>-->
-<!--                            <p v-if="cookie.linkDataPrivacy">-->
-<!--                                {{ cookie.linkDataPrivacy.label }}-->
-<!--                                <a @click="openDataPrivacy"-->
-<!--                                   :href="cookie.linkDataPrivacy.link"-->
-<!--                                   :target="cookie.linkDataPrivacy.target">-->
-<!--                                    {{ cookie.linkDataPrivacy.linkText }}-->
-<!--                                </a>-->
-<!--                            </p>-->
-<!--                            <div v-if="dataPrivacyContent" v-html="dataPrivacyContent"></div>-->
-<!--                        </template>-->
-<!--                    </CmdAccordion>-->
-<!--                    &lt;!&ndash; end CmdAccordion &ndash;&gt;-->
+                <div v-if="cookieOptions.required" class="flex-container vertical">
+                    <CmdCustomHeadline v-if="cmdBoxRequiredCookies?.showHeadline" :headline-text="cmdBoxRequiredCookies?.headlineText" :headline-level="cmdBoxRequiredCookies?.headlineLevel "/>
+                    <!-- begin CmdBox -->
+                    <CmdBox v-for="(cookie, index) in cookieOptions.required.cookies"
+                            :useSlots="['header', 'body']"
+                            v-bind="cmdBoxRequiredCookies"
+                            :key="index"
+                    >
+                        <template v-slot:header>
+                            <!-- begin CmdSwitchButton -->
+                            <CmdSwitchButton
+                                type="checkbox"
+                                :id="cookie.id"
+                                :labelText="cookie.labelText"
+                                v-model="cookie.checked"
+                                :status="cookie.status"
+                                disabled="disabled"
+                            />
+                            <!-- end CmdSwitchButton -->
+                        </template>
+                        <template v-slot:body>
+                            <p v-if="cookie.description">{{ cookie.description }}</p>
+                            <p v-if="cookie.linkDataPrivacy">
+                                {{ cookie.linkDataPrivacy.label }}
+                                <a @click="openDataPrivacy"
+                                   :href="cookie.linkDataPrivacy.link"
+                                   :target="cookie.linkDataPrivacy.target">
+                                    {{ cookie.linkDataPrivacy.linkText }}
+                                </a>
+                            </p>
+                            <div v-if="dataPrivacyContent" v-html="dataPrivacyContent"></div>
+                        </template>
+                    </CmdBox>
+                    <!-- end CmdBox -->
                 </div>
-                <hr />
-                <div v-if="cookieOptions.optional">
-                    <h3>{{ cookieOptions.optional.headline }}</h3>
-<!--                    &lt;!&ndash; begin CmdAccordion &ndash;&gt;-->
-<!--                    <CmdAccordion :accordion-data="cookieOptions.optional.cookies.length" :accordionData="2">-->
-<!--                        <template v-for="(cookie, index) in cookieOptions.optional.cookies"-->
-<!--                                  v-slot:[`accordionHeadline${index}`]-->
-<!--                                  :key="index">-->
-<!--                            &lt;!&ndash; begin CmdSwitchButton &ndash;&gt;-->
-<!--                            <CmdSwitchButton-->
-<!--                                type="checkbox"-->
-<!--                                :id="cookie.id"-->
-<!--                                :labelText="cookie.labelText"-->
-<!--                                v-model="cookie.checked"-->
-<!--                                :status="cookie.status"-->
-<!--                            />-->
-<!--                            &lt;!&ndash; end CmdSwitchButton &ndash;&gt;-->
-<!--                        </template>-->
-<!--                        <template v-for="(cookie, index) in cookieOptions.optional.cookies"-->
-<!--                                  v-slot:[`accordionContent${index}`]-->
-<!--                                  :key="index">-->
-<!--                            <p>{{ cookie.description }}</p>-->
-<!--                            <p v-if="cookie.linkDataPrivacy">-->
-<!--                                {{ cookie.linkDataPrivacy.label }}-->
-<!--                                <a @click="openDataPrivacy" :href="cookie.linkDataPrivacy.link"-->
-<!--                                   :target="cookie.linkDataPrivacy.target">{{ cookie.linkDataPrivacy.linkText }}</a>-->
-<!--                            </p>-->
-<!--                            <div v-if="dataPrivacyContent" v-html="dataPrivacyContent"></div>-->
-<!--                        </template>-->
-<!--                    </CmdAccordion>-->
-<!--                    &lt;!&ndash; end CmdAccordion &ndash;&gt;-->
+                <hr/>
+                <div v-if="cookieOptions.optional" class="flex-container vertical">
+                    <CmdCustomHeadline v-if="cmdBoxOptionalCookies?.showHeadline" :headline-text="cmdBoxOptionalCookies?.headlineText" :headline-level="cmdBoxOptionalCookies?.headlineLevel "/>
+                    <!-- begin CmdBox -->
+                    <CmdBox v-for="(cookie, index) in cookieOptions.optional.cookies"
+                            :useSlots="['header', 'body']"
+                            v-bind="cmdBoxOptionalCookies"
+                            :key="index"
+                    >
+                        <template v-slot:header>
+                            <!-- begin CmdSwitchButton -->
+                            <CmdSwitchButton
+                                type="checkbox"
+                                :id="cookie.id"
+                                :labelText="cookie.labelText"
+                                v-model="cookie.checked"
+                                :status="cookie.status"
+                            />
+                            <!-- end CmdSwitchButton -->
+                        </template>
+                        <template v-slot:body>
+                            <p v-if="cookie.description">{{ cookie.description }}</p>
+                            <p v-if="cookie.linkDataPrivacy">
+                                {{ cookie.linkDataPrivacy.label }}
+                                <a @click="openDataPrivacy"
+                                   :href="cookie.linkDataPrivacy.link"
+                                   :target="cookie.linkDataPrivacy.target">
+                                    {{ cookie.linkDataPrivacy.linkText }}
+                                </a>
+                            </p>
+                            <div v-if="dataPrivacyContent" v-html="dataPrivacyContent"></div>
+                        </template>
+                    </CmdBox>
+                    <!-- end CmdBox -->
                 </div>
             </slot>
             <!-- end slot for cookie-options -->
@@ -87,7 +91,7 @@
 
             <!-- begin button-wrapper for 'accept'-buttons -->
             <div class="button-wrapper align-center">
-                <button  v-if="buttonLabelAcceptCurrentSettings" type="button" @click="acceptCookies('currentSettings')">
+                <button v-if="buttonLabelAcceptCurrentSettings" type="button" @click="acceptCookies('currentSettings')">
                     <span>{{ buttonLabelAcceptCurrentSettings }}</span>
                 </button>
                 <button v-if="buttonLabelAcceptAllCookies" type="button" class="primary" @click="acceptCookies('allCookies')">
@@ -101,14 +105,16 @@
 
 <script>
 // import components
+import CmdBox from "./CmdBox"
 import CmdCustomHeadline from "./CmdCustomHeadline"
-// import CmdSwitchButton from "./CmdSwitchButton"
+import CmdSwitchButton from "./CmdSwitchButton"
 
 export default {
     name: "CmdCookieDisclaimer",
     components: {
-        CmdCustomHeadline
-        // CmdSwitchButton
+        CmdBox,
+        CmdCustomHeadline,
+        CmdSwitchButton
     },
     data() {
         return {
@@ -118,11 +124,45 @@ export default {
     },
     props: {
         /**
-         * properties for CmdCustomHeadline-component
+         * properties for CmdCustomHeadline-component at top of cookie disclaimer
          */
-        cmdCustomHeadline: {
+        cmdCustomHeadlineCookieDisclaimer: {
             type: Object,
-            required: false
+            default() {
+                return {
+                    show: true,
+                    headlineText: "Cookie disclaimer",
+                    headlineLevel: 2
+                }
+            }
+        },
+        /**
+         * property for CmdBox-component surrounding the required cookies
+         */
+        cmdBoxRequiredCookies: {
+            type: Object,
+            default() {
+                return {
+                    collapsible: true,
+                    showHeadline: true,
+                    headlineText: "Required cookies",
+                    headlineLevel: 3
+                }
+            }
+        },
+        /**
+         * property for CmdBox-component surrounding the optional cookies
+         */
+        cmdBoxOptionalCookies: {
+            type: Object,
+            default() {
+                return {
+                    collapsible: true,
+                    showHeadline: true,
+                    headlineText: "Optional cookies",
+                    headlineLevel: 3
+                }
+            }
         },
         /**
          * list of cookie-options
@@ -175,6 +215,12 @@ export default {
     bottom: 0;
     top: auto;
 
+    .cmd-box {
+        .box-body {
+            padding: var(--default-padding);
+        }
+    }
+
     h1 {
         text-align: center;
     }
@@ -189,22 +235,6 @@ export default {
 
     #form-cookies {
         margin-bottom: var(--default-margin);
-    }
-
-    .cmd-accordion {
-        .accordion-headline {
-            &:hover, &:active, &:focus {
-                label, .label {
-                    span {
-                        color: var(--pure-white) !important;
-                    }
-                }
-            }
-        }
-
-        .toggle-switch {
-            display: flex;
-        }
     }
 
     p {

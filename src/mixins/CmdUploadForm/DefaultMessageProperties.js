@@ -6,7 +6,7 @@ export default {
         "cmduploadform.no_files_to_upload": "No files selected to upload",
         "cmduploadform.labeltext.select_file": "Select file to upload",
         "cmduploadform.labeltext.select_files": "Select files to upload",
-        "cmduploadform.labeltext.remove_file_from_list": "Remove file from list",
+        "cmduploadform.labeltext.remove_file_from_list": "Remove file '{0}' from list",
         "cmduploadform.labeltext.remove_all_files_from_list": "Remove all files from list",
         "cmduploadform.labeltext.file_uploading": "file to upload",
         "cmduploadform.labeltext.files_uploading": "files to upload",

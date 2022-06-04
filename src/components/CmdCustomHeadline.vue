@@ -22,7 +22,7 @@ export default {
          */
         headlineText: {
             type: String,
-            required: true
+            required: false
         },
         /**
          * level for headline

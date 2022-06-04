@@ -1,17 +1,20 @@
 [
   {
     "name": "Tab 1",
-    "headline": "Tab 1 Headline",
+    "headlineText": "Tab 1 Headline",
+    "headlineLevel": 4,
     "htmlContent": "<p>Inhalt 1</p>"
   },
   {
     "name": "Tab 2",
-    "headline": "Tab 2 Headline",
+    "headlineText": "Tab 2 Headline",
+    "headlineLevel": 4,
     "htmlContent": "<p>Inhalt 2</p>"
   },
   {
     "name": "Tab 3",
-    "headline": "Tab 3 Headline",
+    "headlineText": "Tab 3 Headline",
+    "headlineLevel": 4,
     "htmlContent": "<p>Inhalt 3</p>"
   }
 ]

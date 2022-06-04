@@ -4,7 +4,7 @@
     "cookies": [
         {
           "id": "cookie-sessionid",
-          "description": "These cookies are required for functionality",
+          "description": "This cookie is required for functionality",
           "labelText": "SessionID",
           "checked": true,
           "status": "disabled",
@@ -16,7 +16,7 @@
         },
         {
           "id": "cookie-google-recaptcha",
-          "description": "This cookies prevents bots from sending forms",
+          "description": "This cookie prevents bots from sending forms",
           "labelText": "Google reCaptcha™",
           "checked": true,
           "status": "disabled",
@@ -34,7 +34,7 @@
     "cookies": [
       {
         "id": "cookie-google-maps",
-        "description": "These cookies enables the Google Map",
+        "description": "This cookie enables the Google Map™",
         "labelText": "Google Maps™",
         "checked": false,
         "linkDataPrivacy": {

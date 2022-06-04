@@ -23,7 +23,7 @@
         </CmdSystemMessage>
         <!-- end CmdSystemMessage -->
 
-        <div :class="['box drop-area', { 'allow-drop': allowDrop }]" v-on="dragAndDropHandler">
+        <div :class="['box drop-area flex-container vertical', { 'allow-drop': allowDrop }]" v-on="dragAndDropHandler">
             <template v-if="!listOfFiles.length">
                 <CmdCustomHeadline v-if="allowMultipleFileUploads" v-bind="cmdCustomHeadlineNoFilesToUpload" headlineLevel="4">
                     {{ getMessage("cmduploadform.no_files_to_upload") }}
@@ -34,12 +34,12 @@
             </template>
 
             <!-- begin total-upload information -->
-            <template v-else>
-                <template v-if="showTotalUpload && listOfFiles.length !== 1">
+            <div v-else class="flex-container vertical">
+                <div v-if="showTotalUpload && listOfFiles.length !== 1" class="flex-container vertical list-files-wrapper">
                     <CmdCustomHeadline v-bind="cmdCustomHeadlineSummaryOfAllFiles" headlineLevel="4">
                         {{ getMessage("cmduploadform.headline.summary_of_all_files") }}
                     </CmdCustomHeadline>
-                    <ul v-if="showTotalUpload && listOfFiles.length !== 1" class="list-of-files">
+                    <ul v-if="showTotalUpload && listOfFiles.length !== 1" class="list-of-files total-files">
                         <li class="flex-container no-flex">
                             <a
                                 href="#"
@@ -49,20 +49,21 @@
                                 <span :class="deleteIconClass"></span>
                             </a>
                             <span>
-                                <strong>{{ listOfFiles.length }}
-                                  <template v-if="!allowMultipleFileUploads">
-                                    {{ getMessage("cmduploadform.labeltext.file_uploading") }}
-                                  </template>
-                                  <template v-else>
-                                    {{ getMessage("cmduploadform.labeltext.files_uploading") }}
-                                  </template>
-                                  <span
-                                      :class="[
-                                      'text-align-right',
-                                      { error: maxTotalUploadSize > 0 && totalSize > maxTotalUploadSize }
-                                    ]">({{ formatSize(totalSize) }})</span>
-                                </strong>
+                              {{ listOfFiles.length }}
+                              <template v-if="!allowMultipleFileUploads">
+                                {{ getMessage("cmduploadform.labeltext.file_uploading") }}
+                              </template>
+                              <template v-else>
+                                {{ getMessage("cmduploadform.labeltext.files_uploading") }}
+                              </template>
                             </span>
+                            <small
+                                :class="[
+                              'text-align-right',
+                              { error: maxTotalUploadSize > 0 && totalSize > maxTotalUploadSize }
+                            ]">
+                                ({{ formatSize(totalSize) }})
+                            </small>
                             <span class="progressbar" v-if="uploadInitiated">
                                 <span>{{ getPercentage(totalUploadProgress) }}</span>
                                 <progress
@@ -74,35 +75,35 @@
                         </li>
                     </ul>
                     <hr/>
-                </template>
+                </div>
                 <!-- end total-upload information -->
 
-                <!-- begin list of selected files -->
-                <CmdCustomHeadline v-bind="cmdCustomHeadlineListOfSelectedFiles" headlineLevel="4">
-                    {{ getMessage("cmduploadform.headline.list_of_selected_files") }}
-                </CmdCustomHeadline>
-                <ul class="list-of-files">
-                    <li
-                        v-for="(uploadFile, index) in listOfFiles"
-                        :key="index"
-                        class="flex-container no-flex"
-                    >
-                        <a
-                            href="#"
-                            :title="getMessage('cmduploadform.labeltext.remove_file_from_list')"
-                            @click.prevent="removeFile(index)"
-                        ><span :class="deleteIconClass"></span>
-                        </a>
-                        <span
-                            :class="[
-                'text-align-right',
-                uploadFile.allowedType ? 'allowed' : 'not-allowed',
-                { error: uploadFile.error }
-              ]"
+                <div class="flex-container vertical list-files-wrapper">
+                    <!-- begin list of selected files -->
+                    <CmdCustomHeadline v-bind="cmdCustomHeadlineListOfSelectedFiles" headlineLevel="4">
+                        {{ getMessage("cmduploadform.headline.list_of_selected_files") }}
+                    </CmdCustomHeadline>
+                    <ul class="list-of-files">
+                        <li
+                            v-for="(uploadFile, index) in listOfFiles"
+                            :key="index"
+                            class="flex-container no-flex"
                         >
-              {{ uploadFile.file.name }} ({{ formatSize(uploadFile.file.size) }})
-            </span>
-                        <template v-if="uploadInitiated && !uploadFile.error">
+                            <a
+                                href="#"
+                                :title="getMessage('cmduploadform.labeltext.remove_file_from_list', uploadFile.file.name)"
+                                @click.prevent="removeFile(index)"
+                            ><span :class="deleteIconClass"></span>
+                            </a>
+                            <span
+                                :class="[
+                                'text-align-right',
+                                uploadFile.allowedType ? 'allowed' : 'not-allowed',
+                                { error: uploadFile.error }
+                              ]">
+                                {{ uploadFile.file.name }} <small>({{ formatSize(uploadFile.file.size) }})</small>
+                        </span>
+                            <template v-if="uploadInitiated && !uploadFile.error">
                         <span class="progressbar">
                             <span>{{ getPercentage(uploadFile.progress) }}</span>
                             <!-- do not place inside progress-tag (will not be displayed then) -->
@@ -114,18 +115,19 @@
                               "
                             ></progress>
                           </span>
-                        </template>
-                    </li>
-                </ul>
-                <a
-                    v-if="failedUpload"
-                    href="#"
-                    @click.prevent="cancel"
-                    :title="getMessage('cmduploadform.all_files_will_be_removed')">
-                    {{ getMessage("cmduploadform.reset_upload") }}
-                </a>
-                <hr/>
-            </template>
+                            </template>
+                        </li>
+                    </ul>
+                    <a
+                        v-if="failedUpload"
+                        href="#"
+                        @click.prevent="cancel"
+                        :title="getMessage('cmduploadform.all_files_will_be_removed')">
+                        {{ getMessage("cmduploadform.reset_upload") }}
+                    </a>
+                    <hr/>
+                </div>
+            </div>
             <!-- end list of selected files -->
 
             <!-- begin upload conditions -->
@@ -155,7 +157,7 @@
                 </dt>
                 <dd>
                     <a
-                        :class="showListOfFileExtensions ? 'invisibleIconClass' : 'visibleIconClass'"
+                        :class="showListOfFileExtensions ? invisibleIconClass : visibleIconClass"
                         href="#"
                         @click.prevent="showListOfFileExtensions = !showListOfFileExtensions"
                         :title="getMessage('cmduploadform.tooltip.toggle_list_of_allowed_file_types')"
@@ -175,31 +177,33 @@
             </dl>
             <!-- end upload conditions -->
 
-            <button
-                type="button"
-                :class="['button upload primary', { disabled: uploadInitiated }]"
-                :disabled="uploadInitiated"
-                @click="selectFiles()"
-            >
-                <span :class="fileUploadIconClass"></span>
-                <span v-if="allowMultipleFileUploads">{{
-                        getMessage("cmduploadform.labeltext.select_files")
-                    }}</span>
-                <span v-else>{{ getMessage("cmduploadform.labeltext.select_file") }}</span>
-            </button>
-            <p v-if="enableDragAndDrop" :class="['text-drag-and-drop', { disabled: uploadInitiated }]">
-                <span>{{ getMessage("cmduploadform.or") }}</span>
-                <strong>
-                    {{ getMessage("cmduploadform.drag_and_drop") }}
-                    <template v-if="allowMultipleFileUploads && listOfFiles.length">
-                        {{ getMessage("cmduploadform.additional") }}
-                    </template>
-                    <template v-if="!allowMultipleFileUploads && listOfFiles.length">
-                        {{ getMessage("cmduploadform.new") }}
-                    </template>
-                    {{ getMessage("cmduploadform.files_to_this_area") }}
-                </strong>
-            </p>
+            <div>
+                <button
+                    type="button"
+                    :class="['button upload primary', { disabled: uploadInitiated }]"
+                    :disabled="uploadInitiated"
+                    @click="selectFiles()"
+                >
+                    <span :class="fileUploadIconClass"></span>
+                    <span v-if="allowMultipleFileUploads">{{
+                            getMessage("cmduploadform.labeltext.select_files")
+                        }}</span>
+                    <span v-else>{{ getMessage("cmduploadform.labeltext.select_file") }}</span>
+                </button>
+                <p v-if="enableDragAndDrop" :class="['text-drag-and-drop', { disabled: uploadInitiated }]">
+                    <span>{{ getMessage("cmduploadform.or") }}</span>
+                    <strong>
+                        {{ getMessage("cmduploadform.drag_and_drop") }}
+                        <template v-if="allowMultipleFileUploads && listOfFiles.length">
+                            {{ getMessage("cmduploadform.additional") }}
+                        </template>
+                        <template v-if="!allowMultipleFileUploads && listOfFiles.length">
+                            {{ getMessage("cmduploadform.new") }}
+                        </template>
+                        {{ getMessage("cmduploadform.files_to_this_area") }}
+                    </strong>
+                </p>
+            </div>
         </div>
         <!-- begin CmdFormElement -->
         <CmdFormElement
@@ -979,6 +983,7 @@ export default {
 
     .cmd-custom-headline {
         margin: 0;
+        justify-content: center;
     }
 
     .box {
@@ -999,17 +1004,26 @@ export default {
         }
     }
 
+    .total-files {
+        > * {
+            white-space: nowrap;
+
+            &:not(a) {
+                font-weight: bold;
+            }
+        }
+    }
+
     [class*="list-of-file"] {
         max-height: 10rem;
         overflow-x: hidden;
         overflow-y: auto;
         border: var(--default-border);
-        padding: calc(var(--default-padding) / 2);
+        padding: calc(var(--default-padding) * 2);
         margin: 0;
 
         > li {
             flex-wrap: nowrap;
-            margin-right: var(--default-margin); /* avoids text to be placed below scrollbar */
 
             .progressbar {
                 display: table;
@@ -1043,24 +1057,35 @@ export default {
         }
     }
 
-    .list-of-files {
-        display: inline-flex;
-        flex-direction: column;
-        gap: calc(var(--default-gap) / 2);
+    .list-files-wrapper {
+        justify-content: center;
+        align-items: center;
 
-        &:last-of-type {
-            margin-bottom: var(--default-margin);
-        }
-
-        li {
-            list-style-type: none;
-            margin-left: 0;
+        .list-of-files {
+            display: inline-flex;
+            flex-direction: column;
             gap: calc(var(--default-gap) / 2);
+
+            li {
+                list-style-type: none;
+                margin-left: 0;
+                gap: calc(var(--default-gap) / 2);
+
+                > a:hover, a:active, a:focus {
+                    ~ * {
+                        color: var(--hyperlink-color-highlighted);
+                    }
+                }
+            }
+
+            & + a {
+                display: table;
+                margin: 0 auto;
+            }
         }
 
-        & + a {
-            display: table;
-            margin: 0 auto;
+        hr {
+            width: 100%; /* will be 0 instead (because of align-items: center for parent) */
         }
     }
 
@@ -1117,5 +1142,6 @@ a.drop-area {
         margin: 0;
     }
 }
+
 /* end cmd-upload-form ---------------------------------------------------------------------------------------------- */
 </style>

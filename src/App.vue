@@ -687,13 +687,13 @@
             <h3>Product boxes</h3>
             <div class="grid-container-create-columns">
                 <div class="grid-small-item" v-for="(product, index) in boxProductData" :key="index">
-                    <CmdBox boxType="product" :product="product"/>
+                    <CmdBox boxType="product" :product="product" :cmdCustomHeadline="{headlineLevel: 4}" />
                 </div>
             </div>
             <h3>User boxes</h3>
             <div class="grid-container-create-columns">
                 <div class="grid-small-item" v-for="(user, index) in boxUserData" :key="index">
-                    <CmdBox boxType="user" :user="user"/>
+                    <CmdBox boxType="user" :user="user" :cmdCustomHeadline="{headlineLevel: 4}" />
                 </div>
             </div>
             <h3>Box Site Search</h3>
@@ -723,12 +723,12 @@
         <a id="section-custom-headline"></a>
         <CmdWidthLimitationWrapper>
             <h2 class="headline-demopage">Custom Headline</h2>
-            <CmdCustomHeadline icon-class="icon-home" pre-headline-text="Pre-headline" :headline="{ headlineText: 'Headline level 1', headlineLevel: '1'}"/>
-            <CmdCustomHeadline :headline="{ headlineText: 'Headline level 2', headlineLevel: '2'}"/>
-            <CmdCustomHeadline :headline="{ headlineText: 'Headline level 3', headlineLevel: '3'}"/>
-            <CmdCustomHeadline :headline="{ headlineText: 'Headline level 4', headlineLevel: '4'}"/>
-            <CmdCustomHeadline :headline="{ headlineText: 'Headline level 5', headlineLevel: '5'}"/>
-            <CmdCustomHeadline :headline="{ headlineText: 'Headline level 6', headlineLevel: '6'}"/>
+            <CmdCustomHeadline icon-class="icon-home" pre-headline-text="Pre-headline" headlineText="Headline level 1" :headlineLevel="1"/>
+            <CmdCustomHeadline headlineText="Headline level 2" :headlineLevel="2"/>
+            <CmdCustomHeadline headlineText="Headline level 3" :headlineLevel="3"/>
+            <CmdCustomHeadline headlineText="Headline level 4" :headlineLevel="4"/>
+            <CmdCustomHeadline headlineText="Headline level 5" :headlineLevel="5"/>
+            <CmdCustomHeadline headlineText="Headline level 6" :headlineLevel="6"/>
         </CmdWidthLimitationWrapper>
         <!-- end custom-headline ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
@@ -863,19 +863,19 @@
             <h2 class="headline-demopage">Tabs</h2>
             <h3>Tabs with content from json-file</h3>
             <CmdTabs :stretchTabs="false" :tabs="tabsData"/>
-            <h3>Tabs with HTML-content from used component</h3>
+            <h3>Tabs with HTML-content (given by slot))</h3>
             <CmdTabs :stretchTabs="true" :tabs="[{name: 'Tab 1'}, {name: 'Tab 2'}, {name: 'Tab 3'}]" :useSlot="true">
                 <template v-slot:tab-content-0>
-                    <h3>Tab 1</h3>
+                    <h4>Tab 1 headline</h4>
                     <p>Content</p>
                 </template>
                 <template v-slot:tab-content-1>
-                    <h3>Tab 2</h3>
+                    <h4>Tab 2</h4>
                     <p>Content</p>
                     <p>Content</p>
                 </template>
                 <template v-slot:tab-content-2>
-                    <h3>Tab 3</h3>
+                    <h4>Tab 3</h4>
                     <p>Content</p>
                     <p>Content</p>
                     <p>Content</p>
@@ -908,19 +908,20 @@
         <CmdWidthLimitationWrapper>
             <h2 class="headline-demopage">Upload-Form</h2>
             <h3>Simple mode</h3>
-            <CmdUploadForm :cmdCustomHeadlineFieldset="{headlineText: 'Select files to upload', headlineLevel: 3}"
-                           :enableDragAndDrop="true"
+            <CmdUploadForm :enableDragAndDrop="true"
                            :allowedFileExtensions="['jpg', 'png']"
                            :allowMultipleFileUploads="true"
                            :advancedMode="false"
+                           textLegend="Simple upload form"
                            @error="showError"
                            :uploadOptions="{url: 'http://localhost:8888'}"
             />
             <h3>Advanced mode</h3>
-            <CmdUploadForm headline="Select files to upload"
+            <CmdUploadForm :cmdCustomHeadlineFieldset="{headlineText: 'Select files to upload', headlineLevel: 3}"
                            :enableDragAndDrop="true"
-                           :allowedFileExtensions="['jpg']"
+                           :allowedFileExtensions="['jpg', 'png']"
                            :allowMultipleFileUploads="true"
+                           textLegend="Advanced upload form"
                            :uploadOptions="{url: 'http://localhost:8888'}"
             />
         </CmdWidthLimitationWrapper>
@@ -947,8 +948,7 @@
     <CmdCopyrightInformation/>
 
     <CmdFancyBox :show="fancyBoxCookieDisclaimer" :fancyboxOptions="{}" :allowEscapeKey="false">
-        <CmdCookieDisclaimer headline="Usage of cookies on this web site"
-                             :cookieOptions="cookieDisclaimerData"
+        <CmdCookieDisclaimer :cookieOptions="cookieDisclaimerData"
                              buttonLabelAcceptAllCookies="Accept all cookies"
                              buttonLabelAcceptCurrentSettings="Accept current settings"
                              @closeCookieDisclaimer="fancyBoxCookieDisclaimer = false"
