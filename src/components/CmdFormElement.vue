@@ -154,7 +154,7 @@
                     :value="modelValue"
                 />
             </div>
-            <a v-if="showSearchButton" href="#" class="no-flex" :title="iconSearch.tooltip" @click.prevent="executeSearch">
+            <a v-if="showSearchButton" href="#" class="button no-flex" :title="iconSearch.tooltip" @click.prevent="executeSearch">
                 <span :class="iconSearch.iconClass"></span>
             </a>
         </template>

@@ -544,6 +544,24 @@
                                             :status="formElementStatus"/>
                         </div>
                     </div>
+                    <CmdInputGroup labelText="Group label for radio group">
+                        <CmdFormElement element="input"
+                                        labelText="Label for radiobutton"
+                                        type="radio"
+                                        id="input-group-radiobutton"
+                                        name="radiogroup2"
+                                        inputValue="radiobuttonValue1"
+                                        v-model="radiobuttonValue"
+                                        :status="formElementStatus"/>
+                        <CmdFormElement element="input"
+                                        labelText="Label for radiobutton"
+                                        type="radio"
+                                        id="input-group-radiobutton"
+                                        name="radiogroup2"
+                                        inputValue="radiobuttonValue2"
+                                        v-model="radiobuttonValue"
+                                        :status="formElementStatus"/>
+                    </CmdInputGroup>
                     <CmdMultipleSwitch labelText="Label for multiple-switch with checkboxes:"
                                        :multipleSwitches="multipleSwitchCheckboxData"
                                        switchTypes="checkbox"
@@ -1014,7 +1032,9 @@ import CmdFormFilters from "@/components/CmdFormFilters.vue"
 import CmdGoogleMaps from "./components/CmdGoogleMaps"
 import CmdImageGallery from "@/components/CmdImageGallery.vue"
 import CmdImageZoom from "@/components/CmdImageZoom.vue"
+import CmdInputGroup from "./components/CmdInputGroup"
 import CmdLoginForm from "@/components/CmdLoginForm.vue"
+import CmdListOfLinks from "./components/CmdListOfLinks"
 import CmdMainNavigation from "@/components/CmdMainNavigation.vue"
 import CmdMultipleSwitch from "@/components/CmdMultipleSwitch.vue"
 import CmdMultistepFormProgressBar from "@/components/CmdMultistepFormProgressBar.vue"
@@ -1037,7 +1057,6 @@ import {openFancyBox} from "@/components/CmdFancyBox"
 
 // import external functions
 import * as functions from "@/mixins/FieldValidation.js"
-import CmdListOfLinks from "./components/CmdListOfLinks";
 
 export default {
     name: "App",
@@ -1061,6 +1080,7 @@ export default {
         CmdGoogleMaps,
         CmdImageGallery,
         CmdImageZoom,
+        CmdInputGroup,
         CmdLoginForm,
         CmdMainNavigation,
         CmdMultistepFormProgressBar,

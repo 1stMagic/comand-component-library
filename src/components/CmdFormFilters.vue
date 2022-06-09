@@ -25,7 +25,7 @@ export default {
     },
     props: {
         /**
-         * list of all selected options
+         * model-value to support v-model
          */
         modelValue: {
             type: Array,
