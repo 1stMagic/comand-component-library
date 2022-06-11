@@ -1,7 +1,9 @@
 <template>
     <div :class="['cmd-site-header', { sticky: sticky }]" role="banner">
         <!-- begin slot for elements above header -->
-        <slot name="top-header"></slot>
+        <div class="top-header">
+            <slot name="top-header"></slot>
+        </div>
         <!-- end for elements above header -->
 
         <!-- begin header-wrapper with slots for logo and other header elements -->
@@ -72,19 +74,26 @@ export default {
     grid-area: site-header;
     display: flex;
     flex-direction: column;
-    gap: var(--default-gap);
     border-bottom: var(--default-border);
-    background: var(--pure-white);
+    background: var(--color-scheme-background-color);
 
     &.sticky {
         position: sticky;
         z-index: 300;
     }
 
-    header, .cmd-main-navigation nav, .cmd-top-header-navigation > ul {
+    header, .cmd-main-navigation nav, .cmd-list-of-links {
         max-width: var(--max-width);
+        width: 100%; /* stretch flex-item */
         margin: 0 auto;
         padding: 0 var(--default-padding);
+    }
+
+    .top-header {
+        .cmd-list-of-links {
+            padding-top: calc(var(--default-padding) / 2);
+            padding-bottom: calc(var(--default-padding) / 2);
+        }
     }
 
     > .cmd-main-navigation:last-child {
@@ -92,6 +101,8 @@ export default {
     }
 
     header {
+        padding: calc(var(--default-padding) * 2) 0;
+
         &.flex-container {
             width: 100%;
 

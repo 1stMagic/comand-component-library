@@ -3,7 +3,7 @@
     <div v-if="boxType === 'content'" :class="['cmd-box box content', {open : open, collapsible: collapsible}]">
         <template v-if="useSlots?.includes('header')">
             <!-- begin collapsible header with slot -->
-            <a v-if="collapsible" href="#" :title="open ? iconOpen.tooltip : iconClosed.tooltip" @click.prevent="toggleContentVisibility">
+            <a v-if="collapsible" class="box-header" href="#" :title="open ? iconOpen.tooltip : iconClosed.tooltip" @click.prevent="toggleContentVisibility">
                 <!-- begin slot 'header' -->
                 <slot name="header"></slot>
                 <!-- end slot 'header' -->
@@ -12,16 +12,16 @@
             <!-- end collapsible header with slot -->
 
             <!-- begin default header with slot -->
-            <header v-else>
+            <div v-else class="box-header">
                 <!-- begin slot 'header' -->
                 <slot name="header"></slot>
                 <!-- end slot 'header' -->
-            </header>
+            </div>
             <!-- end default header with slot -->
         </template>
         <template v-else>
             <!-- begin header for collapsible -->
-            <a v-if="collapsible" href="#" :title="open ? iconOpen.tooltip : iconClosed.tooltip" @click.prevent="toggleContentVisibility">
+            <a v-if="collapsible" class="box-header" href="#" :title="open ? iconOpen.tooltip : iconClosed.tooltip" @click.prevent="toggleContentVisibility">
                 <!-- begin CmdCustomHeadline -->
                 <CmdCustomHeadline v-if="cmdCustomHeadline?.headlineText"
                                    v-bind="cmdCustomHeadline"/>
@@ -32,7 +32,9 @@
 
             <!-- begin CmdCustomHeadline -->
             <CmdCustomHeadline v-else-if="!collapsible && cmdCustomHeadline?.headlineText"
-                               v-bind="cmdCustomHeadline"/>
+                               class="box-header"
+                               v-bind="cmdCustomHeadline"
+            />
             <!-- end CmdCustomHeadline -->
         </template>
 
@@ -48,17 +50,17 @@
         </div>
         <!-- end box-body -->
 
-        <footer v-if="useSlots?.includes('footer')">
+        <div v-if="useSlots?.includes('footer')" class="box-footer">
             <!-- begin slot 'footer' -->
             <slot name="footer"></slot>
             <!-- end slot 'footer' -->
-        </footer>
+        </div>
     </div>
     <!-- end boxType 'content' -->
 
     <!-- begin boxType 'product' -->
     <a v-else-if="boxType === 'product' && product" class="cmd-box box product" href="#" @click.prevent="clickOnProduct(product)">
-        <div>
+        <div class="box-header flex-container vertical">
             <img v-if="product.image" :src="product.image.src" :alt="product.image.alt"/>
             <div class="ribbon-new" v-if="product.new">
                 <span>{{ getMessage("cmdbox.productbox.new") }}</span>
@@ -82,7 +84,7 @@
 
     <!-- begin boxType 'user' -->
     <div v-else-if="boxType === 'user' && user" class="cmd-box box user">
-        <div>
+        <div class="box-header">
             <img v-if="user.image" :src="user.image.src" :alt="user.image.alt"/>
             <div v-else :class="defaultProfileIconClass" :title="user.name"></div>
             <!-- begin CmdCustomHeadline -->
@@ -96,9 +98,9 @@
             <p v-if="user.position">{{ user.position }}</p>
             <p v-if="user.description" class="description">{{ user.description }}</p>
         </div>
-        <footer v-if="user.links">
+        <div v-if="user.links" class="box-footer">
             <CmdListOfLinks :links="user.links" orientation="horizontal" :useGap="false"/>
-        </footer>
+        </div>
     </div>
     <!-- end boxType 'user' -->
 </template>
@@ -299,7 +301,7 @@ export default {
             }
         }
 
-        > header, > a {
+        > .box-header, > a {
             display: flex;
             align-items: center;
             border-top-left-radius: var(--border-radius);
@@ -367,7 +369,7 @@ export default {
             }
         }
 
-        footer {
+        .box-footer {
             border-bottom-left-radius: var(--border-radius);
             border-bottom-right-radius: var(--border-radius);
             padding: var(--default-padding);
@@ -425,7 +427,7 @@ export default {
             }
         }
 
-        > div:first-child {
+        > .box-header {
             > img, > div {
                 display: table;
                 margin: 0 auto;
@@ -449,11 +451,10 @@ export default {
     }
 
     &.user {
-        > div:first-child {
+        > .box-header {
             padding: var(--default-padding);
-            background: var(--pure-white);
 
-            > img, > div {
+            > img, > div:first-child {
                 display: table;
                 margin: 0 auto;
                 padding: calc(var(--default-padding) * 3);
@@ -479,13 +480,13 @@ export default {
             }
         }
 
-        footer {
+        .box-footer {
             margin-top: auto;
             border-top: var(--default-border);
 
-
             .cmd-list-of-links {
                 ul {
+                    width: 100%;
                     margin-bottom: 0;
 
                     li {
@@ -495,7 +496,7 @@ export default {
                             flex: 1;
                             padding: var(--default-padding);
                             text-align: center;
-                            background: var(--pure-white);
+                            background: var(--color-scheme-background-color);
                             border-left: var(--default-border);
                         }
 

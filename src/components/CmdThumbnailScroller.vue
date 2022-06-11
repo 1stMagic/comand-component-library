@@ -148,7 +148,7 @@ export default {
     display: table;
     margin: 0 auto calc(var(--default-margin) * 2) auto;
     border: var(--default-border);
-    background: var(--pure-white);
+    background: var(--color-scheme-background-color);
 
     > ul {
         overflow: hidden;

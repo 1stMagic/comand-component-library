@@ -980,14 +980,13 @@ export default {
 <style lang="scss">
 /* begin cmd-upload-form -------------------------------------------------------------------------------------------- */
 .cmd-upload-form {
-
     .cmd-custom-headline {
         margin: 0;
         justify-content: center;
     }
 
     .box {
-        background: var(--pure-white-reduced-opacity);
+        background: var(--color-scheme-background-color);
 
         dl {
             justify-content: center;
@@ -1031,7 +1030,7 @@ export default {
 
                 progress {
                     &[value] {
-                        background: var(--pure-white);
+                        background: var(--color-scheme-background-color);
 
                         &::-moz-progress-bar {
                             border-top-left-radius: var(--border-radius);
@@ -1051,7 +1050,7 @@ export default {
                     top: 0.2rem;
                     padding: 0.1rem 0.2rem;
                     line-height: 100%;
-                    background: var(--pure-white);
+                    background: var(--color-scheme-background-color);
                 }
             }
         }
@@ -1119,7 +1118,7 @@ export default {
 .drop-area {
     border: var(--default-border);
     border-style: dashed;
-    background: var(--pure-white);
+    background: var(--color-scheme-background-color);
     padding: (var(--default-padding));
     text-align: center;
 

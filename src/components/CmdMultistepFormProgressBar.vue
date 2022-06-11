@@ -183,7 +183,7 @@ export default {
                 background: var(--primary-color);
 
                 span, span[class*='icon'] {
-                    color: var(--pure-white);
+                    color: var(--color-scheme-text-color);
                 }
             }
 
@@ -199,10 +199,10 @@ export default {
 
                 a {
                     background: none;
-                    color: var(--text-color);
+                    color: var(--color-scheme-text-color);
 
                     span, span[class*='color'] {
-                        color: var(--text-color);
+                        color: inherit;
 
                         & + span[class*="icon"] {
                             &:last-child {

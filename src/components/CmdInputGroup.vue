@@ -11,13 +11,6 @@
 export default {
     props: {
         /**
-         * model-value to support v-model
-         */
-        modelValue: {
-            type: Array,
-            required: true
-        },
-        /**
          * toggle label-text visibility
          */
         showLabel: {

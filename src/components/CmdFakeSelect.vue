@@ -8,13 +8,13 @@
                 'has-state': validationStatus && validationStatus !== 'none'
             }
         ]"
-        :aria-labelledby="labelText"
+        :aria-labelledby="labelId"
         :aria-required="$attrs.required !== undefined"
         ref="fakeselect"
     >
         <span v-if="showLabel">
             <!-- begin label -->
-            <span>
+            <span :id="labelId">
                 {{ labelText }}<sup v-if="$attrs.required !== undefined">*</sup>
             </span>
             <!-- end label -->
@@ -29,7 +29,7 @@
                :role="validationStatus === 'error' ? 'alert' : 'dialog'">
             </a>
         </span>
-        <ul :class="{'open': showOptions}" @clickout="closeOptions">
+        <ul :class="{'open': showOptions}" @clickout="closeOptions" :aria-expanded="showOptions">
             <li>
                 <!-- begin default/selected-option -->
                 <a href="#" @click.prevent="toggleOptions" @blur="onBlur">
@@ -42,8 +42,8 @@
                 <!-- end default/selected-option-->
 
                 <!-- begin default dropdown (incl. optional icon) -->
-                <ul v-if="type === 'default' && showOptions" :aria-expanded="showOptions">
-                    <li v-for="(option, index) in selectData" :key="index" role="option">
+                <ul v-if="type === 'default' && showOptions" role="listbox">
+                    <li v-for="(option, index) in selectData" :key="index" role="option" :aria-selected="option.value === modelValue">
                         <!-- begin type 'href' -->
                         <a v-if="optionLinkType === 'href'" href="#" @click.prevent="selectOption(option.value)" :class="{'active' : option.value === modelValue}">
                             <span v-if="option.iconClass" :class="option.iconClass"></span>
@@ -149,6 +149,9 @@
 </template>
 
 <script>
+// import utils
+import {createUuid} from "../utils/common.js"
+
 // import mixins
 import I18n from "../mixins/I18n"
 import DefaultMessageProperties from "../mixins/CmdBox/DefaultMessageProperties"
@@ -327,6 +330,13 @@ export default {
         },
         selectAllOptionsIcon() {
             return "icon-check"
+        },
+        // get ID for accessibility
+        labelId() {
+            if(this.$attrs.id !== undefined) {
+                return this.$attrs.id
+            }
+            return "label-" + createUuid()
         }
     },
     mounted() {
@@ -465,7 +475,7 @@ export default {
         margin: 0;
         display: block;
         min-width: 0;
-        background: var(--pure-white);
+        background: var(--color-scheme-background-color);
         box-shadow: none;
         border-radius: var(--border-radius);
 
@@ -514,7 +524,7 @@ export default {
             padding-top: .8rem;
             outline: none;
             border-bottom: var(--default-border);
-            color: var(--text-color);
+            color: var(--color-scheme-text-color);
             text-decoration: none;
 
             &:hover, &:active, &:focus {

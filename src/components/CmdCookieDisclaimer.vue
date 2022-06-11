@@ -22,14 +22,6 @@
                     >
                         <template v-slot:header>
                             <!-- begin CmdSwitchButton -->
-                            <CmdSwitchButton
-                                type="checkbox"
-                                :id="cookie.id"
-                                :labelText="cookie.labelText"
-                                v-model="cookie.checked"
-                                :status="cookie.status"
-                                disabled="disabled"
-                            />
                             <!-- end CmdSwitchButton -->
                         </template>
                         <template v-slot:body>
@@ -58,13 +50,6 @@
                     >
                         <template v-slot:header>
                             <!-- begin CmdSwitchButton -->
-                            <CmdSwitchButton
-                                type="checkbox"
-                                :id="cookie.id"
-                                :labelText="cookie.labelText"
-                                v-model="cookie.checked"
-                                :status="cookie.status"
-                            />
                             <!-- end CmdSwitchButton -->
                         </template>
                         <template v-slot:body>
@@ -107,14 +92,12 @@
 // import components
 import CmdBox from "./CmdBox"
 import CmdCustomHeadline from "./CmdCustomHeadline"
-import CmdSwitchButton from "./CmdSwitchButton"
 
 export default {
     name: "CmdCookieDisclaimer",
     components: {
         CmdBox,
         CmdCustomHeadline,
-        CmdSwitchButton
     },
     data() {
         return {

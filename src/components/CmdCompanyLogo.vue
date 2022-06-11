@@ -1,11 +1,11 @@
 <template>
     <div class="cmd-company-logo">
-        <a v-if="link.type === 'router'"  href="./" :title="link.tooltip">
-            <img :src="pathCurrentLogo" :alt="altText"/>
-        </a>
-        <router-link v-else to="./" :title="link.tooltip">
+        <router-link v-if="link.type === 'router'" :href="link.path" :title="link.tooltip">
             <img :src="pathCurrentLogo" :alt="altText"/>
         </router-link>
+        <a v-else :to="link.path" :title="link.tooltip">
+            <img :src="pathCurrentLogo" :alt="altText"/>
+        </a>
     </div>
 </template>
 
@@ -53,20 +53,20 @@ export default {
     },
     computed: {
         pathCurrentLogo() {
-            if (this.prefersColorScheme === 'light' || !this.pathDarkmodeLogo) {
+            if (this.prefersColorScheme === "light" || !this.pathDarkmodeLogo) {
                 return this.pathDefaultLogo
             }
             return this.pathDarkmodeLogo
         }
     },
     created() {
-        if (matchMedia('(prefers-color-scheme: light)').matches) {
+        if (matchMedia("(prefers-color-scheme: light)").matches || document.querySelector("html").classList.contains("light-mode")) {
             this.prefersColorScheme = "light"
         } else {
             this.prefersColorScheme = "dark"
         }
 
-        window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', e => {
+        window.matchMedia("(prefers-color-scheme: light)").addEventListener("change", e => {
             this.prefersColorScheme = e.matches ? "light" : "dark"
         });
     },

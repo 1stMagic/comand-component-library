@@ -70,7 +70,7 @@ export default {
     text-decoration: none;
     z-index: 1000;
     border: var(--default-border);
-    background: var(--pure-white);
+    background: var(--color-scheme-background-color);
     border-radius: var(--full-circle);
 
     &:hover, &:active, &:focus {

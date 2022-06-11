@@ -137,6 +137,7 @@ export default {
     ul {
         flex-direction: column;
         gap: calc(var(--default-gap) / 2);
+        margin: 0;
 
         li {
             list-style: none;
@@ -145,23 +146,24 @@ export default {
     }
 
     &.horizontal {
+        flex-direction: row;
+
         ul {
-            flex-direction: row;
             gap: var(--default-gap);
+            flex-direction: row;
 
             > li {
                 flex: none;
                 display: flex;
-                align-items: center;
             }
         }
 
         &.align-center {
-            align-items: center;
+            justify-content: center;
         }
 
         &.align-right {
-            align-items: flex-end;
+            justify-content: flex-end;
         }
     }
 }

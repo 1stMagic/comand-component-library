@@ -2,6 +2,13 @@
 <template>
     <a id="anchor-back-to-top"></a>
     <CmdSiteHeader :cmdMainNavigation="navigationData" :sticky="true">
+        <template v-slot:top-header>
+            <CmdListOfLinks
+                :links="listOfLinksData"
+                orientation="horizontal"
+                align="right"
+            />
+        </template>
         <template v-slot:logo>
             <CmdCompanyLogo :link="companyLogoData.link"
                             altText="CoManD Logo"
@@ -77,6 +84,7 @@
                 <fieldset class="grid-container-create-columns">
                     <legend>Legend</legend>
                     <h2>Form Element-Component</h2>
+                    <CmdToggleDarkMode :showLabel="true" />
                     <div class="flex-container">
                         <CmdFormElement labelText="Input (type text):"
                                         element="input"
@@ -102,6 +110,23 @@
                                         tooltipText="This is a tooltip"
                         />
                     </div>
+                    <CmdFormElement labelText="Input (type search (without search-button)):"
+                                    element="input"
+                                    type="search"
+                                    :status="formElementStatus"
+                                    :showSearchButton="false"
+                                    placeholder="Search"
+                                    tooltipText="This is a tooltip"
+                                    v-bind="{useCustomTooltip: false}"
+                    />
+                    <CmdFormElement labelText="Input (type search (with search-button)):"
+                                    element="input"
+                                    type="search"
+                                    :status="formElementStatus"
+                                    placeholder="Search"
+                                    tooltipText="This is a tooltip"
+                                    v-bind="{useCustomTooltip: false}"
+                    />
                     <h2>Fake Selects</h2>
                     <div class="flex-container">
                         <!-- type === default: normal selectbox (with optional icons) -->
@@ -194,85 +219,10 @@
 
                     <hr/>
 
-                    <!-- begin toggle-switch-radio with switch-label -->
-                    <h2>Toggle-Switches (Radio and Checkbox) with Switch-Label</h2>
-                    <div class="label inline">
-                        <span>Label for Toggle-Switch-Checkbox with Switch-Label:</span>
-                        <span class="flex-container no-flex">
-                            <CmdSwitchButton
-                              type="checkbox"
-                              id="checkbox1"
-                              name="checkbox1"
-                              onLabel="Label on"
-                              offLabel="Label off"
-                              inputValue="checkbox1"
-                              :disabled="formElementStatus === 'disabled'"
-                              v-model="switchButtonCheckbox"/>
-                            <CmdSwitchButton
-                              type="checkbox"
-                              id="checkbox2"
-                              name="checkbox2"
-                              onLabel="Label on"
-                              offLabel="Label off"
-                              labelText="Labeltext"
-                              inputValue="checkbox2"
-                              :disabled="formElementStatus === 'disabled'"
-                              v-model="switchButtonCheckbox"/>
-                            <CmdSwitchButton
-                                type="checkbox"
-                                id="checkbox3"
-                                name="checkbox3"
-                                inputValue="checkbox3"
-                                labelText="Labeltext"
-                                :disabled="formElementStatus === 'disabled'"
-                                v-model="switchButtonCheckbox"/>
-                        </span>
-                        <span>Current value: {{ switchButtonCheckbox }}</span>
-                    </div>
-                    <!-- end toggle-switch-radio with switch-label -->
-
-                    <div class="label inline">
-                        <span>Label for Toggle-Switch-Checkbox with Switch-Label (colored):</span>
-                        <span class="flex-container no-flex">
-                            <CmdSwitchButton
-                              type="checkbox"
-                              id="checkbox4"
-                              name="checkbox4"
-                              onLabel="Label on"
-                              offLabel="Label off"
-                              :colored="true"
-                              inputValue="checkbox3"
-                              :disabled="formElementStatus === 'disabled'"
-                              v-model="switchButtonCheckboxColored"/>
-                        </span>
-                        <span>Current value: {{ switchButtonCheckboxColored }}</span>
-                    </div>
-                    <!-- end toggle-switch-radio with switch-label -->
-
                     <!-- begin toggle-switch-radio with switch-label (colored) -->
                     <div class="label inline">
                         <span>Label for Toggle-Switch-Radio with Switch-Label (colored):</span>
                         <span class="flex-container no-flex">
-                  <CmdSwitchButton
-                      type="radio"
-                      id="radio1"
-                      name="radiogroup"
-                      onLabel="Label on"
-                      offLabel="Label off"
-                      :colored="true"
-                      inputValue="radio1"
-                      :disabled="formElementStatus === 'disabled'"
-                      v-model="switchButtonRadio"/>
-                  <CmdSwitchButton
-                      type="radio"
-                      id="radio2"
-                      name="radiogroup"
-                      onLabel="Label on"
-                      offLabel="Label off"
-                      :colored="true"
-                      inputValue="radio2"
-                      :disabled="formElementStatus === 'disabled'"
-                      v-model="switchButtonRadio"/>
                 </span>
                     </div>
                     <hr />
@@ -789,6 +739,21 @@
             <p>LoginData: {{loginData}}</p>
         </CmdWidthLimitationWrapper>
 
+        <!-- begin list-of-links ------------------------------------------------------------------------------------------------------------------------------------------------------->
+        <a id="section-list-of-links"></a>
+        <CmdWidthLimitationWrapper>
+            <h2 class="headline-demopage">List Of Links</h2>
+            <h3>Vertical</h3>
+            <CmdListOfLinks :links="listOfLinksData" />
+            <h3>Horizontal (aligned left)</h3>
+            <CmdListOfLinks orientation="horizontal" align="left" :links="listOfLinksData" />
+            <h3>Horizontal (aligned center)</h3>
+            <CmdListOfLinks orientation="horizontal" align="center" :links="listOfLinksData" />
+            <h3>Horizontal (aligned right)</h3>
+            <CmdListOfLinks orientation="horizontal" align="right" :links="listOfLinksData" />
+        </CmdWidthLimitationWrapper>
+        <!-- end list-of-links  ------------------------------------------------------------------------------------------------------------------------------------------------------->
+
         <a id="section-main-navigation"></a>
         <CmdWidthLimitationWrapper>
             <h2 class="headline-demopage">Main Navigation</h2>
@@ -947,7 +912,7 @@
 
     <CmdWidthLimitationWrapper id="site-footer" inner-component="footer">
         <CmdSwitchLanguage :languages="languagesData" @click="doSomething"/>
-        <CmdListOfLinks :links="footerNavigationData"
+        <CmdListOfLinks :links="listOfLinksData"
                         :cmdCustomHeadline="{headlineText: 'List of links', headlineLevel: 6}"
         />
         <CmdOpeningHours :openingHours="openingHoursData"
@@ -997,7 +962,7 @@ import fakeSelectCountriesData from '@/assets/data/fake-select-countries.json'
 import fakeSelectFilterOptionsData from '@/assets/data/fake-select-filter-options.json'
 import fakeSelectOptionsData from '@/assets/data/fake-select-options.json'
 import fakeSelectOptionsWithIconsData from '@/assets/data/fake-select-options-with-icons.json'
-import footerNavigationData from '@/assets/data/list-of-links.json'
+import listOfLinksData from '@/assets/data/list-of-links.json'
 import imageGalleryData from '@/assets/data/image-gallery.json'
 import languagesData from '@/assets/data/switch-language.json'
 import multistepsData from '@/assets/data/multistep-form-progress-bar.json'
@@ -1044,12 +1009,12 @@ import CmdProgressBar from "@/components/CmdProgressBar.vue"
 import CmdShareButtons from "@/components/CmdShareButtons.vue"
 import CmdSiteHeader from "./components/CmdSiteHeader"
 import CmdSlideshow from "@/components/CmdSlideshow.vue"
-import CmdSwitchButton from "@/components/CmdSwitchButton.vue"
 import CmdSwitchLanguage from "@/components/CmdSwitchLanguage.vue"
 import CmdSystemMessage from "@/components/CmdSystemMessage.vue"
 import CmdTabs from "@/components/CmdTabs.vue"
 import CmdTable from "@/components/CmdTable.vue"
 import CmdThumbnailScroller from "@/components/CmdThumbnailScroller.vue"
+import CmdToggleDarkMode from "@/components/CmdToggleDarkMode.vue"
 import CmdTooltip from "@/components/CmdTooltip.vue"
 import CmdUploadForm from "@/components/CmdUploadForm.vue"
 import CmdWidthLimitationWrapper from "@/components/CmdWidthLimitationWrapper"
@@ -1091,12 +1056,12 @@ export default {
         CmdShareButtons,
         CmdSiteHeader,
         CmdSlideshow,
-        CmdSwitchButton,
         CmdSwitchLanguage,
         CmdSystemMessage,
         CmdTabs,
         CmdTable,
         CmdThumbnailScroller,
+        CmdToggleDarkMode,
         CmdTooltip,
         CmdUploadForm,
         CmdWidthLimitationWrapper
@@ -1170,7 +1135,7 @@ export default {
             fakeSelectFilterOptionsData,
             fakeSelectOptionsData,
             fakeSelectOptionsWithIconsData,
-            footerNavigationData,
+            listOfLinksData,
             imageGalleryData,
             languagesData,
             multistepsData,

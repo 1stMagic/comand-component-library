@@ -13,7 +13,7 @@
             off: colored && !isChecked,
             'has-state': validationStatus
            }]"
-           :for="id"
+           :for="labelId"
            ref="label">
 
         <!-- begin label-text (+ required asterisk) -->
@@ -50,7 +50,7 @@
         <template
             v-if="element === 'input' && $attrs.type !== 'checkbox' && $attrs.type !== 'radio' && $attrs.type !== 'search'">
             <input v-bind="$attrs"
-                   :id="id"
+                   :id="labelId"
                    :class="htmlClass"
                    @focus="tooltip = true"
                    @blur="onBlur"
@@ -94,15 +94,14 @@
                    :checked="isChecked"
                    :value="inputValue"
                    :class="[htmlClass, validationStatus, { 'replace-input-type': replaceInputType, 'toggle-switch': toggleSwitch }]"
-                   :id="id"
+                   :id="labelId"
                    :aria-invalid="validationStatus === 'error'"
-                   :aria-describedby="`status-message-${id}`"
             />
-
-            <!-- begin labels for toggle-switch -->
             <span v-if="!(onLabel && offLabel)" :class="{ hidden: !showLabel }">
                 <span v-if="labelText">{{ labelText }}<sup v-if="$attrs.required">*</sup></span>
             </span>
+
+            <!-- begin labels for toggle-switch -->
             <template v-else-if="onLabel && offLabel">
                 <span v-if="labelText">
                     <span>{{ labelText }}<sup v-if="$attrs.required">*</sup></span>
@@ -120,7 +119,7 @@
         <!-- begin selectbox -->
         <select v-if="element === 'select'"
                 v-bind="$attrs"
-                :id="id"
+                :id="labelId"
                 @blur="onBlur"
                 @change="$emit('update:modelValue', $event.target.value)">
             <option v-for="(option, index) in selectOptions" :key="index" :value="option.value"
@@ -132,7 +131,7 @@
         <!-- begin textarea -->
         <textarea v-if="element === 'textarea'"
                   v-bind="$attrs"
-                  :id="id"
+                  :id="labelId"
                   :value="modelValue"
                   :maxlength="getMaxLength()"
                   @input="onInput"
@@ -145,18 +144,18 @@
         <!-- begin searchfield -->
         <template v-else-if="element === 'input' && $attrs.type === 'search'">
             <div class="search-field-wrapper flex-container no-gap">
-                <a v-if="iconDelete.show" href="#" @click.prevent="$emit('update:modelValue', '')" :class="iconDelete.iconClass" :title="iconDelete.tooltip"/>
                 <input
                     v-bind="$attrs"
-                    :id="id"
+                    :id="labelId"
                     @input="onInput"
                     :maxlength="$attrs.maxlength > 0 ? $attrs.maxlength : 255"
                     :value="modelValue"
                 />
+                <a v-if="showSearchButton" href="#" class="button no-flex" :title="iconSearch.tooltip" @click.prevent="executeSearch">
+                    <span :class="iconSearch.iconClass"></span>
+                </a>
+                <a v-if="iconDelete.show" href="#" @click.prevent="$emit('update:modelValue', '')" :class="iconDelete.iconClass" :title="iconDelete.tooltip"></a>
             </div>
-            <a v-if="showSearchButton" href="#" class="button no-flex" :title="iconSearch.tooltip" @click.prevent="executeSearch">
-                <span :class="iconSearch.iconClass"></span>
-            </a>
         </template>
     </label>
     <!-- end searchfield -->
@@ -213,6 +212,9 @@
 </template>
 
 <script>
+// import utils
+import {createUuid} from "../utils/common.js"
+
 // import mixins
 import I18n from "../mixins/I18n"
 import DefaultMessageProperties from "../mixins/CmdBox/DefaultMessageProperties"
@@ -635,6 +637,13 @@ export default {
                 return this.datalist ? 'off' : 'on'
             }
             return null
+        },
+        // get ID for accessibility
+        labelId() {
+            if(this.$attrs.id !== undefined) {
+                return this.$attrs.id
+            }
+            return "label-" + createUuid()
         }
     },
     methods: {
@@ -791,22 +800,23 @@ export default {
     .search-field-wrapper {
         margin: 0;
 
-        a {
+        a[class*="icon"] {
             position: absolute;
             top: 50%;
             right: 1rem;
             transform: translateY(-50%);
             z-index: 100;
+        }
 
-            & + input {
-                padding-right: calc(var(--default-padding) * 3);
+        a.button {
+            & + a[class*="icon"] {
+                right: 5rem;
             }
         }
     }
 
     .place-inside {
         + .search-field-wrapper {
-
 
             input {
                 padding-left: calc(var(--default-padding) * 3);

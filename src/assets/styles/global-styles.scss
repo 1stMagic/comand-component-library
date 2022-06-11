@@ -1,4 +1,4 @@
-/* global-styles.scss - last update: 2021/08/10 by Raphael Biock - IT IS NOT RECOMMENDED TO EDIT THIS FILE (TO AVOID TROUBLESHOOTING AFTER UPDATING) - DO CHANGES IN template.css ONLY */
+/* global-styles.scss - last update: 2022/06/11 - IT IS NOT RECOMMENDED TO EDIT THIS FILE (TO AVOID TROUBLESHOOTING AFTER UPDATING) - DO CHANGES IN template.css ONLY */
 
 /* begin table of contents --------------------------------------------------------------------------------------------------------------------------------------------------- */
 /*
@@ -16,11 +16,16 @@
   P ------------------------
     - product-listing
 
+  T ------------------------
+    - tooltip
+
 - MEDIA QUERIES ------------------------
   - styles for medium screens
   - styles for small screens
 
-- DARK MODE ------------------------
+- COLOR SCHEMES ------------------------
+  - custom light-mode
+  - custom dark-mode
 */
 /* end table of contents --------------------------------------------------------------------------------------------------------------------------------------------------- */
 
@@ -98,13 +103,13 @@ body.avoid-scrolling {
 
   &.products-squares  {
     > a {
-      grid-column: span 6;
+      grid-column: span calc(var(--grid-columns) / 2);
     }
   }
 
   &.products-lines {
     > a {
-      grid-column: span 12;
+      grid-column: span var(--grid-columns);
       flex-direction: unset;
 
       img {
@@ -166,6 +171,8 @@ body.avoid-scrolling {
   }
 }
 /* end product-listing --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* begin tooltip for cmd-form-element and cmd-fake-select ---------------------------------------------------------------------------------------------------------------- */
 .cmd-form-element, .cmd-fake-select {
   & + .cmd-tooltip {
     border-color: var(--status-color);
@@ -209,6 +216,7 @@ body.avoid-scrolling {
     }
   }
 }
+/* end tooltip for cmd-form-element and cmd-fake-select ------------------------------------------------------------------------------------------------------------------ */
 /* ---------------------------------------------- END COMPONENTS AND GLOBAL STYLES -------------------------------------------------- */
 
 /* ---------------------------------------------- BEGIN MEDIA QUERIES AND BROWSER SPECIFIC STYLES -------------------------------------------------- */
@@ -261,51 +269,25 @@ body.avoid-scrolling {
 /* end styles for small screens --------------------------------------------------------------------------------------------------------------------------------------------------- */
 /* ---------------------------------------------- END MEDIA QUERIES AND BROWSER SPECIFIC STYLES -------------------------------------------------- */
 
-/* ---------------------------------------------- BEGIN DARK-MODE -------------------------------------------------- */
-@media (prefers-color-scheme: dark) {
-  html {
-    --dark-mode-background-color: rgb(50, 50, 50);
-    scrollbar-color: var(--primary-color) var(--dark-gray); /* firefox only */
+/* ---------------------------------------------- BEGIN COLORS-SCHEMES (LIGHT-/DARK-MODE) -------------------------------------------------- */
+html {
+  &.light-mode {
+    /* assign default colors for custom light-mode set by class */
+    --color-scheme-text-color: var(--light-mode-text-color);
+    --color-scheme-background-color: var(--light-mode-background-color);
+    --color-scheme-text-color-inverted: var(--dark-mode-text-color);
+    --color-scheme-background-inverted: var(--dark-mode-background-color);
+    --default-background-color-lightness: 97%;
   }
 
-  /* webkit only */
-  html::-webkit-scrollbar-track {
-    background-color: var(--dark-gray);
-  }
-
-  html, body,
-  .cmd-site-header,
-  .cmd-width-limitation-wrapper#site-footer {
-    background:  var(--dark-mode-background-color);
-    color: var(--pure-white);
-  }
-
-  legend {
-    background: var(--default-background-color);
-    border: var(--default-border);
-  }
-
-  .cmd-breadcrumbs,
-  .cmd-breadcrumbs > *,
-  .cmd-top-header-navigation a,
-  .cmd-pager > p, main {
-    color: var(--pure-white);
-  }
-
-  hr {
-    border-color: var(--pure-white);
-  }
-
-  .cmd-accordion,
-  .cmd-tabs,
-  fieldset, table, .box, {
-    color: var(--text-color);
-  }
-
-  .cmd-accordion hr,
-  .cmd-tabs hr,
-  fieldset hr, table hr, .box hr {
-    border-color: var(--text-color);
+  &.dark-mode {
+    /* assign default colors for custom dark-mode set by class */
+    --color-scheme-text-color: var(--dark-mode-text-color);
+    --color-scheme-background-color: var(--dark-mode-background-color);
+    --color-scheme-text-color-inverted: var(--light-mode-text-color);
+    --color-scheme-background-inverted: var(--light-mode-background-color);
+    --default-background-color-lightness: 20%;
   }
 }
-/* ---------------------------------------------- END DARK-MODE -------------------------------------------------- */
+
+/* ---------------------------------------------- END COLORS-SCHEMES (LIGHT-/DARK-MODE)  -------------------------------------------------- */

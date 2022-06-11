@@ -1,6 +1,6 @@
 <template>
     <!-- begin login-form -->
-    <fieldset v-if="!sendLogin" class="flex-container">
+    <fieldset v-if="!sendLogin" class="cmd-login-form flex-container">
         <legend :class="{hidden : !showLegend}">{{ textLegend }}</legend>
         <!-- begin CmdCustomHeadline -->
         <CmdCustomHeadline v-if="cmdCustomHeadlineLoginForm"
@@ -119,7 +119,7 @@
     <!-- end login-form -->
 
     <!-- begin send-login-form -->
-    <fieldset v-else class="flex-container">
+    <fieldset v-else class="cmd-login-form flex-container">
         <legend :class="{'hidden' : !legendSendLoginForm.show}">{{ legendSendLoginForm.text }}</legend>
         <!-- begin CmdCustomHeadline -->
         <CmdCustomHeadline v-if="cmdCustomHeadlineSendLoginForm"
@@ -439,6 +439,7 @@ export default {
 </script>
 
 <style lang="scss">
+.cmd-login-form {
     .option-wrapper {
         align-items: center;
 
@@ -458,4 +459,5 @@ export default {
             margin-left: auto;
         }
     }
+}
 </style>

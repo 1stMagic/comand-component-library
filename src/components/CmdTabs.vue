@@ -109,7 +109,7 @@ export default {
             border-top-left-radius: var(--border-radius);
             border-top-right-radius: var(--border-radius);
             list-style-type: none;
-            background: var(--pure-white);
+            background: var(--color-scheme-background-color);
             border: var(--default-border);
 
             &.active {
@@ -125,7 +125,7 @@ export default {
             a {
                 display: block;
                 padding: var(--default-padding);
-                color: var(--text-color);
+                color: var(--color-scheme-text-color);
 
                 &:hover, &:active, &:focus {
                     cursor: pointer;
@@ -154,7 +154,7 @@ export default {
         padding: var(--default-padding);
         border: var(--primary-border);
         border-radius: var(--border-radius);
-        background: var(--pure-white);
+        background: var(--color-scheme-background-color);
         border-top-left-radius: 0;
 
         > div {
