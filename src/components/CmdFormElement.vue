@@ -7,7 +7,7 @@
             disabled: $attrs.disabled,
             inline : displayLabelInline,
             checked: isChecked,
-            'toggle-switch-label': toggleSwitch,
+            'toggle-switch': toggleSwitch,
             colored: colored,
             on: colored && isChecked,
             off: colored && !isChecked,
@@ -88,31 +88,41 @@
 
         <!-- begin checkbox and radiobutton -->
         <template v-else-if="element === 'input' && ($attrs.type === 'checkbox' || $attrs.type === 'radio')">
-            <input v-bind="$attrs"
-                   @change="onChange"
-                   @blur="onBlur"
-                   :checked="isChecked"
-                   :value="inputValue"
-                   :class="[htmlClass, validationStatus, { 'replace-input-type': replaceInputType, 'toggle-switch': toggleSwitch }]"
-                   :id="labelId"
-                   :aria-invalid="validationStatus === 'error'"
-            />
-            <span v-if="!(onLabel && offLabel)" :class="{ hidden: !showLabel }">
+            <template v-if="!(onLabel && offLabel)">
+                <input v-bind="$attrs"
+                       @change="onChange"
+                       @blur="onBlur"
+                       :checked="isChecked"
+                       :value="inputValue"
+                       :class="[htmlClass, validationStatus, { 'replace-input-type': replaceInputType, 'toggle-switch': toggleSwitch }]"
+                       :id="labelId"
+                       :aria-invalid="validationStatus === 'error'"
+                />
+                <span :class="{ hidden: !showLabel }">
                 <span v-if="labelText">{{ labelText }}<sup v-if="$attrs.required">*</sup></span>
             </span>
-
-            <!-- begin labels for toggle-switch -->
+            </template>
+            <!-- begin labels for toggle-switch with switch-label -->
             <template v-else-if="onLabel && offLabel">
-                <span v-if="labelText">
-                    <span>{{ labelText }}<sup v-if="$attrs.required">*</sup></span>
-                </span>
-                <span class="toggle-switch switch-label">
+                <span class="switch-label-wrapper">
+                    <input v-bind="$attrs"
+                           @change="onChange"
+                           @blur="onBlur"
+                           :checked="isChecked"
+                           :value="inputValue"
+                           :class="{htmlClass, validationStatus}"
+                           :id="labelId"
+                           :aria-invalid="validationStatus === 'error'"
+                    />
                     <span class="label">{{ onLabel }}</span>
                     <span class="label">{{ offLabel }}</span>
                 </span>
+                <span v-if="labelText">
+                    <span>{{ labelText }}<sup v-if="$attrs.required">*</sup></span>
+                </span>
             </template>
             <slot v-else></slot>
-            <!-- end labels for toggle-switch -->
+            <!-- end labels for toggle-switch with switch-label -->
         </template>
         <!-- end checkbox and radiobutton -->
 
@@ -633,14 +643,14 @@ export default {
             return this.getMessage("cmdformelement.validationTooltip.open_field_requirements")
         },
         autocomplete() {
-            if(this.$attrs.type !== 'file') {
+            if (this.$attrs.type !== 'file') {
                 return this.datalist ? 'off' : 'on'
             }
             return null
         },
         // get ID for accessibility
         labelId() {
-            if(this.$attrs.id !== undefined) {
+            if (this.$attrs.id !== undefined) {
                 return this.$attrs.id
             }
             return "label-" + createUuid()
@@ -656,7 +666,7 @@ export default {
             }
 
             if (this.$attrs.type !== 'file') {
-              return this.$attrs.maxlength > 0 ? this.$attrs.maxlength : 255
+                return this.$attrs.maxlength > 0 ? this.$attrs.maxlength : 255
             }
 
             return null
@@ -825,29 +835,11 @@ export default {
     }
 
     /* begin toggle-switch */
-    /* no cmd-prefix-styling (class based on frontend-framework */
+    /* no cmd-prefix-styling (class based on frontend-framework) */
     &.toggle-switch {
-        &.switch-label {
-            input {
-                & + .label {
-                    padding-right: calc(var(--default-padding) / 3 * 2);
-
-                    &::before {
-                        top: 0.2rem;
-                    }
-
-                    & + .label {
-                        padding-left: calc(var(--default-padding) / 3 * 2);
-
-                        &::before {
-                            top: 0.2rem;
-                        }
-                    }
-                }
-            }
-
-            &.colored {
-                &.off {
+        &.colored {
+            &.off {
+                .switch-label-wrapper {
                     border-color: var(--error-color);
 
                     span {
@@ -861,8 +853,10 @@ export default {
                         }
                     }
                 }
+            }
 
-                &.on {
+            &.on {
+                .switch-label-wrapper {
                     border-color: var(--success-color);
 
                     span {

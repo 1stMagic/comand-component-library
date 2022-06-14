@@ -203,36 +203,59 @@
                     <label for="range-slider" :class="formElementStatus">
                         <span>Single-Slider (with in- and output):</span>
                         <span class="flex-container no-flex">
-                        <input type="number" :class="formElementStatus" v-model="rangeValue"
-                                 :disabled="formElementStatus === 'disabled'" min="0" max="100"/>
-                        <input type="range"
-                                 class="range-slider"
-                                 :class="{'disabled': formElementStatus === 'disabled'}"
-                                 id="range-slider"
-                                 v-model="rangeValue"
-                                 :disabled="formElementStatus === 'disabled'"
-                                 min="0"
-                                 max="100"/>
+                            <input
+                                type="number"
+                                :class="formElementStatus"
+                                v-model="rangeValue"
+                                :disabled="formElementStatus === 'disabled'"
+                                min="0"
+                                max="100"
+                            />
+                            <input
+                                type="range"
+                                class="range-slider"
+                                :class="{'disabled': formElementStatus === 'disabled'}"
+                                id="range-slider"
+                                v-model="rangeValue"
+                                :disabled="formElementStatus === 'disabled'"
+                                min="0"
+                                max="100"
+                            />
                         </span>
                     </label>
                     <!-- end slider -->
 
                     <hr/>
 
+                    <h2>Group of checkboxes with CmdInputGroup</h2>
+                    <CmdInputGroup label-text="Group-label:" :label-inline="true">
+                        <CmdFormElement
+                            element="input"
+                            type="checkbox"
+                            id="input-group-checkbox"
+                            labelText="Checkbox-label #1"
+                        />
+                        <CmdFormElement
+                            element="input"
+                            type="checkbox"
+                            id="input-group-checkbox"
+                            labelText="Checkbox-label #2"
+                        />
+                        <CmdFormElement
+                            element="input"
+                            type="checkbox"
+                            id="input-group-checkbox"
+                            labelText="Checkbox-label #3"
+                        />
+                    </CmdInputGroup>
+
                     <!-- begin toggle-switch-radio with switch-label (colored) -->
-                    <div class="label inline">
-                        <span>Label for Toggle-Switch-Radio with Switch-Label (colored):</span>
-                        <span class="flex-container no-flex">
-                </span>
-                    </div>
-                    <hr />
-                    <h3>Toggle Switches with CmdFormElement</h3>
+                    <h2>Toggle Switches with CmdFormElement</h2>
                     <CmdFormElement element="input"
                                     type="checkbox"
                                     id="toggle-switch-checkbox"
                                     v-model="switchButtonCheckbox"
-                                    :displayLabelInline="true"
-                                    labelText="Labeltext for Single-SwitchButton (Checkbox)"
+                                    labelText="Labeltext for Switch-Button without Switch-Label"
                                     :toggleSwitch="true"
                                     :status="formElementStatus"
                     />
@@ -240,8 +263,7 @@
                                     type="checkbox"
                                     id="toggle-switch-checkbox"
                                     v-model="switchButtonCheckbox"
-                                    :displayLabelInline="true"
-                                    labelText="Labeltext for SwitchButton (Checkbox)"
+                                    labelText="Labeltext for Switch-Button with Switch-Label"
                                     onLabel="Label on"
                                     offLabel="Label off"
                                     :toggleSwitch="true"
@@ -251,7 +273,7 @@
                                     type="checkbox"
                                     id="toggle-switch-checkbox-colored"
                                     v-model="switchButtonCheckbox"
-                                    labelText="Labeltext for SwitchButton (Checkbox, colored)"
+                                    labelText="Labeltext for Switch-Button (Checkbox, colored)"
                                     onLabel="Label on"
                                     offLabel="Label off"
                                     :colored="true"
@@ -269,6 +291,7 @@
                                     :toggleSwitch="true"
                                     :status="formElementStatus"
                                     inputValue="radio1"
+                                    labelText="Labeltext for Switch-Button (Radio, colored) #1"
                     />
                     <CmdFormElement element="input"
                                     type="radio"
@@ -281,6 +304,7 @@
                                     :toggleSwitch="true"
                                     :status="formElementStatus"
                                     inputValue="radio2"
+                                    labelText="Labeltext for Switch-Button (Radio, colored) #2"
                     />
                     <!-- end toggle-switch-radio with switch-label (colored) -->
 

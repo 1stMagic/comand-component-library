@@ -1,6 +1,6 @@
 <template>
-    <div class="cmd-input-group">
-        <span :class="['label', { hidden: !showLabel, inline: labelInline }]">{{ labelText }}</span>
+    <div :class="['cmd-input-group', {inline: labelInline}]">
+        <span :class="['label', { hidden: !showLabel}]">{{ labelText }}</span>
         <div class="flex-container no-flex">
             <slot></slot>
         </div>
@@ -36,3 +36,12 @@ export default {
     }
 }
 </script>
+
+<style lang="scss">
+.cmd-input-group {
+    &.inline {
+        display: flex;
+        gap: var(--default-gap);
+    }
+}
+</style>
