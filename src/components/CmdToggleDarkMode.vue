@@ -53,11 +53,13 @@ export default {
     watch: {
         darkMode() {
             // toggle classes to overwrite media-query styles for color-schemes
+            const htmlTag = document.querySelector('html')
             if(this.darkMode) {
-                document.querySelector('html').classList.replace("light-mode", "dark-mode");
+                htmlTag.classList.replace("light-mode", "dark-mode");
             } else {
-                document.querySelector('html').classList.replace("dark-mode", "light-mode");
+                htmlTag.classList.replace("dark-mode", "light-mode");
             }
+            htmlTag.dispatchEvent(new CustomEvent('toggle-color-scheme', { detail: this.darkMode ? 'dark-mode' : 'light-mode' }))
         }
     }
 }

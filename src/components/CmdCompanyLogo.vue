@@ -60,19 +60,44 @@ export default {
         }
     },
     created() {
-        if (matchMedia("(prefers-color-scheme: light)").matches || document.querySelector("html").classList.contains("light-mode")) {
-            this.prefersColorScheme = "light"
-        } else {
-            this.prefersColorScheme = "dark"
-        }
+        this.toggleColorScheme()
 
-        window.matchMedia("(prefers-color-scheme: light)").addEventListener("change", e => {
-            this.prefersColorScheme = e.matches ? "light" : "dark"
-        });
+        window.matchMedia("(prefers-color-scheme: light)").addEventListener("change", this.onColorSchemeChange)
+
+        /* observe if class changes in html-tag */
+        const htmlTag = document.querySelector("html")
+        this.$_observer = new MutationObserver(this.observeDom)
+        this.$_observer.observe(htmlTag, {attributes: true})
+    },
+    beforeUnmount() {
+        window.matchMedia("(prefers-color-scheme: light)").removeEventListener("change", this.onColorSchemeChange)
+        this.$_observer.disconnect()
     },
     methods: {
+        onColorSchemeChange(event) {
+            this.prefersColorScheme = event.matches ? "light" : "dark"
+        },
+        observeDom(mutationList) {
+            for(let i = 0; i < mutationList.length; i++) {
+                if(mutationList[i].type === 'attributes') {
+                    this.toggleColorScheme()
+                    break
+                }
+            }
+        },
         getRoute(language) {
             return getRoute(language)
+        },
+        toggleColorScheme() {
+            if (document.querySelector("html").classList.contains("light-mode")) {
+                this.prefersColorScheme = "light"
+            } else if(document.querySelector("html").classList.contains("dark-mode")) {
+                this.prefersColorScheme = "dark"
+            } else if (matchMedia("(prefers-color-scheme: light)").matches) {
+                this.prefersColorScheme = "light"
+            } else {
+                this.prefersColorScheme = "dark"
+            }
         }
     }
 }

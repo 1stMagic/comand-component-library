@@ -1,6 +1,6 @@
 <template>
     <!-- begin boxType 'content' -->
-    <div v-if="boxType === 'content'" :class="['cmd-box box content', {open : open, collapsible: collapsible}]">
+    <div v-if="boxType === 'content'" :class="['cmd-box box content', {open : open, collapsible: collapsible, 'stretch-vertically': stretchVertically}]">
         <template v-if="useSlots?.includes('header')">
             <!-- begin collapsible header with slot -->
             <a v-if="collapsible" class="box-header" href="#" :title="open ? iconOpen.tooltip : iconClosed.tooltip" @click.prevent="toggleContentVisibility">
@@ -59,7 +59,7 @@
     <!-- end boxType 'content' -->
 
     <!-- begin boxType 'product' -->
-    <a v-else-if="boxType === 'product' && product" class="cmd-box box product" href="#" @click.prevent="clickOnProduct(product)">
+    <a v-else-if="boxType === 'product' && product" :class="['cmd-box box product', {'stretch-vertically': stretchVertically}]" href="#" @click.prevent="clickOnProduct(product)">
         <div class="box-header flex-container vertical">
             <img v-if="product.image" :src="product.image.src" :alt="product.image.alt"/>
             <div class="ribbon-new" v-if="product.new">
@@ -83,7 +83,7 @@
     <!-- end boxType 'product' -->
 
     <!-- begin boxType 'user' -->
-    <div v-else-if="boxType === 'user' && user" class="cmd-box box user">
+    <div v-else-if="boxType === 'user' && user" :class="['cmd-box box user', {'stretch-vertically': stretchVertically}]">
         <div class="box-header">
             <img v-if="user.image" :src="user.image.src" :alt="user.image.alt"/>
             <div v-else :class="defaultProfileIconClass" :title="user.name"></div>
@@ -236,6 +236,13 @@ export default {
             }
         },
         /**
+        * allow box to be stretched as high as parent-element
+        */
+        stretchVertically: {
+            type: Boolean,
+            default: true
+        },
+        /**
          * properties for CmdCustomHeadline-component
          */
         cmdCustomHeadline: {
@@ -290,6 +297,10 @@ export default {
         padding: var(--default-padding);
     }
 
+    &.stretch-vertically {
+        height: 100%;
+    }
+
     &.content {
         > * {
             > *:last-child {
@@ -326,7 +337,7 @@ export default {
         }
 
         .box-body {
-            height: 100%;
+            flex-grow: 1;
             padding: 0;
 
             .padding {
@@ -435,6 +446,8 @@ export default {
         }
 
         .box-body {
+            flex-grow: 1;
+
             > * {
                 text-align: center;
             }
@@ -466,6 +479,8 @@ export default {
         }
 
         .box-body {
+            flex-grow: 1;
+
             p {
                 text-align: center;
                 font-weight: bold;

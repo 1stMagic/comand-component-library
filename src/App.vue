@@ -689,7 +689,20 @@
                 </div>
             </div>
             <h3>Box Site Search</h3>
-            <CmdBoxSiteSearch :results="executeSearch()" @click="executeSearch($event)"/>
+            <CmdBoxSiteSearch
+                v-model:modelValueInput1="siteSearchInput1"
+                v-model:modelValueInput2="siteSearchInput2"
+                v-model:modelValueRadius="radius"
+                v-model:modelValueSearchFilters="filters"
+                @search="siteSearchOutput"
+                textLegend="Search"
+                :cmdFakeSelect="siteSearchFilters" />
+            <dl>
+                <dt>siteSearchInput1:</dt><dd>{{ siteSearchInput1 }}</dd>
+                <dt>siteSearchInput2:</dt><dd>{{ siteSearchInput2 }}</dd>
+                <dt>Radius:</dt><dd>{{ radius }}</dd>
+                <dt>Filters:</dt><dd>{{ filters }}</dd>
+            </dl>
         </CmdWidthLimitationWrapper>
         <!-- end boxes ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
@@ -1108,7 +1121,18 @@ export default {
             selectedColor: "",
             rangeValue: 50,
             loginData: {},
+            siteSearchFilters: {
+                show: true,
+                selectData: fakeSelectFilterOptionsData,
+                defaultOptionName: "Select filters:",
+                labelText: "Filters:",
+                type: "checkboxOptions"
+            },
             formElementStatus: "",
+            siteSearchInput1: "Doctor",
+            siteSearchInput2: "New York",
+            radius: 10,
+            filters: ["2"],
             switchButtonRadio: "radio1",
             switchButtonCheckbox: ["checkbox1"],
             switchButtonCheckboxColored: false,
@@ -1176,7 +1200,13 @@ export default {
             thumbnailScrollerData
         }
     },
+    mounted() {
+      document.querySelector('html').addEventListener('toggle-color-scheme', (event) => console.log('colorScheme:', event.detail))
+    },
     methods: {
+        siteSearchOutput(event) {
+            console.log(event)
+        },
         showError(event) {
             console.log("EventMessages", event.messages)
             alert("Error")

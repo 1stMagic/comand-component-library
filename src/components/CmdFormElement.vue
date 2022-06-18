@@ -3,16 +3,17 @@
            :class="[
             'cmd-form-element',
              validationStatus,
-           {
-            disabled: $attrs.disabled,
-            inline : displayLabelInline,
-            checked: isChecked,
-            'toggle-switch': toggleSwitch,
-            colored: colored,
-            on: colored && isChecked,
-            off: colored && !isChecked,
-            'has-state': validationStatus
-           }]"
+             $attrs.class,
+               {
+                disabled: $attrs.disabled,
+                inline : displayLabelInline,
+                checked: isChecked,
+                'toggle-switch': toggleSwitch,
+                colored: colored,
+                on: colored && isChecked,
+                off: colored && !isChecked,
+                'has-state': validationStatus
+               }]"
            :for="labelId"
            ref="label">
 
@@ -49,9 +50,9 @@
         <!-- begin inputfield -->
         <template
             v-if="element === 'input' && $attrs.type !== 'checkbox' && $attrs.type !== 'radio' && $attrs.type !== 'search'">
-            <input v-bind="$attrs"
+            <input v-bind="elementAttributes"
                    :id="labelId"
-                   :class="htmlClass"
+                   :class="inputClass"
                    @focus="tooltip = true"
                    @blur="onBlur"
                    @input="onInput"
@@ -89,12 +90,12 @@
         <!-- begin checkbox and radiobutton -->
         <template v-else-if="element === 'input' && ($attrs.type === 'checkbox' || $attrs.type === 'radio')">
             <template v-if="!(onLabel && offLabel)">
-                <input v-bind="$attrs"
+                <input v-bind="elementAttributes"
                        @change="onChange"
                        @blur="onBlur"
                        :checked="isChecked"
                        :value="inputValue"
-                       :class="[htmlClass, validationStatus, { 'replace-input-type': replaceInputType, 'toggle-switch': toggleSwitch }]"
+                       :class="[inputClass, validationStatus, { 'replace-input-type': replaceInputType, 'toggle-switch': toggleSwitch }]"
                        :id="labelId"
                        :aria-invalid="validationStatus === 'error'"
                 />
@@ -105,12 +106,12 @@
             <!-- begin labels for toggle-switch with switch-label -->
             <template v-else-if="onLabel && offLabel">
                 <span class="switch-label-wrapper">
-                    <input v-bind="$attrs"
+                    <input v-bind="elementAttributes"
                            @change="onChange"
                            @blur="onBlur"
                            :checked="isChecked"
                            :value="inputValue"
-                           :class="{htmlClass, validationStatus}"
+                           :class="{inputClass, validationStatus}"
                            :id="labelId"
                            :aria-invalid="validationStatus === 'error'"
                     />
@@ -128,7 +129,7 @@
 
         <!-- begin selectbox -->
         <select v-if="element === 'select'"
-                v-bind="$attrs"
+                v-bind="elementAttributes"
                 :id="labelId"
                 @blur="onBlur"
                 @change="$emit('update:modelValue', $event.target.value)">
@@ -140,7 +141,7 @@
 
         <!-- begin textarea -->
         <textarea v-if="element === 'textarea'"
-                  v-bind="$attrs"
+                  v-bind="elementAttributes"
                   :id="labelId"
                   :value="modelValue"
                   :maxlength="getMaxLength()"
@@ -155,7 +156,7 @@
         <template v-else-if="element === 'input' && $attrs.type === 'search'">
             <div class="search-field-wrapper flex-container no-gap">
                 <input
-                    v-bind="$attrs"
+                    v-bind="elementAttributes"
                     :id="labelId"
                     @input="onInput"
                     :maxlength="$attrs.maxlength > 0 ? $attrs.maxlength : 255"
@@ -359,7 +360,7 @@ export default {
          *
          * may not be named as 'class' because it is a reserved keyword in JavaScript
          */
-        htmlClass: {
+        inputClass: {
             type: String,
             required: false
         },
@@ -592,6 +593,19 @@ export default {
         },
     },
     computed: {
+        elementAttributes() {
+            const commonAttributes = ["name", "required", "readonly", "disabled", "autofocus"]
+            const attributes = {
+                input: [...commonAttributes, "type", "minlength", "pattern", "min", "max", "multiple", "step", "autocomplete", "placeholder"],
+                select: [...commonAttributes, "multiple"],
+                textarea: [...commonAttributes, "placeholder"]
+            }
+            const attrs = {}
+            if(attributes[this.element]) {
+                Object.entries(this.$attrs).filter(([name]) => attributes[this.element].includes(name)).forEach(([name, value]) => attrs[name] = value)
+            }
+            return attrs
+        },
         buttonAttrs() {
             // copy all native attributes
             const allAttrs = {...this.$attrs}

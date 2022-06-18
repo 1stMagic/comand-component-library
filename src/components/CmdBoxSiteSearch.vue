@@ -13,52 +13,72 @@
 
         <!-- begin form-elements -->
         <div class="flex-container">
-            <!-- begin CmdFormElement -->
+            <!-- begin CmdFormElement for first input -->
             <CmdFormElement
+                v-if="cmdFormElementInput1.show"
                 element="input"
-                type="text"
-                :labelText="getMessage('cmdsitesearch.labeltext.what_to_search')"
-                :placeholder="getMessage('cmdsitesearch.placeholder.what_to_search')"
+                :type="cmdFormElementInput1.type"
+                :show-label="cmdFormElementInput1.showLabel"
+                :labelText="cmdFormElementInput1.labelText"
+                :placeholder="cmdFormElementInput1.placeholder"
+                v-model="searchValue1"
             />
-            <!-- end CmdFormElement -->
+            <!-- end CmdFormElement for first input -->
 
-            <!-- begin CmdFormElement -->
-            <CmdFormElement
-                element="input"
-                type="text"
-                :labelText="getMessage('cmdsitesearch.labeltext.where_to_search')"
-                :placeholder="getMessage('cmdsitesearch.placeholder.where_to_search')"
-            />
-            <!-- end CmdFormElement -->
+            <div class="flex-container no-gap">
+                <!-- begin CmdFormElement for second input -->
+                <CmdFormElement
+                    v-if="cmdFormElementInput2.show"
+                    element="input"
+                    :type="cmdFormElementInput2.type"
+                    :show-label="cmdFormElementInput2.showLabel"
+                    :labelText="cmdFormElementInput2.labelText"
+                    :placeholder="cmdFormElementInput2.placeholder"
+                    v-model="searchValue2"
+                />
+                <!-- end CmdFormElement for second input -->
 
-            <!-- begin CmdFormElement -->
+                <!-- begin CmdFormElement for radius -->
+                <CmdFormElement
+                    v-if="cmdFormElementRadius.show"
+                    element="select"
+                    class="no-flex"
+                    v-model="radius"
+                    :show-label="cmdFormElementRadius.showLabel"
+                    :labelText="cmdFormElementRadius.labelText"
+                    :select-options="cmdFormElementRadius.selectOptions"
+                />
+                <!-- end CmdFormElement for radius -->
+            </div>
+
+            <!-- begin CmdFormElement for search-button -->
             <CmdFormElement
                 element="button"
-                :buttonText="buttonText"
-                :buttonIcon="{iconClass: 'icon-search', iconPosition: 'before'}"
-                @click="$emit('click', $event)"
+                :nativeButton="cmdFormElementSearchButton"
+                @click="onSearchButtonClick"
                 aria-live="assertive"
             />
-            <!-- end CmdFormElement -->
+            <!-- end CmdFormElement for search-button -->
+
         </div>
         <!-- end form-elements -->
 
         <!-- begin filters -->
-        <template v-if="useFilters">
+        <template v-if="cmdFakeSelect?.show">
             <a href="#" @click.prevent="showFilters = !showFilters">
                 <span :class="showFilters ? 'icon-single-arrow-up' : 'icon-single-arrow-down'"></span>
                 <span v-if="showFilters">{{ getMessage("cmdsitesearch.hide_filter_options") }}</span>
                 <span v-else>{{ getMessage("cmdsitesearch.show_filter_options") }}</span>
             </a>
             <transition name="fade">
-                <div v-if="showFilters && listOfFilters.length" class="flex-container no-flex" aria-expanded="true">
+                <div v-if="showFilters && cmdFakeSelect?.selectData.length" class="flex-container no-flex" aria-expanded="true">
                     <!-- begin CmdFakeSelect -->
                     <CmdFakeSelect
-                        :selectData="listOfFilters"
-                        v-model="fakeSelectFilters"
-                        defaultOptionName="Select filters:"
-                        type="checkboxOptions"
-                        labelText="Filters:"
+                        :selectData="cmdFakeSelect?.selectData"
+                        v-model="searchFilters"
+                        :defaultOptionName="cmdFakeSelect?.defaultOptionName"
+                        :type="cmdFakeSelect?.type"
+                        :labelText="cmdFakeSelect?.labelText"
                     />
                     <!-- end CmdFakeSelect -->
                 </div>
@@ -66,7 +86,7 @@
         </template>
         <!-- end filters -->
     </fieldset>
-    <CmdFormFilters v-if="useFilters" v-model="fakeSelectFilters" :selectedOptionsName="getOptionName"/>
+    <CmdFormFilters v-if="cmdFakeSelect?.show" v-model="searchFilters" :selectedOptionsName="getOptionName"/>
 </template>
 
 <script>
@@ -81,6 +101,13 @@ import CmdFormElement from "./CmdFormElement"
 import CmdFormFilters from "./CmdFormFilters"
 
 export default {
+    emits: [
+        "search",
+        "update:modelValueInput1",
+        "update:modelValueInput2",
+        "update:modelValueRadius",
+        "update:modelValueSearchFilters"
+    ],
     name: "CmdBoxSiteSearch",
     mixins: [I18n, DefaultMessageProperties],
     components: {
@@ -91,15 +118,35 @@ export default {
     },
     data() {
         return {
-            showFilters: false,
-            fakeSelectFilters: []
+            showFilters: false
         }
     },
     props: {
         /**
-         * the native modelValue for v-model given from outside for pre-sets
+         * custom modelValue for first input-field
          */
-        modelValue: {
+        modelValueInput1: {
+            type: String,
+            required: false
+        },
+        /**
+         * custom modelValue for second input-field
+         */
+        modelValueInput2: {
+            type: String,
+            required: false
+        },
+        /**
+         * custom modelValue for radius
+         */
+        modelValueRadius: {
+            type: [String, Number],
+            required: false
+        },
+        /**
+         * custom modelValue for search-filters
+         */
+        modelValueSearchFilters: {
             type: Array,
             required: false
         },
@@ -109,15 +156,6 @@ export default {
         useFilters: {
             type: Boolean,
             default: true
-        },
-        /**
-         * set list of filters
-         *
-         * useFilters-property must be activated
-         */
-        listOfFilters: {
-            type: Array,
-            required: false
         },
         /**
          * text for legend
@@ -150,31 +188,168 @@ export default {
         cmdCustomHeadline: {
             type: Object,
             required: false
+        },
+        /**
+         * properties for CmdFormElement-component first search-field
+         */
+        cmdFormElementInput1: {
+            type: Object,
+            default() {
+                return {
+                    show: true,
+                    type: "text",
+                    showLabel: true,
+                    labelText: "What do you like to search for?",
+                    placeholder: "Search"
+                }
+            }
+        },
+        /**
+         * properties for CmdFormElement-component for second search-field
+         */
+        cmdFormElementInput2: {
+            type: Object,
+            default() {
+                return {
+                    show: true,
+                    type: "text",
+                    showLabel: true,
+                    labelText: "Where do you like to search?",
+                    placeholder: "City, Zip"
+                }
+            }
+        },
+        /**
+         * properties for CmdFormElement-component for radius
+         */
+        cmdFormElementRadius: {
+            type: Object,
+            default() {
+                return {
+                    show: true,
+                    showLabel: true,
+                    labelText: "Radius",
+                    selectOptions: [
+                        {
+                            text: "5 Km",
+                            value: 5
+                        },
+                        {
+                            text: "10 Km",
+                            value: 10
+                        },
+                        {
+                            text: "15 Km",
+                            value: 15
+                        },
+                        {
+                            text: "50 Km",
+                            value: 50
+                        },
+                        {
+                            text: "100 Km",
+                            value: 100
+                        }
+                    ]
+                }
+            }
+        },
+        /**
+         * properties for CmdFormElement-component for search-button
+         */
+        cmdFormElementSearchButton: {
+            type: Object,
+            default() {
+                return {
+                    icon: {
+                        show: true,
+                        position: "before",
+                        iconClass: "icon-search"
+                    },
+                    text: "Search"
+                }
+            }
+        },
+        /**
+         * properties for CmdFakeSelect-component for filters
+         */
+        cmdFakeSelect: {
+            type: Object,
+            required: false
         }
     },
     computed: {
-        buttonText() {
-            if (this.results) {
-                return this.results + " Results"
+        searchValue1: {
+            get() {
+                return this.modelValueInput1
+            },
+            set(value) {
+                this.$emit("update:modelValueInput1", value)
             }
-            return "Search"
+        },
+        searchValue2: {
+            get() {
+                return this.modelValueInput2
+            },
+            set(value) {
+                this.$emit("update:modelValueInput2", value)
+            }
+        },
+        radius: {
+            get() {
+                return this.modelValueRadius
+            },
+            set(value) {
+                this.$emit("update:modelValueRadius", value)
+            }
+        },
+        searchFilters: {
+            get() {
+                return this.modelValueSearchFilters
+            },
+            set(value) {
+                this.$emit("update:modelValueSearchFilters", value)
+            }
         }
     },
     methods: {
+        onSearchButtonClick() {
+            this.$emit("search", {
+                searchValue1: this.searchValue1,
+                searchValue2: this.searchValue2,
+                searchFilters: this.searchFilters,
+                radius: this.radius
+            })
+        },
         getOptionName(option) {
-            for (let i = 0; i < this.listOfFilters.length; i++) {
-                if (option === this.listOfFilters[i].value) {
-                    return this.listOfFilters[i].text
+            for (let i = 0; i < this.cmdFakeSelect.selectData.length; i++) {
+                if (option === this.cmdFakeSelect.selectData[i].value) {
+                    return this.cmdFakeSelect.selectData[i].text
                 }
             }
             return null
+        }
+    },
+    watch: {
+        cmdFormElementRadius: {
+            handler() {
+                if (this.cmdFormElementRadius?.selectOptions && this.cmdFormElementRadius?.selectOptions.length && this.modelValueRadius == null) {
+                    this.radius = this.cmdFormElementRadius.selectOptions[0].value
+                }
+            },
+            immediate: true,
+            deep: true
         }
     }
 }
 </script>
 
 <style lang="scss">
+/* begin cmd-box-site-search ---------------------------------------------------------------------------------------- */
+@import '../assets/styles/variables';
 .cmd-box-site-search {
+    flex-wrap: nowrap;
+
     > a {
         [class*='icon'] {
             font-size: 1rem;
@@ -185,4 +360,11 @@ export default {
         align-self: flex-end;
     }
 }
+
+@media only screen and (max-width: $small-max-width) {
+    .cmd-box-site-search {
+        flex-wrap: nowrap;
+    }
+}
+/* end cmd-box-site-search ---------------------------------------------------------------------------------------- */
 </style>
