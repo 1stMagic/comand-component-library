@@ -10,10 +10,11 @@
             />
         </template>
         <template v-slot:logo>
-            <CmdCompanyLogo :link="companyLogoData.link"
-                            altText="CoManD Logo"
-                            :pathDefaultLogo="require('@/assets/images/logo.svg')"
-                            :pathDarkmodeLogo="require('@/assets/images/logo-darkmode.svg')"
+            <CmdCompanyLogo
+                :link="companyLogoData.link"
+                altText="CoManD Logo"
+                :pathDefaultLogo="require('@/assets/images/logo.svg')"
+                :pathDarkmodeLogo="require('@/assets/images/logo-darkmode.svg')"
             />
         </template>
     </CmdSiteHeader>
@@ -254,7 +255,7 @@
                     <CmdFormElement element="input"
                                     type="checkbox"
                                     id="toggle-switch-checkbox"
-                                    v-model="switchButtonCheckbox"
+                                    v-model="switchButtonCheckboxToggleSwitch"
                                     labelText="Labeltext for Switch-Button without Switch-Label"
                                     :toggleSwitch="true"
                                     :status="formElementStatus"
@@ -264,6 +265,7 @@
                                     id="toggle-switch-checkbox"
                                     v-model="switchButtonCheckbox"
                                     labelText="Labeltext for Switch-Button with Switch-Label"
+                                    inputValue="checkbox1"
                                     onLabel="Label on"
                                     offLabel="Label off"
                                     :toggleSwitch="true"
@@ -273,6 +275,7 @@
                                     type="checkbox"
                                     id="toggle-switch-checkbox-colored"
                                     v-model="switchButtonCheckbox"
+                                    inputValue="checkbox2"
                                     labelText="Labeltext for Switch-Button (Checkbox, colored)"
                                     onLabel="Label on"
                                     offLabel="Label off"
@@ -284,7 +287,7 @@
                                     type="radio"
                                     name="radiogroup"
                                     id="toggle-switch-radio1"
-                                    v-model="switchButtonCheckbox"
+                                    v-model="switchButtonRadio"
                                     onLabel="Label on"
                                     offLabel="Label off"
                                     :colored="true"
@@ -297,7 +300,7 @@
                                     type="radio"
                                     name="radiogroup"
                                     id="toggle-switch-radio2"
-                                    v-model="switchButtonCheckbox"
+                                    v-model="switchButtonRadio"
                                     onLabel="Label on"
                                     offLabel="Label off"
                                     :colored="true"
@@ -518,14 +521,17 @@
                                             :status="formElementStatus"/>
                         </div>
                     </div>
-                    <CmdInputGroup labelText="Group label for radio group">
+                    <CmdInputGroup
+                        labelText="Group label for radio-group given by slot"
+                        :useSlot="true"
+                    >
                         <CmdFormElement element="input"
                                         labelText="Label for radiobutton"
                                         type="radio"
                                         id="input-group-radiobutton"
                                         name="radiogroup2"
                                         inputValue="radiobuttonValue1"
-                                        v-model="radiobuttonValue"
+                                        v-model="inputGroupValue1"
                                         :status="formElementStatus"/>
                         <CmdFormElement element="input"
                                         labelText="Label for radiobutton"
@@ -533,31 +539,52 @@
                                         id="input-group-radiobutton"
                                         name="radiogroup2"
                                         inputValue="radiobuttonValue2"
-                                        v-model="radiobuttonValue"
+                                        v-model="inputGroupValue1"
                                         :status="formElementStatus"/>
                     </CmdInputGroup>
-                    <CmdMultipleSwitch labelText="Label for multiple-switch with checkboxes:"
-                                       :multipleSwitches="multipleSwitchCheckboxData"
-                                       switchTypes="checkbox"
-                                       switchNames="checkboxgroup"
-                                       :status="formElementStatus"
-                                       v-model="multipleSwitchCheckbox"/>
                     <dl>
-                        <dt>Selected value:</dt>
+                        <dt>Selected value(s):</dt>
                         <dd>
-                            <output>{{ multipleSwitchCheckbox }}</output>
+                            <output>{{ inputGroupValue1 }}</output>
                         </dd>
                     </dl>
-                    <CmdMultipleSwitch labelText="Label for multiple-switch with radiobuttons:"
-                                       :multipleSwitches="multipleSwitchRadioData"
-                                       switchTypes="radio"
-                                       switchNames="swtich-names"
-                                       :status="formElementStatus"
-                                       v-model="multipleSwitchRadio"/>
+                    <CmdInputGroup
+                        labelText="Grouplabel for radio-group given by property"
+                        :inputElements="inputGroupRadiobuttons"
+                        inputTypes="radio"
+                        v-model="inputGroupValue2"
+                    />
                     <dl>
-                        <dt>Selected value:</dt>
+                        <dt>Selected value(s):</dt>
                         <dd>
-                            <output>{{ multipleSwitchRadio }}</output>
+                            <output>{{ inputGroupValue2 }}</output>
+                        </dd>
+                    </dl>
+                    <CmdInputGroup
+                        labelText="Grouplabel for radio-group  given by property styled as multiple-switch"
+                       :inputElements="inputGroupRadiobuttons"
+                        inputTypes="radio"
+                        :multipleSwitch="true"
+                        v-model="inputGroupValue3"
+                    />
+                    <dl>
+                        <dt>Selected value(s):</dt>
+                        <dd>
+                            <output>{{ inputGroupValue3 }}</output>
+                        </dd>
+                    </dl>
+                    <CmdInputGroup
+                        labelText="Grouplabel for checkbox-group styled as multiple-switch (stretched horizontally)"
+                        :inputElements="inputGroupCheckboxes"
+                        inputTypes="checkbox"
+                        :multipleSwitch="true"
+                        v-model="inputGroupValue4"
+                        :stretchHorizontally="true"
+                    />
+                    <dl>
+                        <dt>Selected value(s):</dt>
+                        <dd>
+                            <output>{{ inputGroupValue4 }}</output>
                         </dd>
                     </dl>
                 </fieldset><!-- end fieldset -->
@@ -1003,8 +1030,6 @@ import listOfLinksData from '@/assets/data/list-of-links.json'
 import imageGalleryData from '@/assets/data/image-gallery.json'
 import languagesData from '@/assets/data/switch-language.json'
 import multistepsData from '@/assets/data/multistep-form-progress-bar.json'
-import multipleSwitchCheckboxData from '@/assets/data/multipleswitch-checkbox.json'
-import multipleSwitchRadioData from '@/assets/data/multipleswitch-radio.json'
 import navigationData from '@/assets/data/main-navigation.json'
 import openingHoursData from '@/assets/data/opening-hours.json'
 import selectOptionsData from '@/assets/data/select-options.json'
@@ -1038,7 +1063,6 @@ import CmdInputGroup from "./components/CmdInputGroup"
 import CmdLoginForm from "@/components/CmdLoginForm.vue"
 import CmdListOfLinks from "./components/CmdListOfLinks"
 import CmdMainNavigation from "@/components/CmdMainNavigation.vue"
-import CmdMultipleSwitch from "@/components/CmdMultipleSwitch.vue"
 import CmdMultistepFormProgressBar from "@/components/CmdMultistepFormProgressBar.vue"
 import CmdOpeningHours from "@/components/CmdOpeningHours"
 import CmdPager from "@/components/CmdPager.vue"
@@ -1086,7 +1110,6 @@ export default {
         CmdLoginForm,
         CmdMainNavigation,
         CmdMultistepFormProgressBar,
-        CmdMultipleSwitch,
         CmdOpeningHours,
         CmdPager,
         CmdProgressBar,
@@ -1110,6 +1133,56 @@ export default {
             inputFieldPattern: "",
             inputSearch: "",
             textarea: "",
+            inputGroupValue1: "",
+            inputGroupValue2: [],
+            inputGroupValue3: [],
+            inputGroupValue4: [],
+            inputGroupRadiobuttons: [
+                {
+                    labelText: "Website",
+                    id: "radio-id-1",
+                    name: "input-group-radio",
+                    iconClass: "icon-globe",
+                    value: "website"
+                },
+                {
+                    labelText: "E-Mail",
+                    id: "radio-id-2",
+                    name: "input-group-radio",
+                    iconClass: "icon-mail",
+                    value: "email"
+                },
+                {
+                    labelText: "Phone",
+                    id: "radio-id-3",
+                    name: "input-group-radio",
+                    iconClass: "icon-phone",
+                    value: "phone"
+                }
+            ],
+            inputGroupCheckboxes: [
+                {
+                    labelText: "Website",
+                    id: "checkbox-id-1",
+                    name: "input-group-checkbox",
+                    iconClass: "icon-globe",
+                    value: "website"
+                },
+                {
+                    labelText: "E-Mail",
+                    id: "checkbox-id-2",
+                    name: "input-group-checkbox",
+                    iconClass: "icon-mail",
+                    value: "email"
+                },
+                {
+                    labelText: "Phone",
+                    id: "checkbox-id-3",
+                    name: "input-group-checkbox",
+                    iconClass: "icon-phone",
+                    value: "phone"
+                }
+            ],
             inputNumber: "",
             inputDate: "",
             accordionGroupOpen: false,
@@ -1134,6 +1207,7 @@ export default {
             radius: 10,
             filters: ["2"],
             switchButtonRadio: "radio1",
+            switchButtonCheckboxToggleSwitch: false,
             switchButtonCheckbox: ["checkbox1"],
             switchButtonCheckboxColored: false,
             inputUsername: "",
@@ -1146,8 +1220,6 @@ export default {
             replacedCheckboxValue: "checkboxValue1",
             radiobuttonValue: "radiobuttonValue1",
             replacedRadiobuttonValue: "radiobuttonValue1",
-            multipleSwitchCheckbox: ['b'],
-            multipleSwitchRadio: 'c',
             fancyBoxCookieDisclaimer: false,
             fakeSelectDefault: "2",
             fakeSelectDefaultWithIcons: "1",
@@ -1187,8 +1259,6 @@ export default {
             imageGalleryData,
             languagesData,
             multistepsData,
-            multipleSwitchCheckboxData,
-            multipleSwitchRadioData,
             navigationData,
             openingHoursData,
             selectOptionsData,
@@ -1251,8 +1321,9 @@ export default {
 <style lang="scss">
 .list-status {
     .active {
-        color: var(--default-color);
+        color: var(--text-color);
         text-decoration: none;
+        background: none;
     }
 }
 </style>

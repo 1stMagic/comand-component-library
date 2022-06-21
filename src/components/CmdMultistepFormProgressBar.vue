@@ -183,7 +183,7 @@ export default {
                 background: var(--primary-color);
 
                 span, span[class*='icon'] {
-                    color: var(--color-scheme-text-color);
+                    color: var(--pure-white);
                 }
             }
 

@@ -76,7 +76,9 @@
         </div>
         <div class="box-body">
             <p v-if="product.articleNumber">{{ getMessage("cmdbox.productbox.article_no") }} {{ product.articleNumber }}</p>
-            <p v-if="product.price" class="price"><span>{{ product.price }}</span><span :title="globalCurrency.name">{{ globalCurrency.symbol }}</span></p>
+            <p v-if="product.price" class="price">
+                <span>{{ product.price }}</span><span :title="globalCurrency.name">{{ globalCurrency.symbol }}</span>
+            </p>
             <p v-if="product.description">{{ product.description }}</p>
         </div>
     </a>
@@ -455,6 +457,10 @@ export default {
             .price {
                 font-size: 2rem;
                 font-weight: bold;
+
+                span:last-child {
+                    margin-left: calc(var(--default-margin) / 2);
+                }
             }
         }
 

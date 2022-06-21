@@ -19,50 +19,41 @@
 
         <!-- begin label-text (+ required asterisk) -->
         <span v-if="labelText && $attrs.type !== 'checkbox' && $attrs.type !== 'radio'"
-              :class="!showLabel ? 'hidden' : undefined">
-              <span>
-                  {{ labelText }}<sup v-if="$attrs.required">*</sup>
-              </span>
-              <a v-if="$attrs.required || inputRequirements.length"
-                 href="#"
-                 @click.prevent
-                 :class="getStatusIconClass"
-                 :title="validationTooltip"
-                 :aria-errormessage="getValidationMessage"
-                 aria-live="assertive"
-                 :id="tooltipId"
-                 :role="validationStatus === 'error' ? 'alert' : 'dialog'">
-              </a>
-            </span>
+              :class="['label-text', !showLabel ? 'hidden' : undefined]">
+            <span>{{ labelText }}<sup v-if="$attrs.required">*</sup></span>
+            <a v-if="$attrs.required || inputRequirements.length"
+                href="#"
+                @click.prevent
+                :class="getStatusIconClass"
+                :title="validationTooltip"
+                :aria-errormessage="getValidationMessage"
+                aria-live="assertive"
+                :id="tooltipId"
+                :role="validationStatus === 'error' ? 'alert' : 'dialog'">
+            </a>
+        </span>
         <!-- end label-text (+ required asterisk) -->
 
-        <!-- begin icon -->
-        <span
-            v-if="
-        $attrs.type !== 'checkbox' &&
-          $attrs.type !== 'radio' &&
-          fieldIconClass
-      "
-            :class="['place-inside', fieldIconClass]"
-        ></span>
-        <!-- end icon -->
+        <!-- begin icon inside field -->
+        <span v-if="$attrs.type !== 'checkbox' && $attrs.type !== 'radio' && fieldIconClass" :class="['place-inside', fieldIconClass]"></span>
+        <!-- end icon inside field -->
 
         <!-- begin inputfield -->
-        <template
-            v-if="element === 'input' && $attrs.type !== 'checkbox' && $attrs.type !== 'radio' && $attrs.type !== 'search'">
-            <input v-bind="elementAttributes"
-                   :id="labelId"
-                   :class="inputClass"
-                   @focus="tooltip = true"
-                   @blur="onBlur"
-                   @input="onInput"
-                   @mouseover="datalistFocus"
-                   @keyup="checkForCapsLock"
-                   :autocomplete="autocomplete"
-                   :list="datalist ? datalist.id : null"
-                   :value="modelValue"
-                   :maxlength="getMaxLength()"
-                   ref="input"
+        <template v-if="element === 'input' && $attrs.type !== 'checkbox' && $attrs.type !== 'radio' && $attrs.type !== 'search'">
+            <input
+                v-bind="elementAttributes"
+                :id="labelId"
+                :class="inputClass"
+                @focus="tooltip = true"
+                @blur="onBlur"
+                @input="onInput"
+                @mouseover="datalistFocus"
+                @keyup="checkForCapsLock"
+                :autocomplete="autocomplete"
+                :list="datalist ? datalist.id : null"
+                :value="modelValue"
+                :maxlength="getMaxLength()"
+                ref="input"
             />
         </template>
         <!-- end inputfield -->
@@ -90,18 +81,17 @@
         <!-- begin checkbox and radiobutton -->
         <template v-else-if="element === 'input' && ($attrs.type === 'checkbox' || $attrs.type === 'radio')">
             <template v-if="!(onLabel && offLabel)">
-                <input v-bind="elementAttributes"
-                       @change="onChange"
-                       @blur="onBlur"
-                       :checked="isChecked"
-                       :value="inputValue"
-                       :class="[inputClass, validationStatus, { 'replace-input-type': replaceInputType, 'toggle-switch': toggleSwitch }]"
-                       :id="labelId"
-                       :aria-invalid="validationStatus === 'error'"
-                />
-                <span :class="{ hidden: !showLabel }">
-                <span v-if="labelText">{{ labelText }}<sup v-if="$attrs.required">*</sup></span>
-            </span>
+                    <input
+                        v-bind="elementAttributes"
+                        @change="onChange"
+                        @blur="onBlur"
+                        :checked="isChecked"
+                        :value="inputValue"
+                        :class="[inputClass, validationStatus, toggleSwitchIconClass, { 'replace-input-type': replaceInputType, 'toggle-switch': toggleSwitch }]"
+                        :id="labelId"
+                        :aria-invalid="validationStatus === 'error'"
+                    />
+                    <span v-if="labelText" :class="['label-text', { hidden: !showLabel }]"><span>{{ labelText }}<sup v-if="$attrs.required">*</sup></span></span>
             </template>
             <!-- begin labels for toggle-switch with switch-label -->
             <template v-else-if="onLabel && offLabel">
@@ -115,10 +105,10 @@
                            :id="labelId"
                            :aria-invalid="validationStatus === 'error'"
                     />
-                    <span class="label">{{ onLabel }}</span>
-                    <span class="label">{{ offLabel }}</span>
+                    <span class="label-text">{{ onLabel }}</span>
+                    <span class="label-text">{{ offLabel }}</span>
                 </span>
-                <span v-if="labelText">
+                <span v-if="labelText" class="label-text">
                     <span>{{ labelText }}<sup v-if="$attrs.required">*</sup></span>
                 </span>
             </template>
@@ -343,7 +333,7 @@ export default {
          * allow checkbox/radio-buttons to get value from outside
          */
         inputValue: {
-            type: String,
+            type: [String, Number],
             required: false
         },
         /**
@@ -558,6 +548,14 @@ export default {
                 }
             }
         },
+        toggleSwitchUncheckedIconClass: {
+            type: String,
+            default: "icon-cancel-circle"
+        },
+        toggleSwitchCheckedIconClass: {
+            type: String,
+            default: "icon-check-circle"
+        },
         /**
          * icon to toggle password-visibility
          *
@@ -601,7 +599,7 @@ export default {
                 textarea: [...commonAttributes, "placeholder"]
             }
             const attrs = {}
-            if(attributes[this.element]) {
+            if (attributes[this.element]) {
                 Object.entries(this.$attrs).filter(([name]) => attributes[this.element].includes(name)).forEach(([name, value]) => attrs[name] = value)
             }
             return attrs
@@ -624,6 +622,8 @@ export default {
             }
         },
         isChecked() {
+            console.log("this.modelValue", this.modelValue)
+            console.log("typeof this.modelValue", typeof this.modelValue)
             if (typeof this.modelValue === "boolean") {
                 return this.modelValue
             }
@@ -668,6 +668,15 @@ export default {
                 return this.$attrs.id
             }
             return "label-" + createUuid()
+        },
+        toggleSwitchIconClass() {
+            if(this.toggleSwitch && this.toggleSwitchUncheckedIconClass && this.toggleSwitchCheckedIconClass) {
+                if(this.isChecked) {
+                    return this.toggleSwitchCheckedIconClass
+                }
+                return this.toggleSwitchUncheckedIconClass
+            }
+            return null
         }
     },
     methods: {
@@ -774,6 +783,12 @@ export default {
 
 <style lang="scss">
 .cmd-form-element {
+
+
+
+
+
+
     input + .place-inside[class*="icon"] {
         left: auto;
         right: .5rem
@@ -857,7 +872,7 @@ export default {
                     border-color: var(--error-color);
 
                     span {
-                        &.label {
+                        &.label-text {
                             color: var(--error-color);
 
                             &::before {
@@ -874,7 +889,7 @@ export default {
                     border-color: var(--success-color);
 
                     span {
-                        &.label {
+                        &.label-text {
                             color: var(--success-color);
 
                             &::before {
@@ -887,7 +902,6 @@ export default {
             }
         }
     }
-
     /* end toggle-switch ------------------------------------------------------------------------------------------ */
 }
 </style>

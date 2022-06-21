@@ -116,10 +116,6 @@ export default {
                 border-bottom: 0;
                 border-color: var(--primary-color);
                 top: .1rem;
-
-                a {
-                    color: var(--primary-color);
-                }
             }
 
             a {

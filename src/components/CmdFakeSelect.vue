@@ -12,23 +12,23 @@
         :aria-required="$attrs.required !== undefined"
         ref="fakeselect"
     >
-        <span v-if="showLabel">
+        <template v-if="showLabel">
             <!-- begin label -->
-            <span :id="labelId">
-                {{ labelText }}<sup v-if="$attrs.required !== undefined">*</sup>
+            <span class="label-text" :id="labelId">
+                <span>{{ labelText }}<sup v-if="$attrs.required !== undefined">*</sup></span>
+                <a v-if="$attrs.required || inputRequirements.length"
+                   href="#"
+                   @click.prevent
+                   :class="getStatusIconClass"
+                   :title="!useCustomTooltip ? getValidationMessage : ''"
+                   :aria-errormessage="getValidationMessage"
+                   aria-live="assertive"
+                   :id="tooltipId"
+                   :role="validationStatus === 'error' ? 'alert' : 'dialog'">
+                </a>
             </span>
             <!-- end label -->
-            <a v-if="$attrs.required || inputRequirements.length"
-               href="#"
-               @click.prevent
-               :class="getStatusIconClass"
-               :title="!useCustomTooltip ? getValidationMessage : ''"
-               :aria-errormessage="getValidationMessage"
-               aria-live="assertive"
-               :id="tooltipId"
-               :role="validationStatus === 'error' ? 'alert' : 'dialog'">
-            </a>
-        </span>
+        </template>
         <ul :class="{'open': showOptions}" @clickout="closeOptions" :aria-expanded="showOptions">
             <li>
                 <!-- begin default/selected-option -->
