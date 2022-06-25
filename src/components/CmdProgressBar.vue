@@ -1,8 +1,8 @@
 <template>
     <label class="cmd-progressbar" :for="id">
-        <span :class="{hidden: !showLabel}">{{ labelText }}</span>
+        <span :class="['label-text', {hidden: !showLabel}]">{{ labelText }}</span>
         <span class="progressbar">
-            <span v-if="showLoadingStatus">{{ loadingStatus }}%</span><!-- do not place inside progress-tag (will not be displayed then) -->
+            <span v-if="showLoadingStatus">{{ loadingStatus }} %</span><!-- do not place inside progress-tag (will not be displayed then) -->
             <progress v-bind="$attrs" :id="id" :value="loadingStatus"></progress>
         </span>
     </label>

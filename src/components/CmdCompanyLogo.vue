@@ -1,10 +1,10 @@
 <template>
     <div class="cmd-company-logo">
-        <router-link v-if="link.type === 'router'" :href="link.path" :title="link.tooltip">
+        <router-link v-if="link.type === 'router'" :to="link.path" :title="link.tooltip">
             <img :src="pathCurrentLogo" :alt="altText"/>
         </router-link>
-        <a v-else :to="link.path" :title="link.tooltip">
-            <img :src="pathCurrentLogo" :alt="altText"/>
+        <a v-else :href="link.path" :title="link.tooltip">
+            <img :src="pathCurrentLogo" :alt="altText" />
         </a>
     </div>
 </template>

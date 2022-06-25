@@ -1,13 +1,15 @@
 <template>
-    <div :class="['cmd-input-group', {inline: labelInline, 'multiple-switch': multipleSwitch}]">
-        <span :class="['label', { hidden: !showLabel}]" :id="labelId" :aria-labelledby="labelId">{{ labelText }}</span>
+    <div :class="['cmd-input-group label', {inline: labelInline, 'multiple-switch': multipleSwitch}]">
+        <span :class="['label-text', { hidden: !showLabel}]" :id="labelId" :aria-labelledby="labelId">
+             <span>{{ labelText }}<sup v-if="$attrs.required">*</sup></span>
+        </span>
         <span v-if="!useSlot" :class="['flex-container', {'no-flex': !stretchHorizontally, 'no-gap': multipleSwitch}]">
             <label v-for="(inputElement, index) in inputElements" :key="index" :for="inputElement.id">
                 <input :type="inputTypes"
                        :id="inputElement.id"
                        :name="inputElement.name"
-                       v-model="inputElement.value"
-                       @change="onChange()"
+                       :value="inputElement.value"
+                       v-model="inputValue"
                 />
                 <span v-if="multipleSwitch && inputElement.iconClass" :class="inputElement.iconClass"></span>
                 <span v-if="inputElement.labelText">{{ inputElement.labelText }}</span>
@@ -37,7 +39,7 @@ export default {
          * set value for v-model (must be named modelValue in vue3 if default v-model should be used)
          */
         modelValue: {
-            type: Array,
+            type: [Array, String],
             required: false
         },
         /**
@@ -114,6 +116,16 @@ export default {
                 return this.$attrs.id
             }
             return "label-" + createUuid()
+        },
+        inputValue: {
+            // read inputValue
+            get() {
+                return this.modelValue
+            },
+            // set/write a value to update v-model for this component
+            set(value) {
+                this.$emit("update:modelValue", value)
+            }
         }
     },
     methods: {
@@ -129,7 +141,7 @@ export default {
                 }
                 this.$emit("update:modelValue", values)
             }
-        },
+        }
     }
 }
 </script>

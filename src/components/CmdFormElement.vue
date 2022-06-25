@@ -144,19 +144,19 @@
 
         <!-- begin searchfield -->
         <template v-else-if="element === 'input' && $attrs.type === 'search'">
-            <div class="search-field-wrapper flex-container no-gap">
+            <span class="search-field-wrapper flex-container no-gap">
                 <input
                     v-bind="elementAttributes"
                     :id="labelId"
                     @input="onInput"
-                    :maxlength="$attrs.maxlength > 0 ? $attrs.maxlength : 255"
+                    :maxlength="getMaxLength()"
                     :value="modelValue"
                 />
                 <a v-if="showSearchButton" href="#" class="button no-flex" :title="iconSearch.tooltip" @click.prevent="executeSearch">
                     <span :class="iconSearch.iconClass"></span>
                 </a>
                 <a v-if="iconDelete.show" href="#" @click.prevent="$emit('update:modelValue', '')" :class="iconDelete.iconClass" :title="iconDelete.tooltip"></a>
-            </div>
+            </span>
         </template>
     </label>
     <!-- end searchfield -->
@@ -218,7 +218,7 @@ import {createUuid} from "../utils/common.js"
 
 // import mixins
 import I18n from "../mixins/I18n"
-import DefaultMessageProperties from "../mixins/CmdBox/DefaultMessageProperties"
+import DefaultMessageProperties from "../mixins/CmdFormElement/DefaultMessageProperties"
 import FieldValidation from "../mixins/FieldValidation.js"
 import Tooltip from "../mixins/Tooltip.js"
 
@@ -622,8 +622,6 @@ export default {
             }
         },
         isChecked() {
-            console.log("this.modelValue", this.modelValue)
-            console.log("typeof this.modelValue", typeof this.modelValue)
             if (typeof this.modelValue === "boolean") {
                 return this.modelValue
             }
@@ -688,7 +686,7 @@ export default {
                 return this.$attrs.maxlength > 0 ? this.$attrs.maxlength : 5000
             }
 
-            if (this.$attrs.type !== 'file') {
+            if (this.$attrs.type !== 'file' && this.$attrs.type !== 'number' && this.$attrs.type !== 'date') {
                 return this.$attrs.maxlength > 0 ? this.$attrs.maxlength : 255
             }
 
@@ -830,7 +828,7 @@ export default {
 
     &.inline {
         & > span {
-            & > a {
+            & > a:not(.button) {
                 margin-left: calc(var(--default-margin) / 2);
             }
         }

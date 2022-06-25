@@ -201,17 +201,23 @@
 
                     <!-- begin slider -->
                     <h2>Slider [native]</h2>
-                    <label for="range-slider" :class="formElementStatus">
-                        <span>Single-Slider (with in- and output):</span>
+                    <div class="label" :class="formElementStatus">
+                        <span class="label-text">Single-Slider (with in- and output):</span>
                         <span class="flex-container no-flex">
-                            <input
-                                type="number"
-                                :class="formElementStatus"
-                                v-model="rangeValue"
-                                :disabled="formElementStatus === 'disabled'"
-                                min="0"
-                                max="100"
-                            />
+                            <label for="range-value">
+                                <span>Range Value</span>
+                                    <input
+                                        type="number"
+                                        :class="formElementStatus"
+                                        v-model="rangeValue"
+                                        :disabled="formElementStatus === 'disabled'"
+                                        min="0"
+                                        max="100"
+                                        id="range-value"
+                                    />
+                                </label>
+                            <label for="range-slider" class="hidden">
+                                <span>Range Slider</span>
                             <input
                                 type="range"
                                 class="range-slider"
@@ -222,33 +228,12 @@
                                 min="0"
                                 max="100"
                             />
+                            </label>
                         </span>
-                    </label>
+                    </div>
                     <!-- end slider -->
 
                     <hr/>
-
-                    <h2>Group of checkboxes with CmdInputGroup</h2>
-                    <CmdInputGroup label-text="Group-label:" :label-inline="true">
-                        <CmdFormElement
-                            element="input"
-                            type="checkbox"
-                            id="input-group-checkbox"
-                            labelText="Checkbox-label #1"
-                        />
-                        <CmdFormElement
-                            element="input"
-                            type="checkbox"
-                            id="input-group-checkbox"
-                            labelText="Checkbox-label #2"
-                        />
-                        <CmdFormElement
-                            element="input"
-                            type="checkbox"
-                            id="input-group-checkbox"
-                            labelText="Checkbox-label #3"
-                        />
-                    </CmdInputGroup>
 
                     <!-- begin toggle-switch-radio with switch-label (colored) -->
                     <h2>Toggle Switches with CmdFormElement</h2>
@@ -417,7 +402,7 @@
                                     v-model="textarea"
                                     :status="formElementStatus"/>
                     <div class="label inline">
-                        <span>Label for native checkboxes:</span>
+                        <span class="label-text">Label for native checkboxes:</span>
                         <div class="flex-container no-flex">
                             <CmdFormElement element="input"
                                             labelText="Label for checkbox with boolean"
@@ -454,12 +439,12 @@
                         checkboxes with values: {{checkboxValues}}
                     </p>
                     <div class="label inline">
-                        <span>Label for Replaced Input-Type-Checkbox:</span>
+                        <span class="label-text">Label for Replaced Input-Type-Checkbox:</span>
                         <div class="flex-container no-flex">
                             <CmdFormElement element="input"
                                             labelText="Label for replaced checkbox"
                                             type="checkbox"
-                                            class="replace-input-type"
+                                            :replaceInputType="true"
                                             id="inputfield9"
                                             v-model="replacedCheckboxValue"
                                             inputValue="checkboxValue1"
@@ -469,13 +454,13 @@
                                             v-model="replacedCheckboxValue"
                                             inputValue="checkboxValue2"
                                             type="checkbox"
-                                            class="replace-input-type"
+                                            :replaceInputType="true"
                                             id="inputfield10"
                                             :status="formElementStatus"/>
                         </div>
                     </div>
                     <div class="label inline">
-                        <span>Label for native radiobuttons:</span>
+                        <span class="label-text">Label for native radiobuttons:</span>
                         <div class="flex-container no-flex">
                             <CmdFormElement element="input"
                                             labelText="Label for native radiobutton"
@@ -499,12 +484,12 @@
                         Radiobuttons with values: {{radiobuttonValue}}
                     </p>
                     <div class="label inline">
-                        <span>Label for Replaced Input-Type-Radio:</span>
+                        <span class="label-text">Label for Replaced Input-Type-Radio:</span>
                         <div class="flex-container no-flex">
                             <CmdFormElement element="input"
                                             labelText="Label for replaced radiobutton"
                                             type="radio"
-                                            class="replace-input-type"
+                                            :replaceInputType="true"
                                             id="inputfield13"
                                             name="replaced-radiogroup"
                                             inputValue="radiobuttonValue1"
@@ -513,7 +498,7 @@
                             <CmdFormElement element="input"
                                             labelText="Label for replaced radiobutton"
                                             type="radio"
-                                            class="replace-input-type"
+                                            :replaceInputType="true"
                                             id="inputfield14"
                                             name="replaced-radiogroup"
                                             inputValue="radiobuttonValue2"
@@ -562,7 +547,7 @@
                     </dl>
                     <CmdInputGroup
                         labelText="Grouplabel for radio-group  given by property styled as multiple-switch"
-                       :inputElements="inputGroupRadiobuttons"
+                       :inputElements="inputGroupRadiobuttons.map(item => ({...item, id: item.id + '-multi', name: item.name + '-multi'}))"
                         inputTypes="radio"
                         :multipleSwitch="true"
                         v-model="inputGroupValue3"
@@ -1133,9 +1118,9 @@ export default {
             inputFieldPattern: "",
             inputSearch: "",
             textarea: "",
-            inputGroupValue1: "",
-            inputGroupValue2: [],
-            inputGroupValue3: [],
+            inputGroupValue1: "radiobuttonValue1",
+            inputGroupValue2: "website",
+            inputGroupValue3: "email",
             inputGroupValue4: [],
             inputGroupRadiobuttons: [
                 {

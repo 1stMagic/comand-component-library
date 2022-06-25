@@ -309,7 +309,7 @@ export default {
                 margin-bottom: 0;
             }
 
-            &:last-child {
+            &:not(.open):last-child {
                 margin-top: auto;
             }
         }

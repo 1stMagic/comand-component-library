@@ -302,7 +302,7 @@
 import I18n from "../mixins/I18n"
 import DefaultMessageProperties from "../mixins/CmdUploadForm/DefaultMessageProperties"
 
-import {getFileExtension} from "../utils/GetFileExtension.js"
+import {getFileExtension} from "../utils/getFileExtension.js"
 import axios from "axios"
 
 // import components

@@ -42,15 +42,25 @@ export default {
       }
       let message =
         messages[key] ||
-        (this.defaultMessageProperties && this.defaultMessageProperties[key]) ||
+        this.getDefaultMessageProperty(key) ||
         key
       if (typeof message === "function") {
-        return message.call(this, params || [])
+        return message.call(this, params || []);
       }
       if (Array.isArray(params) && params.length) {
         params.forEach((param, index) => (message = message.replace("{" + index + "}", param)))
       }
       return message
+    },
+    getDefaultMessageProperty(key) {
+      if (this.defaultMessageProperties && this.defaultMessageProperties[key]) {
+        return this.defaultMessageProperties[key]
+      }
+      const propertyKey = Object.keys(this).find(p => p.slice(-24) === "DefaultMessageProperties")
+      if (propertyKey && this[propertyKey]?.[key]) {
+        return this[propertyKey][key]
+      }
+      return null
     }
   }
 }

@@ -1,4 +1,4 @@
-import {getFileExtension} from "../../src/utils/GetFileExtension"
+import {getFileExtension} from "../../src/utils/getFileExtension"
 
 describe("GetFileExtension", () => {
     it("returns the correct file extension", () => {

@@ -1,9 +1,8 @@
 export default {
     data() {
         return {
-            defaultMessageProperties: {
+            fieldValidationDefaultMessageProperties: {
                 "cmdfieldvalidation.open_detailed_help": "Open detailed help!",
-
                 "cmdfieldvalidation.information_not_filled_correctly": "This information is not filled correctly!",
                 "cmdfieldvalidation.information_filled_correctly": "This information is filled correctly!",
                 "cmdfieldvalidation.caps_lock_is_activated": "Attention: Caps lock is activated!",

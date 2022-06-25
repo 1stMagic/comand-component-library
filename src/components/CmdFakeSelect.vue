@@ -668,7 +668,7 @@ export default {
 
                 > span:first-child {
                     width: 1.5rem;
-                    aspect-ratio: 1;
+                    aspect-ratio: 1/1;
                     border: var(--default-border);
 
                     &[style=""] {

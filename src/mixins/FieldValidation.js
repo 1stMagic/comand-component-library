@@ -116,7 +116,7 @@ export default {
             type: Object,
             default() {
                 return {
-                    iconClass: "icon-home"
+                    iconClass: "icon-caps-lock-circle"
                 }
             }
         },

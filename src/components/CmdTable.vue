@@ -133,7 +133,7 @@ export default {
             type: Object,
             default: function () {
                 return {
-                    iconClass: "icon-table",
+                    iconClass: "icon-toggle-table-width",
                     tooltip: "Toggle table width"
                 }
             }
