@@ -6,6 +6,10 @@
             :labelText="labelText"
             :showLabel="showLabel"
             v-model="darkMode"
+            :toggle-switch="true"
+            :useIconsForToggleSwitch="true"
+            toggle-switch-checked-icon-class="icon-home"
+            toggle-switch-unchecked-icon-class="icon-globe"
         />
     </div>
 </template>
@@ -14,19 +18,17 @@
 import CmdFormElement from "./CmdFormElement"
 
 export default {
-    data() {
-      return {
-          darkMode: false
-      }
-    },
+    name: "ToggleDarkMode",
     components: {
         CmdFormElement
     },
+    data() {
+        return {
+            darkMode: false,
+            labelText: "Light mode activated"
+        }
+    },
     props: {
-        labelText: {
-            type: String,
-            default: "Toggle Darkmode"
-        },
         showLabel: {
             type: Boolean,
             default: false
@@ -56,11 +58,29 @@ export default {
             const htmlTag = document.querySelector('html')
             if(this.darkMode) {
                 htmlTag.classList.replace("light-mode", "dark-mode");
+                this.labelText = "Dark-Mode enabled"
             } else {
                 htmlTag.classList.replace("dark-mode", "light-mode");
+                this.labelText = "Light-Mode enabled"
             }
             htmlTag.dispatchEvent(new CustomEvent('toggle-color-scheme', { detail: this.darkMode ? 'dark-mode' : 'light-mode' }))
         }
     }
 }
 </script>
+
+<style lang="scss">
+.cmd-toggle-dark-mode {
+    .cmd-form-element {
+        input {
+            background: blue;
+        }
+    }
+
+    &.dark-mode {
+        input {
+            background: black;
+        }
+    }
+}
+</style>

@@ -21,6 +21,31 @@
         <span v-if="labelText && $attrs.type !== 'checkbox' && $attrs.type !== 'radio'"
               :class="['label-text', !showLabel ? 'hidden' : undefined]">
             <span>{{ labelText }}<sup v-if="$attrs.required">*</sup></span>
+
+            <!-- begin CmdTooltip -->
+            <CmdTooltip v-if="useCustomTooltip" class="box" :class="validationStatus" :relatedId="tooltipId" :toggle-visibility-by-click="true">
+                <!-- begin CmdSystemMessage -->
+                <CmdSystemMessage
+                    v-if="getValidationMessage"
+                    :message="getValidationMessage"
+                    :validation-status="validationStatus"
+                    :iconClose="{show: false}"
+                />
+                <!-- end CmdSystemMessage -->
+
+                <!-- begin CmdListOfRequirements -->
+                <CmdListOfRequirements
+                    v-if="showRequirements && (validationStatus === '' || validationStatus === 'error')"
+                    :inputRequirements="inputRequirements"
+                    :helplink="helplink"
+                    :inputModelValue="modelValue"
+                    :inputAttributes="$attrs"
+                    :validationTooltip="validationTooltip"
+                />
+                <!-- end CmdListOfRequirements -->
+            </CmdTooltip>
+            <!-- end CmdTooltip -->
+
             <a v-if="$attrs.required || inputRequirements.length"
                 href="#"
                 @click.prevent
@@ -89,6 +114,7 @@
                         :value="inputValue"
                         :class="[inputClass, validationStatus, toggleSwitchIconClass, { 'replace-input-type': replaceInputType, 'toggle-switch': toggleSwitch }]"
                         :id="labelId"
+                        :disabled="$attrs.disabled"
                         :aria-invalid="validationStatus === 'error'"
                     />
                     <span v-if="labelText" :class="['label-text', { hidden: !showLabel }]"><span>{{ labelText }}<sup v-if="$attrs.required">*</sup></span></span>
@@ -103,6 +129,7 @@
                            :value="inputValue"
                            :class="{inputClass, validationStatus}"
                            :id="labelId"
+                           :disabled="$attrs.disabled"
                            :aria-invalid="validationStatus === 'error'"
                     />
                     <span class="label-text">{{ onLabel }}</span>
@@ -152,7 +179,7 @@
                     :maxlength="getMaxLength()"
                     :value="modelValue"
                 />
-                <a v-if="showSearchButton" href="#" class="button no-flex" :title="iconSearch.tooltip" @click.prevent="executeSearch">
+                <a v-if="showSearchButton" href="#" :class="['button no-flex', {disabled: $attrs.disabled}]" :title="iconSearch.tooltip" @click.prevent="executeSearch">
                     <span :class="iconSearch.iconClass"></span>
                 </a>
                 <a v-if="iconDelete.show" href="#" @click.prevent="$emit('update:modelValue', '')" :class="iconDelete.iconClass" :title="iconDelete.tooltip"></a>
@@ -171,45 +198,6 @@
         <span v-if="nativeButton?.icon?.show && nativeButton?.icon?.position === 'after'" :class="nativeButton?.icon?.iconClass"></span>
     </button>
     <!-- end button -->
-
-    <!-- begin CmdTooltip -->
-    <CmdTooltip v-if="useCustomTooltip" class="box" :class="validationStatus" :relatedId="tooltipId" :toggle-visibility-by-click="true">
-        <!-- begin CmdSystemMessage -->
-        <CmdSystemMessage
-            v-if="getValidationMessage"
-            :message="getValidationMessage"
-            :validation-status="validationStatus"
-            :iconClose="{show: false}"
-        />
-        <!-- end CmdSystemMessage -->
-
-        <template v-if="showRequirements && (validationStatus === '' || validationStatus === 'error')">
-            <!-- begin list of requirements -->
-            <h6>
-                {{ getMessage("cmdformelement.headline.requirements_for_input") }}<br/>
-                "{{ labelText }}"
-            </h6>
-            <dl class="list-of-requirements">
-                <template v-for="(requirement, index) in inputRequirements" :key="index">
-                    <dt aria-live="assertive" :class="requirement.valid(modelValue, $attrs) ? 'success' : 'error'">{{ requirement.message }}:</dt>
-                    <dd :class="requirement.valid(modelValue, $attrs) ? 'success' : 'error'">
-                        <span aria-live="assertive" :class="requirement.valid(modelValue, $attrs) ? iconHasStateSuccess.iconClass : iconHasStateError.iconClass"
-                              :title="requirement.valid(modelValue, $attrs) ? iconHasStateSuccess.tooltip : iconHasStateError.tooltip"></span>
-                    </dd>
-                </template>
-            </dl>
-            <!-- end list of requirements -->
-
-            <!-- begin helplink -->
-            <hr v-if="helplink?.show"/>
-            <a v-if="helplink?.show && helplink?.url" :href="helplink.url" :target="helplink.target" @click.prevent>
-                <span v-if="helplink.icon?.iconClass" :class="helplink.icon?.iconClass" :title="helplink.icon?.tooltip"></span>
-                <span v-if="helplink.text">{{ helplink.text }}</span>
-            </a>
-            <!-- end helplink -->
-        </template>
-    </CmdTooltip>
-    <!-- end CmdTooltip -->
 </template>
 
 <script>
@@ -223,6 +211,7 @@ import FieldValidation from "../mixins/FieldValidation.js"
 import Tooltip from "../mixins/Tooltip.js"
 
 // import components
+import CmdListOfRequirements from "./CmdListOfRequirements"
 import CmdSystemMessage from "./CmdSystemMessage"
 import CmdTooltip from "./CmdTooltip"
 
@@ -230,6 +219,7 @@ export default {
     inheritAttrs: false,
     name: "FormElement",
     components: {
+        CmdListOfRequirements,
         CmdSystemMessage,
         CmdTooltip
     },
@@ -422,7 +412,7 @@ export default {
         /**
          * set status for label and form-element
          *
-         * @allowedValues: error, success
+         * @allowedValues: error, warning, success, info
          *
          * @affectsStyling: true
          */
@@ -548,13 +538,32 @@ export default {
                 }
             }
         },
-        toggleSwitchUncheckedIconClass: {
-            type: String,
-            default: "icon-cancel-circle"
+        /**
+         * toggle if toggle-switch shows icons for checked/unchecked-status
+         */
+        useIconsForToggleSwitch: {
+            type: Boolean,
+            default: false
         },
+        /**
+         * icon for toggle-switch checked
+         *
+         * toggle-switch-property must be activated
+         * use-icons-for-toggle-switch-property must be activated
+         */
         toggleSwitchCheckedIconClass: {
             type: String,
             default: "icon-check-circle"
+        },
+        /**
+         * icon for toggle-switch unchecked
+         *
+         * toggle-switch-property must be activated
+         * use-icons-for-toggle-switch-property must be activated
+         */
+        toggleSwitchUncheckedIconClass: {
+            type: String,
+            default: "icon-cancel-circle"
         },
         /**
          * icon to toggle password-visibility
@@ -667,8 +676,9 @@ export default {
             }
             return "label-" + createUuid()
         },
+        // toggle icons for toggle-switch
         toggleSwitchIconClass() {
-            if(this.toggleSwitch && this.toggleSwitchUncheckedIconClass && this.toggleSwitchCheckedIconClass) {
+            if(this.toggleSwitch && this.useIconsForToggleSwitch && this.toggleSwitchUncheckedIconClass && this.toggleSwitchCheckedIconClass) {
                 if(this.isChecked) {
                     return this.toggleSwitchCheckedIconClass
                 }
@@ -681,6 +691,7 @@ export default {
         getDomElement() {
             return this.$refs.label
         },
+        // define max-length for different input-types
         getMaxLength() {
             if (this.$attrs.element === 'textarea') {
                 return this.$attrs.maxlength > 0 ? this.$attrs.maxlength : 5000
@@ -689,7 +700,6 @@ export default {
             if (this.$attrs.type !== 'file' && this.$attrs.type !== 'number' && this.$attrs.type !== 'date') {
                 return this.$attrs.maxlength > 0 ? this.$attrs.maxlength : 255
             }
-
             return null
         },
         onBlur(event) {
@@ -780,35 +790,14 @@ export default {
 </script>
 
 <style lang="scss">
+/* begin cmd-form-element ------------------------------------------------------------------------------------------ */
 .cmd-form-element {
-
-
-
-
-
-
     input + .place-inside[class*="icon"] {
         left: auto;
         right: .5rem
     }
 
     &.has-state, & + .cmd-tooltip {
-        &.error {
-            --status-color: var(--error-color);
-        }
-
-        &.warning {
-            --status-color: var(--warning-color);
-        }
-
-        &.success {
-            --status-color: var(--success-color);
-        }
-
-        &.info {
-            --status-color: var(--info-color);
-        }
-
         ::placeholder {
             color: var(--status-color);
         }
@@ -820,10 +809,6 @@ export default {
                 color: var(--status-color);
             }
         }
-    }
-
-    & + .cmd-tooltip {
-        border-color: var(--status-color);
     }
 
     &.inline {
@@ -854,7 +839,6 @@ export default {
 
     .place-inside {
         + .search-field-wrapper {
-
             input {
                 padding-left: calc(var(--default-padding) * 3);
             }
@@ -900,6 +884,7 @@ export default {
             }
         }
     }
-    /* end toggle-switch ------------------------------------------------------------------------------------------ */
+    /* end toggle-switch */
 }
+/* end cmd-form-element------------------------------------------------------------------------------------------ */
 </style>

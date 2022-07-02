@@ -173,47 +173,41 @@ body.avoid-scrolling {
 /* end product-listing --------------------------------------------------------------------------------------------------------------------------------------------------- */
 
 /* begin tooltip for cmd-form-element and cmd-fake-select ---------------------------------------------------------------------------------------------------------------- */
-.cmd-form-element, .cmd-fake-select {
+.cmd-form-element, .cmd-fake-select, .cmd-input-group {
+  .cmd-tooltip {
+    position: absolute;
+    right: 0;
+    transform: translateY(calc(-100% - calc(var(--default-margin) / 2)));
+    left: auto !important; /* overwrite calculated inline-styles from javascript for cmd-tooltip-component */
+    top: 0 !important; /* overwrite calculated inline-styles from javascript for cmd-tooltip-component */
+  }
+
+  &.has-state, & + .cmd-tooltip {
+    .label-text {
+      span, sup {
+        color: var(--status-color);
+      }
+    }
+
+    &.error {
+      --status-color: var(--error-color);
+    }
+
+    &.warning {
+      --status-color: var(--warning-color);
+    }
+
+    &.success {
+      --status-color: var(--success-color);
+    }
+
+    &.info {
+      --status-color: var(--info-color);
+    }
+  }
+
   & + .cmd-tooltip {
     border-color: var(--status-color);
-
-    h6:last-of-type {
-      margin-top: 0;
-    }
-
-    .list-of-requirements {
-      .error {
-        color: var(--error-color);
-      }
-
-      .warning {
-        color: var(--warning-color);
-      }
-
-      .success {
-        color: var(--success-color);
-      }
-
-      .info {
-        color: var(--info-color);
-      }
-
-      span[class*="icon"] {
-        font-size: 1.2rem;
-      }
-
-      & ~ a {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        text-decoration: none;
-
-        span[class*="icon"] {
-          font-size: 1.2rem;
-        }
-      }
-    }
   }
 }
 /* end tooltip for cmd-form-element and cmd-fake-select ------------------------------------------------------------------------------------------------------------------ */

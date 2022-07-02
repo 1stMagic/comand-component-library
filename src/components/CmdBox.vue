@@ -3,12 +3,17 @@
     <div v-if="boxType === 'content'" :class="['cmd-box box content', {open : open, collapsible: collapsible, 'stretch-vertically': stretchVertically}]">
         <template v-if="useSlots?.includes('header')">
             <!-- begin collapsible header with slot -->
-            <a v-if="collapsible" class="box-header" href="#" :title="open ? iconOpen.tooltip : iconClosed.tooltip" @click.prevent="toggleContentVisibility">
+            <div v-if="collapsible" class="box-header">
                 <!-- begin slot 'header' -->
                 <slot name="header"></slot>
                 <!-- end slot 'header' -->
-                <span class="toggle-icon" :class="[open ? iconOpen.iconClass : iconClosed.iconClass]"></span>
-            </a>
+                <a href="#"
+                   class="toggle-icon"
+                   :title="open ? iconOpen.tooltip : iconClosed.tooltip"
+                   @click.prevent="toggleContentVisibility">
+                    <span :class="[open ? iconOpen.iconClass : iconClosed.iconClass]"></span>
+                </a>
+            </div>
             <!-- end collapsible header with slot -->
 
             <!-- begin default header with slot -->
@@ -309,8 +314,8 @@ export default {
                 margin-bottom: 0;
             }
 
-            &:not(.open):last-child {
-                margin-top: auto;
+            &:not(.open) {
+                justify-content: flex-start;
             }
         }
 
@@ -330,9 +335,10 @@ export default {
 
             * {
                 color: var(--pure-white);
+                margin-bottom: 0;
             }
 
-            > [class*="icon"]:last-child {
+            > .toggle-icon, .toggle-icon > [class*="icon"] {
                 font-size: 1rem;
                 margin-left: auto;
             }

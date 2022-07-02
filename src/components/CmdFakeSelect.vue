@@ -5,7 +5,8 @@
             'cmd-fake-select label',
             {
                 color: type === 'color',
-                'has-state': validationStatus && validationStatus !== 'none'
+                'has-state': validationStatus && validationStatus !== 'none',
+                disabled: $attrs.disabled
             }
         ]"
         :aria-labelledby="labelId"
@@ -16,6 +17,30 @@
             <!-- begin label -->
             <span class="label-text" :id="labelId">
                 <span>{{ labelText }}<sup v-if="$attrs.required !== undefined">*</sup></span>
+
+                <!-- begin CmdTooltip -->
+                <CmdTooltip v-if="useCustomTooltip" class="box" :class="validationStatus" :relatedId="tooltipId" :toggle-visibility-by-click="true">
+                    <!-- begin CmdSystemMessage -->
+                    <CmdSystemMessage
+                        v-if="getValidationMessage"
+                        :message="getValidationMessage"
+                        :validation-status="validationStatus"
+                        :iconClose="{show: false}"
+                    />
+                    <!-- end CmdSystemMessage -->
+
+                    <!-- begin CmdListOfRequirements -->
+                    <CmdListOfRequirements
+                        v-if="showRequirements && (validationStatus === '' || validationStatus === 'error')"
+                        :inputRequirements="inputRequirements"
+                        :inputModelValue="modelValue"
+                        :inputAttributes="$attrs"
+                        :helplink="helplink"
+                    />
+                    <!-- end CmdListOfRequirements -->
+                </CmdTooltip>
+                <!-- end CmdTooltip -->
+
                 <a v-if="$attrs.required || inputRequirements.length"
                    href="#"
                    @click.prevent
@@ -101,51 +126,6 @@
             </li>
         </ul>
     </div>
-    <!-- begin CmdTooltip -->
-    <CmdTooltip v-if="useCustomTooltip" class="box" :class="validationStatus" :relatedId="tooltipId" :toggle-visibility-by-click="true">
-        <!-- begin CmdSystemMessage -->
-        <CmdSystemMessage
-            v-if="getValidationMessage"
-            :message="getValidationMessage"
-            :validationStatus="validationStatus"
-            :iconClose="{show: false}"
-        />
-        <!-- end CmdSystemMessage -->
-
-        <template v-if="showRequirements && (validationStatus === '' || validationStatus === 'error')">
-            <!-- begin list of requirements -->
-            <h6>{{ getMessage("cmdfakeselect.headline.requirements_for_input") }}<br/>"{{ labelText }}"</h6>
-            <dl class="list-of-requirements">
-                <template v-for="(requirement, index) in inputRequirements" :key="index">
-                    <dt aria-live="assertive" :class="requirement.valid(modelValue, $attrs) ? 'success' : 'error'">{{ requirement.message }}:</dt>
-                    <dd :class="requirement.valid(modelValue, $attrs) ? 'success' : 'error'">
-                        <span aria-live="assertive" :class="requirement.valid(modelValue, $attrs) ? 'icon-check-circle' : 'icon-error-circle'"
-                              :title="requirement.valid(modelValue, $attrs) ? 'success' : 'error'"></span>
-                    </dd>
-                </template>
-            </dl>
-            <!-- end list of requirements -->
-
-            <!-- begin helplink -->
-            <template v-if="helplink">
-                <hr v-if="helplink.show"/>
-                <a v-if="helplink.show && helplink.url"
-                   :href="helplink.url"
-                   :target="helplink.target"
-                   @click.prevent>
-                    <span v-if="helplink.icon?.iconClass"
-                          :class="helplink.icon?.iconClass"
-                          :title="helplink.icon?.tooltip">
-                    </span>
-                    <span v-if="helplink.text">
-                        {{ helplink.text }}
-                    </span>
-                </a>
-            </template>
-            <!-- end helplink -->
-        </template>
-    </CmdTooltip>
-    <!-- end CmdTooltip -->
 </template>
 
 <script>
@@ -154,11 +134,12 @@ import {createUuid} from "../utils/common.js"
 
 // import mixins
 import I18n from "../mixins/I18n"
-import DefaultMessageProperties from "../mixins/CmdBox/DefaultMessageProperties"
+import DefaultMessageProperties from "../mixins/CmdFakeSelect/DefaultMessageProperties"
 import FieldValidation from "../mixins/FieldValidation.js"
 import Tooltip from "../mixins/Tooltip.js"
 
 // import components
+import CmdListOfRequirements from "./CmdListOfRequirements"
 import CmdSystemMessage from "./CmdSystemMessage"
 import CmdTooltip from "./CmdTooltip"
 
@@ -172,6 +153,7 @@ export default {
         Tooltip
     ],
     components: {
+        CmdListOfRequirements,
         CmdSystemMessage,
         CmdTooltip
     },
@@ -229,7 +211,7 @@ export default {
         /**
          * status (i.e. for validation)
          *
-         * @allowedValues: error, success, disabled
+         * @allowedValues: error, warning, success, info
          * @affectsStyling: true
          */
         status: {
@@ -333,7 +315,7 @@ export default {
         },
         // get ID for accessibility
         labelId() {
-            if(this.$attrs.id !== undefined) {
+            if (this.$attrs.id !== undefined) {
                 return this.$attrs.id
             }
             return "label-" + createUuid()
@@ -372,7 +354,7 @@ export default {
             }
         },
         toggleOptions() {
-            if (this.status !== 'disabled') {
+            if (this.$attrs.disabled !== 'disabled') {
                 this.showOptions = !this.showOptions
             }
         },
@@ -460,10 +442,6 @@ export default {
 .cmd-fake-select {
     align-self: flex-end;
 
-    & + .cmd-tooltip {
-        border-color: var(--status-color);
-    }
-
     > span:first-child {
         a {
             align-self: flex-end;
@@ -550,8 +528,16 @@ export default {
             &.active {
                 background: var(--light-gray);
 
+                span {
+                    color: var(--text-color);
+                }
+
                 &:hover, &:active, &:focus {
                     background: var(--primary-color);
+
+                    span {
+                        color: var(--pure-white);
+                    }
                 }
             }
         }
@@ -604,21 +590,21 @@ export default {
         }
     }
 
-    &.error {
+    &.has-state {
         > ul {
             > li {
                 > a {
-                    border-color: var(--error-color);
+                    border-color: var(--status-color);
 
                     > span, span[class*="icon-"] {
-                        color: var(--error-color);
+                        color: var(--status-color);
                     }
 
                     &:hover, &:active, &:focus {
                         background: var(--pure-white);
 
                         span {
-                            color: var(--error-color);
+                            color: var(--status-color);
                         }
                     }
                 }

@@ -138,7 +138,7 @@ export default {
     },
     unmounted() {
         if(this.relatedId) {
-            const relatedElement = document.getElementById(this.relatedId)
+            const relatedElement = document.getElementById(this.npm )
 
             if(relatedElement) {
                 relatedElement.removeEventListener("mouseenter", this.showTooltip)

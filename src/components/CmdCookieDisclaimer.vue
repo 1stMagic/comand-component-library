@@ -21,8 +21,15 @@
                             :key="index"
                     >
                         <template v-slot:header>
-                            <!-- begin CmdSwitchButton -->
-                            <!-- end CmdSwitchButton -->
+                            <!-- begin CmdFormElement -->
+                            <CmdFormElement
+                                element="input"
+                                type="checkbox"
+                                labelText="Google Analytics"
+                                id="google-analytics"
+                                :toggleSwitch="true"
+                            />
+                            <!-- end CmdFormElement -->
                         </template>
                         <template v-slot:body>
                             <p v-if="cookie.description">{{ cookie.description }}</p>
@@ -49,8 +56,15 @@
                             :key="index"
                     >
                         <template v-slot:header>
-                            <!-- begin CmdSwitchButton -->
-                            <!-- end CmdSwitchButton -->
+                            <!-- begin CmdFormElement -->
+                            <CmdFormElement
+                                element="input"
+                                type="checkbox"
+                                labelText="Google Analytics"
+                                id="google-analytics"
+                                :toggleSwitch="true"
+                            />
+                            <!-- end CmdFormElement -->
                         </template>
                         <template v-slot:body>
                             <p v-if="cookie.description">{{ cookie.description }}</p>
@@ -92,12 +106,14 @@
 // import components
 import CmdBox from "./CmdBox"
 import CmdCustomHeadline from "./CmdCustomHeadline"
+import CmdFormElement from "./CmdFormElement"
 
 export default {
     name: "CmdCookieDisclaimer",
     components: {
         CmdBox,
         CmdCustomHeadline,
+        CmdFormElement
     },
     data() {
         return {
