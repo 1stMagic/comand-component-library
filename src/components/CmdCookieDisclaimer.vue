@@ -12,6 +12,7 @@
 
             <!-- begin slot for cookie-options -->
             <slot name="cookie-options">
+                <!-- begin required cookies -->
                 <div v-if="cookieOptions.required" class="flex-container vertical">
                     <CmdCustomHeadline v-if="cmdBoxRequiredCookies?.showHeadline" :headline-text="cmdBoxRequiredCookies?.headlineText" :headline-level="cmdBoxRequiredCookies?.headlineLevel "/>
                     <!-- begin CmdBox -->
@@ -25,9 +26,13 @@
                             <CmdFormElement
                                 element="input"
                                 type="checkbox"
-                                labelText="Google Analytics"
-                                id="google-analytics"
+                                v-model="acceptedCookies"
+                                :inputValue="cookie.value"
+                                :labelText="cookie.labelText"
+                                :disabled="cookie.disabled"
+                                :id="cookie.id"
                                 :toggleSwitch="true"
+                                :title="getMessage('cmdcookiedisclaimer.title.cookie_cannot_be_disabled')"
                             />
                             <!-- end CmdFormElement -->
                         </template>
@@ -46,7 +51,11 @@
                     </CmdBox>
                     <!-- end CmdBox -->
                 </div>
+                <!-- end required cookies -->
+
                 <hr/>
+
+                <!-- begin optional cookies -->
                 <div v-if="cookieOptions.optional" class="flex-container vertical">
                     <CmdCustomHeadline v-if="cmdBoxOptionalCookies?.showHeadline" :headline-text="cmdBoxOptionalCookies?.headlineText" :headline-level="cmdBoxOptionalCookies?.headlineLevel "/>
                     <!-- begin CmdBox -->
@@ -60,9 +69,13 @@
                             <CmdFormElement
                                 element="input"
                                 type="checkbox"
-                                labelText="Google Analytics"
-                                id="google-analytics"
+                                v-model="acceptedCookies"
+                                :inputValue="cookie.value"
+                                :labelText="cookie.labelText"
+                                :disabled="cookie.disabled"
+                                :id="cookie.id"
                                 :toggleSwitch="true"
+                                :title="getMessage('cmdcookiedisclaimer.title.toggle_to_accept_cookie')"
                             />
                             <!-- end CmdFormElement -->
                         </template>
@@ -81,6 +94,7 @@
                     </CmdBox>
                     <!-- end CmdBox -->
                 </div>
+                <!-- end optional cookies -->
             </slot>
             <!-- end slot for cookie-options -->
 
@@ -90,10 +104,10 @@
 
             <!-- begin button-wrapper for 'accept'-buttons -->
             <div class="button-wrapper align-center">
-                <button v-if="buttonLabelAcceptCurrentSettings" type="button" @click="acceptCookies('currentSettings')">
+                <button v-if="buttonLabelAcceptCurrentSettings" type="button" @click="acceptCurrentCookies">
                     <span>{{ buttonLabelAcceptCurrentSettings }}</span>
                 </button>
-                <button v-if="buttonLabelAcceptAllCookies" type="button" class="primary" @click="acceptCookies('allCookies')">
+                <button v-if="buttonLabelAcceptAllCookies" type="button" class="primary" @click="acceptAllCookies">
                     <span>{{ buttonLabelAcceptAllCookies }}</span>
                 </button>
             </div>
@@ -103,6 +117,10 @@
 </template>
 
 <script>
+// import mixins
+import I18n from "../mixins/I18n"
+import DefaultMessageProperties from "../mixins/CmdCookieDisclaimer/DefaultMessageProperties"
+
 // import components
 import CmdBox from "./CmdBox"
 import CmdCustomHeadline from "./CmdCustomHeadline"
@@ -110,6 +128,7 @@ import CmdFormElement from "./CmdFormElement"
 
 export default {
     name: "CmdCookieDisclaimer",
+    mixins: [I18n, DefaultMessageProperties],
     components: {
         CmdBox,
         CmdCustomHeadline,
@@ -122,6 +141,13 @@ export default {
         }
     },
     props: {
+        /**
+         * set default v-model (must be named modelValue in Vue3)
+         */
+        modelValue: {
+            type: Array,
+            required: false
+        },
         /**
          * properties for CmdCustomHeadline-component at top of cookie disclaimer
          */
@@ -185,9 +211,43 @@ export default {
             default: "Proceed with current settings!"
         }
     },
+    computed: {
+        acceptedCookies: {
+            get() {
+                const cookies = this.modelValue ? [...this.modelValue] : []
+                const requiredCookies = this.cookieOptions?.required?.cookies || []
+                for (let i = 0; i < requiredCookies.length; i++) {
+                    if(!cookies.includes(requiredCookies[i].value)) {
+                       cookies.push(requiredCookies[i].value)
+                    }
+                }
+                return cookies
+            },
+            set(value) {
+                this.$emit("update:modelValue", value)
+            }
+        }
+    },
     methods: {
-        acceptCookies(cookies) {
-            this.$emit("close-cookie-disclaimer", cookies)
+        acceptCurrentCookies() {
+            this.$emit("close-cookie-disclaimer", this.acceptedCookies)
+        },
+        acceptAllCookies() {
+            const allCookies = []
+
+            // push all required cookies to array
+            const requiredCookies = this.cookieOptions?.required?.cookies
+            for(let i = 0; i < requiredCookies.length ; i++) {
+                allCookies.push(requiredCookies[i].value)
+            }
+
+            // push all optional cookies to array
+            const optionalCookies = this.cookieOptions?.optional?.cookies
+            for(let i = 0; i < optionalCookies.length ; i++) {
+                allCookies.push(optionalCookies[i].value)
+            }
+
+            this.$emit("close-cookie-disclaimer", allCookies)
         },
         openDataPrivacy(event) {
             /* first 'target' = clicked-element, second 'target' = target-attribute */
@@ -215,6 +275,14 @@ export default {
     top: auto;
 
     .cmd-box {
+        .box-header {
+            label.disabled {
+                .label-text span {
+                    color: var(--pure-white) !important;
+                }
+            }
+        }
+
         .box-body {
             padding: var(--default-padding);
         }

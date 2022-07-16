@@ -4,10 +4,10 @@
     "cookies": [
         {
           "id": "cookie-sessionid",
+          "value": "sessionid",
           "description": "This cookie is required for functionality",
           "labelText": "SessionID",
-          "checked": true,
-          "status": "disabled",
+          "disabled": true,
           "linkDataPrivacy": {
             "label": "Details for this cookie:",
             "link": "/content/data-privacy-en.html",
@@ -16,10 +16,10 @@
         },
         {
           "id": "cookie-google-recaptcha",
+          "value": "google-recaptcha",
           "description": "This cookie prevents bots from sending forms",
           "labelText": "Google reCaptcha™",
-          "checked": true,
-          "status": "disabled",
+          "disabled": true,
           "linkDataPrivacy": {
             "label": "Details for this cookie:",
             "link": "https://policies.google.com/privacy?hl=en-US",
@@ -34,9 +34,10 @@
     "cookies": [
       {
         "id": "cookie-google-maps",
+        "value": "google-maps",
         "description": "This cookie enables the Google Map™",
         "labelText": "Google Maps™",
-        "checked": false,
+        "disabled": false,
         "linkDataPrivacy": {
           "label": "Details for this cookie:",
           "link": "https://policies.google.com/privacy?hl=en-US",
@@ -46,9 +47,9 @@
       },
       {
         "id": "cookie-google-analytics",
+        "value": "google-analytics",
         "description": "This cookie collects anonymous data for statistics and improvements",
         "labelText": "Google Analytics™",
-        "checked": false,
         "linkDataPrivacy": {
           "label": "Details for this cookie:",
           "link": "https://policies.google.com/privacy?hl=en-US",

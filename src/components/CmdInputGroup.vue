@@ -1,32 +1,34 @@
 <template>
-    <div :class="['cmd-input-group label', {inline: labelInline, 'multiple-switch': multipleSwitch, disabled: disabled, 'toggle-switch': toggleSwitch}]">
+    <div :class="[
+        'cmd-input-group label',
+        validationStatus,
+        {inline: labelInline,
+        'multiple-switch': multipleSwitch,
+        disabled: disabled,
+        'toggle-switch': toggleSwitch,
+        'has-state': validationStatus
+        }
+        ]">
         <span :class="['label-text', { hidden: !showLabel}]" :id="labelId" :aria-labelledby="labelId">
-             <span>{{ labelText }}<sup v-if="$attrs.required">*</sup></span>
+             <span>{{ labelText }}<sup v-if="required">*</sup></span>
 
-            <!-- begin CmdTooltip -->
-            <CmdTooltip v-if="useCustomTooltip" class="box" :class="validationStatus" :relatedId="tooltipId" :toggle-visibility-by-click="true">
-                <!-- begin CmdSystemMessage -->
-                <CmdSystemMessage
-                    v-if="getValidationMessage"
-                    :message="getValidationMessage"
-                    :validation-status="validationStatus"
-                    :iconClose="{show: false}"
-                />
-                <!-- end CmdSystemMessage -->
+            <!-- begin CmdTooltipForInputElements -->
+            <CmdTooltipForInputElements
+                v-if="useCustomTooltip && (validationStatus === '' || validationStatus === 'error')"
+                ref="tooltip"
+                :showRequirements="showRequirements"
+                :inputRequirements="inputRequirements"
+                :validationStatus="validationStatus"
+                :validationMessage="getValidationMessage"
+                :validationTooltip="validationTooltip"
+                :inputAttributes="$attrs"
+                :inputModelValue="modelValue"
+                :helplink="helplink"
+                :relatedId="tooltipId"
+            />
+            <!-- end CmdTooltipForInputElements -->
 
-                <!-- begin CmdListOfRequirements -->
-                <CmdListOfRequirements
-                    v-if="showRequirements && (validationStatus === '' || validationStatus === 'error')"
-                    :inputRequirements="inputRequirements"
-                    :helplink="helplink"
-                    :inputModelValue="modelValue"
-                    :inputAttributes="$attrs"
-                />
-                <!-- end CmdListOfRequirements -->
-            </CmdTooltip>
-            <!-- end CmdTooltip -->
-
-            <a v-if="$attrs.required || inputRequirements.length"
+            <a v-if="required || inputRequirements.length"
                href="#"
                @click.prevent
                :class="getStatusIconClass"
@@ -71,15 +73,11 @@ import FieldValidation from "../mixins/FieldValidation.js"
 import Tooltip from "../mixins/Tooltip.js"
 
 // import components
-import CmdListOfRequirements from "./CmdListOfRequirements"
-import CmdSystemMessage from "./CmdSystemMessage"
-import CmdTooltip from "./CmdTooltip"
+import CmdTooltipForInputElements from "./CmdTooltipForInputElements"
 
 export default {
     components: {
-        CmdListOfRequirements,
-        CmdSystemMessage,
-        CmdTooltip
+        CmdTooltipForInputElements
     },
     mixins: [
         FieldValidation,
@@ -91,16 +89,19 @@ export default {
         }
     },
     props: {
-        validationTooltip: {
-            type: String,
-            default: ""
-        },
         /**
          * set value for v-model (must be named modelValue in vue3 if default v-model should be used)
          */
         modelValue: {
             type: [Array, String],
             required: false
+        },
+        /**
+         * set if input-group should be required
+         */
+        required: {
+            type: Boolean,
+            default: false
         },
         /**
          * list of input-elements inside group
@@ -119,6 +120,17 @@ export default {
         inputTypes: {
             type: String,
             default: "radio"
+        },
+        /**
+         * set status for label and inner form-elements
+         *
+         * @allowedValues: error, warning, success, info
+         *
+         * @affectsStyling: true
+         */
+        status: {
+            type: String,
+            required: false
         },
         /**
          * for replacing native checkboxes/radio-buttons by custom ones (based on frontend-framework)
@@ -200,7 +212,33 @@ export default {
             default: false
         }
     },
+    methods: {
+        updateStatus() {
+            if (this.required) {
+                if(this.inputValue?.length) {
+                    this.validationStatus = ""
+                    return
+                }
+                this.validationStatus =  "error"
+                return
+            }
+            this.validationStatus = this.status
+        }
+    },
     computed: {
+        validationTooltip() {
+            if (!this.useCustomTooltip) {
+                return this.getValidationMessage
+            }
+
+            // set default-tooltip if customTooltip is not set
+            if (this.validationStatus === 'error') {
+                return this.getMessage("cmdformelement.validationTooltip.an_error_occurred")
+            } else if (this.validationStatus === 'success') {
+                return this.getMessage("cmdformelement.validationTooltip.information_is_filled_correctly")
+            }
+            return this.getMessage("cmdformelement.validationTooltip.open_field_requirements")
+        },
         // get ID for accessibility
         labelId() {
             if (this.$attrs.id !== undefined) {
@@ -219,19 +257,18 @@ export default {
             }
         }
     },
-    methods: {
-        onChange(e) {
-            if (typeof this.value === "string") {
-                this.$emit("update:value", e.target.value)
-            } else if (this.value !== undefined) {
-                let values = [...this.value]
-                if (e.target.checked) {
-                    values.push(e.target.value)
-                } else {
-                    values = values.filter(value => value !== e.target.value)
-                }
-                this.$emit("update:modelValue", values)
-            }
+    watch: {
+        status: {
+            handler() {
+                this.updateStatus()
+            },
+            immediate: true
+        },
+        modelValue: {
+            handler() {
+                this.updateStatus()
+            },
+            immediate: true
         }
     }
 }
@@ -245,11 +282,28 @@ export default {
     }
 
     /* overwrite default behavior from frontend-framework */
+    &.toggle-switch {
+        display: block;
+    }
+
+    /* overwrite default behavior from frontend-framework */
     .label-text {
         display: inline-flex;
 
         > a[class*="icon"] {
             margin-left: calc(var(--default-margin) / 2);
+        }
+    }
+
+    &.has-state {
+        label {
+            color: var(--status-color);
+        }
+
+        &.multiple-switch {
+            label {
+                border-color: var(--status-color);
+            }
         }
     }
 }

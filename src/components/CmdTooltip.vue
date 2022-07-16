@@ -10,7 +10,7 @@
             <!-- end CmdCustomHeadline -->
 
             <!-- begin icon to close tooltip -->
-            <a v-if="iconClose.show && toggleVisibilityByClick" href="#" @click.prevent="tooltipVisibility = false" :title="iconClose.tooltip">
+            <a v-if="iconClose.show && toggleVisibilityByClick" href="#" @click.prevent="hideTooltip" :title="iconClose.tooltip">
                 <span :class="iconClose.iconClass"></span>
             </a>
             <!-- end icon to close tooltip -->

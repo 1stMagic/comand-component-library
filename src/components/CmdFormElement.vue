@@ -15,6 +15,7 @@
                 'has-state': validationStatus
                }]"
            :for="labelId"
+           :title="$attrs.title"
            ref="label">
 
         <!-- begin label-text (+ required asterisk) -->
@@ -22,29 +23,21 @@
               :class="['label-text', !showLabel ? 'hidden' : undefined]">
             <span>{{ labelText }}<sup v-if="$attrs.required">*</sup></span>
 
-            <!-- begin CmdTooltip -->
-            <CmdTooltip v-if="useCustomTooltip" class="box" :class="validationStatus" :relatedId="tooltipId" :toggle-visibility-by-click="true">
-                <!-- begin CmdSystemMessage -->
-                <CmdSystemMessage
-                    v-if="getValidationMessage"
-                    :message="getValidationMessage"
-                    :validation-status="validationStatus"
-                    :iconClose="{show: false}"
-                />
-                <!-- end CmdSystemMessage -->
-
-                <!-- begin CmdListOfRequirements -->
-                <CmdListOfRequirements
-                    v-if="showRequirements && (validationStatus === '' || validationStatus === 'error')"
-                    :inputRequirements="inputRequirements"
-                    :helplink="helplink"
-                    :inputModelValue="modelValue"
-                    :inputAttributes="$attrs"
-                    :validationTooltip="validationTooltip"
-                />
-                <!-- end CmdListOfRequirements -->
-            </CmdTooltip>
-            <!-- end CmdTooltip -->
+            <!-- begin CmdTooltipForInputElements -->
+            <CmdTooltipForInputElements
+                v-if="useCustomTooltip && (validationStatus === '' || validationStatus === 'error')"
+                ref="tooltip"
+                :showRequirements="showRequirements"
+                :inputRequirements="inputRequirements"
+                :validationStatus="validationStatus"
+                :validationMessage="getValidationMessage"
+                :validationTooltip="validationTooltip"
+                :inputAttributes="$attrs"
+                :inputModelValue="modelValue"
+                :helplink="helplink"
+                :relatedId="tooltipId"
+            />
+            <!-- end CmdTooltipForInputElements -->
 
             <a v-if="$attrs.required || inputRequirements.length"
                 href="#"
@@ -211,17 +204,13 @@ import FieldValidation from "../mixins/FieldValidation.js"
 import Tooltip from "../mixins/Tooltip.js"
 
 // import components
-import CmdListOfRequirements from "./CmdListOfRequirements"
-import CmdSystemMessage from "./CmdSystemMessage"
-import CmdTooltip from "./CmdTooltip"
+import CmdTooltipForInputElements from "./CmdTooltipForInputElements"
 
 export default {
     inheritAttrs: false,
     name: "FormElement",
     components: {
-        CmdListOfRequirements,
-        CmdSystemMessage,
-        CmdTooltip
+        CmdTooltipForInputElements
     },
     mixins: [
         I18n,
@@ -702,12 +691,11 @@ export default {
             }
             return null
         },
-        onBlur(event) {
+        validateInput(event) {
             // check if surrounding form with data-use-validation exists
             const useValidation = event.target.closest("form")?.dataset.useValidation === "true"
 
             if (useValidation) {
-                this.tooltip = false
                 this.validationStatus = ""
 
                 // if input is filled, set status to success (expect for checkboxes and radiobuttons)
@@ -732,6 +720,14 @@ export default {
                 }
             }
         },
+        onBlur(event) {
+            this.validateInput(event)
+            this.closeTooltipOnBlur()
+        },
+        onInput(event) {
+            this.validateInput(event)
+            this.$emit('update:modelValue', event.target.value)
+        },
         onChange(event) {
             if (typeof this.modelValue === "boolean") {
                 this.$emit("update:modelValue", event.target.checked)
@@ -753,9 +749,6 @@ export default {
                 this.$refs.label.focus()
             }
         },
-        onInput(event) {
-            this.$emit('update:modelValue', event.target.value)
-        },
         showPassword() {
             // get password-field
             const passwordField = this.$refs.input
@@ -776,6 +769,10 @@ export default {
         },
         executeSearch() {
             this.$emit("search", this.value)
+        },
+        closeTooltipOnBlur() {
+            // close tooltip by calling function from CmdTooltipForInputElements using $refs
+            this.$refs.tooltip.hideTooltip()
         }
     },
     watch: {

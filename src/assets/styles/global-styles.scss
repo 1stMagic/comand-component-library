@@ -268,6 +268,7 @@ html {
   &.light-mode {
     /* assign default colors for custom light-mode set by class */
     --color-scheme-text-color: var(--light-mode-text-color);
+    --color-scheme-text-color-buttons: var(--light-mode-text-color-buttons);
     --color-scheme-background-color: var(--light-mode-background-color);
     --color-scheme-text-color-inverted: var(--dark-mode-text-color);
     --color-scheme-background-inverted: var(--dark-mode-background-color);
@@ -277,6 +278,7 @@ html {
   &.dark-mode {
     /* assign default colors for custom dark-mode set by class */
     --color-scheme-text-color: var(--dark-mode-text-color);
+    --color-scheme-text-color-buttons: var(--dark-mode-background-color);
     --color-scheme-background-color: var(--dark-mode-background-color);
     --color-scheme-text-color-inverted: var(--light-mode-text-color);
     --color-scheme-background-inverted: var(--light-mode-background-color);

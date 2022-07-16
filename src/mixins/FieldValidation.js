@@ -146,8 +146,16 @@ export default {
     },
     computed: {
         getValidationMessage() {
+            // check if all requirements are valid
+            // const allRequirementsValid = !this.inputRequirements.some((item) => {
+            //     return !item.valid(this.modelValue, this.$attrs)
+            // })
+
             if (this.validationStatus !== "") {
-                if (this.validationStatus === "error" && !this.validationMessage) {
+                if (this.validationStatus === "error") {
+                    if(this.validationMessage) {
+                        return this.validationMessage
+                    }
                     return this.getMessage("cmdfieldvalidation.information_not_filled_correctly")
                 }
                 if (this.validationStatus === "warning" && this.capsLockActivated) {
@@ -157,6 +165,7 @@ export default {
                     return this.getMessage("cmdfieldvalidation.information_filled_correctly")
                 }
             }
+
             return null
         },
         getStatusIconClass() {
@@ -179,11 +188,12 @@ export default {
         inputRequirements() {
             const standardRequirements = []
             // check if field is required
-            if(this.$attrs.required) {
+            if(this.$attrs.required || this.required) {
+                const inputRequired = this.required
                 standardRequirements.push({
                     message: this.getRequirementMessage(),
                     valid(value, attributes) {
-                        return !attributes.required || value.length > 0
+                        return (!attributes.required && !inputRequired) || value.length > 0
                     }
                 })
             }
@@ -209,7 +219,7 @@ export default {
             if ((["password", "number", "url", "email"].includes(this.$attrs.type)) && event.getModifierState("CapsLock")) {
                 this.capsLockActivated = true
                 this.validationStatus = "warning"
-            } else {
+            } else if(this.capsLockActivated && this.validationStatus === "warning") {
                 this.capsLockActivated = false
                 this.validationStatus = ""
             }
@@ -220,7 +230,7 @@ export default {
     }
 }
 
-function validateSpecialCharacters(message = "Field contains Special character") {
+function validateSpecialCharacters(message = "Field contains special character") {
   return {
       message,
       valid(value) {

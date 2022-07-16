@@ -51,10 +51,16 @@ export default {
     name: "CmdListOfRequirements.vue",
     components: {CmdCustomHeadline},
     props: {
+        /**
+        * property to check validity of given modelValue
+        */
         inputModelValue: {
             type: [String, Boolean, Array, Number],
             default: ""
         },
+        /**
+         * property to check validity of given attributes
+         */
         inputAttributes: {
             type: Object,
             required: true
@@ -66,14 +72,23 @@ export default {
             type: String,
             required: false
         },
+        /**
+         * list of all requirements
+         */
         inputRequirements: {
             type: Array,
             required: true
         },
+        /**
+         * set a helplink to a different page for further support
+         */
         helplink: {
             type: String,
             required: false
         },
+        /**
+         * properties of CmdCustomHeadline-component
+         */
         cmdCustomHeadline: {
             type: Object,
             default() {

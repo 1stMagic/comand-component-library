@@ -305,7 +305,7 @@ export default {
 
         /* begin offcanvas-navigation */
         &:not(.persist-on-mobile) {
-            transition: (--nav-transition);
+            transition: var(--nav-transition);
 
             #toggle-offcanvas {
                 display: flex;
@@ -433,7 +433,7 @@ export default {
                                 height: auto;
                                 display: block;
                                 opacity: 1;
-                                transition: (--nav-transition);
+                                transition: var(--nav-transition);
 
                                 > li {
                                     > a {

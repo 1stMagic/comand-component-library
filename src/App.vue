@@ -644,7 +644,7 @@
                         inputTypes="checkbox"
                         v-model="inputGroupValueReplaceInputTypeCheckbox"
                         :replaceInputType="true"
-                        required="required"
+                        :required="true"
                         :status="validationStatus"
                         :disabled="disabledStatus"
                     />
@@ -671,6 +671,22 @@
                         </dd>
                     </dl>
                     <CmdInputGroup
+                        labelText="Grouplabel for radio-group styled as toggle-switches:"
+                        :inputElements="inputGroupRadiobuttons"
+                        inputTypes="radio"
+                        v-model="inputGroupValueToggleSwitchRadio"
+                        :toggleSwitch="true"
+                        required="required"
+                        :status="validationStatus"
+                        :disabled="disabledStatus"
+                    />
+                    <dl>
+                        <dt>Selected value(s):</dt>
+                        <dd>
+                            <output>{{ inputGroupValueToggleSwitchRadio }}</output>
+                        </dd>
+                    </dl>
+                    <CmdInputGroup
                         labelText="Grouplabel for radio-group given by property styled as multiple-switch:"
                         :inputElements="inputGroupRadiobuttons.map(item => ({...item, id: item.id + '-multi', name: item.name + '-multi'}))"
                         inputTypes="radio"
@@ -690,6 +706,7 @@
                         :inputElements="inputGroupCheckboxes"
                         inputTypes="checkbox"
                         :multipleSwitch="true"
+                        :required="true"
                         v-model="inputGroupValue4"
                         :stretchHorizontally="true"
                         :status="validationStatus"
@@ -1117,7 +1134,9 @@
         <CmdCookieDisclaimer :cookieOptions="cookieDisclaimerData"
                              buttonLabelAcceptAllCookies="Accept all cookies"
                              buttonLabelAcceptCurrentSettings="Accept current settings"
-                             @closeCookieDisclaimer="fancyBoxCookieDisclaimer = false"
+                             @closeCookieDisclaimer="closeCookieDisclaimer"
+                             v-model="acceptedCookies"
+
         >
             <template #privacy-text>
                 <p>
@@ -1248,6 +1267,7 @@ export default {
 
     data() {
         return {
+            acceptedCookies: ["google-maps"],
             showTooltip: false,
             disabledStatus: undefined,
             validationStatus: "",
@@ -1259,6 +1279,7 @@ export default {
             inputGroupValueReplaceInputTypeRadio: "phone",
             inputGroupValueReplaceInputTypeCheckbox: ["phone"],
             inputGroupValueToggleSwitchCheckbox: ["phone"],
+            inputGroupValueToggleSwitchRadio: "phone",
             inputGroupValue3: "email",
             inputGroupValue4: [],
             inputGroupRadiobuttons: [
@@ -1393,10 +1414,11 @@ export default {
             thumbnailScrollerData
         }
     },
-    mounted() {
-        document.querySelector('html').addEventListener('toggle-color-scheme', (event) => console.log('colorScheme:', event.detail))
-    },
     methods: {
+        closeCookieDisclaimer(event) {
+            this.fancyBoxCookieDisclaimer = false
+            alert(event.join(", "))
+        },
         setStatus(validationStatus, disabledStatus) {
             this.validationStatus = validationStatus
             this.disabledStatus = disabledStatus

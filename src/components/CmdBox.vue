@@ -44,7 +44,7 @@
         </template>
 
         <!-- begin box-body -->
-        <div v-if="open" class="box-body" aria-expanded="true">
+        <div v-if="open" class="box-body" aria-expanded="true" role="article">
             <!-- begin slot 'body' -->
             <slot name="body">
                 <transition :name="toggleTransition">

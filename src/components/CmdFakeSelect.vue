@@ -258,6 +258,19 @@ export default {
         }
     },
     computed: {
+        validationTooltip() {
+            if (!this.useCustomTooltip) {
+                return this.getValidationMessage
+            }
+
+            // set default-tooltip if customTooltip is not set
+            if (this.validationStatus === 'error') {
+                return this.getMessage("cmdformelement.validationTooltip.an_error_occurred")
+            } else if (this.validationStatus === 'success') {
+                return this.getMessage("cmdformelement.validationTooltip.information_is_filled_correctly")
+            }
+            return this.getMessage("cmdformelement.validationTooltip.open_field_requirements")
+        },
         // get the displayed option name
         optionName() {
             // fake a native selectbox

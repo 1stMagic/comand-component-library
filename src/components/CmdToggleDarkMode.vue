@@ -7,9 +7,6 @@
             :showLabel="showLabel"
             v-model="darkMode"
             :toggle-switch="true"
-            :useIconsForToggleSwitch="true"
-            toggle-switch-checked-icon-class="icon-home"
-            toggle-switch-unchecked-icon-class="icon-globe"
         />
     </div>
 </template>
