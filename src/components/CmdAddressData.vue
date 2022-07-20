@@ -1,8 +1,8 @@
 <template>
     <div class="cmd-address-data vcard">
-        <!-- begin CmdCustomHeadline -->
-        <CmdCustomHeadline v-if="cmdCustomHeadline" v-bind="cmdCustomHeadline" />
-        <!-- end CmdCustomHeadline -->
+        <!-- begin CmdHeadline -->
+        <CmdHeadline v-if="CmdHeadline" v-bind="CmdHeadline" />
+        <!-- end CmdHeadline -->
 
         <!-- begin address-data in vCard microformat -->
         <address class="adr">
@@ -120,13 +120,13 @@ import I18n from "../mixins/I18n"
 import DefaultMessageProperties from "../mixins/CmdAddressData/DefaultMessageProperties"
 
 // import components
-import CmdCustomHeadline from "./CmdCustomHeadline"
+import CmdHeadline from "./CmdHeadline"
 
 export default {
     name: "CmdAddressData",
     mixins: [I18n, DefaultMessageProperties],
     components: {
-        CmdCustomHeadline
+        CmdHeadline
     },
     props: {
         /**
@@ -144,9 +144,9 @@ export default {
             default: true
         },
         /**
-         * properties for CmdCustomHeadline-component
+         * properties for CmdHeadline-component
          */
-        cmdCustomHeadline: {
+        CmdHeadline: {
             type: Object,
             required: false
         },

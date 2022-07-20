@@ -1,10 +1,10 @@
 <template>
     <!-- begin CmdTooltip -->
     <CmdTooltip
+        ref="tooltip"
         class="box"
         :class="validationStatus"
         :relatedId="relatedId"
-        ref="tooltip"
         :toggle-visibility-by-click="true">
 
         <!-- begin CmdSystemMessage -->
@@ -44,45 +44,72 @@ export default {
         CmdTooltip
     },
     props: {
-        showRequirements: {
-            type: Boolean,
-            default: false
-        },
-        validationStatus: {
-            type: String,
-            default: ""
-        },
-        validationMessage: {
-            type: String,
-            default: ""
-        },
-        validationTooltip: {
-            type: String,
-            default: ""
-        },
-        helplink: {
-            type: String,
-            default: ""
-        },
+        /**
+         * related-id for CmdTooltip-component
+         */
         relatedId: {
             type: String,
             default: ""
         },
+        /**
+         * validation-status for CmdSystemMessage-component and CmdTooltip-component
+         */
+        validationStatus: {
+            type: String,
+            default: ""
+        },
+        /**
+         * validation-message for CmdSystemMessage-component
+         */
+        validationMessage: {
+            type: String,
+            default: ""
+        },
+        /**
+         * toggle visibility for CmdListOfRequirements-component
+         */
+        showRequirements: {
+            type: Boolean,
+            default: false
+        },
+        /**
+         * validation-tooltip for CmdListOfRequirements-component
+         */
+        validationTooltip: {
+            type: String,
+            default: ""
+        },
+        /**
+         * list of input-requirements for CmdListOfRequirements-component
+         */
         inputRequirements: {
             type: Array,
             default() {
                 return []
             }
         },
-        inputModelValue: {
-            type: [String, Boolean, Array, Number],
-            default: ""
-        },
+        /**
+         * input-attributes for CmdListOfRequirements-component
+         */
         inputAttributes: {
             type: Object,
             default() {
                 return {}
             }
+        },
+        /**
+         * input-model-value for CmdListOfRequirements-component
+         */
+        inputModelValue: {
+            type: [String, Boolean, Array, Number],
+            default: ""
+        },
+        /**
+         * helplink for CmdListOfRequirements-component
+         */
+        helplink: {
+            type: String,
+            default: ""
         }
     },
     methods: {

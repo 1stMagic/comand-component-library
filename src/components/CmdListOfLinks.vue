@@ -1,9 +1,9 @@
 <template>
     <div :class="['cmd-list-of-links', 'align-' + align, {box: styleAsBox, horizontal: orientation === 'horizontal', 'section-anchors': sectionAnchors}]">
-        <!-- begin CmdCustomHeadline -->
-        <CmdCustomHeadline v-if="cmdCustomHeadline"
-                           v-bind="cmdCustomHeadline" />
-        <!-- end CmdCustomHeadline -->
+        <!-- begin CmdHeadline -->
+        <CmdHeadline v-if="CmdHeadline"
+                           v-bind="CmdHeadline" />
+        <!-- end CmdHeadline -->
 
         <!-- begin list of links -->
         <ul :class="['flex-container', {'no-gap': !useGap}]">
@@ -39,12 +39,12 @@ import {getRoute} from "../utilities.js"
 import {openFancyBox} from "./CmdFancyBox.vue"
 
 // import components
-import CmdCustomHeadline from "./CmdCustomHeadline"
+import CmdHeadline from "./CmdHeadline"
 
 export default {
     name: "CmdListOfLinks",
     components: {
-        CmdCustomHeadline
+        CmdHeadline
     },
     props: {
         /**
@@ -75,9 +75,9 @@ export default {
             default: "left"
         },
         /**
-         * properties for cmdCustomHeadline-component
+         * properties for CmdHeadline-component
          */
-        cmdCustomHeadline: {
+        CmdHeadline: {
             type: Object,
             required: false
         },

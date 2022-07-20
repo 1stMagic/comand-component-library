@@ -16,13 +16,13 @@
             </div>
         </template>
         <div v-else aria-live="assertive">
-            <!-- begin CmdCustomHeadline -->
-            <CmdCustomHeadline
-               v-bind="cmdCustomHeadline"
+            <!-- begin CmdHeadline -->
+            <CmdHeadline
+               v-bind="CmdHeadline"
                :headlineText="tabs[showTab].headlineText"
                :headlineLevel="tabs[showTab].headlineLevel"
             />
-            <!-- end CmdCustomHeadline -->
+            <!-- end CmdHeadline -->
             <div v-html="tabs[showTab].htmlContent"></div>
         </div>
     </div>
@@ -30,12 +30,12 @@
 
 <script>
 // import components
-import CmdCustomHeadline from "./CmdCustomHeadline"
+import CmdHeadline from "./CmdHeadline"
 
 export default {
     name: "CmdTabs",
     components: {
-        CmdCustomHeadline
+        CmdHeadline
     },
     data() {
         return {
@@ -45,9 +45,9 @@ export default {
     emits: ["active-tab"],
     props: {
         /**
-         * properties for CmdCustomHeadline-component
+         * properties for CmdHeadline-component
          */
-        cmdCustomHeadline: {
+        CmdHeadline: {
             type: Object,
             required: false
         },

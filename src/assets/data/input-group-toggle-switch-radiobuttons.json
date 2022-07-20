@@ -1,0 +1,23 @@
+[
+  {
+    "labelText": "Website",
+    "id": "toggle-switch-radio-id-1",
+    "name": "input-group-toggle-switch-radio",
+    "iconClass": "icon-globe",
+    "value": "website"
+  },
+  {
+    "labelText": "E-Mail",
+    "id": "replaced-radio-id-2",
+    "name": "toggle-switch-group-toggle-switch-radio",
+    "iconClass": "icon-mail",
+    "value": "email"
+  },
+  {
+    "labelText": "Phone",
+    "id": "toggle-switch-radio-id-3",
+    "name": "input-group-toggle-switch-radio",
+    "iconClass": "icon-phone",
+    "value": "phone"
+  }
+]

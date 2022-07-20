@@ -1,0 +1,23 @@
+[
+  {
+    "labelText": "Website",
+    "id": "replaced-radio-id-1",
+    "name": "input-group-replaced-radio",
+    "iconClass": "icon-globe",
+    "value": "website"
+  },
+  {
+    "labelText": "E-Mail",
+    "id": "replaced-radio-id-2",
+    "name": "input-group-replaced-radio",
+    "iconClass": "icon-mail",
+    "value": "email"
+  },
+  {
+    "labelText": "Phone",
+    "id": "replaced-radio-id-3",
+    "name": "input-group-replaced-radio",
+    "iconClass": "icon-phone",
+    "value": "phone"
+  }
+]

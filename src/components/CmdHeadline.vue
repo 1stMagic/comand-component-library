@@ -15,7 +15,7 @@
 
 <script>
 export default {
-    name: "CmdCustomHeadline",
+    name: "CmdHeadline",
     props: {
         /**
          * text for headline

@@ -1,20 +1,20 @@
 <template>
     <transition name="fade">
         <div class="cmd-cookie-disclaimer flex-container vertical">
-            <!-- begin CmdCustomHeadline -->
-            <CmdCustomHeadline
-                v-if="cmdCustomHeadlineCookieDisclaimer?.show && cmdCustomHeadlineCookieDisclaimer?.headlineText && cmdCustomHeadlineCookieDisclaimer?.headlineLevel"
-                v-bind="cmdCustomHeadlineCookieDisclaimer"
-                :headlineText="cmdCustomHeadlineCookieDisclaimer.headlineText"
-                :headlineLevel="cmdCustomHeadlineCookieDisclaimer.headlineLevel"
+            <!-- begin CmdHeadline -->
+            <CmdHeadline
+                v-if="CmdHeadlineCookieDisclaimer?.show && CmdHeadlineCookieDisclaimer?.headlineText && CmdHeadlineCookieDisclaimer?.headlineLevel"
+                v-bind="CmdHeadlineCookieDisclaimer"
+                :headlineText="CmdHeadlineCookieDisclaimer.headlineText"
+                :headlineLevel="CmdHeadlineCookieDisclaimer.headlineLevel"
             />
-            <!-- end CmdCustomHeadline -->
+            <!-- end CmdHeadline -->
 
             <!-- begin slot for cookie-options -->
             <slot name="cookie-options">
                 <!-- begin required cookies -->
                 <div v-if="cookieOptions.required" class="flex-container vertical">
-                    <CmdCustomHeadline v-if="cmdBoxRequiredCookies?.showHeadline" :headline-text="cmdBoxRequiredCookies?.headlineText" :headline-level="cmdBoxRequiredCookies?.headlineLevel "/>
+                    <CmdHeadline v-if="cmdBoxRequiredCookies?.showHeadline" :headline-text="cmdBoxRequiredCookies?.headlineText" :headline-level="cmdBoxRequiredCookies?.headlineLevel "/>
                     <!-- begin CmdBox -->
                     <CmdBox v-for="(cookie, index) in cookieOptions.required.cookies"
                             :useSlots="['header', 'body']"
@@ -57,7 +57,7 @@
 
                 <!-- begin optional cookies -->
                 <div v-if="cookieOptions.optional" class="flex-container vertical">
-                    <CmdCustomHeadline v-if="cmdBoxOptionalCookies?.showHeadline" :headline-text="cmdBoxOptionalCookies?.headlineText" :headline-level="cmdBoxOptionalCookies?.headlineLevel "/>
+                    <CmdHeadline v-if="cmdBoxOptionalCookies?.showHeadline" :headline-text="cmdBoxOptionalCookies?.headlineText" :headline-level="cmdBoxOptionalCookies?.headlineLevel "/>
                     <!-- begin CmdBox -->
                     <CmdBox v-for="(cookie, index) in cookieOptions.optional.cookies"
                             :useSlots="['header', 'body']"
@@ -123,7 +123,7 @@ import DefaultMessageProperties from "../mixins/CmdCookieDisclaimer/DefaultMessa
 
 // import components
 import CmdBox from "./CmdBox"
-import CmdCustomHeadline from "./CmdCustomHeadline"
+import CmdHeadline from "./CmdHeadline"
 import CmdFormElement from "./CmdFormElement"
 
 export default {
@@ -131,7 +131,7 @@ export default {
     mixins: [I18n, DefaultMessageProperties],
     components: {
         CmdBox,
-        CmdCustomHeadline,
+        CmdHeadline,
         CmdFormElement
     },
     data() {
@@ -149,9 +149,9 @@ export default {
             required: false
         },
         /**
-         * properties for CmdCustomHeadline-component at top of cookie disclaimer
+         * properties for CmdHeadline-component at top of cookie disclaimer
          */
-        cmdCustomHeadlineCookieDisclaimer: {
+        CmdHeadlineCookieDisclaimer: {
             type: Object,
             default() {
                 return {

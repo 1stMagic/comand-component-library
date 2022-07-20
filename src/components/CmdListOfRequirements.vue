@@ -1,9 +1,9 @@
 <template>
     <div class="cmd-list-of-requirements">
         <!-- begin cmd-custom-headline -->
-        <CmdCustomHeadline :headline-level="cmdCustomHeadline.headlineLevel">
-            <!--         {{ getMessage("cmdfakeselect.headline.requirements_for_input") }}<br/>"{{ labelText }}"-->
-        </CmdCustomHeadline>
+        <CmdHeadline :headline-level="CmdHeadline.headlineLevel">
+            <!-- {{ getMessage("cmdfakeselect.headline.requirements_for_input") }}<br/>"{{ labelText }}" -->
+        </CmdHeadline>
         <!-- end cmd-custom-headline -->
 
         <!-- begin list of requirements -->
@@ -23,10 +23,10 @@
         <!-- end list of requirements -->
 
         <!-- begin helplink -->
-        <template v-if="helplink">
-            <hr v-if="helplink.show"/>
+        <template v-if="helplink && helplink.show">
+            <hr />
             <a
-                v-if="helplink.show && helplink.url"
+                v-if="helplink.url"
                 :href="helplink.url"
                 :target="helplink.target"
                 @click.prevent
@@ -45,11 +45,14 @@
 </template>
 
 <script>
-import CmdCustomHeadline from "./CmdCustomHeadline"
+// import components
+import CmdHeadline from "./CmdHeadline"
 
 export default {
-    name: "CmdListOfRequirements.vue",
-    components: {CmdCustomHeadline},
+    name: "CmdListOfRequirements",
+    components: {
+        CmdHeadline
+    },
     props: {
         /**
         * property to check validity of given modelValue
@@ -87,9 +90,9 @@ export default {
             required: false
         },
         /**
-         * properties of CmdCustomHeadline-component
+         * properties of CmdHeadline-component
          */
-        cmdCustomHeadline: {
+        CmdHeadline: {
             type: Object,
             default() {
                 return {
@@ -102,23 +105,27 @@ export default {
 </script>
 
 <style lang="scss">
-/* begin cmd-list-of-requiremnets ------------------------------------------------------------------------------------------ */
+/* begin cmd-list-of-requirements ------------------------------------------------------------------------------------------ */
 .cmd-list-of-requirements {
     dl {
         .error {
-            color: var(--error-color);
+            --status-color: var(--error-color);
         }
 
         .warning {
-            color: var(--warning-color);
+            --status-color: var(--warning-color);
         }
 
         .success {
-            color: var(--success-color);
+            --status-color: var(--success-color);
         }
 
         .info {
-            color: var(--info-color);
+            --status-color: var(--info-color);
+        }
+
+        dt {
+            color: var(--status-color);
         }
 
         span[class*="icon"] {

@@ -1,9 +1,9 @@
 import {mount} from "@vue/test-utils"
-import CmdCustomHeadline from "../../src/components/CmdCustomHeadline"
+import CmdHeadline from "../../src/components/CmdHeadline"
 
-describe("CmdCustomHeadline", () => {
+describe("CmdHeadline", () => {
     it("test headline", () => {
-        const wrapper = mount(CmdCustomHeadline, {
+        const wrapper = mount(CmdHeadline, {
             props: {
                 headline: {
                     text: "TestHeadline",
@@ -16,7 +16,7 @@ describe("CmdCustomHeadline", () => {
     })
 
     it("test pre-headline", () => {
-        const wrapper = mount(CmdCustomHeadline, {
+        const wrapper = mount(CmdHeadline, {
             props: {
                 preHeadline: "PreHeadline"
             }
@@ -25,7 +25,7 @@ describe("CmdCustomHeadline", () => {
     })
 
     it("test icon", () => {
-        const wrapper = mount(CmdCustomHeadline, {
+        const wrapper = mount(CmdHeadline, {
             props: {
                 iconClass: "icon-home"
             }
@@ -34,7 +34,7 @@ describe("CmdCustomHeadline", () => {
     })
 
     it("test slot", () => {
-        const wrapper = mount(CmdCustomHeadline, {
+        const wrapper = mount(CmdHeadline, {
             slots: {
                 default: "Slot Content"
             }

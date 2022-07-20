@@ -2,10 +2,10 @@
     <!-- begin login-form -->
     <fieldset v-if="!sendLogin" class="cmd-login-form flex-container">
         <legend :class="{hidden : !showLegend}">{{ textLegend }}</legend>
-        <!-- begin CmdCustomHeadline -->
-        <CmdCustomHeadline v-if="cmdCustomHeadlineLoginForm"
-                           v-bind="cmdCustomHeadlineLoginForm"/>
-        <!-- end CmdCustomHeadline -->
+        <!-- begin CmdHeadline -->
+        <CmdHeadline v-if="CmdHeadlineLoginForm"
+                           v-bind="CmdHeadlineLoginForm"/>
+        <!-- end CmdHeadline -->
 
         <!-- being form elements -->
         <div class="flex-container">
@@ -121,13 +121,13 @@
     <!-- begin send-login-form -->
     <fieldset v-else class="cmd-login-form flex-container">
         <legend :class="{'hidden' : !legendSendLoginForm.show}">{{ legendSendLoginForm.text }}</legend>
-        <!-- begin CmdCustomHeadline -->
-        <CmdCustomHeadline v-if="cmdCustomHeadlineSendLoginForm"
-                           :iconClass="cmdCustomHeadlineSendLoginForm.iconClass"
-                           :preHeadline="cmdCustomHeadlineSendLoginForm.preHeadline"
-                           :headlineLevel="cmdCustomHeadlineSendLoginForm.preHeadline"
-                           :headlineText="cmdCustomHeadlineSendLoginForm.headlineText"/>
-        <!-- end CmdCustomHeadline -->
+        <!-- begin CmdHeadline -->
+        <CmdHeadline v-if="CmdHeadlineSendLoginForm"
+                           :iconClass="CmdHeadlineSendLoginForm.iconClass"
+                           :preHeadline="CmdHeadlineSendLoginForm.preHeadline"
+                           :headlineLevel="CmdHeadlineSendLoginForm.preHeadline"
+                           :headlineText="CmdHeadlineSendLoginForm.headlineText"/>
+        <!-- end CmdHeadline -->
 
         <!-- begin CmdFormElement -->
         <CmdFormElement
@@ -209,7 +209,7 @@
 import {getRoute} from "../utilities.js"
 
 // import components
-import CmdCustomHeadline from "./CmdCustomHeadline"
+import CmdHeadline from "./CmdHeadline"
 import CmdFormElement from "./CmdFormElement"
 
 export default {
@@ -223,7 +223,7 @@ export default {
         }
     },
     components: {
-        CmdCustomHeadline,
+        CmdHeadline,
         CmdFormElement
     },
     props: {
@@ -270,16 +270,16 @@ export default {
             }
         },
         /**
-         * properties for CmdCustomHeadline-component for login-form
+         * properties for CmdHeadline-component for login-form
          */
-        cmdCustomHeadlineLoginForm: {
+        CmdHeadlineLoginForm: {
             type: Object,
             required: false
         },
         /**
-         * properties for CmdCustomHeadline-component for send-login-form
+         * properties for CmdHeadline-component for send-login-form
          */
-        cmdCustomHeadlineSendLoginForm: {
+        CmdHeadlineSendLoginForm: {
             type: Object,
             default() {
                 return {

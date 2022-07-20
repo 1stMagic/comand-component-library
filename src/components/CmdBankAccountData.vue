@@ -1,8 +1,8 @@
 <template>
     <div class="cmd-bank-account-data">
-        <!-- begin CmdCustomHeadline -->
-        <CmdCustomHeadline v-if="cmdCustomHeadline" v-bind="cmdCustomHeadline"/>
-        <!-- end CmdCustomHeadline -->
+        <!-- begin CmdHeadline -->
+        <CmdHeadline v-if="CmdHeadline" v-bind="CmdHeadline"/>
+        <!-- end CmdHeadline -->
 
         <!-- begin account data -->
         <dl>
@@ -27,11 +27,11 @@
 
 <script>
 // import components
-import CmdCustomHeadline from "./CmdCustomHeadline"
+import CmdHeadline from "./CmdHeadline"
 
 export default {
     name: "CmdBankAccountData",
-    components: {CmdCustomHeadline},
+    components: {CmdHeadline},
     props: {
         /**
          * bank account data
@@ -71,9 +71,9 @@ export default {
             }
         },
         /**
-         * properties for CmdCustomHeadline-component
+         * properties for CmdHeadline-component
          */
-        cmdCustomHeadline: {
+        CmdHeadline: {
             type: Object,
             required: false
         }

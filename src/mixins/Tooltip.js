@@ -1,4 +1,4 @@
-import {nextSequenceValue} from "../utils/globalSequence";
+import {nextSequenceValue} from "../utils/globalSequence"
 
 export default {
     data() {

@@ -64,7 +64,8 @@
                 <ul class="list-status">
                     <li><a href="#" @click.prevent="setStatus('', false)" :class="{'active' : validationStatus === '' && disabledStatus === false}"
                            id="status-default">Default</a></li>
-                    <li class="error"><a href="#" @click.prevent="setStatus('error', false)"
+                    <li class="error">
+                        <a href="#" @click.prevent="setStatus('error', false)"
                                          :class="{'active' : validationStatus === 'error'}" id="status-error">Error</a></li>
                     <li><a href="#" @click.prevent="setStatus('warning', false)"
                            :class="{'active' : validationStatus === 'warning'}" id="status-warning">Warning</a></li>
@@ -263,9 +264,11 @@
                                        :disabled="disabledStatus"
                                        :selectData="fakeSelectOptionsData"
                                        v-model="fakeSelectDefault"
-                                       required
+                                       :required="true"
                                        defaultOptionName="Select an option:"
+                                       :title="fakeSelectDefault"
                         />
+                        v-model: {{fakeSelectDefault}}
                         <CmdFakeSelect labelText="Default selectbox with icons:"
                                        :status="validationStatus"
                                        :disabled="disabledStatus"
@@ -455,7 +458,7 @@
                         checkbox with boolean: {{ checkboxValue }}<br/>
                         checkboxes with values: {{ checkboxValues }}
                     </p>
-                    <h2>Checkboxes and Radibuttons</h2>
+                    <h2>Checkboxes and Radiobuttons</h2>
                     <h3>Checkboxes [native]</h3>
                     <div class="label inline">
                         <span class="label-text">Label for native checkboxes:</span>
@@ -575,6 +578,7 @@
 
                     <!-- begin input-groups -->
                     <h2>Input-Groups</h2>
+                    <h3>Input Group with Radiobuttons [native]</h3>
                     <CmdInputGroup
                         labelText="Group label for radio-group given by slot:"
                         :useSlot="true"
@@ -587,7 +591,7 @@
                                         id="input-group-radiobutton"
                                         name="radiogroup2"
                                         inputValue="radiobuttonValue1"
-                                        v-model="inputGroupValue1"
+                                        v-model="inputGroupRadio"
                                         :status="validationStatus"
                                         :disabled="disabledStatus"
                         />
@@ -597,7 +601,7 @@
                                         id="input-group-radiobutton"
                                         name="radiogroup2"
                                         inputValue="radiobuttonValue2"
-                                        v-model="inputGroupValue1"
+                                        v-model="inputGroupRadio"
                                         :status="validationStatus"
                                         :disabled="disabledStatus"
                         />
@@ -611,21 +615,22 @@
                     <CmdInputGroup
                         labelText="Grouplabel for radio-group given by property:"
                         :required="true"
-                        :inputElements="inputGroupRadiobuttons"
+                        :inputElements="inputGroupRadiobuttonsData"
                         inputTypes="radio"
-                        v-model="inputGroupValue2"
+                        v-model="inputGroupCheckbox"
                         :status="validationStatus"
                         :disabled="disabledStatus"
                     />
                     <dl>
-                        <dt>Selected value(s):</dt>
+                        <dt>Selected value:</dt>
                         <dd>
                             <output>{{ inputGroupValue2 }}</output>
                         </dd>
                     </dl>
+                    <h3>Input Group with Checkboxes/Radiobuttons (replaced)</h3>
                     <CmdInputGroup
                         labelText="Grouplabel for radio-group styled as replaced-input-type:"
-                        :inputElements="inputGroupRadiobuttons"
+                        :inputElements="inputGroupReplacedRadiobuttonsData"
                         inputTypes="radio"
                         v-model="inputGroupValueReplaceInputTypeRadio"
                         :replaceInputType="true"
@@ -633,14 +638,14 @@
                         :disabled="disabledStatus"
                     />
                     <dl>
-                        <dt>Selected value(s):</dt>
+                        <dt>Selected value:</dt>
                         <dd>
                             <output>{{ inputGroupValueReplaceInputTypeRadio }}</output>
                         </dd>
                     </dl>
                     <CmdInputGroup
                         labelText="Grouplabel for checkbox-group styled as replaced-input-type:"
-                        :inputElements="inputGroupRadiobuttons"
+                        :inputElements="inputGroupReplacedRadiobuttonsData"
                         inputTypes="checkbox"
                         v-model="inputGroupValueReplaceInputTypeCheckbox"
                         :replaceInputType="true"
@@ -654,9 +659,11 @@
                             <output>{{ inputGroupValueReplaceInputTypeCheckbox }}</output>
                         </dd>
                     </dl>
+                    <h3>Input Groups with Checkboxes/
+                        Radiobuttons (toggle-switches)</h3>
                     <CmdInputGroup
                         labelText="Grouplabel for checkbox-group styled as toggle-switches:"
-                        :inputElements="inputGroupRadiobuttons"
+                        :inputElements="inputGroupRadiobuttonsData"
                         inputTypes="checkbox"
                         v-model="inputGroupValueToggleSwitchCheckbox"
                         :toggleSwitch="true"
@@ -672,7 +679,7 @@
                     </dl>
                     <CmdInputGroup
                         labelText="Grouplabel for radio-group styled as toggle-switches:"
-                        :inputElements="inputGroupRadiobuttons"
+                        :inputElements="inputGroupToggleSwitchRadiobuttonsData"
                         inputTypes="radio"
                         v-model="inputGroupValueToggleSwitchRadio"
                         :toggleSwitch="true"
@@ -688,7 +695,7 @@
                     </dl>
                     <CmdInputGroup
                         labelText="Grouplabel for radio-group given by property styled as multiple-switch:"
-                        :inputElements="inputGroupRadiobuttons.map(item => ({...item, id: item.id + '-multi', name: item.name + '-multi'}))"
+                        :inputElements="inputGroupRadiobuttonsData.map(item => ({...item, id: item.id + '-multi', name: item.name + '-multi'}))"
                         inputTypes="radio"
                         :multipleSwitch="true"
                         v-model="inputGroupValue3"
@@ -838,13 +845,13 @@
             <h3>Product boxes</h3>
             <div class="grid-container-create-columns">
                 <div class="grid-small-item" v-for="(product, index) in boxProductData" :key="index">
-                    <CmdBox boxType="product" :product="product" :cmdCustomHeadline="{headlineLevel: 4}"/>
+                    <CmdBox boxType="product" :product="product" :CmdHeadline="{headlineLevel: 4}"/>
                 </div>
             </div>
             <h3>User boxes</h3>
             <div class="grid-container-create-columns">
                 <div class="grid-small-item" v-for="(user, index) in boxUserData" :key="index">
-                    <CmdBox boxType="user" :user="user" :cmdCustomHeadline="{headlineLevel: 4}"/>
+                    <CmdBox boxType="user" :user="user" :CmdHeadline="{headlineLevel: 4}"/>
                 </div>
             </div>
             <h3>Box Site Search</h3>
@@ -891,12 +898,12 @@
         <a id="section-custom-headline"></a>
         <CmdWidthLimitationWrapper>
             <h2 class="headline-demopage">Custom Headline</h2>
-            <CmdCustomHeadline icon-class="icon-home" pre-headline-text="Pre-headline" headlineText="Headline level 1" :headlineLevel="1"/>
-            <CmdCustomHeadline headlineText="Headline level 2" :headlineLevel="2"/>
-            <CmdCustomHeadline headlineText="Headline level 3" :headlineLevel="3"/>
-            <CmdCustomHeadline headlineText="Headline level 4" :headlineLevel="4"/>
-            <CmdCustomHeadline headlineText="Headline level 5" :headlineLevel="5"/>
-            <CmdCustomHeadline headlineText="Headline level 6" :headlineLevel="6"/>
+            <CmdHeadline icon-class="icon-home" pre-headline-text="Pre-headline" headlineText="Headline level 1" :headlineLevel="1"/>
+            <CmdHeadline headlineText="Headline level 2" :headlineLevel="2"/>
+            <CmdHeadline headlineText="Headline level 3" :headlineLevel="3"/>
+            <CmdHeadline headlineText="Headline level 4" :headlineLevel="4"/>
+            <CmdHeadline headlineText="Headline level 5" :headlineLevel="5"/>
+            <CmdHeadline headlineText="Headline level 6" :headlineLevel="6"/>
         </CmdWidthLimitationWrapper>
         <!-- end custom-headline ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
@@ -1100,7 +1107,7 @@
                            :uploadOptions="{url: 'http://localhost:8888'}"
             />
             <h3>Advanced mode</h3>
-            <CmdUploadForm :cmdCustomHeadlineFieldset="{headlineText: 'Select files to upload', headlineLevel: 3}"
+            <CmdUploadForm :CmdHeadlineFieldset="{headlineText: 'Select files to upload', headlineLevel: 3}"
                            :enableDragAndDrop="true"
                            :allowedFileExtensions="['jpg', 'png']"
                            :allowMultipleFileUploads="true"
@@ -1113,18 +1120,18 @@
     <CmdWidthLimitationWrapper id="site-footer" inner-component="footer">
         <CmdSwitchLanguage :languages="languagesData" @click="doSomething"/>
         <CmdListOfLinks :links="listOfLinksData"
-                        :cmdCustomHeadline="{headlineText: 'List of links', headlineLevel: 6}"
+                        :CmdHeadline="{headlineText: 'List of links', headlineLevel: 6}"
         />
         <CmdOpeningHours :openingHours="openingHoursData"
                          :closed="true"
-                         :cmdCustomHeadline="{headlineText: 'Opening hours', headlineLevel: 6}"
+                         :CmdHeadline="{headlineText: 'Opening hours', headlineLevel: 6}"
                          textOpenClosed="Closed right now!"
                          textHolidaysClosed="Closed on holidays"
                          textMiscInfo="Miscellaneous information"
         />
         <CmdAddressData :addressData="addressData"
                         :linkGoogleMaps="true"
-                        :cmdCustomHeadline="{headlineText: 'Address data', headlineLevel: 6}"
+                        :CmdHeadline="{headlineText: 'Address data', headlineLevel: 6}"
         />
     </CmdWidthLimitationWrapper>
 
@@ -1164,8 +1171,11 @@ import fakeSelectCountriesData from '@/assets/data/fake-select-countries.json'
 import fakeSelectFilterOptionsData from '@/assets/data/fake-select-filter-options.json'
 import fakeSelectOptionsData from '@/assets/data/fake-select-options.json'
 import fakeSelectOptionsWithIconsData from '@/assets/data/fake-select-options-with-icons.json'
-import listOfLinksData from '@/assets/data/list-of-links.json'
 import imageGalleryData from '@/assets/data/image-gallery.json'
+import inputGroupRadiobuttonsData from '@/assets/data/input-group-radiobuttons.json'
+import inputGroupReplacedRadiobuttonsData from '@/assets/data/input-group-replaced-radiobuttons.json'
+import inputGroupToggleSwitchRadiobuttonsData from '@/assets/data/input-group-toggle-switch-radiobuttons.json'
+import listOfLinksData from '@/assets/data/list-of-links.json'
 import languagesData from '@/assets/data/switch-language.json'
 import multistepsData from '@/assets/data/multistep-form-progress-bar.json'
 import navigationData from '@/assets/data/main-navigation.json'
@@ -1188,7 +1198,7 @@ import CmdBreadcrumbs from "@/components/CmdBreadcrumbs.vue"
 import CmdCompanyLogo from "@/components/CmdCompanyLogo.vue"
 import CmdCopyrightInformation from "@/components/CmdCopyrightInformation.vue"
 import CmdCookieDisclaimer from "@/components/CmdCookieDisclaimer.vue"
-import CmdCustomHeadline from "@/components/CmdCustomHeadline.vue"
+import CmdHeadline from "@/components/CmdHeadline.vue"
 import CmdFakeSelect from "@/components/CmdFakeSelect.vue"
 import CmdFancyBox from "@/components/CmdFancyBox.vue"
 import CmdForm from "@/components/CmdForm.vue"
@@ -1235,7 +1245,7 @@ export default {
         CmdCompanyLogo,
         CmdCopyrightInformation,
         CmdCookieDisclaimer,
-        CmdCustomHeadline,
+        CmdHeadline,
         CmdFakeSelect,
         CmdFancyBox,
         CmdForm,
@@ -1274,37 +1284,14 @@ export default {
             inputFieldPattern: "",
             inputSearch: "",
             textarea: "",
-            inputGroupValue1: "radiobuttonValue1",
-            inputGroupValue2: "website",
+            inputGroupRadio: "radiobuttonValue1",
+            inputGroupCheckbox: "website",
             inputGroupValueReplaceInputTypeRadio: "phone",
             inputGroupValueReplaceInputTypeCheckbox: ["phone"],
             inputGroupValueToggleSwitchCheckbox: ["phone"],
             inputGroupValueToggleSwitchRadio: "phone",
             inputGroupValue3: "email",
             inputGroupValue4: [],
-            inputGroupRadiobuttons: [
-                {
-                    labelText: "Website",
-                    id: "radio-id-1",
-                    name: "input-group-radio",
-                    iconClass: "icon-globe",
-                    value: "website"
-                },
-                {
-                    labelText: "E-Mail",
-                    id: "radio-id-2",
-                    name: "input-group-radio",
-                    iconClass: "icon-mail",
-                    value: "email"
-                },
-                {
-                    labelText: "Phone",
-                    id: "radio-id-3",
-                    name: "input-group-radio",
-                    iconClass: "icon-phone",
-                    value: "phone"
-                }
-            ],
             inputGroupCheckboxes: [
                 {
                     labelText: "Website",
@@ -1365,8 +1352,8 @@ export default {
             radiobuttonValue: "radiobuttonValue1",
             replacedRadiobuttonValue: "radiobuttonValue1",
             fancyBoxCookieDisclaimer: false,
-            fakeSelectDefault: "2",
-            fakeSelectDefaultWithIcons: "1",
+            fakeSelectDefault: 3,
+            fakeSelectDefaultWithIcons: 1,
             fakeSelectCheckbox: [1],
             fakeSelectFilters: [],
             datalist: {
@@ -1401,6 +1388,9 @@ export default {
             fakeSelectOptionsWithIconsData,
             listOfLinksData,
             imageGalleryData,
+            inputGroupRadiobuttonsData,
+            inputGroupReplacedRadiobuttonsData,
+            inputGroupToggleSwitchRadiobuttonsData,
             languagesData,
             multistepsData,
             navigationData,

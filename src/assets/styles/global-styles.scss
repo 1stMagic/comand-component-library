@@ -184,7 +184,7 @@ body.avoid-scrolling {
 
   &.has-state, & + .cmd-tooltip {
     .label-text {
-      span, sup {
+      > span, > a, sup {
         color: var(--status-color);
       }
     }

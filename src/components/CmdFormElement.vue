@@ -13,7 +13,8 @@
                 on: colored && isChecked,
                 off: colored && !isChecked,
                 'has-state': validationStatus
-               }]"
+               }
+           ]"
            :for="labelId"
            :title="$attrs.title"
            ref="label">
@@ -257,6 +258,8 @@ export default {
         },
         /**
          * text for label
+         *
+         * @requiredForAccessibility: true
          */
         labelText: {
             type: String,

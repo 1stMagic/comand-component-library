@@ -5,6 +5,7 @@
             :class="['cmd-system-message', 'system-message', 'flex-container', 'vertical', { 'full-width': fullWidth }, validationStatus]"
             :role="validationStatus === 'error' ? 'alert' : 'dialog'"
         >
+            <!-- begin close-icon -->
             <a
                 v-if="iconClose.show && iconClose.iconClass"
                 :class="iconClose.iconClass"
@@ -12,10 +13,17 @@
                 @click.prevent="showSystemMessage = false"
                 :title="iconClose.tooltip"
             ></a>
-            <h6>
-                <span v-if="iconMessage && iconMessage.iconClass" :class="iconMessage.iconClass"></span>
-                <strong v-if="systemMessage">{{ systemMessage }}</strong>
-            </h6>
+            <!-- end close-icon -->
+
+            <!-- begin cmd-headline -->
+            <CmdHeadline
+                class="message-headline"
+                :iconClass="iconMessage.iconClass"
+                :headlineText="systemMessage"
+                :headlineLevel="messageHeadlineLevel"
+            />
+            <!-- end cmd-headline -->
+
             <!-- begin slot-content -->
             <slot></slot>
             <!-- end slot-content -->
@@ -24,8 +32,14 @@
 </template>
 
 <script>
+// import components
+import CmdHeadline from "./CmdHeadline"
+
 export default {
     name: "CmdSystemMessage",
+    components: {
+        CmdHeadline
+    },
     data() {
         return {
             showSystemMessage: true
@@ -69,13 +83,22 @@ export default {
             required: false
         },
         /**
+         * set headline-level for system-message (given to CmdHeadline-component)
+         */
+        messageHeadlineLevel: {
+            type: [Number, String],
+            default() {
+                return 6
+            }
+        },
+        /**
          * icon to close system-message
          *
          * @requiredForAccessibility: partial
          */
         iconClose: {
             type: Object,
-            default: function () {
+            default() {
                 return {
                     show: true,
                     iconClass: "icon-cancel",
@@ -97,12 +120,6 @@ export default {
 .cmd-system-message {
     margin: var(--default-margin) 0;
     align-items: center;
-
-    h6 {
-        strong {
-            margin-left: calc(var(--default-margin) / 2);
-        }
-    }
 
     > :last-child {
         margin-bottom: 0;

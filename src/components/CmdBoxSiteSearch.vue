@@ -4,12 +4,12 @@
         <legend v-if="showLegend">{{ textLegend }}</legend>
         <!-- begin legend -->
 
-        <!-- begin CmdCustomHeadline -->
-        <CmdCustomHeadline
-            v-if="cmdCustomHeadline"
-            v-bind="cmdCustomHeadline"
+        <!-- begin CmdHeadline -->
+        <CmdHeadline
+            v-if="CmdHeadline"
+            v-bind="CmdHeadline"
         />
-        <!-- end CmdCustomHeadline -->
+        <!-- end CmdHeadline -->
 
         <!-- begin form-elements -->
         <div class="flex-container">
@@ -95,7 +95,7 @@ import I18n from "../mixins/I18n"
 import DefaultMessageProperties from "../mixins/CmdSiteSearch/DefaultMessageProperties"
 
 // import files for components
-import CmdCustomHeadline from "./CmdCustomHeadline"
+import CmdHeadline from "./CmdHeadline"
 import CmdFakeSelect from "./CmdFakeSelect"
 import CmdFormElement from "./CmdFormElement"
 import CmdFormFilters from "./CmdFormFilters"
@@ -111,7 +111,7 @@ export default {
     name: "CmdBoxSiteSearch",
     mixins: [I18n, DefaultMessageProperties],
     components: {
-        CmdCustomHeadline,
+        CmdHeadline,
         CmdFakeSelect,
         CmdFormElement,
         CmdFormFilters
@@ -183,9 +183,9 @@ export default {
             required: false
         },
         /**
-         * properties for CmdCustomHeadline-component
+         * properties for CmdHeadline-component
          */
-        cmdCustomHeadline: {
+        CmdHeadline: {
             type: Object,
             required: false
         },

@@ -1,7 +1,7 @@
 <template>
     <div class="cmd-opening-hours">
         <!-- begin cmd-custom-headline -->
-        <CmdCustomHeadline v-if="cmdCustomHeadline" v-bind="cmdCustomHeadline" />
+        <CmdHeadline v-if="CmdHeadline" v-bind="CmdHeadline" />
         <!-- end cmd-custom-headline -->
 
         <!-- begin opening-status with link to detail-page -->
@@ -38,16 +38,16 @@
 
 <script>
 // import components
-import CmdCustomHeadline from "./CmdCustomHeadline"
+import CmdHeadline from "./CmdHeadline"
 
 export default {
     name: "CmdOpeningHours",
-    components: {CmdCustomHeadline},
+    components: {CmdHeadline},
     props: {
         /**
-         * properties for CmdCustomHeadline-component
+         * properties for CmdHeadline-component
          */
-        cmdCustomHeadline: {
+        CmdHeadline: {
             type: Object,
             required: false
         },

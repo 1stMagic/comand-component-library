@@ -3,17 +3,12 @@
     <div v-if="boxType === 'content'" :class="['cmd-box box content', {open : open, collapsible: collapsible, 'stretch-vertically': stretchVertically}]">
         <template v-if="useSlots?.includes('header')">
             <!-- begin collapsible header with slot -->
-            <div v-if="collapsible" class="box-header">
+            <a v-if="collapsible" href="#" class="box-header" @click.prevent="toggleContentVisibility" :title="open ? iconOpen.tooltip : iconClosed.tooltip">
                 <!-- begin slot 'header' -->
                 <slot name="header"></slot>
                 <!-- end slot 'header' -->
-                <a href="#"
-                   class="toggle-icon"
-                   :title="open ? iconOpen.tooltip : iconClosed.tooltip"
-                   @click.prevent="toggleContentVisibility">
-                    <span :class="[open ? iconOpen.iconClass : iconClosed.iconClass]"></span>
-                </a>
-            </div>
+                <span class="toggle-icon" :class="[open ? iconOpen.iconClass : iconClosed.iconClass]"></span>
+            </a>
             <!-- end collapsible header with slot -->
 
             <!-- begin default header with slot -->
@@ -27,20 +22,19 @@
         <template v-else>
             <!-- begin header for collapsible -->
             <a v-if="collapsible" class="box-header" href="#" :title="open ? iconOpen.tooltip : iconClosed.tooltip" @click.prevent="toggleContentVisibility">
-                <!-- begin CmdCustomHeadline -->
-                <CmdCustomHeadline v-if="cmdCustomHeadline?.headlineText"
-                                   v-bind="cmdCustomHeadline"/>
-                <!-- end CmdCustomHeadline -->
+                <!-- begin CmdHeadline -->
+                <CmdHeadline v-if="CmdHeadline?.headlineText" v-bind="CmdHeadline"/>
+                <!-- end CmdHeadline -->
                 <span class="toggle-icon" :class="[open ? iconOpen.iconClass : iconClosed.iconClass]"></span>
             </a>
             <!-- end header for collapsible -->
 
-            <!-- begin CmdCustomHeadline -->
-            <CmdCustomHeadline v-else-if="!collapsible && cmdCustomHeadline?.headlineText"
+            <!-- begin CmdHeadline -->
+            <CmdHeadline v-else-if="!collapsible && CmdHeadline?.headlineText"
                                class="box-header"
-                               v-bind="cmdCustomHeadline"
+                               v-bind="CmdHeadline"
             />
-            <!-- end CmdCustomHeadline -->
+            <!-- end CmdHeadline -->
         </template>
 
         <!-- begin box-body -->
@@ -73,11 +67,11 @@
             <div v-if="product.discount" class="ribbon-discount">
                 <span>{{ product.discount }}</span>
             </div>
-            <!-- begin CmdCustomHeadline -->
-            <CmdCustomHeadline v-if="cmdCustomHeadline?.headlineText || product.name"
-                               v-bind="cmdCustomHeadline || {}"
-                               :headlineText="cmdCustomHeadline?.headlineText ? cmdCustomHeadline?.headlineText : product.name"/>
-            <!-- end CmdCustomHeadline -->
+            <!-- begin CmdHeadline -->
+            <CmdHeadline v-if="CmdHeadline?.headlineText || product.name"
+                               v-bind="CmdHeadline || {}"
+                               :headlineText="CmdHeadline?.headlineText ? CmdHeadline?.headlineText : product.name"/>
+            <!-- end CmdHeadline -->
         </div>
         <div class="box-body">
             <p v-if="product.articleNumber">{{ getMessage("cmdbox.productbox.article_no") }} {{ product.articleNumber }}</p>
@@ -94,11 +88,11 @@
         <div class="box-header">
             <img v-if="user.image" :src="user.image.src" :alt="user.image.alt"/>
             <div v-else :class="defaultProfileIconClass" :title="user.name"></div>
-            <!-- begin CmdCustomHeadline -->
-            <CmdCustomHeadline v-if="cmdCustomHeadline?.headlineText || user.name"
-                               v-bind="cmdCustomHeadline || {}"
-                               :headlineText="cmdCustomHeadline?.headlineText ? cmdCustomHeadline?.headlineText : user.name"/>
-            <!-- end CmdCustomHeadline -->
+            <!-- begin CmdHeadline -->
+            <CmdHeadline v-if="CmdHeadline?.headlineText || user.name"
+                               v-bind="CmdHeadline || {}"
+                               :headlineText="CmdHeadline?.headlineText ? CmdHeadline?.headlineText : user.name"/>
+            <!-- end CmdHeadline -->
         </div>
         <div class="box-body">
             <p v-if="user.profession">{{ user.profession }}</p>
@@ -119,13 +113,13 @@ import DefaultMessageProperties from "../mixins/CmdBox/DefaultMessageProperties"
 import GlobalCurrency from "../mixins/GlobalCurrency"
 
 // import components
-import CmdCustomHeadline from "./CmdCustomHeadline"
+import CmdHeadline from "./CmdHeadline"
 import CmdListOfLinks from "./CmdListOfLinks"
 
 export default {
     name: "CmdBox",
     components: {
-        CmdCustomHeadline,
+        CmdHeadline,
         CmdListOfLinks,
     },
     mixins: [
@@ -250,9 +244,9 @@ export default {
             default: true
         },
         /**
-         * properties for CmdCustomHeadline-component
+         * properties for CmdHeadline-component
          */
-        cmdCustomHeadline: {
+        CmdHeadline: {
             type: Object,
             required: false
         }

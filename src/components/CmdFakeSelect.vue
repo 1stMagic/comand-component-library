@@ -18,28 +18,21 @@
             <span class="label-text" :id="labelId">
                 <span>{{ labelText }}<sup v-if="$attrs.required !== undefined">*</sup></span>
 
-                <!-- begin CmdTooltip -->
-                <CmdTooltip v-if="useCustomTooltip" class="box" :class="validationStatus" :relatedId="tooltipId" :toggle-visibility-by-click="true">
-                    <!-- begin CmdSystemMessage -->
-                    <CmdSystemMessage
-                        v-if="getValidationMessage"
-                        :message="getValidationMessage"
-                        :validation-status="validationStatus"
-                        :iconClose="{show: false}"
-                    />
-                    <!-- end CmdSystemMessage -->
-
-                    <!-- begin CmdListOfRequirements -->
-                    <CmdListOfRequirements
-                        v-if="showRequirements && (validationStatus === '' || validationStatus === 'error')"
-                        :inputRequirements="inputRequirements"
-                        :inputModelValue="modelValue"
-                        :inputAttributes="$attrs"
-                        :helplink="helplink"
-                    />
-                    <!-- end CmdListOfRequirements -->
-                </CmdTooltip>
-                <!-- end CmdTooltip -->
+                <!-- begin CmdTooltipForInputElements -->
+                <CmdTooltipForInputElements
+                    v-if="useCustomTooltip && (validationStatus === '' || validationStatus === 'error')"
+                    ref="tooltip"
+                    :showRequirements="showRequirements"
+                    :inputRequirements="inputRequirements"
+                    :validationStatus="validationStatus"
+                    :validationMessage="getValidationMessage"
+                    :validationTooltip="validationTooltip"
+                    :inputAttributes="$attrs"
+                    :inputModelValue="modelValue"
+                    :helplink="helplink"
+                    :relatedId="tooltipId"
+                />
+                <!-- end CmdTooltipForInputElements -->
 
                 <a v-if="$attrs.required || inputRequirements.length"
                    href="#"
@@ -139,9 +132,7 @@ import FieldValidation from "../mixins/FieldValidation.js"
 import Tooltip from "../mixins/Tooltip.js"
 
 // import components
-import CmdListOfRequirements from "./CmdListOfRequirements"
-import CmdSystemMessage from "./CmdSystemMessage"
-import CmdTooltip from "./CmdTooltip"
+import CmdTooltipForInputElements from "./CmdTooltipForInputElements"
 
 export default {
     name: 'CmdFakeSelect',
@@ -153,9 +144,7 @@ export default {
         Tooltip
     ],
     components: {
-        CmdListOfRequirements,
-        CmdSystemMessage,
-        CmdTooltip
+        CmdTooltipForInputElements
     },
     data() {
         return {
