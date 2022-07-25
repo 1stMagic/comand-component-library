@@ -101,7 +101,8 @@ export default {
     }
 
     header {
-        padding: calc(var(--default-padding) * 2) 0;
+        padding-top: calc(var(--default-padding) * 2);
+        padding-bottom: calc(var(--default-padding) * 2);
 
         &.flex-container {
             width: 100%;

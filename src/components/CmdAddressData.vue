@@ -1,7 +1,7 @@
 <template>
     <div class="cmd-address-data vcard">
         <!-- begin CmdHeadline -->
-        <CmdHeadline v-if="CmdHeadline" v-bind="CmdHeadline" />
+        <CmdHeadline v-if="cmdHeadline" v-bind="cmdHeadline" />
         <!-- end CmdHeadline -->
 
         <!-- begin address-data in vCard microformat -->
@@ -146,7 +146,7 @@ export default {
         /**
          * properties for CmdHeadline-component
          */
-        CmdHeadline: {
+        cmdHeadline: {
             type: Object,
             required: false
         },

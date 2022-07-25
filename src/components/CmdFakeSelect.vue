@@ -9,6 +9,7 @@
                 disabled: $attrs.disabled
             }
         ]"
+        :title="$attrs.title"
         :aria-labelledby="labelId"
         :aria-required="$attrs.required !== undefined"
         ref="fakeselect"
@@ -560,7 +561,7 @@ export default {
             margin: 0;
             border-bottom-right-radius: var(--border-radius);
             border-bottom-left-radius: var(--border-radius);
-            background: var(--pure-white);
+            background: var(--color-scheme-background-color);
             border: var(--primary-border);
 
             li {

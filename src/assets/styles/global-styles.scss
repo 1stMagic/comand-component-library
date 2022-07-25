@@ -33,6 +33,11 @@
 @import 'variables'; /* scss-variables (only used for media-query-breakpoints) */
 /* ---------------------------------------------- END IMPORTS -------------------------------------------------- */
 
+body, .cmd-site-header, .cmd-site-footer, .cmd-copyright-information {
+  transition: background linear .5s;
+}
+
+
 /* ---------------------------------------------- BEGIN COMPONENTS AND GLOBAL STYLES -------------------------------------------------- */
 /* begin .avoid-scrolling --------------------------------------------------------------------------------------------------------------------------------------------------- */
 body.avoid-scrolling {
@@ -220,14 +225,6 @@ body.avoid-scrolling {
     --grid-small-span: 3; /* default column span smaller part */
     --grid-large-span: 3; /* default column span larger part */
   }
-
-  #site-footer  {
-    footer {
-      li {
-        margin-bottom: calc(var(--default-margin) * 2);
-      }
-    }
-  }
 }
 /* end styles for medium screens --------------------------------------------------------------------------------------------------------------------------------------------------- */
 
@@ -244,16 +241,6 @@ body.avoid-scrolling {
 
   .section-wrapper {
     padding: calc(var(--default-padding) * 2) 0;
-  }
-
-  #site-footer {
-    a {
-      text-decoration: underline;
-
-      &:active {
-        text-decoration: none;
-      }
-    }
   }
 
   a[href^="tel"] {
@@ -283,6 +270,10 @@ html {
     --color-scheme-text-color-inverted: var(--light-mode-text-color);
     --color-scheme-background-inverted: var(--light-mode-background-color);
     --default-background-color-lightness: 20%;
+
+    :where(label, .label) .label-text [class*="icon"] {
+      background: var(--dark-gray);
+    }
   }
 }
 

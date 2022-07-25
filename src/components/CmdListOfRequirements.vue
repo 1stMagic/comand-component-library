@@ -1,7 +1,7 @@
 <template>
     <div class="cmd-list-of-requirements">
         <!-- begin cmd-custom-headline -->
-        <CmdHeadline :headline-level="CmdHeadline.headlineLevel">
+        <CmdHeadline :headline-level="cmdHeadline.headlineLevel">
             <!-- {{ getMessage("cmdfakeselect.headline.requirements_for_input") }}<br/>"{{ labelText }}" -->
         </CmdHeadline>
         <!-- end cmd-custom-headline -->
@@ -92,7 +92,7 @@ export default {
         /**
          * properties of CmdHeadline-component
          */
-        CmdHeadline: {
+        cmdHeadline: {
             type: Object,
             default() {
                 return {

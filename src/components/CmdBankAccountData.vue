@@ -1,7 +1,7 @@
 <template>
     <div class="cmd-bank-account-data">
         <!-- begin CmdHeadline -->
-        <CmdHeadline v-if="CmdHeadline" v-bind="CmdHeadline"/>
+        <CmdHeadline v-if="cmdHeadline" v-bind="cmdHeadline" />
         <!-- end CmdHeadline -->
 
         <!-- begin account data -->
@@ -73,7 +73,7 @@ export default {
         /**
          * properties for CmdHeadline-component
          */
-        CmdHeadline: {
+        cmdHeadline: {
             type: Object,
             required: false
         }
@@ -90,6 +90,7 @@ export default {
 </script>
 
 <style lang="scss">
+/* begin cmd-bank-account-data ---------------------------------------------------------------------------------------- */
 .cmd-bank-account-data {
     dd.flex-container {
         gap: calc(var(--default-gap) / 2);
@@ -101,4 +102,5 @@ export default {
         }
     }
 }
+/* end cmd-bank-account-data ---------------------------------------------------------------------------------------- */
 </style>

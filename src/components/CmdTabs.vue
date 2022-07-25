@@ -47,7 +47,7 @@ export default {
         /**
          * properties for CmdHeadline-component
          */
-        CmdHeadline: {
+        cmdHeadline: {
             type: Object,
             required: false
         },

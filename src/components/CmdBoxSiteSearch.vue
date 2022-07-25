@@ -6,8 +6,8 @@
 
         <!-- begin CmdHeadline -->
         <CmdHeadline
-            v-if="CmdHeadline"
-            v-bind="CmdHeadline"
+            v-if="cmdHeadline"
+            v-bind="cmdHeadline"
         />
         <!-- end CmdHeadline -->
 
@@ -185,7 +185,7 @@ export default {
         /**
          * properties for CmdHeadline-component
          */
-        CmdHeadline: {
+        cmdHeadline: {
             type: Object,
             required: false
         },

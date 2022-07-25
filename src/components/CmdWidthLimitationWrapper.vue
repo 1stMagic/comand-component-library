@@ -110,23 +110,6 @@ export default {
         right: 0;
         top: 0;
     }
-
-    &#site-footer {
-        padding: var(--grid-gap) 0;
-        border-top: var(--default-border);
-        background: var(--default-background-color);
-
-        &.sticky {
-            top: auto;
-            bottom: 0;
-        }
-
-        .cmd-switch-language {
-            width: 100%;
-            flex: none;
-        }
-    }
 }
-
 /* end cmd-width-limitation-wrapper ------------------------------------------------------------------------------------------ */
 </style>

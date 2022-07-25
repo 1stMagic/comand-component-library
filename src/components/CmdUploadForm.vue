@@ -3,8 +3,9 @@
     <fieldset v-if="advancedMode" :class="['cmd-upload-form flex-container', { 'upload-initiated': uploadInitiated }]">
         <legend :class="{hidden : !showLegend}">{{ textLegend }}</legend>
         <!-- begin CmdHeadlineFieldset -->
-        <CmdHeadline v-if="CmdHeadlineFieldset"
-                           v-bind="CmdHeadlineFieldset"
+        <CmdHeadline
+            v-if="cmdHeadlineFieldset"
+            v-bind="cmdHeadlineFieldset"
         />
         <!-- end CmdHeadlineFieldset -->
 
@@ -25,10 +26,10 @@
 
         <div :class="['box drop-area flex-container vertical', { 'allow-drop': allowDrop }]" v-on="dragAndDropHandler">
             <template v-if="!listOfFiles.length">
-                <CmdHeadline v-if="allowMultipleFileUploads" v-bind="CmdHeadlineNoFilesToUpload" headlineLevel="4">
+                <CmdHeadline v-if="allowMultipleFileUploads" v-bind="cmdHeadlineNoFilesToUpload" headlineLevel="4">
                     {{ getMessage("cmduploadform.no_files_to_upload") }}
                 </CmdHeadline>
-                <CmdHeadline v-else v-bind="CmdHeadlineNoFilesToUpload" headlineLevel="4">
+                <CmdHeadline v-else v-bind="cmdHeadlineNoFilesToUpload" headlineLevel="4">
                     {{ getMessage("cmduploadform.no_file_to_upload") }}
                 </CmdHeadline>
             </template>
@@ -36,7 +37,7 @@
             <!-- begin total-upload information -->
             <div v-else class="flex-container vertical">
                 <div v-if="showTotalUpload && listOfFiles.length !== 1" class="flex-container vertical list-files-wrapper">
-                    <CmdHeadline v-bind="CmdHeadlineSummaryOfAllFiles" headlineLevel="4">
+                    <CmdHeadline v-bind="cmdHeadlineSummaryOfAllFiles" headlineLevel="4">
                         {{ getMessage("cmduploadform.headline.summary_of_all_files") }}
                     </CmdHeadline>
                     <ul v-if="showTotalUpload && listOfFiles.length !== 1" class="list-of-files total-files">
@@ -80,7 +81,7 @@
 
                 <div class="flex-container vertical list-files-wrapper">
                     <!-- begin list of selected files -->
-                    <CmdHeadline v-bind="CmdHeadlineListOfSelectedFiles" headlineLevel="4">
+                    <CmdHeadline v-bind="cmdHeadlineListOfSelectedFiles" headlineLevel="4">
                         {{ getMessage("cmduploadform.headline.list_of_selected_files") }}
                     </CmdHeadline>
                     <ul class="list-of-files">
@@ -131,10 +132,10 @@
             <!-- end list of selected files -->
 
             <!-- begin upload conditions -->
-            <CmdHeadline v-if="allowMultipleFileUploads && listOfFiles.length" v-bind="CmdHeadlineSelectAdditionalFiles" headlineLevel="4">
+            <CmdHeadline v-if="allowMultipleFileUploads && listOfFiles.length" v-bind="cmdHeadlineSelectAdditionalFiles" headlineLevel="4">
                 {{ getMessage("cmduploadform.headline.select_additional_files") }}
             </CmdHeadline>
-            <CmdHeadline v-if="!allowMultipleFileUploads && listOfFiles.length" v-bind="CmdHeadlineSelectNewFile" headlineLevel="4">
+            <CmdHeadline v-if="!allowMultipleFileUploads && listOfFiles.length" v-bind="cmdHeadlineSelectNewFile" headlineLevel="4">
                 {{ getMessage("cmduploadform.headline.select_new_file") }}
             </CmdHeadline>
             <dl class="small">
@@ -508,14 +509,14 @@ export default {
         /**
          * properties for CmdHeadline-component at of the fieldset
          */
-        CmdHeadlineFieldset: {
+        cmdHeadlineFieldset: {
             type: Object,
             required: false
         },
         /**
          * properties for CmdHeadline-component shown if no files for upload exist
          */
-        CmdHeadlineNoFilesToUpload: {
+        cmdHeadlineNoFilesToUpload: {
             type: Object,
             required: false
         },
@@ -529,28 +530,28 @@ export default {
         /**
          * properties for CmdHeadline-component for 'summary of all files'
          */
-        CmdHeadlineSummaryOfAllFiles: {
+        cmdHeadlineSummaryOfAllFiles: {
             type: Object,
             required: false
         },
         /**
          * properties for CmdHeadline-component for 'list of selected files'
          */
-        CmdHeadlineListOfSelectedFiles: {
+        cmdHeadlineListOfSelectedFiles: {
             type: Object,
             required: false
         },
         /**
          * properties for CmdHeadline-component for 'select additional files'
          */
-        CmdHeadlineSelectAdditionalFiles: {
+        cmdHeadlineSelectAdditionalFiles: {
             type: Object,
             required: false
         },
         /**
          * properties for CmdHeadline-component for 'select new file'
          */
-        CmdHeadlineSelectNewFile: {
+        cmdHeadlineSelectNewFile: {
             type: Object,
             required: false
         },

@@ -3,8 +3,8 @@
     <fieldset v-if="!sendLogin" class="cmd-login-form flex-container">
         <legend :class="{hidden : !showLegend}">{{ textLegend }}</legend>
         <!-- begin CmdHeadline -->
-        <CmdHeadline v-if="CmdHeadlineLoginForm"
-                           v-bind="CmdHeadlineLoginForm"/>
+        <CmdHeadline v-if="cmdHeadlineLoginForm"
+                           v-bind="cmdHeadlineLoginForm"/>
         <!-- end CmdHeadline -->
 
         <!-- being form elements -->
@@ -122,11 +122,11 @@
     <fieldset v-else class="cmd-login-form flex-container">
         <legend :class="{'hidden' : !legendSendLoginForm.show}">{{ legendSendLoginForm.text }}</legend>
         <!-- begin CmdHeadline -->
-        <CmdHeadline v-if="CmdHeadlineSendLoginForm"
-                           :iconClass="CmdHeadlineSendLoginForm.iconClass"
-                           :preHeadline="CmdHeadlineSendLoginForm.preHeadline"
-                           :headlineLevel="CmdHeadlineSendLoginForm.preHeadline"
-                           :headlineText="CmdHeadlineSendLoginForm.headlineText"/>
+        <CmdHeadline v-if="cmdHeadlineSendLoginForm"
+                           :iconClass="cmdHeadlineSendLoginForm.iconClass"
+                           :preHeadline="cmdHeadlineSendLoginForm.preHeadline"
+                           :headlineLevel="cmdHeadlineSendLoginForm.preHeadline"
+                           :headlineText="cmdHeadlineSendLoginForm.headlineText"/>
         <!-- end CmdHeadline -->
 
         <!-- begin CmdFormElement -->
@@ -272,14 +272,14 @@ export default {
         /**
          * properties for CmdHeadline-component for login-form
          */
-        CmdHeadlineLoginForm: {
+        cmdHeadlineLoginForm: {
             type: Object,
             required: false
         },
         /**
          * properties for CmdHeadline-component for send-login-form
          */
-        CmdHeadlineSendLoginForm: {
+        cmdHeadlineSendLoginForm: {
             type: Object,
             default() {
                 return {
@@ -439,6 +439,7 @@ export default {
 </script>
 
 <style lang="scss">
+/* begin cmd-login-form ---------------------------------------------------------------------------------------- */
 .cmd-login-form {
     .option-wrapper {
         align-items: center;
@@ -460,4 +461,5 @@ export default {
         }
     }
 }
+/* end cmd-login-form ---------------------------------------------------------------------------------------- */
 </style>

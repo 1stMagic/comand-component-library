@@ -1,8 +1,10 @@
 <template>
     <div :class="['cmd-list-of-links', 'align-' + align, {box: styleAsBox, horizontal: orientation === 'horizontal', 'section-anchors': sectionAnchors}]">
         <!-- begin CmdHeadline -->
-        <CmdHeadline v-if="CmdHeadline"
-                           v-bind="CmdHeadline" />
+        <CmdHeadline
+            v-if="cmdHeadline"
+            v-bind="cmdHeadline"
+        />
         <!-- end CmdHeadline -->
 
         <!-- begin list of links -->
@@ -77,7 +79,7 @@ export default {
         /**
          * properties for CmdHeadline-component
          */
-        CmdHeadline: {
+        cmdHeadline: {
             type: Object,
             required: false
         },

@@ -3,20 +3,20 @@
         <div class="cmd-cookie-disclaimer flex-container vertical">
             <!-- begin CmdHeadline -->
             <CmdHeadline
-                v-if="CmdHeadlineCookieDisclaimer?.show && CmdHeadlineCookieDisclaimer?.headlineText && CmdHeadlineCookieDisclaimer?.headlineLevel"
-                v-bind="CmdHeadlineCookieDisclaimer"
-                :headlineText="CmdHeadlineCookieDisclaimer.headlineText"
-                :headlineLevel="CmdHeadlineCookieDisclaimer.headlineLevel"
+                v-if="cmdHeadlineCookieDisclaimer?.show && cmdHeadlineCookieDisclaimer?.headlineText && cmdHeadlineCookieDisclaimer?.headlineLevel"
+                v-bind="cmdHeadlineCookieDisclaimer"
+                :headlineText="cmdHeadlineCookieDisclaimer.headlineText"
+                :headlineLevel="cmdHeadlineCookieDisclaimer.headlineLevel"
             />
             <!-- end CmdHeadline -->
 
             <!-- begin slot for cookie-options -->
             <slot name="cookie-options">
                 <!-- begin required cookies -->
-                <div v-if="cookieOptions.required" class="flex-container vertical">
+                <div v-if="cookieOptions?.required" class="flex-container vertical">
                     <CmdHeadline v-if="cmdBoxRequiredCookies?.showHeadline" :headline-text="cmdBoxRequiredCookies?.headlineText" :headline-level="cmdBoxRequiredCookies?.headlineLevel "/>
                     <!-- begin CmdBox -->
-                    <CmdBox v-for="(cookie, index) in cookieOptions.required.cookies"
+                    <CmdBox v-for="(cookie, index) in cookieOptions.required.cookies || []"
                             :useSlots="['header', 'body']"
                             v-bind="cmdBoxRequiredCookies"
                             :key="index"
@@ -56,10 +56,10 @@
                 <hr/>
 
                 <!-- begin optional cookies -->
-                <div v-if="cookieOptions.optional" class="flex-container vertical">
+                <div v-if="cookieOptions?.optional" class="flex-container vertical">
                     <CmdHeadline v-if="cmdBoxOptionalCookies?.showHeadline" :headline-text="cmdBoxOptionalCookies?.headlineText" :headline-level="cmdBoxOptionalCookies?.headlineLevel "/>
                     <!-- begin CmdBox -->
-                    <CmdBox v-for="(cookie, index) in cookieOptions.optional.cookies"
+                    <CmdBox v-for="(cookie, index) in cookieOptions.optional.cookies || []"
                             :useSlots="['header', 'body']"
                             v-bind="cmdBoxOptionalCookies"
                             :key="index"
@@ -151,7 +151,7 @@ export default {
         /**
          * properties for CmdHeadline-component at top of cookie disclaimer
          */
-        CmdHeadlineCookieDisclaimer: {
+        cmdHeadlineCookieDisclaimer: {
             type: Object,
             default() {
                 return {

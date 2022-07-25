@@ -10,13 +10,13 @@
 
             <!-- begin area to slide -->
             <transition name="fade">
-                <a v-if="currentItem.href" :href="currentItem.href" :key="index" :title="currentItem.title">
+                <a v-if="currentItem?.href" :href="currentItem.href" :key="index" :title="currentItem.title">
                     <figure v-if="currentItem && !useSlot" class="slideshow-item">
                         <img :src="currentItem.imgPath" :alt="currentItem.alt"/>
                         <figcaption>{{ currentItem.figcaption }}</figcaption>
                     </figure>
                 </a>
-                <figure v-else-if="!currentItem.href && currentItem && !useSlot" :key="index" class="slideshow-item">
+                <figure v-else-if="currentItem && !currentItem.href && currentItem && !useSlot" :key="index" class="slideshow-item">
                         <img :src="currentItem.imgPath" :alt="currentItem.alt"/>
                         <figcaption>{{ currentItem.figcaption }}</figcaption>
                 </figure>
@@ -160,14 +160,12 @@ export default {
             }
             this.preload(this.index)
         },
-
         showItem(i) {
             if (i >= 0 && i < this.slideshowItems.length) {
                 this.index = i;
                 this.preload(this.index);
             }
         },
-
         showNextItem() {
             if (this.useSlot) {
                 if (this.currentSlotItem < Object.keys(this.$slots).length - 1) {
@@ -240,10 +238,12 @@ export default {
     /* computed property to get current slide */
     computed: {
         currentItem() {
-            return this.getDeviceImage(this.slideshowItems[this.index]);
+            if(this.slideshowItems.length <= this.index) {
+                return null
+            }
+            return this.getDeviceImage(this.slideshowItems[this.index])
         }
     },
-
     watch: {
         slideshowItems: {
             handler() {

@@ -23,16 +23,17 @@
             <!-- begin header for collapsible -->
             <a v-if="collapsible" class="box-header" href="#" :title="open ? iconOpen.tooltip : iconClosed.tooltip" @click.prevent="toggleContentVisibility">
                 <!-- begin CmdHeadline -->
-                <CmdHeadline v-if="CmdHeadline?.headlineText" v-bind="CmdHeadline"/>
+                <CmdHeadline v-if="cmdHeadline?.headlineText" v-bind="cmdHeadline" />
                 <!-- end CmdHeadline -->
                 <span class="toggle-icon" :class="[open ? iconOpen.iconClass : iconClosed.iconClass]"></span>
             </a>
             <!-- end header for collapsible -->
 
             <!-- begin CmdHeadline -->
-            <CmdHeadline v-else-if="!collapsible && CmdHeadline?.headlineText"
-                               class="box-header"
-                               v-bind="CmdHeadline"
+            <CmdHeadline
+                v-else-if="!collapsible && cmdHeadline?.headlineText"
+                class="box-header"
+                v-bind="cmdHeadline"
             />
             <!-- end CmdHeadline -->
         </template>
@@ -68,9 +69,10 @@
                 <span>{{ product.discount }}</span>
             </div>
             <!-- begin CmdHeadline -->
-            <CmdHeadline v-if="CmdHeadline?.headlineText || product.name"
-                               v-bind="CmdHeadline || {}"
-                               :headlineText="CmdHeadline?.headlineText ? CmdHeadline?.headlineText : product.name"/>
+            <CmdHeadline
+                v-if="cmdHeadline?.headlineText || product.name"
+                v-bind="cmdHeadline || {}"
+                :headlineText="cmdHeadline?.headlineText ? cmdHeadline?.headlineText : product.name"/>
             <!-- end CmdHeadline -->
         </div>
         <div class="box-body">
@@ -89,9 +91,11 @@
             <img v-if="user.image" :src="user.image.src" :alt="user.image.alt"/>
             <div v-else :class="defaultProfileIconClass" :title="user.name"></div>
             <!-- begin CmdHeadline -->
-            <CmdHeadline v-if="CmdHeadline?.headlineText || user.name"
-                               v-bind="CmdHeadline || {}"
-                               :headlineText="CmdHeadline?.headlineText ? CmdHeadline?.headlineText : user.name"/>
+            <CmdHeadline
+                v-if="cmdHeadline?.headlineText || user.name"
+                v-bind="cmdHeadline || {}"
+                :headlineText="cmdHeadline?.headlineText ? cmdHeadline?.headlineText : user.name"
+            />
             <!-- end CmdHeadline -->
         </div>
         <div class="box-body">
@@ -246,7 +250,7 @@ export default {
         /**
          * properties for CmdHeadline-component
          */
-        CmdHeadline: {
+        cmdHeadline: {
             type: Object,
             required: false
         }

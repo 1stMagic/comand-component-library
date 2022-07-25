@@ -7,6 +7,8 @@
             :showLabel="showLabel"
             v-model="darkMode"
             :toggle-switch="true"
+            :class="{'styled-layout': useStyledLayout}"
+            :title="!showLabel ? labelText: ''"
         />
     </div>
 </template>
@@ -22,13 +24,43 @@ export default {
     data() {
         return {
             darkMode: false,
-            labelText: "Light mode activated"
+            labelText: ""
         }
     },
     props: {
+        /**
+         * toggle visibility of label
+         */
         showLabel: {
             type: Boolean,
             default: false
+        },
+        /**
+         * activate if styled layout should be used
+         *
+         * @affectsStyling: true
+         */
+        useStyledLayout: {
+            type: Boolean,
+            default: false
+        },
+        /**
+         * label-text to enable dark-mode
+         *
+         * @requiredForAccessibility: true
+         */
+        labelTextDarkMode: {
+            type: String,
+            default: "Dark-mode enabled"
+        },
+        /**
+         * label-text to enable light-mode
+         *
+         * @requiredForAccessibility: true
+         */
+        labelTextLightMode: {
+            type: String,
+            default: "Light-mode enabled"
         }
     },
     created() {
@@ -55,10 +87,10 @@ export default {
             const htmlTag = document.querySelector('html')
             if(this.darkMode) {
                 htmlTag.classList.replace("light-mode", "dark-mode");
-                this.labelText = "Dark-Mode enabled"
+                this.labelText = this.labelTextDarkMode
             } else {
                 htmlTag.classList.replace("dark-mode", "light-mode");
-                this.labelText = "Light-Mode enabled"
+                this.labelText = this.labelTextLightMode
             }
             htmlTag.dispatchEvent(new CustomEvent('toggle-color-scheme', { detail: this.darkMode ? 'dark-mode' : 'light-mode' }))
         }
@@ -69,53 +101,55 @@ export default {
 <style lang="scss">
 .cmd-toggle-dark-mode {
     .cmd-form-element {
-        input {
-            --dark-blue: hsl(195, 96%, 45%);
-            --medium-blue: hsl(194, 97%, 39%);
-            --light-blue: hsl(195, 97%, 76%);
-            background: linear-gradient(to bottom, var(--dark-blue) 0%,var(--light-blue) 67%);
-            border-color: var(--medium-blue);
+        &.styled-layout {
+            input {
+                --dark-blue: hsl(195, 96%, 45%);
+                --medium-blue: hsl(194, 97%, 39%);
+                --light-blue: hsl(195, 97%, 76%);
+                background: linear-gradient(to bottom, var(--dark-blue) 0%, var(--light-blue) 67%);
+                border-color: var(--medium-blue);
 
-            &:after {
-                --yellow-hue: 60;
-                --yellow-saturation: 100%;
-                --yellow-lightness: 76.7%;
-                background: radial-gradient(ellipse at center, var(--pure-white) 20%, hsl(var(--yellow-hue), var(--yellow-saturation), var(--yellow-lightness)) 30%, hsla(var(--yellow-hue), var(--yellow-saturation), var(--yellow-lightness),0) 100%);
-                border-color: transparent;
-                box-shadow: 0 0 1rem hsl(var(--yellow-hue), var(--yellow-saturation), var(--yellow-lightness));
+                &::after {
+                    --yellow-hue: 60;
+                    --yellow-saturation: 100%;
+                    --yellow-lightness: 76.7%;
+                    background: radial-gradient(ellipse at center, var(--pure-white) 20%, hsl(var(--yellow-hue), var(--yellow-saturation), var(--yellow-lightness)) 30%, hsla(var(--yellow-hue), var(--yellow-saturation), var(--yellow-lightness), 0) 100%);
+                    border-color: transparent;
+                    box-shadow: 0 0 1rem hsl(var(--yellow-hue), var(--yellow-saturation), var(--yellow-lightness));
+                }
             }
         }
-    }
 
-    &.dark-mode {
-        input {
-            background: var(--color-scheme-background-color);
-            border-color: var(--color-scheme-text-color);
-
-            &:before {
-                --size: 1.2rem;
-                content: "";
-                width: var(--size);
-                aspect-ratio: 1/1;
+        &.dark-mode {
+            input {
                 background: var(--color-scheme-background-color);
-                border-radius: var(--full-circle);
-                position: absolute;
-                top: 0;
-                right: calc(var(--size) / 2);
-                transform: translateY(calc(50% - 35%));
-                z-index: 100;
+                border-color: var(--color-scheme-text-color);
+
+                &::before {
+                    --size: 1.2rem;
+                    content: "";
+                    width: var(--size);
+                    aspect-ratio: 1/1;
+                    background: var(--color-scheme-background-color);
+                    border-radius: var(--full-circle);
+                    position: absolute;
+                    top: 0;
+                    right: calc(var(--size) / 2);
+                    transform: translateY(calc(50% - 35%));
+                    z-index: 100;
+                }
+
+                &::after {
+                    background: radial-gradient(ellipse at center, var(--pure-white) 50%, var(--medium-gray) 100%);
+                    border-color: transparent;
+                    box-shadow: .2rem .1rem .2rem hsla(var(--pure-white-hue), var(--pure-white-saturation), var(--pure-white-lightness), .3);
+                }
             }
 
-            &:after {
-                background: radial-gradient(ellipse at center,  var(--pure-white) 50%,var(--medium-gray) 100%);
-                border-color: transparent;
-                box-shadow: .2rem .1rem .2rem hsla(var(--pure-white-hue), var(--pure-white-saturation), var(--pure-white-lightness), .3);
-            }
-        }
-
-        .label-text {
-            span {
-                color: var(--color-scheme-text-color);
+            .label-text {
+                span {
+                    color: var(--color-scheme-text-color);
+                }
             }
         }
     }

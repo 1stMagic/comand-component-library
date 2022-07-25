@@ -1,5 +1,5 @@
 <template>
-    <div :class="['cmd-custom-headline', { 'has-pre-headline-text': preHeadlineText}]">
+    <div :class="['cmd-headline', { 'has-pre-headline-text': preHeadlineText}]">
         <span v-if="iconClass" :class="iconClass"></span>
         <div v-if="preHeadlineText">
             <span class="pre-headline-text">{{ preHeadlineText }}</span>
@@ -48,17 +48,20 @@ export default {
     },
     computed: {
         getHeadlineTag() {
-            return "h" + this.headlineLevel
+            if(this.headlineLevel) {
+                return "h" + this.headlineLevel
+            }
+            return "h3"
         }
     }
 }
 </script>
 
 <style lang="scss">
+/* begin cmd--headline ------------------------------------------------------------------------------------------ */
 @import '../assets/styles/variables';
 
-/* begin cmd-custom-headline ------------------------------------------------------------------------------------------ */
-.cmd-custom-headline {
+.cmd-headline {
     display: flex;
     align-items: center;
     margin-bottom: var(--default-margin);
@@ -78,6 +81,11 @@ export default {
         margin: 0;
         display: flex;
         align-items: center;
+
+        &:only-child {
+            flex: none;
+            width: 100%;
+        }
     }
 
     @media only screen and ($small-max-width) {
@@ -88,6 +96,5 @@ export default {
         }
     }
 }
-
-/* end cmd-custom-headline ------------------------------------------------------------------------------------------ */
+/* end cmd-headline ------------------------------------------------------------------------------------------ */
 </style>

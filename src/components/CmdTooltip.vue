@@ -1,12 +1,14 @@
 <template>
     <div v-if="tooltipVisibility" :class="['cmd-tooltip', status]" ref="tooltip" aria-role="tooltip">
-        <div v-if="CmdHeadline || iconClose.show" class="headline-wrapper">
+        <div v-if="cmdHeadline || iconClose.show" class="headline-wrapper">
             <!-- begin CmdHeadline -->
-            <CmdHeadline v-if="CmdHeadline"
-                               :iconClass="CmdHeadline.iconClass"
-                               :preHeadline="CmdHeadline.preHeadline"
-                               :headlineLevel="CmdHeadline.headlineLevel"
-                               :headlineText="CmdHeadline.headlineText"/>
+            <CmdHeadline
+                v-if="cmdHeadline"
+               :iconClass="cmdHeadline.iconClass"
+               :preHeadline="cmdHeadline.preHeadline"
+               :headlineLevel="cmdHeadline.headlineLevel"
+               :headlineText="cmdHeadline.headlineText"
+            />
             <!-- end CmdHeadline -->
 
             <!-- begin icon to close tooltip -->
@@ -43,7 +45,7 @@ export default {
         /**
          * properties for CmdHeadline-component
          */
-        CmdHeadline: {
+        cmdHeadline: {
             type: Object,
             default() {}
         },

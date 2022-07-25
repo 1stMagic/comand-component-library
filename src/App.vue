@@ -66,7 +66,7 @@
                            id="status-default">Default</a></li>
                     <li class="error">
                         <a href="#" @click.prevent="setStatus('error', false)"
-                                         :class="{'active' : validationStatus === 'error'}" id="status-error">Error</a></li>
+                           :class="{'active' : validationStatus === 'error'}" id="status-error">Error</a></li>
                     <li><a href="#" @click.prevent="setStatus('warning', false)"
                            :class="{'active' : validationStatus === 'warning'}" id="status-warning">Warning</a></li>
                     <li><a href="#" @click.prevent="setStatus('success', false)"
@@ -266,9 +266,8 @@
                                        v-model="fakeSelectDefault"
                                        :required="true"
                                        defaultOptionName="Select an option:"
-                                       :title="fakeSelectDefault"
+                                       title="Title for FakeSelect"
                         />
-                        v-model: {{fakeSelectDefault}}
                         <CmdFakeSelect labelText="Default selectbox with icons:"
                                        :status="validationStatus"
                                        :disabled="disabledStatus"
@@ -845,13 +844,13 @@
             <h3>Product boxes</h3>
             <div class="grid-container-create-columns">
                 <div class="grid-small-item" v-for="(product, index) in boxProductData" :key="index">
-                    <CmdBox boxType="product" :product="product" :CmdHeadline="{headlineLevel: 4}"/>
+                    <CmdBox boxType="product" :product="product" :cmdHeadline="{headlineLevel: 4}"/>
                 </div>
             </div>
             <h3>User boxes</h3>
             <div class="grid-container-create-columns">
                 <div class="grid-small-item" v-for="(user, index) in boxUserData" :key="index">
-                    <CmdBox boxType="user" :user="user" :CmdHeadline="{headlineLevel: 4}"/>
+                    <CmdBox boxType="user" :user="user" :cmdHeadline="{headlineLevel: 4}"/>
                 </div>
             </div>
             <h3>Box Site Search</h3>
@@ -897,7 +896,7 @@
         <!-- begin custom-headline ------------------------------------------------------------------------------------------------------------------------------------------------------->
         <a id="section-custom-headline"></a>
         <CmdWidthLimitationWrapper>
-            <h2 class="headline-demopage">Custom Headline</h2>
+            <h2 class="headline-demopage">Headline</h2>
             <CmdHeadline icon-class="icon-home" pre-headline-text="Pre-headline" headlineText="Headline level 1" :headlineLevel="1"/>
             <CmdHeadline headlineText="Headline level 2" :headlineLevel="2"/>
             <CmdHeadline headlineText="Headline level 3" :headlineLevel="3"/>
@@ -1107,7 +1106,7 @@
                            :uploadOptions="{url: 'http://localhost:8888'}"
             />
             <h3>Advanced mode</h3>
-            <CmdUploadForm :CmdHeadlineFieldset="{headlineText: 'Select files to upload', headlineLevel: 3}"
+            <CmdUploadForm :cmdHeadlineFieldset="{headlineText: 'Select files to upload', headlineLevel: 3}"
                            :enableDragAndDrop="true"
                            :allowedFileExtensions="['jpg', 'png']"
                            :allowMultipleFileUploads="true"
@@ -1117,23 +1116,25 @@
         </CmdWidthLimitationWrapper>
     </main>
 
-    <CmdWidthLimitationWrapper id="site-footer" inner-component="footer">
+    <CmdSiteFooter>
         <CmdSwitchLanguage :languages="languagesData" @click="doSomething"/>
-        <CmdListOfLinks :links="listOfLinksData"
-                        :CmdHeadline="{headlineText: 'List of links', headlineLevel: 6}"
-        />
-        <CmdOpeningHours :openingHours="openingHoursData"
-                         :closed="true"
-                         :CmdHeadline="{headlineText: 'Opening hours', headlineLevel: 6}"
-                         textOpenClosed="Closed right now!"
-                         textHolidaysClosed="Closed on holidays"
-                         textMiscInfo="Miscellaneous information"
-        />
-        <CmdAddressData :addressData="addressData"
-                        :linkGoogleMaps="true"
-                        :CmdHeadline="{headlineText: 'Address data', headlineLevel: 6}"
-        />
-    </CmdWidthLimitationWrapper>
+        <div class="flex-container">
+            <CmdListOfLinks :links="listOfLinksData"
+                            :cmdHeadline="{headlineText: 'List of links', headlineLevel: 6}"
+            />
+            <CmdOpeningHours :openingHours="openingHoursData"
+                             :closed="true"
+                             :cmdHeadline="{headlineText: 'Opening hours', headlineLevel: 6}"
+                             textOpenClosed="Closed right now!"
+                             textHolidaysClosed="Closed on holidays"
+                             textMiscInfo="Miscellaneous information"
+            />
+            <CmdAddressData :addressData="addressData"
+                            :linkGoogleMaps="true"
+                            :cmdHeadline="{headlineText: 'Address data', headlineLevel: 6}"
+            />
+        </div>
+    </CmdSiteFooter>
 
     <CmdCopyrightInformation/>
 
@@ -1216,6 +1217,7 @@ import CmdOpeningHours from "@/components/CmdOpeningHours"
 import CmdPager from "@/components/CmdPager.vue"
 import CmdProgressBar from "@/components/CmdProgressBar.vue"
 import CmdShareButtons from "@/components/CmdShareButtons.vue"
+import CmdSiteFooter from "./components/CmdSiteFooter"
 import CmdSiteHeader from "./components/CmdSiteHeader"
 import CmdSlideshow from "@/components/CmdSlideshow.vue"
 import CmdSwitchLanguage from "@/components/CmdSwitchLanguage.vue"
@@ -1262,6 +1264,7 @@ export default {
         CmdPager,
         CmdProgressBar,
         CmdShareButtons,
+        CmdSiteFooter,
         CmdSiteHeader,
         CmdSlideshow,
         CmdSwitchLanguage,
