@@ -105,6 +105,7 @@ export default {
         &.up, &.down {
             width: 100%;
             height: auto;
+            height: auto;
             left: 0;
             top: 0;
         }

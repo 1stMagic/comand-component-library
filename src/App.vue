@@ -49,6 +49,7 @@
                     <li><a href="#section-tables">Tables</a></li>
                     <li><a href="#section-tabs">Tabs</a></li>
                     <li><a href="#section-thumbnail-scroller">Thumbnail-Scroller</a></li>
+                    <li><a href="#section-toggle-darkmode">ToggleDarkMode</a></li>
                     <li><a href="#section-upload-form">Upload-Form</a></li>
                 </ul>
             </div>
@@ -86,7 +87,6 @@
                 <fieldset class="grid-container-create-columns">
                     <legend>Legend</legend>
                     <h2>Form Element-Component</h2>
-                    <CmdToggleDarkMode :showLabel="true"/>
                     <div class="flex-container">
                         <CmdFormElement labelText="Input (type text):"
                                         element="input"
@@ -137,7 +137,6 @@
                     <h2>Inputfields in Columns</h2>
                     <div class="flex-container">
                         <CmdFormElement element="input"
-                                        labelText="Label for inputfield (with tooltip):"
                                         type="text"
                                         minlength="5"
                                         id="inputfield1"
@@ -145,10 +144,13 @@
                                         v-model="inputField1"
                                         tooltipText="This is a tooltip!"
                                         :status="validationStatus"
-                                        :disabled="disabledStatus"
-                        />
+                                        :disabled="disabledStatus">
+                            <template v-slot:labeltext>
+                                <span v-html="'Label with <a href=\'#\'>Link</a> given by slot'"></span>
+                            </template>
+                        </CmdFormElement>
                         <CmdFormElement element="input"
-                                        labelText="Label for inputfield (required):"
+                                        labelText="Label for inputfield (required, with tooltip):"
                                         type="text"
                                         required="required"
                                         minlength="5"
@@ -457,6 +459,10 @@
                         checkbox with boolean: {{ checkboxValue }}<br/>
                         checkboxes with values: {{ checkboxValues }}
                     </p>
+                    <h3>Toggle Dark-Mode</h3>
+                    <a id="section-toggle-darkmode"></a>
+                    <CmdToggleDarkMode :showLabel="true"/>
+                    <CmdToggleDarkMode :showLabel="false" :use-styled-layout="true" />
                     <h2>Checkboxes and Radiobuttons</h2>
                     <h3>Checkboxes [native]</h3>
                     <div class="label inline">

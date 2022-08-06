@@ -1,7 +1,7 @@
 <template>
-    <form class="cmd-form" :data-use-validation="useValidation" @submit="onSubmit" :class="{error: errorOccurred}">
+    <form class="cmd-form" :data-use-validation="useValidation" @submit="onSubmit" :class="{error: errorOccurred}" :novalidate="novalidate">
         <template v-if="useFieldset">
-            <fieldset>
+            <fieldset class="flex-container">
                 <legend :class="{hidden : !showLegend}">{{ textLegend }}</legend>
                 <!-- begin default-slot-content -->
                 <slot></slot>
@@ -29,6 +29,13 @@ export default {
         }
     },
     props: {
+        /**
+         * deactivate if browser-validation should be used
+         */
+        novalidate: {
+          type: Boolean,
+          default: true
+        },
         /**
          * if activated the entire form will be validated by pre-coded validation
          *

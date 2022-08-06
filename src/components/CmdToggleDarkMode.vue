@@ -1,5 +1,5 @@
 <template>
-    <div :class="['cmd-toggle-dark-mode', {'dark-mode': darkMode}]">
+    <div :class="['cmd-toggle-dark-mode', {'styled-layout': useStyledLayout, 'dark-mode': darkMode}]">
         <CmdFormElement
             element="input"
             type="checkbox"
@@ -7,8 +7,8 @@
             :showLabel="showLabel"
             v-model="darkMode"
             :toggle-switch="true"
-            :class="{'styled-layout': useStyledLayout}"
             :title="!showLabel ? labelText: ''"
+            @update:modelValue="setColorScheme"
         />
     </div>
 </template>
@@ -64,59 +64,81 @@ export default {
         }
     },
     created() {
-        // get color-scheme (light-/dark-mode) from browser-settings
-        // this.darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
-        // document.body.classList.add(this.darkMode ? 'dark-mode' : 'light-mode');
-
-        const mql = window.matchMedia('(prefers-color-scheme: dark)')
+        const mql = window.matchMedia("(prefers-color-scheme: dark)")
         mql.addEventListener("change", this.onColorSchemeChange)
         this.onColorSchemeChange(mql)
+
+        // load color-scheme from local-storage
+        const savedColorScheme = window.localStorage.getItem("cmd-color-scheme")
+
+        if(savedColorScheme) {
+            this.darkMode = savedColorScheme === "dark-mode"
+        }
+
+        // add eventListener on html-tag (= documentElement) to react on 'toggle-color-scheme'-event
+        document.documentElement.addEventListener("toggle-color-scheme", this.onToggleColorScheme)
     },
     beforeUnmount() {
-        window.matchMedia('(prefers-color-scheme: dark)').removeEventListener("change", this.onColorSchemeChange)
+        window.matchMedia("(prefers-color-scheme: dark)").removeEventListener("change", this.onColorSchemeChange)
+
+        // remove eventListener on html-tag (= documentElement)
+        document.documentElement.removeEventListener("toggle-color-scheme", this.onToggleColorScheme)
     },
     methods: {
         onColorSchemeChange(event) {
+            // assign browser/os-color-scheme to data-property (and toggle class on html-tag)
             this.darkMode = event.matches
-            document.querySelector('html').classList.add(this.darkMode ? 'dark-mode' : 'light-mode')
+            document.documentElement.classList.add(this.darkMode ? "dark-mode" : "light-mode")
+        },
+        setColorScheme() {
+            // save color-scheme in local-storage to avoid toggling on page-reload
+            window.localStorage.setItem("cmd-color-scheme", this.darkMode ? "dark-mode": "light-mode")
+        },
+        onToggleColorScheme(event) {
+            // get current color-scheme from event-listener (if color-scheme is toggled by (another) switch or browser-/os-settings)
+            this.darkMode = event.detail === "dark-mode"
         }
     },
     watch: {
-        darkMode() {
-            // toggle classes to overwrite media-query styles for color-schemes
-            const htmlTag = document.querySelector('html')
-            if(this.darkMode) {
-                htmlTag.classList.replace("light-mode", "dark-mode");
-                this.labelText = this.labelTextDarkMode
-            } else {
-                htmlTag.classList.replace("dark-mode", "light-mode");
-                this.labelText = this.labelTextLightMode
-            }
-            htmlTag.dispatchEvent(new CustomEvent('toggle-color-scheme', { detail: this.darkMode ? 'dark-mode' : 'light-mode' }))
+        darkMode: {
+            handler() {
+                // toggle classes to overwrite media-query styles for color-schemes
+                const htmlTag = document.documentElement
+                if (this.darkMode) {
+                    htmlTag.classList.replace("light-mode", "dark-mode")
+                    this.labelText = this.labelTextDarkMode
+                } else {
+                    htmlTag.classList.replace("dark-mode", "light-mode")
+                    this.labelText = this.labelTextLightMode
+                }
+
+                // emits custom events from html-tag
+                htmlTag.dispatchEvent(new CustomEvent('toggle-color-scheme', {detail: this.darkMode ? 'dark-mode' : 'light-mode'}))
+            },
+            immediate: true
         }
     }
 }
 </script>
 
 <style lang="scss">
+/* begin cmd-toggle-dark-mode ---------------------------------------------------------------------------------------- */
 .cmd-toggle-dark-mode {
-    .cmd-form-element {
-        &.styled-layout {
-            input {
-                --dark-blue: hsl(195, 96%, 45%);
-                --medium-blue: hsl(194, 97%, 39%);
-                --light-blue: hsl(195, 97%, 76%);
-                background: linear-gradient(to bottom, var(--dark-blue) 0%, var(--light-blue) 67%);
-                border-color: var(--medium-blue);
+    &.styled-layout {
+        input {
+            --dark-blue: hsl(195, 96%, 45%);
+            --medium-blue: hsl(194, 97%, 39%);
+            --light-blue: hsl(195, 97%, 76%);
+            background: linear-gradient(to bottom, var(--dark-blue) 0%, var(--light-blue) 67%);
+            border-color: var(--medium-blue);
 
-                &::after {
-                    --yellow-hue: 60;
-                    --yellow-saturation: 100%;
-                    --yellow-lightness: 76.7%;
-                    background: radial-gradient(ellipse at center, var(--pure-white) 20%, hsl(var(--yellow-hue), var(--yellow-saturation), var(--yellow-lightness)) 30%, hsla(var(--yellow-hue), var(--yellow-saturation), var(--yellow-lightness), 0) 100%);
-                    border-color: transparent;
-                    box-shadow: 0 0 1rem hsl(var(--yellow-hue), var(--yellow-saturation), var(--yellow-lightness));
-                }
+            &::after {
+                --yellow-hue: 60;
+                --yellow-saturation: 100%;
+                --yellow-lightness: 76.7%;
+                background: radial-gradient(ellipse at center, var(--pure-white) 20%, hsl(var(--yellow-hue), var(--yellow-saturation), var(--yellow-lightness)) 30%, hsla(var(--yellow-hue), var(--yellow-saturation), var(--yellow-lightness), 0) 100%);
+                border-color: transparent;
+                box-shadow: 0 0 1rem hsl(var(--yellow-hue), var(--yellow-saturation), var(--yellow-lightness));
             }
         }
 
@@ -137,6 +159,7 @@ export default {
                     right: calc(var(--size) / 2);
                     transform: translateY(calc(50% - 35%));
                     z-index: 100;
+                    transition: var(--default-transition);
                 }
 
                 &::after {
@@ -154,4 +177,5 @@ export default {
         }
     }
 }
+/* end cmd-toggle-dark-mode ---------------------------------------------------------------------------------------- */
 </style>

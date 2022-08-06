@@ -1,5 +1,5 @@
 <template>
-    <div :class="['cmd-headline', { 'has-pre-headline-text': preHeadlineText}]">
+    <div :class="['cmd-headline', { 'has-pre-headline-text': preHeadlineText, 'has-icon': iconClass}]">
         <span v-if="iconClass" :class="iconClass"></span>
         <div v-if="preHeadlineText">
             <span class="pre-headline-text">{{ preHeadlineText }}</span>
@@ -62,10 +62,13 @@ export default {
 @import '../assets/styles/variables';
 
 .cmd-headline {
-    display: flex;
-    align-items: center;
     margin-bottom: var(--default-margin);
     gap: calc(var(--default-gap) / 2);
+
+    &.has-icon {
+        display: flex;
+        align-items: center;
+    }
 
     &.has-pre-headline-text {
         [class*="icon"] {
@@ -79,8 +82,6 @@ export default {
 
     h1, h2, h3, h4, h5, h6 {
         margin: 0;
-        display: flex;
-        align-items: center;
 
         &:only-child {
             flex: none;

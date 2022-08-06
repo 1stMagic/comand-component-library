@@ -19,7 +19,7 @@
                     </a>
                 </li>
                 <li v-for="(navigationEntry, index) in navigationEntries" :key="index"
-                    :class="{'open' : navigationEntry.open}">
+                    :class="{'open' : navigationEntry.open, 'has-subentries': navigationEntry.subentries}">
                     <!-- begin type === href -->
                     <a
                        v-if="navigationEntry.type === 'href'"

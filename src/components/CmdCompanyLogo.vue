@@ -13,7 +13,7 @@
 import {getRoute} from "../utilities.js"
 
 export default {
-    name: "CmdLogo",
+    name: "CmdCompanyLogo",
     data() {
         return {
             prefersColorScheme: ""

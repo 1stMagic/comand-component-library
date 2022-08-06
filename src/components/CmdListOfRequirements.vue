@@ -2,7 +2,7 @@
     <div class="cmd-list-of-requirements">
         <!-- begin cmd-custom-headline -->
         <CmdHeadline :headline-level="cmdHeadline.headlineLevel">
-            <!-- {{ getMessage("cmdfakeselect.headline.requirements_for_input") }}<br/>"{{ labelText }}" -->
+            {{ headlineRequirements }}<template v-if="labelText"><br/><em>{{ labelText }}</em></template>
         </CmdHeadline>
         <!-- end cmd-custom-headline -->
 
@@ -13,8 +13,8 @@
                 <dd :class="requirement.valid(inputModelValue, inputAttributes) ? 'success' : 'error'">
                     <span
                         aria-live="assertive"
-                        :class="requirement.valid(inputModelValue, inputAttributes) ? 'icon-check-circle' : 'icon-error-circle'"
-                        :title="requirement.valid(inputModelValue, inputAttributes) ? 'success' : 'error'"
+                        :class="requirement.valid(inputModelValue, inputAttributes) ? iconSuccess.iconClass : iconError.iconClass"
+                        :title="requirement.valid(inputModelValue, inputAttributes) ? iconSuccess.tooltip : iconError.tooltip"
                     >
                     </span>
                 </dd>
@@ -48,11 +48,19 @@
 // import components
 import CmdHeadline from "./CmdHeadline"
 
+// import mixins
+import I18n from "../mixins/I18n"
+import DefaultMessageProperties from "../mixins/CmdListOfRequirements/DefaultMessageProperties"
+
 export default {
     name: "CmdListOfRequirements",
     components: {
         CmdHeadline
     },
+    mixins: [
+        I18n,
+        DefaultMessageProperties
+    ],
     props: {
         /**
         * property to check validity of given modelValue
@@ -69,7 +77,7 @@ export default {
             required: true
         },
         /**
-         * text for label
+         * text for label (used in headline)
          */
         labelText: {
             type: String,
@@ -86,8 +94,32 @@ export default {
          * set a helplink to a different page for further support
          */
         helplink: {
-            type: String,
+            type: Object,
             required: false
+        },
+        /**
+         * icon to show success-status
+         */
+        iconSuccess: {
+            type: Object,
+            default() {
+                return {
+                    iconClass: "icon-check-circle",
+                    tooltip: "success"
+                }
+            }
+        },
+        /**
+         * icon to show error-status
+         */
+        iconError: {
+            type: Object,
+            default() {
+                return {
+                    iconClass: "icon-error-circle",
+                    tooltip: "error"
+                }
+            }
         },
         /**
          * properties of CmdHeadline-component
@@ -99,6 +131,14 @@ export default {
                     headlineLevel: 4
                 }
             }
+        }
+    },
+    computed: {
+        headlineRequirements() {
+            if (this.inputRequirements.length > 1) {
+                return this.getMessage("cmdlistofrequirements.headline.requirements_for_input")
+            }
+            return this.getMessage("cmdlistofrequirements.headline.requirement_for_input")
         }
     }
 }

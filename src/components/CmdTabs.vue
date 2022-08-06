@@ -122,6 +122,8 @@ export default {
                 display: block;
                 padding: var(--default-padding);
                 color: var(--color-scheme-text-color);
+                border-top-left-radius: var(--border-radius);
+                border-top-right-radius: var(--border-radius);
 
                 &:hover, &:active, &:focus {
                     cursor: pointer;

@@ -26,14 +26,14 @@
                        :title="getMessage('cmdaddressdata.title.open_address_on_google_maps')">
                         <span v-if="addressData.address.streetNo" class="street-address">{{ addressData.address.streetNo }}</span><br/>
                         <span v-if="addressData.address.zip" class="postal-code">{{ addressData.address.zip }}&nbsp;</span>
-                        <span v-if="addressData.address.city" class="locality">{{ addressData.address.city }}</span>
-                        <span  v-if="addressData.country" class="country-name">{{ addressData.country }}</span>
+                        <span v-if="addressData.address.city" class="locality">{{ addressData.address.city }}</span><br/>
+                        <span  v-if="addressData.address.country" class="country-name">{{ addressData.address.country }}</span>
                     </a>
                     <template v-else>
                         <span v-if="addressData.address.streetNo" class="street-address">{{addressData.address.streetNo }}</span><br/>
-                        <span v-if="addressData.address.zip" class="postal-code">{{ addressData.address.zip }}</span>
-                        <span v-if="addressData.address.city" class="locality">{{ addressData.address.city }}</span>
-                        <span  v-if="addressData.country" class="country-name">{{ addressData.country }}</span>
+                        <span v-if="addressData.address.zip" class="postal-code">{{ addressData.address.zip }} </span>
+                        <span v-if="addressData.address.city" class="locality">{{ addressData.address.city }}</span><br/>
+                        <span  v-if="addressData.address.country" class="country-name">{{ addressData.address.country }}</span>
                     </template>
                 </dd>
                 <!-- end address -->
@@ -87,15 +87,15 @@
                     <a :href="locateAddress" target="google-maps" v-if="linkGoogleMaps"
                        :title="getMessage('cmdaddressdata.title.open_address_on_google_maps')">
                         <span class="street-address" v-if="addressData.address.streetNo">{{ addressData.address.streetNo }}</span><br/>
-                        <span class="postal-code" v-if="addressData.address.zip">{{ addressData.address.zip }}</span>
-                        <span class="locality" v-if="addressData.address.city">{{ addressData.address.city }}</span>
-                        <span class="country-name" v-if="addressData.country">{{ addressData.country }}</span>
+                        <span class="postal-code" v-if="addressData.address.zip">{{ addressData.address.zip }} </span>
+                        <span class="locality" v-if="addressData.address.city">{{ addressData.address.city }}</span><br/>
+                        <span class="country-name" v-if="addressData.address.country">{{ addressData.address.country }}</span>
                     </a>
                     <template v-else>
                         <span class="street-address" v-if="addressData.address.streetNo">{{ addressData.address.streetNo }}</span><br/>
-                        <span class="postal-code" v-if="addressData.address.zip">{{ addressData.address.zip }}</span>
-                        <span class="locality" v-if="addressData.address.city">{{ addressData.address.city }}</span>
-                        <span class="country-name" v-if="addressData.country">{{ addressData.country }}</span>
+                        <span class="postal-code" v-if="addressData.address.zip">{{ addressData.address.zip }} </span>
+                        <span class="locality" v-if="addressData.address.city">{{ addressData.address.city }}</span><br/>
+                        <span class="country-name" v-if="addressData.address.country">{{ addressData.address.country }}</span>
                     </template>
                 </li>
                 <li v-if="addressData.telephone?.value">

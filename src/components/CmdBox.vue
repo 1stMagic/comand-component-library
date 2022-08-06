@@ -87,7 +87,7 @@
 
     <!-- begin boxType 'user' -->
     <div v-else-if="boxType === 'user' && user" :class="['cmd-box box user', {'stretch-vertically': stretchVertically}]">
-        <div class="box-header">
+        <div class="box-header flex-container vertical">
             <img v-if="user.image" :src="user.image.src" :alt="user.image.alt"/>
             <div v-else :class="defaultProfileIconClass" :title="user.name"></div>
             <!-- begin CmdHeadline -->
@@ -340,6 +340,14 @@ export default {
                 font-size: 1rem;
                 margin-left: auto;
             }
+
+            &:hover, &:active, &:focus {
+                background: var(--pure-white);
+
+                > * {
+                    color: var(--primary-color);
+                }
+            }
         }
 
         .box-body {
@@ -428,7 +436,6 @@ export default {
                 color: var(--pure-white);
                 text-transform: uppercase;
                 text-align: center;
-                box-shadow: var(--box-shadow);
             }
         }
 
@@ -448,6 +455,10 @@ export default {
             > img, > div {
                 display: table;
                 margin: 0 auto;
+            }
+
+            > img {
+                border: 0;
             }
         }
 
@@ -476,6 +487,13 @@ export default {
     &.user {
         > .box-header {
             padding: var(--default-padding);
+
+            .cmd-headline  {
+                > * {
+                    display: block;
+                    text-align: center;
+                }
+            }
 
             > img, > div:first-child {
                 display: table;

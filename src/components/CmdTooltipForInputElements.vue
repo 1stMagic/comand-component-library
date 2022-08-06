@@ -24,6 +24,7 @@
             :inputModelValue="inputModelValue"
             :inputAttributes="inputAttributes"
             :validationTooltip="validationTooltip"
+            :labelText="labelText"
         />
         <!-- end CmdListOfRequirements -->
     </CmdTooltip>
@@ -44,6 +45,13 @@ export default {
         CmdTooltip
     },
     props: {
+        /**
+         * text for label (used in headline)
+         */
+        labelText: {
+            type: String,
+            required: false
+        },
         /**
          * related-id for CmdTooltip-component
          */
@@ -108,8 +116,8 @@ export default {
          * helplink for CmdListOfRequirements-component
          */
         helplink: {
-            type: String,
-            default: ""
+            type: Object,
+            required: false
         }
     },
     methods: {

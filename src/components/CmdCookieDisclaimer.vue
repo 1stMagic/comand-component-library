@@ -237,14 +237,20 @@ export default {
 
             // push all required cookies to array
             const requiredCookies = this.cookieOptions?.required?.cookies
-            for(let i = 0; i < requiredCookies.length ; i++) {
-                allCookies.push(requiredCookies[i].value)
+
+            if (requiredCookies) {
+                for (let i = 0; i < requiredCookies.length; i++) {
+                    allCookies.push(requiredCookies[i].value)
+                }
             }
 
             // push all optional cookies to array
             const optionalCookies = this.cookieOptions?.optional?.cookies
-            for(let i = 0; i < optionalCookies.length ; i++) {
-                allCookies.push(optionalCookies[i].value)
+
+            if (optionalCookies) {
+                for (let i = 0; i < optionalCookies.length; i++) {
+                    allCookies.push(optionalCookies[i].value)
+                }
             }
 
             this.$emit("close-cookie-disclaimer", allCookies)

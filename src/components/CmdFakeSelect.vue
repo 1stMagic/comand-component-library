@@ -444,6 +444,7 @@ export default {
 
 .cmd-fake-select {
     align-self: flex-end;
+    border-radius: var(--border-radius);
 
     > span:first-child {
         a {
@@ -456,7 +457,6 @@ export default {
         margin: 0;
         display: block;
         min-width: 0;
-        background: var(--color-scheme-background-color);
         box-shadow: none;
         border-radius: var(--border-radius);
 
@@ -467,6 +467,7 @@ export default {
                 > a {
                     height: inherit;
                     border: var(--default-border);
+                    background: var(--color-scheme-background-color);
 
                     .option-name {
                         text-overflow: ellipsis;

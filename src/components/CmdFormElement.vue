@@ -20,9 +20,10 @@
            ref="label">
 
         <!-- begin label-text (+ required asterisk) -->
-        <span v-if="labelText && $attrs.type !== 'checkbox' && $attrs.type !== 'radio'"
+        <span v-if="(labelText || $slots.labeltext) && $attrs.type !== 'checkbox' && $attrs.type !== 'radio'"
               :class="['label-text', !showLabel ? 'hidden' : undefined]">
-            <span>{{ labelText }}<sup v-if="$attrs.required">*</sup></span>
+            <span v-if="labelText">{{ labelText }}<sup v-if="$attrs.required">*</sup></span>
+            <slot name="labeltext" />
 
             <!-- begin CmdTooltipForInputElements -->
             <CmdTooltipForInputElements
@@ -37,6 +38,7 @@
                 :inputModelValue="modelValue"
                 :helplink="helplink"
                 :relatedId="tooltipId"
+                :labelText="labelText"
             />
             <!-- end CmdTooltipForInputElements -->
 
@@ -113,6 +115,7 @@
                     />
                     <span v-if="labelText" :class="['label-text', { hidden: !showLabel }]"><span>{{ labelText }}<sup v-if="$attrs.required">*</sup></span></span>
             </template>
+
             <!-- begin labels for toggle-switch with switch-label -->
             <template v-else-if="onLabel && offLabel">
                 <span class="switch-label-wrapper">
@@ -209,7 +212,7 @@ import CmdTooltipForInputElements from "./CmdTooltipForInputElements"
 
 export default {
     inheritAttrs: false,
-    name: "FormElement",
+    name: "CmdFormElement",
     components: {
         CmdTooltipForInputElements
     },
@@ -828,6 +831,11 @@ export default {
             right: 1rem;
             transform: translateY(-50%);
             z-index: 100;
+        }
+
+        input:not(:only-child) {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
         }
 
         a.button {
