@@ -22,23 +22,23 @@
         <!-- begin label-text (+ required asterisk) -->
         <span v-if="(labelText || $slots.labeltext) && $attrs.type !== 'checkbox' && $attrs.type !== 'radio'"
               :class="['label-text', !showLabel ? 'hidden' : undefined]">
-            <span v-if="labelText">{{ labelText }}<sup v-if="$attrs.required">*</sup></span>
-            <slot name="labeltext" />
+            <span>
+                <template v-if="labelText">{{ labelText }}</template>
+                <!-- begin slot 'labeltext' -->
+                <slot v-else name="labeltext" />
+                <!-- end slot 'labeltext' -->
+                <sup v-if="$attrs.required">*</sup>
+            </span>
 
             <!-- begin CmdTooltipForInputElements -->
             <CmdTooltipForInputElements
                 v-if="useCustomTooltip && (validationStatus === '' || validationStatus === 'error')"
                 ref="tooltip"
-                :showRequirements="showRequirements"
-                :inputRequirements="inputRequirements"
                 :validationStatus="validationStatus"
                 :validationMessage="getValidationMessage"
                 :validationTooltip="validationTooltip"
-                :inputAttributes="$attrs"
-                :inputModelValue="modelValue"
-                :helplink="helplink"
                 :relatedId="tooltipId"
-                :labelText="labelText"
+                :cmdListOfRequirements="listOfRequirements"
             />
             <!-- end CmdTooltipForInputElements -->
 
@@ -102,18 +102,26 @@
         <!-- begin checkbox and radiobutton -->
         <template v-else-if="element === 'input' && ($attrs.type === 'checkbox' || $attrs.type === 'radio')">
             <template v-if="!(onLabel && offLabel)">
-                    <input
-                        v-bind="elementAttributes"
-                        @change="onChange"
-                        @blur="onBlur"
-                        :checked="isChecked"
-                        :value="inputValue"
-                        :class="[inputClass, validationStatus, toggleSwitchIconClass, { 'replace-input-type': replaceInputType, 'toggle-switch': toggleSwitch }]"
-                        :id="labelId"
-                        :disabled="$attrs.disabled"
-                        :aria-invalid="validationStatus === 'error'"
-                    />
-                    <span v-if="labelText" :class="['label-text', { hidden: !showLabel }]"><span>{{ labelText }}<sup v-if="$attrs.required">*</sup></span></span>
+                <input
+                    v-bind="elementAttributes"
+                    @change="onChange"
+                    @blur="onBlur"
+                    :checked="isChecked"
+                    :value="inputValue"
+                    :class="[inputClass, validationStatus, toggleSwitchIconClass, { 'replace-input-type': replaceInputType, 'toggle-switch': toggleSwitch }]"
+                    :id="labelId"
+                    :disabled="$attrs.disabled"
+                    :aria-invalid="validationStatus === 'error'"
+                />
+                <span v-if="labelText || $slots.labeltext" :class="['label-text', { hidden: !showLabel }]">
+                    <span>
+                        <template v-if="labelText">{{ labelText }}</template>
+                        <!-- begin slot 'labeltext' -->
+                        <slot v-else name="labeltext" />
+                        <!-- end slot 'labeltext' -->
+                        <sup v-if="$attrs.required">*</sup>
+                    </span>
+                </span>
             </template>
 
             <!-- begin labels for toggle-switch with switch-label -->
@@ -425,6 +433,16 @@ export default {
             default: true
         },
         /**
+         * text shown in front of character-count below textarea
+         *
+         * type-property must be set to textarea
+         * showCharactersTextarea-property must be activated
+         */
+        textCharacters: {
+            type: String,
+            default: "Characters"
+        },
+        /**
          * toggle visibility of search-button (next to search-field)
          */
         showSearchButton: {
@@ -469,7 +487,7 @@ export default {
          * icon for error-validated items in list-of-requirements
          *
          * element-property must me set to 'input'
-         * showRequirements-property must be set to 'true'
+         * showRequirements-subproperty (of CmdListOfRequirements)  must be set to 'true'
          *
          */
         iconHasStateError: {
@@ -486,7 +504,7 @@ export default {
          * icon for warning-validated items in list-of-requirements
          *
          * element-property must me set to 'input'
-         * showRequirements-property must be set to 'true'
+         * showRequirements-subproperty (of CmdListOfRequirements)  must be set to 'true'
          *
          */
         iconHasStateWarning: {
@@ -503,7 +521,7 @@ export default {
          * icon for success-validated items in list-of-requirements
          *
          * element-property must me set to 'input'
-         * showRequirements-property must be set to 'true'
+         * showRequirements-subproperty (of CmdListOfRequirements)  must be set to 'true'
          *
          */
         iconHasStateSuccess: {
@@ -520,7 +538,7 @@ export default {
          * icon for info-validated items in list-of-requirements
          *
          * element-property must me set to 'input'
-         * showRequirements-property must be set to 'true'
+         * showRequirements-subproperty (of CmdListOfRequirements) must be set to 'true'
          *
          */
         iconHasStateInfo: {
@@ -592,7 +610,7 @@ export default {
                     iconClass: "icon-not-visible",
                 }
             }
-        },
+        }
     },
     computed: {
         elementAttributes() {
@@ -641,7 +659,7 @@ export default {
             return false
         },
         charactersTextarea() {
-            return "Characters: " + this.modelValue.length + "/" + this.getMaxLength()
+            return this.textCharacters + " " + this.modelValue.length + "/" + this.getMaxLength()
         },
         validationTooltip() {
             if (!this.useCustomTooltip) {
@@ -778,7 +796,9 @@ export default {
         },
         closeTooltipOnBlur() {
             // close tooltip by calling function from CmdTooltipForInputElements using $refs
-            this.$refs.tooltip.hideTooltip()
+            if(this.$refs.tooltip) {
+                this.$refs.tooltip.hideTooltip()
+            }
         }
     },
     watch: {

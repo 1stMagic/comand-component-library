@@ -177,7 +177,7 @@ export default {
     line-height: 100%;
     font-size: 1.1rem;
     position: fixed;
-    background: var(--pure-white);
+    background: var(--color-scheme-background-color);
     z-index: 100;
     border: var(--default-border);
     border-color: hsl(220, 2%, 25%);

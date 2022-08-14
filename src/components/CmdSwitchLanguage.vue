@@ -4,18 +4,18 @@
             <li v-for="(language, index) in languages" :key="index">
                 <!-- begin link-type 'href' -->
                 <a v-if="language.link.type === 'href'" :href="language.link.path"
-                   :class="['flag', language.iso2, {'active': language.active}]"
+                   :class="['flag', language.iso2, {'active': activeLanguage(language)}]"
                    :title="language.tooltip"
                    @click="$emit('click', { originalEvent:  $event, language} )">
                     <img :src="getFlagURL(language.iso2)" :alt="language.name" />
                 </a>
-                <!-- end link-type 'href -->
+                <!-- end link-type 'href' -->
 
                 <!-- begin link-type 'router' -->
                 <router-link v-else
-                             :class="['flag', language.iso2]"
-                             :to="getRoute(language)" :title="language.tooltip"
-                             @click="$emit('click', { originalEvent:  $event, language})">
+                     :class="['flag', language.iso2]"
+                     :to="getRoute(language)" :title="language.tooltip"
+                     @click="$emit('click', { originalEvent:  $event, language})">
                     <img :src="getFlagURL(language.iso2)" :alt="language.name" />
                 </router-link>
                 <!-- end link-type 'router' -->
@@ -45,6 +45,9 @@ export default {
         },
         getFlagURL(isoCode) {
             return require("../assets/images/flags/flag-" + isoCode + ".svg")
+        },
+        activeLanguage(language) {
+            return language.active
         }
     }
 }
@@ -61,6 +64,14 @@ export default {
         li {
             list-style-type: none;
             margin: 0;
+
+            a:not([class*="active"]) {
+                filter: contrast(.5);
+
+                &:hover, &:focus, &:active {
+                    filter: none;
+                }
+            }
         }
     }
 }

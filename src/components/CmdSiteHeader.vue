@@ -33,13 +33,6 @@ export default {
     },
     props: {
         /**
-         * properties for CmdMainNavigation-component
-         */
-        cmdMainNavigation: {
-            type: Object,
-            required: true
-        },
-        /**
          * use only if default-button of inner navigation-component should not be used
          */
         closeOffcanvas: {
@@ -61,6 +54,13 @@ export default {
         useGrid: {
             type: Boolean,
             default: true
+        },
+        /**
+         * properties for CmdMainNavigation-component
+         */
+        cmdMainNavigation: {
+            type: Object,
+            required: true
         }
     }
 }
@@ -87,6 +87,10 @@ export default {
         width: 100%; /* stretch flex-item */
         margin: 0 auto;
         padding: 0 var(--default-padding);
+    }
+
+    .cmd-main-navigation nav {
+        width: auto;
     }
 
     .top-header {

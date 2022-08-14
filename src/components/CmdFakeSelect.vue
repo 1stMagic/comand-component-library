@@ -23,15 +23,11 @@
                 <CmdTooltipForInputElements
                     v-if="useCustomTooltip && (validationStatus === '' || validationStatus === 'error')"
                     ref="tooltip"
-                    :showRequirements="showRequirements"
-                    :inputRequirements="inputRequirements"
                     :validationStatus="validationStatus"
                     :validationMessage="getValidationMessage"
                     :validationTooltip="validationTooltip"
-                    :inputAttributes="$attrs"
-                    :inputModelValue="modelValue"
-                    :helplink="helplink"
                     :relatedId="tooltipId"
+                    :cmdListOfRequirements="listOfRequirements"
                 />
                 <!-- end CmdTooltipForInputElements -->
 
@@ -478,6 +474,10 @@ export default {
                         margin-left: auto;
                         font-size: 1rem;
                     }
+
+                    &:hover, &:active, &:focus {
+                        background: var(--primary-color);
+                    }
                 }
             }
         }
@@ -605,7 +605,7 @@ export default {
                     }
 
                     &:hover, &:active, &:focus {
-                        background: var(--pure-white);
+                        background: var(--color-scheme-background-color);
 
                         span {
                             color: var(--status-color);

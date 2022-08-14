@@ -194,19 +194,12 @@ export default {
         gap: calc(var(--default-gap) / 2);
 
         .button {
-            background: none;
             padding: 0;
             min-width: 2rem;
             min-height: 2rem;
-            background: var(--pure-white);
 
             span[class*="icon"] {
-                color: var(--primary-color);
                 font-size: 1rem;
-
-                &:hover, &:active, &:focus {
-                    color: var(--hyperlink-color-highlighted);
-                }
             }
         }
     }

@@ -1,7 +1,7 @@
 <template>
     <div class="cmd-list-of-requirements">
         <!-- begin cmd-custom-headline -->
-        <CmdHeadline :headline-level="cmdHeadline.headlineLevel">
+        <CmdHeadline v-if="showHeadline" :headline-level="cmdHeadline.headlineLevel">
             {{ headlineRequirements }}<template v-if="labelText"><br/><em>{{ labelText }}</em></template>
         </CmdHeadline>
         <!-- end cmd-custom-headline -->
@@ -122,13 +122,20 @@ export default {
             }
         },
         /**
+        * toggle headline-visibility
+        */
+        showHeadline: {
+            type: Boolean,
+            default: true
+        },
+        /**
          * properties of CmdHeadline-component
          */
         cmdHeadline: {
             type: Object,
             default() {
                 return {
-                    headlineLevel: 4
+                    headlineLevel: 6
                 }
             }
         }

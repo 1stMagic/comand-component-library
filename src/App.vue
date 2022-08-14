@@ -50,6 +50,7 @@
                     <li><a href="#section-tabs">Tabs</a></li>
                     <li><a href="#section-thumbnail-scroller">Thumbnail-Scroller</a></li>
                     <li><a href="#section-toggle-darkmode">ToggleDarkMode</a></li>
+                    <li><a href="#section-tooltip">Tooltip</a></li>
                     <li><a href="#section-upload-form">Upload-Form</a></li>
                 </ul>
             </div>
@@ -459,10 +460,14 @@
                         checkbox with boolean: {{ checkboxValue }}<br/>
                         checkboxes with values: {{ checkboxValues }}
                     </p>
+
                     <h3>Toggle Dark-Mode</h3>
                     <a id="section-toggle-darkmode"></a>
+                    <h4>Toggle Dark-Mode (with label, not styled)</h4>
                     <CmdToggleDarkMode :showLabel="true"/>
+                    <h4>Toggle Dark-Mode (without label, styled)</h4>
                     <CmdToggleDarkMode :showLabel="false" :use-styled-layout="true" />
+
                     <h2>Checkboxes and Radiobuttons</h2>
                     <h3>Checkboxes [native]</h3>
                     <div class="label inline">
@@ -494,6 +499,17 @@
                                             :status="validationStatus"
                                             :disabled="disabledStatus"
                             />
+                            <CmdFormElement element="input"
+                                            v-model="checkboxValues"
+                                            inputValue="checkboxValue3"
+                                            type="checkbox"
+                                            id="checkbox-with-value-3"
+                                            :status="validationStatus"
+                                            :disabled="disabledStatus">
+                                            <template v-slot:labeltext>
+                                                Labeltext with <a href="#">link</a> given by slot
+                                            </template>
+                            </CmdFormElement>
                         </div>
                     </div>
                     <h3>Checkboxes (replaced)</h3>
@@ -1081,7 +1097,10 @@
         <a id="section-thumbnail-scroller"></a>
         <CmdWidthLimitationWrapper>
             <h2 class="headline-demopage">Thumbnail-Scroller</h2>
+            <h3>Thumbnail-Scroller as wide as content</h3>
             <CmdThumbnailScroller :thumbnail-scroller-items="thumbnailScrollerData"/>
+            <h3>Thumbnail-Scroller stretched to full width</h3>
+            <CmdThumbnailScroller :thumbnail-scroller-items="thumbnailScrollerData" :fullWidth="true" />
         </CmdWidthLimitationWrapper>
 
         <a id="section-tooltip"></a>
@@ -1129,14 +1148,12 @@
                             :cmdHeadline="{headlineText: 'List of links', headlineLevel: 6}"
             />
             <CmdOpeningHours :openingHours="openingHoursData"
-                             :closed="true"
                              :cmdHeadline="{headlineText: 'Opening hours', headlineLevel: 6}"
-                             textOpenClosed="Closed right now!"
                              textHolidaysClosed="Closed on holidays"
                              textMiscInfo="Miscellaneous information"
             />
             <CmdAddressData :addressData="addressData"
-                            :linkGoogleMaps="true"
+                            :linkGoogleMaps="false"
                             :cmdHeadline="{headlineText: 'Address data', headlineLevel: 6}"
             />
         </div>
@@ -1228,8 +1245,8 @@ import CmdSiteHeader from "./components/CmdSiteHeader"
 import CmdSlideshow from "@/components/CmdSlideshow.vue"
 import CmdSwitchLanguage from "@/components/CmdSwitchLanguage.vue"
 import CmdSystemMessage from "@/components/CmdSystemMessage.vue"
-import CmdTabs from "@/components/CmdTabs.vue"
 import CmdTable from "@/components/CmdTable.vue"
+import CmdTabs from "@/components/CmdTabs.vue"
 import CmdThumbnailScroller from "@/components/CmdThumbnailScroller.vue"
 import CmdToggleDarkMode from "@/components/CmdToggleDarkMode.vue"
 import CmdTooltip from "@/components/CmdTooltip.vue"
@@ -1239,6 +1256,8 @@ import {openFancyBox} from "@/components/CmdFancyBox"
 
 // import external functions
 import * as functions from "@/mixins/FieldValidation.js"
+
+import {localizedTime} from "./components/CmdOpeningHours"
 
 export default {
     name: "App",
@@ -1414,6 +1433,9 @@ export default {
         }
     },
     methods: {
+        localizedTime(language) {
+            return (h, m) => (localizedTime(language))(h, m).toLowerCase()
+        },
         closeCookieDisclaimer(event) {
             this.fancyBoxCookieDisclaimer = false
             alert(event.join(", "))

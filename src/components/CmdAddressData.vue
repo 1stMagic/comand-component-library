@@ -17,25 +17,28 @@
                 <!-- end company -->
 
                 <!-- begin address -->
-                <dt v-if="addressData.address && addressData.address.length">
-                    <span v-if="addressData.address.iconClass && showLabelIcons" :class="addressData.address.iconClass" :title="getMessage('cmdaddressdata.labeltext.address')"></span>
-                    <span v-if="showLabelTexts">{{ getMessage('cmdaddressdata.labeltext.address')}}</span>
-                </dt>
-                <dd v-if="addressData.address">
-                    <a  v-if="linkGoogleMaps" :href="locateAddress" target="google-maps"
-                       :title="getMessage('cmdaddressdata.title.open_address_on_google_maps')">
-                        <span v-if="addressData.address.streetNo" class="street-address">{{ addressData.address.streetNo }}</span><br/>
-                        <span v-if="addressData.address.zip" class="postal-code">{{ addressData.address.zip }}&nbsp;</span>
-                        <span v-if="addressData.address.city" class="locality">{{ addressData.address.city }}</span><br/>
-                        <span  v-if="addressData.address.country" class="country-name">{{ addressData.address.country }}</span>
-                    </a>
-                    <template v-else>
-                        <span v-if="addressData.address.streetNo" class="street-address">{{addressData.address.streetNo }}</span><br/>
-                        <span v-if="addressData.address.zip" class="postal-code">{{ addressData.address.zip }} </span>
-                        <span v-if="addressData.address.city" class="locality">{{ addressData.address.city }}</span><br/>
-                        <span  v-if="addressData.address.country" class="country-name">{{ addressData.address.country }}</span>
-                    </template>
-                </dd>
+                <template v-if="addressData.address && addressData.address !== undefined">
+                    <dt class="address">
+                        <span v-if="addressData.address.iconClass && showLabelIcons" :class="addressData.address.iconClass" :title="getMessage('cmdaddressdata.labeltext.address')"></span>
+                        <span v-if="showLabelTexts">{{ getMessage('cmdaddressdata.labeltext.address')}}</span>
+                    </dt>
+                    <dd v-if="addressData.address">
+                        <a v-if="linkGoogleMaps" :href="locateAddress" target="google-maps" :title="getMessage('cmdaddressdata.title.open_address_on_google_maps')">
+                            <span v-if="addressData.address.streetNo" class="street-address">{{ addressData.address.streetNo }}</span><br/>
+                            <span v-if="addressData.address.zip" class="postal-code">{{ addressData.address.zip }}&nbsp;</span>
+                            <span v-if="addressData.address.city" class="locality">{{ addressData.address.city }}</span><br/>
+                            <span v-if="addressData.address.miscInfo">{{ addressData.address.miscInfo }}</span><br/>
+                            <span v-if="addressData.address.country" class="country-name">{{ addressData.address.country }}</span>
+                        </a>
+                        <template v-else>
+                            <span v-if="addressData.address.streetNo" class="street-address">{{addressData.address.streetNo }}</span><br/>
+                            <span v-if="addressData.address.zip" class="postal-code">{{ addressData.address.zip }}&nbsp;</span>
+                            <span v-if="addressData.address.city" class="locality">{{ addressData.address.city }}</span><br/>
+                            <span v-if="addressData.address.miscInfo">{{ addressData.address.miscInfo }}</span><br/>
+                            <span v-if="addressData.address.country" class="country-name">{{ addressData.address.country }}</span>
+                        </template>
+                    </dd>
+                </template>
                 <!-- end address -->
 
                 <!-- begin telephone -->
@@ -84,18 +87,19 @@
                     <span class="org">{{ addressData.company.value }}</span>
                 </li>
                 <li>
-                    <a :href="locateAddress" target="google-maps" v-if="linkGoogleMaps"
-                       :title="getMessage('cmdaddressdata.title.open_address_on_google_maps')">
-                        <span class="street-address" v-if="addressData.address.streetNo">{{ addressData.address.streetNo }}</span><br/>
-                        <span class="postal-code" v-if="addressData.address.zip">{{ addressData.address.zip }} </span>
-                        <span class="locality" v-if="addressData.address.city">{{ addressData.address.city }}</span><br/>
-                        <span class="country-name" v-if="addressData.address.country">{{ addressData.address.country }}</span>
+                    <a v-if="linkGoogleMaps" :href="locateAddress" target="google-maps" :title="getMessage('cmdaddressdata.title.open_address_on_google_maps')">
+                        <span v-if="addressData.address.streetNo" class="street-address">{{ addressData.address.streetNo }}</span><br/>
+                        <span v-if="addressData.address.zip" class="postal-code">{{ addressData.address.zip }}&nbsp;</span>
+                        <span v-if="addressData.address.city" class="locality">{{ addressData.address.city }}</span><br/>
+                        <span v-if="addressData.address.miscInfo">{{ addressData.address.miscInfo }}</span><br/>
+                        <span v-if="addressData.address.country" class="country-name">{{ addressData.address.country }}</span>
                     </a>
                     <template v-else>
-                        <span class="street-address" v-if="addressData.address.streetNo">{{ addressData.address.streetNo }}</span><br/>
-                        <span class="postal-code" v-if="addressData.address.zip">{{ addressData.address.zip }} </span>
-                        <span class="locality" v-if="addressData.address.city">{{ addressData.address.city }}</span><br/>
-                        <span class="country-name" v-if="addressData.address.country">{{ addressData.address.country }}</span>
+                        <span  v-if="addressData.address.streetNo" class="street-address">{{ addressData.address.streetNo }}</span><br/>
+                        <span v-if="addressData.address.zip" class="postal-code">{{ addressData.address.zip }}&nbsp;</span>
+                        <span v-if="addressData.address.city" class="locality">{{ addressData.address.city }}</span><br/>
+                        <span v-if="addressData.address.miscInfo">{{ addressData.address.miscInfo }}</span><br/>
+                        <span v-if="addressData.address.country" class="country-name">{{ addressData.address.country }}</span>
                     </template>
                 </li>
                 <li v-if="addressData.telephone?.value">
@@ -137,18 +141,11 @@ export default {
             default: true
         },
         /**
-         * show a label-text
+         * show a label-text for each entry
          */
         showLabelTexts: {
             type: Boolean,
             default: true
-        },
-        /**
-         * properties for CmdHeadline-component
-         */
-        cmdHeadline: {
-            type: Object,
-            required: false
         },
         /**
          * option to toggle labels (i.e. telephone, email etc.) in front/left of data
@@ -170,6 +167,13 @@ export default {
         linkGoogleMaps: {
             type: Boolean,
             default: false
+        },
+        /**
+         * properties for CmdHeadline-component
+         */
+        cmdHeadline: {
+            type: Object,
+            required: false
         }
     },
     computed: {
@@ -186,12 +190,15 @@ export default {
     dl {
         grid-row-gap: calc(var(--default-gap) / 2);
 
-        dt, dd {
+        dt {
             display: flex;
             align-items: center;
+
+            &.address {
+                align-items: flex-start;
+            }
         }
     }
-
 
     ul {
         flex-direction: column;

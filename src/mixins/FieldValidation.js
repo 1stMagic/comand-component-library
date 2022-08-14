@@ -142,9 +142,31 @@ export default {
                     iconClass: "icon-not-visible"
                 }
             }
+        },
+        /**
+         * properties for CmdListOfRequirements-component
+         */
+        cmdListOfRequirements: {
+            type: Object,
+            required: false
         }
     },
     computed: {
+        listOfRequirements() {
+            if (this.cmdListOfRequirements == null) {
+                return {
+                    showRequirements: true,
+                    showHeadline: true,
+                    validationTooltip: this.validationTooltip,
+                    inputRequirements: this.inputRequirements,
+                    inputAttributes: this.$attrs,
+                    inputModelValue: this.modelValue,
+                    helplink: {},
+                    labelText: this.labelText
+                }
+            }
+            return this.cmdListOfRequirements
+        },
         getValidationMessage() {
             // check if all requirements are valid
             // const allRequirementsValid = !this.inputRequirements.some((item) => {
@@ -200,7 +222,7 @@ export default {
             // check if field has a minimum length
             if(this.$attrs.minlength) {
                 standardRequirements.push({
-                    message: "Input has minimum length (" + this.modelValue.length + "/" + this.$attrs.minlength + ")",
+                    message: this.getMessage("cmdfieldvalidation.input_has_minimum_length") + "(" + this.modelValue.length + "/" + this.$attrs.minlength + ")",
                     valid(value, attributes) {
                         return value.length >= attributes.minlength
                     }
@@ -230,7 +252,7 @@ export default {
     }
 }
 
-function validateSpecialCharacters(message = "Field contains special character") {
+function validateSpecialCharacters(message = "special character - replace with getMessage") {
   return {
       message,
       valid(value) {

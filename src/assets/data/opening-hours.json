@@ -1,29 +1,39 @@
 [
       {
             "day": "Mo",
-            "fromTime": "08:00h",
-            "tillTime": "17:00h"
+            "fromTime": "08:00",
+            "tillTime": "17:00"
       },
       {
             "day": "Tu",
-            "fromTime": "08:00h",
-            "tillTime": "17:00h"
+            "fromTime": "08:00",
+            "tillTime": "17:00"
       },
       {
             "day": "We",
-            "fromTime": "08:00h",
-            "tillTime": "17:30h"
+            "fromTime": "08:00",
+            "tillTime": "17:30"
       },
 
       {
             "day": "Th",
-            "fromTime": "08:00h",
-            "tillTime": "17:00h"
+            "fromTime": "08:00",
+            "tillTime": "17:00"
       },
       {
             "day": "Fr",
-            "fromTime": "08:00h",
-            "tillTime": "15:00h"
+            "fromTime": "08:00",
+            "tillTime": "15:00"
+      },
+      {
+            "day": "Sa",
+            "fromTime": "08:00",
+            "tillTime": "15:00"
+      },
+      {
+            "day": "So",
+            "fromTime": "08:00",
+            "tillTime": "22:22"
       }
 ]
 

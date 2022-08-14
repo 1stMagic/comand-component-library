@@ -9,7 +9,7 @@
 
         <!-- begin CmdSystemMessage -->
         <CmdSystemMessage
-            v-if="inputAttributes.required && validationMessage"
+            v-if="cmdListOfRequirements?.inputAttributes?.required && validationMessage"
             :systemMessage="validationMessage"
             :validation-status="validationStatus"
             :iconClose="{show: false}"
@@ -18,13 +18,14 @@
 
         <!-- begin CmdListOfRequirements -->
         <CmdListOfRequirements
-            v-if="showRequirements"
-            :inputRequirements="inputRequirements"
-            :helplink="helplink"
-            :inputModelValue="inputModelValue"
-            :inputAttributes="inputAttributes"
-            :validationTooltip="validationTooltip"
-            :labelText="labelText"
+            v-if="cmdListOfRequirements.showRequirements"
+            :showHeadline="cmdListOfRequirements.showHeadline"
+            :inputRequirements="cmdListOfRequirements.inputRequirements"
+            :helplink="cmdListOfRequirements.helplink"
+            :inputModelValue="cmdListOfRequirements.inputModelValue"
+            :inputAttributes="cmdListOfRequirements.inputAttributes"
+            :validationTooltip="cmdListOfRequirements.validationTooltip"
+            :labelText="cmdListOfRequirements.labelText"
         />
         <!-- end CmdListOfRequirements -->
     </CmdTooltip>
@@ -45,13 +46,6 @@ export default {
         CmdTooltip
     },
     props: {
-        /**
-         * text for label (used in headline)
-         */
-        labelText: {
-            type: String,
-            required: false
-        },
         /**
          * related-id for CmdTooltip-component
          */
@@ -74,50 +68,22 @@ export default {
             default: ""
         },
         /**
-         * toggle visibility for CmdListOfRequirements-component
+         * properties for CmdListOfRequirements-component
          */
-        showRequirements: {
-            type: Boolean,
-            default: false
-        },
-        /**
-         * validation-tooltip for CmdListOfRequirements-component
-         */
-        validationTooltip: {
-            type: String,
-            default: ""
-        },
-        /**
-         * list of input-requirements for CmdListOfRequirements-component
-         */
-        inputRequirements: {
-            type: Array,
-            default() {
-                return []
-            }
-        },
-        /**
-         * input-attributes for CmdListOfRequirements-component
-         */
-        inputAttributes: {
+        cmdListOfRequirements: {
             type: Object,
             default() {
-                return {}
+                return {
+                    showRequirements: true,
+                    validationTooltip: "",
+                    inputRequirements: [],
+                    inputAttributes: {},
+                    showHeadline: true,
+                    inputModelValue: "",
+                    helplink: {},
+                    labelText: ""
+                }
             }
-        },
-        /**
-         * input-model-value for CmdListOfRequirements-component
-         */
-        inputModelValue: {
-            type: [String, Boolean, Array, Number],
-            default: ""
-        },
-        /**
-         * helplink for CmdListOfRequirements-component
-         */
-        helplink: {
-            type: Object,
-            required: false
         }
     },
     methods: {

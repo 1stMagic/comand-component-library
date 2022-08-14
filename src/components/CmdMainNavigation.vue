@@ -19,7 +19,7 @@
                     </a>
                 </li>
                 <li v-for="(navigationEntry, index) in navigationEntries" :key="index"
-                    :class="{'open' : navigationEntry.open, 'has-subentries': navigationEntry.subentries}">
+                    :class="{'active' : navigationEntry.active, 'open' : navigationEntry.open, 'has-subentries': navigationEntry?.subentries?.length}">
                     <!-- begin type === href -->
                     <a
                        v-if="navigationEntry.type === 'href'"
@@ -30,7 +30,7 @@
                     >
                         <span v-if="navigationEntry.iconClass" :class="navigationEntry.iconClass"></span>
                         <span v-if="navigationEntry.text">{{ navigationEntry.text }}</span>
-                        <span v-if="navigationEntry.subentries && navigationEntry.subentries.length > 0"
+                        <span v-if="navigationEntry?.subentries?.length"
                               :class="subentriesIconClass"
                         ></span>
                     </a>
@@ -52,7 +52,7 @@
                     <!-- end type === router -->
 
                     <!-- begin sub-level 1 -->
-                    <ul v-if="navigationEntry.subentries" aria-expanded="true">
+                    <ul v-if="navigationEntry?.subentries?.length" aria-expanded="true">
                         <li v-for="(navigationSubEntry, subindex) in navigationEntry.subentries" :key="subindex"
                             :class="{'open' : navigationSubEntry.open}">
                             <!-- begin type === href -->
@@ -226,14 +226,16 @@ export default {
     methods: {
         executeLink(event, navigationEntry) {
             if (navigationEntry.target || (navigationEntry.path.length > 1)) {
+                this.showOffcanvas = false
                 return true
             }
             if (navigationEntry.path === '#' || navigationEntry.path === '') {
                 event.preventDefault()
+                this.showOffcanvas = false
                 this.$emit('click', navigationEntry.path)
 
             }
-            if (!(navigationEntry.subentries && navigationEntry.subentries.length > 0)) {
+            if (!(navigationEntry?.subentries?.length)) {
                 this.showOffcanvas = false
             } else {
                 // add entry "open" to navigationEntry-object (will be watched by vue3 automatically)
@@ -297,7 +299,6 @@ export default {
 @media only screen and (max-width: $medium-max-width) {
     .cmd-main-navigation {
         --nav-transition: all .5s linear;
-
         display: flex;
         background: none; /* overwrite framework-css */
         border: 0; /* overwrite framework-css */
@@ -340,7 +341,7 @@ export default {
             }
 
             nav {
-                --nav-width: 30%;
+                --nav-width: 33%;
 
                 position: fixed;
                 top: 0;
@@ -439,7 +440,7 @@ export default {
                                     > a {
                                         span {
                                             + span[class*="icon"]::before {
-                                                transform: rotate(90deg);
+
                                             }
                                         }
                                     }
@@ -448,7 +449,7 @@ export default {
                                         > a {
                                             span {
                                                 + span[class*="icon"]::before {
-                                                    transform: rotate(-90deg);
+
                                                 }
                                             }
                                         }

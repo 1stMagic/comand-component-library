@@ -23,8 +23,7 @@ export default {
     },
     data() {
         return {
-            darkMode: false,
-            labelText: ""
+            darkMode: false
         }
     },
     props: {
@@ -99,6 +98,11 @@ export default {
             this.darkMode = event.detail === "dark-mode"
         }
     },
+    computed: {
+        labelText() {
+            return this.darkMode ? this.labelTextDarkMode : this.labelTextLightMode
+        }
+    },
     watch: {
         darkMode: {
             handler() {
@@ -106,10 +110,8 @@ export default {
                 const htmlTag = document.documentElement
                 if (this.darkMode) {
                     htmlTag.classList.replace("light-mode", "dark-mode")
-                    this.labelText = this.labelTextDarkMode
                 } else {
                     htmlTag.classList.replace("dark-mode", "light-mode")
-                    this.labelText = this.labelTextLightMode
                 }
 
                 // emits custom events from html-tag

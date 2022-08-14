@@ -7,7 +7,8 @@ export default {
                 "cmdfieldvalidation.information_filled_correctly": "This information is filled correctly!",
                 "cmdfieldvalidation.caps_lock_is_activated": "Attention: Caps lock is activated!",
                 "cmdfieldvalidation.required_field_is_filled": "Required field is filled!",
-                "cmdfieldvalidation.field_contains_special_character": "Field contains Special character"
+                "cmdfieldvalidation.field_contains_special_character": "Field contains special character",
+                "cmdfieldvalidation.input_has_minimum_length": "Input has minimum length"
             }
         }
     }

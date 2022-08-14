@@ -1,5 +1,5 @@
 <template>
-    <div :class="['cmd-thumbnail-scroller', {'gallery-scroller' : !allowOpenFancyBox}]">
+    <div :class="['cmd-thumbnail-scroller', {'gallery-scroller' : !allowOpenFancyBox, 'full-width' : fullWidth}]">
         <!-- begin CmdSlideButton -->
         <CmdSlideButton
             @click.prevent="showPrevItem"
@@ -31,8 +31,11 @@
 </template>
 
 <script>
-import {openFancyBox} from './CmdFancyBox.vue'
+// import components
 import CmdSlideButton from "./CmdSlideButton.vue"
+
+// import functions
+import {openFancyBox} from './CmdFancyBox.vue'
 
 export default {
     name: "CmdThumbnailScroller",
@@ -45,6 +48,15 @@ export default {
         }
     },
     props: {
+        /**
+         * activate to stretch component to full width (of parent element)
+         *
+         * @affectsStyling: true
+         */
+        fullWidth: {
+            type: Boolean,
+            default: false
+        },
         /**
          * list of thumbnail-scroller-items
          */
@@ -87,18 +99,18 @@ export default {
             type: Object,
             default() {
                 return {
-                    "next": {
-                        "next": {
+                    next: {
+                        next: {
                             type: "next",
-                            "iconClass": "icon-single-arrow-right",
-                            "tooltip": "Next"
+                            iconClass: "icon-single-arrow-right",
+                            tooltip: "Next"
                         }
                     },
-                    "prev": {
-                        "prev": {
+                    prev: {
+                        prev: {
                             type: "prev",
-                            "iconClass": "icon-single-arrow-left",
-                            "tooltip": "Previous"
+                            iconClass: "icon-single-arrow-left",
+                            tooltip: "Previous"
                         }
                     }
                 }
@@ -112,7 +124,6 @@ export default {
                 this.thumbnails.push(thumbnail);
             }
         },
-
         showPrevItem() {
             const thumbnail = this.thumbnails.pop(); // remove last element of array
             if (thumbnail) {
@@ -123,10 +134,9 @@ export default {
             if (this.allowOpenFancyBox) {
                 openFancyBox({fancyBoxGallery: this.thumbnails, defaultGalleryIndex: index})
             }
-            this.$emit('click', this.thumbnails[index].imgId)
+            this.$emit("click", this.thumbnails[index].imgId)
         }
     },
-
     watch: {
         thumbnailScrollerItems: {
             handler() {
@@ -153,9 +163,9 @@ export default {
     > ul {
         overflow: hidden;
         margin: 0;
-        display: -webkit-flex; /* Safari 6-8 */
         display: flex;
         gap: var(--grid-gap);
+        justify-content: space-between;
 
         > li {
             align-self: center;
@@ -174,7 +184,6 @@ export default {
                 border-radius: var(--border-radius);
                 max-height: 10rem;
             }
-
 
             &.active {
                 a {

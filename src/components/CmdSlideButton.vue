@@ -1,7 +1,7 @@
 <template>
     <a href="#"
        @click.prevent
-       :class="['cmd-slide-button', 'button', slideButtonType ? slideButtonType : 'next']"
+       :class="['cmd-slide-button', 'button', slideButtonType]"
        :title="getDirection.tooltip">
         <span :class="getDirection.iconClass || 'next'"></span>
     </a>

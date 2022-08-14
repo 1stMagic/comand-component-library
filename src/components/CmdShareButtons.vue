@@ -49,7 +49,7 @@ export default {
             required: false
         },
         /**
-         * activate if page to share is not given by json-data)
+         * activate if page to share is not given by json-data
          */
         appendPage: {
             type: Boolean,
