@@ -1,14 +1,14 @@
 <template>
     <div
         :class="[
-            'cmd-main-navigation main-navigation-wrapper',
+            'cmd-main-navigation',
             {
                 'hide-sub-navigation' : !showSubNavigations,
                 'open-off-canvas': showOffcanvas,
                 'persist-on-mobile': persistOnMobile,
                 'show-content-overlay': showContentOverlay
             }
-        ]">
+        ]" id="main-navigation-wrapper">
         <nav>
             <!-- begin main-level -->
             <ul :class="{'stretch-items' : stretchMainItems}">
@@ -225,22 +225,27 @@ export default {
     },
     methods: {
         executeLink(event, navigationEntry) {
+            // execute default-link
             if (navigationEntry.target || (navigationEntry.path.length > 1)) {
                 this.showOffcanvas = false
                 return true
             }
-            if (navigationEntry.path === '#' || navigationEntry.path === '') {
-                event.preventDefault()
-                this.showOffcanvas = false
-                this.$emit('click', navigationEntry.path)
 
-            }
-            if (!(navigationEntry?.subentries?.length)) {
-                this.showOffcanvas = false
-            } else {
+            // toggle subentries (no link execution)
+            if(navigationEntry?.subentries?.length) {
+                event.preventDefault()
                 // add entry "open" to navigationEntry-object (will be watched by vue3 automatically)
                 navigationEntry.open = !navigationEntry.open
+                return
             }
+
+            // emit event to handle navigation from outside
+            if (navigationEntry.path === '#' || navigationEntry.path === '') {
+                event.preventDefault()
+                this.$emit('click', navigationEntry.path)
+            }
+
+            this.showOffcanvas = false
         },
         getRoute(navigationEntry) {
             return getRoute(navigationEntry)
@@ -295,9 +300,8 @@ export default {
     }
 }
 
-
 @media only screen and (max-width: $medium-max-width) {
-    .cmd-main-navigation {
+    .cmd-main-navigation#main-navigation-wrapper {
         --nav-transition: all .5s linear;
         display: flex;
         background: none; /* overwrite framework-css */
@@ -388,14 +392,6 @@ export default {
                             }
                         }
 
-                        > a {
-                            span {
-                                & + span[class*="icon"]::before {
-                                    display: inline-block;
-                                }
-                            }
-                        }
-
                         /* sub-level 1 */
                         ul {
                             li {
@@ -406,9 +402,15 @@ export default {
                                 &:last-child {
                                     border-bottom: 0;
                                 }
-
-                                a {
+                                > a {
                                     padding-left: calc(var(--default-margin) * 2);
+
+                                    span {
+                                        & + span[class*="icon"]::before {
+                                            display: inline-block;
+                                            transform: rotate(0);
+                                        }
+                                    }
                                 }
 
                                 /* sub-level 2 */
@@ -435,26 +437,6 @@ export default {
                                 display: block;
                                 opacity: 1;
                                 transition: var(--nav-transition);
-
-                                > li {
-                                    > a {
-                                        span {
-                                            + span[class*="icon"]::before {
-
-                                            }
-                                        }
-                                    }
-
-                                    &.open {
-                                        > a {
-                                            span {
-                                                + span[class*="icon"]::before {
-
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
                             }
                         }
                     }

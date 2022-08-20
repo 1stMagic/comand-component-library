@@ -100,7 +100,8 @@ export default {
         }
     }
 
-    > .cmd-main-navigation:last-child {
+    // use id to ensure high specificity
+    > .cmd-main-navigation#main-navigation-wrapper:last-child {
         border-bottom: 0;
     }
 

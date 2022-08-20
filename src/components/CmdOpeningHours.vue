@@ -147,12 +147,28 @@ export default {
         componentHandlesClosedStatus: {
             type: Boolean,
             default: true
+        },
+        /**
+         * set the interval (in milliseconds) when the open-/closed-status should be checked (and updated)
+         */
+        checkInterval: {
+            type: Number,
+            default: 5000
         }
     },
-    created() {
-        setInterval(function () {
-            this.isClosed()
-        }, 5000)
+    mounted() {
+        if(this.componentHandlesClosedStatus && this.checkInterval > 0) {
+            // create new property on component by 'this.property-name' and assign value (id) from setInterval (so it can be cleared in unmount)
+            this.$_CmdOpeningHours_intervalId = setInterval(() => {
+                // use arrow-function to assure that 'this' is the component
+                this.currentTime = new Date()
+            }, this.checkInterval)
+        }
+    },
+    data() {
+        return {
+            currentTime: new Date()
+        }
     },
     computed: {
         textOpenClosed() {
@@ -183,8 +199,7 @@ export default {
                 return this.closed
             }
 
-            const currentDate = new Date()
-            let currentDay = currentDate.getDay()
+            let currentDay = this.currentTime.getDay()
 
             // fix order and check if currentDay equals 0 === sunday. Data are expected to start with monday
             if (currentDay === 0){
@@ -202,7 +217,7 @@ export default {
                 const openingHoursTill = new Date()
                 openingHoursTill.setHours(openingHours.tillTime.hours, openingHours.tillTime.mins)
 
-                if (openingHoursFrom <= currentDate && currentDate <= openingHoursTill) {
+                if (openingHoursFrom <= this.currentTime && this.currentTime <= openingHoursTill) {
                     return false
                 }
             }
@@ -215,6 +230,15 @@ export default {
                 return this.timeFormatter(time.hours, time.mins)
             }
            return timeFormatting(":", " hrs", "", false)(time.hours, time.mins)
+        }
+    },
+    beforeUnmount() {
+        if(this.$_CmdOpeningHours_intervalId) {
+            // remove interval
+            clearInterval(this.$_CmdOpeningHours_intervalId)
+
+            // clear interval-id
+            this.$_CmdOpeningHours_intervalId = null
         }
     }
 }

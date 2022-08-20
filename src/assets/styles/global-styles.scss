@@ -4,6 +4,12 @@
 /*
 - IMPORTS ------------------------
 - COMPONENTS AND GLOBAL STYLES ------------------------
+  * ------------------------
+    - main structure
+
+  A ------------------------
+    - avoid-scrolling
+
   E ------------------------
     - error-styles (for form-elements)
 
@@ -33,12 +39,29 @@
 @import 'variables'; /* scss-variables (only used for media-query-breakpoints) */
 /* ---------------------------------------------- END IMPORTS -------------------------------------------------- */
 
+/* ---------------------------------------------- BEGIN COMPONENTS AND GLOBAL STYLES -------------------------------------------------- */
+/* begin styles for main structure --------------------------------------------------------------------------------------------------------------------------------------------------- */
+#page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  .cmd-site-footer {
+    margin-top: auto;
+  }
+}
+
+#component-library {
+  border: 1px solid red;
+  scroll-padding-top: 49px !important;
+  scroll-snap-type: unset !important;
+}
+
 body, .cmd-site-header, .cmd-site-footer, .cmd-copyright-information {
   transition: background linear .5s;
 }
+/* end styles for main structure --------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-
-/* ---------------------------------------------- BEGIN COMPONENTS AND GLOBAL STYLES -------------------------------------------------- */
 /* begin .avoid-scrolling --------------------------------------------------------------------------------------------------------------------------------------------------- */
 body.avoid-scrolling {
   overflow: hidden;

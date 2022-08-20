@@ -23,6 +23,8 @@ import "clickout-event"
 import directiveTelephone from "./directives/telephone"
 // directive to set focus on specific form-elements
 import directiveFocus from "./directives/focus"
+// directive to set scroll-padding to place anchors correctly below sticky header
+import directiveScrollPadding from "./directives/scrollPadding"
 
 /* begin imports css from comand-component-library ---------------------------------------------------------------------------------------- */
 /* import additional iconfont containing company-logos */
@@ -58,4 +60,4 @@ import router from "./router"
 // })
 
 // createApp(App).use(router).directive('telephone', directiveTelephone).directive('focus', directiveFocus).mount('#app')
-createApp(App).use(router).directive('telephone', directiveTelephone).directive('focus', directiveFocus).mount('#app')
+createApp(App).use(router).directive('telephone', directiveTelephone).directive('focus', directiveFocus).directive('scrollPadding', directiveScrollPadding).mount('#app')

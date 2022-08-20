@@ -1,11 +1,11 @@
 <template>
     <div class="cmd-width-limitation-wrapper" :class="{'sticky': sticky}">
-        <component v-if="innerWrapper" :is="innerComponent" :class="setInnerClass">
+        <section v-if="innerWrapper" :class="setInnerClass">
             <a v-if="anchorId" :id="anchorId"></a>
             <!-- begin slot-content -->
             <slot></slot>
             <!-- end slot-content -->
-        </component>
+        </section>
         <template v-else>
             <!-- begin slot-content -->
             <a v-if="anchorId" :id="anchorId"></a>

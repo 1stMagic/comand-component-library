@@ -8,7 +8,7 @@
         <dl>
             <template v-for="(entry, index) in accountData" :key="index">
                 <dt>{{ entry.text }}</dt>
-                <dd v-if="allowCopyByClick && entry.allowCopy" class="flex-container no-flex">
+                <dd v-if="allowCopyByClick && entry.allowCopy">
                     <span>{{ entry.value }}</span>
                     <a href="#" @click.prevent="copyToClipboard(entry.value)" :title="iconCopy.tooltip">
                         <span :class="iconCopy.iconClass"></span>
@@ -92,7 +92,8 @@ export default {
 <style lang="scss">
 /* begin cmd-bank-account-data ---------------------------------------------------------------------------------------- */
 .cmd-bank-account-data {
-    dd.flex-container {
+    dd {
+        display: flex;
         gap: calc(var(--default-gap) / 2);
 
         > span {
