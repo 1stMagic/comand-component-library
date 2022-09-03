@@ -12,4 +12,8 @@ function createUuid(){
     })
 }
 
-export {isFrameMode, createUuid}
+function createHtmlId() {
+   return "cmd-" + createUuid()
+}
+
+export {isFrameMode, createUuid, createHtmlId}

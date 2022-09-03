@@ -1,5 +1,5 @@
 <template>
-    <div v-if="tooltipVisibility" :class="['cmd-tooltip', status]" ref="tooltip" aria-role="tooltip">
+    <div v-if="tooltipVisibility" :class="['cmd-tooltip', status]" ref="tooltip">
         <div v-if="cmdHeadline || iconClose.show" class="headline-wrapper">
             <!-- begin CmdHeadline -->
             <CmdHeadline

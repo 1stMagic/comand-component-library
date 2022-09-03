@@ -4,6 +4,7 @@
             v-if="showSystemMessage"
             :class="['cmd-system-message', 'system-message', 'flex-container', 'vertical', { 'full-width': fullWidth }, validationStatus]"
             :role="validationStatus === 'error' ? 'alert' : 'dialog'"
+            :aria-labelledby="headlineId"
         >
             <!-- begin close-icon -->
             <a
@@ -21,6 +22,7 @@
                 :iconClass="iconMessage.iconClass"
                 :headlineText="systemMessage"
                 :headlineLevel="messageHeadlineLevel"
+                :id="headlineId"
             />
             <!-- end cmd-headline -->
 
@@ -35,6 +37,9 @@
 // import components
 import CmdHeadline from "./CmdHeadline"
 
+// import functions
+import {createUuid} from "../utils/common.js"
+
 export default {
     name: "CmdSystemMessage",
     components: {
@@ -42,6 +47,7 @@ export default {
     },
     data() {
         return {
+            headlineId: createUuid(),
             showSystemMessage: true
         }
     },

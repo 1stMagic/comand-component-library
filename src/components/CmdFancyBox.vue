@@ -3,7 +3,7 @@
     <div v-if="showFancyBox"
          :class="['cmd-fancybox', {'show-overlay': showOverlay}]"
          role="dialog"
-         aria-labelledby="fancybox">
+         :aria-labelledby="htmlId">
       <div class="popup" :class="{'image' : fancyBoxImageUrl || fancyBoxGallery }">
         <!-- begin print button -->
         <div class="button-wrapper no-flex"
@@ -31,6 +31,15 @@
           </a>
         </div>
         <div :class="{'grayscale' : printInGrayscale}">
+            <!-- begin CmdHeadline -->
+            <CmdHeadline
+                v-show="cmdHeadline.show"
+                :headlineText="cmdHeadline.headlineText"
+                :headlineLevel="cmdHeadline.headlineLevel"
+                :id="htmlId"
+            />
+            <!-- begin CmdHeadline -->
+
           <div v-if="fancyBoxImageUrl" class="content">
             <img :src="fancyBoxImageUrl" :alt="altText" />
           </div>
@@ -53,6 +62,15 @@
             <!-- end CmdSlideButton -->
           </div>
           <div v-else class="content">
+            <!-- begin CmdHeadline -->
+              <CmdHeadline
+                v-show="cmdHeadline.show"
+                :headlineText="cmdHeadline.headlineText"
+                :headlineLevel="cmdHeadline.headlineLevel"
+                :id="htmlId"
+            />
+            <!-- begin CmdHeadline -->
+
             <!-- begin slot-content -->
             <slot></slot>
             <!-- end slot-content -->
@@ -75,7 +93,11 @@
 <script>
     import {defineComponent, createApp} from "vue"
 
+    // import utils
+    import {createHtmlId} from "../utils/common.js"
+
     // import components
+    import CmdHeadline from "./CmdHeadline"
     import CmdSlideButton from "./CmdSlideButton.vue"
     import CmdThumbnailScroller from './CmdThumbnailScroller.vue'
 
@@ -92,8 +114,20 @@
     const FancyBox = defineComponent({
         name: "CmdFancyBox",
         components: {
+            CmdHeadline,
             CmdSlideButton,
             CmdThumbnailScroller
+        },
+        data() {
+            return {
+                fancyBoxContent: null,
+                fancyBoxElements: null,
+                fancyBoxImageUrl: null,
+                htmlId: createHtmlId(),
+                index: this.defaultGalleryIndex,
+                printInGrayscale: false,
+                showFancyBox: this.show
+            }
         },
         props: {
             /**
@@ -188,16 +222,15 @@
             altText: {
                 type: String,
                 required: false
-            }
-        },
-        data() {
-            return {
-                fancyBoxImageUrl: null,
-                fancyBoxContent: null,
-                fancyBoxElements: null,
-                showFancyBox: this.show,
-                printInGrayscale: false,
-                index: this.defaultGalleryIndex
+            },
+            /**
+             * properties for CmdHeadline-component
+             *
+             * @requiredForAccessibility: true
+             */
+            cmdHeadline: {
+                type: Object,
+                required: true
             }
         },
         created() {

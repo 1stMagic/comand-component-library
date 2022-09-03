@@ -53,10 +53,11 @@ export default {
       return message
     },
     getDefaultMessageProperty(key) {
-      if (this.defaultMessageProperties && this.defaultMessageProperties[key]) {
+      if (Object.hasOwn(this, "defaultMessageProperties") && this.defaultMessageProperties && this.defaultMessageProperties[key]) {
         return this.defaultMessageProperties[key]
       }
-      const propertyKey = Object.keys(this).find(p => p.slice(-24) === "DefaultMessageProperties")
+      //const propertyKey = Object.keys(this).find(p => p.slice(-24) === "DefaultMessageProperties")
+      const propertyKey = Object.hasOwn(this, "fieldValidationDefaultMessageProperties") ? "fieldValidationDefaultMessageProperties" : null
       if (propertyKey && this[propertyKey]?.[key]) {
         return this[propertyKey][key]
       }

@@ -3,11 +3,12 @@
         <ul :class="{'stretch-tabs' : stretchTabs}" role="tablist">
             <li :class="{active : showTab === index}" v-for="(tab, index) in tabs" :key="index" role="tab">
                 <a @click.prevent="setActiveTab(index)" :title="!tab.name ? tab.tooltip : false">
-                    <span v-if="tab.iconClass">{{ tab.iconClass }}</span>
+                    <span v-if="tab.iconClass" :class="tab.iconClass"></span>
                     <span v-if="tab.name">{{ tab.name }}</span>
                 </a>
             </li>
         </ul>
+        <!-- begin slot -->
         <template v-if="useSlot">
             <div v-show="showTab === index - 1" v-for="index in tabs.length" :key="index" aria-live="assertive">
                 <!-- begin slot-content -->
@@ -15,10 +16,12 @@
                 <!-- end slot-content -->
             </div>
         </template>
+        <!-- end slot -->
         <div v-else aria-live="assertive">
             <!-- begin CmdHeadline -->
             <CmdHeadline
-               v-bind="CmdHeadline"
+               v-if="cmdHeadline"
+               v-bind="cmdHeadline"
                :headlineText="tabs[showTab].headlineText"
                :headlineLevel="tabs[showTab].headlineLevel"
             />
@@ -105,21 +108,21 @@ export default {
         > li {
             z-index: 10;
             margin-left: 0;
-            border-bottom: 0;
             border-top-left-radius: var(--border-radius);
             border-top-right-radius: var(--border-radius);
             list-style-type: none;
             background: var(--color-scheme-background-color);
             border: var(--default-border);
+            border-bottom: 0;
 
             &.active {
-                border-bottom: 0;
                 border-color: var(--primary-color);
-                top: .1rem;
             }
 
             a {
-                display: block;
+                display: flex;
+                align-items: center;
+                justify-content: center;
                 padding: var(--default-padding);
                 color: var(--color-scheme-text-color);
                 border-top-left-radius: var(--border-radius);

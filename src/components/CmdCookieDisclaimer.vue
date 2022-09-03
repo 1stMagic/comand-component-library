@@ -4,7 +4,6 @@
             <!-- begin CmdHeadline -->
             <CmdHeadline
                 v-if="cmdHeadlineCookieDisclaimer?.show && cmdHeadlineCookieDisclaimer?.headlineText && cmdHeadlineCookieDisclaimer?.headlineLevel"
-                v-bind="cmdHeadlineCookieDisclaimer"
                 :headlineText="cmdHeadlineCookieDisclaimer.headlineText"
                 :headlineLevel="cmdHeadlineCookieDisclaimer.headlineLevel"
             />
@@ -14,11 +13,18 @@
             <slot name="cookie-options">
                 <!-- begin required cookies -->
                 <div v-if="cookieOptions?.required" class="flex-container vertical">
-                    <CmdHeadline v-if="cmdBoxRequiredCookies?.showHeadline" :headline-text="cmdBoxRequiredCookies?.headlineText" :headline-level="cmdBoxRequiredCookies?.headlineLevel "/>
+                    <!-- begin CmdHeadline -->
+                    <CmdHeadline
+                        v-if="cmdBoxRequiredCookies?.showHeadline"
+                        :headline-text="cmdBoxRequiredCookies?.headlineText"
+                        :headline-level="cmdBoxRequiredCookies?.headlineLevel "
+                    />
+                    <!-- end CmdHeadline -->
+
                     <!-- begin CmdBox -->
                     <CmdBox v-for="(cookie, index) in cookieOptions.required.cookies || []"
                             :useSlots="['header', 'body']"
-                            v-bind="cmdBoxRequiredCookies"
+                            :collapsible="cmdBoxRequiredCookies?.collapsible"
                             :key="index"
                     >
                         <template v-slot:header>
@@ -57,11 +63,18 @@
 
                 <!-- begin optional cookies -->
                 <div v-if="cookieOptions?.optional" class="flex-container vertical">
-                    <CmdHeadline v-if="cmdBoxOptionalCookies?.showHeadline" :headline-text="cmdBoxOptionalCookies?.headlineText" :headline-level="cmdBoxOptionalCookies?.headlineLevel "/>
+                    <!-- begin CmdHeadline -->
+                    <CmdHeadline
+                        v-if="cmdBoxOptionalCookies?.showHeadline"
+                        :headline-text="cmdBoxOptionalCookies?.headlineText"
+                        :headline-level="cmdBoxOptionalCookies?.headlineLevel
+                    "/>
+                    <!-- end CmdHeadline -->
+
                     <!-- begin CmdBox -->
                     <CmdBox v-for="(cookie, index) in cookieOptions.optional.cookies || []"
                             :useSlots="['header', 'body']"
-                            v-bind="cmdBoxOptionalCookies"
+                            :collapsible="cmdBoxOptionalCookies?.collapsible"
                             :key="index"
                     >
                         <template v-slot:header>
@@ -172,7 +185,7 @@ export default {
                     showHeadline: true,
                     headlineText: "Required cookies",
                     headlineLevel: 3
-                }
+                    }
             }
         },
         /**

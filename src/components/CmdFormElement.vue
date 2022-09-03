@@ -36,9 +36,9 @@
                 ref="tooltip"
                 :validationStatus="validationStatus"
                 :validationMessage="getValidationMessage"
-                :validationTooltip="validationTooltip"
                 :relatedId="tooltipId"
                 :cmdListOfRequirements="listOfRequirements"
+                :role="validationStatus === 'error' ? 'alert' : 'dialog'"
             />
             <!-- end CmdTooltipForInputElements -->
 
@@ -47,10 +47,9 @@
                 @click.prevent
                 :class="getStatusIconClass"
                 :title="validationTooltip"
-                :aria-errormessage="getValidationMessage"
+                :aria-errormessage="tooltipId"
                 aria-live="assertive"
-                :id="tooltipId"
-                :role="validationStatus === 'error' ? 'alert' : 'dialog'">
+                :id="tooltipId">
             </a>
         </span>
         <!-- end label-text (+ required asterisk) -->
@@ -70,6 +69,7 @@
                 @input="onInput"
                 @mouseover="datalistFocus"
                 @keyup="checkForCapsLock"
+                @change="$emit('change', $event)"
                 :autocomplete="autocomplete"
                 :list="datalist ? datalist.id : null"
                 :value="modelValue"

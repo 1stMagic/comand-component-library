@@ -3,6 +3,7 @@
     "type": "href",
     "text": "Entry 1",
     "path": "#",
+    "iconClass": "icon-home",
     "subentries": []
   },
   {

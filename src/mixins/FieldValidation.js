@@ -210,8 +210,8 @@ export default {
         inputRequirements() {
             const standardRequirements = []
             // check if field is required
-            if(this.$attrs.required || this.required) {
-                const inputRequired = this.required
+            if(this.$attrs.required || (Object.hasOwn(this, "required") && this.required)) {
+                const inputRequired = Object.hasOwn(this, "required") ? this.required : this.$attrs.required
                 standardRequirements.push({
                     message: this.getRequirementMessage(),
                     valid(value, attributes) {

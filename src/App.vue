@@ -631,7 +631,7 @@
                         <dl>
                             <dt>Selected value(s):</dt>
                             <dd>
-                                <output>{{ inputGroupValue1 }}</output>
+                                <output>{{ inputGroupRadio }}</output>
                             </dd>
                         </dl>
                         <CmdInputGroup
@@ -646,13 +646,13 @@
                         <dl>
                             <dt>Selected value:</dt>
                             <dd>
-                                <output>{{ inputGroupValue2 }}</output>
+                                <output>{{ inputGroupCheckbox }}</output>
                             </dd>
                         </dl>
                         <h3>Input Group with Checkboxes/Radiobuttons (replaced)</h3>
                         <CmdInputGroup
                             labelText="Grouplabel for radio-group styled as replaced-input-type:"
-                            :inputElements="inputGroupReplacedRadiobuttonsData"
+                            :inputElements="idForReplacedInputsInInputGroup('radio-group')"
                             inputTypes="radio"
                             v-model="inputGroupValueReplaceInputTypeRadio"
                             :replaceInputType="true"
@@ -667,7 +667,7 @@
                         </dl>
                         <CmdInputGroup
                             labelText="Grouplabel for checkbox-group styled as replaced-input-type:"
-                            :inputElements="inputGroupReplacedRadiobuttonsData"
+                            :inputElements="idForReplacedInputsInInputGroup('checkbox-group')"
                             inputTypes="checkbox"
                             v-model="inputGroupValueReplaceInputTypeCheckbox"
                             :replaceInputType="true"
@@ -685,7 +685,7 @@
                             Radiobuttons (toggle-switches)</h3>
                         <CmdInputGroup
                             labelText="Grouplabel for checkbox-group styled as toggle-switches:"
-                            :inputElements="inputGroupRadiobuttonsData"
+                            :inputElements="idForReplacedInputsInInputGroup('checkbox-group-toggle-switch')"
                             inputTypes="checkbox"
                             v-model="inputGroupValueToggleSwitchCheckbox"
                             :toggleSwitch="true"
@@ -701,7 +701,7 @@
                         </dl>
                         <CmdInputGroup
                             labelText="Grouplabel for radio-group styled as toggle-switches:"
-                            :inputElements="inputGroupToggleSwitchRadiobuttonsData"
+                            :inputElements="idForReplacedInputsInInputGroup('radio-group-toggle-switch')"
                             inputTypes="radio"
                             v-model="inputGroupValueToggleSwitchRadio"
                             :toggleSwitch="true"
@@ -717,7 +717,7 @@
                         </dl>
                         <CmdInputGroup
                             labelText="Grouplabel for radio-group given by property styled as multiple-switch:"
-                            :inputElements="inputGroupRadiobuttonsData.map(item => ({...item, id: item.id + '-multi', name: item.name + '-multi'}))"
+                            :inputElements="idForReplacedInputsInInputGroup('radio-group-multiple-switch')"
                             inputTypes="radio"
                             :multipleSwitch="true"
                             v-model="inputGroupValue3"
@@ -774,7 +774,7 @@
             <a id="section-bank-account-data"></a>
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Bank Account Data</h2>
-                <CmdBankAccountData :account-data="bankAccountData" :cmd-custom-headline="{ headlineText: 'Bank Account', headlineLevel: 3}" :allow-copy-by-click="true"/>
+                <CmdBankAccountData :account-data="bankAccountData" :cmd-headline="{ headlineText: 'Bank Account', headlineLevel: 3}" :allow-copy-by-click="true"/>
             </CmdWidthLimitationWrapper>
             <!-- end bank account data ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
@@ -1119,8 +1119,8 @@
                 </CmdTooltip>
             </CmdWidthLimitationWrapper>
 
-
-            <CmdWidthLimitationWrapper anchorId="section-upload-form">
+            <a id="section-upload-form"></a>
+            <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Upload-Form</h2>
                 <h3>Simple mode</h3>
                 <CmdUploadForm :enableDragAndDrop="true"
@@ -1163,7 +1163,7 @@
 
         <CmdCopyrightInformation/>
 
-        <CmdFancyBox :show="fancyBoxCookieDisclaimer" :fancyboxOptions="{}" :allowEscapeKey="false">
+        <CmdFancyBox :show="fancyBoxCookieDisclaimer" :fancyboxOptions="{}" :allowEscapeKey="false" :cmdHeadline="{show: true, headlineText: 'Cookie Disclaimer', headlineLevel: 2}">
             <CmdCookieDisclaimer :cookieOptions="cookieDisclaimerData"
                                  buttonLabelAcceptAllCookies="Accept all cookies"
                                  buttonLabelAcceptCurrentSettings="Accept current settings"
@@ -1419,7 +1419,6 @@ export default {
             fakeSelectOptionsWithIconsData,
             listOfLinksData,
             imageGalleryData,
-            inputGroupRadiobuttonsData,
             inputGroupReplacedRadiobuttonsData,
             inputGroupToggleSwitchRadiobuttonsData,
             languagesData,
@@ -1439,6 +1438,14 @@ export default {
         localizedTime(language) {
             return (h, m) => (localizedTime(language))(h, m).toLowerCase()
         },
+        idForReplacedInputsInInputGroup(prefix) {
+            // return inputGroupRadiobuttonsData.map(item => {
+            //     const newItem = {...item}
+            //     newItem.id = prefix + item.id
+            //     return newItem
+            // })
+            return inputGroupRadiobuttonsData.map(item => ({...item, id: prefix + item.id}))
+        },
         closeCookieDisclaimer(event) {
             this.fancyBoxCookieDisclaimer = false
             alert(event.join(", "))
@@ -1456,9 +1463,9 @@ export default {
         },
         showFancyBox(type, content, altText) {
             if (type === 'text') {
-                openFancyBox({content: content})
+                openFancyBox({content: content, cmdHeadline: {show: true, headlineText: "Fancybox headline", headlineLevel: 3}})
             } else if (type === 'image') {
-                openFancyBox({url: content, altText: altText})
+                openFancyBox({url: content, altText: altText, cmdHeadline: {show: true, headlineText: "Fancybox headline", headlineLevel: 3}})
             }
         },
         getOptionName(option) {

@@ -3,12 +3,15 @@
     <div v-if="boxType === 'content'" :class="['cmd-box box content', {open : open, collapsible: collapsible, 'stretch-vertically': stretchVertically}]">
         <template v-if="useSlots?.includes('header')">
             <!-- begin collapsible header with slot -->
-            <a v-if="collapsible" href="#" class="box-header" @click.prevent="toggleContentVisibility" :title="open ? iconOpen.tooltip : iconClosed.tooltip">
+            <div v-if="collapsible" class="box-header">
                 <!-- begin slot 'header' -->
                 <slot name="header"></slot>
                 <!-- end slot 'header' -->
-                <span class="toggle-icon" :class="[open ? iconOpen.iconClass : iconClosed.iconClass]"></span>
-            </a>
+
+                <a href="#" @click.prevent="toggleContentVisibility" :title="open ? iconOpen.tooltip : iconClosed.tooltip">
+                    <span class="toggle-icon" :class="[open ? iconOpen.iconClass : iconClosed.iconClass]"></span>
+                </a>
+            </div>
             <!-- end collapsible header with slot -->
 
             <!-- begin default header with slot -->

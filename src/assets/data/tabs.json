@@ -3,6 +3,7 @@
     "name": "Tab 1",
     "headlineText": "Tab 1 Headline",
     "headlineLevel": 4,
+    "iconClass": "icon-home",
     "htmlContent": "<p>Inhalt 1</p>"
   },
   {

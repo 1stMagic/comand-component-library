@@ -71,9 +71,10 @@
                 <span v-else>{{ getMessage("cmdsitesearch.show_filter_options") }}</span>
             </a>
             <transition name="fade">
-                <div v-if="showFilters && cmdFakeSelect?.selectData.length" class="flex-container no-flex" aria-expanded="true">
+                <div v-if="showFilters && cmdFakeSelect?.selectData.length" class="flex-container no-flex" role="listbox" aria-expanded="true">
                     <!-- begin CmdFakeSelect -->
                     <CmdFakeSelect
+                        role="option"
                         :selectData="cmdFakeSelect?.selectData"
                         v-model="searchFilters"
                         :defaultOptionName="cmdFakeSelect?.defaultOptionName"

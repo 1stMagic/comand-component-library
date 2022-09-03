@@ -31,7 +31,7 @@
                         <span v-if="navigationEntry.iconClass" :class="navigationEntry.iconClass"></span>
                         <span v-if="navigationEntry.text">{{ navigationEntry.text }}</span>
                         <span v-if="navigationEntry?.subentries?.length"
-                              :class="subentriesIconClass"
+                              :class="['subentry-icon', subentriesIconClass]"
                         ></span>
                     </a>
                     <!-- end type === href -->
@@ -47,7 +47,7 @@
                         <span v-if="navigationEntry.iconClass" :class="navigationEntry.iconClass"></span>
                         <span v-if="navigationEntry.text">{{ navigationEntry.text }}</span>
                         <span v-if="navigationEntry.subentries && navigationEntry.subentries.length > 0"
-                              :class="subentriesIconClass"></span>
+                              :class="['subentry-icon', subentriesIconClass]"></span>
                     </router-link>
                     <!-- end type === router -->
 
@@ -64,7 +64,7 @@
                                 <span v-if="navigationSubEntry.iconClass" :class="navigationSubEntry.iconClass"></span>
                                 <span v-if="navigationSubEntry.text">{{ navigationSubEntry.text }}</span>
                                 <span v-if="navigationSubEntry.subentries && navigationSubEntry.subentries.length > 0"
-                                      :class="subentriesIconClass"
+                                      :class="['subentry-icon', subentriesIconClass]"
                                 ></span>
                             </a>
                             <!-- end type === href -->
@@ -78,7 +78,7 @@
                                 <span v-if="navigationSubEntry.iconClass" :class="navigationSubEntry.iconClass"></span>
                                 <span v-if="navigationSubEntry.text">{{ navigationSubEntry.text }}</span>
                                 <span v-if="navigationSubEntry.subentries && navigationSubEntry.subentries.length > 0"
-                                      :class="subentriesIconClass"></span>
+                                      :class="['subentry-icon', subentriesIconClass]"></span>
                             </router-link>
                             <!-- end type === router -->
 
@@ -95,7 +95,7 @@
                                         <span v-if="navigationSubSubEntry.iconClass" :class="navigationSubSubEntry.iconClass"></span>
                                         <span v-if="navigationSubSubEntry.text">{{ navigationSubSubEntry.text }}</span>
                                         <span v-if="navigationSubSubEntry.subentries && navigationSubSubEntry.subentries.length > 0"
-                                              :class="subentriesIconClass"
+                                              :class="['subentry-icon', subentriesIconClass]"
                                         ></span>
                                     </a>
                                     <!-- end type === href -->
@@ -109,7 +109,7 @@
                                         <span v-if="navigationSubSubEntry.iconClass" :class="navigationSubSubEntry.iconClass"></span>
                                         <span v-if="navigationSubSubEntry.text">{{ navigationSubSubEntry.text }}</span>
                                         <span v-if="navigationSubSubEntry.subentries && navigationSubSubEntry.subentries.length > 0"
-                                              :class="subentriesIconClass"></span>
+                                              :class="['subentry-icon', subentriesIconClass]"></span>
                                     </router-link>
                                     <!-- end type === router -->
                                 </li>

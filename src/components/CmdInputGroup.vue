@@ -20,11 +20,11 @@
                 :inputRequirements="inputRequirements"
                 :validationStatus="validationStatus"
                 :validationMessage="getValidationMessage"
-                :validationTooltip="validationTooltip"
                 :inputAttributes="$attrs"
                 :inputModelValue="modelValue"
                 :helplink="helplink"
                 :relatedId="tooltipId"
+                :role="validationStatus === 'error' ? 'alert' : 'dialog'"
             />
             <!-- end CmdTooltipForInputElements -->
 
@@ -33,10 +33,9 @@
                @click.prevent
                :class="getStatusIconClass"
                :title="validationTooltip"
-               :aria-errormessage="getValidationMessage"
+               :aria-errormessage="tooltipId"
                aria-live="assertive"
-               :id="tooltipId"
-               :role="validationStatus === 'error' ? 'alert' : 'dialog'">
+               :id="tooltipId">
             </a>
         </span>
         <span v-if="!useSlot" :class="['flex-container', {'no-flex': !stretchHorizontally, 'no-gap': multipleSwitch}]">

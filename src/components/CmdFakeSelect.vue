@@ -10,6 +10,7 @@
             }
         ]"
         :title="$attrs.title"
+        role="listbox"
         :aria-labelledby="labelId"
         :aria-required="$attrs.required !== undefined"
         ref="fakeselect"
@@ -25,9 +26,9 @@
                     ref="tooltip"
                     :validationStatus="validationStatus"
                     :validationMessage="getValidationMessage"
-                    :validationTooltip="validationTooltip"
                     :relatedId="tooltipId"
                     :cmdListOfRequirements="listOfRequirements"
+                    :role="validationStatus === 'error' ? 'alert' : 'dialog'"
                 />
                 <!-- end CmdTooltipForInputElements -->
 
@@ -36,10 +37,9 @@
                    @click.prevent
                    :class="getStatusIconClass"
                    :title="!useCustomTooltip ? getValidationMessage : ''"
-                   :aria-errormessage="getValidationMessage"
+                   :aria-errormessage="tooltipId"
                    aria-live="assertive"
-                   :id="tooltipId"
-                   :role="validationStatus === 'error' ? 'alert' : 'dialog'">
+                   :id="tooltipId">
                 </a>
             </span>
             <!-- end label -->
