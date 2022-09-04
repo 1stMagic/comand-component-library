@@ -5,7 +5,7 @@
          role="dialog"
          :aria-labelledby="htmlId">
       <div class="popup" :class="{'image' : fancyBoxImageUrl || fancyBoxGallery }">
-        <!-- begin print button -->
+        <!-- begin print buttons -->
         <div class="button-wrapper no-flex"
              v-if="(fancyboxOptions.printButtons && (fancyboxOptions.printButtons.color || fancyboxOptions.printButtons.grayscale)) || fancyboxOptions.closeIcon">
           <a href="#"
@@ -22,13 +22,16 @@
              id="print-grayscale"
              @click.prevent="printInGrayscale = true">
           </a>
-          <!-- end print button -->
+          <!-- end print buttons -->
+
+          <!-- begin close-icon -->
           <a href="#"
              v-if="fancyboxOptions.closeIcon"
              :class="fancyboxOptions.closeIcon.iconClass"
              :title="fancyboxOptions.closeIcon.tooltip"
              @click.prevent="close">
           </a>
+          <!-- end close-icon -->
         </div>
         <div :class="{'grayscale' : printInGrayscale}">
             <!-- begin CmdHeadline -->
@@ -62,15 +65,6 @@
             <!-- end CmdSlideButton -->
           </div>
           <div v-else class="content">
-            <!-- begin CmdHeadline -->
-              <CmdHeadline
-                v-show="cmdHeadline.show"
-                :headlineText="cmdHeadline.headlineText"
-                :headlineLevel="cmdHeadline.headlineLevel"
-                :id="htmlId"
-            />
-            <!-- begin CmdHeadline -->
-
             <!-- begin slot-content -->
             <slot></slot>
             <!-- end slot-content -->
@@ -394,6 +388,10 @@
     justify-self: center;
     border-radius: var(--border-radius);
     overflow-y: auto;
+
+    .cmd-cookie-disclaimer {
+        padding: 0;
+    }
 
     > .grayscale {
       filter: grayscale(1);

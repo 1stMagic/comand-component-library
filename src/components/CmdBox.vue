@@ -8,8 +8,8 @@
                 <slot name="header"></slot>
                 <!-- end slot 'header' -->
 
-                <a href="#" @click.prevent="toggleContentVisibility" :title="open ? iconOpen.tooltip : iconClosed.tooltip">
-                    <span class="toggle-icon" :class="[open ? iconOpen.iconClass : iconClosed.iconClass]"></span>
+                <a href="#" @click.prevent="toggleContentVisibility" :title="open ? iconOpen.tooltip : iconClosed.tooltip" class="toggle-icon">
+                    <span :class="[open ? iconOpen.iconClass : iconClosed.iconClass]"></span>
                 </a>
             </div>
             <!-- end collapsible header with slot -->
@@ -301,6 +301,12 @@ export default {
         margin-bottom: 0;
     }
 
+    &.collapsible {
+        .box-header {
+            justify-content: space-between;
+        }
+    }
+
     .box-body {
         padding: var(--default-padding);
     }
@@ -313,10 +319,6 @@ export default {
         > * {
             > *:last-child {
                 margin-bottom: 0;
-            }
-
-            &:not(.open) {
-                justify-content: flex-start;
             }
         }
 

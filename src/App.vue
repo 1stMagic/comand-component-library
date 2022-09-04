@@ -1169,6 +1169,7 @@
                                  buttonLabelAcceptCurrentSettings="Accept current settings"
                                  @closeCookieDisclaimer="closeCookieDisclaimer"
                                  v-model="acceptedCookies"
+                                 :cmdHeadlineCookieDisclaimer="{ show: false }"
 
             >
                 <template #privacy-text>

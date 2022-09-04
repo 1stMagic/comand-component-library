@@ -1,21 +1,51 @@
 <template>
-    <div :class="['cmd-share-buttons',{'stretch': stretchButtons, 'align-right': align === 'right'}]">
-        <a v-for="shareButton in validShareButtons"
-           :key="shareButton.path" class="button"
-           :id="shareButton.id"
-           :href="getUrl(shareButton)"
-           target="_blank"
-           :title="shareButton.tooltip">
-            <span v-if="shareButton.iconClass" :class="shareButton.iconClass"></span>
-            <span v-if="shareButton.linkText">{{ shareButton.linkText }}</span>
-        </a>
+    <div :class="['cmd-share-buttons', {'stretch': stretchButtons, 'align-right': align === 'right'}]">
+        <CmdFormElement
+            v-if="userMustAcceptDataPrivacy"
+            element="input"
+            type="checkbox"
+            :toggle-switch="cmdFormElement.toggleSwitch"
+            :labelText="cmdFormElement.labelText"
+            :required="cmdFormElement.required"
+            v-model="dataPrivacyAccepted"
+        />
+        <div class="share-button-wrapper">
+            <a v-for="shareButton in validShareButtons"
+               :key="shareButton.path" :class="['button', {disabled: userMustAcceptDataPrivacy && !dataPrivacyAccepted}]"
+               :id="shareButton.id"
+               :href="getUrl(shareButton)"
+               target="_blank"
+               :title="tooltip(shareButton.tooltip)">
+                <span v-if="shareButton.iconClass && shareButton.iconPosition !== 'right'" :class="shareButton.iconClass"></span>
+                <span v-if="shareButton.linkText">{{ shareButton.linkText }}</span>
+                <span v-if="shareButton.iconClass && shareButton.iconPosition === 'right'" :class="shareButton.iconClass"></span>
+            </a>
+        </div>
     </div>
 </template>
 
 <script>
+// import components
+import CmdFormElement from "./CmdFormElement"
+
 export default {
     name: "CmdShareButtons",
+    components: {
+        CmdFormElement
+    },
+    data() {
+        return {
+            dataPrivacyAccepted: false
+        }
+    },
     props: {
+        /**
+         * set default v-model (must be named modelValue in Vue3)
+         */
+        modelValue: {
+            type: [String, Number, Array],
+            default: ""
+        },
         /**
          * set horizontal alignment
          *
@@ -54,6 +84,37 @@ export default {
         appendPage: {
             type: Boolean,
             default: true
+        },
+        /**
+         * toggle if user has to accept that anonymous data will be send while sharing
+         */
+        userMustAcceptDataPrivacy: {
+            type: Boolean,
+            default: true
+        },
+        /**
+         * tooltip shown on hovering disabled buttons
+         *
+         * userMustAcceptDataPrivacy-property must be activated
+         */
+        tooltipAcceptDataPrivacy: {
+            type: String,
+            default: "You must accept data privacy conditions!"
+        },
+        /**
+         * properties for cmdFormElement
+         *
+         * userMustAcceptDataPrivacy-property must be activated
+         */
+        cmdFormElement: {
+            type: Object,
+            default() {
+                return {
+                    toggleSwitch: true,
+                    labelText: "I accept that anonymous data will be send to the platform I share this page on!",
+                    required: true
+                }
+            }
         }
     },
     computed: {
@@ -63,19 +124,28 @@ export default {
     },
     methods: {
         getUrl(shareButton) {
-            // if path is not given completely by json-data
-            if(this.appendPage) {
-                // if page to share is given by property
-                if (this.page) {
-                    return shareButton.path + encodeURIComponent(this.page)
+            if(this.userMustAcceptDataPrivacy && this.dataPrivacyAccepted) {
+                // if path is not given completely by json-data
+                if (this.appendPage) {
+                    // if page to share is given by property
+                    if (this.page) {
+                        return shareButton.path + encodeURIComponent(this.page)
+                    }
+
+                    // if current page should be append to url
+                    return shareButton.path + encodeURIComponent(location.href)
                 }
 
-                // if current page should be append to url
-                return shareButton.path + encodeURIComponent(location.href)
+                // if path is given completely by json-data
+                return shareButton.path
             }
-
-            // if path is given completely by json-data
-            return shareButton.path
+            return null
+        },
+        tooltip(tooltip) {
+            if(this.userMustAcceptDataPrivacy && this.dataPrivacyAccepted) {
+                return tooltip
+            }
+            return this.tooltipAcceptDataPrivacy
         }
     }
 }
@@ -87,10 +157,19 @@ export default {
 
 .cmd-share-buttons {
     display: flex;
+    flex-direction: column;
     gap: var(--default-gap);
 
     &.align-right {
-        justify-content: flex-end;
+        .share-button-wrapper {
+            justify-content: flex-end;
+        }
+    }
+
+    &.stretch {
+        .button {
+            flex: 1;
+        }
     }
 
     .button {
@@ -98,12 +177,6 @@ export default {
 
         &:first-of-type {
             margin: 0;
-        }
-    }
-
-    &.stretch {
-        .button {
-            flex: 1;
         }
     }
 
