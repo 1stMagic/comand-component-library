@@ -10,7 +10,7 @@
         <!-- begin list of images to slide -->
         <transition-group name="slide" tag="ul">
             <li v-for="(image, index) in thumbnails" :key="image.imgId" :class="{'active' : imgIndex === index}">
-                <a href="#" @click.prevent="showFancyBox(index)">
+                <a href="#" @click.prevent="showFancyBox(index)" :title="getMessage('cmdthumbnailscroller.tooltip.open_large_image')">
                     <figure>
                         <figcaption v-if="figcaption.show && figcaption.position === 'above-image' && image.figcaption.length">{{ image.figcaption }}</figcaption>
                         <img :src="image.srcImageSmall" :alt="image.alt"/>
@@ -31,6 +31,10 @@
 </template>
 
 <script>
+// import mixins
+import I18n from "../mixins/I18n"
+import DefaultMessageProperties from "../mixins/CmdThumbnailScroller/DefaultMessageProperties"
+
 // import components
 import CmdSlideButton from "./CmdSlideButton.vue"
 
@@ -42,6 +46,10 @@ export default {
     components: {
         CmdSlideButton
     },
+    mixins: [
+        I18n,
+        DefaultMessageProperties
+    ],
     data() {
         return {
             thumbnails: []

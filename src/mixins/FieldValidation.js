@@ -215,7 +215,7 @@ export default {
                 standardRequirements.push({
                     message: this.getRequirementMessage(),
                     valid(value, attributes) {
-                        return (!attributes.required && !inputRequired) || value.length > 0
+                        return (!attributes.required && !inputRequired) || (value != null && String(value).length > 0)
                     }
                 })
             }
@@ -248,6 +248,13 @@ export default {
         },
         getRequirementMessage() {
             return this.getMessage("cmdfieldvalidation.required_field_is_filled")
+        }
+    },
+    watch: {
+        validationStatus: {
+            handler() {
+                this.$emit("validation-status-change", this.validationStatus)
+            }
         }
     }
 }

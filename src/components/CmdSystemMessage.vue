@@ -4,7 +4,7 @@
             v-if="showSystemMessage"
             :class="['cmd-system-message', 'system-message', 'flex-container', 'vertical', { 'full-width': fullWidth }, validationStatus]"
             :role="validationStatus === 'error' ? 'alert' : 'dialog'"
-            :aria-labelledby="headlineId"
+            :aria-labelledby="htmlId"
         >
             <!-- begin close-icon -->
             <a
@@ -22,7 +22,7 @@
                 :iconClass="iconMessage.iconClass"
                 :headlineText="systemMessage"
                 :headlineLevel="messageHeadlineLevel"
-                :id="headlineId"
+                :id="htmlId"
             />
             <!-- end cmd-headline -->
 
@@ -34,20 +34,20 @@
 </template>
 
 <script>
+// import mixins
+import Identifier from "../mixins/Identifier"
+
 // import components
 import CmdHeadline from "./CmdHeadline"
 
-// import functions
-import {createUuid} from "../utils/common.js"
-
 export default {
     name: "CmdSystemMessage",
+    mixins: [Identifier],
     components: {
         CmdHeadline
     },
     data() {
         return {
-            headlineId: createUuid(),
             showSystemMessage: true
         }
     },

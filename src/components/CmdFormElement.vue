@@ -15,13 +15,14 @@
                 'has-state': validationStatus
                }
            ]"
-           :for="labelId"
+           :for="htmlId"
            :title="$attrs.title"
            ref="label">
 
         <!-- begin label-text (+ required asterisk) -->
         <span v-if="(labelText || $slots.labeltext) && $attrs.type !== 'checkbox' && $attrs.type !== 'radio'"
-              :class="['label-text', !showLabel ? 'hidden' : undefined]">
+              v-show="showLabel"
+              class="label-text">
             <span>
                 <template v-if="labelText">{{ labelText }}</template>
                 <!-- begin slot 'labeltext' -->
@@ -62,7 +63,7 @@
         <template v-if="element === 'input' && $attrs.type !== 'checkbox' && $attrs.type !== 'radio' && $attrs.type !== 'search'">
             <input
                 v-bind="elementAttributes"
-                :id="labelId"
+                :id="htmlId"
                 :class="inputClass"
                 @focus="tooltip = true"
                 @blur="onBlur"
@@ -109,7 +110,7 @@
                     :checked="isChecked"
                     :value="inputValue"
                     :class="[inputClass, validationStatus, toggleSwitchIconClass, { 'replace-input-type': replaceInputType, 'toggle-switch': toggleSwitch }]"
-                    :id="labelId"
+                    :id="htmlId"
                     :disabled="$attrs.disabled"
                     :aria-invalid="validationStatus === 'error'"
                 />
@@ -133,7 +134,7 @@
                            :checked="isChecked"
                            :value="inputValue"
                            :class="{inputClass, validationStatus}"
-                           :id="labelId"
+                           :id="htmlId"
                            :disabled="$attrs.disabled"
                            :aria-invalid="validationStatus === 'error'"
                     />
@@ -152,7 +153,7 @@
         <!-- begin selectbox -->
         <select v-if="element === 'select'"
                 v-bind="elementAttributes"
-                :id="labelId"
+                :id="htmlId"
                 @blur="onBlur"
                 @change="$emit('update:modelValue', $event.target.value)">
             <option v-for="(option, index) in selectOptions" :key="index" :value="option.value"
@@ -164,7 +165,7 @@
         <!-- begin textarea -->
         <textarea v-if="element === 'textarea'"
                   v-bind="elementAttributes"
-                  :id="labelId"
+                  :id="htmlId"
                   :value="modelValue"
                   :maxlength="getMaxLength()"
                   @input="onInput"
@@ -179,7 +180,7 @@
             <span class="search-field-wrapper flex-container no-gap">
                 <input
                     v-bind="elementAttributes"
-                    :id="labelId"
+                    :id="htmlId"
                     @input="onInput"
                     :maxlength="getMaxLength()"
                     :value="modelValue"
@@ -206,13 +207,11 @@
 </template>
 
 <script>
-// import utils
-import {createUuid} from "../utils/common.js"
-
 // import mixins
 import I18n from "../mixins/I18n"
 import DefaultMessageProperties from "../mixins/CmdFormElement/DefaultMessageProperties"
 import FieldValidation from "../mixins/FieldValidation.js"
+import Identifier from "../mixins/Identifier.js"
 import Tooltip from "../mixins/Tooltip.js"
 
 // import components
@@ -228,6 +227,7 @@ export default {
         I18n,
         DefaultMessageProperties,
         FieldValidation,
+        Identifier,
         Tooltip
     ],
     data() {
@@ -344,13 +344,6 @@ export default {
          * may not be named as 'class' because it is a reserved keyword in JavaScript
          */
         inputClass: {
-            type: String,
-            required: false
-        },
-        /**
-         * if for native form-element
-         */
-        id: {
             type: String,
             required: false
         },
@@ -682,13 +675,6 @@ export default {
             }
             return null
         },
-        // get ID for accessibility
-        labelId() {
-            if (this.$attrs.id !== undefined) {
-                return this.$attrs.id
-            }
-            return "label-" + createUuid()
-        },
         // toggle icons for toggle-switch
         toggleSwitchIconClass() {
             if(this.toggleSwitch && this.useIconsForToggleSwitch && this.toggleSwitchUncheckedIconClass && this.toggleSwitchCheckedIconClass) {
@@ -742,6 +728,8 @@ export default {
                         }
                     }
                 }
+
+                this.$emit('validation-status-change', this.validationStatus)
             }
         },
         onBlur(event) {

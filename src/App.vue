@@ -2,24 +2,31 @@
 <template>
     <div id="page-wrapper">
         <a id="anchor-back-to-top"></a>
+        <!-- begin site-header --------------------------------------------------------------------------------------------------------------------------------------------------->
         <CmdSiteHeader :cmdMainNavigation="navigationData" :sticky="true">
             <template v-slot:top-header>
+                <!-- begin list-of-links --------------------------------------------------------------------------------------------------------------------------------------------------->
                 <CmdListOfLinks
                     :links="listOfLinksData"
                     orientation="horizontal"
                     align="right"
                 />
+                <!-- end list-of-links --------------------------------------------------------------------------------------------------------------------------------------------------->
             </template>
             <template v-slot:logo>
+                <!-- begin company-logo --------------------------------------------------------------------------------------------------------------------------------------------------->
                 <CmdCompanyLogo
                     :link="companyLogoData.link"
                     altText="CoManD Logo"
                     :pathDefaultLogo="require('@/assets/images/logo.svg')"
                     :pathDarkmodeLogo="require('@/assets/images/logo-darkmode.svg')"
                 />
+                <!-- end company-logo --------------------------------------------------------------------------------------------------------------------------------------------------->
             </template>
         </CmdSiteHeader>
+        <!-- end site-header --------------------------------------------------------------------------------------------------------------------------------------------------->
         <main>
+            <!-- begin width-limitation-wrapper (with table of contents) --------------------------------------------------------------------------------------------------------------------------------------------------->
             <CmdWidthLimitationWrapper>
                 <div class="flex-container">
                     <ul>
@@ -57,6 +64,8 @@
                 </div>
                 <hr/>
             </CmdWidthLimitationWrapper>
+            <!-- end width-limitation-wrapper (with table of contents) --------------------------------------------------------------------------------------------------------------------------------------------------->
+
             <!-- begin advanced form elements --------------------------------------------------------------------------------------------------------------------------------------------------->
             <a id="section-advanced-form-elements"></a>
             <CmdWidthLimitationWrapper>
@@ -637,7 +646,7 @@
                         <CmdInputGroup
                             labelText="Grouplabel for radio-group given by property:"
                             :required="true"
-                            :inputElements="inputGroupRadiobuttonsData"
+                            :inputElements="idForReplacedInputsInInputGroup('radio-group')"
                             inputTypes="radio"
                             v-model="inputGroupCheckbox"
                             :status="validationStatus"
@@ -652,7 +661,7 @@
                         <h3>Input Group with Checkboxes/Radiobuttons (replaced)</h3>
                         <CmdInputGroup
                             labelText="Grouplabel for radio-group styled as replaced-input-type:"
-                            :inputElements="idForReplacedInputsInInputGroup('radio-group')"
+                            :inputElements="idForReplacedInputsInInputGroup('replaced-radio-group')"
                             inputTypes="radio"
                             v-model="inputGroupValueReplaceInputTypeRadio"
                             :replaceInputType="true"
@@ -831,7 +840,7 @@
                         </CmdBox>
                     </div>
                     <div class="grid-small-item">
-                        <CmdBox :useSlots="['header', 'body']" :collapsible="true" :stretchVertically="false">
+                        <CmdBox :cmdHeadline="{headlineText: 'nase', headlineLevel: 4}" :collapsible="true" :stretchVertically="false">
                             <template v-slot:header>
                                 <h3>
                                     Collapsible box with image
@@ -981,8 +990,9 @@
                 <h3>Horizontal (aligned right)</h3>
                 <CmdListOfLinks orientation="horizontal" align="right" :links="listOfLinksData"/>
             </CmdWidthLimitationWrapper>
-            <!-- end list-of-links  ------------------------------------------------------------------------------------------------------------------------------------------------------->
+            <!-- end list-of-links ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
+            <!-- begin main-navigation ------------------------------------------------------------------------------------------------------------------------------------------------------->
             <a id="section-main-navigation"></a>
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Main Navigation</h2>
@@ -991,7 +1001,9 @@
                                    :navigationEntries="navigationData"
                 />
             </CmdWidthLimitationWrapper>
+            <!-- end main-navigation ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
+            <!-- begin multistep-form-progress-bar ------------------------------------------------------------------------------------------------------------------------------------------------------->
             <a id="section-multistep-form-progress-bar"></a>
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Multistepform-Progressbar</h2>
@@ -1001,7 +1013,19 @@
                     <p>Page {{ showPageMultistep }}</p>
                 </div>
             </CmdWidthLimitationWrapper>
+            <!-- end multistep-form-progress-bar ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
+            <!-- begin newsletter-subscription ------------------------------------------------------------------------------------------------------------------------------------------------------->
+            <a id="section-newsletter-subscription"></a>
+            <CmdWidthLimitationWrapper>
+                <h2 class="headline-demopage">Newsletter Subscription</h2>
+                <CmdForm textLegend="Stay-up-to-date">
+                    <CmdNewsletterSubscription v-model="newsletter" buttonType="submit" @buttonClick="submitNewsletterRegistration" />
+                </CmdForm>
+            </CmdWidthLimitationWrapper>
+            <!-- end newsletter-subscription ------------------------------------------------------------------------------------------------------------------------------------------------------->
+
+            <!-- begin pager ------------------------------------------------------------------------------------------------------------------------------------------------------->
             <a id="section-pager"></a>
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Pager</h2>
@@ -1014,19 +1038,25 @@
                     @click="showPagePager = $event"
                 />
             </CmdWidthLimitationWrapper>
+            <!-- end pager ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
+            <!-- begin share-buttons ------------------------------------------------------------------------------------------------------------------------------------------------------->
             <a id="section-share-buttons"></a>
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Share buttons</h2>
                 <CmdShareButtons :share-buttons="shareButtonsData"/>
             </CmdWidthLimitationWrapper>
+            <!-- end share-buttons ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
+            <!-- begin slideshow ------------------------------------------------------------------------------------------------------------------------------------------------------->
             <a id="section-slideshow"></a>
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Slideshow</h2>
                 <CmdSlideshow :slideshow-items="slideshowData" :showCounter="true" :autoplay="true"/>
             </CmdWidthLimitationWrapper>
+            <!-- end slideshow ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
+            <!-- begin system-message ------------------------------------------------------------------------------------------------------------------------------------------------------->
             <a id="section-system-message"></a>
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">System Message</h2>
@@ -1058,7 +1088,9 @@
                     <p>This is additional text!</p>
                 </CmdSystemMessage>
             </CmdWidthLimitationWrapper>
+            <!-- end system-message ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
+            <!-- begin tables ------------------------------------------------------------------------------------------------------------------------------------------------------->
             <a id="section-tables"></a>
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Tables</h2>
@@ -1069,7 +1101,9 @@
                 <h3>Table as wide as possible</h3>
                 <CmdTable :collapsible="true" :fullWidthOnDefault="false" :userCanToggleWidth="true" :table-data="tableDataLarge"/>
             </CmdWidthLimitationWrapper>
+            <!-- end tables ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
+            <!-- begin tabs ------------------------------------------------------------------------------------------------------------------------------------------------------->
             <a id="section-tabs"></a>
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Tabs</h2>
@@ -1094,7 +1128,9 @@
                     </template>
                 </CmdTabs>
             </CmdWidthLimitationWrapper>
+            <!-- end tabs ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
+            <!-- begin thumbnail-scroller ------------------------------------------------------------------------------------------------------------------------------------------------------->
             <a id="section-thumbnail-scroller"></a>
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Thumbnail-Scroller</h2>
@@ -1103,7 +1139,9 @@
                 <h3>Thumbnail-Scroller stretched to full width</h3>
                 <CmdThumbnailScroller :thumbnail-scroller-items="thumbnailScrollerData" :fullWidth="true"/>
             </CmdWidthLimitationWrapper>
+            <!-- end thumbnail-scroller ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
+            <!-- begin tooltip ------------------------------------------------------------------------------------------------------------------------------------------------------->
             <a id="section-tooltip"></a>
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Tooltip</h2>
@@ -1118,7 +1156,9 @@
                     Tooltip for click
                 </CmdTooltip>
             </CmdWidthLimitationWrapper>
+            <!-- end tooltip ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
+            <!-- begin upload-form ------------------------------------------------------------------------------------------------------------------------------------------------------->
             <a id="section-upload-form"></a>
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Upload-Form</h2>
@@ -1140,30 +1180,48 @@
                                :uploadOptions="{url: 'http://localhost:8888'}"
                 />
             </CmdWidthLimitationWrapper>
+            <!-- end upload-form ------------------------------------------------------------------------------------------------------------------------------------------------------->
         </main>
 
+        <!-- begin site-footer ------------------------------------------------------------------------------------------------------------------------------------------------------->
         <CmdSiteFooter>
+            <!-- begin switch-language ------------------------------------------------------------------------------------------------------------------------------------------------------->
             <CmdSwitchLanguage :languages="languagesData" @click="doSomething"/>
+            <!-- end switch-languager ------------------------------------------------------------------------------------------------------------------------------------------------------->
+
             <div class="flex-container">
+                <!-- begin list-of-links ------------------------------------------------------------------------------------------------------------------------------------------------------->
                 <CmdListOfLinks :links="listOfLinksData"
                                 :cmdHeadline="{headlineText: 'List of links', headlineLevel: 6}"
                 />
+                <!-- end list-of-links ------------------------------------------------------------------------------------------------------------------------------------------------------->
+
+                <!-- begin opening-hours ------------------------------------------------------------------------------------------------------------------------------------------------------->
                 <CmdOpeningHours :openingHours="openingHoursData"
                                  :cmdHeadline="{headlineText: 'Opening hours', headlineLevel: 6}"
                                  textHolidaysClosed="Closed on holidays"
                                  textMiscInfo="Miscellaneous information"
                                  :checkInterval="0"
                 />
+                <!-- end opening-hours ------------------------------------------------------------------------------------------------------------------------------------------------------->
+
+                <!-- begin address-data ------------------------------------------------------------------------------------------------------------------------------------------------------->
                 <CmdAddressData :addressData="addressData"
                                 :linkGoogleMaps="false"
                                 :cmdHeadline="{headlineText: 'Address data', headlineLevel: 6}"
                 />
+                <!-- end address-data ------------------------------------------------------------------------------------------------------------------------------------------------------->
             </div>
         </CmdSiteFooter>
+        <!-- end site-footer ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
+        <!-- begin copyright-information ------------------------------------------------------------------------------------------------------------------------------------------------------->
         <CmdCopyrightInformation/>
+        <!-- end copyright-information ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
+        <!-- begin fancy-box ------------------------------------------------------------------------------------------------------------------------------------------------------->
         <CmdFancyBox :show="fancyBoxCookieDisclaimer" :fancyboxOptions="{}" :allowEscapeKey="false" :cmdHeadline="{show: true, headlineText: 'Cookie Disclaimer', headlineLevel: 2}">
+            <!-- begin cookie-disclaimer ------------------------------------------------------------------------------------------------------------------------------------------------------->
             <CmdCookieDisclaimer :cookieOptions="cookieDisclaimerData"
                                  buttonLabelAcceptAllCookies="Accept all cookies"
                                  buttonLabelAcceptCurrentSettings="Accept current settings"
@@ -1180,7 +1238,9 @@
                     </p>
                 </template>
             </CmdCookieDisclaimer>
+            <!-- end cookie-disclaimer ------------------------------------------------------------------------------------------------------------------------------------------------------->
         </CmdFancyBox>
+        <!-- end fancy-box ------------------------------------------------------------------------------------------------------------------------------------------------------->
     </div>
 </template>
 
@@ -1240,6 +1300,7 @@ import CmdLoginForm from "@/components/CmdLoginForm.vue"
 import CmdListOfLinks from "./components/CmdListOfLinks"
 import CmdMainNavigation from "@/components/CmdMainNavigation.vue"
 import CmdMultistepFormProgressBar from "@/components/CmdMultistepFormProgressBar.vue"
+import CmdNewsletterSubscription from "@/components/CmdNewsletterSubscription.vue"
 import CmdOpeningHours from "@/components/CmdOpeningHours"
 import CmdPager from "@/components/CmdPager.vue"
 import CmdProgressBar from "@/components/CmdProgressBar.vue"
@@ -1289,6 +1350,7 @@ export default {
         CmdLoginForm,
         CmdMainNavigation,
         CmdMultistepFormProgressBar,
+        CmdNewsletterSubscription,
         CmdOpeningHours,
         CmdPager,
         CmdProgressBar,
@@ -1313,6 +1375,10 @@ export default {
             showTooltip: false,
             disabledStatus: undefined,
             validationStatus: "",
+            newsletter: {
+                subscription: "",
+                email: ""
+            },
             inputFieldPattern: "",
             inputSearch: "",
             textarea: "",
@@ -1440,11 +1506,6 @@ export default {
             return (h, m) => (localizedTime(language))(h, m).toLowerCase()
         },
         idForReplacedInputsInInputGroup(prefix) {
-            // return inputGroupRadiobuttonsData.map(item => {
-            //     const newItem = {...item}
-            //     newItem.id = prefix + item.id
-            //     return newItem
-            // })
             return inputGroupRadiobuttonsData.map(item => ({...item, id: prefix + item.id}))
         },
         closeCookieDisclaimer(event) {
@@ -1476,6 +1537,9 @@ export default {
                 }
             }
             return null
+        },
+        submitNewsletterRegistration(event) {
+            alert(event.subscription + " " + event.email)
         },
         doSomething(event) {
             event.preventDefault()

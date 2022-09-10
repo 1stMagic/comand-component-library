@@ -1,6 +1,6 @@
 <template>
     <div :class="['cmd-multiple-switch multiple-switch label', {disabled: status === 'disabled', error: status === 'error'}]" :aria-labelledby="labelId">
-        <span :class="{hidden: !showLabel}" :id="labelId">{{ labelText }}</span>
+        <span v-show="showLabel" :id="htmlId">{{ labelText }}</span>
         <span class="flex-container no-gap no-flex">
             <label :class="{disabled: status === 'disabled'}" :for="multipleswitch.id"
                    v-for="(multipleswitch, index) in multipleSwitches" :key="index">
@@ -20,11 +20,12 @@
 </template>
 
 <script>
-// import utils
-import {createUuid} from "../utils/common.js"
+// import mixins
+import Identifier from "../mixins/Identifier"
 
 export default {
     name: "CmdMultipleSwitch",
+    mixins: [Identifier],
     props: {
         /**
          * value for v-model
@@ -81,15 +82,6 @@ export default {
         status: {
             type: String,
             required: false
-        }
-    },
-    computed: {
-        // get ID for accessibility
-        labelId() {
-            if(this.$attrs.id !== undefined) {
-                return this.$attrs.id
-            }
-            return "label-" + createUuid()
         }
     },
     methods: {

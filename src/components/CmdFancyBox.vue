@@ -36,12 +36,12 @@
         <div :class="{'grayscale' : printInGrayscale}">
             <!-- begin CmdHeadline -->
             <CmdHeadline
-                v-show="cmdHeadline.show"
-                :headlineText="cmdHeadline.headlineText"
-                :headlineLevel="cmdHeadline.headlineLevel"
+                v-show="cmdHeadline?.show"
+                :headlineText="cmdHeadline?.headlineText"
+                :headlineLevel="cmdHeadline?.headlineLevel"
                 :id="htmlId"
             />
-            <!-- begin CmdHeadline -->
+            <!-- end CmdHeadline -->
 
           <div v-if="fancyBoxImageUrl" class="content">
             <img :src="fancyBoxImageUrl" :alt="altText" />
@@ -87,8 +87,8 @@
 <script>
     import {defineComponent, createApp} from "vue"
 
-    // import utils
-    import {createHtmlId} from "../utils/common.js"
+    // import mixins
+    import Identifier from "../mixins/Identifier"
 
     // import components
     import CmdHeadline from "./CmdHeadline"
@@ -112,12 +112,14 @@
             CmdSlideButton,
             CmdThumbnailScroller
         },
+        mixins: [
+            Identifier
+        ],
         data() {
             return {
                 fancyBoxContent: null,
                 fancyBoxElements: null,
                 fancyBoxImageUrl: null,
-                htmlId: createHtmlId(),
                 index: this.defaultGalleryIndex,
                 printInGrayscale: false,
                 showFancyBox: this.show
@@ -224,7 +226,7 @@
              */
             cmdHeadline: {
                 type: Object,
-                required: true
+                required: false
             }
         },
         created() {

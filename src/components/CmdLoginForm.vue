@@ -4,7 +4,7 @@
         <legend :class="{hidden : !showLegend}">{{ textLegend }}</legend>
         <!-- begin CmdHeadline -->
         <CmdHeadline v-if="cmdHeadlineLoginForm"
-                           v-bind="cmdHeadlineLoginForm"/>
+                     v-bind="cmdHeadlineLoginForm"/>
         <!-- end CmdHeadline -->
 
         <!-- being form elements -->

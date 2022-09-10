@@ -8,9 +8,10 @@
         'toggle-switch': toggleSwitch,
         'has-state': validationStatus
         }
-        ]">
-        <span :class="['label-text', { hidden: !showLabel}]" :id="labelId" :aria-labelledby="labelId">
-             <span>{{ labelText }}<sup v-if="required">*</sup></span>
+        ]"
+         :aria-labelledby="htmlId">
+        <span v-show="showLabel" class="label-text">
+             <span :id="htmlId">{{ labelText }}<sup v-if="required">*</sup></span>
 
             <!-- begin CmdTooltipForInputElements -->
             <CmdTooltipForInputElements
@@ -65,10 +66,9 @@
 </template>
 
 <script>
-import {createUuid} from "../utils/common"
-
 // import mixins
 import FieldValidation from "../mixins/FieldValidation.js"
+import Identifier from "../mixins/Identifier"
 import Tooltip from "../mixins/Tooltip.js"
 
 // import components
@@ -80,6 +80,7 @@ export default {
     },
     mixins: [
         FieldValidation,
+        Identifier,
         Tooltip
     ],
     data() {
@@ -237,13 +238,6 @@ export default {
                 return this.getMessage("cmdformelement.validationTooltip.information_is_filled_correctly")
             }
             return this.getMessage("cmdformelement.validationTooltip.open_field_requirements")
-        },
-        // get ID for accessibility
-        labelId() {
-            if (this.$attrs.id !== undefined) {
-                return this.$attrs.id
-            }
-            return "label-" + createUuid()
         },
         inputValue: {
             // read inputValue

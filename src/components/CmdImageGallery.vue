@@ -4,7 +4,7 @@
            :key="index"
            @click.prevent="showFancyBox(index)"
            href="#"
-           :title="getMessage('cmdsitesearch.labeltext.open_large_image')">
+           :title="getMessage('cmdimagegallery.tooltip.open_large_image')">
             <figure>
                 <figcaption v-if="image.figcaption && figcaptionPosition === 'top'">{{ image.figcaption }}</figcaption>
                 <img :src="image.srcImageSmall" :alt="image.alt" />
@@ -19,7 +19,7 @@ import {openFancyBox} from "./CmdFancyBox"
 
 // import mixins
 import I18n from "../mixins/I18n"
-import DefaultMessageProperties from "../mixins/CmdSiteSearch/DefaultMessageProperties"
+import DefaultMessageProperties from "../mixins/CmdImageGallery/DefaultMessageProperties"
 
 export default {
     name: "CmdImageGallery",

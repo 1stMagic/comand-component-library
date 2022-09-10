@@ -11,14 +11,14 @@
         ]"
         :title="$attrs.title"
         role="listbox"
-        :aria-labelledby="labelId"
+        :aria-labelledby="htmlId"
         :aria-required="$attrs.required !== undefined"
         ref="fakeselect"
     >
         <template v-if="showLabel">
             <!-- begin label -->
-            <span class="label-text" :id="labelId">
-                <span>{{ labelText }}<sup v-if="$attrs.required !== undefined">*</sup></span>
+            <span class="label-text">
+                <span :id="htmlId">{{ labelText }}<sup v-if="$attrs.required !== undefined">*</sup></span>
 
                 <!-- begin CmdTooltipForInputElements -->
                 <CmdTooltipForInputElements
@@ -119,14 +119,12 @@
 </template>
 
 <script>
-// import utils
-import {createUuid} from "../utils/common.js"
-
 // import mixins
 import I18n from "../mixins/I18n"
 import DefaultMessageProperties from "../mixins/CmdFakeSelect/DefaultMessageProperties"
-import FieldValidation from "../mixins/FieldValidation.js"
-import Tooltip from "../mixins/Tooltip.js"
+import FieldValidation from "../mixins/FieldValidation"
+import Identifier from "../mixins/Identifier"
+import Tooltip from "../mixins/Tooltip"
 
 // import components
 import CmdTooltipForInputElements from "./CmdTooltipForInputElements"
@@ -138,6 +136,7 @@ export default {
         I18n,
         DefaultMessageProperties,
         FieldValidation,
+        Identifier,
         Tooltip
     ],
     components: {
@@ -311,13 +310,6 @@ export default {
         },
         selectAllOptionsIcon() {
             return "icon-check"
-        },
-        // get ID for accessibility
-        labelId() {
-            if (this.$attrs.id !== undefined) {
-                return this.$attrs.id
-            }
-            return "label-" + createUuid()
         }
     },
     mounted() {
