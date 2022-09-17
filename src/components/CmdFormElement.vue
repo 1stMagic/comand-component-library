@@ -687,6 +687,17 @@ export default {
         }
     },
     methods: {
+        additionalStandardRequirements() {
+            const requirements = []
+            // check if field is type "email"
+            if(this.$attrs.type === "email") {
+                requirements.push({
+                    message: this.getMessage("cmdformelement.validationTooltip.is_valid_email"),
+                    valid: () => this.$refs.input.checkValidity()
+                })
+            }
+            return requirements
+        },
         getDomElement() {
             return this.$refs.label
         },
@@ -706,8 +717,6 @@ export default {
             const useValidation = event.target.closest("form")?.dataset.useValidation === "true"
 
             if (useValidation) {
-                this.validationStatus = ""
-
                 // if input is filled, set status to success (expect for checkboxes and radiobuttons)
                 if (!["checkbox", "radio"].includes(this.$attrs.type) && this.modelValue) {
                     this.validationStatus = "success"
@@ -792,7 +801,7 @@ export default {
     watch: {
         status: {
             handler() {
-                this.validationStatus = this.status
+                this.validationStatus = this.status || ""
             },
             immediate: true
         }

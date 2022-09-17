@@ -26,7 +26,10 @@
             <!-- begin header for collapsible -->
             <a v-if="collapsible" class="box-header" href="#" :title="open ? iconOpen.tooltip : iconClosed.tooltip" @click.prevent="toggleContentVisibility">
                 <!-- begin CmdHeadline -->
-                <CmdHeadline v-if="cmdHeadline?.headlineText" v-bind="cmdHeadline" />
+                <CmdHeadline
+                    v-if="cmdHeadline?.headlineText"
+                    v-bind="cmdHeadline"
+                />
                 <!-- end CmdHeadline -->
                 <span class="toggle-icon" :class="[open ? iconOpen.iconClass : iconClosed.iconClass]"></span>
             </a>
@@ -343,13 +346,14 @@ export default {
 
             > .toggle-icon, .toggle-icon > [class*="icon"] {
                 font-size: 1rem;
-                margin-left: auto;
             }
+        }
 
+        .box-header {
             &:hover, &:active, &:focus {
                 background: var(--pure-white);
 
-                > * {
+                * {
                     color: var(--primary-color);
                 }
             }

@@ -295,9 +295,25 @@ export default {
 
     .cmd-box {
         .box-header {
-            label.disabled {
-                .label-text span {
-                    color: var(--pure-white) !important;
+            justify-content: unset; /* overwrite setting for collapsible boxes */
+
+            label {
+                &.disabled {
+                    .label-text span {
+                        color: var(--pure-white) !important; /* required to set label-text in header to white */
+                    }
+                }
+
+                & + .toggle-icon {
+                    width: 100%;
+                    justify-content: flex-end;
+                    text-align: right;
+                }
+            }
+
+            &:hover, &:active, &:focus {
+                label.disabled .label-text span {
+                    color: var(--disabled-color) !important; /* required to set label-text on hover back to disabled-color */
                 }
             }
         }

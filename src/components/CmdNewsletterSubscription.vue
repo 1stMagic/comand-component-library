@@ -1,4 +1,9 @@
 <template>
+    <fieldset class="cmd-newsletter-subscription flex-container">
+        <!-- begin legend -->
+        <legend :class="{'hidden' : !showLegend}">{{ textLegend }}</legend>
+        <!-- end legend -->
+
         <!-- begin cmd-input-group -->
         <CmdInputGroup
             inputTypes="radio"
@@ -34,6 +39,7 @@
             />
             <!-- end cmd-form-element -->
         </div>
+    </fieldset>
 </template>
 
 <script>
@@ -67,8 +73,8 @@ export default {
             }
         },
         buttonType: {
-          type: String,
-          default: "button",
+            type: String,
+            default: "button",
             validator(value) {
                 return value === "submit" || value === "button"
             }

@@ -30,26 +30,26 @@
             <CmdWidthLimitationWrapper>
                 <div class="flex-container">
                     <ul>
-                        <li><a href="#section-accordion">Accordion</a></li>
                         <li><a href="#section-advanced-form-elements">Advanced Form Elements</a></li>
                         <li><a href="#section-bank-account-data">Bank Account Data</a></li>
                         <li><a href="#section-boxes">Boxes</a></li>
                         <li><a href="#section-breadcrumbs">Breadcrumbs</a></li>
                         <li><a href="#section-cookie-disclaimer">Cookie-Disclaimer</a></li>
+                        <li><a href="#section-custom-headline">Custom Headline</a></li>
                     </ul>
                     <ul>
-                        <li><a href="#section-custom-headline">Custom Headline</a></li>
                         <li><a href="#section-fancybox">Fancybox</a></li>
                         <li><a href="#section-google-maps-integration">Google-Maps&trade;-Integration</a></li>
                         <li><a href="#section-image-gallery">Image Gallery</a></li>
                         <li><a href="#section-image-zoom">Image-Zoom</a></li>
                         <li><a href="#section-login-form">Login Form</a></li>
+                        <li><a href="#section-main-navigation">Main-Navigation</a></li>
                     </ul>
                     <ul>
-                        <li><a href="#section-main-navigation">Main-Navigation</a></li>
                         <li><a href="#section-multistep-form-progress-bar">Multistepform-Progressbar</a></li>
                         <li><a href="#section-pager">Pager</a></li>
                         <li><a href="#section-share-buttons">Share Buttons</a></li>
+                        <li><a href="#section-site-search">Site Search</a></li>
                         <li><a href="#section-slideshow">Slideshow</a></li>
                         <li><a href="#section-system-message">System-Message</a></li>
                     </ul>
@@ -840,7 +840,7 @@
                         </CmdBox>
                     </div>
                     <div class="grid-small-item">
-                        <CmdBox :cmdHeadline="{headlineText: 'nase', headlineLevel: 4}" :collapsible="true" :stretchVertically="false">
+                        <CmdBox :cmdHeadline="{headlineText: 'Collapsible box', headlineLevel: 4}" :collapsible="true" :stretchVertically="false">
                             <template v-slot:header>
                                 <h3>
                                     Collapsible box with image
@@ -885,25 +885,6 @@
                         <CmdBox boxType="user" :user="user" :cmdHeadline="{headlineLevel: 4}"/>
                     </div>
                 </div>
-                <h3>Box Site Search</h3>
-                <CmdBoxSiteSearch
-                    v-model:modelValueInput1="siteSearchInput1"
-                    v-model:modelValueInput2="siteSearchInput2"
-                    v-model:modelValueRadius="radius"
-                    v-model:modelValueSearchFilters="filters"
-                    @search="siteSearchOutput"
-                    textLegend="Search"
-                    :cmdFakeSelect="siteSearchFilters"/>
-                <dl>
-                    <dt>siteSearchInput1:</dt>
-                    <dd>{{ siteSearchInput1 }}</dd>
-                    <dt>siteSearchInput2:</dt>
-                    <dd>{{ siteSearchInput2 }}</dd>
-                    <dt>Radius:</dt>
-                    <dd>{{ radius }}</dd>
-                    <dt>Filters:</dt>
-                    <dd>{{ filters }}</dd>
-                </dl>
             </CmdWidthLimitationWrapper>
             <!-- end boxes ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
@@ -973,7 +954,9 @@
             <a id="section-login-form"></a>
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Login Form</h2>
-                <CmdLoginForm v-model="loginData" v-focus/>
+                <CmdForm :use-validation="true" :use-fieldset="false">
+                    <CmdLoginForm v-model="loginData" textLegendLoginForm="Please log in" />
+                </CmdForm>
                 <p>LoginData: {{ loginData }}</p>
             </CmdWidthLimitationWrapper>
 
@@ -1019,7 +1002,7 @@
             <a id="section-newsletter-subscription"></a>
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Newsletter Subscription</h2>
-                <CmdForm textLegend="Stay-up-to-date">
+                <CmdForm textLegend="Stay-up-to-date" :use-fieldset="false">
                     <CmdNewsletterSubscription v-model="newsletter" buttonType="submit" @buttonClick="submitNewsletterRegistration" />
                 </CmdForm>
             </CmdWidthLimitationWrapper>
@@ -1047,6 +1030,22 @@
                 <CmdShareButtons :share-buttons="shareButtonsData"/>
             </CmdWidthLimitationWrapper>
             <!-- end share-buttons ------------------------------------------------------------------------------------------------------------------------------------------------------->
+
+            <!-- begin site-search ------------------------------------------------------------------------------------------------------------------------------------------------------->
+            <a id="section-site-search"></a>
+            <CmdWidthLimitationWrapper>
+                <h2 class="headline-demopage">Site Search</h2>
+                <CmdSiteSearch
+                    v-model:modelValueInput1="siteSearchInput1"
+                    v-model:modelValueInput2="siteSearchInput2"
+                    v-model:modelValueRadius="radius"
+                    v-model:modelValueSearchFilters="filters"
+                    @search="siteSearchOutput"
+                    textLegend="Search"
+                    :cmdFakeSelect="siteSearchFilters"
+                />
+            </CmdWidthLimitationWrapper>
+            <!-- end site-search ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
             <!-- begin slideshow ------------------------------------------------------------------------------------------------------------------------------------------------------->
             <a id="section-slideshow"></a>
@@ -1281,7 +1280,6 @@ import CmdAddressData from "@/components/CmdAddressData"
 import CmdBackToTopButton from "@/components/CmdBackToTopButton.vue"
 import CmdBankAccountData from "./components/CmdBankAccountData"
 import CmdBox from "@/components/CmdBox.vue"
-import CmdBoxSiteSearch from "@/components/CmdBoxSiteSearch.vue"
 import CmdBreadcrumbs from "@/components/CmdBreadcrumbs.vue"
 import CmdCompanyLogo from "@/components/CmdCompanyLogo.vue"
 import CmdCopyrightInformation from "@/components/CmdCopyrightInformation.vue"
@@ -1307,6 +1305,7 @@ import CmdProgressBar from "@/components/CmdProgressBar.vue"
 import CmdShareButtons from "@/components/CmdShareButtons.vue"
 import CmdSiteFooter from "./components/CmdSiteFooter"
 import CmdSiteHeader from "./components/CmdSiteHeader"
+import CmdSiteSearch from "@/components/CmdSiteSearch.vue"
 import CmdSlideshow from "@/components/CmdSlideshow.vue"
 import CmdSwitchLanguage from "@/components/CmdSwitchLanguage.vue"
 import CmdSystemMessage from "@/components/CmdSystemMessage.vue"
@@ -1332,7 +1331,6 @@ export default {
         CmdBackToTopButton,
         CmdBankAccountData,
         CmdBox,
-        CmdBoxSiteSearch,
         CmdBreadcrumbs,
         CmdCompanyLogo,
         CmdCopyrightInformation,
@@ -1357,6 +1355,7 @@ export default {
         CmdShareButtons,
         CmdSiteFooter,
         CmdSiteHeader,
+        CmdSiteSearch,
         CmdSlideshow,
         CmdSwitchLanguage,
         CmdSystemMessage,
@@ -1375,6 +1374,10 @@ export default {
             showTooltip: false,
             disabledStatus: undefined,
             validationStatus: "",
+            loginData: {
+              username: "",
+              password: ""
+            },
             newsletter: {
                 subscription: "",
                 email: ""
@@ -1423,7 +1426,6 @@ export default {
             selectedCountry: "de",
             selectedColor: "",
             rangeValue: 50,
-            loginData: {},
             siteSearchFilters: {
                 show: true,
                 selectData: fakeSelectFilterOptionsData,
@@ -1433,7 +1435,7 @@ export default {
             },
             siteSearchInput1: "Doctor",
             siteSearchInput2: "New York",
-            radius: 10,
+            radius: 5,
             filters: ["2"],
             switchButtonRadio: "radio1",
             switchButtonCheckboxToggleSwitch: false,
@@ -1517,10 +1519,9 @@ export default {
             this.disabledStatus = disabledStatus
         },
         siteSearchOutput(event) {
-            console.log(event)
+            alert(JSON.stringify(event))
         },
-        showError(event) {
-            console.log("EventMessages", event.messages)
+        showError() {
             alert("Error")
         },
         showFancyBox(type, content, altText) {

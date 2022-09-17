@@ -1,8 +1,8 @@
 <template>
     <fieldset class="cmd-box-site-search flex-container">
         <!-- begin legend -->
-        <legend v-if="showLegend">{{ textLegend }}</legend>
-        <!-- begin legend -->
+        <legend :class="{'hidden' : !showLegend}">{{ textLegend }}</legend>
+        <!-- end legend -->
 
         <!-- begin CmdHeadline -->
         <CmdHeadline
@@ -12,20 +12,21 @@
         <!-- end CmdHeadline -->
 
         <!-- begin form-elements -->
-        <div class="flex-container">
+        <div class="flex-container align-bottom">
             <!-- begin CmdFormElement for first input -->
             <CmdFormElement
-                v-if="cmdFormElementInput1.show"
                 element="input"
                 :type="cmdFormElementInput1.type"
                 :show-label="cmdFormElementInput1.showLabel"
                 :labelText="cmdFormElementInput1.labelText"
                 :placeholder="cmdFormElementInput1.placeholder"
+                :required="cmdFormElementInput1.required"
+                :showSearchButton="cmdFormElementInput1.showSearchButton"
                 v-model="searchValue1"
             />
             <!-- end CmdFormElement for first input -->
 
-            <div class="flex-container no-gap">
+            <div class="flex-container align-bottom no-gap">
                 <!-- begin CmdFormElement for second input -->
                 <CmdFormElement
                     v-if="cmdFormElementInput2.show"
@@ -34,6 +35,7 @@
                     :show-label="cmdFormElementInput2.showLabel"
                     :labelText="cmdFormElementInput2.labelText"
                     :placeholder="cmdFormElementInput2.placeholder"
+                    :required="cmdFormElementInput2.required"
                     v-model="searchValue2"
                 />
                 <!-- end CmdFormElement for second input -->
@@ -47,6 +49,7 @@
                     :show-label="cmdFormElementRadius.showLabel"
                     :labelText="cmdFormElementRadius.labelText"
                     :select-options="cmdFormElementRadius.selectOptions"
+                    :required="cmdFormElementRadius.required"
                 />
                 <!-- end CmdFormElement for radius -->
             </div>
@@ -56,6 +59,7 @@
                 element="button"
                 :nativeButton="cmdFormElementSearchButton"
                 @click="onSearchButtonClick"
+                :disabled="buttonSearchDisabled"
                 aria-live="assertive"
             />
             <!-- end CmdFormElement for search-button -->
@@ -87,7 +91,9 @@
         </template>
         <!-- end filters -->
     </fieldset>
+    <!-- begin CmdFormFilters -->
     <CmdFormFilters v-if="cmdFakeSelect?.show" v-model="searchFilters" :selectedOptionsName="getOptionName"/>
+    <!-- end CmdFormFilters -->
 </template>
 
 <script>
@@ -197,11 +203,12 @@ export default {
             type: Object,
             default() {
                 return {
-                    show: true,
-                    type: "text",
-                    showLabel: true,
+                    type: "search",
+                    showLabel: false,
+                    required: true,
                     labelText: "What do you like to search for?",
-                    placeholder: "Search"
+                    placeholder: "What do you like to search for?",
+                    showSearchButton: false
                 }
             }
         },
@@ -214,9 +221,10 @@ export default {
                 return {
                     show: true,
                     type: "text",
-                    showLabel: true,
+                    showLabel: false,
+                    required: true,
                     labelText: "Where do you like to search?",
-                    placeholder: "City, Zip"
+                    placeholder: "Enter city, zip, country"
                 }
             }
         },
@@ -228,9 +236,14 @@ export default {
             default() {
                 return {
                     show: true,
-                    showLabel: true,
+                    showLabel: false,
+                    required: false,
                     labelText: "Radius",
                     selectOptions: [
+                        {
+                            text: "None",
+                            value: 0
+                        },
                         {
                             text: "5 Km",
                             value: 5
@@ -311,6 +324,13 @@ export default {
             set(value) {
                 this.$emit("update:modelValueSearchFilters", value)
             }
+        },
+        buttonSearchDisabled() {
+            const validInput1 = !this.cmdFormElementInput1.required || this.searchValue1.trim()
+            const validInput2 = !this.cmdFormElementInput2.show || !this.cmdFormElementInput2.required || this.searchValue2.trim()
+            const validInputRadius = !this.cmdFormElementRadius.show || !this.cmdFormElementRadius.required || this.radius
+
+            return !(validInput1 && validInput2 && validInputRadius)
         }
     },
     methods: {

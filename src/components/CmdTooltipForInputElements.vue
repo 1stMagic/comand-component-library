@@ -7,15 +7,6 @@
         :relatedId="relatedId"
         :toggle-visibility-by-click="true">
 
-        <!-- begin CmdSystemMessage -->
-        <CmdSystemMessage
-            v-if="cmdListOfRequirements?.inputAttributes?.required && validationMessage"
-            :systemMessage="validationMessage"
-            :validation-status="validationStatus"
-            :iconClose="{show: false}"
-        />
-        <!-- end CmdSystemMessage -->
-
         <!-- begin CmdListOfRequirements -->
         <CmdListOfRequirements
             v-if="cmdListOfRequirements.showRequirements"
@@ -35,14 +26,12 @@
 <script>
 // import components
 import CmdListOfRequirements from "./CmdListOfRequirements"
-import CmdSystemMessage from "./CmdSystemMessage"
 import CmdTooltip from "./CmdTooltip"
 
 export default {
     name: "CmdTooltipForInputElements",
     components: {
         CmdListOfRequirements,
-        CmdSystemMessage,
         CmdTooltip
     },
     props: {
@@ -54,16 +43,9 @@ export default {
             default: ""
         },
         /**
-         * validation-status for CmdSystemMessage-component and CmdTooltip-component
+         * validation-status for CmdTooltip-component
          */
         validationStatus: {
-            type: String,
-            default: ""
-        },
-        /**
-         * validation-message for CmdSystemMessage-component
-         */
-        validationMessage: {
             type: String,
             default: ""
         },

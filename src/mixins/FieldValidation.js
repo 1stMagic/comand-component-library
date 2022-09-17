@@ -219,21 +219,23 @@ export default {
                     }
                 })
             }
+
             // check if field has a minimum length
             if(this.$attrs.minlength) {
                 standardRequirements.push({
-                    message: this.getMessage("cmdfieldvalidation.input_has_minimum_length") + "(" + this.modelValue.length + "/" + this.$attrs.minlength + ")",
+                    message: this.getMessage("cmdfieldvalidation.input_has_minimum_length") + " (" + this.modelValue.length + "/" + this.$attrs.minlength + ")",
                     valid(value, attributes) {
                         return value.length >= attributes.minlength
                     }
                 })
             }
-            // check is field has custom requirements defined
-            if(!this.customRequirements || !this.customRequirements.length) {
-                return standardRequirements
-            }
+
             // duplicate existing requirements into new (combined) array
-            return [...standardRequirements, ...this.customRequirements]
+            return [
+                ...standardRequirements,
+                ...(this.additionalStandardRequirements() || []),
+                ...(this.customRequirements || [])
+            ]
         }
     },
     methods: {
@@ -245,6 +247,9 @@ export default {
                 this.capsLockActivated = false
                 this.validationStatus = ""
             }
+        },
+        additionalStandardRequirements() {
+            return []
         },
         getRequirementMessage() {
             return this.getMessage("cmdfieldvalidation.required_field_is_filled")

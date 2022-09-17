@@ -1,10 +1,12 @@
 <template>
     <!-- begin login-form -->
-    <fieldset v-if="!sendLogin" class="cmd-login-form flex-container">
-        <legend :class="{hidden : !showLegend}">{{ textLegend }}</legend>
+    <fieldset v-show="!sendLogin" class="cmd-login-form flex-container">
+        <legend :class="{hidden : !showLegend}">{{ textLegendLoginForm }}</legend>
         <!-- begin CmdHeadline -->
-        <CmdHeadline v-if="cmdHeadlineLoginForm"
-                     v-bind="cmdHeadlineLoginForm"/>
+        <CmdHeadline
+            v-if="cmdHeadlineLoginForm"
+            v-bind="cmdHeadlineLoginForm"
+        />
         <!-- end CmdHeadline -->
 
         <!-- being form elements -->
@@ -19,6 +21,8 @@
                 :fieldIconClass="cmdFormElementUsername.innerIconClass"
                 :labelText="cmdFormElementUsername.labelText"
                 :placeholder="cmdFormElementUsername.placeholder"
+                :required="cmdFormElementUsername.required"
+                @validationStatusChange="checkValidationStatus($event, 'username')"
             />
             <!-- end CmdFormElement -->
 
@@ -32,6 +36,8 @@
                 v-model="password"
                 :labelText="cmdFormElementPassword.labelText"
                 :placeholder="cmdFormElementPassword.placeholder"
+                :required="cmdFormElementPassword.required"
+                @validationStatusChange="checkValidationStatus($event, 'password')"
             />
             <!-- end CmdFormElement -->
         </div>
@@ -39,6 +45,7 @@
 
         <div class="option-wrapper flex-container" v-focus>
             <template v-if="options.forgotPassword || options.createAccount">
+                <!-- begin link for 'forgot password' -->
                 <a v-if="options.forgotPassword" href="#" @click.prevent="sendLogin = true">
                     <span v-if="options.forgotPassword.icon && options.forgotPassword.icon.show && options.forgotPassword.icon.iconClass"
                           :class="options.forgotPassword.icon.iconClass"
@@ -46,7 +53,9 @@
                     </span>
                     <span v-if="options.forgotPassword.text">{{ options.forgotPassword.text }}</span>
                 </a>
-                <!-- begin link-type 'href' -->
+                <!-- end link for 'forgot password' -->
+
+                <!-- begin link-type 'href' for 'create account' -->
                 <a v-if="options.createAccount && options.createAccount.linkType === 'href'" :href="options.createAccount.path">
                     <span v-if="options.createAccount.icon && options.createAccount.icon.show && options.createAccount.icon.iconClass"
                           :class="options.createAccount.icon.iconClass"
@@ -54,9 +63,9 @@
                     </span>
                     <span v-if="options.createAccount.text">{{ options.createAccount.text }}</span>
                 </a>
-                <!-- end link-type 'href' -->
+                <!-- end link-type 'href' for 'create account' -->
 
-                <!-- begin link-type 'router' -->
+                <!-- begin link-type 'router' for 'create account' -->
                 <router-link v-else-if="options.createAccount && options.createAccount.linkType === 'router'" :to="options.createAccount.path">
                     <span v-if="options.createAccount.icon && options.createAccount.icon.show && options.createAccount.icon.iconClass"
                           :class="options.createAccount.icon.iconClass"
@@ -64,40 +73,8 @@
                     </span>
                     <span v-if="options.createAccount.text">{{ options.createAccount.text }}</span>
                 </router-link>
-                <!-- end link-type 'router -->
+                <!-- end link-type 'router' for 'create account' -->
             </template>
-
-            <!-- begin link-type 'href' -->
-            <a
-                v-if="buttons.login.linkType === 'href'"
-                :class="['button', { primary: buttons.login.primary }]"
-                :href="buttons.login.path"
-                @click.prevent="onClick"
-            >
-                  <span
-                      v-if="buttons.login.icon.iconClass"
-                      :class="buttons.login.icon.iconClass"
-                      :title="buttons.login.icon.tooltip"
-                  ></span>
-                <span v-if="buttons.login.text">{{ buttons.login.text }}</span>
-            </a>
-            <!-- begin link-type 'href' -->
-
-            <!-- begin link-type 'router' -->
-            <router-link
-                v-if="buttons.login.linkType === 'router'"
-                :class="['button', { primary: buttons.login.primary }]"
-                :to="buttons.login.path"
-                @click.prevent="onClick"
-            >
-                  <span
-                      v-if="buttons.login.icon.iconClass"
-                      :class="buttons.login.icon.iconClass"
-                      :title="buttons.login.icon.tooltip"
-                  ></span>
-                <span v-if="buttons.login.text">{{ buttons.login.text }}</span>
-            </router-link>
-            <!-- begin link-type 'router' -->
 
             <!-- begin link-type 'button' -->
             <button
@@ -105,6 +82,7 @@
                 :type="buttons.login.type === 'submit' ? 'submit' : 'button'"
                 :class="['button', { primary: buttons.login.primary }]"
                 @click="onClick"
+                :disabled="buttonLoginDisabled"
             >
                   <span
                       v-if="buttons.login.icon.iconClass"
@@ -119,14 +97,13 @@
     <!-- end login-form -->
 
     <!-- begin send-login-form -->
-    <fieldset v-else class="cmd-login-form flex-container">
-        <legend :class="{'hidden' : !legendSendLoginForm.show}">{{ legendSendLoginForm.text }}</legend>
+    <fieldset v-show="sendLogin" class="cmd-login-form flex-container">
+        <legend :class="{'hidden' : !showLegend}">{{ textLegendForgotLoginForm }}</legend>
         <!-- begin CmdHeadline -->
-        <CmdHeadline v-if="cmdHeadlineSendLoginForm"
-                           :iconClass="cmdHeadlineSendLoginForm.iconClass"
-                           :preHeadline="cmdHeadlineSendLoginForm.preHeadline"
-                           :headlineLevel="cmdHeadlineSendLoginForm.preHeadline"
-                           :headlineText="cmdHeadlineSendLoginForm.headlineText"/>
+        <CmdHeadline
+            v-if="cmdHeadlineSendLoginForm"
+            v-bind="cmdHeadlineSendLoginForm"
+        />
         <!-- end CmdHeadline -->
 
         <!-- begin CmdFormElement -->
@@ -137,8 +114,10 @@
             :labelText="cmdFormElementSendLogin.labelText"
             :placeholder="cmdFormElementSendLogin.placeholder"
             :name="cmdFormElementSendLogin.name"
+            :required="cmdFormElementSendLogin.required"
             :id="cmdFormElementSendLogin.id"
-            v-model:value="sendLoginMail"
+            @validationStatusChange="checkValidationStatus($event, 'email')"
+            v-model="sendLoginMail"
         />
         <!-- end CmdFormElement -->
 
@@ -153,43 +132,12 @@
                 </span>
             </a>
 
-            <!-- begin link-type 'href' -->
-            <a
-                v-if="buttons.sendLogin.linkType === 'href'"
-                :class="['button', { primary: buttons.sendLogin.primary }]"
-                :href="buttons.sendLogin.path"
-                @click.prevent="sendLogin"
-            >
-                  <span
-                      v-if="buttons.sendLogin.icon.iconClass"
-                      :class="buttons.sendLogin.icon.iconClass"
-                      :title="buttons.sendLogin.icon.tooltip"
-                  ></span>
-                <span v-if="buttons.sendLogin.text">{{ buttons.sendLogin.text }}</span>
-            </a>
-            <!-- end link-type 'href' -->
-
-            <!-- begin link-type 'router' -->
-            <router-link
-                v-if="buttons.sendLogin.linkType === 'router'"
-                :class="['button', { primary: buttons.sendLogin.primary }]"
-                :to="buttons.sendLogin.path"
-                @click.prevent="sendLogin"
-            >
-                  <span
-                      v-if="buttons.sendLogin.icon.iconClass"
-                      :class="buttons.sendLogin.icon.iconClass"
-                      :title="buttons.sendLogin.icon.tooltip"
-                  ></span>
-                <span v-if="buttons.sendLogin.text">{{ buttons.sendLogin.text }}</span>
-            </router-link>
-            <!-- end link-type 'router' -->
-
             <!-- begin link-type 'button' -->
             <button
                 v-if="buttons.sendLogin.linkType === 'button'"
                 :type="buttons.sendLogin.type === 'submit' ? 'submit' : 'button'"
                 :class="['button', { primary: buttons.sendLogin.primary }]"
+                :disabled="buttonSendLoginDisabled"
             >
                   <span
                       v-if="buttons.sendLogin.icon?.iconClass"
@@ -216,8 +164,9 @@ export default {
     name: "CmdLoginForm",
     data() {
         return {
-            username: "",
-            password: "",
+            usernameValidationStatus: false,
+            passwordValidationStatus: false,
+            emailValidationStatus: false,
             sendLoginMail: "",
             sendLogin: false
         }
@@ -244,7 +193,7 @@ export default {
          *
          * @requiredForAccessibility: true
          */
-        textLegend: {
+        textLegendLoginForm: {
             type: String,
             default: "Login form"
         },
@@ -256,18 +205,13 @@ export default {
             default: true
         },
         /**
-         * legend for send-login-fieldset
+         * legend for forgot-login-fieldset
          *
          * @requiredForAccessibility: true
-         */
-        legendSendLoginForm: {
-            type: Object,
-            default() {
-                return {
-                    show: false,
-                    text: "Forgot login form"
-                }
-            }
+        */
+        textLegendForgotLoginForm: {
+            type: String,
+            default: "Forgot login form"
         },
         /**
          * properties for CmdHeadline-component for login-form
@@ -281,13 +225,7 @@ export default {
          */
         cmdHeadlineSendLoginForm: {
             type: Object,
-            default() {
-                return {
-                    show: true,
-                    headlineText: "Send Login",
-                    headlineLevel: 2
-                }
-            }
+            required: false
         },
         /**
          * properties for CmdFormElement-component for username-field
@@ -302,7 +240,8 @@ export default {
                     placeholder: "Type in username",
                     innerIconClass: "icon-user-profile",
                     name: "login-username",
-                    id: "login-username"
+                    id: "login-username",
+                    required: true
                 }
             }
         },
@@ -319,7 +258,8 @@ export default {
                     placeholder: "Type in password",
                     innerIconClass: "icon-security-settings",
                     name: "login-password",
-                    id: "login-password"
+                    id: "login-password",
+                    required: true
                 }
             }
         },
@@ -336,7 +276,8 @@ export default {
                     placeholder: "Type in email-address you are registered with",
                     innerIconClass: "icon-mail",
                     name: "login-send-login",
-                    id: "login-send-login"
+                    id: "login-send-login",
+                    required: true
                 }
             }
         },
@@ -416,6 +357,30 @@ export default {
             }
         }
     },
+    computed: {
+        buttonLoginDisabled() {
+            return !(this.usernameValidationStatus && this.passwordValidationStatus)
+        },
+        buttonSendLoginDisabled() {
+            return !this.emailValidationStatus
+        },
+        username: {
+            get() {
+                return this.modelValue.username
+            },
+            set(value) {
+                this.$emit("update:modelValue", {username: value, password: this.password})
+            }
+        },
+        password: {
+            get() {
+                return this.modelValue.password
+            },
+            set(value) {
+                this.$emit("update:modelValue", {username: this.username, password: value})
+            }
+        }
+    },
     methods: {
         modelChange() {
             this.$emit("update:modelValue", { "username": this.username, "password": this.password })
@@ -425,6 +390,18 @@ export default {
         },
         getRoute(language) {
             return getRoute(language)
+        },
+        checkValidationStatus(event, fieldType) {
+            if (event == null) {
+                return
+            }
+            if(fieldType === "username") {
+                this.usernameValidationStatus = event === "success";
+            } else if(fieldType === "password") {
+                this.passwordValidationStatus = event === "success";
+            } else {
+                this.emailValidationStatus = event === "success";
+            }
         }
     },
     watch: {
