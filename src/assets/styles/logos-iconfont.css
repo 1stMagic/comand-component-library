@@ -1,8 +1,8 @@
-/* logos-iconfont.css - last update: 2021/04/25 by Raphael Biock - IT IS NOT RECOMMENDED TO EDIT THIS FILE (TO AVOID TROUBLESHOOTING AFTER UPDATING) - DO CHANGES IN template.css OR YOUR OWN iconfont-css-file */
+/* logos-iconfont.css - last update: 2022/09/22 - IT IS NOT RECOMMENDED TO EDIT THIS FILE (TO AVOID TROUBLESHOOTING AFTER UPDATING) - DO CHANGES IN template.css OR YOUR OWN iconfont-css-file */
 
 @font-face {
   font-family: 'icomoon';
-  src:  url('../fonts/iconfonts/logos-iconfont/icomoon.woff?qgpl9e') format('woff');
+  src:  url('../fonts/iconfonts/logos-iconfont/icomoon.woff?fgweog') format('woff');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -56,66 +56,72 @@
 .icon-git:before {
   content: "\b10a";
 }
-.icon-google-analytics:before {
+.icon-github:before {
   content: "\b10b";
 }
-.icon-html5:before {
+.icon-google-analytics:before {
   content: "\b10c";
 }
-.icon-instagram:before {
+.icon-html5:before {
   content: "\b10d";
 }
-.icon-linkedin:before {
+.icon-instagram:before {
   content: "\b10e";
 }
-.icon-linkedin-square:before {
+.icon-linkedin:before {
   content: "\b10f";
 }
-.icon-linux:before {
+.icon-linkedin-square:before {
   content: "\b110";
 }
-.icon-meta:before {
+.icon-linux:before {
   content: "\b111";
 }
-.icon-opera:before {
+.icon-meta:before {
   content: "\b112";
 }
-.icon-paypal:before {
+.icon-opera:before {
   content: "\b113";
 }
-.icon-safari:before {
+.icon-paypal:before {
   content: "\b114";
 }
-.icon-skype:before {
+.icon-safari:before {
   content: "\b115";
 }
-.icon-tumblr:before {
+.icon-skype:before {
   content: "\b116";
 }
-.icon-tumblr-square:before {
+.icon-tumblr:before {
   content: "\b117";
 }
-.icon-twitch:before {
+.icon-tumblr-square:before {
   content: "\b118";
 }
-.icon-twitter:before {
+.icon-twitch:before {
   content: "\b119";
 }
-.icon-twitter-square:before {
+.icon-twitter:before {
   content: "\b11a";
 }
-.icon-whatsapp:before {
+.icon-twitter-square:before {
   content: "\b11b";
 }
-.icon-windows8:before {
+.icon-vue:before {
   content: "\b11c";
 }
-.icon-xing:before {
+.icon-whatsapp:before {
   content: "\b11d";
 }
-.icon-xing-square:before {
+.icon-windows8:before {
   content: "\b11e";
 }
-.icon-youtube:before {
+.icon-xing:before {
   content: "\b11f";
+}
+.icon-xing-square:before {
+  content: "\b120";
+}
+.icon-youtube:before {
+  content: "\b121";
 }

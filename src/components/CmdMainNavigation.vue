@@ -259,6 +259,8 @@ export default {
 @import '../assets/styles/variables';
 
 .cmd-main-navigation {
+    grid-area: main-navigation;
+
     &.hide-sub-navigation {
         ul {
             ul {

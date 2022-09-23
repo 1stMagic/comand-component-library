@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="850.395px" height="566.929px" viewBox="0 0 850.395 566.929" enable-background="new 0 0 850.395 566.929"
+	 xml:space="preserve">
+<symbol  id="Stern" viewBox="-80.297 -76.367 160.595 152.734">
+	<polygon fill="#FFDE08" points="0,76.367 20.678,20.397 80.298,18.027 33.457,-18.934 49.627,-76.367 0,-43.241 -49.626,-76.367 
+		-33.457,-18.934 -80.297,18.027 -20.677,20.397 	"/>
+</symbol>
+<g id="cn">
+	<g>
+		<rect fill="#DF2B14" width="850.395" height="566.929"/>
+		
+			<use xlink:href="#Stern"  width="160.595" height="152.734" x="-80.297" y="-76.367" transform="matrix(1 0 0 -1 141.4941 133.5356)" overflow="visible"/>
+		
+			<use xlink:href="#Stern"  width="160.595" height="152.734" x="-80.297" y="-76.367" transform="matrix(0.318 0.1158 0.1158 -0.318 282.7402 57.1685)" overflow="visible"/>
+		
+			<use xlink:href="#Stern"  width="160.595" height="152.734" x="-80.297" y="-76.367" transform="matrix(0.318 -0.1158 -0.1158 -0.318 341.1777 115.0728)" overflow="visible"/>
+		
+			<use xlink:href="#Stern"  width="160.595" height="152.734" x="-80.297" y="-76.367" transform="matrix(0.318 0.1158 0.1158 -0.318 284.2407 256.6177)" overflow="visible"/>
+		
+			<use xlink:href="#Stern"  width="160.595" height="152.734" x="-80.297" y="-76.367" transform="matrix(0.3384 0 0 -0.3384 340.73 194.541)" overflow="visible"/>
+	</g>
+</g>
+</svg>

@@ -1,23 +1,24 @@
 <template>
-    <label v-if="(element === 'input' || element === 'select' || element === 'textarea')"
-           :class="[
-            'cmd-form-element',
-             validationStatus,
-             $attrs.class,
-               {
-                disabled: $attrs.disabled,
-                inline : displayLabelInline,
-                checked: isChecked,
-                'toggle-switch': toggleSwitch,
-                colored: colored,
-                on: colored && isChecked,
-                off: colored && !isChecked,
-                'has-state': validationStatus
-               }
-           ]"
-           :for="htmlId"
-           :title="$attrs.title"
-           ref="label">
+    <label
+       v-if="(element === 'input' || element === 'select' || element === 'textarea')"
+       :class="[
+        'cmd-form-element',
+         validationStatus,
+         $attrs.class,
+           {
+            disabled: $attrs.disabled,
+            inline : displayLabelInline,
+            checked: isChecked,
+            'toggle-switch': toggleSwitch,
+            colored: colored,
+            on: colored && isChecked,
+            off: colored && !isChecked,
+            'has-state': validationStatus
+           }
+       ]"
+       :for="htmlId"
+       :title="$attrs.title"
+       ref="label">
 
         <!-- begin label-text (+ required asterisk) -->
         <span v-if="(labelText || $slots.labeltext) && $attrs.type !== 'checkbox' && $attrs.type !== 'radio'"

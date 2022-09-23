@@ -3,7 +3,7 @@
     <div id="page-wrapper">
         <a id="anchor-back-to-top"></a>
         <!-- begin site-header --------------------------------------------------------------------------------------------------------------------------------------------------->
-        <CmdSiteHeader :cmdMainNavigation="navigationData" :sticky="true">
+        <CmdSiteHeader :sticky="true">
             <template v-slot:top-header>
                 <!-- begin list-of-links --------------------------------------------------------------------------------------------------------------------------------------------------->
                 <CmdListOfLinks
@@ -18,8 +18,8 @@
                 <CmdCompanyLogo
                     :link="companyLogoData.link"
                     altText="CoManD Logo"
-                    :pathDefaultLogo="require('@/assets/images/logo.svg')"
-                    :pathDarkmodeLogo="require('@/assets/images/logo-darkmode.svg')"
+                    :pathDefaultLogo="require('../public/media/images/logos/logo.svg')"
+                    :pathDarkmodeLogo="require('../public/media/images/logos/logo-darkmode.svg')"
                 />
                 <!-- end company-logo --------------------------------------------------------------------------------------------------------------------------------------------------->
             </template>
@@ -36,26 +36,27 @@
                         <li><a href="#section-breadcrumbs">Breadcrumbs</a></li>
                         <li><a href="#section-cookie-disclaimer">Cookie-Disclaimer</a></li>
                         <li><a href="#section-custom-headline">Custom Headline</a></li>
+                        <li><a href="#section-fancybox">Fancybox</a></li>
                     </ul>
                     <ul>
-                        <li><a href="#section-fancybox">Fancybox</a></li>
                         <li><a href="#section-google-maps-integration">Google-Maps&trade;-Integration</a></li>
                         <li><a href="#section-image-gallery">Image Gallery</a></li>
                         <li><a href="#section-image-zoom">Image-Zoom</a></li>
                         <li><a href="#section-login-form">Login Form</a></li>
                         <li><a href="#section-main-navigation">Main-Navigation</a></li>
-                    </ul>
-                    <ul>
                         <li><a href="#section-multistep-form-progress-bar">Multistepform-Progressbar</a></li>
                         <li><a href="#section-pager">Pager</a></li>
+                    </ul>
+                    <ul>
                         <li><a href="#section-share-buttons">Share Buttons</a></li>
+                        <li><a href="#section-site-header">Site Header</a></li>
                         <li><a href="#section-site-search">Site Search</a></li>
                         <li><a href="#section-slideshow">Slideshow</a></li>
                         <li><a href="#section-system-message">System-Message</a></li>
-                    </ul>
-                    <ul>
                         <li><a href="#section-tables">Tables</a></li>
                         <li><a href="#section-tabs">Tabs</a></li>
+                    </ul>
+                    <ul>
                         <li><a href="#section-thumbnail-scroller">Thumbnail-Scroller</a></li>
                         <li><a href="#section-toggle-darkmode">ToggleDarkMode</a></li>
                         <li><a href="#section-tooltip">Tooltip</a></li>
@@ -955,7 +956,7 @@
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Login Form</h2>
                 <CmdForm :use-validation="true" :use-fieldset="false">
-                    <CmdLoginForm v-model="loginData" textLegendLoginForm="Please log in" />
+                    <CmdLoginForm v-model="loginData" textLegendLoginForm="Please log in"/>
                 </CmdForm>
                 <p>LoginData: {{ loginData }}</p>
             </CmdWidthLimitationWrapper>
@@ -979,9 +980,10 @@
             <a id="section-main-navigation"></a>
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Main Navigation</h2>
-                <CmdMainNavigation :stretchMainItems="false"
-                                   :persistOnMobile="false"
-                                   :navigationEntries="navigationData"
+                <CmdMainNavigation
+                    :stretchMainItems="false"
+                    :persistOnMobile="false"
+                    :navigationEntries="navigationData.navigationEntries"
                 />
             </CmdWidthLimitationWrapper>
             <!-- end main-navigation ------------------------------------------------------------------------------------------------------------------------------------------------------->
@@ -990,8 +992,11 @@
             <a id="section-multistep-form-progress-bar"></a>
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Multistepform-Progressbar</h2>
-                <CmdMultistepFormProgressBar :multisteps="multistepsData" separatorIconClass="icon-single-arrow-right"
-                                             @click="showPageMultistep = $event.index + 1"/>
+                <CmdMultistepFormProgressBar
+                    :multisteps="multistepsData"
+                    separatorIconClass="icon-single-arrow-right"
+                    @click="showPageMultistep = $event.index + 1"
+                />
                 <div>
                     <p>Page {{ showPageMultistep }}</p>
                 </div>
@@ -1003,7 +1008,7 @@
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Newsletter Subscription</h2>
                 <CmdForm textLegend="Stay-up-to-date" :use-fieldset="false">
-                    <CmdNewsletterSubscription v-model="newsletter" buttonType="submit" @buttonClick="submitNewsletterRegistration" />
+                    <CmdNewsletterSubscription v-model="newsletter" buttonType="submit" @buttonClick="submitNewsletterRegistration"/>
                 </CmdForm>
             </CmdWidthLimitationWrapper>
             <!-- end newsletter-subscription ------------------------------------------------------------------------------------------------------------------------------------------------------->
@@ -1030,6 +1035,51 @@
                 <CmdShareButtons :share-buttons="shareButtonsData"/>
             </CmdWidthLimitationWrapper>
             <!-- end share-buttons ------------------------------------------------------------------------------------------------------------------------------------------------------->
+
+            <!-- begin site-header ------------------------------------------------------------------------------------------------------------------------------------------------------->
+            <a id="section-site-header"></a>
+            <CmdWidthLimitationWrapper>
+                <h2 class="headline-demopage">Site Header</h2>
+                <h3>Header with navigation below logo</h3>
+                <CmdSiteHeader
+                    :cmdMainNavigation="navigationData"
+                    :cmdCompanyLogo="companyLogoData"
+                    :sticky="false"
+                />
+                <h3>Header with navigation inline with logo</h3>
+                <CmdSiteHeader
+                    :cmdMainNavigation="navigationData"
+                    :cmdCompanyLogo="companyLogoData"
+                    :sticky="false"
+                    :navigation-inline="true"
+                />
+                <h3>Header with top-header-links, logo and navigation given by slot</h3>
+                <CmdSiteHeader :sticky="false">
+                    <template v-slot:topheader>
+                        <CmdListOfLinks
+                            :links="listOfLinksData"
+                            orientation="horizontal"
+                            align="right"
+                        />
+                    </template>
+                    <template v-slot:logo>
+                        <CmdCompanyLogo
+                            :link="companyLogoData.link"
+                            altText="CoManD Logo"
+                            :pathDefaultLogo="require('../public/media/images/logos/logo.svg')"
+                            :pathDarkmodeLogo="require('../public/media/images/logos/logo-darkmode.svg')"
+                        />
+                    </template>
+                    <template v-slot:navigation>
+                        <CmdMainNavigation
+                            :stretchMainItems="false"
+                            :persistOnMobile="false"
+                            :navigationEntries="navigationData.navigationEntries"
+                        />
+                    </template>
+                </CmdSiteHeader>
+            </CmdWidthLimitationWrapper>
+            <!-- end site-header ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
             <!-- begin site-search ------------------------------------------------------------------------------------------------------------------------------------------------------->
             <a id="section-site-search"></a>
@@ -1221,14 +1271,13 @@
         <!-- begin fancy-box ------------------------------------------------------------------------------------------------------------------------------------------------------->
         <CmdFancyBox :show="fancyBoxCookieDisclaimer" :fancyboxOptions="{}" :allowEscapeKey="false" :cmdHeadline="{show: true, headlineText: 'Cookie Disclaimer', headlineLevel: 2}">
             <!-- begin cookie-disclaimer ------------------------------------------------------------------------------------------------------------------------------------------------------->
-            <CmdCookieDisclaimer :cookieOptions="cookieDisclaimerData"
-                                 buttonLabelAcceptAllCookies="Accept all cookies"
-                                 buttonLabelAcceptCurrentSettings="Accept current settings"
-                                 @closeCookieDisclaimer="closeCookieDisclaimer"
-                                 v-model="acceptedCookies"
-                                 :cmdHeadlineCookieDisclaimer="{ show: false }"
-
-            >
+            <CmdCookieDisclaimer
+                :cookieOptions="cookieDisclaimerData"
+                buttonLabelAcceptAllCookies="Accept all cookies"
+                buttonLabelAcceptCurrentSettings="Accept current settings"
+                @closeCookieDisclaimer="closeCookieDisclaimer"
+                v-model="acceptedCookies"
+                :cmdHeadlineCookieDisclaimer="{ show: false }">
                 <template #privacy-text>
                     <p>
                         <strong>
@@ -1375,8 +1424,8 @@ export default {
             disabledStatus: undefined,
             validationStatus: "",
             loginData: {
-              username: "",
-              password: ""
+                username: "",
+                password: ""
             },
             newsletter: {
                 subscription: "",
