@@ -14,6 +14,7 @@
                :key="shareButton.path" :class="['button', {disabled: userMustAcceptDataPrivacy && !dataPrivacyAccepted}]"
                :id="shareButton.id"
                :href="getUrl(shareButton)"
+               @click="preventOnDisabled"
                target="_blank"
                :title="tooltip(shareButton.tooltip)">
                 <span v-if="shareButton.iconClass && shareButton.iconPosition !== 'right'" :class="shareButton.iconClass"></span>
@@ -139,7 +140,20 @@ export default {
                 // if path is given completely by json-data
                 return shareButton.path
             }
-            return null
+            return "#"
+        },
+        preventOnDisabled(event) {
+            let clickedElement = event.target
+
+            if(clickedElement.tagName !== "A") {
+                // get surrounding <a> if inner <span> is clicked
+                clickedElement = clickedElement.closest("a")
+            }
+
+            // href must be set due to html-validity, so click must be prevented if href contains "#" only (equals button is styled as disabled)
+            if(clickedElement.getAttribute("href") === "#") {
+                event.preventDefault()
+            }
         },
         tooltip(tooltip) {
             if(this.userMustAcceptDataPrivacy && this.dataPrivacyAccepted) {

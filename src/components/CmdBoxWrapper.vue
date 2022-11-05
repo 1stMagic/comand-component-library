@@ -172,6 +172,12 @@ export default {
     }
 
     > .flex-container {
+        .cmd-headline {
+            > * {
+                white-space: nowrap;
+            }
+        }
+
         &.one-box-per-row {
             flex-direction: column;
         }

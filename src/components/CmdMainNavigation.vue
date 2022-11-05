@@ -19,14 +19,16 @@
                     </a>
                 </li>
                 <li v-for="(navigationEntry, index) in navigationEntries" :key="index"
-                    :class="{'active' : navigationEntry.active, 'open' : navigationEntry.open, 'has-subentries': navigationEntry?.subentries?.length}">
+                    :class="{'active' : navigationEntry.active, 'open' : openEntry === index, 'has-subentries': navigationEntry?.subentries?.length}">
                     <!-- begin type === href -->
                     <a
                        v-if="navigationEntry.type === 'href'"
                        :href="navigationEntry.path"
                        :title="navigationEntry.tooltip"
                        :target="navigationEntry.target"
-                       @click="executeLink($event, navigationEntry)"
+                       @click="executeLink($event, navigationEntry, index)"
+                       @mouseover="closeAllSubentries()"
+                       @focus="closeAllSubentries()"
                     >
                         <span v-if="navigationEntry.iconClass" :class="navigationEntry.iconClass"></span>
                         <span v-if="navigationEntry.text">{{ navigationEntry.text }}</span>
@@ -41,8 +43,6 @@
                         v-if="navigationEntry.type === 'router'"
                         :to="getRoute(navigationEntry)"
                         :title="navigationEntry.tooltip"
-                        :target="navigationEntry.target"
-                        @click="executeLink($event, navigationEntry)"
                     >
                         <span v-if="navigationEntry.iconClass" :class="navigationEntry.iconClass"></span>
                         <span v-if="navigationEntry.text">{{ navigationEntry.text }}</span>
@@ -52,15 +52,17 @@
                     <!-- end type === router -->
 
                     <!-- begin sub-level 1 -->
-                    <ul v-if="navigationEntry?.subentries?.length" aria-expanded="true">
-                        <li v-for="(navigationSubEntry, subindex) in navigationEntry.subentries" :key="subindex"
-                            :class="{'open' : navigationSubEntry.open}">
+                    <ul v-if="navigationEntry?.subentries?.length" :aria-expanded="openEntry ? 'true' : 'false'">
+                        <li v-for="(navigationSubEntry, subindex) in navigationEntry.subentries" :key="subindex" :class="{'open' : openSubentry === subindex}">
                             <!-- begin type === href -->
                             <a v-if="navigationSubEntry.type === 'href'"
                                :href="navigationSubEntry.path"
                                :title="navigationSubEntry.tooltip"
                                :target="navigationSubEntry.target"
-                               @click="executeLink($event, navigationSubEntry)">
+                               @click="executeLink($event, navigationSubEntry, subindex, 1)"
+                               @mouseover="closeAllSubentries(1)"
+                               @focus="closeAllSubentries(1)"
+                            >
                                 <span v-if="navigationSubEntry.iconClass" :class="navigationSubEntry.iconClass"></span>
                                 <span v-if="navigationSubEntry.text">{{ navigationSubEntry.text }}</span>
                                 <span v-if="navigationSubEntry.subentries && navigationSubEntry.subentries.length > 0"
@@ -70,11 +72,11 @@
                             <!-- end type === href -->
 
                             <!-- begin type === router -->
-                            <router-link v-if="navigationSubEntry.type === 'router'"
-                                         :to="getRoute(navigationSubEntry)"
-                                         :title="navigationSubEntry.tooltip"
-                                         :target="navigationSubEntry.target"
-                                         @click="executeLink($event, navigationSubEntry)">
+                            <router-link
+                                v-if="navigationSubEntry.type === 'router'"
+                                :to="getRoute(navigationSubEntry)"
+                                :title="navigationSubEntry.tooltip"
+                            >
                                 <span v-if="navigationSubEntry.iconClass" :class="navigationSubEntry.iconClass"></span>
                                 <span v-if="navigationSubEntry.text">{{ navigationSubEntry.text }}</span>
                                 <span v-if="navigationSubEntry.subentries && navigationSubEntry.subentries.length > 0"
@@ -83,7 +85,7 @@
                             <!-- end type === router -->
 
                             <!-- begin sub-level 2 -->
-                            <ul v-if="navigationSubEntry.subentries">
+                            <ul v-if="navigationSubEntry.subentries" :aria-expanded="openSubentry ? 'true' : 'false'">
                                 <li v-for="(navigationSubSubEntry, subsubindex) in navigationSubEntry.subentries"
                                     :key="subsubindex">
                                     <!-- begin type === href -->
@@ -91,7 +93,8 @@
                                        :href="navigationSubSubEntry.path"
                                        :title="navigationSubSubEntry.tooltip"
                                        :target="navigationSubSubEntry.target"
-                                       @click="executeLink($event, navigationSubSubEntry)">
+                                       @click="executeLink($event, navigationSubSubEntry)"
+                                    >
                                         <span v-if="navigationSubSubEntry.iconClass" :class="navigationSubSubEntry.iconClass"></span>
                                         <span v-if="navigationSubSubEntry.text">{{ navigationSubSubEntry.text }}</span>
                                         <span v-if="navigationSubSubEntry.subentries && navigationSubSubEntry.subentries.length > 0"
@@ -103,9 +106,7 @@
                                     <!-- begin type === router -->
                                     <router-link v-if="navigationEntry.type === 'router'"
                                                  :to="getRoute(navigationSubSubEntry)"
-                                                 :target="navigationSubSubEntry.target"
-                                                 :title="navigationSubSubEntry.tooltip"
-                                                 @click="executeLink($event, navigationSubSubEntry)">
+                                                 :target="navigationSubSubEntry.target">
                                         <span v-if="navigationSubSubEntry.iconClass" :class="navigationSubSubEntry.iconClass"></span>
                                         <span v-if="navigationSubSubEntry.text">{{ navigationSubSubEntry.text }}</span>
                                         <span v-if="navigationSubSubEntry.subentries && navigationSubSubEntry.subentries.length > 0"
@@ -142,7 +143,9 @@ export default {
     data() {
         return {
             showOffcanvas: false,
-            showSubNavigations: true
+            showSubNavigations: true,
+            openEntry: -1,
+            openSubentry: -1
         }
     },
     props: {
@@ -224,7 +227,13 @@ export default {
         }
     },
     methods: {
-        executeLink(event, navigationEntry) {
+        closeAllSubentries(sublevel) {
+            if(!sublevel) {
+                this.openEntry = -1
+            }
+            this.openSubentry = -1
+        },
+        executeLink(event, navigationEntry, index, sublevel) {
             // execute default-link
             if (navigationEntry.target || (navigationEntry.path.length > 1)) {
                 this.showOffcanvas = false
@@ -234,8 +243,14 @@ export default {
             // toggle subentries (no link execution)
             if(navigationEntry?.subentries?.length) {
                 event.preventDefault()
-                // add entry "open" to navigationEntry-object (will be watched by vue3 automatically)
-                navigationEntry.open = !navigationEntry.open
+                if(!sublevel) {
+                    // assign index for first sub-level (or close if already open)
+                    this.openEntry = this.openEntry === index ? -1 : index
+                    this.openSubentry = -1 // close all sub-entries
+                } else {
+                    // assign index for second sub-level (or close if already open)
+                    this.openSubentry = this.openSubentry === index ? -1 : index
+                }
                 return
             }
 
@@ -280,6 +295,19 @@ export default {
             > li {
                 .close-nav {
                     display: none;
+                }
+
+                &.open {
+                    > ul {
+                        display: block;
+                        > li {
+                            &.open {
+                                > ul {
+                                    display: block;
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -378,6 +406,10 @@ export default {
 
                                 span {
                                     font-weight: bold;
+
+                                    &[class*="icon"] {
+                                        font-size: 1rem;
+                                    }
                                 }
                             }
 

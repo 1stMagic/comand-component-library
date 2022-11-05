@@ -1,497 +1,580 @@
 <template>
-  <transition name="fade">
-    <div v-if="showFancyBox"
-         :class="['cmd-fancybox', {'show-overlay': showOverlay}]"
-         role="dialog"
-         :aria-labelledby="htmlId">
-      <div class="popup" :class="{'image' : fancyBoxImageUrl || fancyBoxGallery }">
-        <!-- begin print buttons -->
-        <div class="button-wrapper no-flex"
-             v-if="(fancyboxOptions.printButtons && (fancyboxOptions.printButtons.color || fancyboxOptions.printButtons.grayscale)) || fancyboxOptions.closeIcon">
-          <a href="#"
-             v-if="fancyboxOptions.printButtons && fancyboxOptions.printButtons.color && fancyboxOptions.printButtons.color.show"
-             :class="['button', fancyboxOptions.printButtons.color.iconClass]"
-             :title="fancyboxOptions.printButtons.color.tooltip"
-             id="print-color"
-             @click.prevent="printInGrayscale = false">
-          </a>
-          <a href="#"
-             v-if="fancyboxOptions.printButtons && fancyboxOptions.printButtons.grayscale && fancyboxOptions.printButtons.grayscale.show"
-             :class="['button', fancyboxOptions.printButtons.grayscale.iconClass]"
-             :title="fancyboxOptions.printButtons.grayscale.tooltip"
-             id="print-grayscale"
-             @click.prevent="printInGrayscale = true">
-          </a>
-          <!-- end print buttons -->
+    <teleport to="body">
+        <dialog
+            ref="dialog"
+            :class="['cmd-fancybox', {'show-overlay': showOverlay, 'image' : fancyBoxImageUrl || fancyBoxGallery}]"
+            :aria-label="ariaLabelText"
+        >
+            <header class="flex-container">
+                <!-- begin CmdHeadline -->
+                <CmdHeadline
+                    v-if="cmdHeadline?.show"
+                    :headlineText="cmdHeadline?.headlineText"
+                    :headlineLevel="cmdHeadline?.headlineLevel"
+                    :id="htmlId"
+                />
+                <!-- end CmdHeadline -->
 
-          <!-- begin close-icon -->
-          <a href="#"
-             v-if="fancyboxOptions.closeIcon"
-             :class="fancyboxOptions.closeIcon.iconClass"
-             :title="fancyboxOptions.closeIcon.tooltip"
-             @click.prevent="close">
-          </a>
-          <!-- end close-icon -->
-        </div>
-        <div :class="{'grayscale' : printInGrayscale}">
-            <!-- begin CmdHeadline -->
-            <CmdHeadline
-                v-show="cmdHeadline?.show"
-                :headlineText="cmdHeadline?.headlineText"
-                :headlineLevel="cmdHeadline?.headlineLevel"
-                :id="htmlId"
+                <!-- begin button-wrapper -->
+                <div
+                    v-if="(fancyboxOptions.printButtons && (fancyboxOptions.printButtons.color || fancyboxOptions.printButtons.grayscale)) || fancyboxOptions.closeIcon"
+                    class="button-wrapper no-flex"
+                >  <!-- begin print buttons -->
+                    <a v-if="fancyboxOptions.printButtons && fancyboxOptions.printButtons.color && fancyboxOptions.printButtons.color.show"
+                       href="#"
+                       class="button primary"
+                       :class="fancyboxOptions.printButtons.color.iconClass"
+                       :title="fancyboxOptions.printButtons.color.tooltip"
+                       id="print-color"
+                       @click.prevent="printInGrayscale = false">
+                    </a>
+                    <a v-if="fancyboxOptions.printButtons && fancyboxOptions.printButtons.grayscale && fancyboxOptions.printButtons.grayscale.show"
+                       href="#"
+                       class="button primary"
+                       :class="fancyboxOptions.printButtons.grayscale.iconClass"
+                       :title="fancyboxOptions.printButtons.grayscale.tooltip"
+                       id="print-grayscale"
+                       @click.prevent="printInGrayscale = true">
+                    </a>
+                    <!-- end print buttons -->
+
+                    <!-- begin close-icon -->
+                    <a v-if="fancyboxOptions.closeIcon"
+                       href="#"
+                       class="button primary"
+                       id="close-dialog"
+                       :class="fancyboxOptions.closeIcon.iconClass"
+                       :title="fancyboxOptions.closeIcon.tooltip"
+                       @click.prevent="close">
+                    </a>
+                    <!-- end close-icon -->
+                </div>
+                <!-- end button-wrapper -->
+            </header>
+            <div :class="['outer-content-wrapper', {'grayscale' : printInGrayscale}]">
+                <div v-if="fancyBoxImageUrl" class="content">
+                    <img :src="fancyBoxImageUrl" :alt="altText"/>
+                </div>
+                <div v-else-if="fancyBoxContent" class="content" v-html="fancyBoxContent"></div>
+                <div v-else-if="fancyBoxElements" class="content"></div>
+                <div v-else-if="fancyBoxGallery" class="content">
+
+                    <!-- begin CmdSlideButton -->
+                    <CmdSlideButton @click.prevent="showPrevItem" slideButtonType="prev"/>
+                    <!-- end CmdSlideButton -->
+
+                    <!-- begin enlarged image -->
+                    <figure>
+                        <img :src="fancyBoxGallery[index].srcImageLarge" :alt="fancyBoxGallery[index].alt"/>
+                        <figcaption>{{ fancyBoxGallery[index].figcaption }}</figcaption>
+                    </figure>
+                    <!-- end enlarged image -->
+
+                    <!-- begin CmdSlideButton -->
+                    <CmdSlideButton @click.prevent="showNextItem"/>
+                    <!-- end CmdSlideButton -->
+                </div>
+                <div v-else class="content">
+                    <!-- begin slot-content -->
+                    <slot></slot>
+                    <!-- end slot-content -->
+                </div>
+            </div>
+            <!-- begin CmdThumbnailScroller -->
+            <CmdThumbnailScroller
+                v-if="fancyBoxGallery"
+                :thumbnailScrollerItems="[...fancyBoxGallery]"
+                :allowOpenFancyBox="false"
+                @click="showItem"
+                :imgIndex="index"
             />
-            <!-- end CmdHeadline -->
-
-          <div v-if="fancyBoxImageUrl" class="content">
-            <img :src="fancyBoxImageUrl" :alt="altText" />
-          </div>
-          <div v-else-if="fancyBoxContent" class="content" v-html="fancyBoxContent"></div>
-          <div v-else-if="fancyBoxElements" class="content"></div>
-          <div v-else-if="fancyBoxGallery" class="content">
-            <!-- begin CmdSlideButton -->
-            <CmdSlideButton @click.prevent="showPrevItem" slideButtonType="prev" />
-            <!-- end CmdSlideButton -->
-
-            <!-- begin enlarged image -->
-            <figure>
-                <img :src="fancyBoxGallery[index].srcImageLarge" :alt="fancyBoxGallery[index].alt"/>
-                <figcaption>{{ fancyBoxGallery[index].figcaption }}</figcaption>
-            </figure>
-            <!-- end enlarged image -->
-
-            <!-- begin CmdSlideButton -->
-            <CmdSlideButton @click.prevent="showNextItem"/>
-            <!-- end CmdSlideButton -->
-          </div>
-          <div v-else class="content">
-            <!-- begin slot-content -->
-            <slot></slot>
-            <!-- end slot-content -->
-          </div>
-        </div>
-      </div>
-      <!-- begin CmdThumbnailScroller -->
-      <CmdThumbnailScroller
-          v-if="fancyBoxGallery"
-          :thumbnailScrollerItems="[...fancyBoxGallery]"
-          :allowOpenFancyBox="false"
-          @click="showItem"
-          :imgIndex="index"
-      />
-      <!-- end CmdThumbnailScroller -->
-    </div>
-  </transition>
+            <!-- end CmdThumbnailScroller -->
+        </dialog>
+    </teleport>
 </template>
 
 <script>
-    import {defineComponent, createApp} from "vue"
+import {defineComponent, createApp} from "vue"
 
-    // import mixins
-    import Identifier from "../mixins/Identifier"
+// import mixins
+import Identifier from "../mixins/Identifier"
 
-    // import components
-    import CmdHeadline from "./CmdHeadline"
-    import CmdSlideButton from "./CmdSlideButton.vue"
-    import CmdThumbnailScroller from './CmdThumbnailScroller.vue'
+// import components
+import CmdHeadline from "./CmdHeadline"
+import CmdSlideButton from "./CmdSlideButton.vue"
+import CmdThumbnailScroller from './CmdThumbnailScroller.vue'
 
-    const openFancyBox = (config) => {
-        const node = document.createElement('div');
-        document.querySelector('body').appendChild(node);
-        const fb = createApp(FancyBox, {
-            ...config,
-            show: true
-        })
-        fb.mount(node)
-    }
+const openFancyBox = (config) => {
+    const node = document.createElement('div');
+    document.querySelector('body').appendChild(node);
+    const fb = createApp(FancyBox, {
+        ...config,
+        show: true
+    })
+    fb.mount(node)
+}
 
-    const FancyBox = defineComponent({
-        name: "CmdFancyBox",
-        components: {
-            CmdHeadline,
-            CmdSlideButton,
-            CmdThumbnailScroller
+const FancyBox = defineComponent({
+    name: "CmdFancyBox",
+    components: {
+        CmdHeadline,
+        CmdSlideButton,
+        CmdThumbnailScroller
+    },
+    mixins: [
+        Identifier
+    ],
+    data() {
+        return {
+            fancyBoxContent: null,
+            fancyBoxElements: null,
+            fancyBoxImageUrl: null,
+            index: this.defaultGalleryIndex,
+            printInGrayscale: false,
+            showFancyBox: this.show
+        }
+    },
+    props: {
+        /**
+         * sets aria-label-text on component
+         *
+         * @requiredForAccessibility: true
+         */
+        ariaLabelText: {
+            type: String,
+            required: true
         },
-        mixins: [
-            Identifier
-        ],
-        data() {
-            return {
-                fancyBoxContent: null,
-                fancyBoxElements: null,
-                fancyBoxImageUrl: null,
-                index: this.defaultGalleryIndex,
-                printInGrayscale: false,
-                showFancyBox: this.show
-            }
+        /**
+         * set if content should be loaded by url
+         */
+        url: {
+            type: String,
+            required: false
         },
-        props: {
-            /**
-             * set if content should be loaded by url
-             */
-            url: {
-                type: String,
-                required: false
-            },
-            /**
-             * options to show at top (closeIcon, printButtons)
-             */
-            fancyboxOptions: {
-                type: Object,
-                default() {
-                    return {
-                        closeIcon: {
-                            "iconClass": "icon-cancel",
-                            "tooltip": "Close"
+        /**
+         * options to show at top (closeIcon, printButtons)
+         */
+        fancyboxOptions: {
+            type: Object,
+            default() {
+                return {
+                    closeIcon: {
+                        "iconClass": "icon-cancel",
+                        "tooltip": "Close"
+                    },
+                    printButtons: {
+                        "color": {
+                            show: true,
+                            "iconClass": "icon-print",
+                            "tooltip": "print in color"
                         },
-                        printButtons: {
-                            "color": {
-                                show: true,
-                                "iconClass": "icon-print",
-                                "tooltip": "print in color"
-                            },
-                            "grayscale": {
-                                show: true,
-                                "iconClass": "icon-print",
-                                "tooltip": "print in grayscale"
-                            }
+                        "grayscale": {
+                            show: true,
+                            "iconClass": "icon-print",
+                            "tooltip": "print in grayscale"
                         }
                     }
                 }
-            },
-            /**
-             * allow closing fancybox by escape-key
-             */
-            allowEscapeKey: {
-                type: Boolean,
-                default: true
-            },
-            /**
-             * the content shown in the main area
-             */
-            content: {
-                type: String,
-                required: false
-            },
-            /**
-             * list of show elements (not images)
-             */
-            elements: {
-                type: Array,
-                required: false
-            },
-            /**
-             * use if a gallery of images should be opened (and navigated) inside fancybox
-             */
-            fancyBoxGallery: {
-                type: Array,
-                required: false
-            },
-            /**
-             * if gallery is used, you can set default index
-             */
-            defaultGalleryIndex: {
-                type: Number,
-                required: false
-            },
-            /**
-             * show/hide entire fancybox
-             */
-            show: {
-                type: Boolean,
-                default: false
-            },
-            /**
-             * show/hide overlay (around fancybox, above website)
-             *
-             * @affectsStyling: true
-             */
-            showOverlay: {
-                type: Boolean,
-                default: true
-            },
-            /**
-             * alternative text for large image (required for images)
-             *
-             * @requiredForAccessibility: true
-             */
-            altText: {
-                type: String,
-                required: false
-            },
-            /**
-             * properties for CmdHeadline-component
-             *
-             * @requiredForAccessibility: true
-             */
-            cmdHeadline: {
-                type: Object,
-                required: false
             }
         },
-        created() {
-            if (this.allowEscapeKey) {
-                this.$_FancyBox_escapeKeyHandler = e => (e.key === 'Escape' || e.key === 'Esc') && this.close()
-                document.querySelector('body').addEventListener('keyup', this.$_FancyBox_escapeKeyHandler)
-            }
-
-            /* -- begin avoid scrolling if fancybox is shown */
-            /* register new properties for vue-instance */
-            /* get current vertical scroll position */
-            this.$_FancyBox_verticalScrollPosition = window.scrollY
-
-            if (this.$options.el && this.showFancyBox) {
-              document.querySelector('body').classList.add("avoid-scrolling")
-            }
-
-            this.$_FancyBox_scrollHandler = () => {
-                window.scrollTo(0, this.$_FancyBox_verticalScrollPosition)
-            }
-            /* -- end avoid scrolling if fancybox is shown */
-
-            this.$watch(
-                () => [
-                    this.url,
-                    this.content,
-                    this.elements
-                ],
-                this.updateContentOnPropertyChange,
-                {immediate: true}
-            )
+        /**
+         * allow closing fancybox by escape-key
+         */
+        allowEscapeKey: {
+            type: Boolean,
+            default: true
         },
-        beforeUnmount() {
-            if (this.allowEscapeKey) {
-                document.querySelector('body').removeEventListener('keyup', this.$_FancyBox_escapeKeyHandler)
+        /**
+         * the content shown in the main area
+         */
+        content: {
+            type: String,
+            required: false
+        },
+        /**
+         * list of show elements (not images)
+         */
+        elements: {
+            type: Array,
+            required: false
+        },
+        /**
+         * use if a gallery of images should be opened (and navigated) inside fancybox
+         */
+        fancyBoxGallery: {
+            type: Array,
+            required: false
+        },
+        /**
+         * if gallery is used, you can set default index
+         */
+        defaultGalleryIndex: {
+            type: Number,
+            required: false
+        },
+        /**
+         * show/hide entire fancybox
+         */
+        show: {
+            type: Boolean,
+            default: false
+        },
+        /**
+         * show/hide overlay (around fancybox, above website)
+         *
+         * @affectsStyling: true
+         */
+        showOverlay: {
+            type: Boolean,
+            default: true
+        },
+        /**
+         * alternative text for large image (required for images)
+         *
+         * @requiredForAccessibility: true
+         */
+        altText: {
+            type: String,
+            required: false
+        },
+        /**
+         * properties for CmdHeadline-component
+         *
+         * @requiredForAccessibility: true
+         */
+        cmdHeadline: {
+            type: Object,
+            required: false
+        }
+    },
+    created() {
+        // enable closing dialog by escape-key
+        if (this.allowEscapeKey) {
+            this.$_FancyBox_escapeKeyHandler = e => (e.key === "Escape" || e.key === "Esc") && this.close()
+            document.querySelector("body").addEventListener("keyup", this.$_FancyBox_escapeKeyHandler)
+        }
+
+        // scroll content to initial position
+        this.$_FancyBox_scrollHandler = () => {
+            window.scrollTo(0, this.$_FancyBox_verticalScrollPosition)
+        }
+
+        this.$watch(
+            () => [
+                this.url,
+                this.content,
+                this.elements
+            ],
+            this.updateContentOnPropertyChange,
+            {immediate: true}
+        )
+    },
+    mounted() {
+        // avoid scrolling if fancybox is shown
+        if (this.showFancyBox) {
+            document.querySelector("body").classList.add("avoid-scrolling")
+            this.$refs.dialog.showModal()
+        }
+    },
+    beforeUnmount() {
+        // remove event-listener for escape-key
+        if (this.allowEscapeKey) {
+            document.querySelector("body").removeEventListener("keyup", this.$_FancyBox_escapeKeyHandler)
+        }
+    },
+    methods: {
+        updateContentOnPropertyChange() {
+            this.fancyBoxImageUrl = this.fancyBoxContent = this.fancyBoxElements = null
+            if (this.url) {
+                this.loadContent(this.url)
+            } else if (this.content) {
+                this.fancyBoxContent = this.content
+            } else if (this.elements) {
+                this.fancyBoxElements = this.elements.map(el => el.cloneNode(true))
+                this.$nextTick(() => {
+                    this.$el.querySelector(".content").append(...this.fancyBoxElements)
+                })
             }
         },
-        methods: {
-            updateContentOnPropertyChange() {
-                this.fancyBoxImageUrl = this.fancyBoxContent = this.fancyBoxElements = null
-                if (this.url) {
-                    this.loadContent(this.url)
-                } else if (this.content) {
-                    this.fancyBoxContent = this.content
-                } else if (this.elements) {
-                    this.fancyBoxElements = this.elements.map(el => el.cloneNode(true))
-                    this.$nextTick(() => {
-                        this.$el.querySelector('.content').append(...this.fancyBoxElements)
-                    })
-                }
-            },
-            async loadContent(url) {
-                const contentType = await getContentType(url)
-                if (contentType.startsWith('image/')) {
-                    this.fancyBoxImageUrl = url
-                } else {
-                    fetch(url)
-                        .then(response => response.text())
-                        .then(text => this.fancyBoxContent = text)
-                        .catch(error => console.error(`Error loading ${this.url}: ${error}`))
-                }
-            },
-            showPrevItem() {
-                if (this.index > 0) {
-                    this.index--;
-                } else {
-                    this.index = this.fancyBoxGallery.length - 1;
-                }
-            },
-
-            showItem(imgId) {
-                for (let i = 0; i < this.fancyBoxGallery.length; i++) {
-                    if (this.fancyBoxGallery[i].imgId === imgId) {
-                        this.index = i
-                        break;
-                    }
-                }
-            },
-
-            showNextItem() {
-                if (this.index < this.fancyBoxGallery.length - 1) {
-                    this.index++;
-                } else {
-                    this.index = 0;
-                }
-            },
-
-            close() {
-                if (this.$options.el) {
-                    this.$destroy()
-                    this.$el.remove()
-                } else {
-                    this.showFancyBox = false
-                    this.$emit('update:show', false)
-                }
-
-                document.querySelector('body').classList.remove("avoid-scrolling")
+        async loadContent(url) {
+            const contentType = await getContentType(url)
+            if (contentType.startsWith("image/")) {
+                this.fancyBoxImageUrl = url
+            } else {
+                fetch(url)
+                    .then(response => response.text())
+                    .then(text => this.fancyBoxContent = text)
+                    .catch(error => console.error(`Error loading ${this.url}: ${error}`))
             }
         },
-        watch: {
-            show(value) {
-                this.showFancyBox = value
-            },
-            showFancyBox() {
+        showPrevItem() {
+            if (this.index > 0) {
+                this.index--;
+            } else {
+                this.index = this.fancyBoxGallery.length - 1;
+            }
+        },
+        showItem(imgId) {
+            for (let i = 0; i < this.fancyBoxGallery.length; i++) {
+                if (this.fancyBoxGallery[i].imgId === imgId) {
+                    this.index = i
+                    break;
+                }
+            }
+        },
+        showNextItem() {
+            if (this.index < this.fancyBoxGallery.length - 1) {
+                this.index++;
+            } else {
+                this.index = 0;
+            }
+        },
+        close() {
+            if (this.$options.el) {
+                this.$destroy()
+                this.$el.remove()
+            } else {
+                this.showFancyBox = false
+                this.$emit("update:show", false)
+            }
+
+            // remove class to re-enable scrolling
+            document.querySelector("body").classList.remove("avoid-scrolling")
+        }
+    },
+    watch: {
+        show(value) {
+            this.showFancyBox = value
+        },
+        showFancyBox: {
+            handler() {
                 if (this.showFancyBox) {
-                  // add listener to disable scroll
-                    this.$_FancyBox_verticalScrollPosition = window.scrollY
-                    document.querySelector('body').classList.add("avoid-scrolling")
-                    window.addEventListener('scroll', this.$_FancyBox_scrollHandler);
+                    // add listener and class to disable scroll
+                    // this.$_FancyBox_verticalScrollPosition = window.scrollY
+                    document.querySelector("body").classList.add("avoid-scrolling")
+                    // window.addEventListener("scroll", this.$_FancyBox_scrollHandler)
+                    this.$refs.dialog.showModal()
                 } else {
-                    // Remove listener to re-enable scroll
-                    document.querySelector('body').classList.remove("avoid-scrolling")
-                    window.removeEventListener('scroll', this.$_FancyBox_scrollHandler);
+                    // remove class to re-enable scrolling
+                    document.querySelector("body").classList.remove("avoid-scrolling")
+                    // window.removeEventListener("scroll", this.$_FancyBox_scrollHandler)
+                    // console.log("$_FancyBox_verticalScrollPosition", this.$_FancyBox_verticalScrollPosition)
+                    // window.scrollTo(0, this.$_FancyBox_verticalScrollPosition)
+                    this.$refs.dialog.close()
                 }
-            }
+            },
+            immediate: false
         }
-    })
-
-    async function getContentType(url) {
-        const response = await fetch(url, {method: 'HEAD'})
-        if (response.ok) {
-            return (response.headers.get('Content-Type') || '').split(';')[0]
-        }
-        return 'text/html'
     }
+})
 
-    export {openFancyBox}
-    export default FancyBox
+async function getContentType(url) {
+    const response = await fetch(url, {method: "HEAD"})
+    if (response.ok) {
+        return (response.headers.get("Content-Type") || "").split(";")[0]
+    }
+    return "text/html"
+}
+
+export {openFancyBox}
+export default FancyBox
 </script>
 
 <style lang="scss">
 /* begin cmd-fancybox ---------------------------------------------------------------------------------------- */
-@import '../assets/styles/variables';
+@import "../assets/styles/variables";
 
 .cmd-fancybox {
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  top: 0;
-  left: 0;
-  overflow: hidden;
-  z-index: 500;
-  display: grid;
-
-  &.show-overlay {
-    background: rgba(0, 0, 0, var(--reduced-opacity));
-  }
-
-  .popup {
-    display: flex;
+    z-index: 500;
     flex-direction: column;
     padding: var(--default-padding);
-    z-index: 200;
-    min-width: 30%;
-    max-width: var(--max-width);
-    min-height: 30%;
-    max-height: 80%;
+    min-width: 30vw;
+    min-height: 30vh;
     background: var(--pure-white);
-    overflow: hidden;
-    align-self: center;
-    justify-self: center;
     border-radius: var(--border-radius);
-    overflow-y: auto;
+    overflow: hidden;
+    gap: calc(var(--default-gap) / 2);
+
+    // detect open-attribute (will be added to dom automatically)
+    &[open] {
+        display: flex;
+    }
+
+    &.show-overlay::backdrop {
+        --reduced-opacity: .75; // must be declared again, because ::backdrop does not allow the use of global variables
+        background: rgba(0, 0, 0, var(--reduced-opacity));
+    }
+
+    > header {
+        display: flex;
+    }
 
     .cmd-cookie-disclaimer {
         padding: 0;
     }
 
     > .grayscale {
-      filter: grayscale(1);
+        filter: grayscale(1);
     }
 
     &.image {
-      width: auto;
-      overflow-y: hidden;
-
-      img {
-        display: block;
-      }
-
-      figcaption {
-        text-align: center;
-      }
-    }
-
-    > .button-wrapper {
-      margin-bottom: var(--default-margin);
-      flex-direction: row;
-
-      a:not(.button) {
-        margin-left: auto;
-      }
-    }
-
-    a.icon-print {
-      background: linear-gradient(135deg, #009fe3 0%, #009fe3 25%, #e6007e 25%, #e6007e 50%, #ffed00 50%, #ffed00 50%, #ffed00 75%, #000000 75%, #000000 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-      border: var(--default-border);
-      margin-left: 0;
-      text-shadow: var(--text-shadow);
-
-      &:hover, &:active, &:focus {
-        border: var(--primary-border);
-        color: var(--pure-white);
-      }
-
-      &#print-grayscale {
-        background: linear-gradient(135deg, #000000 0%, #000000 50%, #ffffff 50%, #ffffff 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-      }
-    }
-
-    .content > :only-child {
-      margin-bottom: 0;
-    }
-  }
-
-  .gallery-scroller {
-    background: var(--pure-black);
-    max-width: 80%;
-    left: 0;
-    right: 0;
-    position: fixed;
-    bottom: 1rem;
-    margin: auto;
-    background: var(--pure-black);
-
-    li:not(.active) {
-      img {
-        opacity: var(--reduced-opacity);
-      }
-
-      a {
-        &:hover, &:active, &:focus {
-          img {
-            opacity: 1;
-          }
+        .outer-content-wrapper {
+            overflow-y: hidden;
         }
-      }
 
-      figcaption {
-        color: var(--pure-white);
-        text-decoration: none;
-      }
+        img {
+            display: block;
+        }
+
+        figcaption {
+            text-align: center;
+        }
     }
-  }
 
-  @media only screen and (max-width: $medium-max-width) {
+    > header {
+        justify-content: space-between;
+
+        > .cmd-headline {
+            max-width: 80%;
+            flex-shrink: 1;
+            margin-bottom: 0;
+        }
+
+        > .button-wrapper {
+            flex-shrink: 0;
+            flex-direction: row;
+            align-items: flex-start;
+            gap: calc(var(--default-gap) / 2);
+
+            > .button {
+                display: block;
+                border: var(--default-border);
+                padding: .2rem;
+                min-width: 0;
+                min-height: 0;
+
+                &[class*="icon"] {
+                    color: var(--text-color);
+                    background: var(--pure-white);
+                }
+
+                &.icon-print {
+                    background: linear-gradient(135deg, #009fe3 0%, #009fe3 25%, #e6007e 25%, #e6007e 50%, #ffed00 50%, #ffed00 50%, #ffed00 75%, var(--medium-gray) 75%, var(--medium-gray) 100%);
+
+                    &#print-grayscale {
+                        background: linear-gradient(135deg, var(--medium-gray) 0%, var(--medium-gray) 50%, var(--pure-white) 50%, var(--pure-white) 100%);
+
+                        &:hover, &:active, &:focus {
+                            background: var(--pure-white);
+                        }
+                    }
+                }
+
+                &:hover, &:active, &:focus {
+                    border: var(--primary-border);
+                    background: var(--pure-white);
+
+                    &[class*="icon"] {
+                        color: var(--primary-color);
+                    }
+                }
+            }
+        }
+    }
+
+    .outer-content-wrapper {
+        max-height: 85vh;
+        overflow-x: hidden;
+        max-width: var(--max-width);
+
+        .content {
+            > img, > video {
+                &:only-child {
+                    margin: auto;
+                    max-height: 80vmin;
+                    max-width: 80vmax;
+                }
+            }
+        }
+    }
+
     .gallery-scroller {
-      display: block;
+        background: var(--pure-black);
+        max-width: 80%;
+        left: 0;
+        right: 0;
+        position: fixed;
+        bottom: 1rem;
+        margin: auto;
+        background: var(--pure-black);
+
+        li:not(.active) {
+            img {
+                opacity: var(--reduced-opacity);
+            }
+
+            a {
+                &:hover, &:active, &:focus {
+                    img {
+                        opacity: 1;
+                    }
+                }
+            }
+
+            figcaption {
+                color: var(--pure-white);
+                text-decoration: none;
+            }
+        }
     }
 
-    .popup {
-      max-width: 80%;
-    }
-  }
 
-  @media only screen and (max-width: $small-max-width) {
-    [class*="switch-button-"] {
-      width: 3rem;
+    @media only screen and (max-width: $medium-max-width) {
+        .outer-content-wrapper {
+            .content {
+                > img, > video {
+                    &:only-child {
+                        margin: auto;
+                        max-height: 60vmin;
+                    }
+                }
+            }
+        }
 
-      &::before {
-        margin: 0;
-        top: 40%;
-      }
+        > header {
+            flex-direction: row;
+
+            .button:not(#close-dialog) {
+                display: none;
+            }
+        }
+
+        .gallery-scroller {
+            display: block;
+        }
     }
-  }
+
+    @media only screen and (max-width: $small-max-width) {
+        .outer-content-wrapper {
+            .content {
+                > img, > video {
+                    &:only-child {
+                        margin: auto;
+                        max-height: 50vmin;
+                    }
+                }
+            }
+        }
+
+        [class*="switch-button-"] {
+            width: 3rem;
+
+            &::before {
+                margin: 0;
+                top: 40%;
+            }
+        }
+    }
 }
 
 /* end cmd-fancybox ------------------------------------------------------------------------------------------ */

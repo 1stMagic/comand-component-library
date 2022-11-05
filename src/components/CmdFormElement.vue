@@ -218,6 +218,8 @@ import Tooltip from "../mixins/Tooltip.js"
 // import components
 import CmdTooltipForInputElements from "./CmdTooltipForInputElements"
 
+const TYPES_WITHOUT_MAXLENGTH = ["color", "date", "datetime-local", "file", "number", "range"]
+
 export default {
     inheritAttrs: false,
     name: "CmdFormElement",
@@ -708,7 +710,7 @@ export default {
                 return this.$attrs.maxlength > 0 ? this.$attrs.maxlength : 5000
             }
 
-            if (this.$attrs.type !== 'file' && this.$attrs.type !== 'number' && this.$attrs.type !== 'date') {
+            if (!TYPES_WITHOUT_MAXLENGTH.includes(this.$attrs.type)) {
                 return this.$attrs.maxlength > 0 ? this.$attrs.maxlength : 255
             }
             return null

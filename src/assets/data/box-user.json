@@ -1,10 +1,13 @@
 [
   {
     "name": "User name 1",
-    "image": "",
+    "image": {
+      "src": "/media/images/user-images/fake-user-1.jpg",
+      "alt": "Alternative text"
+    },
     "profession": "User profession",
     "position": "User position",
-    "description": "Some short description text for further information about the user",
+    "description": "User profile with image",
     "links": [
         {
         "path": "mailto:",
@@ -15,9 +18,9 @@
   },
   {
     "name": "User name 2",
-    "image": "",
     "profession": "User profession",
     "position": "User position",
+    "description": "User description",
     "links": [
       {
         "path": "mailto:",
@@ -34,9 +37,9 @@
   },
   {
     "name": "User name 3",
-    "image": "",
     "profession": "User profession",
     "position": "User position",
+    "description": "User with a long text as description that wraps over multiple lines",
     "links":  [
       {
         "path": "mailto:",
@@ -58,9 +61,9 @@
   },
   {
     "name": "User name 4",
-    "image": "",
     "profession": "User profession",
     "position": "User position",
+    "description": "User description",
     "links":  [
       {
         "path": "mailto:",
@@ -82,9 +85,9 @@
   },
   {
     "name": "User name 5",
-    "image": "",
     "profession": "User profession",
     "position": "User position",
+    "description": "User description",
     "links":  [
       {
         "path": "mailto:",

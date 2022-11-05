@@ -148,8 +148,6 @@ export default {
     }
 
     &.horizontal {
-        flex-direction: row;
-
         ul {
             gap: var(--default-gap);
             flex-direction: row;

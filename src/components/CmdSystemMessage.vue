@@ -141,13 +141,35 @@ export default {
     }
 
     > a[class*="icon-"]:not(.button) {
-        font-size: 1rem;
-        color: var(--pure-white) !important;
-        padding: 0;
+        font-size: 0.8rem;
+        font-weight: bold;
+        color: var(--pure-white);
         position: absolute;
         right: 0.5rem;
         text-decoration: none;
         top: 0.5rem;
+        border: var(--default-border);
+        border-color: var(--pure-white);
+        border-radius: var(--full-circle);
+        padding: calc(var(--default-padding) / 2);
+
+        &:hover, &:active, &:focus {
+            color: var(--hyperlink-color);
+            border-color: var(--hyperlink-color);
+            background: var(--pure-white);
+        }
+    }
+
+    &.warning {
+        > a[class*="icon-"]:not(.button) {
+            color: var(--text-color);
+            border-color: var(--text-color);
+
+            &:hover, &:active, &:focus {
+                color: var(--hyperlink-color);
+                border-color: var(--hyperlink-color);
+            }
+        }
     }
 }
 

@@ -47,5 +47,8 @@ export { default as CmdWidthLimitationWrapper } from '@/components/CmdWidthLimit
 export { default as DirFocus } from '@/directives/focus'
 export { default as DirTelephone } from '@/directives/telephone'
 
+// export directives
+export { createUuid, createHtmlId } from '@/utils/common'
+
 // export composables
 export { useSequence } from '@/composables/sequence'

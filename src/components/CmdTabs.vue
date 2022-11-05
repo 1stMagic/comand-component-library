@@ -1,8 +1,8 @@
 <template>
     <div class="cmd-tabs">
         <ul :class="{'stretch-tabs' : stretchTabs}" role="tablist">
-            <li :class="{active : showTab === index}" v-for="(tab, index) in tabs" :key="index" role="tab">
-                <a @click.prevent="setActiveTab(index)" :title="!tab.name ? tab.tooltip : false">
+            <li v-for="(tab, index) in tabs" :key="index" role="tab">
+                <a :class="{active : showTab === index}" @click.prevent="setActiveTab(index)" :title="!tab.name ? tab.tooltip : false" href="#">
                     <span v-if="tab.iconClass" :class="tab.iconClass"></span>
                     <span v-if="tab.name">{{ tab.name }}</span>
                 </a>
@@ -112,8 +112,6 @@ export default {
             border-top-right-radius: var(--border-radius);
             list-style-type: none;
             background: var(--color-scheme-background-color);
-            border: var(--default-border);
-            border-bottom: 0;
 
             &.active {
                 border-color: var(--primary-color);
@@ -125,12 +123,16 @@ export default {
                 justify-content: center;
                 padding: var(--default-padding);
                 color: var(--color-scheme-text-color);
+                border: var(--default-border);
+                border-bottom: 0;
                 border-top-left-radius: var(--border-radius);
                 border-top-right-radius: var(--border-radius);
+                text-decoration: none;
 
-                &:hover, &:active, &:focus {
+                &:hover, &:active, &:focus, &.active {
                     cursor: pointer;
-                    color: var(--primary-color);
+                    color: var(--hyperlink-color);
+                    border-color: var(--hyperlink-color);
                 }
             }
         }

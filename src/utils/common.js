@@ -1,8 +1,3 @@
-function isFrameMode() {
-    const frameUrl = new URL(location)
-    return frameUrl.searchParams.has("frameMode")
-}
-
 function createUuid(){
     let dt = new Date().getTime()
     return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
@@ -16,4 +11,4 @@ function createHtmlId() {
    return "cmd-" + createUuid()
 }
 
-export {isFrameMode, createUuid, createHtmlId}
+export {createUuid, createHtmlId}

@@ -1,5 +1,5 @@
 <template>
-    <ul class="cmd-form-filters">
+    <ul v-if="options.length" class="cmd-form-filters">
         <li v-if="options.length > 1">
             <a href="#" @click.prevent="deleteAllFilters">
                 <span v-if="linkDeleteAllFilters.icon && linkDeleteAllFilters.icon.show" :class="linkDeleteAllFilters.icon.iconClass" :title="linkDeleteAllFilters.icon.tooltip"></span>

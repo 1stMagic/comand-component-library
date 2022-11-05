@@ -43,7 +43,7 @@
         </div>
         <!-- end form elements -->
 
-        <div class="option-wrapper flex-container" v-focus>
+        <div class="option-wrapper flex-container">
             <template v-if="options.forgotPassword || options.createAccount">
                 <!-- begin link for 'forgot password' -->
                 <a v-if="options.forgotPassword" href="#" @click.prevent="sendLogin = true">

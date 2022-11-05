@@ -1,6 +1,7 @@
 <template>
     <!-- begin boxType 'content' -->
-    <div v-if="boxType === 'content'" :class="['cmd-box box content', {open : open, collapsible: collapsible, 'stretch-vertically': stretchVertically}]">
+    <div v-if="boxType === 'content'"
+         :class="['cmd-box box content', {open : open, collapsible: collapsible, 'stretch-vertically': stretchVertically && open, 'stretch-horizontally': stretchHorizontally}]">
         <template v-if="useSlots?.includes('header')">
             <!-- begin collapsible header with slot -->
             <div v-if="collapsible" class="box-header">
@@ -65,21 +66,22 @@
     <!-- end boxType 'content' -->
 
     <!-- begin boxType 'product' -->
-    <a v-else-if="boxType === 'product' && product" :class="['cmd-box box product', {'stretch-vertically': stretchVertically}]" href="#" @click.prevent="clickOnProduct(product)">
+    <a v-else-if="boxType === 'product' && product" :class="['cmd-box box product', {'stretch-vertically': stretchVertically, 'stretch-horizontally': stretchHorizontally}]" href="#" @click.prevent="clickOnProduct(product)">
         <div class="box-header flex-container vertical">
-            <img v-if="product.image" :src="product.image.src" :alt="product.image.alt"/>
-            <div class="ribbon-new" v-if="product.new">
+            <figure v-if="product.image !== undefined">
+                <img :src="product.image.src" :alt="product.image.alt"/>
+                <figcaption>{{ product.name }}</figcaption>
+            </figure>
+            <p v-else>{{ product.name }}</p>
+
+            <!-- begin ribbons -->
+            <div v-if="product.new" class="ribbon-new">
                 <span>{{ getMessage("cmdbox.productbox.new") }}</span>
             </div>
             <div v-if="product.discount" class="ribbon-discount">
                 <span>{{ product.discount }}</span>
             </div>
-            <!-- begin CmdHeadline -->
-            <CmdHeadline
-                v-if="cmdHeadline?.headlineText || product.name"
-                v-bind="cmdHeadline || {}"
-                :headlineText="cmdHeadline?.headlineText ? cmdHeadline?.headlineText : product.name"/>
-            <!-- end CmdHeadline -->
+            <!-- end ribbons -->
         </div>
         <div class="box-body">
             <p v-if="product.articleNumber">{{ getMessage("cmdbox.productbox.article_no") }} {{ product.articleNumber }}</p>
@@ -92,17 +94,16 @@
     <!-- end boxType 'product' -->
 
     <!-- begin boxType 'user' -->
-    <div v-else-if="boxType === 'user' && user" :class="['cmd-box box user', {'stretch-vertically': stretchVertically}]">
+    <div v-else-if="boxType === 'user' && user" :class="['cmd-box box user', {'stretch-vertically': stretchVertically,'stretch-horizontally': stretchHorizontally}]">
         <div class="box-header flex-container vertical">
-            <img v-if="user.image" :src="user.image.src" :alt="user.image.alt"/>
-            <div v-else :class="defaultProfileIconClass" :title="user.name"></div>
-            <!-- begin CmdHeadline -->
-            <CmdHeadline
-                v-if="cmdHeadline?.headlineText || user.name"
-                v-bind="cmdHeadline || {}"
-                :headlineText="cmdHeadline?.headlineText ? cmdHeadline?.headlineText : user.name"
-            />
-            <!-- end CmdHeadline -->
+            <figure v-if="user.image">
+                <img :src="user.image.src" :alt="user.image.alt"/>
+                <figcaption>{{ user.name }}</figcaption>
+            </figure>
+            <div v-else>
+                <span :class="defaultProfileIconClass" :title="user.name"></span>
+                <p>{{ user.name }}</p>
+            </div>
         </div>
         <div class="box-body">
             <p v-if="user.profession">{{ user.profession }}</p>
@@ -143,7 +144,7 @@ export default {
             active: true
         }
     },
-    emits: ["click"],
+    emits: ["click", "toggle-collapse"],
     props: {
         collapsingBoxesOpen: {
             type: Boolean,
@@ -247,6 +248,13 @@ export default {
             }
         },
         /**
+         * allow box to be stretched as wide as parent-element
+         */
+        stretchHorizontally: {
+            type: Boolean,
+            default: true
+        },
+        /**
         * allow box to be stretched as high as parent-element
         */
         stretchVertically: {
@@ -296,17 +304,35 @@ export default {
 <style lang="scss">
 /* begin cmd-box ---------------------------------------------------------------------------------------- */
 .cmd-box {
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
     padding: 0;
 
-    > .cmd-custom-headline {
+    &.stretch-horizontally {
+        display: flex;
+    }
+
+    &.stretch-vertically {
+        height: 100%;
+    }
+
+    > .cmd-headline {
         margin-bottom: 0;
     }
 
+    // collapsible box only
     &.collapsible {
-        .box-header {
+        a.box-header {
             justify-content: space-between;
+            background: var(--primary-color);
+
+            &:hover, &:active, &:focus {
+                background: var(--pure-white);
+
+                * {
+                    color: var(--primary-color);
+                }
+            }
         }
     }
 
@@ -314,10 +340,7 @@ export default {
         padding: var(--default-padding);
     }
 
-    &.stretch-vertically {
-        height: 100%;
-    }
-
+    // boyType === 'content'
     &.content {
         > * {
             > *:last-child {
@@ -331,7 +354,7 @@ export default {
             border-top-left-radius: var(--border-radius);
             border-top-right-radius: var(--border-radius);
             padding: calc(var(--default-padding) / 2) var(--default-padding);
-            background: var(--primary-color);
+            background: var(--medium-gray);
             color: var(--pure-white);
             text-decoration: none;
 
@@ -346,16 +369,6 @@ export default {
 
             > .toggle-icon, .toggle-icon > [class*="icon"] {
                 font-size: 1rem;
-            }
-        }
-
-        .box-header {
-            &:hover, &:active, &:focus {
-                background: var(--pure-white);
-
-                * {
-                    color: var(--primary-color);
-                }
             }
         }
 
@@ -411,6 +424,7 @@ export default {
         }
     }
 
+    // boyType === 'product' and boxType === 'user'
     &.product, &.user {
         > div {
             > .cmd-custom-headline {
@@ -420,6 +434,7 @@ export default {
         }
     }
 
+    // boyType === 'product'
     &.product {
         text-decoration: none;
         overflow: hidden;
@@ -466,8 +481,14 @@ export default {
                 margin: 0 auto;
             }
 
-            > img {
+            img {
                 border: 0;
+            }
+
+            figcaption {
+                font-size: 2rem;
+                font-weight: bold;
+                padding-top: var(--default-padding)
             }
         }
 
@@ -479,7 +500,7 @@ export default {
             }
 
             .price {
-                font-size: 2rem;
+                font-size: 1.8rem;
                 font-weight: bold;
 
                 span:last-child {
@@ -493,8 +514,11 @@ export default {
         }
     }
 
+    // boxType === 'user'
     &.user {
         > .box-header {
+            --icon-size: 6rem;
+
             padding: var(--default-padding);
 
             .cmd-headline  {
@@ -504,14 +528,30 @@ export default {
                 }
             }
 
-            > img, > div:first-child {
+            img, > div:first-child > [class*="icon"] {
                 display: table;
-                margin: 0 auto;
+                margin: 0 auto var(--default-margin) auto;
                 padding: calc(var(--default-padding) * 3);
                 border-radius: var(--full-circle);
                 background: var(--primary-color);
-                font-size: 6rem;
                 color: var(--pure-white);
+
+                & + p, & + figcaption {
+                    margin: 0 auto;
+                    text-align: center;
+                    font-weight: bold;
+                    font-size: 2rem;
+                }
+            }
+
+            img {
+                padding: 0;
+                width: calc(var(--icon-size) * 2);
+                aspect-ratio: 1/1;
+            }
+
+            > div:first-child > [class*="icon"] {
+                font-size: var(--icon-size);
             }
         }
 

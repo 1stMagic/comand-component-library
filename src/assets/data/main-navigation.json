@@ -43,6 +43,23 @@
     },
     {
       "type": "href",
+      "text": "Entry 3",
+      "path": "#",
+      "subentries": [
+        {
+          "type": "href",
+          "text": "Entry 3.1",
+          "path": ""
+        },
+        {
+          "type": "href",
+          "text": "Entry 3.2",
+          "path": ""
+        }
+      ]
+    },
+    {
+      "type": "href",
       "text": "CoManD-CMS",
       "path": "http://www.comand-cms.com",
       "target": "comand-website"

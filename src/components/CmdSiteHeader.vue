@@ -1,5 +1,5 @@
 <template>
-    <div :class="['cmd-site-header', { sticky: sticky, 'navigation-inline': navigationInline }]" role="banner">
+    <div :class="['cmd-site-header', {sticky: sticky, 'navigation-inline': navigationInline }]" role="banner">
         <!-- begin slot for elements above header -->
         <div v-if="$slots.topheader" class="top-header">
             <slot name="topheader"></slot>
@@ -7,14 +7,19 @@
         <!-- end for elements above header -->
 
         <!-- begin header-wrapper with slots for logo and other header elements -->
-        <header v-if="$slots.logo || $slots.header || $slots.navigation" :class="useGrid ? 'grid-container-create-columns': 'flex-container'">
+        <header
+            v-if="$slots.logo || $slots.header || $slots.navigation"
+            :class="[useGrid ? 'grid-container-create-columns': 'flex-container', {'has-navigation': cmdMainNavigation || $slots.navigation, 'one-child-only' : oneChildOnly},]">
             <slot name="logo"></slot>
             <slot name="header"></slot>
             <slot name="navigation"></slot>
         </header>
         <!-- end header-wrapper with slots for logo and other header elements -->
 
-        <header v-if="cmdCompanyLogo || cmdMainNavigation?.navigationEntries?.length" :class="useGrid ? 'grid-container-create-columns': 'flex-container'">
+        <header
+            v-if="cmdCompanyLogo || cmdMainNavigation?.navigationEntries?.length"
+            :class="[{'has-navigation': cmdMainNavigation, 'one-child-only' : oneChildOnly}, useGrid ? 'grid-container-create-columns': 'flex-container']">
+
             <!-- begin CmdCompanyLogo -->
             <CmdCompanyLogo
                 v-if="cmdCompanyLogo"
@@ -78,7 +83,7 @@ export default {
             default: true
         },
         /**
-         * properties for cmdCompanyLogo-component
+         * properties for CmdCompanyLogo-component
          */
         cmdCompanyLogo: {
             type: Object,
@@ -90,6 +95,12 @@ export default {
         cmdMainNavigation: {
             type: Object,
             required: false
+        }
+    },
+    computed: {
+        oneChildOnly() {
+            // check if sum of children equals "1" by turning objects into booleans, which will be converted to numbers by using "+".
+            return (!!this.cmdCompanyLogo + !!this.cmdMainNavigation + !!this.$slots.logo + !!this.$slots.header + !!this.$slots.navigation) === 1
         }
     }
 }
@@ -118,10 +129,6 @@ export default {
         padding: 0 var(--default-padding);
     }
 
-    &:not(.navigation-inline) header {
-        padding-bottom: 0;
-    }
-
     .cmd-main-navigation nav {
         width: auto;
     }
@@ -148,11 +155,21 @@ export default {
         border-bottom: 0;
     }
 
+
+
     header {
         padding-top: calc(var(--default-padding) * 2);
         padding-bottom: calc(var(--default-padding) * 2);
-        grid-template-rows: 1fr min-content;
-        grid-template-areas: "company-logo" "main-navigation";
+
+        &.has-navigation {
+            grid-template-rows: 1fr min-content;
+            grid-template-areas: "company-logo" "main-navigation";
+            padding-bottom: 0;
+        }
+
+        &.one-child-only {
+            gap: 0;
+        }
 
         &.flex-container {
             width: 100%;
@@ -175,12 +192,19 @@ export default {
         .cmd-company-logo {
             grid-column: span var(--grid-small-span);
         }
+
+         > *:only-child {
+             gap: 0;
+         }
     }
 
     &.navigation-inline {
         header {
-            grid-template-rows: 1fr;
-            grid-template-areas: "company-logo main-navigation";
+            &.has-navigation {
+                grid-template-rows: 1fr;
+                grid-template-areas: "company-logo main-navigation";
+                padding-bottom: calc(var(--default-padding) * 2);
+            }
 
             .cmd-company-logo {
                 grid-column: span var(--grid-small-span);
@@ -188,6 +212,7 @@ export default {
 
             #main-navigation-wrapper {
                 display: flex;
+                align-items: center;
                 border: 0;
                 grid-column: span var(--grid-large-span);
                 background: none;

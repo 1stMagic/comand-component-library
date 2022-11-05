@@ -1,33 +1,63 @@
-[
-  {
-    "type": "href",
-    "path": "",
-    "text": "Contact",
-    "tooltip": "This is a tooltip for step 1",
-    "iconClass": "icon-address"
-  },
-  {
-    "type": "href",
-    "path": "",
-    "text": "Settings",
-    "iconClass": "icon-configuration"
-  },
-  {
-    "type": "href",
-    "path": "",
-    "text": "Attachments",
-    "iconClass": "icon-attachment"
-  },
-  {
-    "type": "href",
-    "path": "",
-    "text": "Terms and Conditions",
-    "iconClass": "icon-section-sign"
-  },
-  {
-    "type": "href",
-    "path": "",
-    "text": "Summary",
-    "iconClass": "icon-rows"
-  }
-]
+{
+  "withIcon": [
+    {
+      "type": "href",
+      "path": "#",
+      "text": "Contact",
+      "tooltip": "This is a tooltip for step 1",
+      "iconClass": "icon-address"
+    },
+    {
+      "type": "href",
+      "path": "#",
+      "text": "Settings",
+      "iconClass": "icon-configuration"
+    },
+    {
+      "type": "href",
+      "path": "#",
+      "text": "Attachments",
+      "iconClass": "icon-attachment"
+    },
+    {
+      "type": "href",
+      "path": "#",
+      "text": "Terms and Conditions",
+      "iconClass": "icon-section-sign"
+    },
+    {
+      "type": "href",
+      "path": "#",
+      "text": "Summary",
+      "iconClass": "icon-rows"
+    }
+  ],
+  "withoutIcon": [
+    {
+      "type": "href",
+      "path": "#",
+      "text": "Contact",
+      "tooltip": "This is a tooltip for step 1"
+    },
+    {
+      "type": "href",
+      "path": "#",
+      "text": "Settings"
+    },
+    {
+      "type": "href",
+      "path": "#",
+      "text": "Attachments"
+    },
+    {
+      "type": "href",
+      "path": "#",
+      "text": "Terms and Conditions"
+    },
+    {
+      "type": "href",
+      "path": "#",
+      "text": "Summary"
+    }
+  ]
+}

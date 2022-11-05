@@ -2,6 +2,15 @@
     <div class="cmd-width-limitation-wrapper" :class="{'sticky': sticky}">
         <section v-if="innerWrapper" :class="setInnerClass">
             <a v-if="anchorId" :id="anchorId"></a>
+            <!-- begin cmd-headline -->
+            <CmdHeadline
+                v-if="cmdHeadline"
+                :pre-headline-text="cmdHeadline.preHeadlineLevel"
+                :headline-text="cmdHeadline.headlineText"
+                :headline-level="cmdHeadline.headlineLevel"
+            />
+            <!-- end cmd-headline -->
+
             <!-- begin slot-content -->
             <slot></slot>
             <!-- end slot-content -->
@@ -16,8 +25,14 @@
 </template>
 
 <script>
+// import components
+import CmdHeadline from "./CmdHeadline"
+
 export default {
     name: "CmdWidthLimitationWrapper",
+    components: {
+        CmdHeadline
+    },
     props: {
         /**
          * set a html-tag as inner tag
@@ -67,7 +82,16 @@ export default {
         anchorId: {
             type: String,
             required: false
-        }
+        },
+        /**
+         * properties for CmdHeadline-component
+         *
+         * @requiredForAccessibilty
+         */
+        cmdHeadline: {
+            type: Object,
+            required: false
+        },
     },
     computed: {
         setInnerClass() {

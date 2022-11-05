@@ -18,7 +18,7 @@
                 v-if="useCustomTooltip && (validationStatus === '' || validationStatus === 'error')"
                 ref="tooltip"
                 :showRequirements="showRequirements"
-                :inputRequirements="inputRequirements"
+                :cmdListOfRequirements="listOfRequirements"
                 :validationStatus="validationStatus"
                 :validationMessage="getValidationMessage"
                 :inputAttributes="$attrs"

@@ -2,6 +2,8 @@
 <template>
     <div id="page-wrapper">
         <a id="anchor-back-to-top"></a>
+        <Icon icon="mdi-light:home" class="icon-" />
+       ICON: <Icon icon="mdi:account-cowboy-hat" />
         <!-- begin site-header --------------------------------------------------------------------------------------------------------------------------------------------------->
         <CmdSiteHeader :sticky="true">
             <template v-slot:top-header>
@@ -42,21 +44,22 @@
                         <li><a href="#section-google-maps-integration">Google-Maps&trade;-Integration</a></li>
                         <li><a href="#section-image-gallery">Image Gallery</a></li>
                         <li><a href="#section-image-zoom">Image-Zoom</a></li>
+                        <li><a href="#section-list-of-links">List Of Links</a></li>
                         <li><a href="#section-login-form">Login Form</a></li>
                         <li><a href="#section-main-navigation">Main-Navigation</a></li>
                         <li><a href="#section-multistep-form-progress-bar">Multistepform-Progressbar</a></li>
-                        <li><a href="#section-pager">Pager</a></li>
                     </ul>
                     <ul>
+                        <li><a href="#section-pager">Pager</a></li>
                         <li><a href="#section-share-buttons">Share Buttons</a></li>
                         <li><a href="#section-site-header">Site Header</a></li>
                         <li><a href="#section-site-search">Site Search</a></li>
                         <li><a href="#section-slideshow">Slideshow</a></li>
                         <li><a href="#section-system-message">System-Message</a></li>
                         <li><a href="#section-tables">Tables</a></li>
-                        <li><a href="#section-tabs">Tabs</a></li>
                     </ul>
                     <ul>
+                        <li><a href="#section-tabs">Tabs</a></li>
                         <li><a href="#section-thumbnail-scroller">Thumbnail-Scroller</a></li>
                         <li><a href="#section-toggle-darkmode">ToggleDarkMode</a></li>
                         <li><a href="#section-tooltip">Tooltip</a></li>
@@ -370,8 +373,8 @@
                                     id="range-value"
                                 />
                             </label>
-                            <label for="range-slider" class="hidden">
-                                <span class="label-text">
+                            <label for="range-slider">
+                                <span class="label-text hidden">
                                     <span>Range Value</span>
                                 </span>
                                 <input
@@ -792,6 +795,10 @@
             <a id="section-boxes"></a>
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Boxes</h2>
+                <h3>Boxes in BoxWrapper with Flexbox</h3>
+                <CmdBoxWrapper :useFlexbox="true">
+                    <CmdBox v-for="index in 14" :key="index" textBody="Content" :cmd-headline="{headlineText: 'Headline ' + index, headlineLevel: 5}" />
+                </CmdBoxWrapper>
                 <h3>Content boxes</h3>
                 <div class="grid-container-create-columns">
                     <div class="grid-small-item">
@@ -841,7 +848,7 @@
                         </CmdBox>
                     </div>
                     <div class="grid-small-item">
-                        <CmdBox :cmdHeadline="{headlineText: 'Collapsible box', headlineLevel: 4}" :collapsible="true" :stretchVertically="false">
+                        <CmdBox :cmdHeadline="{headlineText: 'Collapsible box', headlineLevel: 4}" :collapsible="true">
                             <template v-slot:header>
                                 <h3>
                                     Collapsible box with image
@@ -926,9 +933,9 @@
                 <h2 class="headline-demopage">Fancybox</h2>
                 <a href="#" @click.prevent="showFancyBox('text','Some text')">Open FancyBox with text</a>
                 <a href="#"
-                   @click.prevent="showFancyBox('image', 'media/images/content-images/logo-business-edition-landscape.jpg', 'Alternative text')"
+                   @click.prevent="showFancyBox('image', 'media/images/content-images/landscape-large.jpg', 'Alternative text')"
                    title="Open FancyBox with large image">
-                    <img src="media/images/content-images/logo-business-edition-landscape.jpg" alt="Alternative text"/>
+                   <img src="media/images/content-images/landscape-small.jpg" alt="Alternative text"/>
                 </a>
             </CmdWidthLimitationWrapper>
             <!-- end fancybox ------------------------------------------------------------------------------------------------------------------------------------------------------->
@@ -956,7 +963,7 @@
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Login Form</h2>
                 <CmdForm :use-validation="true" :use-fieldset="false">
-                    <CmdLoginForm v-model="loginData" textLegendLoginForm="Please log in"/>
+                    <CmdLoginForm v-model="loginData" textLegendLoginForm="Please log in" />
                 </CmdForm>
                 <p>LoginData: {{ loginData }}</p>
             </CmdWidthLimitationWrapper>
@@ -967,8 +974,16 @@
                 <h2 class="headline-demopage">List Of Links</h2>
                 <h3>Vertical</h3>
                 <CmdListOfLinks :links="listOfLinksData"/>
-                <h3>Horizontal (aligned left)</h3>
-                <CmdListOfLinks orientation="horizontal" align="left" :links="listOfLinksData"/>
+                <h3>Horizontal (aligned left, with headline)</h3>
+                <CmdListOfLinks
+                    orientation="horizontal"
+                    align="left"
+                    :links="listOfLinksData"
+                    :cmdHeadline="{
+                        headlineText: 'Headline',
+                        headlineLevel: 5
+                    }"
+                />
                 <h3>Horizontal (aligned center)</h3>
                 <CmdListOfLinks orientation="horizontal" align="center" :links="listOfLinksData"/>
                 <h3>Horizontal (aligned right)</h3>
@@ -993,7 +1008,17 @@
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Multistepform-Progressbar</h2>
                 <CmdMultistepFormProgressBar
-                    :multisteps="multistepsData"
+                    :multisteps="multistepsData.withIcon"
+                    separatorIconClass="icon-single-arrow-right"
+                    @click="showPageMultistep = $event.index + 1"
+                />
+                <div>
+                    <p>Page {{ showPageMultistep }}</p>
+                </div>
+                <h2 class="headline-demopage">Multistepform-Progressbar</h2>
+                <CmdMultistepFormProgressBar
+                    :showStepNumber="true"
+                    :multisteps="multistepsData.withoutIcon"
                     separatorIconClass="icon-single-arrow-right"
                     @click="showPageMultistep = $event.index + 1"
                 />
@@ -1281,7 +1306,7 @@
                 <template #privacy-text>
                     <p>
                         <strong>
-                            By browsing this web site to accept the usage and saving of anonymous data!
+                            By browsing this web site you accept the usage and saving of anonymous data!
                         </strong>
                     </p>
                 </template>
@@ -1293,6 +1318,9 @@
 </template>
 
 <script>
+import {Icon} from "@iconify/vue"
+
+
 // import used example data
 import accordionData from '@/assets/data/accordion.json'
 import addressData from '@/assets/data/address-data.json'
@@ -1329,6 +1357,7 @@ import CmdAddressData from "@/components/CmdAddressData"
 import CmdBackToTopButton from "@/components/CmdBackToTopButton.vue"
 import CmdBankAccountData from "./components/CmdBankAccountData"
 import CmdBox from "@/components/CmdBox.vue"
+import CmdBoxWrapper from "@/components/CmdBoxWrapper.vue"
 import CmdBreadcrumbs from "@/components/CmdBreadcrumbs.vue"
 import CmdCompanyLogo from "@/components/CmdCompanyLogo.vue"
 import CmdCopyrightInformation from "@/components/CmdCopyrightInformation.vue"
@@ -1375,11 +1404,13 @@ import {localizedTime} from "./components/CmdOpeningHours"
 export default {
     name: "App",
     components: {
+        Icon,
         CmdListOfLinks,
         CmdAddressData,
         CmdBackToTopButton,
         CmdBankAccountData,
         CmdBox,
+        CmdBoxWrapper,
         CmdBreadcrumbs,
         CmdCompanyLogo,
         CmdCopyrightInformation,
@@ -1620,5 +1651,10 @@ export default {
         text-decoration: none;
         background: none;
     }
+}
+
+main .cmd-width-limitation-wrapper:not(:last-of-type) {
+    border-bottom: var(--default-border);
+    border-style: dashed;
 }
 </style>
