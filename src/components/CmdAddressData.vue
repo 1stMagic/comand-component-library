@@ -51,7 +51,7 @@
                 </dd>
                 <!-- end telephone -->
 
-                <!-- begin mobilephone -->
+                <!-- begin mobile phone -->
                 <dt v-if="addressData.mobilephone?.value">
                     <span v-if="addressData.mobilephone.iconClass && showLabelIcons" :class="addressData.mobilephone.iconClass" :title="getMessage('cmdaddressdata.labeltext.mobile_phone')"></span>
                     <span v-if="showLabelTexts">{{ getMessage('cmdaddressdata.labeltext.mobile_phone')}}</span>
@@ -59,7 +59,7 @@
                 <dd v-if="addressData.mobilephone?.value">
                     <a :href="'tel:' + addressData.mobilephone" title="Call number" class="tel" v-telephone="addressData.mobilephone.value">{{ addressData.mobilephone.value  }}</a>
                 </dd>
-                <!-- end mobilephone -->
+                <!-- end mobile phone -->
 
                 <!-- begin fax -->
                 <dt v-if="addressData.fax?.value">

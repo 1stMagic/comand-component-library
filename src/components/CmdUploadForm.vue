@@ -1046,10 +1046,9 @@ export default {
                     left: 50%;
                     transform: translateX(-50%);
                     z-index: 1;
-                    font-size: 1.2rem;
                     display: table;
-                    top: 0.2rem;
-                    padding: 0.1rem 0.2rem;
+                    top: .2rem;
+                    padding: .1rem .2rem;
                     line-height: 100%;
                     background: var(--color-scheme-background-color);
                 }

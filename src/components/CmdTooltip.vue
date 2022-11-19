@@ -194,7 +194,7 @@ export default {
 
             span[class*="icon"] {
                 padding-left: 1rem;
-                font-size: 1.2rem;
+                font-size: 1.1rem;
             }
         }
     }

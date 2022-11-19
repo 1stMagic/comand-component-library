@@ -6,34 +6,33 @@
         </div>
         <!-- end for elements above header -->
 
-        <!-- begin header-wrapper with slots for logo and other header elements -->
-        <header
-            v-if="$slots.logo || $slots.header || $slots.navigation"
-            :class="[useGrid ? 'grid-container-create-columns': 'flex-container', {'has-navigation': cmdMainNavigation || $slots.navigation, 'one-child-only' : oneChildOnly},]">
-            <slot name="logo"></slot>
-            <slot name="header"></slot>
-            <slot name="navigation"></slot>
-        </header>
-        <!-- end header-wrapper with slots for logo and other header elements -->
+        <header :class="[useGrid ? 'grid-container-create-columns': 'flex-container', {'has-navigation': cmdMainNavigation || $slots.navigation, 'one-child-only' : oneChildOnly}]">
+            <!-- begin slots for logo and other header elements -->
+            <template v-if="$slots.logo || $slots.header || $slots.navigation">
+                <slot name="logo"></slot>
+                <slot name="header"></slot>
+                <slot name="navigation"></slot>
+            </template>
+            <!-- end slots for logo and other header elements -->
 
-        <header
-            v-if="cmdCompanyLogo || cmdMainNavigation?.navigationEntries?.length"
-            :class="[{'has-navigation': cmdMainNavigation, 'one-child-only' : oneChildOnly}, useGrid ? 'grid-container-create-columns': 'flex-container']">
+            <!-- begin content given by data -->
+            <template v-if="cmdCompanyLogo || cmdMainNavigation?.navigationEntries?.length">
+                <!-- begin CmdCompanyLogo -->
+                <CmdCompanyLogo
+                    v-if="cmdCompanyLogo"
+                    v-bind="cmdCompanyLogo"
+                />
+                <!-- end CmdCompanyLogo -->
 
-            <!-- begin CmdCompanyLogo -->
-            <CmdCompanyLogo
-                v-if="cmdCompanyLogo"
-                v-bind="cmdCompanyLogo"
-            />
-            <!-- end CmdCompanyLogo -->
-
-            <!-- begin CmdMainNavigation -->
-            <CmdMainNavigation
-                v-if="cmdMainNavigation?.navigationEntries?.length"
-                :navigationEntries="cmdMainNavigation.navigationEntries"
-                :closeOffcanvas="closeOffcanvas"
-            />
-            <!-- end CmdMainNavigation -->
+                <!-- begin CmdMainNavigation -->
+                <CmdMainNavigation
+                    v-if="cmdMainNavigation?.navigationEntries?.length"
+                    :navigationEntries="cmdMainNavigation.navigationEntries"
+                    :closeOffcanvas="closeOffcanvas"
+                />
+                <!-- end CmdMainNavigation -->
+            </template>
+            <!-- end content given by data -->
         </header>
     </div>
 </template>

@@ -47,7 +47,7 @@
             <template v-if="options.forgotPassword || options.createAccount">
                 <!-- begin link for 'forgot password' -->
                 <a v-if="options.forgotPassword" href="#" @click.prevent="sendLogin = true">
-                    <span v-if="options.forgotPassword.icon && options.forgotPassword.icon.show && options.forgotPassword.icon.iconClass"
+                    <span v-if="options.forgotPassword.icon?.show && options.forgotPassword.icon?.iconClass"
                           :class="options.forgotPassword.icon.iconClass"
                           :title="options.forgotPassword.icon.tooltip">
                     </span>
@@ -57,7 +57,7 @@
 
                 <!-- begin link-type 'href' for 'create account' -->
                 <a v-if="options.createAccount && options.createAccount.linkType === 'href'" :href="options.createAccount.path">
-                    <span v-if="options.createAccount.icon && options.createAccount.icon.show && options.createAccount.icon.iconClass"
+                    <span v-if="options.createAccount.icon?.show && options.createAccount.icon?.iconClass"
                           :class="options.createAccount.icon.iconClass"
                           :title="options.forgotPassword.icon.tooltip">
                     </span>
@@ -294,20 +294,20 @@ export default {
                     forgotPassword: {
                         icon: {
                             show: true,
-                            iconClass: "icon-help",
+                            iconClass: "icon-questionmark-circle",
                             tooltip: ""
                         },
-                        text: "Forgot password?"
+                        text: "Forgot password"
                     },
                     createAccount: {
                         linkType: "href",
                         path: "#",
                         icon: {
-                        show: true,
-                        iconClass: "icon-register",
-                        tooltip: ""
-                    },
-                        text: "Create new account!"
+                            show: true,
+                            iconClass: "icon-register",
+                            tooltip: ""
+                        },
+                        text: "Create new account"
                     },
                     backToLoginForm: {
                         icon: {
@@ -428,7 +428,6 @@ export default {
             flex: none;
 
             span[class*="icon"] {
-                font-size: 1.3rem;
                 text-decoration: none;
             }
         }

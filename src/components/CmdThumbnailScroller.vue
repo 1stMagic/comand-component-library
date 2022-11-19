@@ -182,10 +182,6 @@ export default {
 
             a {
                 text-align: center;
-
-                figcaption {
-                    opacity: var(--reduced-opacity);
-                }
             }
 
             img {
@@ -234,11 +230,50 @@ export default {
     }
 
     &.gallery-scroller {
-        > ul {
-            > li {
-                a {
-                    color: var(--pure-white);
+        max-width: 80%;
+        left: 0;
+        right: 0;
+        position: fixed;
+        bottom: var(--default-margin);
+        margin: auto;
+
+        li {
+            a {
+                color: var(--color-scheme-text-color);
+                text-decoration: none;
+            }
+
+            &.active {
+                img {
+                    border-color: var(--primary-color);
+                }
+
+                figcaption {
+                    color: var(--primary-color);
+                }
+            }
+
+            &:not(.active) {
+                img {
+                    border: var(--default-border);
+                    opacity: var(--reduced-opacity);
+                }
+
+                figcaption {
                     text-decoration: none;
+                }
+
+                a {
+                    &:hover, &:active, &:focus {
+                        figcaption {
+                            color: var(--primary-color);
+                        }
+
+                        img {
+                            border-color: var(--primary-color);
+                            opacity: 1;
+                        }
+                    }
                 }
             }
         }
@@ -258,8 +293,11 @@ export default {
 @media only screen and (max-width: $medium-max-width) {
     .cmd-thumbnail-scroller {
         display: block;
+
+        &.gallery-scroller {
+            max-width: calc(100% - calc(var(--default-margin) * 3));
+        }
     }
 }
-
 /* end cmd-thumbnail-scroller ------------------------------------------------------------------------------------------ */
 </style>

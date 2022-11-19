@@ -373,7 +373,7 @@ export default {
 
     > a {
         [class*='icon'] {
-            font-size: 1rem;
+            font-size: var(--icon-size-small);
         }
     }
 

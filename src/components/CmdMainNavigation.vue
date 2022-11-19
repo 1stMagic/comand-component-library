@@ -408,7 +408,7 @@ export default {
                                     font-weight: bold;
 
                                     &[class*="icon"] {
-                                        font-size: 1rem;
+                                        font-size: var(--font-size-small);
                                     }
                                 }
                             }

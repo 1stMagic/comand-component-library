@@ -2,7 +2,7 @@
     <teleport to="body">
         <dialog
             ref="dialog"
-            :class="['cmd-fancybox', {'show-overlay': showOverlay, 'image' : fancyBoxImageUrl || fancyBoxGallery}]"
+            :class="['cmd-fancybox', {'show-overlay': showOverlay, 'image' : fancyBoxImageUrl || fancyBoxGallery, 'image-gallery': fancyBoxGallery}]"
             :aria-label="ariaLabelText"
         >
             <header class="flex-container">
@@ -45,6 +45,7 @@
                        id="close-dialog"
                        :class="fancyboxOptions.closeIcon.iconClass"
                        :title="fancyboxOptions.closeIcon.tooltip"
+                       ref="close-dialog"
                        @click.prevent="close">
                     </a>
                     <!-- end close-icon -->
@@ -53,7 +54,10 @@
             </header>
             <div :class="['outer-content-wrapper', {'grayscale' : printInGrayscale}]">
                 <div v-if="fancyBoxImageUrl" class="content">
-                    <img :src="fancyBoxImageUrl" :alt="altText"/>
+                    <figure>
+                        <img :src="fancyBoxImageUrl" :alt="altText" />
+                        <figcaption v-if="figcaption">{{ figcaption }}</figcaption>
+                    </figure>
                 </div>
                 <div v-else-if="fancyBoxContent" class="content" v-html="fancyBoxContent"></div>
                 <div v-else-if="fancyBoxElements" class="content"></div>
@@ -105,8 +109,8 @@ import CmdSlideButton from "./CmdSlideButton.vue"
 import CmdThumbnailScroller from './CmdThumbnailScroller.vue'
 
 const openFancyBox = (config) => {
-    const node = document.createElement('div');
-    document.querySelector('body').appendChild(node);
+    const node = document.createElement("div");
+    document.querySelector("body").appendChild(node);
     const fb = createApp(FancyBox, {
         ...config,
         show: true
@@ -148,6 +152,13 @@ const FancyBox = defineComponent({
          * set if content should be loaded by url
          */
         url: {
+            type: String,
+            required: false
+        },
+        /**
+         * figcaption if image is given by url
+         */
+        figcaption: {
             type: String,
             required: false
         },
@@ -270,10 +281,8 @@ const FancyBox = defineComponent({
         )
     },
     mounted() {
-        // avoid scrolling if fancybox is shown
         if (this.showFancyBox) {
-            document.querySelector("body").classList.add("avoid-scrolling")
-            this.$refs.dialog.showModal()
+            this.showDialog()
         }
     },
     beforeUnmount() {
@@ -283,6 +292,14 @@ const FancyBox = defineComponent({
         }
     },
     methods: {
+        showDialog() {
+            // avoid scrolling if fancybox is shown
+                document.querySelector("body").classList.add("avoid-scrolling")
+                this.$refs.dialog.showModal()
+
+                // overwrite default behavior of dialog-element, which sets focus on first focusable element inside
+                this.$refs["close-dialog"].focus()
+        },
         updateContentOnPropertyChange() {
             this.fancyBoxImageUrl = this.fancyBoxContent = this.fancyBoxElements = null
             if (this.url) {
@@ -349,21 +366,13 @@ const FancyBox = defineComponent({
         showFancyBox: {
             handler() {
                 if (this.showFancyBox) {
-                    // add listener and class to disable scroll
-                    // this.$_FancyBox_verticalScrollPosition = window.scrollY
-                    document.querySelector("body").classList.add("avoid-scrolling")
-                    // window.addEventListener("scroll", this.$_FancyBox_scrollHandler)
-                    this.$refs.dialog.showModal()
+                    this.showDialog()
                 } else {
                     // remove class to re-enable scrolling
                     document.querySelector("body").classList.remove("avoid-scrolling")
-                    // window.removeEventListener("scroll", this.$_FancyBox_scrollHandler)
-                    // console.log("$_FancyBox_verticalScrollPosition", this.$_FancyBox_verticalScrollPosition)
-                    // window.scrollTo(0, this.$_FancyBox_verticalScrollPosition)
                     this.$refs.dialog.close()
                 }
-            },
-            immediate: false
+            }
         }
     }
 })
@@ -395,6 +404,10 @@ export default FancyBox
     overflow: hidden;
     gap: calc(var(--default-gap) / 2);
 
+    &.image-gallery {
+        margin-top: calc(var(--default-margin) * 2)
+    }
+
     // detect open-attribute (will be added to dom automatically)
     &[open] {
         display: flex;
@@ -419,7 +432,7 @@ export default FancyBox
 
     &.image {
         .outer-content-wrapper {
-            overflow-y: hidden;
+            max-height: none;
         }
 
         img {
@@ -445,6 +458,7 @@ export default FancyBox
             flex-direction: row;
             align-items: flex-start;
             gap: calc(var(--default-gap) / 2);
+            margin-left: auto;
 
             > .button {
                 display: block;
@@ -495,39 +509,13 @@ export default FancyBox
                     max-width: 80vmax;
                 }
             }
-        }
-    }
-
-    .gallery-scroller {
-        background: var(--pure-black);
-        max-width: 80%;
-        left: 0;
-        right: 0;
-        position: fixed;
-        bottom: 1rem;
-        margin: auto;
-        background: var(--pure-black);
-
-        li:not(.active) {
-            img {
-                opacity: var(--reduced-opacity);
-            }
-
-            a {
-                &:hover, &:active, &:focus {
-                    img {
-                        opacity: 1;
-                    }
-                }
-            }
 
             figcaption {
-                color: var(--pure-white);
-                text-decoration: none;
+                font-size: 2rem;
+                padding: calc(var(--default-padding) / 2) 0;
             }
         }
     }
-
 
     @media only screen and (max-width: $medium-max-width) {
         .outer-content-wrapper {
@@ -548,10 +536,6 @@ export default FancyBox
                 display: none;
             }
         }
-
-        .gallery-scroller {
-            display: block;
-        }
     }
 
     @media only screen and (max-width: $small-max-width) {
@@ -559,7 +543,6 @@ export default FancyBox
             .content {
                 > img, > video {
                     &:only-child {
-                        margin: auto;
                         max-height: 50vmin;
                     }
                 }
@@ -577,5 +560,10 @@ export default FancyBox
     }
 }
 
+@media only screen and (max-width: $medium-max-width) {
+    dialog {
+        margin-top: var(--default-margin);
+    }
+}
 /* end cmd-fancybox ------------------------------------------------------------------------------------------ */
 </style>

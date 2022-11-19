@@ -1,5 +1,5 @@
 <template>
-    <div :class="['cmd-list-of-links', 'align-' + align, {box: styleAsBox, horizontal: orientation === 'horizontal', 'section-anchors': sectionAnchors}]">
+    <div :class="['cmd-list-of-links', {box: styleAsBox, horizontal: orientation === 'horizontal', 'section-anchors': sectionAnchors}]">
         <!-- begin CmdHeadline -->
         <CmdHeadline
             v-if="cmdHeadline"
@@ -8,7 +8,7 @@
         <!-- end CmdHeadline -->
 
         <!-- begin list of links -->
-        <ul :class="['flex-container', {'no-gap': !useGap}]">
+        <ul :class="['flex-container', {'no-gap': !useGap},'align-' + align]">
             <li v-for="(link, index) in links" :key="index" :class="{'active': sectionAnchors && activeSection === index}">
                 <!-- begin use href -->
                 <a v-if="link.type === 'href' || link.type === undefined"
@@ -156,15 +156,16 @@ export default {
                 flex: none;
                 display: flex;
             }
+
+            &.align-center {
+                justify-content: center;
+            }
+
+            &.align-right {
+                justify-content: flex-end;
+            }
         }
 
-        &.align-center {
-            justify-content: center;
-        }
-
-        &.align-right {
-            justify-content: flex-end;
-        }
     }
 }
 /* end cmd-list-of-links------------------------------------------------------------------------------------------ */

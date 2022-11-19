@@ -354,7 +354,7 @@ export default {
             border-top-left-radius: var(--border-radius);
             border-top-right-radius: var(--border-radius);
             padding: calc(var(--default-padding) / 2) var(--default-padding);
-            background: var(--medium-gray);
+            background: var(--secondary-color);
             color: var(--pure-white);
             text-decoration: none;
 
@@ -368,7 +368,7 @@ export default {
             }
 
             > .toggle-icon, .toggle-icon > [class*="icon"] {
-                font-size: 1rem;
+                font-size: var(--font-size-small);
             }
         }
 

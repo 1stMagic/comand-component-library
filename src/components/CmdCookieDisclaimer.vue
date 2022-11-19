@@ -274,7 +274,7 @@ export default {
                 event.preventDefault()
                 fetch(event.target.href).then((response) =>
                     response.text()
-                ).then((content) => { /* use arrow function to get access to dataPrivacy by 'this' = vue-instance (otherwise 'this' wouldn't be vue-instance in this fethc-method */
+                ).then((content) => { /* use arrow function to get access to dataPrivacy by 'this' = vue-instance (otherwise 'this' wouldn't be vue-instance in this fetch-method) */
                     this.dataPrivacyContent = content
                 })
             }
@@ -295,9 +295,12 @@ export default {
 
     .cmd-box {
         .box-header {
+            padding: 0;
             justify-content: unset; /* overwrite setting for collapsible boxes */
 
             label {
+                padding: calc(var(--default-padding) / 2) var(--default-padding);
+
                 &.disabled {
                     .label-text span {
                         color: var(--pure-white) !important; /* required to set label-text in header to white */
@@ -305,6 +308,7 @@ export default {
                 }
 
                 & + .toggle-icon {
+                    padding: calc(var(--default-padding) / 2) var(--default-padding);
                     width: 100%;
                     justify-content: flex-end;
                     text-align: right;
@@ -312,8 +316,10 @@ export default {
             }
 
             &:hover, &:active, &:focus {
+                background: var(--hyperlink-color);
+
                 label.disabled .label-text span {
-                    color: var(--disabled-color) !important; /* required to set label-text on hover back to disabled-color */
+                    color: var(--pure-white) !important; /* required to set label-text on hover back to disabled-color */
                 }
             }
         }

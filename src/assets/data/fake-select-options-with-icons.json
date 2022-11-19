@@ -13,5 +13,10 @@
     "text": "Option 3",
     "value": "3",
     "iconClass": "icon-phone"
+  },
+  {
+    "value": "4",
+    "iconClass": "icon-fax",
+    "tooltip": "Fax"
   }
 ]

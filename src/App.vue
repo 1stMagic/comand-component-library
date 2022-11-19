@@ -2,8 +2,6 @@
 <template>
     <div id="page-wrapper">
         <a id="anchor-back-to-top"></a>
-        <Icon icon="mdi-light:home" class="icon-" />
-       ICON: <Icon icon="mdi:account-cowboy-hat" />
         <!-- begin site-header --------------------------------------------------------------------------------------------------------------------------------------------------->
         <CmdSiteHeader :sticky="true">
             <template v-slot:top-header>
@@ -29,7 +27,7 @@
         <!-- end site-header --------------------------------------------------------------------------------------------------------------------------------------------------->
         <main>
             <!-- begin width-limitation-wrapper (with table of contents) --------------------------------------------------------------------------------------------------------------------------------------------------->
-            <CmdWidthLimitationWrapper>
+            <CmdWidthLimitationWrapper :cmdHeadline="{headlineText: 'Table of contents', headlineLevel: 2}">
                 <div class="flex-container">
                     <ul>
                         <li><a href="#section-advanced-form-elements">Advanced Form Elements</a></li>
@@ -41,24 +39,25 @@
                         <li><a href="#section-fancybox">Fancybox</a></li>
                     </ul>
                     <ul>
-                        <li><a href="#section-google-maps-integration">Google-Maps&trade;-Integration</a></li>
+                        <li><a href="#section-google-mapsn">Google-Maps&trade;</a></li>
+                        <li><a href="#section-icons">Icons</a></li>
                         <li><a href="#section-image-gallery">Image Gallery</a></li>
                         <li><a href="#section-image-zoom">Image-Zoom</a></li>
                         <li><a href="#section-list-of-links">List Of Links</a></li>
                         <li><a href="#section-login-form">Login Form</a></li>
                         <li><a href="#section-main-navigation">Main-Navigation</a></li>
-                        <li><a href="#section-multistep-form-progress-bar">Multistepform-Progressbar</a></li>
                     </ul>
                     <ul>
+                        <li><a href="#section-multistep-form-progress-bar">Multistepform-Progressbar</a></li>
                         <li><a href="#section-pager">Pager</a></li>
                         <li><a href="#section-share-buttons">Share Buttons</a></li>
                         <li><a href="#section-site-header">Site Header</a></li>
                         <li><a href="#section-site-search">Site Search</a></li>
                         <li><a href="#section-slideshow">Slideshow</a></li>
                         <li><a href="#section-system-message">System-Message</a></li>
-                        <li><a href="#section-tables">Tables</a></li>
                     </ul>
                     <ul>
+                        <li><a href="#section-tables">Tables</a></li>
                         <li><a href="#section-tabs">Tabs</a></li>
                         <li><a href="#section-thumbnail-scroller">Thumbnail-Scroller</a></li>
                         <li><a href="#section-toggle-darkmode">ToggleDarkMode</a></li>
@@ -66,7 +65,6 @@
                         <li><a href="#section-upload-form">Upload-Form</a></li>
                     </ul>
                 </div>
-                <hr/>
             </CmdWidthLimitationWrapper>
             <!-- end width-limitation-wrapper (with table of contents) --------------------------------------------------------------------------------------------------------------------------------------------------->
 
@@ -933,32 +931,57 @@
                 <h2 class="headline-demopage">Fancybox</h2>
                 <a href="#" @click.prevent="showFancyBox('text','Some text')">Open FancyBox with text</a>
                 <a href="#"
-                   @click.prevent="showFancyBox('image', 'media/images/content-images/landscape-large.jpg', 'Alternative text')"
-                   title="Open FancyBox with large image">
+                   @click.prevent="showFancyBox('image', 'media/images/content-images/landscape-large.jpg', 'Alternative text', 'figcaption')"
+                   title="Open FancyBox with large image"
+                >
                    <img src="media/images/content-images/landscape-small.jpg" alt="Alternative text"/>
                 </a>
             </CmdWidthLimitationWrapper>
             <!-- end fancybox ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
-            <a id="section-google-maps-integration"></a>
+            <!-- begin google-maps ------------------------------------------------------------------------------------------------------------------------------------------------------->
+            <a id="section-google-maps"></a>
             <CmdWidthLimitationWrapper>
-                <h2 class="headline-demopage">Google Maps&trade;-Integration</h2>
+                <h2 class="headline-demopage">Google Maps&trade;</h2>
                 <CmdGoogleMaps :address="addressData"/>
             </CmdWidthLimitationWrapper>
+            <!-- end google-maps ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
+            <!-- begin icons ------------------------------------------------------------------------------------------------------------------------------------------------------->
+            <a id="section-icons"></a>
+            <CmdWidthLimitationWrapper>
+                <h2 class="headline-demopage">Icons</h2>
+                <ul>
+                    <li><span>Icon from local iconfont</span><CmdIcon iconClass="icon-home" /></li>
+                    <li><span>Icon from iconify-api (icomoon-font)</span><CmdIcon iconClass="icomoon-free:home" /></li>
+                    <li><span>Icon from iconify-api (bootstrap-font)</span><CmdIcon iconClass="bi:house-fill" /></li>
+                    <li><span>Icon from iconify-api (material-design-font)</span><CmdIcon iconClass="mdi:home" /></li>
+                    <li><span>Icon from iconify-api (font-awesome-solid-font)</span><CmdIcon iconClass="fa6-solid:house-chimney" /></li>
+
+                </ul>
+            </CmdWidthLimitationWrapper>
+            <!-- end icons ------------------------------------------------------------------------------------------------------------------------------------------------------->
+
+            <!-- begin image-gallery------------------------------------------------------------------------------------------------------------------------------------------------------->
             <a id="section-image-gallery"></a>
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Image-Gallery</h2>
-                <CmdImageGallery :images="imageGalleryData"/>
+                <CmdImageGallery :images="imageGalleryData" />
             </CmdWidthLimitationWrapper>
+            <!-- end image-gallery ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
+            <!-- begin image-zoom ------------------------------------------------------------------------------------------------------------------------------------------------------->
             <a id="section-image-zoom"></a>
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Image-Zoom</h2>
-                <CmdImageZoom small-image-url="media/images/content-images/logo-business-edition-landscape.jpg"
-                              large-image-url="media/images/content-images/logo-business-edition-landscape-large.jpg"/>
+                <CmdImageZoom
+                    small-image-url="media/images/content-images/logo-business-edition-landscape.jpg"
+                    large-image-url="media/images/content-images/logo-business-edition-landscape-large.jpg"
+                />
             </CmdWidthLimitationWrapper>
+            <!-- end image-zoom ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
+            <!-- begin login-form ------------------------------------------------------------------------------------------------------------------------------------------------------->
             <a id="section-login-form"></a>
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Login Form</h2>
@@ -967,13 +990,15 @@
                 </CmdForm>
                 <p>LoginData: {{ loginData }}</p>
             </CmdWidthLimitationWrapper>
+            <!-- end list-of-links ------------------------------------------------------------------------------------------------------------------------------------------------------->
+
 
             <!-- begin list-of-links ------------------------------------------------------------------------------------------------------------------------------------------------------->
             <a id="section-list-of-links"></a>
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">List Of Links</h2>
                 <h3>Vertical</h3>
-                <CmdListOfLinks :links="listOfLinksData"/>
+                <CmdListOfLinks :links="listOfLinksData" />
                 <h3>Horizontal (aligned left, with headline)</h3>
                 <CmdListOfLinks
                     orientation="horizontal"
@@ -1007,6 +1032,7 @@
             <a id="section-multistep-form-progress-bar"></a>
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Multistepform-Progressbar</h2>
+                <h3>Steps with icons</h3>
                 <CmdMultistepFormProgressBar
                     :multisteps="multistepsData.withIcon"
                     separatorIconClass="icon-single-arrow-right"
@@ -1015,7 +1041,7 @@
                 <div>
                     <p>Page {{ showPageMultistep }}</p>
                 </div>
-                <h2 class="headline-demopage">Multistepform-Progressbar</h2>
+                <h3>Steps with number</h3>
                 <CmdMultistepFormProgressBar
                     :showStepNumber="true"
                     :multisteps="multistepsData.withoutIcon"
@@ -1318,9 +1344,6 @@
 </template>
 
 <script>
-import {Icon} from "@iconify/vue"
-
-
 // import used example data
 import accordionData from '@/assets/data/accordion.json'
 import addressData from '@/assets/data/address-data.json'
@@ -1369,6 +1392,7 @@ import CmdForm from "@/components/CmdForm.vue"
 import CmdFormElement from "@/components/CmdFormElement.vue"
 import CmdFormFilters from "@/components/CmdFormFilters.vue"
 import CmdGoogleMaps from "./components/CmdGoogleMaps"
+import CmdIcon from "./components/CmdIcon"
 import CmdImageGallery from "@/components/CmdImageGallery.vue"
 import CmdImageZoom from "@/components/CmdImageZoom.vue"
 import CmdInputGroup from "./components/CmdInputGroup"
@@ -1404,7 +1428,6 @@ import {localizedTime} from "./components/CmdOpeningHours"
 export default {
     name: "App",
     components: {
-        Icon,
         CmdListOfLinks,
         CmdAddressData,
         CmdBackToTopButton,
@@ -1422,6 +1445,7 @@ export default {
         CmdFormFilters,
         CmdFormElement,
         CmdGoogleMaps,
+        CmdIcon,
         CmdImageGallery,
         CmdImageZoom,
         CmdInputGroup,
@@ -1604,11 +1628,11 @@ export default {
         showError() {
             alert("Error")
         },
-        showFancyBox(type, content, altText) {
+        showFancyBox(type, content, altText, figcaption) {
             if (type === 'text') {
                 openFancyBox({content: content, cmdHeadline: {show: true, headlineText: "Fancybox headline", headlineLevel: 3}})
             } else if (type === 'image') {
-                openFancyBox({url: content, altText: altText, cmdHeadline: {show: true, headlineText: "Fancybox headline", headlineLevel: 3}})
+                openFancyBox({url: content, altText: altText, cmdHeadline: {show: true, headlineText: "Fancybox headline", headlineLevel: 3}, figcaption: figcaption})
             }
         },
         getOptionName(option) {

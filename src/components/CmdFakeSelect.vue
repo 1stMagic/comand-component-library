@@ -47,12 +47,26 @@
         <ul :class="{'open': showOptions}" @clickout="closeOptions" :aria-expanded="showOptions">
             <li>
                 <!-- begin default/selected-option -->
-                <a href="#" @click.prevent="toggleOptions" @blur="onBlur">
+                <a href="#" @click.prevent="toggleOptions" @blur="onBlur" :title="optionIcon?.tooltip">
+                    <!-- begin show flag -->
                     <img v-if="type === 'country' && optionCountry" :src="pathFlag(optionCountry)" :alt="optionCountry" :class="['flag', optionCountry]"/>
+                    <!-- end show flag -->
+
+                    <!-- begin show color-box -->
                     <span v-else-if="type === 'color'" :style="'background: ' + optionColor"></span>
-                    <span v-if="optionIcon" :class="optionIcon"></span>
-                    <span class="option-name" :style="limitWidthStyle">{{ optionName }}</span>
+                    <!-- end show color-box -->
+
+                    <!-- begin optional icon -->
+                    <span v-if="optionIcon?.iconClass" :class="optionIcon?.iconClass"></span>
+                    <!-- end optional icon -->
+
+                    <!-- begin text -->
+                    <span v-if="optionName" class="option-name" :style="limitWidthStyle">{{ optionName }}</span>
+                    <!-- end text -->
+
+                    <!-- begin custom dropdown-icon -->
                     <span v-if="dropdownIcon" :class="dropdownIcon.iconClass" :title="dropdownIcon.tooltip"></span>
+                    <!-- end custom dropdown-icon -->
                 </a>
                 <!-- end default/selected-option-->
 
@@ -60,9 +74,13 @@
                 <ul v-if="type === 'default' && showOptions" role="listbox">
                     <li v-for="(option, index) in selectData" :key="index" role="option" :aria-selected="option.value === modelValue">
                         <!-- begin type 'href' -->
-                        <a v-if="optionLinkType === 'href'" href="#" @click.prevent="selectOption(option.value)" :class="{'active' : option.value === modelValue}">
+                        <a v-if="optionLinkType === 'href'"
+                           href="#" @click.prevent="selectOption(option.value)"
+                           :class="{'active' : option.value === modelValue}"
+                           :title="option.tooltip"
+                        >
                             <span v-if="option.iconClass" :class="option.iconClass"></span>
-                            <span>{{ option.text }}</span>
+                            <span v-if="option.text">{{ option.text }}</span>
                         </a>
                         <!-- end type 'href' -->
 
@@ -76,27 +94,34 @@
                 </ul>
                 <!-- end default dropdown (incl. optional icon) -->
 
-                <!-- begin dropdown with checkboxes -->
+                <!-- begin dropdown with checkboxes/countries/colors -->
                 <ul v-else-if="type !== 'default' && type !== 'content' && showOptions" :class="{'checkbox-options': type === 'checkboxOptions'}" :aria-expanded="showOptions">
                     <li v-for="(option, index) in selectData" :key="index">
+                        <!-- begin checkboxes -->
                         <label v-if="type === 'checkboxOptions'" :for="'option-' + (index + 1)" :class="{'active' : modelValue.includes(`${option.value}`)}">
                             <input type="checkbox" :value="option.value" @change="optionSelect"
                                    :checked="compareValues(option.value)" :id="'option-' + (index + 1)"/>
                             <span>{{ option.text }}</span>
                         </label>
+                        <!-- end checkboxes -->
 
+                        <!-- begin country-flags -->
                         <a v-else-if="type === 'country'" href="#"
                            @click.prevent="selectOption(option.value)" :class="{'active' : option.value === modelValue}">
                             <img class="flag" :src="pathFlag(option.value)"
                                  :alt="option.text"/>
                             <span>{{ option.text }}</span>
                         </a>
+                        <!-- end country-flags -->
 
+                        <!-- begin color-boxes -->
                         <a v-else-if="type === 'color'" href="#" @click.prevent="selectOption(option.value)" :class="{'active' : option.value === modelValue}">
                             <span class="color" :style="'background: ' + option.value"></span>
                             <span>{{ option.text }}</span>
                         </a>
+                        <!-- end color-boxe -->
                     </li>
+
                     <!-- begin (de)select all options -->
                     <li v-if="showSelectAllOptions && type === 'checkboxOptions'" class="select-all-options">
                         <a href="#" @click.prevent="toggleAllOptions">
@@ -106,7 +131,7 @@
                     </li>
                     <!-- end (de)select all options -->
                 </ul>
-                <!-- end dropdown with checkboxes -->
+                <!-- end dropdown with checkboxes/countries/colors -->
 
                 <!-- begin dropdown with slot -->
                 <template v-else-if="type === 'content' && showOptions" :aria-expanded="showOptions">
@@ -240,6 +265,13 @@ export default {
         pathFlags: {
             type: String,
             default: "/media/images/flags"
+        },
+        /**
+         * default text if no option is selected (and first option is not used)
+         */
+        textPleaseSelect: {
+           type: String,
+           default: "Please select\u2026"
         }
     },
     computed: {
@@ -260,11 +292,11 @@ export default {
         optionName() {
             // fake a native selectbox
             if (this.type !== "checkboxOptions" && this.type !== "content" && this.modelValue) {
-                const result = this.selectData.find(option => option.value === this.modelValue)?.text
+                const result = this.selectData.find(option => option.value === this.modelValue)
 
                 // if find() returns some data, return this data
                 if (result) {
-                    return result
+                   return result.text
                 }
             }
 
@@ -276,29 +308,37 @@ export default {
                     return this.modelValue.length + " options selected"
                 }
             } else if (this.selectData?.length) {
+                // return text of first option nothing is selected (and type !== checkboxOptions && type !== content)
                 return this.selectData[0].text
             }
 
-            return "Please select"
+            // return default text if nothing is selected (and no modelValue exists) (and type !== checkboxOptions && type !== content)
+            return this.textPleaseSelect
         },
         // get the displayed icon (only available for default selectbox)
         optionIcon() {
             if (this.type === "default") {
-                return this.selectData.find(option => {
+
+                const selectedOption = this.selectData.find(option => {
                     return option.value === this.modelValue
-                })?.icon?.iconClass
+                })
+
+                return {
+                    iconClass: selectedOption?.iconClass,
+                    tooltip: selectedOption?.tooltip
+                }
             }
             return null
         },
         optionCountry() {
             if (this.type === "country") {
-                return this.modelValue
+                   return this.modelValue || this.selectData?.[0]?.value
             }
             return null
         },
         optionColor() {
             if (this.type === "color") {
-                return this.modelValue
+                return this.modelValue || this.selectData?.[0]?.value
             }
             return null
         },
@@ -464,7 +504,7 @@ export default {
 
                     > [class*="icon-"]:last-child {
                         margin-left: auto;
-                        font-size: 1rem;
+                        font-size: var(--icon-size-small);
                     }
 
                     &:hover, &:active, &:focus {

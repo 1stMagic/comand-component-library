@@ -3,19 +3,21 @@
     "name": "Tab 1",
     "headlineText": "Tab 1 Headline",
     "headlineLevel": 4,
-    "iconClass": "icon-home",
+    "iconClass": "icomoon-free:airplane",
     "htmlContent": "<p>Inhalt 1</p>"
   },
   {
     "name": "Tab 2",
     "headlineText": "Tab 2 Headline",
     "headlineLevel": 4,
+    "iconClass": "icomoon-free:blocked",
     "htmlContent": "<p>Inhalt 2</p>"
   },
   {
     "name": "Tab 3",
     "headlineText": "Tab 3 Headline",
     "headlineLevel": 4,
+    "iconClass": "cmd:linkedin",
     "htmlContent": "<p>Inhalt 3</p>"
   }
 ]

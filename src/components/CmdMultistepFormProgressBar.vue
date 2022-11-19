@@ -137,7 +137,7 @@ export default {
                         z-index: 1;
 
                         &::before {
-                            font-size: 1rem;
+                            font-size: var(--font-size-small);
                         }
                     }
                 }
@@ -179,7 +179,6 @@ export default {
 
         &.active {
             a {
-                font-weight: bold;
                 background: var(--primary-color);
 
                 span, span[class*='icon'] {
@@ -207,7 +206,8 @@ export default {
                         & + span[class*="icon"] {
                             &:last-child {
                                 border-color: var(--border-color);
-                                background: var(--medium-gray);
+                                color: var(--pure-white);
+                                background: var(--secondary-color);
                             }
                         }
                     }

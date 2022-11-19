@@ -176,7 +176,6 @@ export default {
         }
 
         span[class*="icon"] {
-            font-size: 1.2rem;
             color: var(--status-color);
         }
 
@@ -186,10 +185,6 @@ export default {
             justify-content: center;
             text-align: center;
             text-decoration: none;
-
-            span[class*="icon"] {
-                font-size: 1.2rem;
-            }
         }
     }
 }

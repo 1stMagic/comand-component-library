@@ -2,7 +2,7 @@ export default {
     // el = real dom-element
     mounted(el) {
         // check if element is native input-element
-        if(el.tagName === "INPUT" || el.tagName === "SELECT" || el.tagName === "TEXTAREA") {
+        if(el.tagName === "INPUT" || el.tagName === "SELECT" || el.tagName === "TEXTAREA" || el.tagName === "A") {
             el.focus()
         } else {
             // check if component is used, which contains a native input-element

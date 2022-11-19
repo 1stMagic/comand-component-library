@@ -113,7 +113,7 @@ export default {
         margin-right: var(--default-margin);
         border: var(--default-border);
         background: var(--pure-white);
-        font-size: 1.1rem;
+        font-size: var(--font-size-small);
 
         &:hover, &:active, &:focus {
             border-color: var(--primary-color);
@@ -131,7 +131,7 @@ export default {
         }
 
         [class*="icon-"] {
-            font-size: 1rem;
+            font-size: var(--icon-size-small);
         }
     }
 }

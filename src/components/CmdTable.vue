@@ -199,7 +199,7 @@ export default {
             min-height: 2rem;
 
             span[class*="icon"] {
-                font-size: 1rem;
+                font-size: var(--icon-size-small);
             }
         }
     }
@@ -215,7 +215,7 @@ export default {
             th {
                 a[class*='icon-'] {
                     &, &:hover, &:active, &:focus {
-                        font-size: 1rem;
+                        font-size: var(--icon-size-small);
                         color: var(--pure-white);
                     }
                 }

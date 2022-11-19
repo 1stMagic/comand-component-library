@@ -5,7 +5,7 @@
             <!-- begin cmd-headline -->
             <CmdHeadline
                 v-if="cmdHeadline"
-                :pre-headline-text="cmdHeadline.preHeadlineLevel"
+                :pre-headline-text="cmdHeadline.preHeadlineText"
                 :headline-text="cmdHeadline.headlineText"
                 :headline-level="cmdHeadline.headlineLevel"
             />

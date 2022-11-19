@@ -1,0 +1,17 @@
+{
+  "prefix": "cmd",
+  "icons": {
+    "3d-cursor": {
+      "body": "<path d=\"M13 4H4v9.01h2V6h7V4z\" fill=\"currentColor\"/><path d=\"M29.49 13.12l-9-5a1 1 0 0 0-1 0l-9 5A1 1 0 0 0 10 14v10a1 1 0 0 0 .52.87l9 5A1 1 0 0 0 20 30a1.05 1.05 0 0 0 .49-.13l9-5A1 1 0 0 0 30 24V14a1 1 0 0 0-.51-.88zM19 27.3l-7-3.89v-7.72l7 3.89zm1-9.45L13.06 14L20 10.14L26.94 14zm8 5.56l-7 3.89v-7.72l7-3.89z\" fill=\"currentColor\"/>",
+      "hidden": true
+    },
+    "building": {
+      "body": "<path fill=\"currentColor\" d=\"M28 2H16a2.002 2.002 0 0 0-2 2v10H4a2.002 2.002 0 0 0-2 2v14h28V4a2.002 2.002 0 0 0-2-2ZM9 28v-7h4v7Zm19 0H15v-8a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v8H4V16h12V4h12Z\"/><path fill=\"currentColor\" d=\"M18 8h2v2h-2zm6 0h2v2h-2zm-6 6h2v2h-2zm6 0h2v2h-2zm-6 6h2v2h-2zm6 0h2v2h-2z\"/>"
+    },
+    "linkedin": {
+      "body": "<path fill=\"currentColor\" d=\"M12,12h5.535v2.837h0.078C18.384,13.456,20.27,12,23.078,12C28.92,12,30,15.637,30,20.367V30h-5.77v-8.54\n\tc0-2.037-0.041-4.657-3-4.657c-3.006,0-3.463,2.219-3.463,4.51V30H12V12z\"/>\n<path fill=\"currentColor\" d=\"M2,12h6v18H2V12z\"/>\n<path fill=\"currentColor\" d=\"M8,7c0,1.657-1.343,3-3,3S2,8.657,2,7s1.343-3,3-3S8,5.343,8,7z\"/>"
+    }
+  },
+  "width": 32,
+  "height": 32
+}
