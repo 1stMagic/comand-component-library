@@ -1,14 +1,24 @@
 <template>
     <!-- begin cmd-back-to-top-button -->
     <transition name="fade">
-        <a v-if="show" :class="iconBackToTop.iconClass" class="cmd-back-to-top-button" href="#" :title="iconBackToTop.tooltip" @click.prevent="onBackToTop"></a>
+        <a v-if="show" class="cmd-back-to-top-button" href="#" :title="iconBackToTop.tooltip" @click.prevent="onBackToTop">
+            <!-- begin CmdIcon -->
+            <CmdIcon :iconClass="iconBackToTop.iconClass" />
+            <!-- end CmdIcon -->
+        </a>
     </transition>
     <!-- end cmd-back-to-top-button -->
 </template>
 
 <script>
+// import components
+import CmdIcon from "./CmdIcon"
+
 export default {
     name: "CmdBackToTopButton",
+    components: {
+        CmdIcon
+    },
     data() {
         return {
             windowInnerHeight: window.innerHeight,

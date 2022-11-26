@@ -287,16 +287,22 @@ export default {
         & img {
             width: auto;
         }
+
+        & > ul > li img {
+            max-height: 7rem;
+        }
     }
-}
 
-@media only screen and (max-width: $medium-max-width) {
-    .cmd-thumbnail-scroller {
-        display: block;
-
+    @media only screen and (max-width: $medium-max-width) {
         &.gallery-scroller {
             max-width: calc(100% - calc(var(--default-margin) * 3));
         }
+    }
+}
+
+@media only screen and (max-width: $small-max-width) {
+    .cmd-thumbnail-scroller {
+        display: block;
     }
 }
 /* end cmd-thumbnail-scroller ------------------------------------------------------------------------------------------ */

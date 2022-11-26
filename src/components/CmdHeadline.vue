@@ -1,21 +1,34 @@
 <template>
     <div :class="['cmd-headline', { 'has-pre-headline-text': preHeadlineText, 'has-icon': iconClass}]">
-        <span v-if="iconClass" :class="iconClass"></span>
+        <!-- begin CmdIcon -->
+        <CmdIcon v-if="iconClass" :iconClass="iconClass" />
+        <!-- end CmdIcon -->
+
         <div v-if="preHeadlineText">
             <span class="pre-headline-text">{{ preHeadlineText }}</span>
             <component :is="getHeadlineTag">
+                <!-- being slot -->
                 <slot>{{ headlineText }}</slot>
+                <!-- end slot -->
             </component>
         </div>
         <component v-else :is="getHeadlineTag">
+            <!-- being slot -->
             <slot>{{ headlineText }}</slot>
+            <!-- end slot -->
         </component>
     </div>
 </template>
 
 <script>
+// import components
+import CmdIcon from "./CmdIcon"
+
 export default {
     name: "CmdHeadline",
+    components: {
+        CmdIcon
+    },
     props: {
         /**
          * text for headline

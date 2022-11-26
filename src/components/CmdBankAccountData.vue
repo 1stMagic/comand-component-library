@@ -11,7 +11,9 @@
                 <dd v-if="allowCopyByClick && entry.allowCopy">
                     <span>{{ entry.value }}</span>
                     <a href="#" @click.prevent="copyToClipboard(entry.value)" :title="iconCopy.tooltip">
-                        <span :class="iconCopy.iconClass"></span>
+                        <!-- begin CmdIcon -->
+                        <CmdIcon :iconClass="iconCopy.iconClass" />
+                        <!-- end CmdIcon -->
                     </a>
                 </dd>
                 <dd v-else :key="index">{{ entry.value }}</dd>
@@ -28,10 +30,14 @@
 <script>
 // import components
 import CmdHeadline from "./CmdHeadline"
+import CmdIcon from "./CmdIcon"
 
 export default {
     name: "CmdBankAccountData",
-    components: {CmdHeadline},
+    components: {
+        CmdHeadline,
+        CmdIcon
+    },
     props: {
         /**
          * bank account data

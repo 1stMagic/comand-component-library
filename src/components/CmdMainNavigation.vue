@@ -13,7 +13,7 @@
             <!-- begin main-level -->
             <ul :class="{'stretch-items' : stretchMainItems}">
                 <li class="close-nav" v-if="showOffcanvas">
-                    <a href="#" @click.prevent="showOffcanvas = false">
+                    <a href="#" id="close-offcanvas" role="button" @click.prevent="closeOffcanvasNavigation">
                         <span v-if="closeOffcanvas.iconClass" :class="closeOffcanvas.iconClass"></span>
                         <span :class="{'hidden': !closeOffcanvas.showText}">{{ closeOffcanvas.text }}</span>
                     </a>
@@ -125,8 +125,7 @@
         </nav>
 
         <!-- begin offCanvasButton -->
-        <a href="#" class="button" id="toggle-offcanvas" @click.prevent="showOffcanvas = !showOffcanvas"
-           v-if="persistOnMobile === false">
+        <a v-if="persistOnMobile === false" href="#" class="button" id="toggle-offcanvas" @click.prevent="toggleOffcanvasNavigation">
             <span :class="buttonOffcanvas.iconClass"></span>
             <span :class="{'hidden' : !buttonOffcanvas.showText}">{{ buttonOffcanvas.text }}</span>
         </a>
@@ -264,6 +263,19 @@ export default {
         },
         getRoute(navigationEntry) {
             return getRoute(navigationEntry)
+        },
+        closeOffcanvasNavigation() {
+            this.showOffcanvas = false
+            document.getElementById("toggle-offcanvas").focus()
+        },
+        toggleOffcanvasNavigation() {
+            if (this.showOffcanvas) {
+                this.closeOffcanvasNavigation()
+            } else {
+                // open offcanvas
+                this.showOffcanvas = true
+                this.$nextTick(() => document.getElementById("close-offcanvas").focus())
+            }
         }
     }
 }

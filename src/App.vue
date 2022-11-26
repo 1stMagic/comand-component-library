@@ -793,18 +793,21 @@
             <a id="section-boxes"></a>
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Boxes</h2>
-                <h3>Boxes in BoxWrapper with Flexbox</h3>
-                <CmdBoxWrapper :useFlexbox="true">
-                    <CmdBox v-for="index in 14" :key="index" textBody="Content" :cmd-headline="{headlineText: 'Headline ' + index, headlineLevel: 5}" />
+                <CmdBoxWrapper :useFlexbox="true" :cmdHeadline="{headlineText: 'Boxes in BoxWrapper with flexbox', headlineLevel: 3}" >
+                    <CmdBox v-for="index in 14" :key="index" textBody="Content" :cmd-headline="{headlineText: 'Headline ' + index, headlineLevel: 4}" />
                 </CmdBoxWrapper>
-                <h3>Content boxes</h3>
-                <div class="grid-container-create-columns">
-                    <div class="grid-small-item">
+                <CmdBoxWrapper :useFlexbox="true" :cmdHeadline="{headlineText: 'Different examples of content-boxes (in BoxWrapper)', headlineLevel: 3}">
+                        <CmdBox
+                            :stretch-vertically="false"
+                            :cmdHeadline="{headlineText: 'Box with cutoff text', headlineLevel: 4}"
+                            textBody="This is a long text that is cutoff after a specific number of lines that can be defined by the property 'cutoffTextLines'"
+                            :cutoff-text-lines="3"
+                        />
                         <CmdBox :useSlots="['header', 'body', 'footer']">
                             <template v-slot:header>
-                                <h3>
-                                    Headline for box
-                                </h3>
+                                <h4>
+                                    Texts given by slots
+                                </h4>
                             </template>
                             <template v-slot:body>
                                 <div class="padding">
@@ -812,7 +815,7 @@
                                         This content with paragraphs inside is placed inside the box-body.
                                     </p>
                                     <p>
-                                        <strong>Header, Content and Footer of this box are given by slots.</strong>
+                                        <strong>Header, Content/Body and Footer of this box are given by slots.</strong>
                                     </p>
                                 </div>
                             </template>
@@ -822,13 +825,11 @@
                                 </p>
                             </template>
                         </CmdBox>
-                    </div>
-                    <div class="grid-small-item">
-                        <CmdBox>
+                        <CmdBox :useSlots="['header', 'body']">
                             <template v-slot:header>
-                                <h3>
+                                <h4>
                                     Box with links
-                                </h3>
+                                </h4>
                             </template>
                             <template v-slot:body>
                                 <ul class="navigation">
@@ -838,31 +839,28 @@
                                     <li><a href="#" @click.prevent="">Link name 4</a></li>
                                 </ul>
                             </template>
+                            <!-- will not be displayed, because useSlots-property does not contain 'footer' in array -->
                             <template v-slot:footer>
                                 <p>
                                     footer content
                                 </p>
                             </template>
                         </CmdBox>
-                    </div>
-                    <div class="grid-small-item">
-                        <CmdBox :cmdHeadline="{headlineText: 'Collapsible box', headlineLevel: 4}" :collapsible="true">
+                        <CmdBox :useSlots="['header', 'body']" :cmdHeadline="{headlineText: 'Collapsible box', headlineLevel: 4}" :collapsible="true">
                             <template v-slot:header>
-                                <h3>
+                                <h4>
                                     Collapsible box with image
-                                </h3>
+                                </h4>
                             </template>
                             <template v-slot:body>
-                                <img src="media/images/content-images/logo-business-edition-landscape.jpg" alt="Alternative text"/>
+                                <img src="media/images/content-images/logo-business-edition-landscape.jpg" alt="Alternative text" />
                             </template>
                         </CmdBox>
-                    </div>
-                    <div class="grid-small-item">
-                        <CmdBox>
+                        <CmdBox :useSlots="['header', 'body', 'footer']">
                             <template v-slot:header>
-                                <h3>
+                                <h4>
                                     Box with image and content
-                                </h3>
+                                </h4>
                             </template>
                             <template v-slot:body>
                                 <img src="media/images/content-images/logo-business-edition-landscape.jpg" alt="Alternative text"/>
@@ -877,8 +875,7 @@
                                 </p>
                             </template>
                         </CmdBox>
-                    </div>
-                </div>
+                </CmdBoxWrapper>
                 <h3>Product boxes</h3>
                 <div class="grid-container-create-columns">
                     <div class="grid-small-item" v-for="(product, index) in boxProductData" :key="index">

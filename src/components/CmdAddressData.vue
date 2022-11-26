@@ -10,7 +10,10 @@
             <dl v-if="showLabels">
                 <!-- begin company -->
                 <dt v-if="addressData.company?.value">
-                    <span v-if="addressData.company.iconClass && showLabelIcons" :class="addressData.company.iconClass" :title="getMessage('cmdaddressdata.labeltext.company')"></span>
+                    <!-- begin CmdIcon -->
+                    <CmdIcon v-if="addressData.company.iconClass && showLabelIcons" :iconClass="addressData.company.iconClass" :tooltip="getMessage('cmdaddressdata.labeltext.company')" />
+                    <!-- end CmdIcon -->
+
                     <span v-if="showLabelTexts">{{ getMessage('cmdaddressdata.labeltext.company')}}</span>
                 </dt>
                 <dd  v-if="addressData.company?.value" class="org">{{ addressData.company.value }}</dd>
@@ -19,7 +22,10 @@
                 <!-- begin address -->
                 <template v-if="addressData.address && addressData.address !== undefined">
                     <dt class="address">
-                        <span v-if="addressData.address.iconClass && showLabelIcons" :class="addressData.address.iconClass" :title="getMessage('cmdaddressdata.labeltext.address')"></span>
+                        <!-- begin CmdIcon -->
+                        <CmdIcon v-if="addressData.address.iconClass && showLabelIcons" :iconClass="addressData.address.iconClass" :tooltip="getMessage('cmdaddressdata.labeltext.address')" />
+                        <!-- end CmdIcon -->
+
                         <span v-if="showLabelTexts">{{ getMessage('cmdaddressdata.labeltext.address')}}</span>
                     </dt>
                     <dd v-if="addressData.address">
@@ -43,7 +49,10 @@
 
                 <!-- begin telephone -->
                 <dt v-if="addressData.telephone?.value">
-                    <span v-if="addressData.telephone.iconClass && showLabelIcons" :class="addressData.telephone.iconClass" :title="getMessage('cmdaddressdata.labeltext.telephone')"></span>
+                    <!-- begin CmdIcon -->
+                    <CmdIcon v-if="addressData.telephone.iconClass && showLabelIcons" :iconClass="addressData.telephone.iconClass" :tooltip="getMessage('cmdaddressdata.labeltext.telephone')" />
+                    <!-- end CmdIcon -->
+
                     <span v-if="showLabelTexts">{{ getMessage('cmdaddressdata.labeltext.telephone')}}</span>
                 </dt>
                 <dd v-if="addressData.telephone?.value">
@@ -53,7 +62,10 @@
 
                 <!-- begin mobile phone -->
                 <dt v-if="addressData.mobilephone?.value">
-                    <span v-if="addressData.mobilephone.iconClass && showLabelIcons" :class="addressData.mobilephone.iconClass" :title="getMessage('cmdaddressdata.labeltext.mobile_phone')"></span>
+                    <!-- begin CmdIcon -->
+                    <CmdIcon v-if="addressData.mobilephone.iconClass && showLabelIcons" :iconClass="addressData.mobilephone.iconClass" :tooltip="getMessage('cmdaddressdata.labeltext.mobile_phone')" />
+                    <!-- end CmdIcon -->
+
                     <span v-if="showLabelTexts">{{ getMessage('cmdaddressdata.labeltext.mobile_phone')}}</span>
                 </dt>
                 <dd v-if="addressData.mobilephone?.value">
@@ -63,7 +75,10 @@
 
                 <!-- begin fax -->
                 <dt v-if="addressData.fax?.value">
-                    <span v-if="addressData.fax.iconClass && showLabelIcons" :class="addressData.fax.iconClass" :title="getMessage('cmdaddressdata.labeltext.fax')"></span>
+                    <!-- begin CmdIcon -->
+                    <CmdIcon v-if="addressData.fax.iconClass && showLabelIcons" :iconClass="addressData.fax.iconClass" :tooltip="getMessage('cmdaddressdata.labeltext.fax')" />
+                    <!-- end CmdIcon -->
+
                     <span v-if="showLabelTexts">{{ getMessage('cmdaddressdata.labeltext.fax')}}</span>
                 </dt>
                 <dd v-if="addressData.fax?.value" class="fax">{{ addressData.fax.value  }}</dd>
@@ -71,7 +86,10 @@
 
                 <!-- begin email -->
                 <dt v-if="addressData.email?.value">
-                    <span v-if="addressData.email.iconClass && showLabelIcons" :class="addressData.email.iconClass" :title="getMessage('cmdaddressdata.labeltext.email')"></span>
+                    <!-- begin CmdIcon -->
+                    <CmdIcon v-if="addressData.email.iconClass && showLabelIcons" :iconClass="addressData.email.iconClass" :tooltip="getMessage('cmdaddressdata.labeltext.email')" />
+                    <!-- end CmdIcon -->
+
                     <span v-if="showLabelTexts">{{ getMessage('cmdaddressdata.labeltext.email')}}</span>
                 </dt>
                 <dd class="email" v-if="addressData.email?.value">
@@ -125,12 +143,14 @@ import DefaultMessageProperties from "../mixins/CmdAddressData/DefaultMessagePro
 
 // import components
 import CmdHeadline from "./CmdHeadline"
+import CmdIcon from "./CmdIcon"
 
 export default {
     name: "CmdAddressData",
     mixins: [I18n, DefaultMessageProperties],
     components: {
-        CmdHeadline
+        CmdHeadline,
+        CmdIcon
     },
     props: {
         /**

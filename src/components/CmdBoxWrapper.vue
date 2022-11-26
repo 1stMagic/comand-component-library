@@ -1,22 +1,36 @@
 <template>
     <div class="cmd-box-wrapper">
-        <div v-if="allowUserToToggleView || allowTogglingCollapsingBoxes" class="flex-container no-flex toggle-view">
-            <a v-if="allowTogglingCollapsingBoxes" href="#" @click.prevent="toggleCollapsingBoxes" :title="collapsingBoxesOpen ? collapseBoxesIcon.tooltip : expandBoxesIcon.tooltip">
-                <span :class="collapsingBoxesOpen ? expandBoxesIcon.iconClass : collapseBoxesIcon.iconClass"></span>
-            </a>
-            <a v-if="allowUserToToggleView" href="#" @click.prevent="oneBoxPerRow = !oneBoxPerRow" :title="oneBoxPerRow ? iconRowView.tooltip : iconGridView.tooltip">
-                <span :class="oneBoxPerRow ? iconGridView.iconClass : iconRowView.iconClass"></span>
-            </a>
+        <div class="flex-container no-flex headline-wrapper">
+            <!-- begin CmdHeadline -->
+            <CmdHeadline v-if="cmdHeadline.headlineText" v-bind="cmdHeadline" />
+            <!-- end CmdHeadline -->
+
+            <div v-if="allowUserToToggleOrientation || allowTogglingCollapsingBoxes" class="options-wrapper">
+                <a v-if="allowTogglingCollapsingBoxes" href="#" @click.prevent="toggleCollapsingBoxes" :title="collapsingBoxesOpen ? collapseBoxesIcon.tooltip : expandBoxesIcon.tooltip">
+                    <CmdIcon :iconClass="collapsingBoxesOpen ? expandBoxesIcon.iconClass : collapseBoxesIcon.iconClass"/>
+                </a>
+                <a v-if="allowUserToToggleOrientation" href="#" @click.prevent="oneBoxPerRow = !oneBoxPerRow" :title="oneBoxPerRow ? iconRowView.tooltip : iconGridView.tooltip">
+                    <CmdIcon :iconClass="oneBoxPerRow ? iconGridView.iconClass : iconRowView.iconClass"/>
+                </a>
+            </div>
         </div>
-        <div :class="[useFlexbox ? 'flex-container' : 'grid-container-create-columns', {'one-box-per-row': oneBoxPerRow}]">
+        <div :class="[useFlexbox ? 'flex-container' : 'grid-container-create-columns', {'one-box-per-row': oneBoxPerRow, 'stretch-boxes-vertically': stretchBoxesVertically}]">
             <slot :collapsingBoxesOpen="collapsingBoxesOpen" :boxToggled="boxToggled" :currentOpenBox="currentOpenBox"></slot>
         </div>
     </div>
 </template>
 
 <script>
+// import components
+import CmdHeadline from "./CmdHeadline"
+import CmdIcon from "./CmdIcon"
+
 export default {
     name: "CmdBoxWrapper",
+    components: {
+        CmdHeadline,
+        CmdIcon
+    },
     data() {
         return {
             oneBoxPerRow: this.useRowViewAsDefault,
@@ -33,9 +47,18 @@ export default {
             default: false
         },
         /**
-         * activate if user can toggle grid- and row-view by himself
+         * stretch boxes inside vertically to same height
+         *
+         * will not take effect on collapsable boxes
          */
-        allowUserToToggleView: {
+        stretchBoxesVertically: {
+            type: Boolean,
+            default: true
+        },
+        /**
+         * activate if user can toggle grid- and row-orientation by himself
+         */
+        allowUserToToggleOrientation: {
             type: Boolean,
             default: true
         },
@@ -79,6 +102,9 @@ export default {
         },
         /**
          * define the number of boxes per row (if view is grid-view)
+         *
+         * useFlexbox-property must be set to true
+         * slot may not be used
          */
         boxesPerRow: {
             type: [Number, Array],
@@ -103,10 +129,22 @@ export default {
          */
         iconRowView: {
             type: Object,
-            default () {
+            default() {
                 return {
                     iconClass: 'icon-rows',
                     tooltip: 'Toggle to grid view'
+                }
+            }
+        },
+        /**
+         * properties for CmdHeadline-component
+         */
+        cmdHeadline: {
+            type: Object,
+            default() {
+                return {
+                    headlineText: "",
+                    headlineLevel: 4
                 }
             }
         }
@@ -167,32 +205,46 @@ export default {
 @import '../assets/styles/variables';
 
 .cmd-box-wrapper {
-    > .toggle-view {
-        justify-content: flex-end;
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--default-gap) / 2);
+
+    &:not(:first-child) {
+        margin-top: calc(var(--default-margin) * 2);
+    }
+
+    > .headline-wrapper {
+        align-items: center;
+        justify-content: space-between;
     }
 
     > .flex-container {
         .cmd-headline {
-            > * {
-                white-space: nowrap;
-            }
+                margin: 0;
         }
 
         &.one-box-per-row {
             flex-direction: column;
+
+            p.cutoff-text {
+                height: auto;
+
+                &.fade-last-line::after {
+                    background: none;
+                }
+            }
+        }
+
+        &.stretch-boxes-vertically {
+            .stretch-vertically {
+                align-self: stretch;
+                height: auto; /* must be set to auto if inner boxes have als stretchVertically-property activated */
+            }
         }
     }
 
     > .grid-container-create-columns {
         grid-template-columns: repeat(v-bind(boxesPerRowLarge), minmax(0, 1fr));
-    }
-
-    .cmd-box {
-        &.content {
-            &.collapsible {
-                align-self: flex-start;
-            }
-        }
     }
 
     @media only screen and (max-width: $medium-max-width) {

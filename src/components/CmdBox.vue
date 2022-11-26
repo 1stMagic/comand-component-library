@@ -1,7 +1,7 @@
 <template>
     <!-- begin boxType 'content' -->
     <div v-if="boxType === 'content'"
-         :class="['cmd-box box content', {open : open, collapsible: collapsible, 'stretch-vertically': stretchVertically && open, 'stretch-horizontally': stretchHorizontally}]">
+         :class="['cmd-box box content', {open : open, collapsible: collapsible, 'stretch-vertically': stretchVertically && !collapsible, 'stretch-horizontally': stretchHorizontally}]">
         <template v-if="useSlots?.includes('header')">
             <!-- begin collapsible header with slot -->
             <div v-if="collapsible" class="box-header">
@@ -10,7 +10,9 @@
                 <!-- end slot 'header' -->
 
                 <a href="#" @click.prevent="toggleContentVisibility" :title="open ? iconOpen.tooltip : iconClosed.tooltip" class="toggle-icon">
-                    <span :class="[open ? iconOpen.iconClass : iconClosed.iconClass]"></span>
+                    <!-- begin CmdIcon -->
+                    <CmdIcon :iconClass="[open ? iconOpen.iconClass : iconClosed.iconClass]"></CmdIcon>
+                    <!-- end CmdIcon -->
                 </a>
             </div>
             <!-- end collapsible header with slot -->
@@ -32,7 +34,10 @@
                     v-bind="cmdHeadline"
                 />
                 <!-- end CmdHeadline -->
-                <span class="toggle-icon" :class="[open ? iconOpen.iconClass : iconClosed.iconClass]"></span>
+
+                <!-- begin CmdIcon -->
+                <CmdIcon class="toggle-icon" :iconClass="[open ? iconOpen.iconClass : iconClosed.iconClass]"></CmdIcon>
+                <!-- end CmdIcon -->
             </a>
             <!-- end header for collapsible -->
 
@@ -50,7 +55,9 @@
             <!-- begin slot 'body' -->
             <slot name="body">
                 <transition :name="toggleTransition">
-                    <p class="padding">{{ textBody }}</p>
+                    <div class="padding">
+                        <p :class="{'cutoff-text': cutoffTextLines > 0, 'fade-last-line': fadeLastLine }">{{ textBody }}</p>
+                    </div>
                 </transition>
             </slot>
             <!-- end slot 'body' -->
@@ -125,12 +132,14 @@ import GlobalCurrency from "../mixins/GlobalCurrency"
 
 // import components
 import CmdHeadline from "./CmdHeadline"
+import CmdIcon from "./CmdIcon"
 import CmdListOfLinks from "./CmdListOfLinks"
 
 export default {
     name: "CmdBox",
     components: {
         CmdHeadline,
+        CmdIcon,
         CmdListOfLinks,
     },
     mixins: [
@@ -166,6 +175,22 @@ export default {
         collapsible: {
             type: Boolean,
             default: false
+        },
+        /**
+         * number of lines to show if text should be cutoff
+         */
+        cutoffTextLines: {
+            type: Number,
+            default: 0
+        },
+        /**
+         * show fade-effect on last line
+         *
+         * cutoffTextLines-property must be large 0
+         */
+        fadeLastLine: {
+            type: Boolean,
+            default: true
         },
         /**
          * use transition to expand and collapse box-body
@@ -307,6 +332,7 @@ export default {
     display: inline-flex;
     flex-direction: column;
     padding: 0;
+    align-self: start;
 
     &.stretch-horizontally {
         display: flex;
@@ -343,7 +369,7 @@ export default {
     // boyType === 'content'
     &.content {
         > * {
-            > *:last-child {
+            *:last-child {
                 margin-bottom: 0;
             }
         }
@@ -375,6 +401,21 @@ export default {
         .box-body {
             flex-grow: 1;
             padding: 0;
+
+            p.cutoff-text {
+                overflow: hidden;
+                height: calc(var(--line-of-text-height) * v-bind(cutoffTextLines));
+
+                &.fade-last-line::after {
+                    content: "";
+                    width: 100%;
+                    position: absolute;
+                    left: 0;
+                    bottom: 0;
+                    height: var(--line-of-text-height);
+                    background: linear-gradient(to bottom, transparent 0%, var(--default-background-color) 90%);
+                }
+            }
 
             .padding {
                 padding: var(--default-padding);
