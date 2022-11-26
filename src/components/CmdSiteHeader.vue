@@ -183,7 +183,8 @@ export default {
         &.flex-container {
             width: 100%;
 
-            .cmd-logo {
+            .cmd-company-logo {
+                grid-area: company-logo;
                 flex: none;
             }
         }
@@ -220,6 +221,7 @@ export default {
             }
 
             #main-navigation-wrapper {
+                grid-area: main-navigation;
                 display: flex;
                 align-items: center;
                 border: 0;

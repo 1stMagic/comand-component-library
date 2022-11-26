@@ -108,8 +108,6 @@ export default {
 @import '../assets/styles/variables';
 
 .cmd-company-logo {
-    grid-area: company-logo;
-
     > a {
         display: block;
 
