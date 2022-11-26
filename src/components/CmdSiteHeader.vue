@@ -4,9 +4,13 @@
         <div v-if="$slots.topheader" class="top-header">
             <slot name="topheader"></slot>
         </div>
-        <!-- end for elements above header -->
+        <!-- end slot for elements above header -->
 
-        <header :class="[useGrid ? 'grid-container-create-columns': 'flex-container', {'has-navigation': cmdMainNavigation || $slots.navigation, 'one-child-only' : oneChildOnly}]">
+        <header :class="[
+            useGrid ? 'grid-container-create-columns': 'flex-container',
+            {'has-navigation': (cmdMainNavigation?.navigationEntries?.length && navigationInline) || $slots.navigation,
+            'one-child-only' : oneChildOnly}
+            ]">
             <!-- begin slots for logo and other header elements -->
             <template v-if="$slots.logo || $slots.header || $slots.navigation">
                 <slot name="logo"></slot>
@@ -26,7 +30,7 @@
 
                 <!-- begin CmdMainNavigation -->
                 <CmdMainNavigation
-                    v-if="cmdMainNavigation?.navigationEntries?.length"
+                    v-if="cmdMainNavigation?.navigationEntries?.length && navigationInline"
                     :navigationEntries="cmdMainNavigation.navigationEntries"
                     :closeOffcanvas="closeOffcanvas"
                 />
@@ -34,6 +38,14 @@
             </template>
             <!-- end content given by data -->
         </header>
+
+        <!-- begin CmdMainNavigation -->
+        <CmdMainNavigation
+            v-if="cmdMainNavigation?.navigationEntries?.length && !navigationInline"
+            :navigationEntries="cmdMainNavigation.navigationEntries"
+            :closeOffcanvas="closeOffcanvas"
+        />
+        <!-- end CmdMainNavigation -->
     </div>
 </template>
 
@@ -153,8 +165,6 @@ export default {
     > .cmd-main-navigation#main-navigation-wrapper:last-child {
         border-bottom: 0;
     }
-
-
 
     header {
         padding-top: calc(var(--default-padding) * 2);
