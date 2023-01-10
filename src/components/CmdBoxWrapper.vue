@@ -7,10 +7,14 @@
 
             <div v-if="allowUserToToggleOrientation || allowTogglingCollapsingBoxes" class="options-wrapper">
                 <a v-if="allowTogglingCollapsingBoxes" href="#" @click.prevent="toggleCollapsingBoxes" :title="collapsingBoxesOpen ? collapseBoxesIcon.tooltip : expandBoxesIcon.tooltip">
-                    <CmdIcon :iconClass="collapsingBoxesOpen ? expandBoxesIcon.iconClass : collapseBoxesIcon.iconClass"/>
+                    <!-- begin CmdIcon -->
+                    <CmdIcon :iconClass="collapsingBoxesOpen ? expandBoxesIcon.iconClass : collapseBoxesIcon.iconClass" :type="oneBoxPerRow ? iconGridView.iconType : iconRowView.iconType" />
+                    <!-- end CmdIcon -->
                 </a>
                 <a v-if="allowUserToToggleOrientation" href="#" @click.prevent="oneBoxPerRow = !oneBoxPerRow" :title="oneBoxPerRow ? iconRowView.tooltip : iconGridView.tooltip">
-                    <CmdIcon :iconClass="oneBoxPerRow ? iconGridView.iconClass : iconRowView.iconClass"/>
+                    <!-- begin CmdIcon -->
+                    <CmdIcon :iconClass="oneBoxPerRow ? iconGridView.iconClass : iconRowView.iconClass" :type="oneBoxPerRow ? iconGridView.iconType : iconRowView.iconType" />
+                    <!-- end CmdIcon -->
                 </a>
             </div>
         </div>

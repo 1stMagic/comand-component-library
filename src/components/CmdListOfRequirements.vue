@@ -1,22 +1,24 @@
 <template>
     <div class="cmd-list-of-requirements">
-        <!-- begin cmd-custom-headline -->
+        <!-- begin CmdHeadline -->
         <CmdHeadline v-if="showHeadline" :headline-level="cmdHeadline.headlineLevel">
             {{ headlineRequirements }}<template v-if="labelText"><br/><em>{{ labelText }}</em></template>
         </CmdHeadline>
-        <!-- end cmd-custom-headline -->
+        <!-- end CmdHeadline -->
 
         <!-- begin list of requirements -->
         <dl>
             <template v-for="(requirement, index) in inputRequirements" :key="index">
                 <dt aria-live="assertive" :class="requirement.valid(inputModelValue, inputAttributes) ? 'success' : 'error'">{{ requirement.message }}:</dt>
                 <dd :class="requirement.valid(inputModelValue, inputAttributes) ? 'success' : 'error'">
-                    <span
+                    <!-- begin CmdIcon -->
+                    <CmdIcon
                         aria-live="assertive"
-                        :class="requirement.valid(inputModelValue, inputAttributes) ? iconSuccess.iconClass : iconError.iconClass"
+                        :iconClass="requirement.valid(inputModelValue, inputAttributes) ? iconSuccess.iconClass : iconError.iconClass"
+                        :type="requirement.valid(inputModelValue, inputAttributes) ? iconSuccess.iconType : iconError.iconType"
                         :title="requirement.valid(inputModelValue, inputAttributes) ? iconSuccess.tooltip : iconError.tooltip"
-                    >
-                    </span>
+                    />
+                    <!-- end CmdIcon -->
                 </dd>
             </template>
         </dl>
@@ -31,10 +33,13 @@
                 :target="helplink.target"
                 @click.prevent
             >
-                <span v-if="helplink.icon?.iconClass"
-                      :class="helplink.icon?.iconClass"
-                      :title="helplink.icon?.tooltip">
-                </span>
+                <!-- begin CmdIcon -->
+                <CmdIcon
+                    v-if="helplink.icon?.iconClass"
+                    :class="helplink.icon?.iconClass"
+                    :title="helplink.icon?.tooltip"
+                />
+                <!-- end CmdIcon -->
                 <span v-if="helplink.text">
                     {{ helplink.text }}
                 </span>
@@ -47,6 +52,7 @@
 <script>
 // import components
 import CmdHeadline from "./CmdHeadline"
+import CmdIcon from "./CmdIcon"
 
 // import mixins
 import I18n from "../mixins/I18n"
@@ -55,7 +61,8 @@ import DefaultMessageProperties from "../mixins/CmdListOfRequirements/DefaultMes
 export default {
     name: "CmdListOfRequirements",
     components: {
-        CmdHeadline
+        CmdHeadline,
+        CmdIcon
     },
     mixins: [
         I18n,

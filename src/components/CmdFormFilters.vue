@@ -2,26 +2,36 @@
     <ul v-if="options.length" class="cmd-form-filters">
         <li v-if="options.length > 1">
             <a href="#" @click.prevent="deleteAllFilters">
-                <span v-if="linkDeleteAllFilters.icon && linkDeleteAllFilters.icon.show" :class="linkDeleteAllFilters.icon.iconClass" :title="linkDeleteAllFilters.icon.tooltip"></span>
+                <!-- begin CmdIcon -->
+                <CmdIcon v-if="linkDeleteAllFilters.icon && linkDeleteAllFilters.icon.show" :iconClass="linkDeleteAllFilters.icon.iconClass" :title="linkDeleteAllFilters.icon.tooltip" />
+                <!-- end CmdIcon -->
                 <span v-if="linkDeleteAllFilters.text">{{ linkDeleteAllFilters.text }}</span>
             </a>
         </li>
         <li v-for="(option, index) in options" :key="index">
-            <a href="#" @click.prevent="deleteClickedFilter(index)" :title="deleteFilter.icon.tooltip">
+            <a href="#" @click.prevent="deleteClickedFilter(index)" :title="deleteFilterIcon.tooltip">
                 <span>{{ selectedOptionsName(option) }}</span>
-                <span :class="deleteFilter.icon.iconClass"></span>
+                <!-- begin CmdIcon -->
+                <CmdIcon :iconClass="deleteFilterIcon.iconClass" :type="deleteFilterIcon.iconType" />
+                <!-- end CmdIcon -->
             </a>
         </li>
     </ul>
 </template>
 
 <script>
+// import components
+import CmdIcon from "./CmdIcon"
+
 export default {
     name: "CmdFormFilters",
     data() {
         return {
             options: []
         }
+    },
+    components: {
+        CmdIcon
     },
     props: {
         /**
@@ -54,14 +64,13 @@ export default {
          *
          * @requiredForAccessibility: partial
          */
-        deleteFilter: {
+        deleteFilterIcon: {
             type: Object,
             default() {
                 return {
-                    icon: {
-                        iconClass: "icon-error-circle",
-                        tooltip: "Delete this filter"
-                    }
+                    iconClass: "icon-error-circle",
+                    tooltip: "Delete this filter",
+                    type: "auto"
                 }
             }
         },

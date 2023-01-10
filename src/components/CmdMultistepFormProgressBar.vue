@@ -7,7 +7,9 @@
                :title="step.tooltip"
             >
                 <span  v-if="showStepNumber" class="number">{{ index + 1 }}</span>
-                <span v-if="step.iconClass" :class="step.iconClass"></span>
+                <!-- begin CmdIcon -->
+                <CmdIcon v-if="step.iconClass" :iconClass="step.iconClass" :type="step.iconType" />
+                <!-- end CmdIcon -->
                 <span v-if="step.text">{{ step.text }}</span>
                 <span :class="separatorIconClass"></span>
             </a>
@@ -20,7 +22,9 @@
                 :title="step.tooltip"
             >
                 <span v-if="showStepNumber" class="number">{{ index + 1 }}</span>
-                <span v-if="step.iconClass" :class="step.iconClass"></span>
+                <!-- begin CmdIcon -->
+                <CmdIcon v-if="step.iconClass" :iconClass="step.iconClass" :type="step.iconType" />
+                <!-- end CmdIcon -->
                 <span v-if="step.text">{{ step.text }}</span>
                 <span :class="separatorIconClass"></span>
             </router-link>
@@ -37,7 +41,9 @@
                 @click.stop.prevent="clickedStep($event, index)"
             >
                 <span v-if="showStepNumber" class="number">{{ index + 1 }}</span>
-                <span v-if="step.iconClass" :class="step.iconClass"></span>
+                <!-- begin CmdIcon -->
+                <CmdIcon v-if="step.iconClass" :iconClass="step.iconClass" :type="step.iconType" />
+                <!-- end CmdIcon -->
                 <span v-if="step.text">{{ step.text }}</span>
                 <span :class="separatorIconClass"></span>
             </button>
@@ -50,8 +56,14 @@
 // import functions
 import {getRoute} from "../utilities.js"
 
+// import components
+import CmdIcon from "./CmdIcon"
+
 export default {
     name: 'CmdMultistepFormProgressBar',
+    components: {
+        CmdIcon
+    },
     data() {
         return {
             activeLink: 0

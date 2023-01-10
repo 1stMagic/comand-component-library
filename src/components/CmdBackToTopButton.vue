@@ -3,7 +3,7 @@
     <transition name="fade">
         <a v-if="show" class="cmd-back-to-top-button" href="#" :title="iconBackToTop.tooltip" @click.prevent="onBackToTop">
             <!-- begin CmdIcon -->
-            <CmdIcon :iconClass="iconBackToTop.iconClass" />
+            <CmdIcon :iconClass="iconBackToTop.iconClass" :type="iconBackToTop.iconType" />
             <!-- end CmdIcon -->
         </a>
     </transition>
@@ -37,7 +37,8 @@ export default {
             default: function () {
                 return {
                     iconClass: "icon-single-arrow-up",
-                    tooltip: "Back to top"
+                    tooltip: "Back to top",
+                    iconType: "auto"
                 }
             }
         }
@@ -82,6 +83,7 @@ export default {
     border: var(--default-border);
     background: var(--color-scheme-background-color);
     border-radius: var(--full-circle);
+    line-height: 100%;
 
     &:hover, &:active, &:focus {
         border-color: var(--primary-color);

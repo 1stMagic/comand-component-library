@@ -12,7 +12,7 @@
                     <span>{{ entry.value }}</span>
                     <a href="#" @click.prevent="copyToClipboard(entry.value)" :title="iconCopy.tooltip">
                         <!-- begin CmdIcon -->
-                        <CmdIcon :iconClass="iconCopy.iconClass" />
+                        <CmdIcon :iconClass="iconCopy.iconClass" :type="iconCopy.iconType" />
                         <!-- end CmdIcon -->
                     </a>
                 </dd>
@@ -72,7 +72,8 @@ export default {
             default() {
                 return {
                     iconClass: "icon-file-copy",
-                    tooltip: "Copy data to clipboard!"
+                    tooltip: "Copy data to clipboard!",
+                    iconType: "auto"
                 }
             }
         },

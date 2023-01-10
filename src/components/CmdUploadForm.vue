@@ -47,7 +47,9 @@
                                 :title="getMessage('cmduploadform.labeltext.remove_all_files_from_list')"
                                 @click.prevent="cancelUpload"
                             >
-                                <span :class="deleteIconClass"></span>
+                                <!-- begin CmdIcon -->
+                                <CmdIcon :iconClass="deleteIcon.iconClass" :type="deleteIcon.iconClass" />
+                                <!-- end CmdIcon -->
                             </a>
                             <span>
                               {{ listOfFiles.length }}
@@ -94,7 +96,10 @@
                                 href="#"
                                 :title="getMessage('cmduploadform.labeltext.remove_file_from_list', uploadFile.file.name)"
                                 @click.prevent="removeFile(index)"
-                            ><span :class="deleteIconClass"></span>
+                            >
+                                <!-- begin CmdIcon -->
+                                <CmdIcon :iconClass="iconDelete.iconClass" :type="iconDelete.iconType" />
+                                <!-- end CmdIcon -->
                             </a>
                             <span
                                 :class="[
@@ -158,11 +163,16 @@
                 </dt>
                 <dd>
                     <a
-                        :class="showListOfFileExtensions ? invisibleIconClass : visibleIconClass"
                         href="#"
                         @click.prevent="showListOfFileExtensions = !showListOfFileExtensions"
-                        :title="getMessage('cmduploadform.tooltip.toggle_list_of_allowed_file_types')"
-                    ></a>
+                        :title="getMessage('cmduploadform.tooltip.toggle_list_of_allowed_file_types')">
+                        <!-- begin CmdIcon -->
+                        <CmdIcon
+                            :iconClass="showListOfFileExtensions ? iconInvisible.iconClass : iconVisible.iconClass"
+                            :type="showListOfFileExtensions ? iconInvisible.iconType : iconVisible.iconType"
+                        />
+                        <!-- end CmdIcon -->
+                    </a>
                     <transition name="fade">
                         <ul v-if="showListOfFileExtensions" class="list-of-file-extensions">
                             <li
@@ -185,7 +195,9 @@
                     :disabled="uploadInitiated"
                     @click="selectFiles()"
                 >
-                    <span :class="fileUploadIconClass"></span>
+                    <!-- begin CmdIcon -->
+                    <CmdIcon :iconClass="iconFileUpload.iconClass" :type="iconFileUpload.iconType" />
+                    <!-- end CmdIcon -->
                     <span v-if="allowMultipleFileUploads">{{
                             getMessage("cmduploadform.labeltext.select_files")
                         }}</span>
@@ -237,14 +249,18 @@
                 "
                 @click="uploadFiles"
             >
-                <span :class="uploadIconClass"></span>
+                <!-- begin CmdIcon -->
+                <CmdIcon :iconClass="iconUpload.iconClass" :type="iconUpload.iconType" />
+                <!-- end CmdIcon -->
                 <span v-if="listOfFiles.length === 1 || !allowMultipleFileUploads">
                     {{ getMessage("cmduploadform.buttontext.upload_file") }}
                 </span>
                 <span v-else>{{ getMessage("cmduploadform.buttontext.upload_files") }}</span>
             </button>
             <button :class="['button', { disabled: listOfFiles.length === 0 }]" @click="cancel">
-                <span :class="cancelIconClass"></span>
+                <!-- begin CmdIcon -->
+                <CmdIcon :iconClass="iconCancel.iconClass" :type="iconCancel.iconType" />
+                <!-- end CmdIcon -->
                 <span>{{ getMessage("cmduploadform.buttontext.cancel") }}</span>
             </button>
         </div>
@@ -267,16 +283,22 @@
             <template v-if="enableDragAndDrop">
                 <template v-if="fileTypeImage">
                     <span>{{ getMessage("cmduploadform.select_image") }}</span>
-                    <span :class="imageIconClass"></span>
+                    <!-- begin CmdIcon -->
+                    <CmdIcon :iconClass="iconImage.iconClass" :type="iconImage.iconType" />
+                    <!-- end CmdIcon -->
                 </template>
                 <template v-else>
                     <span>{{ getMessage("cmduploadform.select_file") }}</span>
-                    <span :class="fileUploadIconClass"></span>
+                    <!-- begin CmdIcon -->
+                    <CmdIcon :iconClass="iconFileUpload.iconClass" :type="iconFileUpload.iconType" />
+                    <!-- end CmdIcon -->
                 </template>
             </template>
             <template v-else>
                 <span>{{ getMessage("cmduploadform.drag_and_drop_file_here") }}</span>
-                <span :class="dragAndDropIconClass"></span>
+                <!-- begin CmdIcon -->
+                <CmdIcon :iconClass="iconDragAndDrop.iconClass" :type="iconDragAndDrop.iconType" />
+                <!-- end CmdIcon -->
             </template>
             <small>{{ getMessage("cmduploadform.max_upload_size") }} {{ formatSize(maxFileUploadSize) }}</small>
             <small>{{ getMessage("cmduploadform.allowed_file_types") }} {{ allowedFileExtensions }}</small>
@@ -307,8 +329,9 @@ import {getFileExtension} from "../utils/getFileExtension.js"
 import axios from "axios"
 
 // import components
-import CmdHeadline from "./CmdHeadline"
 import CmdFormElement from "./CmdFormElement"
+import CmdHeadline from "./CmdHeadline"
+import CmdIcon from "./CmdIcon"
 import CmdSystemMessage from "./CmdSystemMessage"
 
 export default {
@@ -316,8 +339,9 @@ export default {
     emits: ["click", "error", "upload-complete", "upload-file-success"],
     mixins: [I18n, DefaultMessageProperties],
     components: {
-        CmdHeadline,
         CmdFormElement,
+        CmdHeadline,
+        CmdIcon,
         CmdSystemMessage,
     },
     data() {
@@ -444,67 +468,112 @@ export default {
             default: true
         },
         /**
-         * set icon class for delete-icons
+         * set icon for delete-icons
          */
-        deleteIconClass: {
-            type: String,
-            default: "icon-delete"
+        deleteIcon: {
+            type: Object,
+            default() {
+                return {
+                    iconClass: "icon-delete",
+                    iconType: "auto"
+                }
+            }
         },
         /**
-         * set icon class for file-upload-icon
+         * set icon for file-upload-icon
          */
-        fileUploadIconClass: {
-            type: String,
-            default: "icon-file-upload"
+        iconFileUpload: {
+            type: Object,
+            default() {
+                return {
+                    iconClass: "icon-file-upload",
+                    iconType: "auto"
+                }
+            }
         },
         /**
-         * set icon class for file-icon
+         * set icon for file-icon
          */
-        fileIconClass: {
-            type: String,
-            default: "icon-file"
+        iconFile: {
+            type: Object,
+            default() {
+                return {
+                    iconClass: "icon-file",
+                    iconType: "auto"
+                }
+            }
         },
         /**
-         * set icon class for invisible-icon
+         * set icon for invisible-icon
          */
-        invisibleIconClass: {
-            type: String,
-            default: "icon-not-visible"
+        iconInvisible: {
+            type: Object,
+            default() {
+                return {
+                    iconClass: "icon-not-visible",
+                    iconType: "auto"
+                }
+            }
         },
         /**
          * set icon class for visible-icon
          */
-        visibleIconClass: {
-            type: String,
-            default: "icon-visible"
+        iconVisible: {
+            type: Object,
+            default() {
+                return {
+                    iconClass: "icon-visible",
+                    iconType: "auto"
+                }
+            }
         },
         /**
-         * set icon class for image-icon
+         * set icon for image-icon
          */
-        imageIconClass: {
-            type: String,
-            default: "icon-image"
+        iconImage: {
+            type: Object,
+            default() {
+                return {
+                    iconClass: "icon-image",
+                    iconType: "auto"
+                }
+            }
         },
         /**
-         * set icon class for upload-icon
+         * set icon for upload-icon
          */
-        uploadIconClass: {
-            type: String,
-            default: "icon-upload"
+        iconUpload: {
+            type: Object,
+            default() {
+                return {
+                    iconClass: "icon-upload",
+                    iconType: "auto"
+                }
+            }
         },
         /**
-         * set icon class for drag-and-drop-icon
+         * set icon for drag-and-drop-icon
          */
-        dragAndDropIconClass: {
-            type: String,
-            default: "icon-drag-and-drop"
+        iconDragAndDrop: {
+            type: Object,
+            default() {
+                return {
+                    iconClass: "icon-drag-and-drop",
+                    iconType: "auto"
+                }
+            }
         },
         /**
          * set icon class for cancel-icon
          */
-        cancelIconClass: {
-            type: String,
-            default: "icon-cancel"
+        iconCancel: {
+            type: Object,
+            default() {
+                return {
+                    iconClass: "icon-cancel",
+                    iconType: "auto"
+                }
+            }
         },
         /**
          * properties for CmdHeadline-component at of the fieldset

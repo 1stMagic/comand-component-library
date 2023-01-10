@@ -37,6 +37,9 @@
                :aria-errormessage="tooltipId"
                aria-live="assertive"
                :id="tooltipId">
+               <!-- begin CmdIcon -->
+               <CmdIcon :iconClass="getStatusIconClass" />
+               <!-- end CmdIcon -->
             </a>
         </span>
         <span v-if="!useSlot" :class="['flex-container', {'no-flex': !stretchHorizontally, 'no-gap': multipleSwitch}]">
@@ -50,7 +53,9 @@
                     :disabled="disabled"
                     :class="{'replace-input-type': replaceInputType, 'toggle-switch': toggleSwitch}"
                 />
-                <span v-if="multipleSwitch && inputElement.iconClass" :class="inputElement.iconClass"></span>
+                <!-- begin CmdIcon -->
+                <CmdIcon v-if="multipleSwitch && inputElement.iconClass" :iconClass="inputElement.iconClass" :type="inputElement.iconType" />
+                <!-- end CmdIcon -->
                 <span v-if="inputElement.labelText">{{ inputElement.labelText }}</span>
             </label>
         </span>
@@ -72,10 +77,12 @@ import Identifier from "../mixins/Identifier"
 import Tooltip from "../mixins/Tooltip.js"
 
 // import components
+import CmdIcon from "./CmdIcon"
 import CmdTooltipForInputElements from "./CmdTooltipForInputElements"
 
 export default {
     components: {
+        CmdIcon,
         CmdTooltipForInputElements
     },
     mixins: [

@@ -23,18 +23,22 @@
                     <a v-if="fancyboxOptions.printButtons && fancyboxOptions.printButtons.color && fancyboxOptions.printButtons.color.show"
                        href="#"
                        class="button primary"
-                       :class="fancyboxOptions.printButtons.color.iconClass"
                        :title="fancyboxOptions.printButtons.color.tooltip"
                        id="print-color"
                        @click.prevent="printInGrayscale = false">
+                        <!-- begin CmdIcon -->
+                        <CmdIcon :iconClass="fancyboxOptions.printButtons.color.iconClass" :type="fancyboxOptions.printButtons.color.iconType" />
+                        <!-- end CmdIcon -->
                     </a>
                     <a v-if="fancyboxOptions.printButtons && fancyboxOptions.printButtons.grayscale && fancyboxOptions.printButtons.grayscale.show"
                        href="#"
                        class="button primary"
-                       :class="fancyboxOptions.printButtons.grayscale.iconClass"
                        :title="fancyboxOptions.printButtons.grayscale.tooltip"
                        id="print-grayscale"
                        @click.prevent="printInGrayscale = true">
+                        <!-- begin CmdIcon -->
+                        <CmdIcon :iconClass="fancyboxOptions.printButtons.grayscale.iconClass" :type="fancyboxOptions.printButtons.grayscale.iconType" />
+                        <!-- end CmdIcon -->
                     </a>
                     <!-- end print buttons -->
 
@@ -43,10 +47,12 @@
                        href="#"
                        class="button primary"
                        id="close-dialog"
-                       :class="fancyboxOptions.closeIcon.iconClass"
                        :title="fancyboxOptions.closeIcon.tooltip"
                        ref="close-dialog"
                        @click.prevent="close">
+                        <!-- begin CmdIcon -->
+                        <CmdIcon :iconClass="fancyboxOptions.closeIcon.iconClass" :type="fancyboxOptions.closeIcon.iconType" />
+                        <!-- end CmdIcon -->
                     </a>
                     <!-- end close-icon -->
                 </div>
@@ -105,6 +111,7 @@ import Identifier from "../mixins/Identifier"
 
 // import components
 import CmdHeadline from "./CmdHeadline"
+import CmdIcon from "./CmdIcon"
 import CmdSlideButton from "./CmdSlideButton.vue"
 import CmdThumbnailScroller from './CmdThumbnailScroller.vue'
 
@@ -122,6 +129,7 @@ const FancyBox = defineComponent({
     name: "CmdFancyBox",
     components: {
         CmdHeadline,
+        CmdIcon,
         CmdSlideButton,
         CmdThumbnailScroller
     },

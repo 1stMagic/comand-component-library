@@ -9,14 +9,17 @@
             <!-- begin close-icon -->
             <a
                 v-if="iconClose.show && iconClose.iconClass"
-                :class="iconClose.iconClass"
                 href="#"
                 @click.prevent="showSystemMessage = false"
                 :title="iconClose.tooltip"
-            ></a>
+            >
+                <!-- begin CmdIcon -->
+                <CmdIcon :iconClass="iconClose.iconClass" :type="iconClose.iconType" />
+                <!-- end CmdIcon -->
+            </a>
             <!-- end close-icon -->
 
-            <!-- begin cmd-headline -->
+            <!-- begin CmdHeadline -->
             <CmdHeadline
                 class="message-headline"
                 :iconClass="iconMessage.iconClass"
@@ -24,7 +27,7 @@
                 :headlineLevel="messageHeadlineLevel"
                 :id="htmlId"
             />
-            <!-- end cmd-headline -->
+            <!-- end CmdHeadline -->
 
             <!-- begin slot-content -->
             <slot></slot>
@@ -39,12 +42,14 @@ import Identifier from "../mixins/Identifier"
 
 // import components
 import CmdHeadline from "./CmdHeadline"
+import CmdIcon from "./CmdIcon"
 
 export default {
     name: "CmdSystemMessage",
     mixins: [Identifier],
     components: {
-        CmdHeadline
+        CmdHeadline,
+        CmdIcon
     },
     data() {
         return {

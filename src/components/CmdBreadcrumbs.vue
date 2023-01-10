@@ -4,20 +4,26 @@
         <li v-for="(link, index) in breadcrumbLinks || []" :key="index">
             <!-- begin type 'href' -->
             <a  v-if="link.type === 'href'" :href="link.path">
-                <span v-if="link.iconClass" :class="link.iconClass"></span>
+                <!-- begin CmdIcon -->
+                <CmdIcon v-if="link.iconClass" :iconClass="link.iconClass" :type="link.iconType" />
+                <!-- end CmdIcon -->
                 <span v-if="link.text">{{ link.text }}</span>
             </a>
             <!-- end type 'href' -->
 
             <!-- begin type 'router' -->
             <router-link v-else-if="link.type === 'router'" :to="getRoute(link)">
-                <span v-if="link.iconClass" :class="link.iconClass"></span>
+                <!-- begin CmdIcon -->
+                <CmdIcon v-if="link.iconClass" :iconClass="link.iconClass" :type="link.iconType" />
+                <!-- end CmdIcon -->
                 <span v-if="link.text">{{ link.text }}</span>
             </router-link>
             <!-- end type 'router' -->
 
             <span v-else>
-                <span v-if="link.iconClass" :class="link.iconClass"></span>
+                <!-- begin CmdIcon -->
+                <CmdIcon v-if="link.iconClass" :iconClass="link.iconClass" :type="link.iconType" />
+                <!-- end CmdIcon -->
                 <span v-if="link.text">{{ link.text }}</span>
             </span>
             <span v-if="index < breadcrumbLinks.length - 1">{{ breadcrumbSeparator }}</span>
@@ -29,8 +35,14 @@
 // import functions
 import {getRoute} from "../utilities.js"
 
+// import components
+import CmdIcon from "./CmdIcon"
+
 export default {
     name: "CmdBreadcrumbs",
+    components: {
+        CmdIcon
+    },
     props: {
         /**
          * label in front/left of breadcrumbs

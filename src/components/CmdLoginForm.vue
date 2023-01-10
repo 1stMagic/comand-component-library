@@ -47,30 +47,38 @@
             <template v-if="options.forgotPassword || options.createAccount">
                 <!-- begin link for 'forgot password' -->
                 <a v-if="options.forgotPassword" href="#" @click.prevent="sendLogin = true">
-                    <span v-if="options.forgotPassword.icon?.show && options.forgotPassword.icon?.iconClass"
-                          :class="options.forgotPassword.icon.iconClass"
-                          :title="options.forgotPassword.icon.tooltip">
-                    </span>
+                    <!-- begin CmdIcon -->
+                    <CmdIcon v-if="options.forgotPassword.icon?.show && options.forgotPassword.icon?.iconClass"
+                          :iconClass="options.forgotPassword.icon.iconClass"
+                          :type="options.forgotPassword.icon.iconType"
+                          :title="options.forgotPassword.icon.tooltip"
+                    />
+                    <!-- end CmdIcon -->
                     <span v-if="options.forgotPassword.text">{{ options.forgotPassword.text }}</span>
                 </a>
                 <!-- end link for 'forgot password' -->
 
                 <!-- begin link-type 'href' for 'create account' -->
                 <a v-if="options.createAccount && options.createAccount.linkType === 'href'" :href="options.createAccount.path">
-                    <span v-if="options.createAccount.icon?.show && options.createAccount.icon?.iconClass"
-                          :class="options.createAccount.icon.iconClass"
-                          :title="options.forgotPassword.icon.tooltip">
-                    </span>
+                    <!-- begin CmdIcon -->
+                    <CmdIcon v-if="options.createAccount.icon?.show && options.createAccount.icon?.iconClass"
+                          :iconClass="options.createAccount.icon.iconClass"
+                          :type="options.createAccount.icon.iconType"
+                          :title="options.createAccount.icon.tooltip" />
+                    <!-- end CmdIcon -->
                     <span v-if="options.createAccount.text">{{ options.createAccount.text }}</span>
                 </a>
                 <!-- end link-type 'href' for 'create account' -->
 
                 <!-- begin link-type 'router' for 'create account' -->
                 <router-link v-else-if="options.createAccount && options.createAccount.linkType === 'router'" :to="options.createAccount.path">
-                    <span v-if="options.createAccount.icon && options.createAccount.icon.show && options.createAccount.icon.iconClass"
+                    <!-- begin CmdIcon -->
+                    <CmdIcon v-if="options.createAccount.icon && options.createAccount.icon.show && options.createAccount.icon.iconClass"
                           :class="options.createAccount.icon.iconClass"
-                          :title="options.forgotPassword.icon.tooltip">
-                    </span>
+                          :type="options.createAccount.icon.iconType"
+                          :title="options.createAccount.icon.tooltip" />
+                    />
+                    <!-- end CmdIcon -->
                     <span v-if="options.createAccount.text">{{ options.createAccount.text }}</span>
                 </router-link>
                 <!-- end link-type 'router' for 'create account' -->
@@ -84,11 +92,14 @@
                 @click="onClick"
                 :disabled="buttonLoginDisabled"
             >
-                  <span
-                      v-if="buttons.login.icon.iconClass"
-                      :class="buttons.login.icon.iconClass"
-                      :title="buttons.login.icon.tooltip"
-                  ></span>
+                <!-- begin CmdIcon -->
+                <CmdIcon
+                    v-if="buttons.login.icon.iconClass"
+                    :iconClass="buttons.login.icon.iconClass"
+                    :type="buttons.login.icon.iconType"
+                    :title="buttons.login.icon.tooltip"
+                />
+                <!-- end CmdIcon -->
                 <span v-if="buttons.login.text">{{ buttons.login.text }}</span>
             </button>
             <!-- begin link-type 'button' -->
@@ -123,10 +134,14 @@
 
         <div class="option-wrapper flex-container">
             <a href="#" @click.prevent="sendLogin = false">
-                <span v-if="options.backToLoginForm && options.backToLoginForm.icon && options.backToLoginForm.icon.show && options.backToLoginForm.icon.iconClass"
-                :class="options.backToLoginForm.icon.iconClass"
-                :title="options.backToLoginForm.tooltip">
-                </span>
+                <!-- begin CmdIcon -->
+                <CmdIcon
+                    v-if="options.backToLoginForm && options.backToLoginForm.icon && options.backToLoginForm.icon.show && options.backToLoginForm.icon.iconClass"
+                    :iconClass="options.backToLoginForm.icon.iconClass"
+                    :type="options.backToLoginForm.icon.iconType"
+                    :title="options.backToLoginForm.icon.tooltip"
+                />
+                <!-- end CmdIcon -->
                 <span v-if="options.backToLoginForm.text">
                   {{ options.backToLoginForm.text }}
                 </span>
@@ -139,11 +154,13 @@
                 :class="['button', { primary: buttons.sendLogin.primary }]"
                 :disabled="buttonSendLoginDisabled"
             >
-                  <span
-                      v-if="buttons.sendLogin.icon?.iconClass"
-                      :class="buttons.sendLogin.icon?.iconClass"
-                      :title="buttons.sendLogin.icon?.tooltip"
-                  ></span>
+                <!-- begin CmdIcon -->
+                <CmdIcon
+                    v-if="buttons.sendLogin.icon?.iconClass"
+                    :iconClass="buttons.sendLogin.icon?.iconClass"
+                    :title="buttons.sendLogin.icon?.tooltip"
+                />
+                <!-- end CmdIcon -->
                 <span v-if="buttons.sendLogin.text">{{ buttons.sendLogin.text }}</span>
             </button>
             <!-- end link-type 'button' -->
@@ -157,8 +174,9 @@
 import {getRoute} from "../utilities.js"
 
 // import components
-import CmdHeadline from "./CmdHeadline"
 import CmdFormElement from "./CmdFormElement"
+import CmdHeadline from "./CmdHeadline"
+import CmdIcon from "./CmdIcon"
 
 export default {
     name: "CmdLoginForm",
@@ -172,8 +190,9 @@ export default {
         }
     },
     components: {
+        CmdFormElement,
         CmdHeadline,
-        CmdFormElement
+        CmdIcon
     },
     props: {
         /**

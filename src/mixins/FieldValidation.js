@@ -34,7 +34,8 @@ export default {
                     text: "Open help",
                     icon: {
                         iconClass: "icon-questionmark-circle",
-                        tooltip: "Open help in new tab"
+                        tooltip: "Open help in new tab",
+                        iconType: "auto"
                     }
                 }
             }
@@ -65,7 +66,8 @@ export default {
             default() {
                 return {
                   iconClass: "icon-error-circle",
-                  tooltip: "Error"
+                  tooltip: "Error",
+                  iconType: "auto"
                 }
             }
         } ,
@@ -78,7 +80,8 @@ export default {
             default() {
                 return {
                     iconClass: "icon-exclamation-circle",
-                    tooltip: "Warning"
+                    tooltip: "Warning",
+                    iconType: "auto"
                 }
             }
         },
@@ -92,7 +95,8 @@ export default {
             default() {
                 return {
                     iconClass: "icon-check-circle",
-                    tooltip: "Success"
+                    tooltip: "Success",
+                    iconType: "auto"
                 }
             }
         },
@@ -105,7 +109,8 @@ export default {
             default() {
                 return {
                     iconClass: "icon-info-circle",
-                    tooltip: "Info"
+                    tooltip: "Info",
+                    iconType: "auto"
                 }
             }
         },
@@ -116,7 +121,8 @@ export default {
             type: Object,
             default() {
                 return {
-                    iconClass: "icon-caps-lock-circle"
+                    iconClass: "icon-caps-lock-circle",
+                    iconType: "auto"
                 }
             }
         },
@@ -128,7 +134,8 @@ export default {
             default() {
                 return {
                     iconClass: "icon-visible",
-                    tooltip: "Show password"
+                    tooltip: "Show password",
+                    iconType: "auto"
                 }
             }
         },
@@ -139,7 +146,8 @@ export default {
             type: Object,
             default() {
                 return {
-                    iconClass: "icon-not-visible"
+                    iconClass: "icon-not-visible",
+                    iconType: "auto"
                 }
             }
         },
@@ -206,6 +214,23 @@ export default {
                 }
             }
             return this.helplink.icon.iconClass
+        },
+        getStatusIconType() {
+            if (this.validationStatus !== "") {
+                if (!this.capsLockActivated) {
+                    if (this.validationStatus === "error") {
+                        return this.iconHasStateError.iconType
+                    } else if (this.validationStatus === "warning") {
+                        return this.iconHasStateWarning.iconType
+                    } else if (this.validationStatus === "success") {
+                        return this.iconHasStateSuccess.iconType
+                    }
+                    return this.iconHasStateInfo.iconType
+                } else {
+                    return this.iconCapsLock.iconType
+                }
+            }
+            return this.helplink.icon.iconType
         },
         inputRequirements() {
             const standardRequirements = []

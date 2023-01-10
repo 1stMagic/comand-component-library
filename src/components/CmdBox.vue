@@ -11,7 +11,7 @@
 
                 <a href="#" @click.prevent="toggleContentVisibility" :title="open ? iconOpen.tooltip : iconClosed.tooltip" class="toggle-icon">
                     <!-- begin CmdIcon -->
-                    <CmdIcon :iconClass="[open ? iconOpen.iconClass : iconClosed.iconClass]"></CmdIcon>
+                    <CmdIcon :iconClass="[open ? iconOpen.iconClass : iconClosed.iconClass]" :type="[open ? iconOpen.iconType : iconClosed.iconType]" />
                     <!-- end CmdIcon -->
                 </a>
             </div>
@@ -36,7 +36,7 @@
                 <!-- end CmdHeadline -->
 
                 <!-- begin CmdIcon -->
-                <CmdIcon class="toggle-icon" :iconClass="[open ? iconOpen.iconClass : iconClosed.iconClass]"></CmdIcon>
+                <CmdIcon class="toggle-icon" :iconClass="[open ? iconOpen.iconClass : iconClosed.iconClass]" :type="[open ? iconOpen.iconType : iconClosed.iconType]" />
                 <!-- end CmdIcon -->
             </a>
             <!-- end header for collapsible -->
@@ -254,7 +254,8 @@ export default {
             default: function () {
                 return {
                     iconClass: "icon-single-arrow-up",
-                    tooltip: "Close content"
+                    tooltip: "Close content",
+                    iconType: "auto"
                 }
             },
         },
@@ -268,7 +269,8 @@ export default {
             default: function () {
                 return {
                     iconClass: "icon-single-arrow-down",
-                    tooltip: "Show content"
+                    tooltip: "Show content",
+                    iconType: "auto"
                 }
             }
         },

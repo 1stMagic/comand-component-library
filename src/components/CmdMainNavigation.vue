@@ -14,7 +14,9 @@
             <ul :class="{'stretch-items' : stretchMainItems}">
                 <li class="close-nav" v-if="showOffcanvas">
                     <a href="#" id="close-offcanvas" role="button" @click.prevent="closeOffcanvasNavigation">
-                        <span v-if="closeOffcanvas.iconClass" :class="closeOffcanvas.iconClass"></span>
+                        <!-- begin CmdIcon -->
+                        <CmdIcon v-if="closeOffcanvas.iconClass" :iconClass="closeOffcanvas.iconClass" :type="closeOffcanvas.iconType" />
+                        <!-- end CmdIcon -->
                         <span :class="{'hidden': !closeOffcanvas.showText}">{{ closeOffcanvas.text }}</span>
                     </a>
                 </li>
@@ -30,7 +32,9 @@
                        @mouseover="closeAllSubentries()"
                        @focus="closeAllSubentries()"
                     >
-                        <span v-if="navigationEntry.iconClass" :class="navigationEntry.iconClass"></span>
+                        <!-- begin CmdIcon -->
+                        <CmdIcon v-if="navigationEntry.iconClass" :iconClass="navigationEntry.iconClass" :type="navigationEntry.iconType" />
+                        <!-- end CmdIcon -->
                         <span v-if="navigationEntry.text">{{ navigationEntry.text }}</span>
                         <span v-if="navigationEntry?.subentries?.length"
                               :class="['subentry-icon', subentriesIconClass]"
@@ -44,7 +48,9 @@
                         :to="getRoute(navigationEntry)"
                         :title="navigationEntry.tooltip"
                     >
-                        <span v-if="navigationEntry.iconClass" :class="navigationEntry.iconClass"></span>
+                        <!-- begin CmdIcon -->
+                        <CmdIcon v-if="navigationEntry.iconClass" :iconClass="navigationEntry.iconClass" :type="navigationEntry.iconType" />
+                        <!-- end CmdIcon -->
                         <span v-if="navigationEntry.text">{{ navigationEntry.text }}</span>
                         <span v-if="navigationEntry.subentries && navigationEntry.subentries.length > 0"
                               :class="['subentry-icon', subentriesIconClass]"></span>
@@ -63,7 +69,9 @@
                                @mouseover="closeAllSubentries(1)"
                                @focus="closeAllSubentries(1)"
                             >
-                                <span v-if="navigationSubEntry.iconClass" :class="navigationSubEntry.iconClass"></span>
+                                <!-- begin CmdIcon -->
+                                <CmdIcon v-if="navigationSubEntry.iconClass" :iconClass="navigationSubEntry.iconClass" :type="navigationSubEntry.iconType" />
+                                <!-- end CmdIcon -->
                                 <span v-if="navigationSubEntry.text">{{ navigationSubEntry.text }}</span>
                                 <span v-if="navigationSubEntry.subentries && navigationSubEntry.subentries.length > 0"
                                       :class="['subentry-icon', subentriesIconClass]"
@@ -77,7 +85,9 @@
                                 :to="getRoute(navigationSubEntry)"
                                 :title="navigationSubEntry.tooltip"
                             >
-                                <span v-if="navigationSubEntry.iconClass" :class="navigationSubEntry.iconClass"></span>
+                                <!-- begin CmdIcon -->
+                                <CmdIcon v-if="navigationSubEntry.iconClass" :iconClass="navigationSubEntry.iconClass" :type="navigationSubEntry.iconType" />
+                                <!-- end CmdIcon -->
                                 <span v-if="navigationSubEntry.text">{{ navigationSubEntry.text }}</span>
                                 <span v-if="navigationSubEntry.subentries && navigationSubEntry.subentries.length > 0"
                                       :class="['subentry-icon', subentriesIconClass]"></span>
@@ -95,7 +105,9 @@
                                        :target="navigationSubSubEntry.target"
                                        @click="executeLink($event, navigationSubSubEntry)"
                                     >
-                                        <span v-if="navigationSubSubEntry.iconClass" :class="navigationSubSubEntry.iconClass"></span>
+                                        <!-- begin CmdIcon -->
+                                        <CmdIcon v-if="navigationSubSubEntry.iconClass" :iconClass="navigationSubSubEntry.iconClass" :type="navigationSubSubEntry.iconType" />
+                                        <!-- end CmdIcon -->
                                         <span v-if="navigationSubSubEntry.text">{{ navigationSubSubEntry.text }}</span>
                                         <span v-if="navigationSubSubEntry.subentries && navigationSubSubEntry.subentries.length > 0"
                                               :class="['subentry-icon', subentriesIconClass]"
@@ -107,7 +119,9 @@
                                     <router-link v-if="navigationEntry.type === 'router'"
                                                  :to="getRoute(navigationSubSubEntry)"
                                                  :target="navigationSubSubEntry.target">
-                                        <span v-if="navigationSubSubEntry.iconClass" :class="navigationSubSubEntry.iconClass"></span>
+                                        <!-- begin CmdIcon -->
+                                        <CmdIcon v-if="navigationSubSubEntry.iconClass" :iconClass="navigationSubSubEntry.iconClass" :type="navigationSubSubEntry.iconType" />
+                                        <!-- end CmdIcon -->
                                         <span v-if="navigationSubSubEntry.text">{{ navigationSubSubEntry.text }}</span>
                                         <span v-if="navigationSubSubEntry.subentries && navigationSubSubEntry.subentries.length > 0"
                                               :class="['subentry-icon', subentriesIconClass]"></span>
@@ -126,7 +140,9 @@
 
         <!-- begin offCanvasButton -->
         <a v-if="persistOnMobile === false" href="#" class="button" id="toggle-offcanvas" @click.prevent="toggleOffcanvasNavigation">
-            <span :class="buttonOffcanvas.iconClass"></span>
+            <!-- begin CmdIcon -->
+            <CmdIcon :iconClass="buttonOffcanvas.iconClass" :type="buttonOffcanvas.iconType" />
+            <!-- end CmdIcon -->
             <span :class="{'hidden' : !buttonOffcanvas.showText}">{{ buttonOffcanvas.text }}</span>
         </a>
         <!-- end offCanvasButton -->
@@ -137,8 +153,14 @@
 // import functions
 import {getRoute} from "../utilities.js"
 
+// import components
+import CmdIcon from "./CmdIcon"
+
 export default {
     name: "CmdMainNavigation",
+    components: {
+        CmdIcon
+    },
     data() {
         return {
             showOffcanvas: false,

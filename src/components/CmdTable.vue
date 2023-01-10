@@ -5,13 +5,17 @@
                href="#" @click.prevent="fullWidth = !fullWidth"
                :title="iconToggleWidth.tooltip"
             >
-                <span :class="iconToggleWidth.iconClass"></span>
+                <!-- begin CmdIcon -->
+                <CmdIcon :iconClass="iconToggleWidth.iconClass" :type="iconToggleWidth.iconType" />
+                <!-- end CmdIcon -->
             </a>
             <a v-if="collapsible" class="button"
                href="#" @click.prevent="showTableData = !showTableData"
                :title="showTableData ? iconCollapse.tooltip : iconExpand.tooltip"
             >
-                <span :class="showTableData ? iconCollapse.iconClass : iconExpand.iconClass"></span>
+                <!-- begin CmdIcon -->
+                <CmdIcon :iconClass="showTableData ? iconCollapse.iconClass : iconExpand.iconClass" :type="showTableData ? iconCollapse.iconType : iconExpand.iconType" />
+                <!-- end CmdIcon -->
             </a>
         </div>
         <div class="inner-wrapper">
@@ -50,8 +54,14 @@
 </template>
 
 <script>
+// import components
+import CmdIcon from "./CmdIcon"
+
 export default {
     name: "CmdTable",
+    components: {
+        CmdIcon,
+    },
     data() {
         return {
             showTableData: true,

@@ -70,7 +70,12 @@
         <!-- begin filters -->
         <template v-if="cmdFakeSelect?.show">
             <a href="#" @click.prevent="showFilters = !showFilters">
-                <span :class="showFilters ? 'icon-single-arrow-up' : 'icon-single-arrow-down'"></span>
+                <!-- begin CmdIcon -->
+                <CmdIcon
+                    :iconClass="showFilters ? cmdIcon?.showFilters?.iconClass : cmdIcon?.hideFilters?.iconClass"
+                    :type="showFilters ? cmdIcon?.showFilters?.iconType : cmdIcon?.hideFilters?.iconType"
+                />
+                <!-- end CmdIcon -->
                 <span v-if="showFilters">{{ getMessage("cmdsitesearch.hide_filter_options") }}</span>
                 <span v-else>{{ getMessage("cmdsitesearch.show_filter_options") }}</span>
             </a>
@@ -102,10 +107,11 @@ import I18n from "../mixins/I18n"
 import DefaultMessageProperties from "../mixins/CmdSiteSearch/DefaultMessageProperties"
 
 // import files for components
-import CmdHeadline from "./CmdHeadline"
 import CmdFakeSelect from "./CmdFakeSelect"
 import CmdFormElement from "./CmdFormElement"
 import CmdFormFilters from "./CmdFormFilters"
+import CmdHeadline from "./CmdHeadline"
+import CmdIcon from "./CmdIcon"
 
 export default {
     emits: [
@@ -118,10 +124,11 @@ export default {
     name: "CmdBoxSiteSearch",
     mixins: [I18n, DefaultMessageProperties],
     components: {
-        CmdHeadline,
         CmdFakeSelect,
         CmdFormElement,
-        CmdFormFilters
+        CmdFormFilters,
+        CmdHeadline,
+        CmdIcon
     },
     data() {
         return {
@@ -158,7 +165,7 @@ export default {
             required: false
         },
         /**
-         * toggle use of filters (must configured)
+         * toggle use of filters (must be configured)
          */
         useFilters: {
             type: Boolean,
@@ -290,6 +297,24 @@ export default {
         cmdFakeSelect: {
             type: Object,
             required: false
+        },
+        /**
+         * properties for CmdIcon-component for filters
+         */
+        cmdIcon: {
+            type: Object,
+            default() {
+                return {
+                    showFilters: {
+                        iconClass: "icon-single-arrow-up",
+                        type: "auto"
+                    },
+                    hideFilters: {
+                        iconClass: "icon-single-arrow-down",
+                        type: "auto"
+                    }
+                }
+            }
         }
     },
     computed: {

@@ -47,11 +47,13 @@
             <a v-if="$attrs.required || inputRequirements.length"
                 href="#"
                 @click.prevent
-                :class="getStatusIconClass"
                 :title="validationTooltip"
                 :aria-errormessage="tooltipId"
                 aria-live="assertive"
                 :id="tooltipId">
+                <!-- begin CmdIcon -->
+                <CmdIcon :iconClass="getStatusIconClass" />
+                <!-- end CmdIcon -->
             </a>
         </span>
         <!-- end label-text (+ required asterisk) -->
@@ -84,12 +86,14 @@
         <!-- begin show-password-icon -->
         <a v-if="$attrs.type === 'password'"
            href="#"
-           :class="['place-inside', iconPasswordVisible.iconClass]"
            @mousedown.prevent="showPassword"
            @mouseup.prevent="hidePassword"
            @mouseleave.prevent="hidePassword"
            @click.prevent
            :title="iconPasswordVisible.tooltip">
+           <!-- begin CmdIcon -->
+           <CmdIcon :iconClass="['place-inside', iconPasswordVisible.iconClass]" />
+           <!-- end CmdIcon -->
         </a>
         <!-- end show-password-icon -->
 
@@ -187,9 +191,15 @@
                     :value="modelValue"
                 />
                 <a v-if="showSearchButton" href="#" :class="['button no-flex', {disabled: $attrs.disabled}]" :title="iconSearch.tooltip" @click.prevent="executeSearch">
-                    <span :class="iconSearch.iconClass"></span>
+                    <!-- begin CmdIcon -->
+                    <CmdIcon :iconClass="iconSearch.iconClass" />
+                    <!-- end CmdIcon -->
                 </a>
-                <a v-if="iconDelete.show" href="#" @click.prevent="$emit('update:modelValue', '')" :class="iconDelete.iconClass" :title="iconDelete.tooltip"></a>
+                <a v-if="iconDelete.show" href="#" @click.prevent="$emit('update:modelValue', '')" :title="iconDelete.tooltip">
+                    <!-- begin CmdIcon -->
+                    <CmdIcon :iconClass="iconDelete.iconClass" :type="iconDelete.iconType" />
+                    <!-- end CmdIcon -->
+                </a>
             </span>
         </template>
     </label>
@@ -197,12 +207,24 @@
 
     <!-- begin button -->
     <button v-else class="button" v-bind="buttonAttrs">
-        <span v-if="nativeButton?.icon?.show && (nativeButton?.icon?.position === 'before' || !nativeButton?.icon?.position)" :class="nativeButton?.icon?.iconClass"></span>
+        <!-- begin CmdIcon -->
+        <CmdIcon
+            v-if="nativeButton?.icon?.show && (nativeButton?.icon?.position === 'before' || !nativeButton?.icon?.position)"
+            :iconClass="nativeButton?.icon?.iconClass"
+            :type="nativeButton?.icon?.iconType"
+        />
+        <!-- end CmdIcon -->
         <span v-if="nativeButton?.icon && nativeButton?.text">{{ nativeButton.text }}</span>
         <template v-else>
             {{ nativeButton.text }}
         </template>
-        <span v-if="nativeButton?.icon?.show && nativeButton?.icon?.position === 'after'" :class="nativeButton?.icon?.iconClass"></span>
+        <!-- begin CmdIcon -->
+        <CmdIcon
+            v-if="nativeButton?.icon?.show && nativeButton?.icon?.position === 'after'"
+            :iconClass="nativeButton?.icon?.iconClass"
+            :type="nativeButton?.icon?.iconType"
+        />
+        <!-- end CmdIcon -->
     </button>
     <!-- end button -->
 </template>
@@ -216,6 +238,7 @@ import Identifier from "../mixins/Identifier.js"
 import Tooltip from "../mixins/Tooltip.js"
 
 // import components
+import CmdIcon from "./CmdIcon"
 import CmdTooltipForInputElements from "./CmdTooltipForInputElements"
 
 const TYPES_WITHOUT_MAXLENGTH = ["color", "date", "datetime-local", "file", "number", "range"]
@@ -224,6 +247,7 @@ export default {
     inheritAttrs: false,
     name: "CmdFormElement",
     components: {
+        CmdIcon,
         CmdTooltipForInputElements
     },
     mixins: [

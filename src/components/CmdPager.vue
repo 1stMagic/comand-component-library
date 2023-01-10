@@ -26,8 +26,10 @@
             <!-- begin button to next page -->
             <a class="page-change" :class="{'disabled': currentPage === numberOfPages, 'button': showLinksAsButtons}"
                @click.prevent="nextPage">
-                <span v-if="nextButton.buttonText">{{ nextButton.buttonText }}</span><span
-                :class="nextButton.iconClass"></span>
+                <span v-if="nextButton.buttonText">{{ nextButton.buttonText }}</span>
+                <!-- begin CmdIcon -->
+                <CmdIcon :iconClass="nextButton.iconClass" :type="nextButton.iconType" />
+                <!-- end CmdIcon -->
             </a>
             <!-- end button to next page -->
         </div>
@@ -35,8 +37,14 @@
 </template>
 
 <script>
+// import components
+import CmdIcon from "./CmdIcon"
+
 export default {
     name: "CmdPager",
+    components: {
+        CmdIcon
+    },
     emits: ['click'],
     data() {
         return {

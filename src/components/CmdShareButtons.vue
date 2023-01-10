@@ -17,9 +17,13 @@
                @click="preventOnDisabled"
                target="_blank"
                :title="tooltip(shareButton.tooltip)">
-                <span v-if="shareButton.iconClass && shareButton.iconPosition !== 'right'" :class="shareButton.iconClass"></span>
+                <!-- begin CmdIcon -->
+                <CmdIcon v-if="shareButton.iconClass && shareButton.iconPosition !== 'right'" :iconClass="shareButton.iconClass" :type="shareButton.iconType" />
+                <!-- end CmdIcon -->
                 <span v-if="shareButton.linkText">{{ shareButton.linkText }}</span>
-                <span v-if="shareButton.iconClass && shareButton.iconPosition === 'right'" :class="shareButton.iconClass"></span>
+                <!-- begin CmdIcon -->
+                <CmdIcon v-if="shareButton.iconClass && shareButton.iconPosition === 'right'" :iconClass="shareButton.iconClass" :type="shareButton.iconType" />
+                <!-- end CmdIcon -->
             </a>
         </div>
     </div>
@@ -28,11 +32,13 @@
 <script>
 // import components
 import CmdFormElement from "./CmdFormElement"
+import CmdIcon from "./CmdIcon"
 
 export default {
     name: "CmdShareButtons",
     components: {
-        CmdFormElement
+        CmdFormElement,
+        CmdIcon
     },
     data() {
         return {

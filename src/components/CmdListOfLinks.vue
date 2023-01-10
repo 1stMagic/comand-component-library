@@ -16,7 +16,9 @@
                    :target="link.target"
                    @click="executeLink(link, $event)"
                    :title="link.tooltip && link.tooltip !== undefined ? link.tooltip : undefined">
-                    <span v-if="link.iconClass" :class="link.iconClass"></span>
+                    <!-- begin CmdIcon -->
+                    <CmdIcon v-if="link.iconClass" :iconClass="link.iconClass" :type="link.iconType" />
+                    <!-- end CmdIcon -->
                     <span v-if="link.text">{{ link.text }}</span>
                 </a>
                 <!-- end use href --->
@@ -25,7 +27,9 @@
                 <router-link v-else-if="link.type === 'router'"
                              :to="getRoute(link)"
                              :title="link.tooltip">
-                    <span v-if="link.iconClass" :class="link.iconClass"></span>
+                    <!-- begin CmdIcon -->
+                    <CmdIcon v-if="link.iconClass" :iconClass="link.iconClass" :type="link.iconType" />
+                    <!-- end CmdIcon -->
                     <span v-if="link.text">{{ link.text }}</span>
                 </router-link>
                 <!-- end use router-link -->
@@ -42,11 +46,13 @@ import {openFancyBox} from "./CmdFancyBox.vue"
 
 // import components
 import CmdHeadline from "./CmdHeadline"
+import CmdIcon from "./CmdIcon"
 
 export default {
     name: "CmdListOfLinks",
     components: {
-        CmdHeadline
+        CmdHeadline,
+        CmdIcon
     },
     props: {
         /**

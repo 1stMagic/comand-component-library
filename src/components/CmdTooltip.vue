@@ -13,7 +13,9 @@
 
             <!-- begin icon to close tooltip -->
             <a v-if="iconClose.show && toggleVisibilityByClick" href="#" @click.prevent="hideTooltip" :title="iconClose.tooltip">
-                <span :class="iconClose.iconClass"></span>
+                <!-- begin CmdIcon -->
+                <CmdIcon :iconClass="iconClose.iconClass" :type="iconClose.iconType" />
+                <!-- end CmdIcon -->
             </a>
             <!-- end icon to close tooltip -->
         </div>
@@ -28,11 +30,13 @@
 <script>
 // import components
 import CmdHeadline from "./CmdHeadline"
+import CmdIcon from "./CmdIcon"
 
 export default {
     name: "CmdTooltip",
     components: {
-        CmdHeadline
+        CmdHeadline,
+        CmdIcon
     },
     data() {
         return {

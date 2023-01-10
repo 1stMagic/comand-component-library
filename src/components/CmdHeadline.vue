@@ -1,7 +1,7 @@
 <template>
     <div :class="['cmd-headline', { 'has-pre-headline-text': preHeadlineText, 'has-icon': iconClass}]">
         <!-- begin CmdIcon -->
-        <CmdIcon v-if="iconClass" :iconClass="iconClass" />
+        <CmdIcon v-if="headlineIcon" :iconClass="headlineIcon.iconClass" :type="headlineIcon.iconType" />
         <!-- end CmdIcon -->
 
         <div v-if="preHeadlineText">
@@ -54,8 +54,8 @@ export default {
         /**
          * icon-class for icon shown left/before headline
          */
-        iconClass: {
-            type: String,
+        headlineIcon: {
+            type: Object,
             required: false
         }
     },

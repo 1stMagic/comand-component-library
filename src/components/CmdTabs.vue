@@ -3,7 +3,9 @@
         <ul :class="{'stretch-tabs' : stretchTabs}" role="tablist">
             <li v-for="(tab, index) in tabs" :key="index" role="tab">
                 <a :class="{active : showTab === index}" @click.prevent="setActiveTab(index)" :title="!tab.name ? tab.tooltip : undefined" href="#">
-                    <CmdIcon v-if="tab.iconClass" :iconClass="tab.iconClass"></CmdIcon>
+                    <!-- begin CmdIcon -->
+                    <CmdIcon v-if="tab.iconClass" :iconClass="tab.iconClass" :type="tab.iconType" />
+                    <!-- end CmdIcon -->
                     <span v-if="tab.name">{{ tab.name }}</span>
                 </a>
             </li>
@@ -32,12 +34,18 @@
 </template>
 
 <script>
+// import functions
 import {addCollection} from "@iconify/vue"
+
+// import data
 import IconData from '@/assets/data/icon.json'
+
 // import components
 import CmdHeadline from "./CmdHeadline"
 import CmdIcon from "./CmdIcon"
+
 addCollection(IconData)
+
 export default {
     name: "CmdTabs",
     components: {

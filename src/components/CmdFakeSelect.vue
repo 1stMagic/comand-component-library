@@ -35,11 +35,13 @@
                 <a v-if="$attrs.required || inputRequirements.length"
                    href="#"
                    @click.prevent
-                   :class="getStatusIconClass"
                    :title="!useCustomTooltip ? getValidationMessage : ''"
                    :aria-errormessage="tooltipId"
                    aria-live="assertive"
                    :id="tooltipId">
+                   <!-- begin CmdIcon -->
+                   <CmdIcon :iconClass="getStatusIconClass" />
+                   <!-- end CmdIcon -->
                 </a>
             </span>
             <!-- end label -->
@@ -57,7 +59,9 @@
                     <!-- end show color-box -->
 
                     <!-- begin optional icon -->
-                    <span v-if="optionIcon?.iconClass" :class="optionIcon?.iconClass"></span>
+                    <!-- begin CmdIcon -->
+                    <CmdIcon v-if="optionIcon?.iconClass" :type="optionIcon?.iconType" :class="optionIcon?.iconClass" />
+                    <!-- end CmdIcon -->
                     <!-- end optional icon -->
 
                     <!-- begin text -->
@@ -65,7 +69,14 @@
                     <!-- end text -->
 
                     <!-- begin custom dropdown-icon -->
-                    <span v-if="dropdownIcon" :class="dropdownIcon.iconClass" :title="dropdownIcon.tooltip"></span>
+                    <!-- begin CmdIcon -->
+                    <CmdIcon
+                        v-if="iconDropdown"
+                        :iconClass="iconDropdown.iconClass"
+                        :type="iconDropdown.iconType"
+                        :title="iconDropdown.tooltip"
+                    />
+                    <!-- end CmdIcon -->
                     <!-- end custom dropdown-icon -->
                 </a>
                 <!-- end default/selected-option-->
@@ -79,14 +90,18 @@
                            :class="{'active' : option.value === modelValue}"
                            :title="option.tooltip"
                         >
-                            <span v-if="option.iconClass" :class="option.iconClass"></span>
+                            <!-- begin CmdIcon -->
+                            <CmdIcon v-if="option.iconClass" :iconClass="option.iconClass" :type="option.iconType" />
+                            <!-- end CmdIcon -->
                             <span v-if="option.text">{{ option.text }}</span>
                         </a>
                         <!-- end type 'href' -->
 
                         <!-- begin type 'router' -->
                         <router-link v-if="optionLinkType === 'router'" to="#" @click.prevent="selectOption(option.value)" :class="{'active' : option.value === modelValue}">
-                            <span v-if="option.iconClass" :class="option.iconClass"></span>
+                            <!-- begin CmdIcon -->
+                            <CmdIcon v-if="option.iconClass" :iconClass="option.iconClass" :type="option.iconType" />
+                            <!-- end CmdIcon -->
                             <span>{{ option.text }}</span>
                         </router-link>
                         <!-- end type 'router' -->
@@ -119,13 +134,15 @@
                             <span class="color" :style="'background: ' + option.value"></span>
                             <span>{{ option.text }}</span>
                         </a>
-                        <!-- end color-boxe -->
+                        <!-- end color-boxes -->
                     </li>
 
                     <!-- begin (de)select all options -->
                     <li v-if="showSelectAllOptions && type === 'checkboxOptions'" class="select-all-options">
                         <a href="#" @click.prevent="toggleAllOptions">
-                            <span :class="selectAllOptionsIcon"></span>
+                            <!-- begin CmdIcon -->
+                            <CmdIcon :iconClass="selectAllOptionsIcon.iconClass" :type="selectAllOptionsIcon.iconType" />
+                            <!-- end CmdIcon -->
                             <span>{{ selectAllOptionsText }}</span>
                         </a>
                     </li>
@@ -152,6 +169,7 @@ import Identifier from "../mixins/Identifier"
 import Tooltip from "../mixins/Tooltip"
 
 // import components
+import CmdIcon from "./CmdIcon"
 import CmdTooltipForInputElements from "./CmdTooltipForInputElements"
 
 export default {
@@ -165,6 +183,7 @@ export default {
         Tooltip
     ],
     components: {
+        CmdIcon,
         CmdTooltipForInputElements
     },
     data() {
@@ -234,12 +253,13 @@ export default {
          * @requiredForAccessibility: partial
          * @defaultIcon: icon-single-arrow-down
          */
-        dropdownIcon: {
+        iconDropdown: {
             type: Object,
             default() {
                 return {
                     iconClass: "icon-single-arrow-down",
-                    tooltip: "Toggle dropdown visibility"
+                    tooltip: "Toggle dropdown visibility",
+                    iconType: "auto"
                 }
             }
         },
@@ -272,6 +292,18 @@ export default {
         textPleaseSelect: {
            type: String,
            default: "Please select\u2026"
+        },
+        /**
+         * set icon for "select all"-option
+         */
+        iconSelectAllOptions: {
+            type: Object,
+            default() {
+                return {
+                    iconClass: "icon-check",
+                    iconType: "auto"
+                }
+            }
         }
     },
     computed: {
@@ -347,9 +379,6 @@ export default {
                 return "Deselect all options"
             }
             return "Select all options"
-        },
-        selectAllOptionsIcon() {
-            return "icon-check"
         }
     },
     mounted() {
