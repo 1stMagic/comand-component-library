@@ -154,11 +154,6 @@ export default {
     #main-navigation-wrapper {
         grid-column: span var(--grid-columns);
         border-bottom: 0;
-
-        nav {
-            padding: 0;
-
-        }
     }
 
     // use id to ensure high specificity
