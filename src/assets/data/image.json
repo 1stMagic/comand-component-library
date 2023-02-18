@@ -1,0 +1,28 @@
+[
+  {
+    "image": {
+      "src": "media/images/content-images/landscape-large.jpg",
+      "alt": "Alternative text",
+      "tooltip": "Tooltip"
+    },
+    "figcaption": {
+      "show": true,
+      "position": "top",
+      "text": "Figcaption above image (centered)",
+      "textAlign": "center"
+    }
+  },
+  {
+    "image": {
+      "src": "media/images/content-images/landscape-large.jpg",
+      "alt": "Alternative text",
+      "tooltip": "Tooltip"
+    },
+    "figcaption": {
+      "show": true,
+      "position": "",
+      "text": "Figcaption below image (aligned right)",
+      "textAlign": "right"
+    }
+  }
+]

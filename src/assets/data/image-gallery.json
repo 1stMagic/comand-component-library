@@ -1,30 +1,54 @@
 [
   {
-    "imgId": 1,
-    "srcImageSmall": "media/images/thumbnail-scroller/thumbnail/logo-cmd-blue-landscape.jpg",
-    "srcImageLarge": "media/images/thumbnail-scroller/original/logo-cmd-blue-landscape.jpg",
-    "alt": "Alternative text 1",
-    "figcaption": "Figcaption 1"
+    "image": {
+      "src": "media/images/gallery-images/large/landscape-01.jpg",
+      "srcImageLarge": "media/images/gallery-images/large/landscape-01.jpg",
+      "alt": "Alternative text 1"
+    },
+    "figcaption": {
+      "show": true,
+      "position": "bottom",
+      "text": "Figcaption 1",
+      "textAlign": "center"
+    }
   },
   {
-    "imgId": 2,
-    "srcImageSmall": "media/images/thumbnail-scroller/thumbnail/logo-cmd-green-landscape.jpg",
-    "srcImageLarge": "media/images/thumbnail-scroller/original/logo-cmd-green-landscape.jpg",
-    "alt": "Alternative text 2",
-    "figcaption": "Figcaption 2"
+    "image": {
+      "src": "media/images/gallery-images/large/landscape-02.jpg",
+      "srcImageLarge": "media/images/gallery-images/large/landscape-02.jpg",
+      "alt": "Alternative text 2"
+    },
+    "figcaption": {
+      "show": true,
+      "position": "bottom",
+      "text": "Figcaption 2",
+      "textAlign": "center"
+    }
   },
   {
-    "imgId": 3,
-    "srcImageSmall": "media/images/thumbnail-scroller/thumbnail/logo-cmd-red-landscape.jpg",
-    "srcImageLarge": "media/images/thumbnail-scroller/original/logo-cmd-red-landscape.jpg",
-    "alt": "Alternative text 3",
-    "figcaption": "Figcaption 3"
+    "image": {
+      "src": "media/images/gallery-images/large/landscape-03.jpg",
+      "srcImageLarge": "media/images/gallery-images/large/landscape-03.jpg",
+      "alt": "Alternative text 3"
+    },
+    "figcaption": {
+      "show": true,
+      "position": "bottom",
+      "text": "Figcaption 3",
+      "textAlign": "center"
+    }
   },
   {
-    "imgId": 4,
-    "srcImageSmall": "media/images/thumbnail-scroller/thumbnail/logo-cmd-yellow-landscape.jpg",
-    "srcImageLarge": "media/images/thumbnail-scroller/original/logo-cmd-yellow-landscape.jpg",
-    "alt": "Alternative text 4",
-    "figcaption": "Figcaption 4"
+    "image": {
+      "src": "media/images/gallery-images/large/landscape-04.jpg",
+      "srcImageLarge": "media/images/gallery-images/large/landscape-04.jpg",
+      "alt": "Alternative text 4"
+    },
+    "figcaption": {
+      "show": true,
+      "position": "bottom",
+      "text": "Figcaption 4",
+      "textAlign": "center"
+    }
   }
 ]

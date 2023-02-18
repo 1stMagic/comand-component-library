@@ -1,42 +1,54 @@
 <template>
     <div class="cmd-pager">
-        <div class="pager">
-            <!-- begin button to previous page -->
-            <a class="page-change" :class="{'disabled': currentPage === 1, 'button': showLinksAsButtons}"
-               @click.prevent="previousPage">
-                <span :class="prevButton.iconClass"></span><span v-if="prevButton.buttonText">{{
-                    prevButton.buttonText
-                }}</span>
-            </a>
-            <!-- end button to previous page -->
+        <!-- begin button/link to previous page -->
+        <a
+            :href="getPreviousHref"
+            :class="['page-change', {'disabled': currentPage === 1, 'button': linkType === 'button'}]"
+            @click.prevent="previousPage"
+            :title="!prevLink.showText ? prevLink.text : null"
+        >
+            <!-- begin CmdIcon -->
+            <CmdIcon :iconClass="prevLink.iconClass" :type="prevLink.iconType"/>
+            <!-- end CmdIcon -->
+            <span v-if="prevLink.showText">{{ prevLink.text }}</span>
+        </a>
+        <!-- end button/link to previous page -->
 
-            <!-- begin buttons with page numbers -->
-            <div class="page-index">
-                <div class="flex-container">
-                    <a :class="{'disabled': currentPage === index + 1, 'button': showLinksAsButtons}"
-                       v-for="(item, index) in items"
-                       :key="index"
-                       @click.stop.prevent="showPage(item)" aria-live="polite">
-                        <span>{{ index + 1 }}</span>
-                    </a>
-                </div>
+        <!-- begin buttons/link with page numbers -->
+        <div class="page-index">
+            <div class="flex-container">
+                <a :href="getHref(page)"
+                   :class="{'disabled': currentPage === index + 1, 'button': linkType === 'button'}"
+                   :title="currentPage !== index + 1 ? getMessage('cmdpager.tooltip.go_to_page', index + 1) : getMessage('cmdpager.tooltip.not_possible')"
+                   v-for="(page, index) in pages"
+                   :key="index"
+                   @click.stop.prevent="showPage(page)" aria-live="polite">
+                    <span>{{ index + 1 }}</span>
+                </a>
             </div>
-            <!-- end buttons with page numbers -->
-
-            <!-- begin button to next page -->
-            <a class="page-change" :class="{'disabled': currentPage === numberOfPages, 'button': showLinksAsButtons}"
-               @click.prevent="nextPage">
-                <span v-if="nextButton.buttonText">{{ nextButton.buttonText }}</span>
-                <!-- begin CmdIcon -->
-                <CmdIcon :iconClass="nextButton.iconClass" :type="nextButton.iconType" />
-                <!-- end CmdIcon -->
-            </a>
-            <!-- end button to next page -->
         </div>
+        <!-- end buttons/link with page numbers -->
+
+        <!-- begin button/link to next page -->
+        <a :href="getNextHref"
+           :class="['page-change', {'disabled': currentPage === numberOfPages, 'button': linkType === 'button'}]"
+           @click.prevent="nextPage"
+           :title="!nextLink.showText ? nextLink.text : null"
+        >
+            <span v-if="nextLink.showText">{{ nextLink.text }}</span>
+            <!-- begin CmdIcon -->
+            <CmdIcon :iconClass="nextLink.iconClass" :type="nextLink.iconType"/>
+            <!-- end CmdIcon -->
+        </a>
+        <!-- end button/link to next page -->
     </div>
 </template>
 
 <script>
+// import mixins
+import I18n from "../mixins/I18n"
+import DefaultMessageProperties from "../mixins/CmdPager/DefaultMessageProperties"
+
 // import components
 import CmdIcon from "./CmdIcon"
 
@@ -45,6 +57,10 @@ export default {
     components: {
         CmdIcon
     },
+    mixins: [
+      I18n,
+      DefaultMessageProperties
+    ],
     emits: ['click'],
     data() {
         return {
@@ -53,9 +69,9 @@ export default {
     },
     props: {
         /**
-         * number of items displayed
+         * number of pages displayed
          */
-        items: {
+        pages: {
             type: Number,
             required: true
         },
@@ -67,37 +83,41 @@ export default {
             required: true
         },
         /**
-         * show links as buttons
+         * set type of links
+         *
+         * @allowedValues: "href", "button"
          */
-        showLinksAsButtons: {
-            type: Boolean,
-            default: true
+        linkType: {
+            type: String,
+            default: "href"
         },
         /**
-         * button to switch to previous page
+         * link to switch to previous page
          *
          * @requiredForAccessibility: partial
          */
-        prevButton: {
+        prevLink: {
             type: Object,
-            default: function() {
+            default: function () {
                 return {
                     iconClass: "icon-single-arrow-left",
-                    buttonText: "prev"
+                    text: "prev",
+                    showText: true
                 }
             }
         },
         /**
-         * button to switch to next page
+         * link to switch to next page
          *
          * @requiredForAccessibility: partial
          */
-        nextButton: {
+        nextLink: {
             type: Object,
-            default: function() {
+            default: function () {
                 return {
                     iconClass: "icon-single-arrow-right",
-                    buttonText: "next"
+                    text: "next",
+                    showText: true
                 }
             }
         }
@@ -105,12 +125,30 @@ export default {
     computed: {
         numberOfPages() {
             return Math.ceil(this.items / this.itemsPerPage)
+        },
+        getPreviousHref() {
+            if (this.currentPage === 1) {
+                return null
+            }
+            return "#"
+        },
+        getNextHref() {
+            if (this.currentPage === this.numberOfPages) {
+                return null
+            }
+            return "#"
         }
     },
     methods: {
+        getHref(page) {
+            if (this.linkType !== "href" || this.currentPage === page) {
+                return null
+            }
+            return "#"
+        },
         showPage(page) {
             this.currentPage = page
-            this.$emit('click', page)
+            this.$emit("click", page)
         },
         nextPage() {
             if (this.currentPage < this.numberOfPages) {
@@ -128,70 +166,68 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../assets/styles/variables';
 /* begin cmd-pager ---------------------------------------------------------------------------------------- */
+@import '../assets/styles/variables';
+
 .cmd-pager {
-    > p {
-        text-align: center;
+    display: flex;
+    justify-content: space-between;
+
+    button, .button {
+        float: none;
+        margin: 0;
+
+        span {
+            align-self: center;
+        }
     }
 
-    .pager {
+    a {
         display: flex;
-        justify-content: space-between;
+        align-items: center;
+        text-decoration: none;
 
-        button, .button {
-            float: none;
-            margin: 0;
+        &:hover, &:active, &:focus {
+            cursor: pointer;
+        }
 
-            span {
-                align-self: center;
+        &:last-of-type {
+            > [class*="icon-"] {
+                margin-right: 0;
             }
         }
 
-        > a {
-            &:last-of-type {
-                > [class*="icon-"] {
-                    margin-right: 0;
+        > [class*="icon-"] {
+            font-size: var(--icon-size-small);
+        }
+    }
+
+    .page-index {
+        a:not(.button) {
+            padding: 0 calc(var(--default-padding) / 2);
+        }
+    }
+
+    @media only screen and (max-width: $medium-max-width) {
+        > a.button {
+            span {
+                margin: 0;
+
+                &:not([class*='icon']) {
+                    display: none;
                 }
             }
-
-            > [class*="icon-"] {
-                font-size: var(--icon-size-small);
-            }
         }
+    }
 
-        a.disabled {
-            opacity: var(--reduced-opacity);
+    @media only screen and (max-width: $small-max-width) {
+        .button {
+            width: auto; /* overwrite default settings from framework.css */
         }
 
         .page-index {
-            a:not(.button) {
-                padding: calc(var(--default-padding) / 2);
-                padding-top: 0;
-            }
-        }
-
-        @media only screen and (max-width: $medium-max-width) {
-            > a.button {
-                span {
-                    margin: 0;
-
-                    &:not([class*='icon']) {
-                        display: none;
-                    }
-                }
-            }
-        }
-
-        @media only screen and (max-width: $small-max-width) {
-            .button {
-                width: auto; /* overwrite default settings from framework.css */
-            }
-
-            .page-index {
-                .flex-container {
-                    flex-direction: row; /* overwrite default settings from framework.css */
-                }
+            .flex-container {
+                flex-direction: row; /* overwrite default settings from framework.css */
             }
         }
     }

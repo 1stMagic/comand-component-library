@@ -1,20 +1,32 @@
 <template>
-    <div class="grid-container-create-columns cmd-imagezoom">
+    <div class="cmd-imagezoom grid-container-create-columns">
         <div class="grid-small-item">
             <!-- begin small image -->
             <a href="#" class="thumbnails-imagezoom">
-                <img :src="smallImageUrl"
-                     alt="Small Image"
-                     @mouseover="onMouseOver"
-                     @mousemove="onMouseMove"
-                     @mouseout="onMouseOut"/>
+                <!-- begin CmdImage -->
+                <CmdImage
+                    :image="imageSmall.image"
+                    :figcaption="imageSmall.figcaption"
+                    @mouseover="onMouseOver"
+                    @mousemove="onMouseMove"
+                    @mouseout="onMouseOut"
+                />
+                <!-- end CmdImage -->
             </a>
             <!-- end small image -->
         </div>
 
         <!-- begin large image -->
         <div v-if="showLargeImage" class="zoom-container grid-large-item">
-            <img :src="largeImageUrl" alt="Large Image"/>
+            <!-- begin CmdImage -->
+            <CmdImage
+                :image="imageLarge.image"
+                :figcaption="imageLarge.figcaption"
+                @mouseover="onMouseOver"
+                @mousemove="onMouseMove"
+                @mouseout="onMouseOut"
+            />
+            <!-- end CmdImage -->
         </div>
         <div v-if="showLargeImage" class="zoom-overlay"></div>
         <!-- end large image -->
@@ -22,21 +34,27 @@
 </template>
 
 <script>
+// import components
+import CmdImage from "./CmdImage"
+
 export default {
     name: "CmdImageZoom",
+    components: {
+        CmdImage
+    },
     props: {
         /**
-         * url for small images
+         * object for small image
          */
-        smallImageUrl: {
-            type: String,
+        imageSmall: {
+            type: Object,
             required: true
         },
         /**
-         * url for large image
+         * object for large image
          */
-        largeImageUrl: {
-            type: String,
+        imageLarge: {
+            type: Object,
             required: true
         }
     },

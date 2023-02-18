@@ -129,7 +129,7 @@ export default {
         }
 
         a {
-            padding: 0 calc(var(--default-padding) / 2);
+            padding: calc(var(--default-padding) / 2);
             display: flex;
             align-items: center;
             text-decoration: none;

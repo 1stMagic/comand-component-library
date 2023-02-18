@@ -9,13 +9,9 @@
 
         <!-- begin list of images to slide -->
         <transition-group name="slide" tag="ul">
-            <li v-for="(image, index) in thumbnails" :key="image.imgId" :class="{'active' : imgIndex === index}">
+            <li v-for="(image, index) in thumbnails" :key="image.id" :class="{'active' : imgIndex === index}">
                 <a href="#" @click.prevent="showFancyBox(index)" :title="getMessage('cmdthumbnailscroller.tooltip.open_large_image')">
-                    <figure>
-                        <figcaption v-if="figcaption.show && figcaption.position === 'above-image' && image.figcaption.length">{{ image.figcaption }}</figcaption>
-                        <img :src="image.srcImageSmall" :alt="image.alt"/>
-                        <figcaption v-if="figcaption.show && figcaption.position === 'below-image' && image.figcaption.length">{{ image.figcaption }}</figcaption>
-                    </figure>
+                    <CmdImage :image="image.image" :figcaption="image.figcaption" />
                 </a>
             </li>
         </transition-group>
@@ -31,19 +27,21 @@
 </template>
 
 <script>
-// import mixins
-import I18n from "../mixins/I18n"
-import DefaultMessageProperties from "../mixins/CmdThumbnailScroller/DefaultMessageProperties"
-
 // import components
+import CmdImage from "./CmdImage.vue"
 import CmdSlideButton from "./CmdSlideButton.vue"
 
 // import functions
 import {openFancyBox} from './CmdFancyBox.vue'
 
+// import mixins
+import I18n from "../mixins/I18n"
+import DefaultMessageProperties from "../mixins/CmdThumbnailScroller/DefaultMessageProperties"
+
 export default {
     name: "CmdThumbnailScroller",
     components: {
+        CmdImage,
         CmdSlideButton
     },
     mixins: [
@@ -142,13 +140,18 @@ export default {
             if (this.allowOpenFancyBox) {
                 openFancyBox({fancyBoxGallery: this.thumbnails, defaultGalleryIndex: index})
             }
-            this.$emit("click", this.thumbnails[index].imgId)
+            this.$emit("click", this.thumbnails[index].id)
         }
     },
     watch: {
         thumbnailScrollerItems: {
             handler() {
-                this.thumbnails = [...this.thumbnailScrollerItems]
+                // change keys for images to fit CmdImage-properties
+                this.thumbnails = this.thumbnailScrollerItems.map((item) => {
+                    const newItem = {image: {...item.image}, figcaption: {...item.figcaption}}
+                    newItem.image.src = newItem.image.srcImageSmall
+                    return newItem
+                })
             },
             immediate: true
         }

@@ -18,17 +18,13 @@
                 </a>
             </div>
         </div>
-        <div :class="[useFlexbox ? 'flex-container' : 'grid-container-create-columns', {'one-box-per-row': oneBoxPerRow, 'stretch-boxes-vertically': stretchBoxesVertically}]">
-            <slot :collapsingBoxesOpen="collapsingBoxesOpen" :boxToggled="boxToggled" :currentOpenBox="currentOpenBox"></slot>
+        <div :class="[useFlexbox ? 'flex-container' : 'grid-container-create-columns', {'row-view': rowView, 'stretch-boxes-vertically': stretchBoxesVertically}]">
+            <slot :collapsingBoxesOpen="collapsingBoxesOpen" :boxToggled="boxToggled" :currentOpenBox="currentOpenBox" :rowView="rowView"></slot>
         </div>
     </div>
 </template>
 
 <script>
-// import components
-import CmdHeadline from "./CmdHeadline"
-import CmdIcon from "./CmdIcon"
-
 export default {
     name: "CmdBoxWrapper",
     components: {
@@ -37,7 +33,7 @@ export default {
     },
     data() {
         return {
-            oneBoxPerRow: this.useRowViewAsDefault,
+            rowView: this.useRowViewAsDefault,
             collapsingBoxesOpen: true,
             currentOpenBox: 0
         }
@@ -227,18 +223,6 @@ export default {
                 margin: 0;
         }
 
-        &.one-box-per-row {
-            flex-direction: column;
-
-            p.cutoff-text {
-                height: auto;
-
-                &.fade-last-line::after {
-                    background: none;
-                }
-            }
-        }
-
         &.stretch-boxes-vertically {
             .stretch-vertically {
                 align-self: stretch;
@@ -247,8 +231,34 @@ export default {
         }
     }
 
+    .row-view {
+        flex-direction: column;
+
+        p.cutoff-text {
+            height: auto;
+
+            &.fade-last-line::after {
+                background: none;
+            }
+        }
+
+        .cmd-box.user {
+            flex-direction: row;
+            padding: var(--default-padding);
+            align-items: center;
+
+            .box-footer {
+                margin-top: 0;
+            }
+        }
+    }
+
     > .grid-container-create-columns {
         grid-template-columns: repeat(v-bind(boxesPerRowLarge), minmax(0, 1fr));
+
+        &.row-view {
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+        }
     }
 
     @media only screen and (max-width: $medium-max-width) {

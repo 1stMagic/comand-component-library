@@ -130,10 +130,10 @@ export default {
             width: 100%;
             background: var(--primary-color-reduced-opacity);
 
-            span, span[class*="icon"] {
+            span, [class*="icon-"] {
                 color: var(--default-background-color-reduced-opacity);
 
-                & + span[class*="icon"] {
+                & + [class*="icon-"] {
                     &:last-child {
                         border: var(--default-border);
                         border-radius: var(--full-circle);
@@ -155,7 +155,7 @@ export default {
                 }
 
                 &:hover, &:active, &:focus {
-                    span, span[class*="icon"] {
+                    span, [class*="icon-"] {
                         color: var(--pure-white);
                     }
                 }
@@ -181,7 +181,7 @@ export default {
 
         &:last-child {
             a {
-                span[class*="icon-"] {
+                [class*="icon-"] {
                     &:last-of-type {
                         display: none;
                     }
@@ -193,7 +193,7 @@ export default {
             a {
                 background: var(--primary-color);
 
-                span, span[class*='icon'] {
+                span, [class*="icon-"] {
                     color: var(--pure-white);
                 }
             }
@@ -215,7 +215,7 @@ export default {
                     span, span[class*='color'] {
                         color: inherit;
 
-                        & + span[class*="icon"] {
+                        & + [class*="icon-"] {
                             &:last-child {
                                 border-color: var(--border-color);
                                 color: var(--pure-white);
@@ -225,7 +225,7 @@ export default {
                     }
 
                     &:hover, &:active, &:focus {
-                        span, span[class*="icon"] {
+                        span, [class*="icon-"] {
                             &:not(:last-child) {
                                 color: var(--primary-color);
                             }
@@ -251,8 +251,8 @@ export default {
             }
 
             a {
-                span, span[class*="icon"] {
-                    & + span[class*="icon"] {
+                span, [class*="icon-"] {
+                    & + [class*="icon-"] {
                         &:last-child {
                             left: auto;
                             right: auto;

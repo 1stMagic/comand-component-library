@@ -22,7 +22,7 @@
             <!-- begin CmdHeadline -->
             <CmdHeadline
                 class="message-headline"
-                :iconClass="iconMessage.iconClass"
+                :headlineIcon="headlineIcon"
                 :headlineText="systemMessage"
                 :headlineLevel="messageHeadlineLevel"
                 :id="htmlId"
@@ -82,7 +82,8 @@ export default {
             default: function() {
                 return {
                     show: true,
-                    iconClass: "icon-warning"
+                    iconClass: "icon-warning",
+                    type: "auto"
                 }
             }
         },
@@ -118,6 +119,17 @@ export default {
             }
         }
     },
+    computed: {
+        headlineIcon() {
+            if(this.iconMessage.show) {
+                return {
+                    iconClass: this.iconMessage.iconClass,
+                    type: this.iconMessage.type
+                }
+            }
+            return null
+        }
+    },
     watch: {
         message() {
             this.showSystemMessage = true
@@ -145,28 +157,32 @@ export default {
         }
     }
 
-    > a[class*="icon-"]:not(.button) {
-        font-size: 0.8rem;
-        font-weight: bold;
-        color: var(--pure-white);
+    > a:not(.button) {
+        display: block;
         position: absolute;
+        top: 0.5rem;
         right: 0.5rem;
         text-decoration: none;
-        top: 0.5rem;
-        border: var(--default-border);
-        border-color: var(--pure-white);
-        border-radius: var(--full-circle);
-        padding: calc(var(--default-padding) / 2);
 
-        &:hover, &:active, &:focus {
-            color: var(--hyperlink-color);
-            border-color: var(--hyperlink-color);
-            background: var(--pure-white);
+        [class*="icon-"] {
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: var(--pure-white);
+            border: var(--default-border);
+            border-color: var(--pure-white);
+            border-radius: var(--full-circle);
+            padding: calc(var(--default-padding) / 2);
+
+            &:hover, &:active, &:focus {
+                color: var(--hyperlink-color);
+                border-color: var(--hyperlink-color);
+                background: var(--pure-white);
+            }
         }
     }
 
     &.warning {
-        > a[class*="icon-"]:not(.button) {
+        > a:not(.button) [class*="icon-"] {
             color: var(--text-color);
             border-color: var(--text-color);
 

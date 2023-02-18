@@ -10,6 +10,7 @@
                 </a>
             </li>
         </ul>
+
         <!-- begin slot -->
         <template v-if="useSlot">
             <div v-show="showTab === index - 1" v-for="index in tabs.length" :key="index" aria-live="assertive">
@@ -19,6 +20,7 @@
             </div>
         </template>
         <!-- end slot -->
+
         <div v-else aria-live="assertive">
             <!-- begin CmdHeadline -->
             <CmdHeadline
@@ -125,37 +127,35 @@ export default {
             list-style-type: none;
             background: var(--color-scheme-background-color);
 
-            &.active {
-                border-color: var(--primary-color);
-            }
-
             a {
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 padding: var(--default-padding);
-                color: var(--color-scheme-text-color);
                 border: var(--default-border);
                 border-bottom: 0;
                 border-top-left-radius: var(--border-radius);
                 border-top-right-radius: var(--border-radius);
                 text-decoration: none;
 
-                &:hover, &:active, &:focus, &.active {
+                &:hover, &:active, &:focus {
                     cursor: pointer;
-                    color: var(--hyperlink-color);
+                    color: var(--hyperlink-color-highlighted);
                     border-color: var(--hyperlink-color);
 
-                    span, span[class*="icon"] {
+                    span, [class*="icon-"] {
                         color: inherit;
                     }
                 }
 
                 &.active {
-                    color: var(--pure-white);
-
                     &:hover, &:active, &:focus {
-                        background: var(--hyperlink-color);
+                        color: var(--hyperlink-color-highlighted);
+                        background: var(--pure-white);
+
+                        span, [class*="icon-"] {
+                            color: inherit;
+                        }
                     }
                 }
             }

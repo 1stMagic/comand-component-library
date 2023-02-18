@@ -1,10 +1,10 @@
 <template>
     <!-- begin iconify-icon -->
-    <Icon v-if="isIconify" :icon="iconClass" :title="tooltip"></Icon>
+    <Icon v-if="isIconify" :icon="iconClass" :title="tooltip" :class="$attrs.class"></Icon>
     <!-- end iconify-icon -->
 
-    <!-- being icon from local iconfont -->
-    <span v-else :class="iconClass" :title="tooltip"></span>
+    <!-- begin icon from local iconfont -->
+    <span v-else :class="[iconClass, $attrs.class]" :title="tooltip"></span>
     <!-- end icon from local iconfont -->
 </template>
 
@@ -22,7 +22,7 @@ export default {
          * type that defines where the icon is loaded from
          * 'auto' is for letting the component check (by classname) if the icon should be loaded from the local iconfont (class="icon-'iconname'")
          *  or if the icon should be loaded form iconify-api (class='fontprefix':'iconname') (https://iconify.design/)
-         * 'iconify' forces the component to load an iconfify icon (without api) from a local source (which must be defined)
+         * 'iconify' forces the component to load an iconify icon (without api) from a local source (which must be defined)
          *
          * @allowedValues: 'auto', 'iconify'
          */

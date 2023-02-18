@@ -439,7 +439,7 @@ export default {
                                 span {
                                     font-weight: bold;
 
-                                    &[class*="icon"] {
+                                    &[class*="icon-"] {
                                         font-size: var(--font-size-small);
                                     }
                                 }
@@ -472,7 +472,7 @@ export default {
                                     padding-left: calc(var(--default-margin) * 2);
 
                                     span {
-                                        & + span[class*="icon"]::before {
+                                        & + [class*="icon-"]::before {
                                             display: inline-block;
                                             transform: rotate(0);
                                         }
@@ -492,7 +492,7 @@ export default {
 
                         &.open {
                             > a span {
-                                + span[class*="icon"]::before {
+                                + [class*="icon-"]::before {
                                     display: inline-block;
                                     transform: rotate(-180deg);
                                 }

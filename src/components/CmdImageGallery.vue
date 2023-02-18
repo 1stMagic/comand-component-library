@@ -5,16 +5,16 @@
            @click.prevent="showFancyBox(index)"
            href="#"
            :title="getMessage('cmdimagegallery.tooltip.open_large_image')">
-            <figure>
-                <figcaption v-if="image.figcaption && figcaptionPosition === 'top'">{{ image.figcaption }}</figcaption>
-                <img :src="image.srcImageSmall" :alt="image.alt" />
-                <figcaption v-if="image.figcaption && figcaptionPosition === 'bottom'">{{ image.figcaption }}</figcaption>
-            </figure>
+           <CmdImage :image="image.image" :figcaption="image.figcaption" />
         </a>
     </div>
 </template>
 
 <script>
+// import components
+import CmdImage from "./CmdImage.vue"
+
+// import functions
 import {openFancyBox} from "./CmdFancyBox"
 
 // import mixins
@@ -23,6 +23,9 @@ import DefaultMessageProperties from "../mixins/CmdImageGallery/DefaultMessagePr
 
 export default {
     name: "CmdImageGallery",
+    components: {
+        CmdImage
+    },
     mixins: [I18n, DefaultMessageProperties],
     props: {
         /**
@@ -64,20 +67,18 @@ export default {
             border: var(--default-border);
             border-radius: var(--border-radius);
             max-height: 30rem;
-
-            &:hover, &:active, &:focus {
-                img {
-                    border: var(--primary-border);
-                }
-
-                figcaption {
-                    text-decoration: none;
-                }
-            }
         }
 
         figcaption {
             padding: calc(var(--default-padding) / 2);
+        }
+
+        &:hover, &:active, &:focus {
+            text-decoration: none;
+
+            img {
+                border: var(--primary-border);
+            }
         }
 
         & + .pager {

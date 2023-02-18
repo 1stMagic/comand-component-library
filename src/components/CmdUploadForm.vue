@@ -1182,32 +1182,32 @@ export default {
     & + .cmd-form-element {
         display: none;
     }
-}
 
-.drop-area {
-    border: var(--default-border);
-    border-style: dashed;
-    background: var(--color-scheme-background-color);
-    padding: (var(--default-padding));
-    text-align: center;
+    .drop-area {
+        border: var(--default-border);
+        border-style: dashed;
+        background: var(--color-scheme-background-color);
+        padding: (var(--default-padding));
+        text-align: center;
 
-    &.allow-drop {
-        border-style: solid;
+        &.allow-drop {
+            border-style: solid;
+        }
+
+        > [class*="icon-"] {
+            font-size: 5rem;
+        }
     }
 
-    > span[class*="icon"] {
-        font-size: 5rem;
-    }
-}
+    a.drop-area {
+        display: inline-flex;
+        flex-direction: column;
+        text-decoration: none;
+        background: var(--default-background-color);
 
-a.drop-area {
-    display: inline-flex;
-    flex-direction: column;
-    text-decoration: none;
-    background: var(--default-background-color);
-
-    span {
-        margin: 0;
+        span {
+            margin: 0;
+        }
     }
 }
 

@@ -1,33 +1,80 @@
 <template>
     <!-- begin boxType 'content' -->
     <div v-if="boxType === 'content'"
-         :class="['cmd-box box content', {open : open, collapsible: collapsible, 'stretch-vertically': stretchVertically && !collapsible, 'stretch-horizontally': stretchHorizontally}]">
-        <template v-if="useSlots?.includes('header')">
-            <!-- begin collapsible header with slot -->
-            <div v-if="collapsible" class="box-header">
-                <!-- begin slot 'header' -->
-                <slot name="header"></slot>
-                <!-- end slot 'header' -->
+         :class="[
+             'cmd-box box content',
+             {
+                open : open, collapsible: collapsible,
+                'stretch-vertically': stretchVertically && !collapsible,
+                'stretch-horizontally': stretchHorizontally,
+                'row-view': isRowView
+             }
+             ]"
+    >
+        <!-- begin collapsible header with slot -->
+        <a v-if="collapsible"
+           href="#"
+           class="box-header"
+           :title="open ? iconOpen.tooltip : iconClosed.tooltip"
+           @click.prevent="toggleContentVisibility"
+        >
+            <!-- begin slot 'header' -->
+            <slot v-if="useSlots?.includes('header')" name="header"></slot>
+            <!-- end slot 'header' -->
 
-                <a href="#" @click.prevent="toggleContentVisibility" :title="open ? iconOpen.tooltip : iconClosed.tooltip" class="toggle-icon">
-                    <!-- begin CmdIcon -->
-                    <CmdIcon :iconClass="[open ? iconOpen.iconClass : iconClosed.iconClass]" :type="[open ? iconOpen.iconType : iconClosed.iconType]" />
-                    <!-- end CmdIcon -->
-                </a>
-            </div>
-            <!-- end collapsible header with slot -->
+            <!-- begin CmdHeadline -->
+            <CmdHeadline
+                v-else-if="cmdHeadline?.headlineText"
+                v-bind="cmdHeadline"
+            />
+            <!-- end CmdHeadline -->
 
-            <!-- begin default header with slot -->
-            <div v-else class="box-header">
-                <!-- begin slot 'header' -->
-                <slot name="header"></slot>
-                <!-- end slot 'header' -->
-            </div>
-            <!-- end default header with slot -->
-        </template>
-        <template v-else>
-            <!-- begin header for collapsible -->
-            <a v-if="collapsible" class="box-header" href="#" :title="open ? iconOpen.tooltip : iconClosed.tooltip" @click.prevent="toggleContentVisibility">
+            <!-- begin CmdIcon -->
+            <CmdIcon
+                :iconClass="open ? iconOpen.iconClass : iconClosed.iconClass"
+                :type="open ? iconOpen.iconType : iconClosed.iconType"
+            />
+            <!-- end CmdIcon -->
+        </a>
+        <!-- end collapsible header with slot -->
+
+        <!-- begin default header with slot -->
+        <div v-else class="box-header">
+            <!-- begin slot 'header' -->
+            <slot v-if="useSlots?.includes('header')" name="header"></slot>
+            <!-- end slot 'header' -->
+
+            <!-- begin CmdHeadline -->
+            <CmdHeadline
+                v-else-if="cmdHeadline?.headlineText"
+                v-bind="cmdHeadline"
+            />
+            <!-- end CmdHeadline -->
+        </div>
+        <!-- end default header with slot -->
+
+        <!-- begin box-body -->
+        <div v-if="open" class="box-body" aria-expanded="true" role="article">
+            <!-- begin slot 'body' -->
+            <slot v-if="useSlots?.includes('body')" name="body">
+                <transition-group :name="toggleTransition">
+                    <p :class="{
+                       'cutoff-text': cutoffTextLines > 0,
+                       'fade-last-line': fadeLastLine && !showCutOffText,
+                       'show-text' : showCutOffText
+                   }">
+                        {{ textBody }}
+                    </p>
+                    <a v-if="cutoffTextLines > 0" href="#" @click.prevent="toggleCutOffText">
+                        {{ showCutOffText ? getMessage("cmdbox.contentbox.collapse_text") : getMessage("cmdbox.contentbox.expand_text") }}
+                    </a>
+                </transition-group>
+            </slot>
+            <!-- end slot 'body' -->
+
+            <template v-else>
+                <img v-if="image" :src="image.src" :alt="image.altText"/>
+
                 <!-- begin CmdHeadline -->
                 <CmdHeadline
                     v-if="cmdHeadline?.headlineText"
@@ -35,32 +82,8 @@
                 />
                 <!-- end CmdHeadline -->
 
-                <!-- begin CmdIcon -->
-                <CmdIcon class="toggle-icon" :iconClass="[open ? iconOpen.iconClass : iconClosed.iconClass]" :type="[open ? iconOpen.iconType : iconClosed.iconType]" />
-                <!-- end CmdIcon -->
-            </a>
-            <!-- end header for collapsible -->
-
-            <!-- begin CmdHeadline -->
-            <CmdHeadline
-                v-else-if="!collapsible && cmdHeadline?.headlineText"
-                class="box-header"
-                v-bind="cmdHeadline"
-            />
-            <!-- end CmdHeadline -->
-        </template>
-
-        <!-- begin box-body -->
-        <div v-if="open" class="box-body" aria-expanded="true" role="article">
-            <!-- begin slot 'body' -->
-            <slot name="body">
-                <transition :name="toggleTransition">
-                    <div class="padding">
-                        <p :class="{'cutoff-text': cutoffTextLines > 0, 'fade-last-line': fadeLastLine }">{{ textBody }}</p>
-                    </div>
-                </transition>
-            </slot>
-            <!-- end slot 'body' -->
+                <p v-if="textBody">{{ textBody }}</p>
+            </template>
         </div>
         <!-- end box-body -->
 
@@ -73,7 +96,10 @@
     <!-- end boxType 'content' -->
 
     <!-- begin boxType 'product' -->
-    <a v-else-if="boxType === 'product' && product" :class="['cmd-box box product', {'stretch-vertically': stretchVertically, 'stretch-horizontally': stretchHorizontally}]" href="#" @click.prevent="clickOnProduct(product)">
+    <a v-else-if="boxType === 'product' && product"
+       :class="['cmd-box box product', {'stretch-vertically': stretchVertically, 'stretch-horizontally': stretchHorizontally}]"
+       href="#"
+       @click.prevent="clickOnProduct(product)">
         <div class="box-header flex-container vertical">
             <figure v-if="product.image !== undefined">
                 <img :src="product.image.src" :alt="product.image.alt"/>
@@ -101,22 +127,36 @@
     <!-- end boxType 'product' -->
 
     <!-- begin boxType 'user' -->
-    <div v-else-if="boxType === 'user' && user" :class="['cmd-box box user', {'stretch-vertically': stretchVertically,'stretch-horizontally': stretchHorizontally}]">
+    <div v-else-if="boxType === 'user' && user"
+         :class="[
+             'cmd-box box user',
+              profileType,
+             {
+                 'stretch-vertically': stretchVertically,
+                'stretch-horizontally': stretchHorizontally
+             }
+         ]">
         <div class="box-header flex-container vertical">
             <figure v-if="user.image">
                 <img :src="user.image.src" :alt="user.image.alt"/>
-                <figcaption>{{ user.name }}</figcaption>
+                <figcaption>{{ user.name }} <span v-if="user.age">, {{user.age}}</span></figcaption>
             </figure>
             <div v-else>
                 <span :class="defaultProfileIconClass" :title="user.name"></span>
-                <p>{{ user.name }}</p>
+                <p v-if="!rowView">{{ user.name }}</p>
             </div>
         </div>
         <div class="box-body">
+            <p v-if="rowView">{{ user.name }}</p>
             <p v-if="user.profession">{{ user.profession }}</p>
             <p v-if="user.position">{{ user.position }}</p>
             <p v-if="user.description" class="description">{{ user.description }}</p>
         </div>
+        <ul class="tags">
+            <li v-for="(tag, index) in user.tags" :key="index">
+                {{tag}}
+            </li>
+        </ul>
         <div v-if="user.links" class="box-footer">
             <CmdListOfLinks :links="user.links" orientation="horizontal" :useGap="false"/>
         </div>
@@ -147,17 +187,28 @@ export default {
         DefaultMessageProperties,
         GlobalCurrency
     ],
+    emits: ["click", "toggle-collapse"],
     data() {
         return {
             open: this.collapsible ? this.collapsingBoxesOpen : true,
-            active: true
+            active: true,
+            showCutOffText: false,
+            isRowView: false
         }
     },
-    emits: ["click", "toggle-collapse"],
     props: {
         collapsingBoxesOpen: {
             type: Boolean,
             required: false
+        },
+        /**
+         * arranges box-content in a row
+         *
+         * @affectsStyling: true
+         */
+        rowView: {
+            type: Boolean,
+            default: false
         },
         /**
          * set boyType to show different types of boxes/contents
@@ -227,12 +278,32 @@ export default {
             required: false
         },
         /**
+         * profile types for user-boxes
+         *
+         * @required: only available for boxtype===user
+         *
+         * @allowedValues: 'business', 'influencer', 'dating'
+         */
+        profileType: {
+            type: String,
+            default: 'business'
+        },
+        /**
          * activated if all content (incl. headline) is given by slot
          *
          * if false textBody-property must be set
          */
         useSlots: {
             type: Array,
+            required: false
+        },
+        /**
+         * image-object for box-body of content-box
+         *
+         * src and altText must be set if image is sed
+         */
+        image: {
+            type: Object,
             required: false
         },
         /**
@@ -282,8 +353,8 @@ export default {
             default: true
         },
         /**
-        * allow box to be stretched as high as parent-element
-        */
+         * allow box to be stretched as high as parent-element
+         */
         stretchVertically: {
             type: Boolean,
             default: true
@@ -312,6 +383,11 @@ export default {
 
             this.$emit('toggle-collapse', this.open)
         },
+        // toggle cutofftext (between full and faded text)
+        toggleCutOffText() {
+            this.showCutOffText = !this.showCutOffText
+            this.$emit('toggle-cutofftext', this.showCutOffText)
+        },
         // for boxType === product
         clickOnProduct(product) {
             this.$emit('click', product)
@@ -323,6 +399,9 @@ export default {
             if (this.collapsible) {
                 this.open = this.collapsingBoxesOpen
             }
+        },
+        isRowView() {
+            this.isRowView = this.rowView
         }
     }
 }
@@ -338,6 +417,7 @@ export default {
 
     &.stretch-horizontally {
         display: flex;
+        width: 100%;
     }
 
     &.stretch-vertically {
@@ -376,7 +456,7 @@ export default {
             }
         }
 
-        > .box-header, > a {
+        > .box-header {
             display: flex;
             align-items: center;
             border-top-left-radius: var(--border-radius);
@@ -395,7 +475,11 @@ export default {
                 margin-bottom: 0;
             }
 
-            > .toggle-icon, .toggle-icon > [class*="icon"] {
+            > .toggle-icon {
+                margin-left: auto;
+            }
+
+            > .toggle-icon, .toggle-icon > [class*="icon-"] {
                 font-size: var(--font-size-small);
             }
         }
@@ -405,6 +489,8 @@ export default {
             padding: 0;
 
             p.cutoff-text {
+                padding: var(--default-padding);
+                margin: 0;
                 overflow: hidden;
                 height: calc(var(--line-of-text-height) * v-bind(cutoffTextLines));
 
@@ -414,14 +500,20 @@ export default {
                     position: absolute;
                     left: 0;
                     bottom: 0;
-                    height: var(--line-of-text-height);
-                    background: linear-gradient(to bottom, transparent 0%, var(--default-background-color) 90%);
+                    height: calc(var(--line-of-text-height) * 3);
+                    background: linear-gradient(to bottom, transparent 0%, var(--default-background-color) 100%);
                 }
-            }
 
-            .padding {
-                padding: var(--default-padding);
-                margin: 0;
+                &.show-text {
+                    height: auto;
+                }
+
+                & + a {
+                    border-top: var(--default-border);
+                    display: block;
+                    padding: var(--default-padding);
+                    margin: 0;
+                }
             }
 
             img {
@@ -564,14 +656,14 @@ export default {
 
             padding: var(--default-padding);
 
-            .cmd-headline  {
+            .cmd-headline {
                 > * {
                     display: block;
                     text-align: center;
                 }
             }
 
-            img, > div:first-child > [class*="icon"] {
+            img, > div:first-child > [class*="icon-"] {
                 display: table;
                 margin: 0 auto var(--default-margin) auto;
                 padding: calc(var(--default-padding) * 3);
@@ -593,7 +685,7 @@ export default {
                 aspect-ratio: 1/1;
             }
 
-            > div:first-child > [class*="icon"] {
+            > div:first-child > [class*="icon-"] {
                 font-size: var(--icon-size);
             }
         }
@@ -640,7 +732,7 @@ export default {
                                 background: var(--primary-color);
                                 color: var(--pure-white);
 
-                                span, span[class*="icon"] {
+                                span, [class*="icon-"] {
                                     color: var(--pure-white);
                                 }
                             }
@@ -651,6 +743,33 @@ export default {
                                 border: 0;
                             }
                         }
+                    }
+                }
+            }
+        }
+
+        &.row-view {
+            [class*="icon"] {
+                --icon-size: 3rem;
+            }
+
+            .box-header > div:first-child > [class*="icon-"] {
+                padding: calc(var(--default-padding) * 1.5);
+            }
+
+            .box-body p {
+                text-align: left;
+            }
+
+            .box-footer {
+                border: 0;
+
+                .cmd-list-of-links {
+                    background: none;
+
+                    ul, ul * {
+                        border: 0;
+                        background: inherit;
                     }
                 }
             }

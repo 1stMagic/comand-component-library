@@ -32,7 +32,6 @@
             <a v-if="required || inputRequirements.length"
                href="#"
                @click.prevent
-               :class="getStatusIconClass"
                :title="validationTooltip"
                :aria-errormessage="tooltipId"
                aria-live="assertive"
@@ -290,7 +289,7 @@ export default {
     .label-text {
         display: inline-flex;
 
-        > a[class*="icon"] {
+        > [class*="icon-"] {
             margin-left: calc(var(--default-margin) / 2);
         }
     }

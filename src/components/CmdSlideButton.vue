@@ -3,13 +3,21 @@
        @click.prevent
        :class="['cmd-slide-button', 'button', slideButtonType]"
        :title="getDirection.tooltip">
-        <span :class="getDirection.iconClass || 'next'"></span>
+        <!-- being CmdIcon -->
+        <CmdIcon :iconClass="getDirection.iconClass || 'next'" />
+        <!-- end CmdIcon -->
     </a>
 </template>
 
 <script>
+// import components
+import CmdIcon from "./CmdIcon"
+
 export default {
     name: "CmdSlideButton",
+    components: {
+        CmdIcon
+    },
     props: {
         /**
          * set slide-button-type
@@ -68,10 +76,8 @@ export default {
     &.button {
         font-size: 2rem;
         z-index: 10;
-        width: 5rem;
         height: 100%;
         position: absolute;
-        display: -webkit-flex; /* Safari 6-8 */
         display: flex;
         justify-content: center;
         text-decoration: none;
@@ -88,7 +94,7 @@ export default {
             transition: var(--default-transition);
 
             span {
-                color: var(--primary-color);
+                color: var(--hyperlink-color-highlighted);
             }
         }
 
@@ -104,7 +110,6 @@ export default {
 
         &.up, &.down {
             width: 100%;
-            height: auto;
             height: auto;
             left: 0;
             top: 0;

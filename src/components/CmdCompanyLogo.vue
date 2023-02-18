@@ -1,19 +1,30 @@
 <template>
     <div class="cmd-company-logo">
         <router-link v-if="link.type === 'router'" :to="link.path" :title="link.tooltip">
-            <img :src="pathCurrentLogo" :alt="altText"/>
+            <!-- begin CmdImage -->
+            <CmdImage :image="image" />
+            <!-- end CmdImage -->
         </router-link>
         <a v-else :href="link.path" :title="link.tooltip">
-            <img :src="pathCurrentLogo" :alt="altText" />
+            <!-- begin CmdImage -->
+            <CmdImage :image="image" />
+            <!-- end CmdImage -->
         </a>
     </div>
 </template>
 
 <script>
+// import functions
 import {getRoute} from "../utilities.js"
+
+// import components
+import CmdImage from "./CmdImage"
 
 export default {
     name: "CmdCompanyLogo",
+    components: {
+      CmdImage
+    },
     data() {
         return {
             prefersColorScheme: ""
@@ -57,6 +68,12 @@ export default {
                 return this.pathDefaultLogo
             }
             return this.pathDarkmodeLogo
+        },
+        image() {
+            return {
+                src: this.pathCurrentLogo,
+                alt: this.altText
+            }
         }
     },
     created() {

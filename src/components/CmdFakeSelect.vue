@@ -60,7 +60,7 @@
 
                     <!-- begin optional icon -->
                     <!-- begin CmdIcon -->
-                    <CmdIcon v-if="optionIcon?.iconClass" :type="optionIcon?.iconType" :class="optionIcon?.iconClass" />
+                    <CmdIcon v-if="optionIcon?.iconClass" :type="optionIcon?.iconType" :iconClass="optionIcon?.iconClass" />
                     <!-- end CmdIcon -->
                     <!-- end optional icon -->
 
@@ -266,7 +266,7 @@ export default {
         /**
          * label-text for fake-select
          *
-         *  @requiredForAccessibility: true
+         * @requiredForAccessibility: true
          */
         labelText: {
             type: String,
@@ -661,7 +661,7 @@ export default {
                 > a {
                     border-color: var(--status-color);
 
-                    > span, span[class*="icon-"] {
+                    > span, [class*="icon-"] {
                         color: var(--status-color);
                     }
 

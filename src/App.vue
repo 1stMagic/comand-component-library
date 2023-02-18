@@ -35,28 +35,29 @@
                         <li><a href="#section-boxes">Boxes</a></li>
                         <li><a href="#section-breadcrumbs">Breadcrumbs</a></li>
                         <li><a href="#section-cookie-disclaimer">Cookie-Disclaimer</a></li>
-                        <li><a href="#section-custom-headline">Custom Headline</a></li>
+                        <li><a href="#section-headlines">Headlines</a></li>
                         <li><a href="#section-fancybox">Fancybox</a></li>
                     </ul>
                     <ul>
-                        <li><a href="#section-google-mapsn">Google-Maps&trade;</a></li>
+                        <li><a href="#section-google-maps">Google-Maps&trade;</a></li>
                         <li><a href="#section-icons">Icons</a></li>
+                        <li><a href="#section-image">Image</a></li>
                         <li><a href="#section-image-gallery">Image Gallery</a></li>
                         <li><a href="#section-image-zoom">Image-Zoom</a></li>
                         <li><a href="#section-list-of-links">List Of Links</a></li>
                         <li><a href="#section-login-form">Login Form</a></li>
-                        <li><a href="#section-main-navigation">Main-Navigation</a></li>
                     </ul>
                     <ul>
+                        <li><a href="#section-main-navigation">Main-Navigation</a></li>
                         <li><a href="#section-multistep-form-progress-bar">Multistepform-Progressbar</a></li>
                         <li><a href="#section-pager">Pager</a></li>
                         <li><a href="#section-share-buttons">Share Buttons</a></li>
                         <li><a href="#section-site-header">Site Header</a></li>
                         <li><a href="#section-site-search">Site Search</a></li>
                         <li><a href="#section-slideshow">Slideshow</a></li>
-                        <li><a href="#section-system-message">System-Message</a></li>
                     </ul>
                     <ul>
+                        <li><a href="#section-system-message">System-Message</a></li>
                         <li><a href="#section-tables">Tables</a></li>
                         <li><a href="#section-tabs">Tabs</a></li>
                         <li><a href="#section-thumbnail-scroller">Thumbnail-Scroller</a></li>
@@ -201,7 +202,7 @@
                                             :disabled="disabledStatus"
                             />
                             <CmdFormElement element="input"
-                                            labelText="Label for passwordfield:"
+                                            labelText="Label for password-field:"
                                             type="password"
                                             minlength="8"
                                             maxlength="255"
@@ -800,8 +801,8 @@
                         <CmdBox
                             :stretch-vertically="false"
                             :cmdHeadline="{headlineText: 'Box with cutoff text', headlineLevel: 4}"
-                            textBody="This is a long text that is cutoff after a specific number of lines that can be defined by the property 'cutoffTextLines'"
-                            :cutoff-text-lines="3"
+                            textBody="This is a long text that is cutoff after a specific number of lines that can be defined by the property 'cutoffTextLines' and be toggled by a link below."
+                            :cutoff-text-lines="4"
                         />
                         <CmdBox :useSlots="['header', 'body', 'footer']">
                             <template v-slot:header>
@@ -846,6 +847,12 @@
                                 </p>
                             </template>
                         </CmdBox>
+                        <CmdBox
+                            :cmdHeadline="{headlineText: 'Collapsible box', headlineLevel: 4}"
+                            :image="{src: 'media/images/content-images/landscape-medium.jpg', altText: 'ALternative text'}"
+                            textBody="This is some text given by property."
+                            :collapsible="true"
+                        />
                         <CmdBox :useSlots="['header', 'body']" :cmdHeadline="{headlineText: 'Collapsible box', headlineLevel: 4}" :collapsible="true">
                             <template v-slot:header>
                                 <h4>
@@ -853,7 +860,7 @@
                                 </h4>
                             </template>
                             <template v-slot:body>
-                                <img src="media/images/content-images/logo-business-edition-landscape.jpg" alt="Alternative text" />
+                                <img src="media/images/content-images/landscape-medium.jpg" alt="Alternative text" />
                             </template>
                         </CmdBox>
                         <CmdBox :useSlots="['header', 'body', 'footer']">
@@ -863,7 +870,7 @@
                                 </h4>
                             </template>
                             <template v-slot:body>
-                                <img src="media/images/content-images/logo-business-edition-landscape.jpg" alt="Alternative text"/>
+                                <img src="media/images/content-images/landscape-medium.jpg" alt="Alternative text"/>
                                 <div class="default-padding">
                                     <h4>Headline</h4>
                                     <p>This is some text information i.e a short-text for a news teaser.</p>
@@ -888,6 +895,9 @@
                         <CmdBox boxType="user" :user="user" :cmdHeadline="{headlineLevel: 4}"/>
                     </div>
                 </div>
+                <CmdBoxWrapper :boxesPerRow="[5, 2, 1]" :useRowViewAsDefault="true">
+                    <CmdBox v-for="index in boxUserData.length" :key="index" boxType="user" :user="boxUserData[index - 1]" :cmdHeadline="{headlineLevel: 5}" />
+                </CmdBoxWrapper>
             </CmdWidthLimitationWrapper>
             <!-- end boxes ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
@@ -909,18 +919,20 @@
             </CmdWidthLimitationWrapper>
             <!-- end cookie-disclaimer ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
-            <!-- begin custom-headline ------------------------------------------------------------------------------------------------------------------------------------------------------->
-            <a id="section-custom-headline"></a>
+            <!-- begin headline ------------------------------------------------------------------------------------------------------------------------------------------------------->
+            <a id="section-headlines"></a>
             <CmdWidthLimitationWrapper>
-                <h2 class="headline-demopage">Headline</h2>
-                <CmdHeadline icon-class="icon-home" pre-headline-text="Pre-headline" headlineText="Headline level 1" :headlineLevel="1"/>
+                <h2 class="headline-demopage">Headlines</h2>
+                <CmdHeadline :headlineIcon="{iconClass: 'icon-home'}" pre-headline-text="Pre-headline" headlineText="Headline level 1" :headlineLevel="1"/>
                 <CmdHeadline headlineText="Headline level 2" :headlineLevel="2"/>
                 <CmdHeadline headlineText="Headline level 3" :headlineLevel="3"/>
                 <CmdHeadline headlineText="Headline level 4" :headlineLevel="4"/>
                 <CmdHeadline headlineText="Headline level 5" :headlineLevel="5"/>
                 <CmdHeadline headlineText="Headline level 6" :headlineLevel="6"/>
+                <CmdHeadline pre-headline-text="Pre-headline" headlineText="Headline level 1 (center)" text-align="center" :headlineLevel="1"/>
+                <CmdHeadline pre-headline-text="Pre-headline" headlineText="Headline level 1 (right)" text-align="right" :headlineLevel="1"/>
             </CmdWidthLimitationWrapper>
-            <!-- end custom-headline ------------------------------------------------------------------------------------------------------------------------------------------------------->
+            <!-- end headline ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
             <!-- begin fancybox ------------------------------------------------------------------------------------------------------------------------------------------------------->
             <a id="section-fancybox"></a>
@@ -928,11 +940,18 @@
                 <h2 class="headline-demopage">Fancybox</h2>
                 <a href="#" @click.prevent="showFancyBox('text','Some text')">Open FancyBox with text</a>
                 <a href="#"
-                   @click.prevent="showFancyBox('image', 'media/images/content-images/landscape-large.jpg', 'Alternative text', 'figcaption')"
-                   title="Open FancyBox with large image"
+                   @click.prevent="showFancyBox('url', 'media/images/content-images/landscape-large.jpg')"
+                   title="Open FancyBox with large image given by url"
                 >
                    <img src="media/images/content-images/landscape-small.jpg" alt="Alternative text"/>
                 </a>
+                <a href="#"
+                   @click.prevent="showFancyBox('image', 'media/images/content-images/landscape-large.jpg')"
+                   title="Open FancyBox with large image given by property"
+                >
+                    <img src="media/images/content-images/landscape-small.jpg" alt="Alternative text"/>
+                </a>
+
             </CmdWidthLimitationWrapper>
             <!-- end fancybox ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
@@ -954,10 +973,20 @@
                     <li><span>Icon from iconify-api (bootstrap-font)</span><CmdIcon iconClass="bi:house-fill" /></li>
                     <li><span>Icon from iconify-api (material-design-font)</span><CmdIcon iconClass="mdi:home" /></li>
                     <li><span>Icon from iconify-api (font-awesome-solid-font)</span><CmdIcon iconClass="fa6-solid:house-chimney" /></li>
-
                 </ul>
             </CmdWidthLimitationWrapper>
             <!-- end icons ------------------------------------------------------------------------------------------------------------------------------------------------------->
+
+            <!-- begin images ------------------------------------------------------------------------------------------------------------------------------------------------------->
+            <a id="section-image"></a>
+            <CmdWidthLimitationWrapper>
+                <h2 class="headline-demopage">Image</h2>
+                <div class="flex-container">
+                    <CmdImage :image="imageData[0].image" :figcaption="imageData[0].figcaption" />
+                    <CmdImage :image="imageData[1].image" :figcaption="imageData[1].figcaption" />
+                </div>
+            </CmdWidthLimitationWrapper>
+            <!-- end images ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
             <!-- begin image-gallery------------------------------------------------------------------------------------------------------------------------------------------------------->
             <a id="section-image-gallery"></a>
@@ -972,8 +1001,8 @@
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Image-Zoom</h2>
                 <CmdImageZoom
-                    small-image-url="media/images/content-images/logo-business-edition-landscape.jpg"
-                    large-image-url="media/images/content-images/logo-business-edition-landscape-large.jpg"
+                    :imageSmall="imageData[0]"
+                    :imageLarge="imageData[0]"
                 />
             </CmdWidthLimitationWrapper>
             <!-- end image-zoom ------------------------------------------------------------------------------------------------------------------------------------------------------->
@@ -1065,12 +1094,23 @@
             <a id="section-pager"></a>
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Pager</h2>
+                <h3>Link-view</h3>
                 <div>
                     <p>Page {{ showPagePager }}</p>
                 </div>
                 <CmdPager
-                    :items="4"
+                    :pages="4"
                     :itemsPerPage="1"
+                    @click="showPagePager = $event"
+                />
+                <h3>Button-view</h3>
+                <div>
+                    <p>Page {{ showPagePager }}</p>
+                </div>
+                <CmdPager
+                    :pages="4"
+                    :itemsPerPage="1"
+                    link-type="button"
                     @click="showPagePager = $event"
                 />
             </CmdWidthLimitationWrapper>
@@ -1160,7 +1200,7 @@
                 <CmdSystemMessage validationStatus="error"
                                   :fullWidth="true"
                                   systemMessage="This is an error message!"
-                                  :iconMessage="{iconClass: 'icon-error-circle'}">
+                                  :iconMessage="{iconClass: 'icon-error-circle', show: true}">
                     <ul>
                         <li>Error #1</li>
                         <li>Error #2</li>
@@ -1175,13 +1215,13 @@
                 <CmdSystemMessage validationStatus="success"
                                   :fullWidth="true"
                                   systemMessage="This is a success message!"
-                                  :iconMessage="{iconClass: 'icon-check-circle'}">
+                                  :iconMessage="{iconClass: 'icon-check-circle', show: true}">
                     <p>This is additional text!</p>
                 </CmdSystemMessage>
                 <CmdSystemMessage validationStatus="info"
                                   :fullWidth="true"
                                   systemMessage="This is an info message!"
-                                  :iconMessage="{iconClass: 'icon-info-circle'}">
+                                  :iconMessage="{iconClass: 'icon-info-circle', show: true}">
                     <p>This is additional text!</p>
                 </CmdSystemMessage>
             </CmdWidthLimitationWrapper>
@@ -1355,6 +1395,7 @@ import fakeSelectCountriesData from '@/assets/data/fake-select-countries.json'
 import fakeSelectFilterOptionsData from '@/assets/data/fake-select-filter-options.json'
 import fakeSelectOptionsData from '@/assets/data/fake-select-options.json'
 import fakeSelectOptionsWithIconsData from '@/assets/data/fake-select-options-with-icons.json'
+import imageData from '@/assets/data/image.json'
 import imageGalleryData from '@/assets/data/image-gallery.json'
 import inputGroupRadiobuttonsData from '@/assets/data/input-group-radiobuttons.json'
 import inputGroupReplacedRadiobuttonsData from '@/assets/data/input-group-replaced-radiobuttons.json'
@@ -1390,6 +1431,7 @@ import CmdFormElement from "@/components/CmdFormElement.vue"
 import CmdFormFilters from "@/components/CmdFormFilters.vue"
 import CmdGoogleMaps from "./components/CmdGoogleMaps"
 import CmdIcon from "./components/CmdIcon"
+import CmdImage from "./components/CmdImage"
 import CmdImageGallery from "@/components/CmdImageGallery.vue"
 import CmdImageZoom from "@/components/CmdImageZoom.vue"
 import CmdInputGroup from "./components/CmdInputGroup"
@@ -1443,6 +1485,7 @@ export default {
         CmdFormElement,
         CmdGoogleMaps,
         CmdIcon,
+        CmdImage,
         CmdImageGallery,
         CmdImageZoom,
         CmdInputGroup,
@@ -1468,7 +1511,6 @@ export default {
         CmdUploadForm,
         CmdWidthLimitationWrapper
     },
-
     data() {
         return {
             acceptedCookies: ["google-maps"],
@@ -1588,6 +1630,7 @@ export default {
             fakeSelectOptionsData,
             fakeSelectOptionsWithIconsData,
             listOfLinksData,
+            imageData,
             imageGalleryData,
             inputGroupReplacedRadiobuttonsData,
             inputGroupToggleSwitchRadiobuttonsData,
@@ -1625,11 +1668,31 @@ export default {
         showError() {
             alert("Error")
         },
-        showFancyBox(type, content, altText, figcaption) {
-            if (type === 'text') {
-                openFancyBox({content: content, cmdHeadline: {show: true, headlineText: "Fancybox headline", headlineLevel: 3}})
-            } else if (type === 'image') {
-                openFancyBox({url: content, altText: altText, cmdHeadline: {show: true, headlineText: "Fancybox headline", headlineLevel: 3}, figcaption: figcaption})
+        showFancyBox(type, content) {
+            if (type === "text") {
+                openFancyBox({content: content, cmdHeadline: {show: true, headlineText: "Fancybox with text", headlineLevel: 3}})
+            } else if (type === "url") {
+                openFancyBox({url: content, cmdHeadline: {show: true, headlineText: "Fancybox with image given by url", headlineLevel: 3}})
+            } else if (type === "image") {
+                openFancyBox({
+                    url: content,
+                    cmdHeadline: {
+                        show: true,
+                        headlineText: "Fancybox with image given by property",
+                        headlineLevel: 3
+                    },
+                    cmdImage: {
+                        image: {
+                            src: "",
+                            alt: "Alternative text",
+                            tooltip: "This is a tooltip"
+                        },
+                        figcaption: {
+                            show: true,
+                            text: "figcaption"
+                        }
+                    }
+                })
             }
         },
         getOptionName(option) {

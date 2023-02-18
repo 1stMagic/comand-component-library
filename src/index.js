@@ -18,6 +18,7 @@ export { default as CmdFormFilters } from '@/components/CmdFormFilters'
 export { default as CmdGoogleMaps } from '@/components/CmdGoogleMaps'
 export { default as CmdHeadline } from '@/components/CmdHeadline'
 export { default as CmdIcon } from '@/components/CmdIcon'
+export { default as CmdImage } from '@/components/CmdImage'
 export { default as CmdImageGallery } from '@/components/CmdImageGallery'
 export { default as CmdImageZoom } from '@/components/CmdImageZoom'
 export { default as CmdInputGroup } from '@/components/CmdInputGroup'
@@ -48,8 +49,9 @@ export { default as CmdWidthLimitationWrapper } from '@/components/CmdWidthLimit
 export { default as DirFocus } from '@/directives/focus'
 export { default as DirTelephone } from '@/directives/telephone'
 
-// export directives
+// export functions
 export { createUuid, createHtmlId } from '@/utils/common'
+export { getFileExtension } from '@/utils/getFileExtension'
 
 // export composables
 export { useSequence } from '@/composables/sequence'

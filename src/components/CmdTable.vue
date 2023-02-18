@@ -208,7 +208,7 @@ export default {
             min-width: 2rem;
             min-height: 2rem;
 
-            span[class*="icon"] {
+            [class*="icon-"] {
                 font-size: var(--icon-size-small);
             }
         }

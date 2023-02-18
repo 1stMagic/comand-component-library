@@ -293,7 +293,7 @@ html {
     --color-scheme-background-inverted: var(--light-mode-background-color);
     --default-background-color-lightness: 20%;
 
-    :where(label, .label) .label-text > [class*="icon"] {
+    :where(label, .label) .label-text > [class*="icon-"] {
       background: var(--dark-gray);
     }
   }

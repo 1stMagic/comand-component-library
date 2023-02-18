@@ -179,7 +179,7 @@ export default {
 .cmd-tooltip {
     padding: .6rem .7rem .4rem .7rem;
     line-height: 100%;
-    font-size: 1.1rem;
+    font-size: var(--font-size-small);
     position: fixed;
     background: var(--color-scheme-background-color);
     z-index: 100;
@@ -196,9 +196,9 @@ export default {
         a {
             margin-left: auto;
 
-            span[class*="icon"] {
+            [class*="icon-"] {
                 padding-left: 1rem;
-                font-size: 1.1rem;
+                font-size: var(--font-size-small);
             }
         }
     }

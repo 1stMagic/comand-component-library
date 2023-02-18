@@ -6,10 +6,10 @@
         </div>
         <!-- end slot for elements above header -->
 
-        <header :class="[
-            useGrid ? 'grid-container-create-columns': 'flex-container',
-            {'has-navigation': (cmdMainNavigation?.navigationEntries?.length && navigationInline) || $slots.navigation,
-            'one-child-only' : oneChildOnly}
+        <header
+            :class="[
+                useGrid ? 'grid-container-create-columns': 'flex-container',
+                {'has-navigation': (cmdMainNavigation?.navigationEntries?.length && navigationInline) || $slots.navigation}
             ]">
             <!-- begin slots for logo and other header elements -->
             <template v-if="$slots.logo || $slots.header || $slots.navigation">
@@ -107,12 +107,6 @@ export default {
             type: Object,
             required: false
         }
-    },
-    computed: {
-        oneChildOnly() {
-            // check if sum of children equals "1" by turning objects into booleans, which will be converted to numbers by using "+".
-            return (!!this.cmdCompanyLogo + !!this.cmdMainNavigation + !!this.$slots.logo + !!this.$slots.header + !!this.$slots.navigation) === 1
-        }
     }
 }
 </script>
@@ -171,10 +165,6 @@ export default {
             padding-bottom: 0;
         }
 
-        &.one-child-only {
-            gap: 0;
-        }
-
         &.flex-container {
             width: 100%;
 
@@ -197,10 +187,6 @@ export default {
         .cmd-company-logo {
             grid-column: span var(--grid-small-span);
         }
-
-         > *:only-child {
-             gap: 0;
-         }
     }
 
     &.navigation-inline {

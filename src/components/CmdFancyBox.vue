@@ -17,28 +17,32 @@
 
                 <!-- begin button-wrapper -->
                 <div
-                    v-if="(fancyboxOptions.printButtons && (fancyboxOptions.printButtons.color || fancyboxOptions.printButtons.grayscale)) || fancyboxOptions.closeIcon"
+                    v-if="(fancyboxOptions.printButtons?.color || fancyboxOptions.printButtons?.grayscale) || fancyboxOptions.closeIcon"
                     class="button-wrapper no-flex"
                 >  <!-- begin print buttons -->
-                    <a v-if="fancyboxOptions.printButtons && fancyboxOptions.printButtons.color && fancyboxOptions.printButtons.color.show"
+                    <a v-if="showPrintButtons && fancyboxOptions.printButtons?.color"
                        href="#"
-                       class="button primary"
-                       :title="fancyboxOptions.printButtons.color.tooltip"
-                       id="print-color"
+                       class="button print-color"
+                       :title="fancyboxOptions.printButtons.color?.tooltip"
                        @click.prevent="printInGrayscale = false">
                         <!-- begin CmdIcon -->
-                        <CmdIcon :iconClass="fancyboxOptions.printButtons.color.iconClass" :type="fancyboxOptions.printButtons.color.iconType" />
+                        <CmdIcon
+                            :iconClass="fancyboxOptions.printButtons.color?.iconClass"
+                            :type="fancyboxOptions.printButtons.color?.iconType"
+                        />
                         <!-- end CmdIcon -->
                     </a>
-                    <a v-if="fancyboxOptions.printButtons && fancyboxOptions.printButtons.grayscale && fancyboxOptions.printButtons.grayscale.show"
+                    <a v-if="showPrintButtons && fancyboxOptions.printButtons?.grayscale"
                        href="#"
-                       class="button primary"
-                       :title="fancyboxOptions.printButtons.grayscale.tooltip"
-                       id="print-grayscale"
+                       class="button print-grayscale"
+                       :title="fancyboxOptions.printButtons.grayscale?.tooltip"
                        @click.prevent="printInGrayscale = true">
-                        <!-- begin CmdIcon -->
-                        <CmdIcon :iconClass="fancyboxOptions.printButtons.grayscale.iconClass" :type="fancyboxOptions.printButtons.grayscale.iconType" />
-                        <!-- end CmdIcon -->
+                       <!-- begin CmdIcon -->
+                       <CmdIcon
+                           :iconClass="fancyboxOptions.printButtons.grayscale?.iconClass"
+                           :type="fancyboxOptions.printButtons.grayscale?.iconType"
+                       />
+                       <!-- end CmdIcon -->
                     </a>
                     <!-- end print buttons -->
 
@@ -50,9 +54,12 @@
                        :title="fancyboxOptions.closeIcon.tooltip"
                        ref="close-dialog"
                        @click.prevent="close">
-                        <!-- begin CmdIcon -->
-                        <CmdIcon :iconClass="fancyboxOptions.closeIcon.iconClass" :type="fancyboxOptions.closeIcon.iconType" />
-                        <!-- end CmdIcon -->
+                       <!-- begin CmdIcon -->
+                       <CmdIcon
+                           :iconClass="fancyboxOptions.closeIcon.iconClass"
+                           :type="fancyboxOptions.closeIcon.iconType"
+                       />
+                       <!-- end CmdIcon -->
                     </a>
                     <!-- end close-icon -->
                 </div>
@@ -60,10 +67,9 @@
             </header>
             <div :class="['outer-content-wrapper', {'grayscale' : printInGrayscale}]">
                 <div v-if="fancyBoxImageUrl" class="content">
-                    <figure>
-                        <img :src="fancyBoxImageUrl" :alt="altText" />
-                        <figcaption v-if="figcaption">{{ figcaption }}</figcaption>
-                    </figure>
+                    <!-- begin CmdImage -->
+                    <CmdImage :image="largeSingleImage" :figcaption="cmdImage?.figcaption" />
+                    <!-- end CmdImage -->
                 </div>
                 <div v-else-if="fancyBoxContent" class="content" v-html="fancyBoxContent"></div>
                 <div v-else-if="fancyBoxElements" class="content"></div>
@@ -74,10 +80,9 @@
                     <!-- end CmdSlideButton -->
 
                     <!-- begin enlarged image -->
-                    <figure>
-                        <img :src="fancyBoxGallery[index].srcImageLarge" :alt="fancyBoxGallery[index].alt"/>
-                        <figcaption>{{ fancyBoxGallery[index].figcaption }}</figcaption>
-                    </figure>
+                    <!-- begin CmdImage -->
+                    <CmdImage :image="largeGalleryImage" :figcaption="fancyBoxGallery[index].figcaption" />
+                    <!-- end CmdImage -->
                     <!-- end enlarged image -->
 
                     <!-- begin CmdSlideButton -->
@@ -90,6 +95,37 @@
                     <!-- end slot-content -->
                 </div>
             </div>
+
+            <footer v-if="showSubmitButtons && fancyboxOptions.submitButtons" class="flex-container no-flex">
+                <!-- begin cancel-button -->
+                <button
+                    v-if="fancyboxOptions.submitButtons?.cancel"
+                    @click="cancel"
+                    :title="fancyboxOptions.submitButtons.cancel?.tooltip">
+                    <CmdIcon
+                        v-if="fancyboxOptions.submitButtons.cancel?.iconClass"
+                        :iconClass="fancyboxOptions.submitButtons.cancel?.iconClass"
+                        :type="fancyboxOptions.submitButtons.cancel?.iconType"
+                    />
+                    <span v-if="fancyboxOptions.submitButtons.cancel?.buttonText">{{fancyboxOptions.submitButtons.cancel?.buttonText}}</span>
+                </button>
+                <!-- end cancel-button -->
+
+                <!-- begin confirm-button -->
+                <button
+                    v-if="fancyboxOptions.submitButtons?.confirm"
+                    @click="confirm"
+                    :title="fancyboxOptions.submitButtons.cancel?.tooltip">
+                    <CmdIcon
+                        v-if="fancyboxOptions.submitButtons.confirm?.iconClass"
+                        :iconClass="fancyboxOptions.submitButtons.confirm?.iconClass"
+                        :type="fancyboxOptions.submitButtons.confirm?.iconType"
+                    />
+                    <span v-if="fancyboxOptions.submitButtons.confirm?.buttonText">{{fancyboxOptions.submitButtons.confirm?.buttonText}}</span>
+                </button>
+                <!-- end confirm-button -->
+            </footer>
+
             <!-- begin CmdThumbnailScroller -->
             <CmdThumbnailScroller
                 v-if="fancyBoxGallery"
@@ -112,6 +148,7 @@ import Identifier from "../mixins/Identifier"
 // import components
 import CmdHeadline from "./CmdHeadline"
 import CmdIcon from "./CmdIcon"
+import CmdImage from "./CmdImage"
 import CmdSlideButton from "./CmdSlideButton.vue"
 import CmdThumbnailScroller from './CmdThumbnailScroller.vue'
 
@@ -130,12 +167,14 @@ const FancyBox = defineComponent({
     components: {
         CmdHeadline,
         CmdIcon,
+        CmdImage,
         CmdSlideButton,
         CmdThumbnailScroller
     },
     mixins: [
         Identifier
     ],
+    emits: ['cancel', 'confirm'],
     data() {
         return {
             fancyBoxContent: null,
@@ -164,11 +203,18 @@ const FancyBox = defineComponent({
             required: false
         },
         /**
-         * figcaption if image is given by url
+         * toggle visibility of print-buttons
          */
-        figcaption: {
-            type: String,
-            required: false
+        showPrintButtons: {
+            type: Boolean,
+            default: false
+        },
+        /**
+         * toggle visibility of print-buttons
+         */
+        showSubmitButtons: {
+            type: Boolean,
+            default: true
         },
         /**
          * options to show at top (closeIcon, printButtons)
@@ -178,19 +224,35 @@ const FancyBox = defineComponent({
             default() {
                 return {
                     closeIcon: {
-                        "iconClass": "icon-cancel",
-                        "tooltip": "Close"
+                        iconClass: "icon-cancel",
+                        iconType: "auto",
+                        tooltip: "Close"
                     },
                     printButtons: {
-                        "color": {
-                            show: true,
-                            "iconClass": "icon-print",
-                            "tooltip": "print in color"
+                        color: {
+                            iconClass: "icon-print",
+                            iconType: "auto",
+                            tooltip: "print in color"
                         },
-                        "grayscale": {
-                            show: true,
-                            "iconClass": "icon-print",
-                            "tooltip": "print in grayscale"
+                        grayscale: {
+                            iconClass: "icon-print",
+                            iconType: "auto",
+                            tooltip: "print in grayscale"
+                        }
+                    },
+                    submitButtons: {
+                        cancel: {
+                            iconClass: "icon-cancel",
+                            iconType: "auto",
+                            tooltip: "Cancel",
+                            buttonText: "Cancel"
+                        },
+                        confirm: {
+                            iconClass: "icon-check",
+                            iconType: "auto",
+                            buttonText: "Confirm",
+                            tooltip: "Confirm",
+                            buttonType: "primary"
                         }
                     }
                 }
@@ -248,12 +310,10 @@ const FancyBox = defineComponent({
             default: true
         },
         /**
-         * alternative text for large image (required for images)
-         *
-         * @requiredForAccessibility: true
+         * properties for CmdImage-component
          */
-        altText: {
-            type: String,
+        cmdImage: {
+            type: Object,
             required: false
         },
         /**
@@ -299,6 +359,20 @@ const FancyBox = defineComponent({
             document.querySelector("body").removeEventListener("keyup", this.$_FancyBox_escapeKeyHandler)
         }
     },
+    computed: {
+      largeGalleryImage() {
+          // change src-key for a single item/image in gallery to fit CmdImage-properties
+          const fancyBoxItem = {...this.fancyBoxGallery[this.index].image}
+          fancyBoxItem.src =  fancyBoxItem.srcImageLarge
+          return fancyBoxItem
+      },
+      largeSingleImage() {
+          // change src-key for a single item/image to fit CmdImage-properties
+          const fancyBoxItem = {...this.cmdImage?.image || {}}
+          fancyBoxItem.src = this.fancyBoxImageUrl
+          return fancyBoxItem
+      }
+    },
     methods: {
         showDialog() {
             // avoid scrolling if fancybox is shown
@@ -341,7 +415,7 @@ const FancyBox = defineComponent({
         },
         showItem(imgId) {
             for (let i = 0; i < this.fancyBoxGallery.length; i++) {
-                if (this.fancyBoxGallery[i].imgId === imgId) {
+                if (this.fancyBoxGallery[i].id === imgId) {
                     this.index = i
                     break;
                 }
@@ -365,6 +439,14 @@ const FancyBox = defineComponent({
 
             // remove class to re-enable scrolling
             document.querySelector("body").classList.remove("avoid-scrolling")
+        },
+        cancel() {
+            this.$emit("cancel", true)
+            this.close()
+        },
+        confirm() {
+            this.$emit("confirm", true)
+            this.close()
         }
     },
     watch: {
@@ -475,33 +557,33 @@ export default FancyBox
                 min-width: 0;
                 min-height: 0;
 
-                &[class*="icon"] {
+                &[class*="print"] > [class*="icon-"] {
                     color: var(--text-color);
-                    background: var(--pure-white);
                 }
 
-                &.icon-print {
+                &.print-grayscale {
+                    background: linear-gradient(135deg, var(--medium-gray) 0%, var(--medium-gray) 50%, var(--pure-white) 50%, var(--pure-white) 100%);
+                }
+
+                &.print-color {
                     background: linear-gradient(135deg, #009fe3 0%, #009fe3 25%, #e6007e 25%, #e6007e 50%, #ffed00 50%, #ffed00 50%, #ffed00 75%, var(--medium-gray) 75%, var(--medium-gray) 100%);
-
-                    &#print-grayscale {
-                        background: linear-gradient(135deg, var(--medium-gray) 0%, var(--medium-gray) 50%, var(--pure-white) 50%, var(--pure-white) 100%);
-
-                        &:hover, &:active, &:focus {
-                            background: var(--pure-white);
-                        }
-                    }
                 }
 
                 &:hover, &:active, &:focus {
                     border: var(--primary-border);
                     background: var(--pure-white);
 
-                    &[class*="icon"] {
+                    [class*="icon-"] {
                         color: var(--primary-color);
                     }
                 }
             }
         }
+    }
+
+    > footer {
+        margin-top: auto;
+        justify-content: flex-end;
     }
 
     .outer-content-wrapper {

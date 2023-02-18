@@ -446,7 +446,7 @@ export default {
             text-decoration: none;
             flex: none;
 
-            span[class*="icon"] {
+            [class*="icon-"] {
                 text-decoration: none;
             }
         }

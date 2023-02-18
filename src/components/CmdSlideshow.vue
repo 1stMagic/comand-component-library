@@ -10,23 +10,27 @@
 
             <!-- begin area to slide -->
             <transition name="fade">
-                <a v-if="currentItem?.href" :href="currentItem.href" :key="index" :title="currentItem.title">
+                <a v-if="currentItem?.link?.href" :href="currentItem?.link?.href" :title="currentItem?.link?.tooltip" :key="index">
                     <figure v-if="currentItem && !useSlot" class="slideshow-item">
-                        <img :src="currentItem.imgPath" :alt="currentItem.alt"/>
-                        <figcaption>{{ currentItem.figcaption }}</figcaption>
+                        <!-- begin CmdImage -->
+                        <CmdImage :image="currentItem?.image" :figcaption="currentItem?.figcaption"/>
+                        <!-- begin CmdImage -->
                     </figure>
                 </a>
-                <figure v-else-if="currentItem && !currentItem.href && currentItem && !useSlot" :key="index" class="slideshow-item">
-                        <img :src="currentItem.imgPath" :alt="currentItem.alt"/>
-                        <figcaption>{{ currentItem.figcaption }}</figcaption>
+                <figure v-else-if="currentItem && !currentItem?.link?.href && !useSlot" :key="index" class="slideshow-item">
+                    <!-- begin CmdImage -->
+                    <CmdImage :image="currentItem?.image" :figcaption="currentItem?.figcaption"/>
+                    <!-- begin CmdImage -->
                 </figure>
                 <div
-                    class="image-wrapper"
                     v-else-if="currentItem && useSlot"
+                    class="image-wrapper"
                     :key="index"
-                    :style="'background-image: url(' + currentItem.imgPath + ')'"
+                    :style="'background-image: url(' + currentItem.image.srcLarge + ')'"
                 >
+                    <!-- begin slot -->
                     <slot :name="'item' + currentSlotItem"></slot>
+                    <!-- end slot -->
                 </div>
             </transition>
             <!-- end area to slide -->
@@ -49,6 +53,7 @@
 
 <script>
 // import components
+import CmdImage from "./CmdImage"
 import CmdSlideButton from "./CmdSlideButton"
 
 const NOT_YET_PRELOADED_IMAGE = image => !image.loaded
@@ -67,6 +72,7 @@ export default {
         }
     },
     components: {
+        CmdImage,
         CmdSlideButton
     },
     props: {
@@ -182,14 +188,12 @@ export default {
             }
             this.preload(this.index)
         },
-
         setupSlider() {
             this.preload();
             if (this.autoplay && this.hnd === null) {
                 this.hnd = window.setInterval(() => this.pause || this.showNextItem(), this.autoplayInterval);
             }
         },
-
         preload(index = 0, num = 2) {
             if (!this.preloadComplete) {
                 for (let i = index, n = index + num, c = this.slideshowItems.length; i < n && i < c; i++) {
@@ -202,34 +206,37 @@ export default {
                 this.preloadComplete = !this.slideshowItems.find(NOT_YET_PRELOADED_IMAGES);
             }
         },
-
         getDeviceImage(item) {
-            if (item === undefined || item.images === undefined) {
+            if (item === undefined || item.image === undefined) {
                 return null;
             }
             const deviceWidth = window.innerWidth;
-            const image = {};
+            const currentImage = {};
 
-            for (let i = 0, c = item.images.length; i < c; i++) {
-                const deviceImage = item.images[i];
+            for (let i = 0, c = item.image.length; i < c; i++) {
+                const deviceImage = item.image[i];
 
-                if (!deviceImage.maxWidth || deviceWidth <= deviceImage.maxWidth) {
-                    image.imgPath = deviceImage.imgPath
-                    image.alt = item.alt
-                    image.figcaption = item.figcaption
-                    image.target = item.target
-                    image.title = item.title
-                    return image;
+                if (!deviceImage.image.maxWidth || deviceWidth <= deviceImage.image.maxWidth) {
+                    currentImage.image.srcSmall = deviceImage.image.srcSmall
+                    currentImage.image.alt = item.image.alt
+                    currentImage.image.tooltip = item.image.tooltip
+                    currentImage.figcaption.text = item.figcaption.text
+                    currentImage.figcaption.position = item.figcaption.position
+                    currentImage.figcaption.textAlign = item.figcaption.textAlign
+                    currentImage.figcaption.show = item.figcaption.show
+                    return currentImage;
                 }
             }
 
-            if (item.images.length) {
-                image.imgPath = item.images[0].imgPath
-                image.alt = item.alt
-                image.figcaption = item.figcaption
-                image.target = item.target
-                image.title = item.title
-                return image;
+            if (item.image.length) {
+                currentImage.image.srcSmall = item.image.srcSmall
+                currentImage.image.alt = item.image.alt
+                currentImage.image.tooltip = item.image.tooltip
+                currentImage.figcaption.text = item.figcaption.text
+                currentImage.figcaption.position = item.figcaption.position
+                currentImage.figcaption.textAlign = item.figcaption.textAlign
+                currentImage.figcaption.show = item.figcaption.show
+                return currentImage;
             }
             return null;
         }

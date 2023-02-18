@@ -58,44 +58,52 @@
         </span>
         <!-- end label-text (+ required asterisk) -->
 
-        <!-- begin icon inside field -->
-        <span v-if="$attrs.type !== 'checkbox' && $attrs.type !== 'radio' && fieldIconClass" :class="['place-inside', fieldIconClass]"></span>
-        <!-- end icon inside field -->
-
-        <!-- begin inputfield -->
-        <template v-if="element === 'input' && $attrs.type !== 'checkbox' && $attrs.type !== 'radio' && $attrs.type !== 'search'">
-            <input
-                v-bind="elementAttributes"
-                :id="htmlId"
-                :class="inputClass"
-                @focus="tooltip = true"
-                @blur="onBlur"
-                @input="onInput"
-                @mouseover="datalistFocus"
-                @keyup="checkForCapsLock"
-                @change="$emit('change', $event)"
-                :autocomplete="autocomplete"
-                :list="datalist ? datalist.id : null"
-                :value="modelValue"
-                :maxlength="getMaxLength()"
-                ref="input"
+        <span class="flex-container"><!-- container required to place inner icons correctly -->
+            <!-- begin CmdIcon (for icon inside field) -->
+            <CmdIcon
+                v-if="$attrs.type !== 'checkbox' && $attrs.type !== 'radio' && fieldIconClass"
+                class="place-inside"
+                :iconClass="fieldIconClass"
             />
-        </template>
-        <!-- end inputfield -->
+            <!-- end CmdIcon (for icon inside field) -->
 
-        <!-- begin show-password-icon -->
-        <a v-if="$attrs.type === 'password'"
-           href="#"
-           @mousedown.prevent="showPassword"
-           @mouseup.prevent="hidePassword"
-           @mouseleave.prevent="hidePassword"
-           @click.prevent
-           :title="iconPasswordVisible.tooltip">
-           <!-- begin CmdIcon -->
-           <CmdIcon :iconClass="['place-inside', iconPasswordVisible.iconClass]" />
-           <!-- end CmdIcon -->
-        </a>
-        <!-- end show-password-icon -->
+            <!-- begin inputfield -->
+            <template v-if="element === 'input' && $attrs.type !== 'checkbox' && $attrs.type !== 'radio' && $attrs.type !== 'search'">
+                <input
+                    v-bind="elementAttributes"
+                    :id="htmlId"
+                    :class="inputClass"
+                    @focus="tooltip = true"
+                    @blur="onBlur"
+                    @input="onInput"
+                    @mouseover="datalistFocus"
+                    @keyup="checkForCapsLock"
+                    @change="$emit('change', $event)"
+                    :autocomplete="autocomplete"
+                    :list="datalist ? datalist.id : null"
+                    :value="modelValue"
+                    :maxlength="getMaxLength()"
+                    ref="input"
+                />
+            </template>
+            <!-- end inputfield -->
+
+            <!-- begin show-password-icon -->
+            <a v-if="$attrs.type === 'password'"
+               href="#"
+               class="place-inside"
+               @mousedown.prevent="showPassword"
+               @mouseup.prevent="hidePassword"
+               @mouseleave.prevent="hidePassword"
+               @click.prevent
+               :title="iconPasswordVisible.tooltip"
+            >
+               <!-- begin CmdIcon -->
+               <CmdIcon :iconClass="iconPasswordVisible.iconClass" />
+               <!-- end CmdIcon -->
+            </a>
+            <!-- end show-password-icon -->
+        </span>
 
         <!-- begin datalist -->
         <template v-if="datalist && datalist.options.length">
@@ -195,9 +203,9 @@
                     <CmdIcon :iconClass="iconSearch.iconClass" />
                     <!-- end CmdIcon -->
                 </a>
-                <a v-if="iconDelete.show" href="#" @click.prevent="$emit('update:modelValue', '')" :title="iconDelete.tooltip">
+                <a v-if="iconDelete?.show" href="#" @click.prevent="$emit('update:modelValue', '')" :title="iconDelete?.tooltip">
                     <!-- begin CmdIcon -->
-                    <CmdIcon :iconClass="iconDelete.iconClass" :type="iconDelete.iconType" />
+                    <CmdIcon :iconClass="iconDelete?.iconClass" :type="iconDelete?.iconType" />
                     <!-- end CmdIcon -->
                 </a>
             </span>
@@ -839,7 +847,7 @@ export default {
 <style lang="scss">
 /* begin cmd-form-element ------------------------------------------------------------------------------------------ */
 .cmd-form-element {
-    input + .place-inside[class*="icon"] {
+    input + .place-inside[class*="icon-"] {
         left: auto;
         right: .5rem
     }
@@ -869,7 +877,7 @@ export default {
     .search-field-wrapper {
         margin: 0;
 
-        a[class*="icon"] {
+        a {
             position: absolute;
             top: 50%;
             right: 1rem;
@@ -883,7 +891,9 @@ export default {
         }
 
         a.button {
-            & + a[class*="icon"] {
+            right: 0;
+
+            & + a {
                 right: 5rem;
             }
         }

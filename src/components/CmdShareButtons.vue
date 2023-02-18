@@ -271,7 +271,7 @@ export default {
             flex: none;
             width: auto !important;
 
-            span[class*="icon"] {
+            [class*="icon-"] {
                 & + span {
                     display: none;
                 }

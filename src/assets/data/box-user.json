@@ -1,13 +1,17 @@
 [
   {
     "name": "User name 1",
-    "image": {
-      "src": "/media/images/user-images/fake-user-1.jpg",
-      "alt": "Alternative text"
-    },
+    "age": 35,
+    "gender": "m",
+    "imageSrc": "/media/images/user-images/fake-user-1.jpg",
     "profession": "User profession",
     "position": "User position",
     "description": "User profile with image",
+    "tag": [
+      "Tagname",
+      "Long tag",
+      "One more tag"
+    ],
     "links": [
         {
         "path": "mailto:",
@@ -18,6 +22,9 @@
   },
   {
     "name": "User name 2",
+    "age": 35,
+    "gender": "m",
+    "imageSrc": "/media/images/user-images/fake-user-2.jpg",
     "profession": "User profession",
     "position": "User position",
     "description": "User description",
@@ -37,6 +44,9 @@
   },
   {
     "name": "User name 3",
+    "age": 35,
+    "gender": "m",
+    "imageSrc": "/media/images/user-images/fake-user-3.jpg",
     "profession": "User profession",
     "position": "User position",
     "description": "User with a long text as description that wraps over multiple lines",
@@ -61,6 +71,9 @@
   },
   {
     "name": "User name 4",
+    "age": 35,
+    "gender": "m",
+    "imageSrc": "/media/images/user-images/fake-user-4.jpg",
     "profession": "User profession",
     "position": "User position",
     "description": "User description",
@@ -85,6 +98,9 @@
   },
   {
     "name": "User name 5",
+    "age": 35,
+    "gender": "m",
+    "imageSrc": "/media/images/user-images/fake-user-5.jpg",
     "profession": "User profession",
     "position": "User position",
     "description": "User description",

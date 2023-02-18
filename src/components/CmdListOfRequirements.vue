@@ -182,7 +182,7 @@ export default {
             color: var(--status-color);
         }
 
-        span[class*="icon"] {
+        [class*="icon-"] {
             color: var(--status-color);
         }
 

@@ -8,7 +8,7 @@
         <address class="adr">
             <!-- begin list with labels -->
             <dl v-if="showLabels">
-                <!-- begin company -->
+                <!-- begin company (name) -->
                 <dt v-if="addressData.company?.value">
                     <!-- begin CmdIcon -->
                     <CmdIcon
@@ -21,8 +21,8 @@
 
                     <span v-if="showLabelTexts">{{ getMessage('cmdaddressdata.labeltext.company')}}</span>
                 </dt>
-                <dd  v-if="addressData.company?.value" class="org">{{ addressData.company.value }}</dd>
-                <!-- end company -->
+                <dd v-if="addressData.company?.value" class="org">{{ addressData.company.value }}</dd>
+                <!-- end company (name) -->
 
                 <!-- begin address -->
                 <template v-if="addressData.address && addressData.address !== undefined">
@@ -39,20 +39,59 @@
                         <span v-if="showLabelTexts">{{ getMessage('cmdaddressdata.labeltext.address')}}</span>
                     </dt>
                     <dd v-if="addressData.address">
+                        <!-- begin linked address -->
                         <a v-if="linkGoogleMaps" :href="locateAddress" target="google-maps" :title="getMessage('cmdaddressdata.title.open_address_on_google_maps')">
-                            <span v-if="addressData.address.streetNo" class="street-address">{{ addressData.address.streetNo }}</span><br/>
-                            <span v-if="addressData.address.zip" class="postal-code">{{ addressData.address.zip }}&nbsp;</span>
-                            <span v-if="addressData.address.city" class="locality">{{ addressData.address.city }}</span><br/>
-                            <span v-if="addressData.address.miscInfo">{{ addressData.address.miscInfo }}</span><br/>
+                            <!-- begin street/number -->
+                            <template v-if="addressData.address.streetNo">
+                                <span class="street-address">{{ addressData.address.streetNo }}</span><br/>
+                            </template>
+                            <!-- end street/number -->
+
+                            <!-- begin zip/city -->
+                            <span v-if="addressData.address.zip" class="postal-code">{{ addressData.address.zip }}</span>
+                            <template v-if="addressData.address.city">
+                                <span class="locality">{{ addressData.address.city }}</span><br/>
+                            </template>
+                            <!-- end zip/city -->
+
+                            <!-- begin miscInfo -->
+                            <template v-if="addressData.address.miscInfo">
+                                <span>{{ addressData.address.miscInfo }}</span><br/>
+                            </template>
+                            <!-- end miscInfo -->
+
+                            <!-- begin country -->
                             <span v-if="addressData.address.country" class="country-name">{{ addressData.address.country }}</span>
+                            <!-- end country -->
                         </a>
+                        <!-- end linked address -->
+
+                        <!-- begin unlinked address -->
                         <template v-else>
-                            <span v-if="addressData.address.streetNo" class="street-address">{{addressData.address.streetNo }}</span><br/>
-                            <span v-if="addressData.address.zip" class="postal-code">{{ addressData.address.zip }}&nbsp;</span>
-                            <span v-if="addressData.address.city" class="locality">{{ addressData.address.city }}</span><br/>
-                            <span v-if="addressData.address.miscInfo">{{ addressData.address.miscInfo }}</span><br/>
+                            <!-- begin street/number -->
+                            <template v-if="addressData.address.streetNo">
+                                <span class="street-address">{{addressData.address.streetNo }}</span><br/>
+                            </template>
+                            <!-- end street/number -->
+
+                            <!-- begin zip/city -->
+                            <span v-if="addressData.address.zip" class="postal-code">{{ addressData.address.zip }}</span>
+                            <template v-if="addressData.address.city">
+                                <span class="locality">{{ addressData.address.city }}</span><br/>
+                            </template>
+                            <!-- end zip/city -->
+
+                            <!-- begin miscInfo -->
+                            <template v-if="addressData.address.miscInfo">
+                                <span>{{ addressData.address.miscInfo }}</span><br/>
+                            </template>
+                            <!-- end miscInfo -->
+
+                            <!-- begin country -->
                             <span v-if="addressData.address.country" class="country-name">{{ addressData.address.country }}</span>
+                            <!-- end country -->
                         </template>
+                        <!-- end unlinked address -->
                     </dd>
                 </template>
                 <!-- end address -->
@@ -122,33 +161,108 @@
 
                     <span v-if="showLabelTexts">{{ getMessage('cmdaddressdata.labeltext.email')}}</span>
                 </dt>
-                <dd class="email" v-if="addressData.email?.value">
+                <dd v-if="addressData.email?.value" class="email" >
                     <a :href="'mailto:' + addressData.email?.value" class="email">{{ addressData.email.value  }}</a>
                 </dd>
                 <!-- end email -->
+
+                <!-- begin web site -->
+                <dt v-if="addressData.website?.value">
+                <!-- begin CmdIcon -->
+                    <CmdIcon
+                        v-if="addressData.website.iconClass && showLabelIcons"
+                        :iconClass="addressData.website.iconClass"
+                        :type="addressData.website.iconType"
+                    />
+                    <!-- end CmdIcon -->
+
+                    <span v-if="showLabelTexts">{{ getMessage('cmdaddressdata.labeltext.website')}}</span>
+                </dt>
+                <dd v-if="addressData.website?.value" >
+                    <a :href="addressData.website.value" target="_blank" :title="getMessage('cmdaddressdata.title.visit_website')">{{ websiteUrlText }}</a>
+                </dd>
+                <!-- end web site -->
+
+                <!-- begin custom data -->
+                <dt v-if="addressData.custom?.value">
+                    <!-- begin CmdIcon -->
+                    <CmdIcon
+                        v-if="addressData.custom.iconClass && showLabelIcons"
+                        :iconClass="addressData.custom.iconClass"
+                        :type="addressData.custom.iconType"
+                    />
+                    <!-- end CmdIcon -->
+
+                    <span v-if="showLabelTexts">{{ getMessage('cmdaddressdata.labeltext.custom')}}</span>
+                </dt>
+                <dd v-if="addressData.custom?.value" >
+                    {{ addressData.custom.value }}
+                </dd>
+                <!-- end custom data -->
             </dl>
             <!-- end list with labels -->
 
             <!-- begin list without labels -->
             <ul v-else class="flex-container">
+                <!-- begin company (name) -->
                 <li v-if="addressData.company">
                     <span class="org">{{ addressData.company.value }}</span>
                 </li>
+                <!-- end company (name) -->
                 <li>
+                    <!-- begin linked address -->
                     <a v-if="linkGoogleMaps" :href="locateAddress" target="google-maps" :title="getMessage('cmdaddressdata.title.open_address_on_google_maps')">
-                        <span v-if="addressData.address.streetNo" class="street-address">{{ addressData.address.streetNo }}</span><br/>
-                        <span v-if="addressData.address.zip" class="postal-code">{{ addressData.address.zip }}&nbsp;</span>
-                        <span v-if="addressData.address.city" class="locality">{{ addressData.address.city }}</span><br/>
-                        <span v-if="addressData.address.miscInfo">{{ addressData.address.miscInfo }}</span><br/>
+                        <!-- begin street/number -->
+                        <template v-if="addressData.address.streetNo">
+                            <span  class="street-address">{{ addressData.address.streetNo }}</span><br/>
+                        </template>
+                        <!-- end street/number -->
+
+                        <!-- begin zip/city -->
+                        <template v-if="addressData.address.zip || addressData.address.city">
+                            <span class="postal-code">{{ addressData.address.zip }}</span>
+                            <span class="locality">{{ addressData.address.city }}</span><br/>
+                        </template>
+                        <!-- end zip/city -->
+
+                        <!-- begin miscInfo -->
+                        <template v-if="addressData.address.miscInfo">
+                            <span>{{ addressData.address.miscInfo }}</span><br/>
+                        </template>
+                        <!-- end miscInfo -->
+
+                        <!-- begin country -->
                         <span v-if="addressData.address.country" class="country-name">{{ addressData.address.country }}</span>
+                        <!-- end country -->
                     </a>
+                    <!-- end linked address -->
+
+                    <!-- begin unlinked address -->
                     <template v-else>
-                        <span  v-if="addressData.address.streetNo" class="street-address">{{ addressData.address.streetNo }}</span><br/>
-                        <span v-if="addressData.address.zip" class="postal-code">{{ addressData.address.zip }}&nbsp;</span>
-                        <span v-if="addressData.address.city" class="locality">{{ addressData.address.city }}</span><br/>
-                        <span v-if="addressData.address.miscInfo">{{ addressData.address.miscInfo }}</span><br/>
+                        <!-- begin street/number -->
+                        <template v-if="addressData.address.streetNo">
+                            <span class="street-address">{{ addressData.address.streetNo }}</span><br/>
+                        </template>
+                        <!-- end street/number -->
+
+                        <!-- begin zip/city -->
+                        <template v-if="addressData.address.zip || addressData.address.city">
+                            <span class="postal-code">{{ addressData.address.zip }}&nbsp;</span>
+                            <span class="locality">{{ addressData.address.city }}</span><br/>
+                        </template>
+                        <!-- end zip/ctiy -->
+
+                        <!-- begin miscInfo -->
+                        <template v-if="addressData.address.miscInfo">
+                            <span>{{ addressData.address.miscInfo }}</span><br/>
+                        </template>
+                        <!-- end miscInfo -->
+
+                        <!-- begin country -->
                         <span v-if="addressData.address.country" class="country-name">{{ addressData.address.country }}</span>
+                        <!-- end country -->
                     </template>
+                    <!-- end unlinked address -->
                 </li>
                 <li v-if="addressData.telephone?.value">
                     <a :href="'tel:' + addressData.telephone.value" :title="getMessage('cmdaddressdata.title.call_number')" class="tel">{{ addressData.telephone.value }}</a>
@@ -158,6 +272,12 @@
                 </li>
                 <li v-if="addressData.email?.value" :title="getMessage('cmdaddressdata.title.send_email')">
                     <a :href="'mailto:' + addressData.email.value" class="email">{{ addressData.email.value }}</a>
+                </li>
+                <li v-if="addressData.website?.value" :title="getMessage('cmdaddressdata.title.visit_website')">
+                    <a :href="addressData.website.value" target="_blank">{{ websiteUrlText }}</a>
+                </li>
+                <li v-if="addressData.custom?.value">
+                    {{ addressData.custom.value }}
                 </li>
             </ul>
             <!-- end list without labels -->
@@ -229,6 +349,9 @@ export default {
     computed: {
         locateAddress() {
             return "https://www.google.com/maps/place/" + this.addressData.address.streetNo + ", " + this.addressData.address.zip + " " + this.addressData.address.city
+        },
+        websiteUrlText() {
+            return this.addressData.website?.value.replace("https://", "")
         }
     }
 }
@@ -245,7 +368,7 @@ export default {
             align-items: center;
 
             &.address {
-                align-items: flex-start;
+                align-self: flex-start;
             }
         }
     }

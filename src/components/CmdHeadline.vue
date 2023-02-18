@@ -1,7 +1,7 @@
 <template>
-    <div :class="['cmd-headline', { 'has-pre-headline-text': preHeadlineText, 'has-icon': iconClass}]">
+    <div :class="['cmd-headline', {'has-pre-headline-text': preHeadlineText, 'has-icon': headlineIcon?.iconClass}, getTextAlign]">
         <!-- begin CmdIcon -->
-        <CmdIcon v-if="headlineIcon" :iconClass="headlineIcon.iconClass" :type="headlineIcon.iconType" />
+        <CmdIcon v-if="headlineIcon" :iconClass="headlineIcon?.iconClass" :type="headlineIcon?.iconType" />
         <!-- end CmdIcon -->
 
         <div v-if="preHeadlineText">
@@ -57,6 +57,15 @@ export default {
         headlineIcon: {
             type: Object,
             required: false
+        },
+        /**
+         * text-alignment
+         *
+         * @allowedValues: "left", "center", "right"
+         */
+        textAlign: {
+            type: String,
+            default: "left"
         }
     },
     computed: {
@@ -65,18 +74,32 @@ export default {
                 return "h" + this.headlineLevel
             }
             return "h3"
+        },
+        getTextAlign() {
+            if(this.textAlign) {
+                return "text-" + this.textAlign
+            }
+            return ''
         }
     }
 }
 </script>
 
 <style lang="scss">
-/* begin cmd--headline ------------------------------------------------------------------------------------------ */
+/* begin cmd-headline ------------------------------------------------------------------------------------------ */
 @import '../assets/styles/variables';
 
 .cmd-headline {
     margin-bottom: var(--default-margin);
     gap: calc(var(--default-gap) / 2);
+
+    &.text-center > * {
+        text-align: center;
+    }
+
+    &.text-right > * {
+        text-align: right;
+    }
 
     &.has-icon {
         display: flex;
@@ -84,7 +107,9 @@ export default {
     }
 
     &.has-pre-headline-text {
-        [class*="icon"] {
+        text-align: inherit;
+
+        [class*="icon-"] {
             font-size: 5rem;
         }
     }

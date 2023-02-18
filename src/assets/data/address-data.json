@@ -29,6 +29,14 @@
       "email": {
             "iconClass": "icon-mail",
             "value": "Your email address"
+      },
+      "website": {
+            "iconClass": "icon-globe",
+            "value": "Your web site"
+      },
+      "custom": {
+            "iconClass": "icon-questionmark-circle",
+            "value": "Custom data"
       }
 }
 
