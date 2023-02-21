@@ -14,13 +14,8 @@
 </template>
 
 <script>
-import CmdFormElement from "./CmdFormElement"
-
 export default {
     name: "ToggleDarkMode",
-    components: {
-        CmdFormElement
-    },
     data() {
         return {
             darkMode: false

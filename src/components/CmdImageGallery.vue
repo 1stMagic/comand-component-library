@@ -11,11 +11,8 @@
 </template>
 
 <script>
-// import components
-import CmdImage from "./CmdImage.vue"
-
 // import functions
-import {openFancyBox} from "./CmdFancyBox"
+import {openFancyBox} from "./CmdFancyBox.vue"
 
 // import mixins
 import I18n from "../mixins/I18n"
@@ -23,9 +20,6 @@ import DefaultMessageProperties from "../mixins/CmdImageGallery/DefaultMessagePr
 
 export default {
     name: "CmdImageGallery",
-    components: {
-        CmdImage
-    },
     mixins: [I18n, DefaultMessageProperties],
     props: {
         /**

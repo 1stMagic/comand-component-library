@@ -245,19 +245,11 @@ import FieldValidation from "../mixins/FieldValidation.js"
 import Identifier from "../mixins/Identifier.js"
 import Tooltip from "../mixins/Tooltip.js"
 
-// import components
-import CmdIcon from "./CmdIcon"
-import CmdTooltipForInputElements from "./CmdTooltipForInputElements"
-
 const TYPES_WITHOUT_MAXLENGTH = ["color", "date", "datetime-local", "file", "number", "range"]
 
 export default {
     inheritAttrs: false,
     name: "CmdFormElement",
-    components: {
-        CmdIcon,
-        CmdTooltipForInputElements
-    },
     mixins: [
         I18n,
         DefaultMessageProperties,
@@ -847,7 +839,7 @@ export default {
 <style lang="scss">
 /* begin cmd-form-element ------------------------------------------------------------------------------------------ */
 .cmd-form-element {
-    input + .place-inside[class*="icon-"] {
+    input + .place-inside {
         left: auto;
         right: .5rem
     }
@@ -857,10 +849,10 @@ export default {
             color: var(--status-color);
         }
 
-        > span {
+        span {
             color: var(--status-color);
 
-            &[class*="icon-"].place-inside {
+            &.place-inside {
                 color: var(--status-color);
             }
         }
@@ -883,6 +875,19 @@ export default {
             right: 1rem;
             transform: translateY(-50%);
             z-index: 100;
+
+            // set styles to avoid overwriting by has-state-colors
+            &.button {
+                span {
+                    color: var(--pure-white);
+                }
+
+                &:hover, &:active, &:focus {
+                    span {
+                        color: var(--text-color);
+                    }
+                }
+            }
         }
 
         input:not(:only-child) {

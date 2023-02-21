@@ -134,19 +134,9 @@
 import I18n from "../mixins/I18n"
 import DefaultMessageProperties from "../mixins/CmdCookieDisclaimer/DefaultMessageProperties"
 
-// import components
-import CmdBox from "./CmdBox"
-import CmdHeadline from "./CmdHeadline"
-import CmdFormElement from "./CmdFormElement"
-
 export default {
     name: "CmdCookieDisclaimer",
     mixins: [I18n, DefaultMessageProperties],
-    components: {
-        CmdBox,
-        CmdHeadline,
-        CmdFormElement
-    },
     data() {
         return {
             showCookieDisclaimer: true,

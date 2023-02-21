@@ -168,10 +168,6 @@ import FieldValidation from "../mixins/FieldValidation"
 import Identifier from "../mixins/Identifier"
 import Tooltip from "../mixins/Tooltip"
 
-// import components
-import CmdIcon from "./CmdIcon"
-import CmdTooltipForInputElements from "./CmdTooltipForInputElements"
-
 export default {
     name: 'CmdFakeSelect',
     inheritAttrs: false,
@@ -182,10 +178,6 @@ export default {
         Identifier,
         Tooltip
     ],
-    components: {
-        CmdIcon,
-        CmdTooltipForInputElements
-    },
     data() {
         return {
             showOptions: false,
@@ -525,6 +517,11 @@ export default {
                     height: inherit;
                     border: var(--default-border);
                     background: var(--color-scheme-background-color);
+                    color: var(--text-color);
+
+                    span, [class*="icon"] {
+                        color: var(--text-color);
+                    }
 
                     .option-name {
                         text-overflow: ellipsis;
@@ -537,7 +534,12 @@ export default {
                     }
 
                     &:hover, &:active, &:focus {
-                        background: var(--primary-color);
+                        background: var(--pure-white);
+                        border-color: var(--primary-color);
+
+                        span, [class*="icon"] {
+                            color: var(--text-color);
+                        }
                     }
                 }
             }
@@ -567,13 +569,13 @@ export default {
             padding-top: .8rem;
             outline: none;
             border-bottom: var(--default-border);
-            color: var(--color-scheme-text-color);
             text-decoration: none;
+
 
             &:hover, &:active, &:focus {
                 background: var(--primary-color);
 
-                span {
+                span, [class*="icon"] {
                     color: var(--pure-white);
                 }
             }
@@ -600,7 +602,7 @@ export default {
                 &:hover, &:active, &:focus {
                     background: var(--primary-color);
 
-                    span {
+                    span, [class*="icon"] {
                         color: var(--pure-white);
                     }
                 }

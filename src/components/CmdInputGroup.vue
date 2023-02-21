@@ -75,15 +75,7 @@ import FieldValidation from "../mixins/FieldValidation.js"
 import Identifier from "../mixins/Identifier"
 import Tooltip from "../mixins/Tooltip.js"
 
-// import components
-import CmdIcon from "./CmdIcon"
-import CmdTooltipForInputElements from "./CmdTooltipForInputElements"
-
 export default {
-    components: {
-        CmdIcon,
-        CmdTooltipForInputElements
-    },
     mixins: [
         FieldValidation,
         Identifier,

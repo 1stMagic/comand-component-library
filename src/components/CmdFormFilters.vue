@@ -20,18 +20,12 @@
 </template>
 
 <script>
-// import components
-import CmdIcon from "./CmdIcon"
-
 export default {
     name: "CmdFormFilters",
     data() {
         return {
             options: []
         }
-    },
-    components: {
-        CmdIcon
     },
     props: {
         /**

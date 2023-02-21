@@ -1,4 +1,6 @@
-const { src, dest } = require('gulp')
+// const { src, dest } = require('gulp')
+import pkg from "gulp"
+const { src, dest } = pkg
 
 function copyFramework() {
     return src([
@@ -11,4 +13,4 @@ function copyFramework() {
         .pipe(dest('dist'))
 }
 
-exports.default = copyFramework
+export default copyFramework

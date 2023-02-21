@@ -54,14 +54,8 @@
 </template>
 
 <script>
-// import components
-import CmdIcon from "./CmdIcon"
-
 export default {
     name: "CmdTable",
-    components: {
-        CmdIcon,
-    },
     data() {
         return {
             showTableData: true,

@@ -328,22 +328,10 @@ import DefaultMessageProperties from "../mixins/CmdUploadForm/DefaultMessageProp
 import {getFileExtension} from "../utils/getFileExtension.js"
 import axios from "axios"
 
-// import components
-import CmdFormElement from "./CmdFormElement"
-import CmdHeadline from "./CmdHeadline"
-import CmdIcon from "./CmdIcon"
-import CmdSystemMessage from "./CmdSystemMessage"
-
 export default {
     name: "CmdUploadForm",
     emits: ["click", "error", "upload-complete", "upload-file-success"],
     mixins: [I18n, DefaultMessageProperties],
-    components: {
-        CmdFormElement,
-        CmdHeadline,
-        CmdIcon,
-        CmdSystemMessage,
-    },
     data() {
         return {
             comment: "",
@@ -1183,7 +1171,7 @@ export default {
         display: none;
     }
 
-    .drop-area {
+    .drop-area, &.drop-area {
         border: var(--default-border);
         border-style: dashed;
         background: var(--color-scheme-background-color);
@@ -1199,7 +1187,7 @@ export default {
         }
     }
 
-    a.drop-area {
+    &.drop-area {
         display: inline-flex;
         flex-direction: column;
         text-decoration: none;

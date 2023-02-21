@@ -24,16 +24,8 @@
 </template>
 
 <script>
-// import components
-import CmdListOfRequirements from "./CmdListOfRequirements"
-import CmdTooltip from "./CmdTooltip"
-
 export default {
     name: "CmdTooltipForInputElements",
-    components: {
-        CmdListOfRequirements,
-        CmdTooltip
-    },
     props: {
         /**
          * related-id for CmdTooltip-component

@@ -2,8 +2,8 @@
   {
     "image": {
       "id": 1,
-      "srcImageSmall": "media/images/thumbnail-scroller/thumbnail/logo-cmd-blue-landscape.jpg",
-      "srcImageLarge": "media/images/thumbnail-scroller/original/logo-cmd-blue-landscape.jpg",
+      "srcImageSmall": "media/images/demo-images/small/landscape-01.jpg",
+      "srcImageLarge": "media/images/demo-images/large/landscape-01.jpg",
       "alt": "Alternative Text 1"
     },
     "figcaption": {
@@ -16,8 +16,8 @@
   {
     "image": {
       "id": 2,
-      "srcImageSmall": "media/images/thumbnail-scroller/thumbnail/logo-cmd-blue-landscape.jpg",
-      "srcImageLarge": "media/images/thumbnail-scroller/original/logo-cmd-blue-landscape.jpg",
+      "srcImageSmall": "media/images/demo-images/small/landscape-02.jpg",
+      "srcImageLarge": "media/images/demo-images/large/landscape-02.jpg",
       "alt": "Alternative Text 2"
     },
     "figcaption": {
@@ -30,8 +30,8 @@
   {
     "image": {
       "id": 3,
-      "srcImageSmall": "media/images/thumbnail-scroller/thumbnail/logo-cmd-blue-landscape.jpg",
-      "srcImageLarge": "media/images/thumbnail-scroller/original/logo-cmd-blue-landscape.jpg",
+      "srcImageSmall": "media/images/demo-images/small/landscape-03.jpg",
+      "srcImageLarge": "media/images/demo-images/large/landscape-03.jpg",
       "alt": "Alternative Text 3"
     },
     "figcaption": {
@@ -44,8 +44,8 @@
   {
     "image": {
       "id": 4,
-      "srcImageSmall": "media/images/thumbnail-scroller/thumbnail/logo-cmd-blue-landscape.jpg",
-      "srcImageLarge": "media/images/thumbnail-scroller/original/logo-cmd-blue-landscape.jpg",
+      "srcImageSmall": "media/images/demo-images/small/landscape-04.jpg",
+      "srcImageLarge": "media/images/demo-images/large/landscape-04.jpg",
       "alt": "Alternative Text 4"
     },
     "figcaption": {
@@ -58,8 +58,8 @@
   {
     "image": {
       "id": 5,
-      "srcImageSmall": "media/images/thumbnail-scroller/thumbnail/logo-cmd-blue-landscape.jpg",
-      "srcImageLarge": "media/images/thumbnail-scroller/original/logo-cmd-blue-landscape.jpg",
+      "srcImageSmall": "media/images/demo-images/small/landscape-05.jpg",
+      "srcImageLarge": "media/images/demo-images/large/landscape-05.jpg",
       "alt": "Alternative Text 5"
     },
     "figcaption": {
@@ -72,8 +72,8 @@
   {
     "image": {
       "id": 6,
-      "srcImageSmall": "media/images/thumbnail-scroller/thumbnail/logo-cmd-blue-landscape.jpg",
-      "srcImageLarge": "media/images/thumbnail-scroller/original/logo-cmd-blue-landscape.jpg",
+      "srcImageSmall": "media/images/demo-images/small/landscape-06.jpg",
+      "srcImageLarge": "media/images/demo-images/large/landscape-06.jpg",
       "alt": "Alternative Text 6"
     },
     "figcaption": {
@@ -86,8 +86,8 @@
   {
     "image": {
       "id": 7,
-      "srcImageSmall": "media/images/thumbnail-scroller/thumbnail/logo-cmd-blue-landscape.jpg",
-      "srcImageLarge": "media/images/thumbnail-scroller/original/logo-cmd-blue-landscape.jpg",
+      "srcImageSmall": "media/images/demo-images/small/landscape-07.jpg",
+      "srcImageLarge": "media/images/demo-images/large/landscape-07.jpg",
       "alt": "Alternative Text 7"
     },
     "figcaption": {
@@ -100,8 +100,8 @@
   {
     "image": {
       "id": 8,
-      "srcImageSmall": "media/images/thumbnail-scroller/thumbnail/logo-cmd-blue-landscape.jpg",
-      "srcImageLarge": "media/images/thumbnail-scroller/original/logo-cmd-blue-landscape.jpg",
+      "srcImageSmall": "media/images/demo-images/small/landscape-08.jpg",
+      "srcImageLarge": "media/images/demo-images/large/landscape-08.jpg",
       "alt": "Alternative Text 8"
     },
     "figcaption": {

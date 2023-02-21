@@ -9,9 +9,11 @@
 
         <!-- begin list of images to slide -->
         <transition-group name="slide" tag="ul">
-            <li v-for="(image, index) in thumbnails" :key="image.id" :class="{'active' : imgIndex === index}">
+            <li v-for="(image, index) in thumbnails" :key="index" :class="{'active' : imgIndex === index}">
                 <a href="#" @click.prevent="showFancyBox(index)" :title="getMessage('cmdthumbnailscroller.tooltip.open_large_image')">
+                    <!-- begin CmdImage -->
                     <CmdImage :image="image.image" :figcaption="image.figcaption" />
+                    <!-- end CmdImage -->
                 </a>
             </li>
         </transition-group>

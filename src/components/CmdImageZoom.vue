@@ -34,14 +34,8 @@
 </template>
 
 <script>
-// import components
-import CmdImage from "./CmdImage"
-
 export default {
     name: "CmdImageZoom",
-    components: {
-        CmdImage
-    },
     props: {
         /**
          * object for small image

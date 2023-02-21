@@ -35,14 +35,8 @@
 // import functions
 import {getRoute} from "../utilities.js"
 
-// import components
-import CmdIcon from "./CmdIcon"
-
 export default {
     name: "CmdBreadcrumbs",
-    components: {
-        CmdIcon
-    },
     props: {
         /**
          * label in front/left of breadcrumbs

@@ -173,11 +173,6 @@
 // import utilities
 import {getRoute} from "../utilities.js"
 
-// import components
-import CmdFormElement from "./CmdFormElement"
-import CmdHeadline from "./CmdHeadline"
-import CmdIcon from "./CmdIcon"
-
 export default {
     name: "CmdLoginForm",
     data() {
@@ -188,11 +183,6 @@ export default {
             sendLoginMail: "",
             sendLogin: false
         }
-    },
-    components: {
-        CmdFormElement,
-        CmdHeadline,
-        CmdIcon
     },
     props: {
         /**

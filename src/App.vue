@@ -18,8 +18,8 @@
                 <CmdCompanyLogo
                     :link="companyLogoData.link"
                     altText="CoManD Logo"
-                    :pathDefaultLogo="require('../public/media/images/logos/logo.svg')"
-                    :pathDarkmodeLogo="require('../public/media/images/logos/logo-darkmode.svg')"
+                    :pathDefaultLogo="companyLogoData.pathDefaultLogo"
+                    :pathDarkmodeLogo="companyLogoData.pathDarkmodeLogo"
                 />
                 <!-- end company-logo --------------------------------------------------------------------------------------------------------------------------------------------------->
             </template>
@@ -68,6 +68,29 @@
                 </div>
             </CmdWidthLimitationWrapper>
             <!-- end width-limitation-wrapper (with table of contents) --------------------------------------------------------------------------------------------------------------------------------------------------->
+
+            <!-- begin address-data ------------------------------------------------------------------------------------------------------------------------------------------------------->
+            <a id="section-advanced-form-elements"></a>
+            <CmdWidthLimitationWrapper>
+                <h2 class="headline-demopage">Address Data</h2>
+                <div class="flex-container">
+                    <CmdAddressData :addressData="addressData"
+                                    :linkGoogleMaps="false"
+                                    :cmdHeadline="{headlineText: 'With label texts', headlineLevel: 3}"
+                    />
+                    <CmdAddressData :addressData="addressData"
+                                    :linkGoogleMaps="false"
+                                    :show-label-texts="false"
+                                    :cmdHeadline="{headlineText: 'Without label texts', headlineLevel: 3}"
+                    />
+                    <CmdAddressData :addressData="addressData"
+                                    :linkGoogleMaps="false"
+                                    :show-label-icons="false"
+                                    :cmdHeadline="{headlineText: 'Without label icons', headlineLevel: 3}"
+                    />
+                </div>
+            </CmdWidthLimitationWrapper>
+            <!-- end address-data ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
             <!-- begin advanced form elements --------------------------------------------------------------------------------------------------------------------------------------------------->
             <a id="section-advanced-form-elements"></a>
@@ -794,94 +817,94 @@
             <a id="section-boxes"></a>
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Boxes</h2>
-                <CmdBoxWrapper :useFlexbox="true" :cmdHeadline="{headlineText: 'Boxes in BoxWrapper with flexbox', headlineLevel: 3}" >
-                    <CmdBox v-for="index in 14" :key="index" textBody="Content" :cmd-headline="{headlineText: 'Headline ' + index, headlineLevel: 4}" />
+                <CmdBoxWrapper :useFlexbox="true" :cmdHeadline="{headlineText: 'Boxes in BoxWrapper with flexbox', headlineLevel: 3}">
+                    <CmdBox v-for="index in 14" :key="index" textBody="Content" :cmd-headline="{headlineText: 'Headline ' + index, headlineLevel: 4}"/>
                 </CmdBoxWrapper>
                 <CmdBoxWrapper :useFlexbox="true" :cmdHeadline="{headlineText: 'Different examples of content-boxes (in BoxWrapper)', headlineLevel: 3}">
-                        <CmdBox
-                            :stretch-vertically="false"
-                            :cmdHeadline="{headlineText: 'Box with cutoff text', headlineLevel: 4}"
-                            textBody="This is a long text that is cutoff after a specific number of lines that can be defined by the property 'cutoffTextLines' and be toggled by a link below."
-                            :cutoff-text-lines="4"
-                        />
-                        <CmdBox :useSlots="['header', 'body', 'footer']">
-                            <template v-slot:header>
-                                <h4>
-                                    Texts given by slots
-                                </h4>
-                            </template>
-                            <template v-slot:body>
-                                <div class="padding">
-                                    <p>
-                                        This content with paragraphs inside is placed inside the box-body.
-                                    </p>
-                                    <p>
-                                        <strong>Header, Content/Body and Footer of this box are given by slots.</strong>
-                                    </p>
-                                </div>
-                            </template>
-                            <template v-slot:footer>
+                    <CmdBox
+                        :stretch-vertically="false"
+                        :cmdHeadline="{headlineText: 'Box with cutoff text', headlineLevel: 4}"
+                        textBody="This is a long text that is cutoff after a specific number of lines that can be defined by the property 'cutoffTextLines' and be toggled by a link below."
+                        :cutoff-text-lines="4"
+                    />
+                    <CmdBox :useSlots="['header', 'body', 'footer']">
+                        <template v-slot:header>
+                            <h4>
+                                Texts given by slots
+                            </h4>
+                        </template>
+                        <template v-slot:body>
+                            <div class="padding">
                                 <p>
-                                    Footer content
+                                    This content with paragraphs inside is placed inside the box-body.
                                 </p>
-                            </template>
-                        </CmdBox>
-                        <CmdBox :useSlots="['header', 'body']">
-                            <template v-slot:header>
-                                <h4>
-                                    Box with links
-                                </h4>
-                            </template>
-                            <template v-slot:body>
-                                <ul class="navigation">
-                                    <li><a href="#" @click.prevent="">Link name 1</a></li>
-                                    <li><a href="#" @click.prevent="">Link name 2</a></li>
-                                    <li><a href="#" @click.prevent="">Link name 3</a></li>
-                                    <li><a href="#" @click.prevent="">Link name 4</a></li>
-                                </ul>
-                            </template>
-                            <!-- will not be displayed, because useSlots-property does not contain 'footer' in array -->
-                            <template v-slot:footer>
                                 <p>
-                                    footer content
+                                    <strong>Header, Content/Body and Footer of this box are given by slots.</strong>
                                 </p>
-                            </template>
-                        </CmdBox>
-                        <CmdBox
-                            :cmdHeadline="{headlineText: 'Collapsible box', headlineLevel: 4}"
-                            :image="{src: 'media/images/content-images/landscape-medium.jpg', altText: 'ALternative text'}"
-                            textBody="This is some text given by property."
-                            :collapsible="true"
-                        />
-                        <CmdBox :useSlots="['header', 'body']" :cmdHeadline="{headlineText: 'Collapsible box', headlineLevel: 4}" :collapsible="true">
-                            <template v-slot:header>
-                                <h4>
-                                    Collapsible box with image
-                                </h4>
-                            </template>
-                            <template v-slot:body>
-                                <img src="media/images/content-images/landscape-medium.jpg" alt="Alternative text" />
-                            </template>
-                        </CmdBox>
-                        <CmdBox :useSlots="['header', 'body', 'footer']">
-                            <template v-slot:header>
-                                <h4>
-                                    Box with image and content
-                                </h4>
-                            </template>
-                            <template v-slot:body>
-                                <img src="media/images/content-images/landscape-medium.jpg" alt="Alternative text"/>
-                                <div class="default-padding">
-                                    <h4>Headline</h4>
-                                    <p>This is some text information i.e a short-text for a news teaser.</p>
-                                </div>
-                            </template>
-                            <template v-slot:footer>
-                                <p>
-                                    <a href="#">Read more&hellip;</a>
-                                </p>
-                            </template>
-                        </CmdBox>
+                            </div>
+                        </template>
+                        <template v-slot:footer>
+                            <p>
+                                Footer content
+                            </p>
+                        </template>
+                    </CmdBox>
+                    <CmdBox :useSlots="['header', 'body']">
+                        <template v-slot:header>
+                            <h4>
+                                Box with links
+                            </h4>
+                        </template>
+                        <template v-slot:body>
+                            <ul class="navigation">
+                                <li><a href="#" @click.prevent="">Link name 1</a></li>
+                                <li><a href="#" @click.prevent="">Link name 2</a></li>
+                                <li><a href="#" @click.prevent="">Link name 3</a></li>
+                                <li><a href="#" @click.prevent="">Link name 4</a></li>
+                            </ul>
+                        </template>
+                        <!-- will not be displayed, because useSlots-property does not contain 'footer' in array -->
+                        <template v-slot:footer>
+                            <p>
+                                footer content
+                            </p>
+                        </template>
+                    </CmdBox>
+                    <CmdBox
+                        :cmdHeadline="{headlineText: 'Collapsible box', headlineLevel: 4}"
+                        :image="{src: 'media/images/content-images/landscape-medium.jpg', altText: 'ALternative text'}"
+                        textBody="This is some text given by property."
+                        :collapsible="true"
+                    />
+                    <CmdBox :useSlots="['header', 'body']" :cmdHeadline="{headlineText: 'Collapsible box', headlineLevel: 4}" :collapsible="true">
+                        <template v-slot:header>
+                            <h4>
+                                Collapsible box with image
+                            </h4>
+                        </template>
+                        <template v-slot:body>
+                            <img src="media/images/content-images/landscape-medium.jpg" alt="Alternative text"/>
+                        </template>
+                    </CmdBox>
+                    <CmdBox :useSlots="['header', 'body', 'footer']">
+                        <template v-slot:header>
+                            <h4>
+                                Box with image and content
+                            </h4>
+                        </template>
+                        <template v-slot:body>
+                            <img src="media/images/content-images/landscape-medium.jpg" alt="Alternative text"/>
+                            <div class="default-padding">
+                                <h4>Headline</h4>
+                                <p>This is some text information i.e a short-text for a news teaser.</p>
+                            </div>
+                        </template>
+                        <template v-slot:footer>
+                            <p>
+                                <a href="#">Read more&hellip;</a>
+                            </p>
+                        </template>
+                    </CmdBox>
                 </CmdBoxWrapper>
                 <h3>Product boxes</h3>
                 <div class="grid-container-create-columns">
@@ -896,7 +919,7 @@
                     </div>
                 </div>
                 <CmdBoxWrapper :boxesPerRow="[5, 2, 1]" :useRowViewAsDefault="true">
-                    <CmdBox v-for="index in boxUserData.length" :key="index" boxType="user" :user="boxUserData[index - 1]" :cmdHeadline="{headlineLevel: 5}" />
+                    <CmdBox v-for="index in boxUserData.length" :key="index" boxType="user" :user="boxUserData[index - 1]" :cmdHeadline="{headlineLevel: 5}"/>
                 </CmdBoxWrapper>
             </CmdWidthLimitationWrapper>
             <!-- end boxes ------------------------------------------------------------------------------------------------------------------------------------------------------->
@@ -938,18 +961,23 @@
             <a id="section-fancybox"></a>
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Fancybox</h2>
-                <a href="#" @click.prevent="showFancyBox('text','Some text')">Open FancyBox with text</a>
+                <h3>FancyBox with text</h3>
+                <a href="#" @click.prevent="showFancyBox('text','Some text', 'FancyBox with text')">Open FancyBox with text</a>
+                <h3>FancyBox with large image given by url</h3>
                 <a href="#"
-                   @click.prevent="showFancyBox('url', 'media/images/content-images/landscape-large.jpg')"
+                   @click.prevent="showFancyBox('url', 'media/images/demo-images/large/landscape-01.jpg', 'FancyBox with large image given by url')"
                    title="Open FancyBox with large image given by url"
+                   style="display: inline-flex;"
                 >
-                   <img src="media/images/content-images/landscape-small.jpg" alt="Alternative text"/>
+                    <img src="media/images/demo-images/small/landscape-01.jpg" alt="Alternative text"/>
                 </a>
+                <h3>FancyBox with large image given by property</h3>
                 <a href="#"
-                   @click.prevent="showFancyBox('image', 'media/images/content-images/landscape-large.jpg')"
+                   @click.prevent="showFancyBox('image', 'media/images/demo-images/large/landscape-02.jpg', 'FancyBox with large image given by property')"
                    title="Open FancyBox with large image given by property"
+                   style="display: inline-flex;;"
                 >
-                    <img src="media/images/content-images/landscape-small.jpg" alt="Alternative text"/>
+                    <img src="media/images/demo-images/small/landscape-02.jpg" alt="Alternative text"/>
                 </a>
 
             </CmdWidthLimitationWrapper>
@@ -968,11 +996,21 @@
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Icons</h2>
                 <ul>
-                    <li><span>Icon from local iconfont</span><CmdIcon iconClass="icon-home" /></li>
-                    <li><span>Icon from iconify-api (icomoon-font)</span><CmdIcon iconClass="icomoon-free:home" /></li>
-                    <li><span>Icon from iconify-api (bootstrap-font)</span><CmdIcon iconClass="bi:house-fill" /></li>
-                    <li><span>Icon from iconify-api (material-design-font)</span><CmdIcon iconClass="mdi:home" /></li>
-                    <li><span>Icon from iconify-api (font-awesome-solid-font)</span><CmdIcon iconClass="fa6-solid:house-chimney" /></li>
+                    <li><span>Icon from local iconfont</span>
+                        <CmdIcon iconClass="icon-home"/>
+                    </li>
+                    <li><span>Icon from iconify-api (icomoon-font)</span>
+                        <CmdIcon iconClass="icomoon-free:home"/>
+                    </li>
+                    <li><span>Icon from iconify-api (bootstrap-font)</span>
+                        <CmdIcon iconClass="bi:house-fill"/>
+                    </li>
+                    <li><span>Icon from iconify-api (material-design-font)</span>
+                        <CmdIcon iconClass="mdi:home"/>
+                    </li>
+                    <li><span>Icon from iconify-api (font-awesome-solid-font)</span>
+                        <CmdIcon iconClass="fa6-solid:house-chimney"/>
+                    </li>
                 </ul>
             </CmdWidthLimitationWrapper>
             <!-- end icons ------------------------------------------------------------------------------------------------------------------------------------------------------->
@@ -982,8 +1020,8 @@
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Image</h2>
                 <div class="flex-container">
-                    <CmdImage :image="imageData[0].image" :figcaption="imageData[0].figcaption" />
-                    <CmdImage :image="imageData[1].image" :figcaption="imageData[1].figcaption" />
+                    <CmdImage :image="imageData[0].image" :figcaption="imageData[0].figcaption"/>
+                    <CmdImage :image="imageData[1].image" :figcaption="imageData[1].figcaption"/>
                 </div>
             </CmdWidthLimitationWrapper>
             <!-- end images ------------------------------------------------------------------------------------------------------------------------------------------------------->
@@ -992,7 +1030,7 @@
             <a id="section-image-gallery"></a>
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Image-Gallery</h2>
-                <CmdImageGallery :images="imageGalleryData" />
+                <CmdImageGallery :images="imageGalleryData"/>
             </CmdWidthLimitationWrapper>
             <!-- end image-gallery ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
@@ -1012,7 +1050,7 @@
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Login Form</h2>
                 <CmdForm :use-validation="true" :use-fieldset="false">
-                    <CmdLoginForm v-model="loginData" textLegendLoginForm="Please log in" />
+                    <CmdLoginForm v-model="loginData" textLegendLoginForm="Please log in"/>
                 </CmdForm>
                 <p>LoginData: {{ loginData }}</p>
             </CmdWidthLimitationWrapper>
@@ -1024,7 +1062,7 @@
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">List Of Links</h2>
                 <h3>Vertical</h3>
-                <CmdListOfLinks :links="listOfLinksData" />
+                <CmdListOfLinks :links="listOfLinksData"/>
                 <h3>Horizontal (aligned left, with headline)</h3>
                 <CmdListOfLinks
                     orientation="horizontal"
@@ -1154,8 +1192,8 @@
                         <CmdCompanyLogo
                             :link="companyLogoData.link"
                             altText="CoManD Logo"
-                            :pathDefaultLogo="require('../public/media/images/logos/logo.svg')"
-                            :pathDarkmodeLogo="require('../public/media/images/logos/logo-darkmode.svg')"
+                            :pathDefaultLogo="companyLogoData.pathDefaultLogo"
+                            :pathDarkmodeLogo="companyLogoData.pathDarkmodeLogo"
                         />
                     </template>
                     <template v-slot:navigation>
@@ -1357,7 +1395,13 @@
         <!-- end copyright-information ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
         <!-- begin fancy-box ------------------------------------------------------------------------------------------------------------------------------------------------------->
-        <CmdFancyBox :show="fancyBoxCookieDisclaimer" :fancyboxOptions="{}" :allowEscapeKey="false" :cmdHeadline="{show: true, headlineText: 'Cookie Disclaimer', headlineLevel: 2}">
+        <CmdFancyBox
+            :show="fancyBoxCookieDisclaimer"
+            :fancyboxOptions="{}"
+            :allowEscapeKey="false"
+            :cmdHeadline="{show: true, headlineText: 'Cookie Disclaimer', headlineLevel: 2}"
+            ariaLabelText="Cookie Disclaimer"
+        >
             <!-- begin cookie-disclaimer ------------------------------------------------------------------------------------------------------------------------------------------------------->
             <CmdCookieDisclaimer
                 :cookieOptions="cookieDisclaimerData"
@@ -1413,104 +1457,15 @@ import tableDataSmall from '@/assets/data/table-small.json'
 import tableDataLarge from '@/assets/data/table-large.json'
 import thumbnailScrollerData from '@/assets/data/thumbnail-scroller.json'
 
-// import used components
-import CmdAddressData from "@/components/CmdAddressData"
-import CmdBackToTopButton from "@/components/CmdBackToTopButton.vue"
-import CmdBankAccountData from "./components/CmdBankAccountData"
-import CmdBox from "@/components/CmdBox.vue"
-import CmdBoxWrapper from "@/components/CmdBoxWrapper.vue"
-import CmdBreadcrumbs from "@/components/CmdBreadcrumbs.vue"
-import CmdCompanyLogo from "@/components/CmdCompanyLogo.vue"
-import CmdCopyrightInformation from "@/components/CmdCopyrightInformation.vue"
-import CmdCookieDisclaimer from "@/components/CmdCookieDisclaimer.vue"
-import CmdHeadline from "@/components/CmdHeadline.vue"
-import CmdFakeSelect from "@/components/CmdFakeSelect.vue"
-import CmdFancyBox from "@/components/CmdFancyBox.vue"
-import CmdForm from "@/components/CmdForm.vue"
-import CmdFormElement from "@/components/CmdFormElement.vue"
-import CmdFormFilters from "@/components/CmdFormFilters.vue"
-import CmdGoogleMaps from "./components/CmdGoogleMaps"
-import CmdIcon from "./components/CmdIcon"
-import CmdImage from "./components/CmdImage"
-import CmdImageGallery from "@/components/CmdImageGallery.vue"
-import CmdImageZoom from "@/components/CmdImageZoom.vue"
-import CmdInputGroup from "./components/CmdInputGroup"
-import CmdLoginForm from "@/components/CmdLoginForm.vue"
-import CmdListOfLinks from "./components/CmdListOfLinks"
-import CmdMainNavigation from "@/components/CmdMainNavigation.vue"
-import CmdMultistepFormProgressBar from "@/components/CmdMultistepFormProgressBar.vue"
-import CmdNewsletterSubscription from "@/components/CmdNewsletterSubscription.vue"
-import CmdOpeningHours from "@/components/CmdOpeningHours"
-import CmdPager from "@/components/CmdPager.vue"
-import CmdProgressBar from "@/components/CmdProgressBar.vue"
-import CmdShareButtons from "@/components/CmdShareButtons.vue"
-import CmdSiteFooter from "./components/CmdSiteFooter"
-import CmdSiteHeader from "./components/CmdSiteHeader"
-import CmdSiteSearch from "@/components/CmdSiteSearch.vue"
-import CmdSlideshow from "@/components/CmdSlideshow.vue"
-import CmdSwitchLanguage from "@/components/CmdSwitchLanguage.vue"
-import CmdSystemMessage from "@/components/CmdSystemMessage.vue"
-import CmdTable from "@/components/CmdTable.vue"
-import CmdTabs from "@/components/CmdTabs.vue"
-import CmdThumbnailScroller from "@/components/CmdThumbnailScroller.vue"
-import CmdToggleDarkMode from "@/components/CmdToggleDarkMode.vue"
-import CmdTooltip from "@/components/CmdTooltip.vue"
-import CmdUploadForm from "@/components/CmdUploadForm.vue"
-import CmdWidthLimitationWrapper from "@/components/CmdWidthLimitationWrapper"
-import {openFancyBox} from "@/components/CmdFancyBox"
+import {openFancyBox} from "@/components/CmdFancyBox.vue"
 
 // import external functions
 import * as functions from "@/mixins/FieldValidation.js"
 
-import {localizedTime} from "./components/CmdOpeningHours"
+import {localizedTime} from "./components/CmdOpeningHours.vue"
 
 export default {
     name: "App",
-    components: {
-        CmdListOfLinks,
-        CmdAddressData,
-        CmdBackToTopButton,
-        CmdBankAccountData,
-        CmdBox,
-        CmdBoxWrapper,
-        CmdBreadcrumbs,
-        CmdCompanyLogo,
-        CmdCopyrightInformation,
-        CmdCookieDisclaimer,
-        CmdHeadline,
-        CmdFakeSelect,
-        CmdFancyBox,
-        CmdForm,
-        CmdFormFilters,
-        CmdFormElement,
-        CmdGoogleMaps,
-        CmdIcon,
-        CmdImage,
-        CmdImageGallery,
-        CmdImageZoom,
-        CmdInputGroup,
-        CmdLoginForm,
-        CmdMainNavigation,
-        CmdMultistepFormProgressBar,
-        CmdNewsletterSubscription,
-        CmdOpeningHours,
-        CmdPager,
-        CmdProgressBar,
-        CmdShareButtons,
-        CmdSiteFooter,
-        CmdSiteHeader,
-        CmdSiteSearch,
-        CmdSlideshow,
-        CmdSwitchLanguage,
-        CmdSystemMessage,
-        CmdTabs,
-        CmdTable,
-        CmdThumbnailScroller,
-        CmdToggleDarkMode,
-        CmdTooltip,
-        CmdUploadForm,
-        CmdWidthLimitationWrapper
-    },
     data() {
         return {
             acceptedCookies: ["google-maps"],
@@ -1668,11 +1623,25 @@ export default {
         showError() {
             alert("Error")
         },
-        showFancyBox(type, content) {
+        showFancyBox(type, content, ariaLabelText) {
             if (type === "text") {
-                openFancyBox({content: content, cmdHeadline: {show: true, headlineText: "Fancybox with text", headlineLevel: 3}})
+                openFancyBox({
+                    content: content,
+                    cmdHeadline: {
+                        show: true,
+                        headlineText: "Fancybox with text", headlineLevel: 3
+                    },
+                    ariaLabelText: ariaLabelText
+                })
             } else if (type === "url") {
-                openFancyBox({url: content, cmdHeadline: {show: true, headlineText: "Fancybox with image given by url", headlineLevel: 3}})
+                openFancyBox({
+                    url: content,
+                    cmdHeadline: {
+                        show: true,
+                        headlineText: "Fancybox with image given by url", headlineLevel: 3
+                    },
+                    ariaLabelText: ariaLabelText
+                })
             } else if (type === "image") {
                 openFancyBox({
                     url: content,
@@ -1691,7 +1660,8 @@ export default {
                             show: true,
                             text: "figcaption"
                         }
-                    }
+                    },
+                    ariaLabelText: ariaLabelText
                 })
             }
         },

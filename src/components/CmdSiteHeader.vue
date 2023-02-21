@@ -50,16 +50,8 @@
 </template>
 
 <script>
-// import components
-import CmdCompanyLogo from "./CmdCompanyLogo"
-import CmdMainNavigation from "./CmdMainNavigation"
-
 export default {
     name: "CmdSiteHeader",
-    components: {
-        CmdCompanyLogo,
-        CmdMainNavigation
-    },
     props: {
         /**
          * use only if default-button of inner navigation-component should not be used

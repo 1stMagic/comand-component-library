@@ -106,13 +106,6 @@
 import I18n from "../mixins/I18n"
 import DefaultMessageProperties from "../mixins/CmdSiteSearch/DefaultMessageProperties"
 
-// import files for components
-import CmdFakeSelect from "./CmdFakeSelect"
-import CmdFormElement from "./CmdFormElement"
-import CmdFormFilters from "./CmdFormFilters"
-import CmdHeadline from "./CmdHeadline"
-import CmdIcon from "./CmdIcon"
-
 export default {
     emits: [
         "search",
@@ -123,13 +116,6 @@ export default {
     ],
     name: "CmdBoxSiteSearch",
     mixins: [I18n, DefaultMessageProperties],
-    components: {
-        CmdFakeSelect,
-        CmdFormElement,
-        CmdFormFilters,
-        CmdHeadline,
-        CmdIcon
-    },
     data() {
         return {
             showFilters: false

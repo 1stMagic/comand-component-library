@@ -28,16 +28,8 @@
 </template>
 
 <script>
-// import components
-import CmdHeadline from "./CmdHeadline"
-import CmdIcon from "./CmdIcon"
-
 export default {
     name: "CmdTooltip",
-    components: {
-        CmdHeadline,
-        CmdIcon
-    },
     data() {
         return {
             tooltipVisibility: false,

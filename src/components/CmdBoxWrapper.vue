@@ -8,12 +8,12 @@
             <div v-if="allowUserToToggleOrientation || allowTogglingCollapsingBoxes" class="options-wrapper">
                 <a v-if="allowTogglingCollapsingBoxes" href="#" @click.prevent="toggleCollapsingBoxes" :title="collapsingBoxesOpen ? collapseBoxesIcon.tooltip : expandBoxesIcon.tooltip">
                     <!-- begin CmdIcon -->
-                    <CmdIcon :iconClass="collapsingBoxesOpen ? expandBoxesIcon.iconClass : collapseBoxesIcon.iconClass" :type="oneBoxPerRow ? iconGridView.iconType : iconRowView.iconType" />
+                    <CmdIcon :iconClass="collapsingBoxesOpen ? expandBoxesIcon.iconClass : collapseBoxesIcon.iconClass" :type="rowView ? iconGridView.iconType : iconRowView.iconType" />
                     <!-- end CmdIcon -->
                 </a>
-                <a v-if="allowUserToToggleOrientation" href="#" @click.prevent="oneBoxPerRow = !oneBoxPerRow" :title="oneBoxPerRow ? iconRowView.tooltip : iconGridView.tooltip">
+                <a v-if="allowUserToToggleOrientation" href="#" @click.prevent="rowView = !rowView" :title="rowView ? iconRowView.tooltip : iconGridView.tooltip">
                     <!-- begin CmdIcon -->
-                    <CmdIcon :iconClass="oneBoxPerRow ? iconGridView.iconClass : iconRowView.iconClass" :type="oneBoxPerRow ? iconGridView.iconType : iconRowView.iconType" />
+                    <CmdIcon :iconClass="rowView ? iconGridView.iconClass : iconRowView.iconClass" :type="rowView ? iconGridView.iconType : iconRowView.iconType" />
                     <!-- end CmdIcon -->
                 </a>
             </div>
@@ -27,10 +27,6 @@
 <script>
 export default {
     name: "CmdBoxWrapper",
-    components: {
-        CmdHeadline,
-        CmdIcon
-    },
     data() {
         return {
             rowView: this.useRowViewAsDefault,
@@ -193,8 +189,11 @@ export default {
         }
     },
     watch: {
-        useRowViewAsDefault() {
-            this.oneBoxPerRow = this.useRowViewAsDefault
+        useRowViewAsDefault: {
+            handler() {
+                this.oneBoxPerRow = this.useRowViewAsDefault
+            },
+            immediate: true
         }
     }
 }

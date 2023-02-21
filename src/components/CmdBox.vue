@@ -8,7 +8,7 @@
                 'stretch-vertically': stretchVertically && !collapsible,
                 'stretch-horizontally': stretchHorizontally,
                 'row-view': isRowView
-             }
+             },
              ]"
     >
         <!-- begin collapsible header with slot -->
@@ -97,7 +97,7 @@
 
     <!-- begin boxType 'product' -->
     <a v-else-if="boxType === 'product' && product"
-       :class="['cmd-box box product', {'stretch-vertically': stretchVertically, 'stretch-horizontally': stretchHorizontally}]"
+       :class="['cmd-box box product', {'stretch-vertically': stretchVertically, 'stretch-horizontally': stretchHorizontally, 'row-view': isRowView}]"
        href="#"
        @click.prevent="clickOnProduct(product)">
         <div class="box-header flex-container vertical">
@@ -132,10 +132,14 @@
              'cmd-box box user',
               profileType,
              {
-                 'stretch-vertically': stretchVertically,
-                'stretch-horizontally': stretchHorizontally
-             }
+                'stretch-vertically': stretchVertically,
+                'stretch-horizontally': stretchHorizontally,
+                'row-view': isRowView
+             },
+             'row-view'
          ]">
+        isRowView {{isRowView}}<br />
+        rowView {{rowView}}
         <div class="box-header flex-container vertical">
             <figure v-if="user.image">
                 <img :src="user.image.src" :alt="user.image.alt"/>
@@ -143,11 +147,11 @@
             </figure>
             <div v-else>
                 <span :class="defaultProfileIconClass" :title="user.name"></span>
-                <p v-if="!rowView">{{ user.name }}</p>
+                <p v-if="!isRowView">{{ user.name }}</p>
             </div>
         </div>
         <div class="box-body">
-            <p v-if="rowView">{{ user.name }}</p>
+            <p v-if="isRowView">{{ user.name }}</p>
             <p v-if="user.profession">{{ user.profession }}</p>
             <p v-if="user.position">{{ user.position }}</p>
             <p v-if="user.description" class="description">{{ user.description }}</p>
@@ -170,18 +174,8 @@ import I18n from "../mixins/I18n"
 import DefaultMessageProperties from "../mixins/CmdBox/DefaultMessageProperties"
 import GlobalCurrency from "../mixins/GlobalCurrency"
 
-// import components
-import CmdHeadline from "./CmdHeadline"
-import CmdIcon from "./CmdIcon"
-import CmdListOfLinks from "./CmdListOfLinks"
-
 export default {
     name: "CmdBox",
-    components: {
-        CmdHeadline,
-        CmdIcon,
-        CmdListOfLinks,
-    },
     mixins: [
         I18n,
         DefaultMessageProperties,
@@ -400,8 +394,11 @@ export default {
                 this.open = this.collapsingBoxesOpen
             }
         },
-        isRowView() {
-            this.isRowView = this.rowView
+        rowView: {
+            handler() {
+                this.isRowView = this.rowView
+            },
+            immediate: true
         }
     }
 }

@@ -11,14 +11,9 @@
 </template>
 
 <script>
-// import components
-import CmdIcon from "./CmdIcon"
 
 export default {
     name: "CmdBackToTopButton",
-    components: {
-        CmdIcon
-    },
     data() {
         return {
             windowInnerHeight: window.innerHeight,

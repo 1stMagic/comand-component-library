@@ -44,16 +44,8 @@
 import {getRoute} from "../utilities.js"
 import {openFancyBox} from "./CmdFancyBox.vue"
 
-// import components
-import CmdHeadline from "./CmdHeadline"
-import CmdIcon from "./CmdIcon"
-
 export default {
     name: "CmdListOfLinks",
-    components: {
-        CmdHeadline,
-        CmdIcon
-    },
     props: {
         /**
          * activate if component should contain a list of anchors for the section within th page

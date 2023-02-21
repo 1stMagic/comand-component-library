@@ -15,7 +15,7 @@ import 'comand-frontend-framework/src/assets/css/framework-iconfont.css'
 import { createApp } from 'vue'
 
 // import App from './App.vue'
-import App from './App'
+import App from './App.vue'
 //import { createRouter, createWebHistory } from 'vue-router'
 import "clickout-event"
 

@@ -17,14 +17,8 @@
 // import functions
 import {getRoute} from "../utilities.js"
 
-// import components
-import CmdImage from "./CmdImage"
-
 export default {
     name: "CmdCompanyLogo",
-    components: {
-      CmdImage
-    },
     data() {
         return {
             prefersColorScheme: ""

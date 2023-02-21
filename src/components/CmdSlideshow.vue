@@ -52,10 +52,6 @@
 </template>
 
 <script>
-// import components
-import CmdImage from "./CmdImage"
-import CmdSlideButton from "./CmdSlideButton"
-
 const NOT_YET_PRELOADED_IMAGE = image => !image.loaded
 const NOT_YET_PRELOADED_IMAGES = item => item.images && item.images.find(NOT_YET_PRELOADED_IMAGE)
 
@@ -70,10 +66,6 @@ export default {
             fullWidth: false,
             currentSlotItem: 0
         }
-    },
-    components: {
-        CmdImage,
-        CmdSlideButton
     },
     props: {
         /**

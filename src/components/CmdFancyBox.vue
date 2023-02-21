@@ -145,13 +145,6 @@ import {defineComponent, createApp} from "vue"
 // import mixins
 import Identifier from "../mixins/Identifier"
 
-// import components
-import CmdHeadline from "./CmdHeadline"
-import CmdIcon from "./CmdIcon"
-import CmdImage from "./CmdImage"
-import CmdSlideButton from "./CmdSlideButton.vue"
-import CmdThumbnailScroller from './CmdThumbnailScroller.vue'
-
 const openFancyBox = (config) => {
     const node = document.createElement("div");
     document.querySelector("body").appendChild(node);
@@ -164,13 +157,6 @@ const openFancyBox = (config) => {
 
 const FancyBox = defineComponent({
     name: "CmdFancyBox",
-    components: {
-        CmdHeadline,
-        CmdIcon,
-        CmdImage,
-        CmdSlideButton,
-        CmdThumbnailScroller
-    },
     mixins: [
         Identifier
     ],

@@ -7,7 +7,7 @@
                    :class="['flag', language.iso2, {'active': activeLanguage(language)}]"
                    :title="language.tooltip"
                    @click="$emit('click', { originalEvent:  $event, language} )">
-                    <img :src="getFlagURL(language.iso2)" :alt="language.name" />
+                    <img :src="imageSources[index]" :alt="language.name" />
                 </a>
                 <!-- end link-type 'href' -->
 
@@ -16,7 +16,7 @@
                      :class="['flag', language.iso2]"
                      :to="getRoute(language)" :title="language.tooltip"
                      @click="$emit('click', { originalEvent:  $event, language})">
-                    <img :src="getFlagURL(language.iso2)" :alt="language.name" />
+                    <img :src="imageSources[index]" :alt="language.name" />
                 </router-link>
                 <!-- end link-type 'router' -->
             </li>
@@ -30,6 +30,11 @@ import {getRoute} from '../utilities.js'
 export default {
     name: "CmdSwitchLanguage",
     emits: ["click"],
+    data() {
+        return {
+            imageSources: []
+        }
+    },
     props: {
         /**
          * list of languages
@@ -43,11 +48,32 @@ export default {
         getRoute(language) {
             return getRoute(language)
         },
-        getFlagURL(isoCode) {
-            return require("../assets/images/flags/flag-" + isoCode + ".svg")
-        },
         activeLanguage(language) {
             return language.active
+        }
+    },
+    watch: {
+        languages: {
+            handler() {
+                this.imageSources = []
+                this.languages.forEach(
+                    async (item) => {
+                        // get iso-code
+                        const isoCode = item.iso2
+
+                        // get path of current flag
+                        const path = "../assets/images/flags/flag-" + isoCode + ".svg"
+
+                        // assign value of imported file (returns object with default-key)
+                        const { default: dynamicImage } = await import(/*@vite-ignore*/ path)
+
+                        // push image to data-property-array
+                        this.imageSources.push(dynamicImage)
+                    }
+                )
+            },
+            immediate: true,
+            deep: true
         }
     }
 }

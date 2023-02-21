@@ -40,17 +40,9 @@
 // import mixins
 import Identifier from "../mixins/Identifier"
 
-// import components
-import CmdHeadline from "./CmdHeadline"
-import CmdIcon from "./CmdIcon"
-
 export default {
     name: "CmdSystemMessage",
     mixins: [Identifier],
-    components: {
-        CmdHeadline,
-        CmdIcon
-    },
     data() {
         return {
             showSystemMessage: true

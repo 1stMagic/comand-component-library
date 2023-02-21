@@ -1,5 +1,10 @@
 <template>
     <div :class="['cmd-share-buttons', {'stretch': stretchButtons, 'align-right': align === 'right'}]">
+        <!-- begin CmdHeadline -->
+        <CmdHeadline v-if="cmdHeadline" v-bind="cmdHeadline" />
+        <!-- end CmdHeadline -->
+
+        <!-- begin CmdFormElement -->
         <CmdFormElement
             v-if="userMustAcceptDataPrivacy"
             element="input"
@@ -9,6 +14,9 @@
             :required="cmdFormElement.required"
             v-model="dataPrivacyAccepted"
         />
+        <!-- end CmdFormElement -->
+
+        <!-- begin share buttons -->
         <div class="share-button-wrapper">
             <a v-for="shareButton in validShareButtons"
                :key="shareButton.path" :class="['button', {disabled: userMustAcceptDataPrivacy && !dataPrivacyAccepted}]"
@@ -26,20 +34,13 @@
                 <!-- end CmdIcon -->
             </a>
         </div>
+        <!-- end share buttons -->
     </div>
 </template>
 
 <script>
-// import components
-import CmdFormElement from "./CmdFormElement"
-import CmdIcon from "./CmdIcon"
-
 export default {
     name: "CmdShareButtons",
-    components: {
-        CmdFormElement,
-        CmdIcon
-    },
     data() {
         return {
             dataPrivacyAccepted: false
@@ -122,6 +123,13 @@ export default {
                     required: true
                 }
             }
+        },
+        /**
+         * properties for CmdHeadline-component
+         */
+        cmdHeadline: {
+            type: Object,
+            required: false
         }
     },
     computed: {

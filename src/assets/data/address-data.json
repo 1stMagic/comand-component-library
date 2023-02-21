@@ -1,43 +1,43 @@
 {
-      "company": {
-            "iconClass": "icon-company",
-            "value": "Your company name"
-      },
-      "address": {
-            "iconClass": "icon-home",
-            "streetNo": "Your Street/No",
-            "zip": "Your zip",
-            "city": "Your city",
-            "miscInfo": "",
-            "country": "Your country",
-            "longitude": "0.0",
-            "latitude": "0.0",
-            "location": ""
-      },
-      "telephone": {
-            "iconClass": "icon-phone",
-            "value": "Your phone number"
-      },
-      "mobilephone": {
-            "iconClass": "icon-device-smartphone",
-            "value": "Your mobile phone number"
-      },
-      "fax": {
-            "iconClass": "icon-fax",
-            "value": "Your fax number"
-      },
-      "email": {
-            "iconClass": "icon-mail",
-            "value": "Your email address"
-      },
-      "website": {
-            "iconClass": "icon-globe",
-            "value": "Your web site"
-      },
-      "custom": {
-            "iconClass": "icon-questionmark-circle",
-            "value": "Custom data"
-      }
+  "company": {
+    "iconClass": "icon-company",
+    "text": "Your company name"
+  },
+  "address": {
+    "iconClass": "icon-home",
+    "streetNo": "Your Street/No",
+    "zip": "Your zip",
+    "city": "Your city",
+    "miscInfo": "",
+    "country": "Your country",
+    "longitude": "0.0",
+    "latitude": "0.0",
+    "location": ""
+  },
+  "telephone": {
+    "iconClass": "icon-phone",
+    "text": "Your phone number"
+  },
+  "mobilephone": {
+    "iconClass": "icon-device-smartphone",
+    "text": "Your mobile phone number"
+  },
+  "fax": {
+    "iconClass": "icon-fax",
+    "text": "Your fax number"
+  },
+  "email": {
+    "iconClass": "icon-mail",
+    "text": "Your email address"
+  },
+  "website": {
+    "iconClass": "icon-globe",
+    "text": "Your web site"
+  },
+  "custom": {
+    "iconClass": "icon-questionmark-circle",
+    "text": "Custom data"
+  }
 }
 
 

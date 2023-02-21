@@ -1,8 +1,8 @@
 [
   {
     "image": {
-      "src": "media/images/gallery-images/large/landscape-01.jpg",
-      "srcImageLarge": "media/images/gallery-images/large/landscape-01.jpg",
+      "src": "media/images/demo-images/medium/landscape-01.jpg",
+      "srcImageLarge": "media/images/demo-images/large/landscape-01.jpg",
       "alt": "Alternative text 1"
     },
     "figcaption": {
@@ -14,8 +14,8 @@
   },
   {
     "image": {
-      "src": "media/images/gallery-images/large/landscape-02.jpg",
-      "srcImageLarge": "media/images/gallery-images/large/landscape-02.jpg",
+      "src": "media/images/demo-images/medium/landscape-02.jpg",
+      "srcImageLarge": "media/images/demo-images/large/landscape-02.jpg",
       "alt": "Alternative text 2"
     },
     "figcaption": {
@@ -27,8 +27,8 @@
   },
   {
     "image": {
-      "src": "media/images/gallery-images/large/landscape-03.jpg",
-      "srcImageLarge": "media/images/gallery-images/large/landscape-03.jpg",
+      "src": "media/images/demo-images/medium/landscape-03.jpg",
+      "srcImageLarge": "media/images/demo-images/large/landscape-03.jpg",
       "alt": "Alternative text 3"
     },
     "figcaption": {
@@ -40,8 +40,8 @@
   },
   {
     "image": {
-      "src": "media/images/gallery-images/large/landscape-04.jpg",
-      "srcImageLarge": "media/images/gallery-images/large/landscape-04.jpg",
+      "src": "media/images/demo-images/medium/landscape-04.jpg",
+      "srcImageLarge": "media/images/demo-images/large/landscape-04.jpg",
       "alt": "Alternative text 4"
     },
     "figcaption": {

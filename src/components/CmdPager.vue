@@ -48,15 +48,8 @@
 // import mixins
 import I18n from "../mixins/I18n"
 import DefaultMessageProperties from "../mixins/CmdPager/DefaultMessageProperties"
-
-// import components
-import CmdIcon from "./CmdIcon"
-
 export default {
     name: "CmdPager",
-    components: {
-        CmdIcon
-    },
     mixins: [
       I18n,
       DefaultMessageProperties
@@ -124,7 +117,7 @@ export default {
     },
     computed: {
         numberOfPages() {
-            return Math.ceil(this.items / this.itemsPerPage)
+            return Math.ceil(this.pages / this.itemsPerPage)
         },
         getPreviousHref() {
             if (this.currentPage === 1) {

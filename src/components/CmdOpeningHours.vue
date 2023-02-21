@@ -37,9 +37,6 @@
 </template>
 
 <script>
-// import components
-import CmdHeadline from "./CmdHeadline"
-
 export function localizedTime(language) {
     return (hour, minute) => {
         const now = new Date()
@@ -72,9 +69,6 @@ export function timeFormatting(separator, suffix1, suffix2, hoursLeadingZero = t
 
 export default {
     name: "CmdOpeningHours",
-    components: {
-        CmdHeadline
-    },
     props: {
         /**
          * set a link to a detail page

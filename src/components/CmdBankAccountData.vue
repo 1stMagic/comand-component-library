@@ -28,16 +28,8 @@
 </template>
 
 <script>
-// import components
-import CmdHeadline from "./CmdHeadline"
-import CmdIcon from "./CmdIcon"
-
 export default {
     name: "CmdBankAccountData",
-    components: {
-        CmdHeadline,
-        CmdIcon
-    },
     props: {
         /**
          * bank account data

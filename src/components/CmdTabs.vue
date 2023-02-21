@@ -42,18 +42,10 @@ import {addCollection} from "@iconify/vue"
 // import data
 import IconData from '@/assets/data/icon.json'
 
-// import components
-import CmdHeadline from "./CmdHeadline"
-import CmdIcon from "./CmdIcon"
-
 addCollection(IconData)
 
 export default {
     name: "CmdTabs",
-    components: {
-        CmdHeadline,
-        CmdIcon
-    },
     data() {
         return {
             showTab: this.activeTab

@@ -50,20 +50,12 @@
 </template>
 
 <script>
-// import components
-import CmdHeadline from "./CmdHeadline"
-import CmdIcon from "./CmdIcon"
-
 // import mixins
 import I18n from "../mixins/I18n"
 import DefaultMessageProperties from "../mixins/CmdListOfRequirements/DefaultMessageProperties"
 
 export default {
     name: "CmdListOfRequirements",
-    components: {
-        CmdHeadline,
-        CmdIcon
-    },
     mixins: [
         I18n,
         DefaultMessageProperties

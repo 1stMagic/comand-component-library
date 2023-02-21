@@ -10,14 +10,8 @@
 </template>
 
 <script>
-// import components
-import CmdIcon from "./CmdIcon"
-
 export default {
     name: "CmdSlideButton",
-    components: {
-        CmdIcon
-    },
     props: {
         /**
          * set slide-button-type

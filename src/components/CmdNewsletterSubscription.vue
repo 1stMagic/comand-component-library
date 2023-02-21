@@ -43,17 +43,9 @@
 </template>
 
 <script>
-// import components
-import CmdFormElement from "./CmdFormElement"
-import CmdInputGroup from "./CmdInputGroup"
-
 export default {
     name: "CmdNewsletterSubscription",
     emits: ["button-click"],
-    components: {
-        CmdFormElement,
-        CmdInputGroup
-    },
     data() {
         return {
             buttonDisabled: true

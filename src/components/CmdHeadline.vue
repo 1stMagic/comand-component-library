@@ -21,14 +21,8 @@
 </template>
 
 <script>
-// import components
-import CmdIcon from "./CmdIcon"
-
 export default {
     name: "CmdHeadline",
-    components: {
-        CmdIcon
-    },
     props: {
         /**
          * text for headline

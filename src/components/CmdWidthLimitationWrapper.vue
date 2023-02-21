@@ -26,7 +26,7 @@
 
 <script>
 // import components
-import CmdHeadline from "./CmdHeadline"
+import CmdHeadline from "./CmdHeadline.vue"
 
 export default {
     name: "CmdWidthLimitationWrapper",
