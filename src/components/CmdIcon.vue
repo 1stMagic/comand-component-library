@@ -54,7 +54,6 @@ export default {
             if (this.type === "iconify") {
                 return true
             }
-
             if (this.type === "auto") {
                 return this.iconClass.includes(":")
             }

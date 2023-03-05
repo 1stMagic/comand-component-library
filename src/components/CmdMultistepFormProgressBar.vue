@@ -235,7 +235,7 @@ export default {
     }
 }
 
-@media only screen and (max-width: $small-max-width) {
+@container (width < #{$small-max-width}) {
     .cmd-multistep-form-progress-bar {
         flex-direction: column;
 

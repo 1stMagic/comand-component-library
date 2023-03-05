@@ -1,0 +1,35 @@
+[
+  {
+    "iconClass": "icon-home",
+    "text": "Item 1 with URL",
+    "url": "http://www.comand-cms.com"
+  },
+  {
+    "text": "Item 2 with URL",
+    "url": "http://www.comand-cms.com"
+  },
+  {
+    "text": "Item 3 with URL",
+    "url": "http://www.comand-cms.com"
+  },
+  {
+    "text": "Item 4 with URL",
+    "url": "http://www.comand-cms.com"
+  },
+  {
+    "text": "Item 5 with URL",
+    "url": "http://www.comand-cms.com"
+  },
+  {
+    "text": "Item 6 with URL",
+    "url": "http://www.comand-cms.com"
+  },
+  {
+    "text": "Item 7 with URL",
+    "url": "http://www.comand-cms.com"
+  },
+  {
+    "text": "Item 8 with URL",
+    "url": "http://www.comand-cms.com"
+  }
+]

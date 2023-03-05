@@ -29,7 +29,7 @@ export { default as CmdMultistepFormProgressBar } from '@/components/CmdMultiste
 export { default as CmdOpeningHours } from '@/components/CmdOpeningHours.vue'
 export { default as CmdPager } from '@/components/CmdPager.vue'
 export { default as CmdProgressBar } from '@/components/CmdProgressBar.vue'
-export { default as CmdShareButtons } from '@/components/CmdShareButtons.vue'
+export { default as CmdSocialNetworks } from '@/components/CmdSocialNetworks.vue'
 export { default as CmdSiteFooter } from '@/components/CmdSiteFooter.vue'
 export { default as CmdSiteHeader } from '@/components/CmdSiteHeader.vue'
 export { default as CmdSiteSearch } from '@/components/CmdSiteSearch.vue'

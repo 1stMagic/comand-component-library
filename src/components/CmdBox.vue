@@ -7,7 +7,7 @@
                 open : open, collapsible: collapsible,
                 'stretch-vertically': stretchVertically && !collapsible,
                 'stretch-horizontally': stretchHorizontally,
-                'row-view': isRowView
+                'row-view': rowView
              },
              ]"
     >
@@ -97,7 +97,7 @@
 
     <!-- begin boxType 'product' -->
     <a v-else-if="boxType === 'product' && product"
-       :class="['cmd-box box product', {'stretch-vertically': stretchVertically, 'stretch-horizontally': stretchHorizontally, 'row-view': isRowView}]"
+       :class="['cmd-box box product', {'stretch-vertically': stretchVertically, 'stretch-horizontally': stretchHorizontally, 'row-view': rowView}]"
        href="#"
        @click.prevent="clickOnProduct(product)">
         <div class="box-header flex-container vertical">
@@ -134,12 +134,9 @@
              {
                 'stretch-vertically': stretchVertically,
                 'stretch-horizontally': stretchHorizontally,
-                'row-view': isRowView
-             },
-             'row-view'
+                'row-view': rowView
+             }
          ]">
-        isRowView {{isRowView}}<br />
-        rowView {{rowView}}
         <div class="box-header flex-container vertical">
             <figure v-if="user.image">
                 <img :src="user.image.src" :alt="user.image.alt"/>
@@ -147,11 +144,11 @@
             </figure>
             <div v-else>
                 <span :class="defaultProfileIconClass" :title="user.name"></span>
-                <p v-if="!isRowView">{{ user.name }}</p>
+                <p v-if="!rowView">{{ user.name }}</p>
             </div>
         </div>
         <div class="box-body">
-            <p v-if="isRowView">{{ user.name }}</p>
+            <p v-if="rowView">{{ user.name }}</p>
             <p v-if="user.profession">{{ user.profession }}</p>
             <p v-if="user.position">{{ user.position }}</p>
             <p v-if="user.description" class="description">{{ user.description }}</p>
@@ -184,14 +181,16 @@ export default {
     emits: ["click", "toggle-collapse"],
     data() {
         return {
-            open: this.collapsible ? this.collapsingBoxesOpen : true,
+            open: this.collapsible ? this.openCollapsedBox : true,
             active: true,
-            showCutOffText: false,
-            isRowView: false
+            showCutOffText: false
         }
     },
     props: {
-        collapsingBoxesOpen: {
+        /**
+         * activate to set a collapsible box to open
+         */
+        openCollapsedBox: {
             type: Boolean,
             required: false
         },
@@ -388,17 +387,11 @@ export default {
         }
     },
     watch: {
-        collapsingBoxesOpen() {
+        openCollapsedBox() {
             // toggle collapse-status of all boxes if changed in outer component
             if (this.collapsible) {
-                this.open = this.collapsingBoxesOpen
+                this.open = this.openCollapsedBox
             }
-        },
-        rowView: {
-            handler() {
-                this.isRowView = this.rowView
-            },
-            immediate: true
         }
     }
 }

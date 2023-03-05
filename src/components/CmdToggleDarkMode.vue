@@ -1,6 +1,25 @@
 <template>
     <div :class="['cmd-toggle-dark-mode', {'styled-layout': useStyledLayout, 'dark-mode': darkMode}]">
+        <!-- begin button-style -->
+        <a v-if="styledAsButton"
+           href="#"
+           :class="['button', {'dark-mode': darkMode}]"
+           @click.prevent="toggleColorScheme"
+        >
+            <span v-if="showLabel">{{ labelText }}</span>
+            <!-- begin CmdIcon -->
+            <CmdIcon
+                :iconClass="iconClass"
+                :type="iconType"
+                :tooltip="!showLabel ? labelText: ''"
+            />
+            <!-- end CmdIcon -->
+        </a>
+        <!-- end button-style -->
+
+        <!-- begin CmdFormElement -->
         <CmdFormElement
+            v-else
             element="input"
             type="checkbox"
             :labelText="labelText"
@@ -10,6 +29,7 @@
             :title="!showLabel ? labelText: ''"
             @update:modelValue="setColorScheme"
         />
+        <!-- end CmdFormElement -->
     </div>
 </template>
 
@@ -22,6 +42,41 @@ export default {
         }
     },
     props: {
+        /**
+         * activate if toggle-switch should be replaced by a button
+         *
+         * @affectsStyling: true
+         */
+        styledAsButton: {
+            type: Boolean,
+            default: false
+        },
+        /**
+         * icon for dark-mode icon if button-style is used
+         *
+         * (styledAsButton-property must be activated)
+         */
+        iconDarkMode: {
+            default() {
+                return {
+                    iconClass: "icon-home",
+                    iconType: "auto"
+                }
+            }
+        },
+        /**
+         * icon for light-mode icon if button-style is used
+         *
+         * (styledAsButton-property must be activated)
+         */
+        iconLightMode: {
+            default() {
+                return {
+                    iconClass: "icon-globe",
+                    iconType: "auto"
+                }
+            }
+        },
         /**
          * toggle visibility of label
          */
@@ -91,11 +146,21 @@ export default {
         onToggleColorScheme(event) {
             // get current color-scheme from event-listener (if color-scheme is toggled by (another) switch or browser-/os-settings)
             this.darkMode = event.detail === "dark-mode"
+        },
+        toggleColorScheme() {
+            this.darkMode = !this.darkMode
+            this.setColorScheme()
         }
     },
     computed: {
         labelText() {
             return this.darkMode ? this.labelTextDarkMode : this.labelTextLightMode
+        },
+        iconClass() {
+            return this.darkMode ? this.iconDarkMode.iconClass : this.iconLightMode.iconClass
+        },
+        iconType() {
+            return this.darkMode ? this.iconDarkMode.iconType : this.iconLightMode.iconType
         }
     },
     watch: {

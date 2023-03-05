@@ -9,30 +9,31 @@
             <!-- end CmdSlideButton -->
 
             <!-- begin area to slide -->
-            <transition name="fade">
-                <a v-if="currentItem?.link?.href" :href="currentItem?.link?.href" :title="currentItem?.link?.tooltip" :key="index">
-                    <figure v-if="currentItem && !useSlot" class="slideshow-item">
+            <transition-group name="fade">
+                <template v-if="currentItem">
+                    <template v-if="!useSlot">
+                        <a v-if="currentItem?.link?.href" :href="currentItem?.link?.href" :title="currentItem?.link?.tooltip" :key="index">
+                            <!-- begin CmdImage -->
+                            <CmdImage :image="currentItem?.image" :figcaption="currentItem?.figcaption"/>
+                            <!-- begin CmdImage -->
+                        </a>
+
+                       <!-- begin CmdImage -->
+                        <CmdImage v-else :image="currentItem?.image" :figcaption="currentItem?.figcaption" :key="index"/>
                         <!-- begin CmdImage -->
-                        <CmdImage :image="currentItem?.image" :figcaption="currentItem?.figcaption"/>
-                        <!-- begin CmdImage -->
-                    </figure>
-                </a>
-                <figure v-else-if="currentItem && !currentItem?.link?.href && !useSlot" :key="index" class="slideshow-item">
-                    <!-- begin CmdImage -->
-                    <CmdImage :image="currentItem?.image" :figcaption="currentItem?.figcaption"/>
-                    <!-- begin CmdImage -->
-                </figure>
-                <div
-                    v-else-if="currentItem && useSlot"
-                    class="image-wrapper"
-                    :key="index"
-                    :style="'background-image: url(' + currentItem.image.srcLarge + ')'"
-                >
-                    <!-- begin slot -->
-                    <slot :name="'item' + currentSlotItem"></slot>
-                    <!-- end slot -->
-                </div>
-            </transition>
+                    </template>
+                    <div
+                        v-else
+                        class="image-wrapper"
+                        :key="index"
+                        :style="'background-image: url(' + currentItem.image.srcLarge + ')'"
+                    >
+                        <!-- begin slot -->
+                        <slot :name="'item' + currentSlotItem"></slot>
+                        <!-- end slot -->
+                    </div>
+                </template>
+            </transition-group>
             <!-- end area to slide -->
 
             <!-- begin CmdSlideButton -->
@@ -52,9 +53,6 @@
 </template>
 
 <script>
-const NOT_YET_PRELOADED_IMAGE = image => !image.loaded
-const NOT_YET_PRELOADED_IMAGES = item => item.images && item.images.find(NOT_YET_PRELOADED_IMAGE)
-
 export default {
     name: "CmdSlideshow",
     data() {
@@ -62,7 +60,6 @@ export default {
             index: 0,
             pause: false,
             hnd: null,
-            preloadComplete: false,
             fullWidth: false,
             currentSlotItem: 0
         }
@@ -156,12 +153,10 @@ export default {
             } else {
                 this.index = this.slideshowItems.length - 1
             }
-            this.preload(this.index)
         },
         showItem(i) {
             if (i >= 0 && i < this.slideshowItems.length) {
                 this.index = i;
-                this.preload(this.index);
             }
         },
         showNextItem() {
@@ -178,76 +173,27 @@ export default {
             } else {
                 this.index = 0
             }
-            this.preload(this.index)
         },
         setupSlider() {
-            this.preload();
             if (this.autoplay && this.hnd === null) {
                 this.hnd = window.setInterval(() => this.pause || this.showNextItem(), this.autoplayInterval);
             }
-        },
-        preload(index = 0, num = 2) {
-            if (!this.preloadComplete) {
-                for (let i = index, n = index + num, c = this.slideshowItems.length; i < n && i < c; i++) {
-                    const image = this.getDeviceImage(this.slideshowItems[i]);
-                    if (image && !image.loaded) {
-                        image.loaded = true;
-                        new Image().src = image.imgPath;
-                    }
-                }
-                this.preloadComplete = !this.slideshowItems.find(NOT_YET_PRELOADED_IMAGES);
-            }
-        },
-        getDeviceImage(item) {
-            if (item === undefined || item.image === undefined) {
-                return null;
-            }
-            const deviceWidth = window.innerWidth;
-            const currentImage = {};
-
-            for (let i = 0, c = item.image.length; i < c; i++) {
-                const deviceImage = item.image[i];
-
-                if (!deviceImage.image.maxWidth || deviceWidth <= deviceImage.image.maxWidth) {
-                    currentImage.image.srcSmall = deviceImage.image.srcSmall
-                    currentImage.image.alt = item.image.alt
-                    currentImage.image.tooltip = item.image.tooltip
-                    currentImage.figcaption.text = item.figcaption.text
-                    currentImage.figcaption.position = item.figcaption.position
-                    currentImage.figcaption.textAlign = item.figcaption.textAlign
-                    currentImage.figcaption.show = item.figcaption.show
-                    return currentImage;
-                }
-            }
-
-            if (item.image.length) {
-                currentImage.image.srcSmall = item.image.srcSmall
-                currentImage.image.alt = item.image.alt
-                currentImage.image.tooltip = item.image.tooltip
-                currentImage.figcaption.text = item.figcaption.text
-                currentImage.figcaption.position = item.figcaption.position
-                currentImage.figcaption.textAlign = item.figcaption.textAlign
-                currentImage.figcaption.show = item.figcaption.show
-                return currentImage;
-            }
-            return null;
         }
     },
 
     /* computed property to get current slide */
     computed: {
         currentItem() {
-            if(this.slideshowItems.length <= this.index) {
+            if (this.slideshowItems.length <= this.index) {
                 return null
             }
-            return this.getDeviceImage(this.slideshowItems[this.index])
+            return this.slideshowItems[this.index]
         }
     },
     watch: {
         slideshowItems: {
             handler() {
                 this.index = 0
-                this.preloadComplete = false
                 this.setupSlider()
             },
             immediate: true
@@ -257,8 +203,9 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../assets/styles/variables';
 /* begin cmd-slideshow ---------------------------------------------------------------------------------------- */
+@import '../assets/styles/variables';
+
 .cmd-slideshow {
     figure a, img {
         display: block;
@@ -282,7 +229,20 @@ export default {
         display: flex;
         justify-content: center;
 
-        .slideshow-item {
+        > a:not(.button) {
+            text-decoration: none;
+
+            figcaption {
+                border: var(--primary-border);
+
+                &:hover, &:active, &:focus {
+                    background: var(--pure-white);
+                    color: var(--hyperlink-color);
+                }
+            }
+        }
+
+        figure {
             width: 100%; /* important to stretch figure with position: absolute over full width */
             margin: 0;
         }

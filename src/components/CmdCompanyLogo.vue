@@ -1,15 +1,18 @@
 <template>
     <div class="cmd-company-logo">
-        <router-link v-if="link.type === 'router'" :to="link.path" :title="link.tooltip">
+        <router-link v-if="link?.type === 'router'" :to="link?.path" :title="link?.tooltip">
             <!-- begin CmdImage -->
             <CmdImage :image="image" />
             <!-- end CmdImage -->
         </router-link>
-        <a v-else :href="link.path" :title="link.tooltip">
+        <a v-else-if="link?.type === 'href'" :href="link?.path" :title="link?.tooltip">
             <!-- begin CmdImage -->
             <CmdImage :image="image" />
             <!-- end CmdImage -->
         </a>
+        <!-- begin CmdImage -->
+        <CmdImage v-else :image="image" />
+        <!-- end CmdImage -->
     </div>
 </template>
 

@@ -142,7 +142,7 @@ export default {
 
                 &.active {
                     &:hover, &:active, &:focus {
-                        color: var(--hyperlink-color-highlighted);
+                        color: var(--hyperlink-color);
                         background: var(--pure-white);
 
                         span, [class*="icon-"] {

@@ -66,7 +66,7 @@
                 <!-- end button-wrapper -->
             </header>
             <div :class="['outer-content-wrapper', {'grayscale' : printInGrayscale}]">
-                <div v-if="fancyBoxImageUrl" class="content">
+                <div v-if="fancyBoxImageUrl || cmdImage?.image" class="content">
                     <!-- begin CmdImage -->
                     <CmdImage :image="largeSingleImage" :figcaption="cmdImage?.figcaption" />
                     <!-- end CmdImage -->
@@ -355,18 +355,21 @@ const FancyBox = defineComponent({
       largeSingleImage() {
           // change src-key for a single item/image to fit CmdImage-properties
           const fancyBoxItem = {...this.cmdImage?.image || {}}
-          fancyBoxItem.src = this.fancyBoxImageUrl
+          if(this.fancyBoxImageUrl) {
+              fancyBoxItem.src = this.fancyBoxImageUrl
+          }
           return fancyBoxItem
       }
     },
     methods: {
+        // open dialog/fancybox
         showDialog() {
             // avoid scrolling if fancybox is shown
-                document.querySelector("body").classList.add("avoid-scrolling")
-                this.$refs.dialog.showModal()
+            document.querySelector("body").classList.add("avoid-scrolling")
+            this.$refs.dialog.showModal()
 
-                // overwrite default behavior of dialog-element, which sets focus on first focusable element inside
-                this.$refs["close-dialog"].focus()
+            // overwrite default behavior of dialog-element, which sets focus on first focusable element inside
+            this.$refs["close-dialog"].focus()
         },
         updateContentOnPropertyChange() {
             this.fancyBoxImageUrl = this.fancyBoxContent = this.fancyBoxElements = null
@@ -392,6 +395,7 @@ const FancyBox = defineComponent({
                     .catch(error => console.error(`Error loading ${this.url}: ${error}`))
             }
         },
+        // switch to previous-item (in fancybox-gallery)
         showPrevItem() {
             if (this.index > 0) {
                 this.index--;
@@ -399,6 +403,7 @@ const FancyBox = defineComponent({
                 this.index = this.fancyBoxGallery.length - 1;
             }
         },
+        // show current item (in fancybox-gallery)
         showItem(imgId) {
             for (let i = 0; i < this.fancyBoxGallery.length; i++) {
                 if (this.fancyBoxGallery[i].id === imgId) {
@@ -407,6 +412,7 @@ const FancyBox = defineComponent({
                 }
             }
         },
+        // switch to next-item (in fancybox-gallery)
         showNextItem() {
             if (this.index < this.fancyBoxGallery.length - 1) {
                 this.index++;
@@ -414,6 +420,7 @@ const FancyBox = defineComponent({
                 this.index = 0;
             }
         },
+        // close fancybox (by button, escape-key)
         close() {
             if (this.$options.el) {
                 this.$destroy()
@@ -426,10 +433,12 @@ const FancyBox = defineComponent({
             // remove class to re-enable scrolling
             document.querySelector("body").classList.remove("avoid-scrolling")
         },
+        // click on cancel-button
         cancel() {
             this.$emit("cancel", true)
             this.close()
         },
+        // click on confirm-button
         confirm() {
             this.$emit("confirm", true)
             this.close()

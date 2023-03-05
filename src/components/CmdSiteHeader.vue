@@ -166,7 +166,7 @@ export default {
             }
         }
 
-        nav {
+        .cmd-main-navigation nav {
             padding: 0;
         }
 
@@ -224,6 +224,7 @@ export default {
 
 @media only screen and (max-width: $medium-max-width) {
     .cmd-site-header {
+        padding-top: calc(var(--default-padding) * 2);
         padding-bottom: calc(var(--default-padding) * 2);
 
         header {
@@ -235,7 +236,18 @@ export default {
 @media only screen and (max-width: $small-max-width) {
     .cmd-site-header {
         gap: calc(var(--default-gap) / 2);
+        padding-top: var(--default-padding);
         padding-bottom: var(--default-padding);
+
+        .top-header {
+            .cmd-list-of-links {
+                padding: 0;
+            }
+        }
+
+        header {
+            padding: 0 !important;
+        }
 
         .cmd-company-logo {
             margin: 0 auto;

@@ -141,7 +141,8 @@
                     <li v-if="showSelectAllOptions && type === 'checkboxOptions'" class="select-all-options">
                         <a href="#" @click.prevent="toggleAllOptions">
                             <!-- begin CmdIcon -->
-                            <CmdIcon :iconClass="selectAllOptionsIcon.iconClass" :type="selectAllOptionsIcon.iconType" />
+                            <CmdIcon v-if="!allOptionsSelected" :iconClass="iconSelectAllOptions.iconClass" :type="iconSelectAllOptions.iconType" />
+                            <CmdIcon v-else :iconClass="iconDeselectAllOptions.iconClass" :type="iconDeselectAllOptions.iconType" />
                             <!-- end CmdIcon -->
                             <span>{{ selectAllOptionsText }}</span>
                         </a>
@@ -182,7 +183,8 @@ export default {
         return {
             showOptions: false,
             validationStatus: "",
-            limitWidthStyle: {}
+            limitWidthStyle: {},
+            allOptionsSelected: false
         }
     },
     props: {
@@ -296,6 +298,18 @@ export default {
                     iconType: "auto"
                 }
             }
+        },
+        /**
+         * set icon for "deselect all"-option
+         */
+        iconDeselectAllOptions: {
+            type: Object,
+            default() {
+                return {
+                    iconClass: "icon-cancel",
+                    iconType: "auto"
+                }
+            }
         }
     },
     computed: {
@@ -329,7 +343,7 @@ export default {
                 if (this.modelValue.length === 1) {
                     return this.selectData.find(option => String(option.value) === String(this.modelValue[0]))?.text
                 } else if (this.modelValue.length > 1) {
-                    return this.modelValue.length + " options selected"
+                    return this.getMessage("cmdfakeselect.option.options_selected", this.modelValue.length)
                 }
             } else if (this.selectData?.length) {
                 // return text of first option nothing is selected (and type !== checkboxOptions && type !== content)
@@ -342,7 +356,6 @@ export default {
         // get the displayed icon (only available for default selectbox)
         optionIcon() {
             if (this.type === "default") {
-
                 const selectedOption = this.selectData.find(option => {
                     return option.value === this.modelValue
                 })
@@ -368,9 +381,11 @@ export default {
         },
         selectAllOptionsText() {
             if (Array.isArray(this.modelValue) && this.modelValue.length === this.selectData.length) {
-                return "Deselect all options"
+                this.allOptionsSelected = true
+                return this.getMessage("cmdfakeselect.linktext.deselect_all_options")
             }
-            return "Select all options"
+            this.allOptionsSelected = false
+            return this.getMessage("cmdfakeselect.linktext.select_all_options")
         }
     },
     mounted() {
@@ -459,7 +474,7 @@ export default {
         },
         // overwrite requirement-message form fieldValidation.js
         getRequirementMessage() {
-            return "An option is selected"
+            return this.getMessage("cmdfakeselect.headline.an_option_is_selected")
         }
     },
     watch: {
@@ -657,7 +672,8 @@ export default {
         }
     }
 
-    &.has-state {
+    // use additional class in selector to gain high specificity
+    &.has-state.label {
         > ul {
             > li {
                 > a {

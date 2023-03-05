@@ -6,7 +6,7 @@
                 <a v-if="language.link.type === 'href'" :href="language.link.path"
                    :class="['flag', language.iso2, {'active': activeLanguage(language)}]"
                    :title="language.tooltip"
-                   @click="$emit('click', { originalEvent:  $event, language} )">
+                   @click="$emit('click', { originalEvent: $event, language} )">
                     <img :src="imageSources[index]" :alt="language.name" />
                 </a>
                 <!-- end link-type 'href' -->
@@ -15,7 +15,7 @@
                 <router-link v-else
                      :class="['flag', language.iso2]"
                      :to="getRoute(language)" :title="language.tooltip"
-                     @click="$emit('click', { originalEvent:  $event, language})">
+                     @click="$emit('click', { originalEvent: $event, language})">
                     <img :src="imageSources[index]" :alt="language.name" />
                 </router-link>
                 <!-- end link-type 'router' -->
@@ -26,7 +26,7 @@
 
 <script>
 import {getRoute} from '../utilities.js'
-
+import * as flags from "../assets/images/flags"
 export default {
     name: "CmdSwitchLanguage",
     emits: ["click"],
@@ -62,13 +62,14 @@ export default {
                         const isoCode = item.iso2
 
                         // get path of current flag
-                        const path = "../assets/images/flags/flag-" + isoCode + ".svg"
+                       // const path = "../assets/images/flags/flag-" + isoCode + ".svg"
 
                         // assign value of imported file (returns object with default-key)
-                        const { default: dynamicImage } = await import(/*@vite-ignore*/ path)
+                        //const { default: dynamicImage } = await import(/* @vite-ignore */ path)
 
                         // push image to data-property-array
-                        this.imageSources.push(dynamicImage)
+                      //  this.imageSources.push(dynamicImage)
+                        this.imageSources.push(flags[isoCode].default)
                     }
                 )
             },

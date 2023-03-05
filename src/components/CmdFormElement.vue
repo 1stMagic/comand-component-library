@@ -58,17 +58,17 @@
         </span>
         <!-- end label-text (+ required asterisk) -->
 
-        <span class="flex-container"><!-- container required to place inner icons correctly -->
+        <span v-if="$attrs.type !== 'checkbox' && $attrs.type !== 'radio'" class="flex-container"><!-- container required to place inner icons correctly -->
             <!-- begin CmdIcon (for icon inside field) -->
             <CmdIcon
-                v-if="$attrs.type !== 'checkbox' && $attrs.type !== 'radio' && fieldIconClass"
+                v-if="fieldIconClass"
                 class="place-inside"
                 :iconClass="fieldIconClass"
             />
             <!-- end CmdIcon (for icon inside field) -->
 
             <!-- begin inputfield -->
-            <template v-if="element === 'input' && $attrs.type !== 'checkbox' && $attrs.type !== 'radio' && $attrs.type !== 'search'">
+            <template v-if="element === 'input' && $attrs.type !== 'search'">
                 <input
                     v-bind="elementAttributes"
                     :id="htmlId"

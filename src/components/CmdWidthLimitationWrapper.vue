@@ -25,14 +25,8 @@
 </template>
 
 <script>
-// import components
-import CmdHeadline from "./CmdHeadline.vue"
-
 export default {
     name: "CmdWidthLimitationWrapper",
-    components: {
-        CmdHeadline
-    },
     props: {
         /**
          * set a html-tag as inner tag
@@ -126,6 +120,7 @@ export default {
         max-width: var(--max-width);
         margin: 0 auto;
         padding: var(--default-padding);
+        container-type: inline-size;
     }
 
     &.sticky {

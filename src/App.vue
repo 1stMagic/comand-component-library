@@ -74,19 +74,34 @@
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Address Data</h2>
                 <div class="flex-container">
-                    <CmdAddressData :addressData="addressData"
-                                    :linkGoogleMaps="false"
-                                    :cmdHeadline="{headlineText: 'With label texts', headlineLevel: 3}"
+                    <CmdAddressData
+                        :addressData="addressData"
+                        :linkGoogleMaps="false"
+                        :cmdHeadline="{headlineText: 'With label texts and icons', headlineLevel: 3}"
                     />
-                    <CmdAddressData :addressData="addressData"
-                                    :linkGoogleMaps="false"
-                                    :show-label-texts="false"
-                                    :cmdHeadline="{headlineText: 'Without label texts', headlineLevel: 3}"
+                    <CmdAddressData
+                        :addressData="addressData"
+                        :linkGoogleMaps="false"
+                        :show-label-texts="false"
+                        :cmdHeadline="{headlineText: 'With label icons only', headlineLevel: 3}"
                     />
-                    <CmdAddressData :addressData="addressData"
-                                    :linkGoogleMaps="false"
-                                    :show-label-icons="false"
-                                    :cmdHeadline="{headlineText: 'Without label icons', headlineLevel: 3}"
+                    <CmdAddressData
+                        :addressData="addressData"
+                        :linkGoogleMaps="false"
+                        :show-label-icons="false"
+                        :cmdHeadline="{headlineText: 'With label texts', headlineLevel: 3}"
+                    />
+                    <CmdAddressData
+                        :addressData="addressData"
+                        :linkGoogleMaps="false"
+                        :showLabels="false"
+                        :cmdHeadline="{headlineText: 'Without labels', headlineLevel: 3}"
+                    />
+                    <CmdAddressData
+                        :addressData="addressData"
+                        :linkGoogleMaps="false"
+                        :showIconsOnly="true"
+                        :cmdHeadline="{headlineText: 'Linked icons only', headlineLevel: 3}"
                     />
                 </div>
             </CmdWidthLimitationWrapper>
@@ -503,6 +518,8 @@
                         <CmdToggleDarkMode :showLabel="true"/>
                         <h4>Toggle Dark-Mode (without label, styled)</h4>
                         <CmdToggleDarkMode :showLabel="false" :use-styled-layout="true"/>
+                        <h4>Toggle Dark-Mode (styled as button)</h4>
+                        <CmdToggleDarkMode :styledAsButton="true" />
 
                         <h2>Checkboxes and Radiobuttons</h2>
                         <h3>Checkboxes [native]</h3>
@@ -919,7 +936,9 @@
                     </div>
                 </div>
                 <CmdBoxWrapper :boxesPerRow="[5, 2, 1]" :useRowViewAsDefault="true">
-                    <CmdBox v-for="index in boxUserData.length" :key="index" boxType="user" :user="boxUserData[index - 1]" :cmdHeadline="{headlineLevel: 5}"/>
+                    <template v-slot="slotProps">
+                        <CmdBox v-for="index in boxUserData.length" :key="index" boxType="user" :user="boxUserData[index - 1]" :cmdHeadline="{headlineLevel: 5}" :rowView="slotProps.rowView" />
+                    </template>
                 </CmdBoxWrapper>
             </CmdWidthLimitationWrapper>
             <!-- end boxes ------------------------------------------------------------------------------------------------------------------------------------------------------->
@@ -973,11 +992,23 @@
                 </a>
                 <h3>FancyBox with large image given by property</h3>
                 <a href="#"
-                   @click.prevent="showFancyBox('image', 'media/images/demo-images/large/landscape-02.jpg', 'FancyBox with large image given by property')"
+                   @click.prevent="showFancyBox('image', {large:'media/images/demo-images/large/landscape-02.jpg'}, 'FancyBox with large image given by property')"
                    title="Open FancyBox with large image given by property"
-                   style="display: inline-flex;;"
+                   style="display: inline-flex;"
                 >
                     <img src="media/images/demo-images/small/landscape-02.jpg" alt="Alternative text"/>
+                </a>
+                <h3>FancyBox with image as object give by property</h3>
+                <a href="#"
+                   @click.prevent="showFancyBox('image', {
+                        small: 'media/images/demo-images/medium/landscape-03.jpg',
+                        medium: 'media/images/demo-images/medium/landscape-03.jpg',
+                        large: 'media/images/demo-images/large/landscape-03.jpg'
+                   }, 'FancyBox with large image given by property')"
+                   title="Open FancyBox with large image given by property"
+                   style="display: inline-flex;"
+                >
+                    <img src="media/images/demo-images/small/landscape-03.jpg" alt="Alternative text"/>
                 </a>
 
             </CmdWidthLimitationWrapper>
@@ -1039,8 +1070,8 @@
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Image-Zoom</h2>
                 <CmdImageZoom
-                    :imageSmall="imageData[0]"
-                    :imageLarge="imageData[0]"
+                    :imageSmall="imageData[2].image"
+                    :imageLarge="imageData[3].image"
                 />
             </CmdWidthLimitationWrapper>
             <!-- end image-zoom ------------------------------------------------------------------------------------------------------------------------------------------------------->
@@ -1157,8 +1188,24 @@
             <!-- begin share-buttons ------------------------------------------------------------------------------------------------------------------------------------------------------->
             <a id="section-share-buttons"></a>
             <CmdWidthLimitationWrapper>
-                <h2 class="headline-demopage">Share buttons</h2>
-                <CmdShareButtons :share-buttons="shareButtonsData"/>
+                <h2 class="headline-demopage">Social Networks</h2>
+                <h3>With user confirmation (buttons without gap)</h3>
+                <CmdSocialNetworks
+                    :networks="socialNetworksData"
+                    :userMustAcceptDataPrivacy="true"
+                    :useGap="false"
+                />
+                <h3>Without user confirmation (buttons with gap, text aligned left)</h3>
+                <CmdSocialNetworks
+                    :networks="socialNetworksData"
+                    :userMustAcceptDataPrivacy="false"
+                />
+                <h3>Without user confirmation (buttons with gap, text aligned right)</h3>
+                <CmdSocialNetworks
+                    :networks="socialNetworksData"
+                    :userMustAcceptDataPrivacy="false"
+                    textAlign="right"
+                />
             </CmdWidthLimitationWrapper>
             <!-- end share-buttons ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
@@ -1309,10 +1356,17 @@
             <a id="section-thumbnail-scroller"></a>
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Thumbnail-Scroller</h2>
-                <h3>Thumbnail-Scroller as wide as content</h3>
-                <CmdThumbnailScroller :thumbnail-scroller-items="thumbnailScrollerData"/>
-                <h3>Thumbnail-Scroller stretched to full width</h3>
-                <CmdThumbnailScroller :thumbnail-scroller-items="thumbnailScrollerData" :fullWidth="true"/>
+                <h3>Thumbnail-Scroller with images (and as wide as content)</h3>
+                <CmdThumbnailScroller
+                    :thumbnail-scroller-items="thumbnailScrollerImagesData"
+                />
+                <h3>Thumbnail-Scroller with text (and stretched to full width)</h3>
+                <CmdThumbnailScroller
+                    :thumbnail-scroller-items="thumbnailScrollerTextData"
+                    contentType="text"
+                    executeOnClick="url"
+                    :fullWidth="true"
+                />
             </CmdWidthLimitationWrapper>
             <!-- end thumbnail-scroller ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
@@ -1450,12 +1504,13 @@ import multistepsData from '@/assets/data/multistep-form-progress-bar.json'
 import navigationData from '@/assets/data/main-navigation.json'
 import openingHoursData from '@/assets/data/opening-hours.json'
 import selectOptionsData from '@/assets/data/select-options.json'
-import shareButtonsData from '@/assets/data/share-buttons-page-by-json.json'
+import socialNetworksData from '@/assets/data/share-buttons-page-by-json.json'
 import slideshowData from '@/assets/data/slideshow.json'
 import tabsData from '@/assets/data/tabs.json'
 import tableDataSmall from '@/assets/data/table-small.json'
 import tableDataLarge from '@/assets/data/table-large.json'
-import thumbnailScrollerData from '@/assets/data/thumbnail-scroller.json'
+import thumbnailScrollerImagesData from '@/assets/data/thumbnail-scroller-images.json'
+import thumbnailScrollerTextData from '@/assets/data/thumbnail-scroller-text.json'
 
 import {openFancyBox} from "@/components/CmdFancyBox.vue"
 
@@ -1594,12 +1649,13 @@ export default {
             navigationData,
             openingHoursData,
             selectOptionsData,
-            shareButtonsData,
+            socialNetworksData,
             slideshowData,
             tableDataSmall,
             tableDataLarge,
             tabsData,
-            thumbnailScrollerData
+            thumbnailScrollerImagesData,
+            thumbnailScrollerTextData
         }
     },
     methods: {
@@ -1644,7 +1700,6 @@ export default {
                 })
             } else if (type === "image") {
                 openFancyBox({
-                    url: content,
                     cmdHeadline: {
                         show: true,
                         headlineText: "Fancybox with image given by property",
@@ -1652,7 +1707,11 @@ export default {
                     },
                     cmdImage: {
                         image: {
-                            src: "",
+                            src: {
+                                small: content.small,
+                                medium: content.medium,
+                                large: content.large
+                            },
                             alt: "Alternative text",
                             tooltip: "This is a tooltip"
                         },

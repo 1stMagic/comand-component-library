@@ -1,7 +1,7 @@
 <template>
     <a href="#"
        @click.prevent
-       :class="['cmd-slide-button', 'button', slideButtonType]"
+       :class="['cmd-slide-button', 'button', 'keep-behavior-on-small-devices', slideButtonType]"
        :title="getDirection.tooltip">
         <!-- being CmdIcon -->
         <CmdIcon :iconClass="getDirection.iconClass || 'next'" />
@@ -66,6 +66,8 @@ export default {
 
 <style lang="scss">
 /* begin cmd-slide-button ---------------------------------------------------------------------------------------- */
+@import '../assets/styles/variables';
+
 .cmd-slide-button {
     &.button {
         font-size: 2rem;
@@ -112,6 +114,12 @@ export default {
         &.down {
             bottom: 0;
             top: auto;
+        }
+    }
+
+    @media only screen and (max-width: $small-max-width) {
+        &.button {
+            width: auto; /* overwrite button-behavior for small-devices from frontend-framework */
         }
     }
 }

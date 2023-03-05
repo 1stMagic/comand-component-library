@@ -1,32 +1,21 @@
 <template>
-    <div class="cmd-imagezoom grid-container-create-columns">
-        <div class="grid-small-item">
-            <!-- begin small image -->
-            <a href="#" class="thumbnails-imagezoom">
-                <!-- begin CmdImage -->
-                <CmdImage
-                    :image="imageSmall.image"
-                    :figcaption="imageSmall.figcaption"
-                    @mouseover="onMouseOver"
-                    @mousemove="onMouseMove"
-                    @mouseout="onMouseOut"
-                />
-                <!-- end CmdImage -->
-            </a>
-            <!-- end small image -->
-        </div>
+    <div class="cmd-imagezoom flex-container">
 
-        <!-- begin large image -->
-        <div v-if="showLargeImage" class="zoom-container grid-large-item">
-            <!-- begin CmdImage -->
-            <CmdImage
-                :image="imageLarge.image"
-                :figcaption="imageLarge.figcaption"
+        <!-- begin small image -->
+        <a href="#" class="no-flex thumbnails-imagezoom" :title="imageSmall.tooltip">
+            <img :src="imageSmall.src"
+                 :alt="imageSmall.alt"
                 @mouseover="onMouseOver"
                 @mousemove="onMouseMove"
                 @mouseout="onMouseOut"
             />
             <!-- end CmdImage -->
+        </a>
+        <!-- end small image -->
+
+        <!-- begin large image -->
+        <div v-if="showLargeImage" class="zoom-container">
+            <img :src="imageLarge.src" :alt="imageLarge.alt"/>
         </div>
         <div v-if="showLargeImage" class="zoom-overlay"></div>
         <!-- end large image -->
@@ -38,14 +27,14 @@ export default {
     name: "CmdImageZoom",
     props: {
         /**
-         * object for small image
+         * url for small images
          */
         imageSmall: {
             type: Object,
             required: true
         },
         /**
-         * object for large image
+         * url for large image
          */
         imageLarge: {
             type: Object,
@@ -128,8 +117,6 @@ function clamp(value, min, max) {
     .zoom-container {
         display: block !important;
         overflow: hidden;
-        max-width: 100rem;
-        max-height: 50rem !important;
 
         > img {
             max-width: none;

@@ -1,7 +1,7 @@
 [
   {
     "image": {
-      "src": "media/images/content-images/landscape-large.jpg",
+      "src": "media/images/demo-images/large/landscape-01.jpg",
       "alt": "Alternative text",
       "tooltip": "Tooltip"
     },
@@ -14,7 +14,11 @@
   },
   {
     "image": {
-      "src": "media/images/content-images/landscape-large.jpg",
+      "src": {
+        "small": "media/images/demo-images/small/landscape-01.jpg",
+        "medium": "media/images/demo-images/medium/landscape-01.jpg",
+        "large": "media/images/demo-images/large/landscape-01.jpg"
+      },
       "alt": "Alternative text",
       "tooltip": "Tooltip"
     },
@@ -23,6 +27,32 @@
       "position": "",
       "text": "Figcaption below image (aligned right)",
       "textAlign": "right"
+    }
+  },
+  {
+    "image": {
+      "src": "media/images/demo-images/small/landscape-06.jpg",
+      "alt": "Alternative text",
+      "tooltip": "Tooltip"
+    },
+    "figcaption": {
+      "show": true,
+      "position": "top",
+      "text": "Figcaption above image (centered)",
+      "textAlign": "center"
+    }
+  },
+  {
+    "image": {
+      "src": "media/images/demo-images/landscape-2x.jpg",
+      "alt": "Alternative text",
+      "tooltip": "Tooltip"
+    },
+    "figcaption": {
+      "show": true,
+      "position": "top",
+      "text": "Figcaption above image (centered)",
+      "textAlign": "center"
     }
   }
 ]

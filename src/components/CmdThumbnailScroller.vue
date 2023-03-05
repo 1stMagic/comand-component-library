@@ -9,11 +9,22 @@
 
         <!-- begin list of images to slide -->
         <transition-group name="slide" tag="ul">
-            <li v-for="(image, index) in thumbnails" :key="index" :class="{'active' : imgIndex === index}">
-                <a href="#" @click.prevent="showFancyBox(index)" :title="getMessage('cmdthumbnailscroller.tooltip.open_large_image')">
+            <li v-for="(item, index) in items" :key="index" :class="{'active' : activeItemIndex === index}">
+                <a :href="executeOnClick === 'url' ? item.url : '#'"
+                   @click="executeLink(index, $event)"
+                   :title="getTooltip"
+                   :target="executeOnClick === 'url' ? '_blank' : null"
+                >
                     <!-- begin CmdImage -->
-                    <CmdImage :image="image.image" :figcaption="image.figcaption" />
+                    <CmdImage v-if="contentType === 'image'" :image="item.image" :figcaption="item.figcaption" />
                     <!-- end CmdImage -->
+
+                    <!-- begin contentType === text -->
+                    <template v-else>
+                        <CmdIcon v-if="item.iconClass" iconClass="item.iconClass" :type="item.iconType" />
+                        <template v-if="item.text">{{item.text}}</template>
+                    </template>
+                    <!-- end contentType === text -->
                 </a>
             </li>
         </transition-group>
@@ -29,10 +40,6 @@
 </template>
 
 <script>
-// import components
-import CmdImage from "./CmdImage.vue"
-import CmdSlideButton from "./CmdSlideButton.vue"
-
 // import functions
 import {openFancyBox} from './CmdFancyBox.vue'
 
@@ -42,17 +49,14 @@ import DefaultMessageProperties from "../mixins/CmdThumbnailScroller/DefaultMess
 
 export default {
     name: "CmdThumbnailScroller",
-    components: {
-        CmdImage,
-        CmdSlideButton
-    },
+    emits: ["click"],
     mixins: [
         I18n,
         DefaultMessageProperties
     ],
     data() {
         return {
-            thumbnails: []
+            items: []
         }
     },
     props: {
@@ -64,6 +68,24 @@ export default {
         fullWidth: {
             type: Boolean,
             default: false
+        },
+        /**
+         * set content-type
+         *
+         * @allowedValues: "image", "text"
+         */
+        contentType: {
+          type: String,
+          default: "image"
+        },
+        /**
+         * set type to define what will be executed on click on a thumbnail-scroller-item
+         *
+         * @allowedValues: "fancybox", "url", "emit"
+         */
+        executeOnClick: {
+            type: String,
+            default: "fancybox"
         },
         /**
          * list of thumbnail-scroller-items
@@ -82,7 +104,7 @@ export default {
         /**
          * set a default index to activate/highlight a specific image/item
          */
-        imgIndex: {
+        activeItemIndex: {
             type: Number,
             required: false
         },
@@ -125,33 +147,64 @@ export default {
             }
         }
     },
+    computed: {
+        getTooltip() {
+            if (this.contentType === "image") {
+                return this.getMessage("cmdthumbnailscroller.tooltip.open_large_image")
+            }
+            if (this.executeOnClick === "url") {
+                return this.getMessage("cmdthumbnailscroller.tooltip.open_url")
+            }
+            return this.getMessage("cmdthumbnailscroller.tooltip.open")
+        }
+    },
     methods: {
         showNextItem() {
-            const thumbnail = this.thumbnails.shift(); // remove first element of array
-            if (thumbnail) {
-                this.thumbnails.push(thumbnail);
+            const item = this.items.shift(); // remove first element of array
+            if (item) {
+                this.items.push(item);
             }
         },
         showPrevItem() {
-            const thumbnail = this.thumbnails.pop(); // remove last element of array
-            if (thumbnail) {
-                this.thumbnails.unshift(thumbnail);
+            const item = this.items.pop(); // remove last element of array
+            if (item) {
+                this.items.unshift(item);
             }
         },
         showFancyBox(index) {
             if (this.allowOpenFancyBox) {
-                openFancyBox({fancyBoxGallery: this.thumbnails, defaultGalleryIndex: index})
+                openFancyBox({fancyBoxGallery: this.items, defaultGalleryIndex: index})
             }
-            this.$emit("click", this.thumbnails[index].id)
+            this.emitCurrentItemId(index)
+        },
+        emitCurrentItemId(index) {
+            // emit id of current/clicked item
+            this.$emit("click", this.items[index].id)
+        },
+        executeLink(index, event) {
+            if(this.executeOnClick === "emit") {
+                event.preventDefault()
+                // emit id of current/clicked item
+                this.emitCurrentItemId(index)
+            } else if(this.executeOnClick === "fancybox") {
+                event.preventDefault()
+                // show content in fancybox
+                this.showFancyBox(index)
+            }
         }
     },
     watch: {
         thumbnailScrollerItems: {
             handler() {
                 // change keys for images to fit CmdImage-properties
-                this.thumbnails = this.thumbnailScrollerItems.map((item) => {
-                    const newItem = {image: {...item.image}, figcaption: {...item.figcaption}}
-                    newItem.image.src = newItem.image.srcImageSmall
+                this.items = this.thumbnailScrollerItems.map((item) => {
+                    let newItem
+                    if(this.contentType === "image") {
+                        newItem = {image: {...item.image}, figcaption: {...item.figcaption}}
+                        newItem.image.src = newItem.image.srcImageSmall
+                    } else {
+                        newItem = {text: item.text, url: item.url}
+                    }
                     return newItem
                 })
             },

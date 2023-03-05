@@ -59,7 +59,7 @@ export default {
          */
         textAlign: {
             type: String,
-            default: "left"
+            default: null
         }
     },
     computed: {
@@ -73,7 +73,7 @@ export default {
             if(this.textAlign) {
                 return "text-" + this.textAlign
             }
-            return ''
+            return ""
         }
     }
 }

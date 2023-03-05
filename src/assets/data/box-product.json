@@ -2,7 +2,7 @@
   {
     "name": "Product name 1",
     "image": {
-      "src": "media/images/thumbnail-scroller/original/logo-cmd-blue-landscape.jpg",
+      "src": "media/images/demo-images/medium/landscape-01.jpg",
       "alt": "Alternative text"
     },
     "articleNumber": "AB12345",
@@ -14,7 +14,7 @@
   {
     "name": "Product name 2",
     "image": {
-      "src": "media/images/thumbnail-scroller/original/logo-cmd-green-landscape.jpg",
+      "src": "media/images/demo-images/medium/landscape-02.jpg",
       "alt": "Alternative text"
     },
     "articleNumber": "AB12346",
@@ -26,7 +26,7 @@
   {
     "name": "Product name 3",
     "image": {
-      "src": "media/images/thumbnail-scroller/original/logo-cmd-red-landscape.jpg",
+      "src": "media/images/demo-images/medium/landscape-03.jpg",
       "alt": "Alternative text"
     },
     "articleNumber": "AB12347",
@@ -38,7 +38,7 @@
   {
     "name": "Product name 4",
     "image": {
-      "src": "media/images/thumbnail-scroller/original/logo-cmd-yellow-landscape.jpg",
+      "src": "media/images/demo-images/medium/landscape-04.jpg",
       "alt": "Alternative text"
     },
     "articleNumber": "AB12348",
@@ -50,7 +50,7 @@
   {
     "name": "Product name 5",
     "image": {
-      "src": "media/images/thumbnail-scroller/original/logo-cmd-yellow-landscape.jpg",
+      "src": "media/images/demo-images/medium/landscape-05.jpg",
       "alt": "Alternative text"
     },
     "articleNumber": "AB12349",

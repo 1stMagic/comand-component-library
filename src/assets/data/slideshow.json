@@ -1,10 +1,12 @@
 [
   {
     "image": {
-      "srcLarge": "/media/images/slideshow-images/large/slide1.jpg",
-      "srcMedium": "/media/images/slideshow-images/medium/slide1.jpg",
-      "srcSmall": "/media/images/slideshow-images/small/slide1.jpg",
-      "alt": "Alternativ Text 1",
+      "src": {
+        "large": "/media/images/demo-images/large/landscape-01.jpg",
+        "medium": "/media/images/demo-images/medium/landscape-01.jpg",
+        "small": "/media/images/demo-images/small/landscape-01.jpg"
+      },
+      "alt": "Alternative Text 1",
       "tooltip": "Tooltip 1"
     },
     "figcaption": {
@@ -20,10 +22,12 @@
   },
   {
     "image": {
-      "srcLarge": "/media/images/slideshow-images/large/slide2.jpg",
-      "srcMedium": "/media/images/slideshow-images/medium/slide2.jpg",
-      "srcSmall": "/media/images/slideshow-images/small/slide2.jpg",
-      "alt": "Alternativ Text 2",
+      "src": {
+        "large": "/media/images/demo-images/large/landscape-02.jpg",
+        "medium": "/media/images/demo-images/medium/landscape-02.jpg",
+        "small": "/media/images/demo-images/small/landscape-02.jpg"
+      },
+      "alt": "Alternative Text 2",
       "tooltip": "Tooltip 2"
     },
     "figcaption": {
@@ -39,10 +43,12 @@
   },
   {
     "image": {
-      "srcLarge": "/media/images/slideshow-images/large/slide3.jpg",
-      "srcMedium": "/media/images/slideshow-images/medium/slide3.jpg",
-      "srcSmall": "/media/images/slideshow-images/small/slide3.jpg",
-      "alt": "Alternativ Text 3",
+      "src": {
+        "large": "/media/images/demo-images/large/landscape-03.jpg",
+        "medium": "/media/images/demo-images/medium/landscape-03.jpg",
+        "small": "/media/images/demo-images/small/landscape-03.jpg"
+      },
+      "alt": "Alternative Text 3",
       "tooltip": "Tooltip 3"
     },
     "figcaption": {
@@ -58,10 +64,12 @@
   },
   {
     "image": {
-      "srcLarge": "/media/images/slideshow-images/large/slide4.jpg",
-      "srcMedium": "/media/images/slideshow-images/medium/slide4.jpg",
-      "srcSmall": "/media/images/slideshow-images/small/slide4.jpg",
-      "alt": "Alternativ Text 4",
+      "src": {
+        "large": "/media/images/demo-images/large/landscape-04.jpg",
+        "medium": "/media/images/demo-images/medium/landscape-04.jpg",
+        "small": "/media/images/demo-images/small/landscape-04.jpg"
+      },
+      "alt": "Alternative Text 4",
       "tooltip": "Tooltip 4"
     },
     "figcaption": {

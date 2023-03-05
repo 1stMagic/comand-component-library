@@ -362,10 +362,10 @@ export default {
         display: flex;
         background: none; /* overwrite framework-css */
         border: 0; /* overwrite framework-css */
-        padding: 0 var(--default-padding);
 
         /* begin offcanvas-navigation */
         &:not(.persist-on-mobile) {
+            padding: 0;
             transition: var(--nav-transition);
 
             #toggle-offcanvas {

@@ -39,6 +39,12 @@
 @import 'variables'; /* scss-variables (only used for media-query-breakpoints) */
 /* ---------------------------------------------- END IMPORTS -------------------------------------------------- */
 
+// assign scss-variables for breakpoints (from variables.scss) to css-variables, to get access to their value in JavaScript by getComputedStyle(document.documentElement).getPropertyValue
+html {
+  --medium-max-width: #{$medium-max-width};
+  --small-max-width: #{$small-max-width};
+}
+
 /* ---------------------------------------------- BEGIN COMPONENTS AND GLOBAL STYLES -------------------------------------------------- */
 /* begin styles for main structure --------------------------------------------------------------------------------------------------------------------------------------------------- */
 #page-wrapper {

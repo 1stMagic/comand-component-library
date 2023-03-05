@@ -1,43 +1,67 @@
-{
-  "company": {
+[
+  {
+    "name": "company",
     "iconClass": "icon-company",
-    "text": "Your company name"
+    "data": "Your company name",
+    "labelText": "Company"
   },
-  "address": {
+  {
+    "name": "address",
     "iconClass": "icon-home",
+    "labelText": "Address",
     "streetNo": "Your Street/No",
     "zip": "Your zip",
     "city": "Your city",
-    "miscInfo": "",
+    "miscInfo": "Misc. info",
     "country": "Your country",
     "longitude": "0.0",
     "latitude": "0.0",
     "location": ""
   },
-  "telephone": {
+  {
+    "name": "telephone",
     "iconClass": "icon-phone",
-    "text": "Your phone number"
+    "data": "Your phone number",
+    "labelText": "Telephone",
+    "tooltip": "Call number",
+    "href": "0123456789"
   },
-  "mobilephone": {
+  {
+    "name": "mobilephone",
     "iconClass": "icon-device-smartphone",
-    "text": "Your mobile phone number"
+    "data": "Your mobile phone number",
+    "labelText": "Mobile phone",
+    "tooltip": "Call number",
+    "href": "0123456789"
   },
-  "fax": {
+  {
+    "name": "fax",
     "iconClass": "icon-fax",
-    "text": "Your fax number"
+    "data": "Your fax number",
+    "labelText": "Fax"
   },
-  "email": {
+  {
+    "name": "email",
     "iconClass": "icon-mail",
-    "text": "Your email address"
+    "data": "Your email address",
+    "labelText": "Email",
+    "tooltip": "Send mail",
+    "href": "mail@provider.de"
   },
-  "website": {
+  {
+    "name": "website",
     "iconClass": "icon-globe",
-    "text": "Your web site"
+    "data": "Your web site",
+    "labelText": "Web site",
+    "tooltip": "Open web site in new tab",
+    "href": "https://www.domain.toplevel"
   },
-  "custom": {
+  {
+    "name": "custom",
     "iconClass": "icon-questionmark-circle",
-    "text": "Custom data"
+    "data": "Custom data",
+    "labelText": "Custom"
   }
-}
+]
 
 
