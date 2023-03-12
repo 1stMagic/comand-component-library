@@ -1,5 +1,5 @@
 <template>
-    <div :class="['cmd-list-of-links', {box: styleAsBox, horizontal: orientation === 'horizontal', 'section-anchors': sectionAnchors}]">
+    <div :class="['cmd-list-of-links', {box: styleAsBox, horizontal: orientation === 'horizontal', 'section-anchors': sectionAnchors, 'large-icons': largeIcons}]">
         <!-- begin CmdHeadline -->
         <CmdHeadline
             v-if="cmdHeadline"
@@ -62,6 +62,15 @@ export default {
         activeSection: {
             type: Number,
             default: 0
+        },
+        /**
+         * activate if large icons should be displayed above link text
+         *
+         * @affectsStyling: true
+         */
+        largeIcons: {
+            type: Boolean,
+            default: false
         },
         /**
          * set horizontal alignment
@@ -164,6 +173,25 @@ export default {
             }
         }
 
+    }
+
+    &.large-icons {
+        li a {
+            display: flex;
+            flex-direction: column;
+            gap: calc(var(--default-gap) / 4);
+            text-decoration: none;
+            align-items: center;
+            justify-content: center;
+
+            span {
+                margin: 0;
+            }
+
+            [class*="icon-"] {
+                font-size: 5rem;
+            }
+        }
     }
 }
 /* end cmd-list-of-links------------------------------------------------------------------------------------------ */

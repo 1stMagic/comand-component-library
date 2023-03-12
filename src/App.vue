@@ -519,7 +519,7 @@
                         <h4>Toggle Dark-Mode (without label, styled)</h4>
                         <CmdToggleDarkMode :showLabel="false" :use-styled-layout="true"/>
                         <h4>Toggle Dark-Mode (styled as button)</h4>
-                        <CmdToggleDarkMode :styledAsButton="true" />
+                        <CmdToggleDarkMode :styledAsButton="true"/>
 
                         <h2>Checkboxes and Radiobuttons</h2>
                         <h3>Checkboxes [native]</h3>
@@ -841,9 +841,13 @@
                     <CmdBox
                         :stretch-vertically="false"
                         :cmdHeadline="{headlineText: 'Box with cutoff text', headlineLevel: 4}"
-                        textBody="This is a long text that is cutoff after a specific number of lines that can be defined by the property 'cutoffTextLines' and be toggled by a link below."
+                        :useSlots="['body']"
                         :cutoff-text-lines="4"
-                    />
+                    >
+                        <template v-slot:body>
+                            This is a long text that is cutoff after a specific number of lines that can be defined by the property 'cutoffTextLines' and be toggled by a link below.
+                        </template>
+                    </CmdBox>
                     <CmdBox :useSlots="['header', 'body', 'footer']">
                         <template v-slot:header>
                             <h4>
@@ -851,7 +855,7 @@
                             </h4>
                         </template>
                         <template v-slot:body>
-                            <div class="padding">
+                            <div class="default-padding">
                                 <p>
                                     This content with paragraphs inside is placed inside the box-body.
                                 </p>
@@ -937,7 +941,7 @@
                 </div>
                 <CmdBoxWrapper :boxesPerRow="[5, 2, 1]" :useRowViewAsDefault="true">
                     <template v-slot="slotProps">
-                        <CmdBox v-for="index in boxUserData.length" :key="index" boxType="user" :user="boxUserData[index - 1]" :cmdHeadline="{headlineLevel: 5}" :rowView="slotProps.rowView" />
+                        <CmdBox v-for="index in boxUserData.length" :key="index" boxType="user" :user="boxUserData[index - 1]" :cmdHeadline="{headlineLevel: 5}" :rowView="slotProps.rowView"/>
                     </template>
                 </CmdBoxWrapper>
             </CmdWidthLimitationWrapper>
@@ -1108,6 +1112,8 @@
                 <CmdListOfLinks orientation="horizontal" align="center" :links="listOfLinksData"/>
                 <h3>Horizontal (aligned right)</h3>
                 <CmdListOfLinks orientation="horizontal" align="right" :links="listOfLinksData"/>
+                <h3>Large icons</h3>
+                <CmdListOfLinks orientation="horizontal" :links="listOfLinksData" :largeIcons="true"/>
             </CmdWidthLimitationWrapper>
             <!-- end list-of-links ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
@@ -1128,11 +1134,11 @@
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Multistepform-Progressbar</h2>
                 <h3>Steps with icons</h3>
-                <CmdMultistepFormProgressBar
-                    :multisteps="multistepsData.withIcon"
-                    separatorIconClass="icon-single-arrow-right"
-                    @click="showPageMultistep = $event.index + 1"
-                />
+                    <CmdMultistepFormProgressBar
+                        :multisteps="multistepsData.withIcon"
+                        separatorIconClass="icon-single-arrow-right"
+                        @click="showPageMultistep = $event.index + 1"
+                    />
                 <div>
                     <p>Page {{ showPageMultistep }}</p>
                 </div>
@@ -1352,21 +1358,44 @@
             </CmdWidthLimitationWrapper>
             <!-- end tabs ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
+            <!-- begin textblock ------------------------------------------------------------------------------------------------------------------------------------------------------->
+            <a id="section-text-block"></a>
+            <CmdWidthLimitationWrapper>
+                <h2 class="headline-demopage">Text-Block</h2>
+                <div class="flex-container">
+                    <CmdTextBlock :cmdHeadline="{headlineText: 'Headline', headlineLevel: 3}" textContent="Text given as text only"/>
+                    <CmdTextBlock :cmdHeadline="{headlineText: 'Headline', headlineLevel: 3}" htmlContent="<p>Text given as html-content</p>"/>
+                </div>
+            </CmdWidthLimitationWrapper>
+            <!-- end textblock ------------------------------------------------------------------------------------------------------------------------------------------------------->
+
             <!-- begin thumbnail-scroller ------------------------------------------------------------------------------------------------------------------------------------------------------->
             <a id="section-thumbnail-scroller"></a>
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Thumbnail-Scroller</h2>
-                <h3>Thumbnail-Scroller with images (and as wide as content)</h3>
-                <CmdThumbnailScroller
-                    :thumbnail-scroller-items="thumbnailScrollerImagesData"
-                />
-                <h3>Thumbnail-Scroller with text (and stretched to full width)</h3>
-                <CmdThumbnailScroller
-                    :thumbnail-scroller-items="thumbnailScrollerTextData"
-                    contentType="text"
-                    executeOnClick="url"
-                    :fullWidth="true"
-                />
+                <div class="inline-size">
+                    <h3>Thumbnail-Scroller with images (opens fancybox)</h3>
+
+                    <CmdThumbnailScroller
+                        :thumbnail-scroller-items="thumbnailScrollerImagesData"
+                    />
+                    <h3>Thumbnail-Scroller with text (opens url)</h3>
+                    <CmdThumbnailScroller
+                        :thumbnail-scroller-items="thumbnailScrollerTextData"
+                        contentType="text"
+                        executeOnClick="url"
+                        :fullWidth="true"
+                    />
+                    <h3>Thumbnail-Scroller with text (emits click-event)</h3>
+                    <CmdThumbnailScroller
+                        :thumbnail-scroller-items="thumbnailScrollerTextData"
+                        contentType="text"
+                        executeOnClick="emit"
+                        @click="onClick"
+                        :largeIcons="true"
+                        :fullWidth="true"
+                    />
+                </div>
             </CmdWidthLimitationWrapper>
             <!-- end thumbnail-scroller ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
@@ -1672,6 +1701,9 @@ export default {
         setStatus(validationStatus, disabledStatus) {
             this.validationStatus = validationStatus
             this.disabledStatus = disabledStatus
+        },
+        onClick(event) {
+            alert(event)
         },
         siteSearchOutput(event) {
             alert(JSON.stringify(event))

@@ -1,6 +1,6 @@
 <template>
     <div class="cmd-box-wrapper">
-        <div class="flex-container no-flex headline-wrapper">
+        <div class="flex-container headline-wrapper">
             <!-- begin CmdHeadline -->
             <CmdHeadline v-if="cmdHeadline.headlineText" v-bind="cmdHeadline" />
             <!-- end CmdHeadline -->
@@ -217,8 +217,12 @@ export default {
         justify-content: space-between;
     }
 
+    .options-wrapper {
+        flex: none;
+    }
+
     > .flex-container {
-        .cmd-headline {
+        > .cmd-headline {
                 margin: 0;
         }
 

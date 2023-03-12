@@ -1,5 +1,5 @@
 <template>
-    <div :class="['cmd-thumbnail-scroller', {'gallery-scroller' : !allowOpenFancyBox, 'full-width' : fullWidth}]">
+    <div :class="['cmd-thumbnail-scroller', {'gallery-scroller' : !allowOpenFancyBox, 'full-width' : fullWidth, 'large-icons': largeIcons}]">
         <!-- begin CmdSlideButton -->
         <CmdSlideButton
             @click.prevent="showPrevItem"
@@ -21,7 +21,9 @@
 
                     <!-- begin contentType === text -->
                     <template v-else>
-                        <CmdIcon v-if="item.iconClass" iconClass="item.iconClass" :type="item.iconType" />
+                        <!-- begin CmdIcon -->
+                        <CmdIcon v-if="item.iconClass" :iconClass="item.iconClass" :type="item.iconType" />
+                        <!-- end CmdIcon -->
                         <template v-if="item.text">{{item.text}}</template>
                     </template>
                     <!-- end contentType === text -->
@@ -66,6 +68,15 @@ export default {
          * @affectsStyling: true
          */
         fullWidth: {
+            type: Boolean,
+            default: false
+        },
+        /**
+         * activate if large icons should be displayed above link text
+         *
+         * @affectsStyling: true
+         */
+        largeIcons: {
             type: Boolean,
             default: false
         },
@@ -203,7 +214,7 @@ export default {
                         newItem = {image: {...item.image}, figcaption: {...item.figcaption}}
                         newItem.image.src = newItem.image.srcImageSmall
                     } else {
-                        newItem = {text: item.text, url: item.url}
+                        newItem = {...item}
                     }
                     return newItem
                 })
@@ -215,8 +226,9 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../assets/styles/variables';
 /* begin cmd-thumbnail-scroller ------------------------------------------------------------------------------------------ */
+@import '../assets/styles/variables';
+
 .cmd-thumbnail-scroller {
     overflow: hidden;
     border-radius: var(--border-radius);
@@ -337,6 +349,25 @@ export default {
         }
     }
 
+    &.large-icons {
+        li a {
+            display: flex;
+            flex-direction: column;
+            gap: calc(var(--default-gap) / 4);
+            text-decoration: none;
+            align-items: center;
+            justify-content: center;
+
+            span {
+                margin: 0;
+            }
+
+            [class*="icon-"] {
+                font-size: 5rem;
+            }
+        }
+    }
+
     @media only screen and (max-width: $medium-max-width) {
         & > ul > li {
             flex: none;
@@ -349,16 +380,14 @@ export default {
         & > ul > li img {
             max-height: 7rem;
         }
-    }
 
-    @media only screen and (max-width: $medium-max-width) {
         &.gallery-scroller {
             max-width: calc(100% - calc(var(--default-margin) * 3));
         }
     }
 }
 
-@media only screen and (max-width: $small-max-width) {
+@container (width <= #{$small-max-width}) {
     .cmd-thumbnail-scroller {
         display: block;
     }

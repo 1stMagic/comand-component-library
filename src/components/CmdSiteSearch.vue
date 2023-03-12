@@ -26,7 +26,7 @@
             />
             <!-- end CmdFormElement for first input -->
 
-            <div class="flex-container align-bottom no-gap">
+            <div class="input-wrapper align-bottom">
                 <!-- begin CmdFormElement for second input -->
                 <CmdFormElement
                     v-if="cmdFormElementInput2.show"
@@ -57,6 +57,7 @@
             <!-- begin CmdFormElement for search-button -->
             <CmdFormElement
                 element="button"
+                class="stretch-on-small-devices"
                 :nativeButton="cmdFormElementSearchButton"
                 @click="onSearchButtonClick"
                 :disabled="buttonSearchDisabled"

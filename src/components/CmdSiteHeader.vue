@@ -190,6 +190,7 @@ export default {
             }
 
             .cmd-company-logo {
+                grid-area: company-logo;
                 grid-column: span var(--grid-small-span);
             }
 
@@ -229,6 +230,27 @@ export default {
 
         header {
             grid-auto-rows: auto; /* items should be as large as their content */
+
+            .cmd-main-navigation#main-navigation-wrapper {
+                &:not(.persist-on-mobile) {
+                    padding: 0;
+                }
+            }
+        }
+
+        &.navigation-inline {
+            header {
+                &.has-navigation {
+                    grid-template-areas: "main-navigation company-logo ";
+                }
+            }
+
+            .cmd-main-navigation#main-navigation-wrapper {
+                &:not(.persist-on-mobile) {
+                    grid-column: main-navigation-start;
+                    padding-left: var(--default-padding);
+                }
+            }
         }
     }
 }

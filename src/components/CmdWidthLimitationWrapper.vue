@@ -120,7 +120,6 @@ export default {
         max-width: var(--max-width);
         margin: 0 auto;
         padding: var(--default-padding);
-        container-type: inline-size;
     }
 
     &.sticky {

@@ -39,6 +39,7 @@ export { default as CmdSwitchLanguage } from '@/components/CmdSwitchLanguage.vue
 export { default as CmdSystemMessage } from '@/components/CmdSystemMessage.vue'
 export { default as CmdTable } from '@/components/CmdTable.vue'
 export { default as CmdTabs } from '@/components/CmdTabs.vue'
+export { default as CmdTextBlock } from '@/components/CmdTextBlock.vue'
 export { default as CmdThumbnailScroller } from '@/components/CmdThumbnailScroller.vue'
 export { default as CmdToggleDarkMode } from '@/components/CmdToggleDarkMode.vue'
 export { default as CmdTooltip } from '@/components/CmdTooltip.vue'

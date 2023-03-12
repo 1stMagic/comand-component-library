@@ -69,6 +69,10 @@ export default {
                 text-decoration: none;
             }
         }
+
+        h4, h5, h6 {
+            margin-top: var(--default-margin);
+        }
     }
 }
 

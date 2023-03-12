@@ -218,7 +218,7 @@ export default {
             }
         },
         /**
-         * icon to show if an navigation-entry has sub-entries
+         * icon to show if a navigation-entry has sub-entries
          */
         subentriesIconClass: {
             type: String,
@@ -365,7 +365,7 @@ export default {
 
         /* begin offcanvas-navigation */
         &:not(.persist-on-mobile) {
-            padding: 0;
+            padding: 0 var(--default-padding);
             transition: var(--nav-transition);
 
             #toggle-offcanvas {

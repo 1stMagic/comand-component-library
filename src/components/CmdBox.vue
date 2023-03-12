@@ -39,22 +39,24 @@
         <!-- end collapsible header with slot -->
 
         <!-- begin default header with slot -->
-        <div v-else class="box-header">
-            <!-- begin slot 'header' -->
-            <slot v-if="useSlots?.includes('header')" name="header"></slot>
-            <!-- end slot 'header' -->
+        <template v-else>
+            <div v-if="useSlots?.includes('header') ||cmdHeadline?.headlineText" class="box-header">
+                <!-- begin slot 'header' -->
+                <slot v-if="useSlots?.includes('header')" name="header"></slot>
+                <!-- end slot 'header' -->
 
-            <!-- begin CmdHeadline -->
-            <CmdHeadline
-                v-else-if="cmdHeadline?.headlineText"
-                v-bind="cmdHeadline"
-            />
-            <!-- end CmdHeadline -->
-        </div>
+                <!-- begin CmdHeadline -->
+                <CmdHeadline
+                    v-if="cmdHeadline?.headlineText"
+                    v-bind="cmdHeadline"
+                />
+                <!-- end CmdHeadline -->
+            </div>
+        </template>
         <!-- end default header with slot -->
 
         <!-- begin box-body -->
-        <div v-if="open" class="box-body" aria-expanded="true" role="article">
+        <div v-if="open" :class="['box-body', {'default-padding': useDefaultPadding}]" aria-expanded="true" role="article">
             <!-- begin slot 'body' -->
             <slot v-if="useSlots?.includes('body')" name="body">
                 <transition-group :name="toggleTransition">
@@ -75,14 +77,16 @@
             <template v-else>
                 <img v-if="image" :src="image.src" :alt="image.altText"/>
 
-                <!-- begin CmdHeadline -->
-                <CmdHeadline
-                    v-if="cmdHeadline?.headlineText"
-                    v-bind="cmdHeadline"
-                />
-                <!-- end CmdHeadline -->
+                <div class="text-wrapper">
+                    <!-- begin CmdHeadline -->
+                    <CmdHeadline
+                        v-if="cmdHeadline?.headlineText && repeatHeadlineInBoxBody"
+                        v-bind="cmdHeadline"
+                    />
+                    <!-- end CmdHeadline -->
 
-                <p v-if="textBody">{{ textBody }}</p>
+                    <p v-if="textBody">{{ textBody }}</p>
+                </div>
             </template>
         </div>
         <!-- end box-body -->
@@ -226,6 +230,22 @@ export default {
         cutoffTextLines: {
             type: Number,
             default: 0
+        },
+        /**
+         * deactivate if no default-padding should be used (has no effect on content given by textBody-property)
+         *
+         * @affectsStyling: true
+         */
+        useDefaultPadding: {
+            type: Boolean,
+            default: true
+        },
+        /**
+         * repeats headline (used in box-header) given by cmdHeadline-property in box-body
+         */
+        repeatHeadlineInBoxBody: {
+            type: Boolean,
+            default: false
         },
         /**
          * show fade-effect on last line
@@ -477,6 +497,10 @@ export default {
         .box-body {
             flex-grow: 1;
             padding: 0;
+
+            .text-wrapper {
+                padding: var(--default-padding);
+            }
 
             p.cutoff-text {
                 padding: var(--default-padding);
