@@ -2,7 +2,7 @@
     <div class="cmd-imagezoom flex-container">
 
         <!-- begin small image -->
-        <a href="#" class="no-flex thumbnails-imagezoom" :title="imageSmall.tooltip">
+        <a href="#" class="no-flex" :title="imageSmall.tooltip">
             <img :src="imageSmall.src"
                  :alt="imageSmall.alt"
                 @mouseover="onMouseOver"
@@ -66,9 +66,9 @@ export default {
 }
 
 function positionOverlay(vm, e) {
-    const largeImageContainer = vm.$el.querySelector('.zoom-container')
-    const largeImage = largeImageContainer.querySelector('img')
-    const zoomOverlay = vm.$el.querySelector('.zoom-overlay')
+    const largeImageContainer = vm.$el.querySelector(".zoom-container")
+    const largeImage = largeImageContainer.querySelector("img")
+    const zoomOverlay = vm.$el.querySelector(".zoom-overlay")
 
     const smallImageWidth = e.target.getBoundingClientRect().width
     const smallImageHeight = e.target.getBoundingClientRect().height
@@ -113,6 +113,10 @@ function clamp(value, min, max) {
 /* begin cmd-imagezoom ---------------------------------------------------------------------------------------- */
 .cmd-imagezoom {
     overflow: hidden;
+
+    > a {
+        align-self: flex-start; /* required to avoid a-tag to stretch on small devices */
+    }
 
     .zoom-container {
         display: block !important;

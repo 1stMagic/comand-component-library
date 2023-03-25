@@ -51,7 +51,7 @@
                         <li><a href="#section-main-navigation">Main-Navigation</a></li>
                         <li><a href="#section-multistep-form-progress-bar">Multistepform-Progressbar</a></li>
                         <li><a href="#section-pager">Pager</a></li>
-                        <li><a href="#section-share-buttons">Share Buttons</a></li>
+                        <li><a href="#section-social-networks">Social Networks</a></li>
                         <li><a href="#section-site-header">Site Header</a></li>
                         <li><a href="#section-site-search">Site Search</a></li>
                         <li><a href="#section-slideshow">Slideshow</a></li>
@@ -99,7 +99,7 @@
                     />
                     <CmdAddressData
                         :addressData="addressData"
-                        :linkGoogleMaps="false"
+                        :linkGoogleMaps="true"
                         :showIconsOnly="true"
                         :cmdHeadline="{headlineText: 'Linked icons only', headlineLevel: 3}"
                     />
@@ -819,7 +819,7 @@
             <!-- end advanced form elements ----------------------------------------------------------------------------------------------------------------------------------------------------->
 
             <!-- begin back to top button ----------------------------------------------------------------------------------------------------------------------------------------------------->
-            <CmdBackToTopButton/>
+            <CmdBackToTopButton />
             <!-- end back to top button ----------------------------------------------------------------------------------------------------------------------------------------------------->
 
             <!-- begin bank account data ----------------------------------------------------------------------------------------------------------------------------------------------------->
@@ -1111,7 +1111,7 @@
                 <h3>Horizontal (aligned center)</h3>
                 <CmdListOfLinks orientation="horizontal" align="center" :links="listOfLinksData"/>
                 <h3>Horizontal (aligned right)</h3>
-                <CmdListOfLinks orientation="horizontal" align="right" :links="listOfLinksData"/>
+                <CmdListOfLinks orientation="horizontal" align="right" :links="listOfLinksData" @click="clickOnListOfLinks"/>
                 <h3>Large icons</h3>
                 <CmdListOfLinks orientation="horizontal" :links="listOfLinksData" :largeIcons="true"/>
             </CmdWidthLimitationWrapper>
@@ -1192,7 +1192,7 @@
             <!-- end pager ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
             <!-- begin share-buttons ------------------------------------------------------------------------------------------------------------------------------------------------------->
-            <a id="section-share-buttons"></a>
+            <a id="section-social-networks"></a>
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Social Networks</h2>
                 <h3>With user confirmation (buttons without gap)</h3>
@@ -1688,6 +1688,10 @@ export default {
         }
     },
     methods: {
+        clickOnListOfLinks(event) {
+            event.originalEvent.preventDefault()
+            console.log(event)
+        },
         localizedTime(language) {
             return (h, m) => (localizedTime(language))(h, m).toLowerCase()
         },

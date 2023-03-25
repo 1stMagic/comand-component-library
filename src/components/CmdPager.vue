@@ -169,10 +169,6 @@ export default {
     button, .button {
         float: none;
         margin: 0;
-
-        span {
-            align-self: center;
-        }
     }
 
     a {

@@ -57,27 +57,38 @@
 
         <!-- begin box-body -->
         <div v-if="open" :class="['box-body', {'default-padding': useDefaultPadding}]" aria-expanded="true" role="article">
-            <!-- begin slot 'body' -->
-            <slot v-if="useSlots?.includes('body')" name="body">
-                <transition-group :name="toggleTransition">
-                    <p :class="{
-                       'cutoff-text': cutoffTextLines > 0,
-                       'fade-last-line': fadeLastLine && !showCutOffText,
-                       'show-text' : showCutOffText
-                   }">
-                        {{ textBody }}
-                    </p>
-                    <a v-if="cutoffTextLines > 0" href="#" @click.prevent="toggleCutOffText">
-                        {{ showCutOffText ? getMessage("cmdbox.contentbox.collapse_text") : getMessage("cmdbox.contentbox.expand_text") }}
-                    </a>
-                </transition-group>
-            </slot>
-            <!-- end slot 'body' -->
+            <transition-group :name="toggleTransition">
+                <div v-if="cutoffTextLines > 0" :class="[
+                       'cutoff-text',
+                       {
+                           'fade-last-line': fadeLastLine && !showCutOffText,
+                           'show-text' : showCutOffText
+                        }
+                   ]">
+                     <!-- begin slot 'body' -->
+                    <slot v-if="useSlots?.includes('body')" name="body">
+                        <p>{{ textBody }}</p>
+                    </slot>
+                    <!-- end slot 'body' -->
+                </div>
+                <!-- begin no cut-off-text-lines -->
+                <template v-else>
+                    <!-- begin slot 'body' -->
+                    <slot v-if="useSlots?.includes('body')" name="body">
+                        <p>{{ textBody }}</p>
+                    </slot>
+                    <!-- end slot 'body' -->
+                </template>
+                <!-- end no cut-off-text-lines -->
+            </transition-group>
+            <a v-if="cutoffTextLines > 0" href="#" @click.prevent="toggleCutOffText">
+                {{ showCutOffText ? getMessage("cmdbox.contentbox.collapse_text") : getMessage("cmdbox.contentbox.expand_text") }}
+            </a>
 
             <template v-else>
                 <img v-if="image" :src="image.src" :alt="image.altText"/>
 
-                <div class="text-wrapper">
+                <div v-if="textBody" class="text-wrapper">
                     <!-- begin CmdHeadline -->
                     <CmdHeadline
                         v-if="cmdHeadline?.headlineText && repeatHeadlineInBoxBody"
@@ -254,7 +265,7 @@ export default {
          */
         fadeLastLine: {
             type: Boolean,
-            default: true
+            default: false
         },
         /**
          * use transition to expand and collapse box-body
@@ -502,7 +513,7 @@ export default {
                 padding: var(--default-padding);
             }
 
-            p.cutoff-text {
+            .cutoff-text {
                 padding: var(--default-padding);
                 margin: 0;
                 overflow: hidden;

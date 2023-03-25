@@ -8,7 +8,7 @@
         <!-- end CmdHeadline -->
 
         <!-- begin list of links -->
-        <ul :class="['flex-container', {'no-gap': !useGap},'align-' + align]">
+        <ul :class="['flex-container', {'no-gap': !useGap},'align-' + align, setStretchClass]">
             <li v-for="(link, index) in links" :key="index" :class="{'active': sectionAnchors && activeSection === index}">
                 <!-- begin use href -->
                 <a v-if="link.type === 'href' || link.type === undefined"
@@ -46,6 +46,7 @@ import {openFancyBox} from "./CmdFancyBox.vue"
 
 export default {
     name: "CmdListOfLinks",
+    emits: ["click"],
     props: {
         /**
          * activate if component should contain a list of anchors for the section within th page
@@ -123,6 +124,14 @@ export default {
             default: false
         }
     },
+    computed: {
+        setStretchClass() {
+            if(this.largeIcons && this.orientation === "horizontal") {
+                return "stretch"
+            }
+            return null
+        }
+    },
     methods: {
         getRoute(link) {
             return getRoute(link)
@@ -130,8 +139,10 @@ export default {
         executeLink(link, event) {
             if (link.fancybox) {
                 event.preventDefault()
-                openFancyBox({url: link.path})
+                openFancyBox({url: link.path, showSubmitButtons: link.showSubmitButtons})
+                return
             }
+            this.$emit("click", {link, originalEvent: event})
         }
     }
 }
@@ -170,6 +181,10 @@ export default {
 
             &.align-right {
                 justify-content: flex-end;
+            }
+
+            &.stretch {
+                justify-content: space-around;
             }
         }
 

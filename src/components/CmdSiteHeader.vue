@@ -31,7 +31,7 @@
                 <!-- begin CmdMainNavigation -->
                 <CmdMainNavigation
                     v-if="cmdMainNavigation?.navigationEntries?.length && navigationInline"
-                    :navigationEntries="cmdMainNavigation.navigationEntries"
+                    v-bind="cmdMainNavigation"
                     :closeOffcanvas="closeOffcanvas"
                 />
                 <!-- end CmdMainNavigation -->

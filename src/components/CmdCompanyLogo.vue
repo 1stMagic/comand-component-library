@@ -124,17 +124,24 @@ export default {
 .cmd-company-logo {
     > a {
         display: block;
+    }
 
+    img {
+        border: 0;
+        max-height: 15rem;
+    }
+
+    @media only screen and (max-width: $medium-max-width) {
         img {
-            border: 0;
-            max-height: 15rem;
+            max-width: 100%;
+            max-height: none;
         }
+    }
 
-        @media only screen and (max-width: $medium-max-width) {
-            img {
-                max-width: 100%;
-                max-height: none;
-            }
+    @media only screen and (max-width: $small-max-width) {
+        img {
+            margin: 0 auto;
+            display: block;
         }
     }
 }

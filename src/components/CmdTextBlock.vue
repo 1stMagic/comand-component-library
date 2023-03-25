@@ -54,7 +54,7 @@ export default {
          */
         htmlContent: {
             type: String,
-            required: true
+            required: false
         }
     }
 }

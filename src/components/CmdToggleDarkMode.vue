@@ -11,7 +11,7 @@
             <CmdIcon
                 :iconClass="iconClass"
                 :type="iconType"
-                :tooltip="!showLabel ? labelText: ''"
+                :tooltip="iconTooltip"
             />
             <!-- end CmdIcon -->
         </a>
@@ -56,11 +56,12 @@ export default {
          *
          * (styledAsButton-property must be activated)
          */
-        iconDarkMode: {
+        iconDarkModeActivated: {
             default() {
                 return {
-                    iconClass: "icon-home",
-                    iconType: "auto"
+                    iconClass: "icon-sun",
+                    iconType: "auto",
+                    tooltip: "Activate light mode"
                 }
             }
         },
@@ -69,11 +70,12 @@ export default {
          *
          * (styledAsButton-property must be activated)
          */
-        iconLightMode: {
+        iconLightModeActivated: {
             default() {
                 return {
-                    iconClass: "icon-globe",
-                    iconType: "auto"
+                    iconClass: "icon-moon",
+                    iconType: "auto",
+                    tooltip: "Activate dark mode"
                 }
             }
         },
@@ -157,10 +159,13 @@ export default {
             return this.darkMode ? this.labelTextDarkMode : this.labelTextLightMode
         },
         iconClass() {
-            return this.darkMode ? this.iconDarkMode.iconClass : this.iconLightMode.iconClass
+            return this.darkMode ? this.iconDarkModeActivated.iconClass : this.iconLightModeActivated.iconClass
         },
         iconType() {
-            return this.darkMode ? this.iconDarkMode.iconType : this.iconLightMode.iconType
+            return this.darkMode ? this.iconDarkModeActivated.iconType : this.iconLightModeActivated.iconType
+        },
+        iconTooltip() {
+            return this.darkMode ? this.iconDarkModeActivated.tooltip : this.iconLightModeActivated.tooltip
         }
     },
     watch: {

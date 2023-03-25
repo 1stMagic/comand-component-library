@@ -387,6 +387,12 @@ export default {
     }
 }
 
+@media only screen and (width <= #{$small-max-width}) {
+    .cmd-thumbnail-scroller {
+        display: block;
+    }
+}
+
 @container (width <= #{$small-max-width}) {
     .cmd-thumbnail-scroller {
         display: block;

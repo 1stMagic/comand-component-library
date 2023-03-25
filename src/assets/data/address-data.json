@@ -7,7 +7,7 @@
   },
   {
     "name": "address",
-    "iconClass": "icon-home",
+    "iconClass": "icon-location-set",
     "labelText": "Address",
     "streetNo": "Your Street/No",
     "zip": "Your zip",
@@ -16,7 +16,8 @@
     "country": "Your country",
     "longitude": "0.0",
     "latitude": "0.0",
-    "location": ""
+    "location": "",
+    "tooltip": "Open address on GoogleMaps™ (in new tab)"
   },
   {
     "name": "telephone",

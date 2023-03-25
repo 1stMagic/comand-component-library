@@ -484,6 +484,8 @@ export default FancyBox
     padding: var(--default-padding);
     min-width: 30vw;
     min-height: 30vh;
+    max-width: calc(var(--max-width) - calc(var(--default-padding) * 2));
+    max-height: 80vh;
     background: var(--pure-white);
     border-radius: var(--border-radius);
     overflow: hidden;
@@ -548,7 +550,7 @@ export default FancyBox
             > .button {
                 display: block;
                 border: var(--default-border);
-                padding: .2rem;
+                padding: .5rem;
                 min-width: 0;
                 min-height: 0;
 

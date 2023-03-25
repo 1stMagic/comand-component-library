@@ -79,10 +79,16 @@ export default {
     },
     methods: {
         copyToClipboard(entry) {
-            // get data, remove spaces and copy to clipboard
-            const output = entry.replace(/\s/g, "")
-            navigator.clipboard.writeText(output)
-            alert(output + " was copied to clipboard")
+            //get data, remove spaces and copy to clipboard
+            navigator.permissions.query({name: "clipboard-write"})
+                .then(result => {
+                    if (result.state === "granted" || result.state === "prompt") {
+                        const output = entry.replace(/\s/g, "")
+                        navigator.clipboard.writeText(output)
+                        alert(output + " was copied to clipboard")
+                    }
+                })
+                .catch(error => console.error(error))
         }
     }
 }

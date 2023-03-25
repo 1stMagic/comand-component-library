@@ -44,7 +44,7 @@
             />
             <!-- end CmdTooltipForInputElements -->
 
-            <a v-if="$attrs.required || inputRequirements.length"
+            <a v-if="showStatusIcon && ($attrs.required || inputRequirements.length)"
                 href="#"
                 @click.prevent
                 :title="validationTooltip"
@@ -406,6 +406,13 @@ export default {
                     }
                 }
             }
+        },
+        /**
+         * toggle statusIcon (showing the requirements on hover)
+         */
+        showStatusIcon: {
+            type: Boolean,
+            default: true
         },
         /**
          * set text for tooltip

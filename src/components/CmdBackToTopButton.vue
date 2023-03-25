@@ -17,11 +17,18 @@ export default {
     data() {
         return {
             windowInnerHeight: window.innerHeight,
-            windowScrollY: window.scrollY,
-            bodyScrollHeight: document.body.scrollHeight
+            windowScrollY: this.getScrollY(),
+            scrollHeight: document.querySelector(this.scrollContainer)?.scrollHeight || 0
         }
     },
     props: {
+        /**
+         * define which container's scroll-behavior should be observed (can be any selector)
+         */
+        scrollContainer: {
+            type: String,
+            default: "body"
+        },
         /**
          * icon-class (and shown tooltip on hover) for back to top button
          *
@@ -38,28 +45,46 @@ export default {
             }
         }
     },
-    created() {
-        window.addEventListener('resize', this.onViewportChange);
-        window.addEventListener('scroll', this.onViewportChange);
+    mounted() {
+        window.addEventListener('resize', this.onViewportChange)
+        if (this.scrollContainer === "body") {
+            window.addEventListener('scroll', this.onViewportChange);
+        } else {
+            document.querySelector(this.scrollContainer)?.addEventListener('scroll', this.onViewportChange);
+        }
     },
     unmounted() {
-        window.removeEventListener('resize', this.onViewportChange);
-        window.removeEventListener('scroll', this.onViewportChange);
+        window.removeEventListener('resize', this.onViewportChange)
+        if (this.scrollContainer === "body") {
+            window.addEventListener('scroll', this.onViewportChange);
+        } else {
+            document.querySelector(this.scrollContainer)?.removeEventListener('scroll', this.onViewportChange)
+        }
     },
     /* watch for changes */
     computed: {
         show() {
-            return this.windowScrollY > 0 && this.windowInnerHeight < this.bodyScrollHeight;
+            return this.windowScrollY > 0 && this.windowInnerHeight < this.scrollHeight
         }
     },
     methods: {
+        getScrollY() {
+            if (this.scrollContainer === "body") {
+                return window.scrollY
+            }
+            return document.querySelector(this.scrollContainer)?.scrollTop || 0
+        },
         onViewportChange() {
             this.windowInnerHeight = window.innerHeight;
-            this.windowScrollY = window.scrollY;
-            this.bodyScrollHeight = document.body.scrollHeight;
+            this.windowScrollY = this.getScrollY()
+            this.scrollHeight = document.querySelector(this.scrollContainer)?.scrollHeight || 0
         },
         onBackToTop() {
-            window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
+            if (this.scrollContainer === "body") {
+                window.scrollTo({top: 0, left: 0, behavior: 'smooth'})
+            } else {
+                document.querySelector(this.scrollContainer)?.scrollTo({top: 0, left: 0, behavior: 'smooth'})
+            }
         }
     }
 }
