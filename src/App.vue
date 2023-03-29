@@ -101,7 +101,6 @@
                         :addressData="addressData"
                         :linkGoogleMaps="true"
                         :showIconsOnly="true"
-                        :cmdHeadline="{headlineText: 'Linked icons only', headlineLevel: 3}"
                     />
                 </div>
             </CmdWidthLimitationWrapper>
@@ -1225,9 +1224,16 @@
                     :cmdCompanyLogo="companyLogoData"
                     :sticky="false"
                 />
-                <h3>Header with navigation inline with logo</h3>
+                <h3>Header with navigation inline with logo (offcanvas left)</h3>
                 <CmdSiteHeader
                     :cmdMainNavigation="navigationData"
+                    :cmdCompanyLogo="companyLogoData"
+                    :sticky="false"
+                    :navigation-inline="true"
+                />
+                <h3>Header with navigation inline with logo (offcanvas right)</h3>
+                <CmdSiteHeader
+                    :cmdMainNavigation="navigationDataRight()"
                     :cmdCompanyLogo="companyLogoData"
                     :sticky="false"
                     :navigation-inline="true"
@@ -1688,6 +1694,14 @@ export default {
         }
     },
     methods: {
+        navigationDataRight() {
+            setTimeout(() => {
+                let navigationData = {}
+                navigationData = [...this.navigationData.navigationEntries]
+                navigationData.offcanvasPosition = "right"
+                return navigationData
+            }, 1000);
+        },
         clickOnListOfLinks(event) {
             event.originalEvent.preventDefault()
             console.log(event)

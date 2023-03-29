@@ -96,8 +96,8 @@ export default {
     padding: var(--default-padding);
     display: inline-block;
     position: fixed;
-    right: 1rem;
-    bottom: 1rem;
+    right: 2rem;
+    bottom: 2rem;
     text-decoration: none;
     z-index: 1000;
     border: var(--default-border);

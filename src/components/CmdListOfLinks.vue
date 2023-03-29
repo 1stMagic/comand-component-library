@@ -49,7 +49,7 @@ export default {
     emits: ["click"],
     props: {
         /**
-         * activate if component should contain a list of anchors for the section within th page
+         * activate if component should contain a list of anchors for the section within the page
          */
         sectionAnchors: {
             type: Boolean,

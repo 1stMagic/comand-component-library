@@ -67,7 +67,7 @@ export default {
             if(this.headlineLevel) {
                 return "h" + this.headlineLevel
             }
-            return "h3"
+            return ""
         },
         getTextAlign() {
             if(this.textAlign) {

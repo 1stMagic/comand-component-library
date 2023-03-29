@@ -6,7 +6,8 @@
                 'hide-sub-navigation' : !showSubNavigations,
                 'open-off-canvas': showOffcanvas,
                 'persist-on-mobile': persistOnMobile,
-                'show-content-overlay': showContentOverlay
+                'show-content-overlay': showContentOverlay,
+                'off-canvas-right': offcanvasPosition === 'right'
             }
         ]" id="main-navigation-wrapper">
         <nav>
@@ -137,7 +138,6 @@
             </ul>
             <!-- end main-level -->
         </nav>
-
         <!-- begin offCanvasButton -->
         <a v-if="persistOnMobile === false" href="#" class="button" id="toggle-offcanvas" @click.prevent="toggleOffcanvasNavigation">
             <!-- begin CmdIcon -->
@@ -201,6 +201,10 @@ export default {
                     showText: true
                 }
             }
+        },
+        offcanvasPosition: {
+            type: String,
+            default: "right"
         },
         /**
          * button to open off-canvas-navigation
@@ -380,36 +384,39 @@ export default {
                     opacity: 1;
                     padding: 0 !important;
                     transition: var(--nav-transition);
-                    background: var(--default-background-color);
                     border-right: var(--default-border);
                 }
 
                 &.show-content-overlay {
                     nav {
-                        &::after {
+                        &::before {
                             content: "";
                             position: fixed;
-                            width: calc(100% - var(--nav-width));
+                            width: 100%;
                             top: 0;
-                            left: var(--nav-width);
-                            height: 100%;
+                            left: 0;
+                            height: 100dvh;
                             display: block;
                             background: var(--pure-black-reduced-opacity);
+                        }
+
+                        ul {
+                            z-index: 1000; /* keep ul above overlay */
+                            height: 100%;
+                            background: var(--default-background-color);
                         }
                     }
                 }
             }
 
             nav {
-                --nav-width: 33%;
-
                 position: fixed;
                 top: 0;
                 left: -100%;
-                width: var(--nav-width);
-                height: 100%;
+                width: auto;
+                height: 100dvh;
                 opacity: 0;
-                z-index: 500;
+                z-index: 1000;
                 transition: var(--nav-transition);
 
                 ul {
@@ -502,11 +509,31 @@ export default {
                     }
                 }
             }
+
+            &.off-canvas-right {
+                &.open-off-canvas {
+                    nav {
+                        right: 0;
+                    }
+                }
+
+                nav {
+                    right: -100%;
+                    left: auto;
+                }
+            }
         }
     }
 }
 
 /* keep outside of .cmd-main-navigation to keep specificity */
+.off-canvas-right {
+    #toggle-offcanvas {
+        margin-right: 0;
+        margin-left: auto;
+    }
+}
+
 #toggle-offcanvas {
     margin-left: 0;
     display: none;

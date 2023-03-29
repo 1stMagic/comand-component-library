@@ -1,5 +1,5 @@
 <template>
-    <div :class="['cmd-site-header', {sticky: sticky, 'navigation-inline': navigationInline }]" role="banner">
+    <div :class="['cmd-site-header', {sticky: sticky, 'navigation-inline': navigationInline}]" role="banner">
         <!-- begin slot for elements above header -->
         <div v-if="$slots.topheader" class="top-header">
             <slot name="topheader"></slot>
@@ -31,8 +31,8 @@
                 <!-- begin CmdMainNavigation -->
                 <CmdMainNavigation
                     v-if="cmdMainNavigation?.navigationEntries?.length && navigationInline"
-                    v-bind="cmdMainNavigation"
                     :closeOffcanvas="closeOffcanvas"
+                    v-bind="cmdMainNavigation"
                 />
                 <!-- end CmdMainNavigation -->
             </template>
@@ -224,9 +224,11 @@ export default {
 }
 
 @media only screen and (max-width: $medium-max-width) {
-    .cmd-site-header {
-        padding-top: calc(var(--default-padding) * 2);
-        padding-bottom: calc(var(--default-padding) * 2);
+    .cmd-site-header{
+        &:not(.navigation-inline) {
+            padding-top: calc(var(--default-padding) * 2);
+            padding-bottom: calc(var(--default-padding) * 2);
+        }
 
         header {
             grid-auto-rows: auto; /* items should be as large as their content */
@@ -241,14 +243,41 @@ export default {
         &.navigation-inline {
             header {
                 &.has-navigation {
-                    grid-template-areas: "main-navigation company-logo ";
+                    grid-template-areas: "main-navigation company-logo";
+                }
+
+                .cmd-company-logo {
+                    grid-column: span var(--grid-small-span);
+                    grid-column-end: -1
                 }
             }
 
             .cmd-main-navigation#main-navigation-wrapper {
+                grid-column: 1;
+
                 &:not(.persist-on-mobile) {
-                    grid-column: main-navigation-start;
                     padding-left: var(--default-padding);
+                }
+            }
+        }
+
+        &.navigation-inline.off-canvas-right {
+            header {
+                &.has-navigation {
+                    grid-template-areas: "company-logo main-navigation";
+                }
+
+                .cmd-company-logo {
+                    grid-column: span var(--grid-large-span);
+                }
+            }
+
+            .cmd-main-navigation#main-navigation-wrapper {
+                grid-column: -1;
+
+                &:not(.persist-on-mobile) {
+                    padding-right: var(--default-padding);
+                    padding-left: 0;
                 }
             }
         }
