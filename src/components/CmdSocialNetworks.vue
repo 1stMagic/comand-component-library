@@ -214,6 +214,7 @@ export default {
     .button-wrapper {
         flex-direction: row;
         margin: 0;
+        gap: calc(var(--default-gap) / 2);
     }
 
     li {
@@ -254,62 +255,37 @@ export default {
         margin-right: 0;
     }
 
-    [id^="share-link"] {
+    [id^="social-network"] {
+        background: var(--social-network-color);
+        border-color: var(--social-network-color);
+
         > span {
             color: var(--pure-white);
         }
-    }
-
-    #share-link-facebook {
-        background: #3c5a99;
-        border-color: #3c5a99;
 
         &:hover, &:active, &:focus {
-            background: #fff;
+            color: var(--pure-white);
 
             > span {
-                color: #3c5a99;
+                color: var(--social-network-color);
             }
         }
     }
 
-    #share-link-twitter {
-        background: #6bacde;
-        border-color: #6bacde;
-
-        &:hover, &:active, &:focus {
-            background: #fff;
-
-            > span {
-                color: #6bacde;
-            }
-        }
+    #social-network-facebook {
+        --social-network-color: #3c5a99;
     }
 
-    #share-link-xing {
-        background: #007575;
-        border-color: #007575;
-
-        &:hover, &:active, &:focus {
-            background: #fff;
-
-            > span {
-                color: #007575;
-            }
-        }
+    #social-network-twitter {
+        --social-network-color: #6bacde;
     }
 
-    #share-link-linkedin {
-        background: #0077b5;
-        border-color: #0077b5;
+    #social-network-xing {
+        --social-network-color: #007575;
+    }
 
-        &:hover, &:active, &:focus {
-            background: #fff;
-
-            > span {
-                color: #0077b5;
-            }
-        }
+    #social-network-linkedin {
+        --social-network-color: #0077b5;
     }
 }
 

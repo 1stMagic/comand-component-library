@@ -1,5 +1,5 @@
 <template>
-    <div :class="['cmd-site-header', {sticky: sticky, 'navigation-inline': navigationInline}]" role="banner">
+    <div :class="['cmd-site-header', {sticky: sticky, 'navigation-inline': navigationInline, 'off-canvas-right': cmdMainNavigation?.offcanvasPosition === 'right'}]" role="banner">
         <!-- begin slot for elements above header -->
         <div v-if="$slots.topheader" class="top-header">
             <slot name="topheader"></slot>
@@ -31,8 +31,10 @@
                 <!-- begin CmdMainNavigation -->
                 <CmdMainNavigation
                     v-if="cmdMainNavigation?.navigationEntries?.length && navigationInline"
+                    :navigationEntries="cmdMainNavigation.navigationEntries"
+                    :offcanvasPosition="cmdMainNavigation.offcanvasPosition"
                     :closeOffcanvas="closeOffcanvas"
-                    v-bind="cmdMainNavigation"
+                    @offcanvas="emitOffcanvasStatus"
                 />
                 <!-- end CmdMainNavigation -->
             </template>
@@ -43,7 +45,9 @@
         <CmdMainNavigation
             v-if="cmdMainNavigation?.navigationEntries?.length && !navigationInline"
             :navigationEntries="cmdMainNavigation.navigationEntries"
+            :offcanvasPosition="cmdMainNavigation.offcanvasPosition"
             :closeOffcanvas="closeOffcanvas"
+            @offcanvas="emitOffcanvasStatus"
         />
         <!-- end CmdMainNavigation -->
     </div>
@@ -52,6 +56,7 @@
 <script>
 export default {
     name: "CmdSiteHeader",
+    emits: ["offcanvas"],
     props: {
         /**
          * use only if default-button of inner navigation-component should not be used
@@ -98,6 +103,11 @@ export default {
         cmdMainNavigation: {
             type: Object,
             required: false
+        }
+    },
+    methods: {
+        emitOffcanvasStatus(event){
+            this.$emit("offcanvas", event)
         }
     }
 }
@@ -185,7 +195,7 @@ export default {
         header {
             &.has-navigation {
                 grid-template-rows: 1fr;
-                grid-template-areas: "company-logo main-navigation";
+                grid-template-areas: "main-navigation company-logo";
                 padding-bottom: calc(var(--default-padding) * 2);
             }
 
@@ -220,15 +230,20 @@ export default {
                 }
             }
         }
+
+        &.off-canvas-right {
+            header {
+                &.has-navigation {
+                    grid-template-areas: "company-logo main-navigation";
+                }
+            }
+        }
     }
 }
 
 @media only screen and (max-width: $medium-max-width) {
-    .cmd-site-header{
-        &:not(.navigation-inline) {
-            padding-top: calc(var(--default-padding) * 2);
-            padding-bottom: calc(var(--default-padding) * 2);
-        }
+    .cmd-site-header {
+        padding-bottom: calc(var(--default-padding) * 2);
 
         header {
             grid-auto-rows: auto; /* items should be as large as their content */
@@ -241,43 +256,20 @@ export default {
         }
 
         &.navigation-inline {
-            header {
-                &.has-navigation {
-                    grid-template-areas: "main-navigation company-logo";
-                }
-
-                .cmd-company-logo {
-                    grid-column: span var(--grid-small-span);
-                    grid-column-end: -1
-                }
-            }
+            padding-left: var(--default-padding);
+            padding-right: var(--default-padding);
 
             .cmd-main-navigation#main-navigation-wrapper {
-                grid-column: 1;
-
                 &:not(.persist-on-mobile) {
                     padding-left: var(--default-padding);
                 }
             }
-        }
 
-        &.navigation-inline.off-canvas-right {
-            header {
-                &.has-navigation {
-                    grid-template-areas: "company-logo main-navigation";
-                }
-
-                .cmd-company-logo {
-                    grid-column: span var(--grid-large-span);
-                }
-            }
-
-            .cmd-main-navigation#main-navigation-wrapper {
-                grid-column: -1;
-
-                &:not(.persist-on-mobile) {
-                    padding-right: var(--default-padding);
-                    padding-left: 0;
+            &.off-canvas-right {
+                .cmd-main-navigation#main-navigation-wrapper {
+                    &:not(.persist-on-mobile) {
+                        padding: 0;
+                    }
                 }
             }
         }
@@ -301,10 +293,14 @@ export default {
         }
 
         .cmd-company-logo {
-            margin: 0 auto;
+            margin: 0 auto
+        }
 
-            img {
-                max-width: 80%;
+        &.navigation-inline {
+            header {
+                .cmd-company-logo, #main-navigation-wrapper {
+                    grid-column: span calc(var(--grid-small-span) / 2);
+                }
             }
         }
     }

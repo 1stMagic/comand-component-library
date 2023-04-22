@@ -9,7 +9,7 @@
 
         <!-- begin list of images to slide -->
         <transition-group name="slide" tag="ul">
-            <li v-for="(item, index) in items" :key="index" :class="{'active' : activeItemIndex === index}">
+            <li v-for="(item, index) in items" :key="index" :class="[{'active' : activeItemIndex === index}, item.id ? 'item-' + item.id : '']">
                 <a :href="executeOnClick === 'url' ? item.url : '#'"
                    @click="executeLink(index, $event)"
                    :title="getTooltip"
@@ -24,7 +24,7 @@
                         <!-- begin CmdIcon -->
                         <CmdIcon v-if="item.iconClass" :iconClass="item.iconClass" :type="item.iconType" />
                         <!-- end CmdIcon -->
-                        <template v-if="item.text">{{item.text}}</template>
+                        <span v-if="item.text">{{item.text}}</span>
                     </template>
                     <!-- end contentType === text -->
                 </a>
@@ -190,6 +190,10 @@ export default {
         },
         emitCurrentItemId(index) {
             // emit id of current/clicked item
+            if(this.contentType === "image") {
+                this.$emit("click", this.items[index].image.id)
+                return
+            }
             this.$emit("click", this.items[index].id)
         },
         executeLink(index, event) {
@@ -212,7 +216,10 @@ export default {
                     let newItem
                     if(this.contentType === "image") {
                         newItem = {image: {...item.image}, figcaption: {...item.figcaption}}
-                        newItem.image.src = newItem.image.srcImageSmall
+
+                        if(newItem.image.srcImageSmall) {
+                            newItem.image.src = newItem.image.srcImageSmall
+                        }
                     } else {
                         newItem = {...item}
                     }
@@ -233,10 +240,14 @@ export default {
     overflow: hidden;
     border-radius: var(--border-radius);
     padding: var(--default-padding);
-    display: table;
+    display: inline-flex; /* do not set to table to avoid overflow is not hidden on small devices */
     margin: 0 auto calc(var(--default-margin) * 2) auto;
     border: var(--default-border);
     background: var(--color-scheme-background-color);
+
+    &.full-width {
+        display: flex; /* allows flex-items to stretch equally over full space */
+    }
 
     > ul {
         overflow: hidden;
@@ -244,6 +255,7 @@ export default {
         display: flex;
         gap: var(--grid-gap);
         justify-content: space-between;
+        width: 100%; /* stretch flex-container */
 
         > li {
             align-self: center;
@@ -300,12 +312,13 @@ export default {
     }
 
     &.gallery-scroller {
-        max-width: 80%;
+        max-width: var(--max-width);
         left: 0;
         right: 0;
         position: fixed;
         bottom: var(--default-margin);
         margin: auto;
+        display: table;
 
         li {
             a {
@@ -383,13 +396,8 @@ export default {
 
         &.gallery-scroller {
             max-width: calc(100% - calc(var(--default-margin) * 3));
+            display: flex;
         }
-    }
-}
-
-@media only screen and (width <= #{$small-max-width}) {
-    .cmd-thumbnail-scroller {
-        display: block;
     }
 }
 

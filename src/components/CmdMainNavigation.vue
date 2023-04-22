@@ -163,6 +163,7 @@ export default {
             openSubentry: -1
         }
     },
+    emits: ["offcanvas"],
     props: {
         /**
          * toggle if main-entries (on first-level) should be (horizontally) stretched equally
@@ -296,6 +297,11 @@ export default {
                 this.showOffcanvas = true
                 this.$nextTick(() => document.getElementById("close-offcanvas").focus())
             }
+        }
+    },
+    watch: {
+        showOffcanvas() {
+            this.$emit("offcanvas", { open: this.showOffcanvas})
         }
     }
 }

@@ -4,6 +4,7 @@
             ref="dialog"
             :class="['cmd-fancybox', {'show-overlay': showOverlay, 'image' : fancyBoxImageUrl || fancyBoxGallery, 'image-gallery': fancyBoxGallery}]"
             :aria-label="ariaLabelText"
+            @cancel="onDialogCancel"
         >
             <header class="flex-container">
                 <!-- begin CmdHeadline -->
@@ -132,7 +133,7 @@
                 :thumbnailScrollerItems="[...fancyBoxGallery]"
                 :allowOpenFancyBox="false"
                 @click="showItem"
-                :imgIndex="index"
+                :activeItemIndex="index"
             />
             <!-- end CmdThumbnailScroller -->
         </dialog>
@@ -313,12 +314,6 @@ const FancyBox = defineComponent({
         }
     },
     created() {
-        // enable closing dialog by escape-key
-        if (this.allowEscapeKey) {
-            this.$_FancyBox_escapeKeyHandler = e => (e.key === "Escape" || e.key === "Esc") && this.close()
-            document.querySelector("body").addEventListener("keyup", this.$_FancyBox_escapeKeyHandler)
-        }
-
         // scroll content to initial position
         this.$_FancyBox_scrollHandler = () => {
             window.scrollTo(0, this.$_FancyBox_verticalScrollPosition)
@@ -339,12 +334,6 @@ const FancyBox = defineComponent({
             this.showDialog()
         }
     },
-    beforeUnmount() {
-        // remove event-listener for escape-key
-        if (this.allowEscapeKey) {
-            document.querySelector("body").removeEventListener("keyup", this.$_FancyBox_escapeKeyHandler)
-        }
-    },
     computed: {
       largeGalleryImage() {
           // change src-key for a single item/image in gallery to fit CmdImage-properties
@@ -362,6 +351,13 @@ const FancyBox = defineComponent({
       }
     },
     methods: {
+        onDialogCancel(event) {
+            if (!this.allowEscapeKey) {
+                event.preventDefault()
+                return
+            }
+            this.close()
+        },
         // open dialog/fancybox
         showDialog() {
             // avoid scrolling if fancybox is shown
@@ -406,7 +402,7 @@ const FancyBox = defineComponent({
         // show current item (in fancybox-gallery)
         showItem(imgId) {
             for (let i = 0; i < this.fancyBoxGallery.length; i++) {
-                if (this.fancyBoxGallery[i].id === imgId) {
+                if (this.fancyBoxGallery[i].image.id === imgId) {
                     this.index = i
                     break;
                 }
@@ -422,13 +418,8 @@ const FancyBox = defineComponent({
         },
         // close fancybox (by button, escape-key)
         close() {
-            if (this.$options.el) {
-                this.$destroy()
-                this.$el.remove()
-            } else {
-                this.showFancyBox = false
-                this.$emit("update:show", false)
-            }
+            this.showFancyBox = false
+            this.$emit("update:show", false)
 
             // remove class to re-enable scrolling
             document.querySelector("body").classList.remove("avoid-scrolling")
@@ -484,8 +475,6 @@ export default FancyBox
     padding: var(--default-padding);
     min-width: 30vw;
     min-height: 30vh;
-    max-width: calc(var(--max-width) - calc(var(--default-padding) * 2));
-    max-height: 80vh;
     background: var(--pure-white);
     border-radius: var(--border-radius);
     overflow: hidden;
@@ -550,7 +539,7 @@ export default FancyBox
             > .button {
                 display: block;
                 border: var(--default-border);
-                padding: .5rem;
+                padding: .2rem;
                 min-width: 0;
                 min-height: 0;
 

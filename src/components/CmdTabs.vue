@@ -130,10 +130,6 @@ export default {
                 border-top-right-radius: var(--border-radius);
                 text-decoration: none;
 
-                span, [class*="icon-"] {
-                    line-height: 100%;
-                }
-
                 &:hover, &:active, &:focus {
                     cursor: pointer;
                     color: var(--hyperlink-color-highlighted);
@@ -145,10 +141,6 @@ export default {
                 }
 
                 &.active {
-                    span, [class*="icon-"] {
-                        color: var(--pure-white);
-                    }
-
                     &:hover, &:active, &:focus {
                         color: var(--hyperlink-color);
                         background: var(--pure-white);

@@ -11,8 +11,7 @@
     "text": "Internal link",
     "path": "/content/fancybox-content.html",
     "tooltip": "Open local file in fancybox",
-    "fancybox": true,
-    "showSubmitButtons": false
+    "fancybox": true
   },
   {
     "iconClass": "icon-export",

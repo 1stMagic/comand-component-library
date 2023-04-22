@@ -286,6 +286,7 @@ export default {
     .cmd-box {
         .box-header {
             padding: 0;
+            padding-right: var(--default-padding);
             justify-content: unset; /* overwrite setting for collapsible boxes */
 
             label {
@@ -309,7 +310,7 @@ export default {
                 background: var(--hyperlink-color);
 
                 label.disabled .label-text span {
-                    color: var(--pure-white) !important; /* required to set label-text on hover back to disabled-color */
+                    color: var(--disabled-color) !important; /* required to set label-text on hover back to disabled-color */
                 }
             }
         }
