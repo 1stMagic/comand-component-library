@@ -1191,7 +1191,7 @@
             </CmdWidthLimitationWrapper>
             <!-- end pager ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
-            <!-- begin share-buttons ------------------------------------------------------------------------------------------------------------------------------------------------------->
+            <!-- begin social-networks ------------------------------------------------------------------------------------------------------------------------------------------------------->
             <a id="section-social-networks"></a>
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Social Networks</h2>
@@ -1213,7 +1213,7 @@
                     textAlign="right"
                 />
             </CmdWidthLimitationWrapper>
-            <!-- end share-buttons ------------------------------------------------------------------------------------------------------------------------------------------------------->
+            <!-- end social-networks ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
             <!-- begin site-header ------------------------------------------------------------------------------------------------------------------------------------------------------->
             <a id="section-site-header"></a>
@@ -1533,7 +1533,7 @@ import multistepsData from '@/assets/data/multistep-form-progress-bar.json'
 import navigationData from '@/assets/data/main-navigation.json'
 import openingHoursData from '@/assets/data/opening-hours.json'
 import selectOptionsData from '@/assets/data/select-options.json'
-import socialNetworksData from '@/assets/data/share-buttons-page-by-json.json'
+import socialNetworksData from '@/assets/data/social-networks-page-by-json.json'
 import slideshowData from '@/assets/data/slideshow.json'
 import tabsData from '@/assets/data/tabs.json'
 import tableDataSmall from '@/assets/data/table-small.json'

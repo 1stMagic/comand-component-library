@@ -1,30 +1,33 @@
 <template>
-    <div :class="['cmd-thumbnail-scroller', {'gallery-scroller' : !allowOpenFancyBox, 'full-width' : fullWidth, 'large-icons': largeIcons}]">
+    <div :class="['cmd-thumbnail-scroller', {'gallery-scroller' : !allowOpenFancyBox, 'full-width' : fullWidth, 'large-icons': largeIcons}]"
+         ref="thumbnail-scroller">
         <!-- begin CmdSlideButton -->
         <CmdSlideButton
-            @click.prevent="showPrevItem"
-            slideButtonType="prev"
+                v-if="showSlidebuttons"
+                @click.prevent="showPrevItem"
+                slideButtonType="prev"
         />
         <!-- end CmdSlideButton -->
 
         <!-- begin list of images to slide -->
         <transition-group name="slide" tag="ul">
-            <li v-for="(item, index) in items" :key="index" :class="[{'active' : activeItemIndex === index}, item.id ? 'item-' + item.id : '']">
+            <li v-for="(item, index) in items" :key="index"
+                :class="[{'active' : activeItemIndex === index}, item.id ? 'item-' + item.id : '']">
                 <a :href="executeOnClick === 'url' ? item.url : '#'"
                    @click="executeLink(index, $event)"
                    :title="getTooltip"
                    :target="executeOnClick === 'url' ? '_blank' : null"
                 >
                     <!-- begin CmdImage -->
-                    <CmdImage v-if="contentType === 'image'" :image="item.image" :figcaption="item.figcaption" />
+                    <CmdImage v-if="contentType === 'image'" :image="item.image" :figcaption="item.figcaption"/>
                     <!-- end CmdImage -->
 
                     <!-- begin contentType === text -->
                     <template v-else>
                         <!-- begin CmdIcon -->
-                        <CmdIcon v-if="item.iconClass" :iconClass="item.iconClass" :type="item.iconType" />
+                        <CmdIcon v-if="item.iconClass" :iconClass="item.iconClass" :type="item.iconType"/>
                         <!-- end CmdIcon -->
-                        <span v-if="item.text">{{item.text}}</span>
+                        <span v-if="item.text">{{ item.text }}</span>
                     </template>
                     <!-- end contentType === text -->
                 </a>
@@ -34,8 +37,9 @@
 
         <!-- begin CmdSlideButton -->
         <CmdSlideButton
-            @click.prevent="showNextItem"
-            :slideButtons="cmdSlideButtons.next"
+                v-if="showSlidebuttons"
+                @click.prevent="showNextItem"
+                :slideButtons="cmdSlideButtons.next"
         />
         <!-- end CmdSlideButton -->
     </div>
@@ -58,7 +62,8 @@ export default {
     ],
     data() {
         return {
-            items: []
+            items: [],
+            showSlidebuttons: true
         }
     },
     props: {
@@ -86,8 +91,8 @@ export default {
          * @allowedValues: "image", "text"
          */
         contentType: {
-          type: String,
-          default: "image"
+            type: String,
+            default: "image"
         },
         /**
          * set type to define what will be executed on click on a thumbnail-scroller-item
@@ -158,6 +163,14 @@ export default {
             }
         }
     },
+    mounted() {
+        const thumbnailScrollerWrapper = this.$refs["thumbnail-scroller"]
+        const innerListWrapper = thumbnailScrollerWrapper.querySelector(":scope > ul")
+
+        // watch container-size / -overflow on resize
+        const resizeObserver = new ResizeObserver(() => this.toggleSlideButtons(innerListWrapper))
+        resizeObserver.observe(thumbnailScrollerWrapper)
+    },
     computed: {
         getTooltip() {
             if (this.contentType === "image") {
@@ -170,6 +183,9 @@ export default {
         }
     },
     methods: {
+        toggleSlideButtons(innerListWrapper) {
+            this.showSlidebuttons = innerListWrapper.scrollWidth > innerListWrapper.clientWidth
+        },
         showNextItem() {
             const item = this.items.shift(); // remove first element of array
             if (item) {
@@ -190,18 +206,18 @@ export default {
         },
         emitCurrentItemId(index) {
             // emit id of current/clicked item
-            if(this.contentType === "image") {
+            if (this.contentType === "image") {
                 this.$emit("click", this.items[index].image.id)
                 return
             }
             this.$emit("click", this.items[index].id)
         },
         executeLink(index, event) {
-            if(this.executeOnClick === "emit") {
+            if (this.executeOnClick === "emit") {
                 event.preventDefault()
                 // emit id of current/clicked item
                 this.emitCurrentItemId(index)
-            } else if(this.executeOnClick === "fancybox") {
+            } else if (this.executeOnClick === "fancybox") {
                 event.preventDefault()
                 // show content in fancybox
                 this.showFancyBox(index)
@@ -214,10 +230,10 @@ export default {
                 // change keys for images to fit CmdImage-properties
                 this.items = this.thumbnailScrollerItems.map((item) => {
                     let newItem
-                    if(this.contentType === "image") {
+                    if (this.contentType === "image") {
                         newItem = {image: {...item.image}, figcaption: {...item.figcaption}}
 
-                        if(newItem.image.srcImageSmall) {
+                        if (newItem.image.srcImageSmall) {
                             newItem.image.src = newItem.image.srcImageSmall
                         }
                     } else {
@@ -237,174 +253,174 @@ export default {
 @import '../assets/styles/variables';
 
 .cmd-thumbnail-scroller {
-    overflow: hidden;
-    border-radius: var(--border-radius);
-    padding: var(--default-padding);
-    display: inline-flex; /* do not set to table to avoid overflow is not hidden on small devices */
-    margin: 0 auto calc(var(--default-margin) * 2) auto;
-    border: var(--default-border);
-    background: var(--color-scheme-background-color);
+  border-radius: var(--border-radius);
+  padding: var(--default-padding);
+  display: inline-flex; /* do not set to table to avoid overflow is not hidden on small devices */
+  margin: 0 auto calc(var(--default-margin) * 2) auto;
+  border: var(--default-border);
+  background: var(--color-scheme-background-color);
 
-    &.full-width {
-        display: flex; /* allows flex-items to stretch equally over full space */
+  &.full-width {
+    display: flex; /* allows flex-items to stretch equally over full space */
+  }
+
+  > ul {
+    overflow: hidden;
+    margin: 0;
+    display: flex;
+    gap: var(--grid-gap);
+    justify-content: space-between;
+    width: 100%; /* stretch flex-container */
+
+    > li {
+      align-self: center;
+      list-style-type: none;
+      margin: 0;
+
+      a {
+        text-align: center;
+      }
+
+      img {
+        border-radius: var(--border-radius);
+        max-height: 10rem;
+      }
+
+      &.active {
+        a {
+          figcaption {
+            opacity: 1;
+          }
+        }
+      }
     }
+  }
+
+  .vertical {
+    display: inline-flex;
+    left: 50%;
+    height: 75rem; /* remove later !!! */
+    transform: translateX(-50%);
 
     > ul {
-        overflow: hidden;
-        margin: 0;
-        display: flex;
-        gap: var(--grid-gap);
-        justify-content: space-between;
-        width: 100%; /* stretch flex-container */
+      width: auto;
+      display: -webkit-flex; /* Safari 6-8 */
+      display: flex;
+      flex-direction: column;
 
-        > li {
-            align-self: center;
-            list-style-type: none;
-            margin: 0;
+      [class*="switch-button-"] {
+        width: 100%;
+        height: auto;
 
-            a {
-                text-align: center;
+        &::before {
+          transform: rotate(90deg);
+          display: inline-block;
+          margin: 0 auto;
+        }
+      }
+    }
+
+    .slide-button-next {
+      top: auto;
+      bottom: 0;
+    }
+  }
+
+  &.gallery-scroller {
+    max-width: var(--max-width);
+    left: 0;
+    right: 0;
+    position: fixed;
+    bottom: var(--default-margin);
+    margin: auto;
+    display: table;
+
+    li {
+      a {
+        color: var(--color-scheme-text-color);
+        text-decoration: none;
+      }
+
+      &.active {
+        img {
+          border-color: var(--primary-color);
+        }
+
+        figcaption {
+          color: var(--primary-color);
+        }
+      }
+
+      &:not(.active) {
+        img {
+          border: var(--default-border);
+          opacity: var(--reduced-opacity);
+        }
+
+        figcaption {
+          text-decoration: none;
+        }
+
+        a {
+          &:hover, &:active, &:focus {
+            figcaption {
+              color: var(--primary-color);
             }
 
             img {
-                border-radius: var(--border-radius);
-                max-height: 10rem;
+              border-color: var(--primary-color);
+              opacity: 1;
             }
-
-            &.active {
-                a {
-                    figcaption {
-                        opacity: 1;
-                    }
-                }
-            }
+          }
         }
+      }
+    }
+  }
+
+  &.large-icons {
+    li a {
+      display: flex;
+      flex-direction: column;
+      gap: calc(var(--default-gap) / 4);
+      text-decoration: none;
+      align-items: center;
+      justify-content: center;
+
+      span {
+        margin: 0;
+      }
+
+      [class*="icon-"] {
+        font-size: 5rem;
+      }
+    }
+  }
+
+  @media only screen and (max-width: $medium-max-width) {
+    & > ul > li {
+      flex: none;
     }
 
-    .vertical {
-        display: inline-flex;
-        left: 50%;
-        height: 75rem; /* remove later !!! */
-        transform: translateX(-50%);
+    & img {
+      width: auto;
+    }
 
-        > ul {
-            width: auto;
-            display: -webkit-flex; /* Safari 6-8 */
-            display: flex;
-            flex-direction: column;
-
-            [class*="switch-button-"] {
-                width: 100%;
-                height: auto;
-
-                &::before {
-                    transform: rotate(90deg);
-                    display: inline-block;
-                    margin: 0 auto;
-                }
-            }
-        }
-
-        .slide-button-next {
-            top: auto;
-            bottom: 0;
-        }
+    & > ul > li img {
+      max-height: 7rem;
     }
 
     &.gallery-scroller {
-        max-width: var(--max-width);
-        left: 0;
-        right: 0;
-        position: fixed;
-        bottom: var(--default-margin);
-        margin: auto;
-        display: table;
-
-        li {
-            a {
-                color: var(--color-scheme-text-color);
-                text-decoration: none;
-            }
-
-            &.active {
-                img {
-                    border-color: var(--primary-color);
-                }
-
-                figcaption {
-                    color: var(--primary-color);
-                }
-            }
-
-            &:not(.active) {
-                img {
-                    border: var(--default-border);
-                    opacity: var(--reduced-opacity);
-                }
-
-                figcaption {
-                    text-decoration: none;
-                }
-
-                a {
-                    &:hover, &:active, &:focus {
-                        figcaption {
-                            color: var(--primary-color);
-                        }
-
-                        img {
-                            border-color: var(--primary-color);
-                            opacity: 1;
-                        }
-                    }
-                }
-            }
-        }
+      max-width: calc(100% - calc(var(--default-margin) * 3));
+      display: flex;
     }
-
-    &.large-icons {
-        li a {
-            display: flex;
-            flex-direction: column;
-            gap: calc(var(--default-gap) / 4);
-            text-decoration: none;
-            align-items: center;
-            justify-content: center;
-
-            span {
-                margin: 0;
-            }
-
-            [class*="icon-"] {
-                font-size: 5rem;
-            }
-        }
-    }
-
-    @media only screen and (max-width: $medium-max-width) {
-        & > ul > li {
-            flex: none;
-        }
-
-        & img {
-            width: auto;
-        }
-
-        & > ul > li img {
-            max-height: 7rem;
-        }
-
-        &.gallery-scroller {
-            max-width: calc(100% - calc(var(--default-margin) * 3));
-            display: flex;
-        }
-    }
+  }
 }
 
 @container (width <= #{$small-max-width}) {
-    .cmd-thumbnail-scroller {
-        display: block;
-    }
+  .cmd-thumbnail-scroller {
+    display: block;
+  }
 }
+
 /* end cmd-thumbnail-scroller ------------------------------------------------------------------------------------------ */
 </style>

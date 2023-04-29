@@ -1,5 +1,3 @@
-import "clickout-event"
-
 // export components
 export { default as CmdAddressData } from '@/components/CmdAddressData.vue'
 export { default as CmdBackToTopButton } from '@/components/CmdBackToTopButton.vue'

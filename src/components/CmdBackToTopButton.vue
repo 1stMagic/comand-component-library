@@ -94,7 +94,7 @@ export default {
 /* begin cmd-back-to-top-button ---------------------------------------------------------------------------------------- */
 .cmd-back-to-top-button {
     padding: var(--default-padding);
-    display: inline-block;
+    display: inline-flex;
     position: fixed;
     right: 2rem;
     bottom: 2rem;

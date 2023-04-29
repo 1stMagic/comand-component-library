@@ -195,7 +195,7 @@ export default {
         header {
             &.has-navigation {
                 grid-template-rows: 1fr;
-                grid-template-areas: "main-navigation company-logo";
+                grid-template-areas: "company-logo main-navigation";
                 padding-bottom: calc(var(--default-padding) * 2);
             }
 
@@ -208,6 +208,7 @@ export default {
                 grid-area: main-navigation;
                 display: flex;
                 align-items: center;
+                justify-content: flex-end;
                 border: 0;
                 grid-column: span var(--grid-large-span);
                 background: none;
@@ -228,6 +229,10 @@ export default {
                         }
                     }
                 }
+
+                &:not(.persist-on-mobile) {
+                    padding-left: 0 !important;
+                }
             }
         }
 
@@ -243,8 +248,6 @@ export default {
 
 @media only screen and (max-width: $medium-max-width) {
     .cmd-site-header {
-        padding-bottom: calc(var(--default-padding) * 2);
-
         header {
             grid-auto-rows: auto; /* items should be as large as their content */
 
@@ -256,9 +259,6 @@ export default {
         }
 
         &.navigation-inline {
-            padding-left: var(--default-padding);
-            padding-right: var(--default-padding);
-
             .cmd-main-navigation#main-navigation-wrapper {
                 &:not(.persist-on-mobile) {
                     padding-left: var(--default-padding);
@@ -279,17 +279,11 @@ export default {
 @media only screen and (max-width: $small-max-width) {
     .cmd-site-header {
         gap: calc(var(--default-gap) / 2);
-        padding-top: var(--default-padding);
-        padding-bottom: var(--default-padding);
 
         .top-header {
             .cmd-list-of-links {
                 padding: 0;
             }
-        }
-
-        header {
-            padding: 0 !important;
         }
 
         .cmd-company-logo {

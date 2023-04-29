@@ -124,7 +124,8 @@ export default {
 .cmd-company-logo {
 
     img {
-     display: block
+        display: block;
+        max-height: 10rem;
     }
 
     > a {
@@ -132,13 +133,12 @@ export default {
 
         img {
             border: 0;
-            max-height: 15rem;
         }
 
         @media only screen and (max-width: $medium-max-width) {
             img {
                 max-width: 100%;
-                max-height: none;
+                max-height: 7.5rem;
             }
         }
     }
