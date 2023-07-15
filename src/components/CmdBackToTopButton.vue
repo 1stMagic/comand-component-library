@@ -1,7 +1,7 @@
 <template>
     <!-- begin cmd-back-to-top-button -->
     <transition name="fade">
-        <a v-if="show" class="cmd-back-to-top-button" href="#" :title="iconBackToTop.tooltip" @click.prevent="onBackToTop">
+        <a v-if="show" class="cmd-back-to-top-button button" id="back-to-top-button" href="#" role="button" :title="iconBackToTop.tooltip" @click.prevent="onBackToTop">
             <!-- begin CmdIcon -->
             <CmdIcon :iconClass="iconBackToTop.iconClass" :type="iconBackToTop.iconType" />
             <!-- end CmdIcon -->
@@ -89,27 +89,3 @@ export default {
     }
 }
 </script>
-
-<style lang="scss">
-/* begin cmd-back-to-top-button ---------------------------------------------------------------------------------------- */
-.cmd-back-to-top-button {
-    padding: var(--default-padding);
-    display: inline-flex;
-    position: fixed;
-    right: 2rem;
-    bottom: 2rem;
-    text-decoration: none;
-    z-index: 1000;
-    border: var(--default-border);
-    background: var(--color-scheme-background-color);
-    border-radius: var(--full-circle);
-    line-height: 100%;
-
-    &:hover, &:active, &:focus {
-        border-color: var(--primary-color);
-        transition: var(--default-transition);
-    }
-}
-
-/* cmd-back-to-top-button ------------------------------------------------------------------------------------------ */
-</style>

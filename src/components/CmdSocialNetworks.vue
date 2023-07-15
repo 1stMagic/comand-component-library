@@ -215,6 +215,46 @@ export default {
         flex-direction: row;
         margin: 0;
         gap: calc(var(--default-gap) / 2);
+
+        .button {
+          padding: calc(var(--default-padding) / 2) var(--default-padding);
+          gap: calc(var(--default-gap) / 2);
+          outline: 0;
+
+          span {
+            margin: 0;
+          }
+
+          &:first-of-type {
+            margin: 0;
+          }
+
+          &.text-align-right {
+            flex-direction: row-reverse;
+          }
+        }
+
+        &.no-gap {
+            li {
+                .button {
+                    border-radius: 0;
+                }
+
+                &:first-of-type {
+                    .button {
+                      border-top-left-radius: var(--border-radius);
+                      border-bottom-left-radius: var(--border-radius);
+                    }
+                }
+
+              &:last-of-type {
+                .button {
+                  border-top-right-radius: var(--border-radius);
+                  border-bottom-right-radius: var(--border-radius);
+                }
+              }
+             }
+        }
     }
 
     li {
@@ -231,23 +271,6 @@ export default {
     &.stretch {
         .button {
             flex: 1;
-        }
-    }
-
-    .button {
-        padding: calc(var(--default-padding) / 2) var(--default-padding);
-        gap: calc(var(--default-gap) / 2);
-
-        span {
-            margin: 0;
-        }
-
-        &:first-of-type {
-            margin: 0;
-        }
-
-        &.text-align-right {
-            flex-direction: row-reverse;
         }
     }
 

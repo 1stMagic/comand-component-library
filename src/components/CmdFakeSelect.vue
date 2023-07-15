@@ -532,10 +532,10 @@ export default {
                     height: inherit;
                     border: var(--default-border);
                     background: var(--color-scheme-background-color);
-                    color: var(--text-color);
+                    color: var(--color-scheme-text-color);
 
                     span, [class*="icon"] {
-                        color: var(--text-color);
+                        color: var(--color-scheme-text-color);
                     }
 
                     .option-name {
@@ -553,7 +553,7 @@ export default {
                         border-color: var(--primary-color);
 
                         span, [class*="icon"] {
-                            color: var(--text-color);
+                            color: var(--color-scheme-text-color-inverted);
                         }
                     }
                 }
@@ -611,7 +611,7 @@ export default {
                 background: var(--light-gray);
 
                 span {
-                    color: var(--text-color);
+                    color: var(--hyperlink-color);
                 }
 
                 &:hover, &:active, &:focus {

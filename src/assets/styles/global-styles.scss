@@ -41,274 +41,293 @@
 
 // assign scss-variables for breakpoints (from variables.scss) to css-variables, to get access to their value in JavaScript by getComputedStyle(document.documentElement).getPropertyValue
 html {
-  --medium-max-width: #{$medium-max-width};
-  --small-max-width: #{$small-max-width};
+    --medium-max-width: #{$medium-max-width};
+    --small-max-width: #{$small-max-width};
 }
+
 /* ---------------------------------------------- BEGIN COMPONENTS AND GLOBAL STYLES -------------------------------------------------- */
 /* begin styles for main structure --------------------------------------------------------------------------------------------------------------------------------------------------- */
 body {
-  overflow: hidden;
+    overflow: hidden;
 }
 
 #page-wrapper {
-  scroll-padding-top: 10.5rem;
-  display: flex;
-  flex-direction: column;
-  scroll-snap-type: y mandatory;
-  overflow-y: scroll;
-  height: 100vh;
-  scroll-behavior: smooth;
+    scroll-padding-top: 10.5rem;
+    display: flex;
+    flex-direction: column;
+    scroll-snap-type: y mandatory;
+    overflow-y: scroll;
+    width: 100vw;
+    height: 100vh;
+    scroll-behavior: smooth;
 
-  .cmd-site-footer {
-    margin-top: auto;
-  }
+    .cmd-site-footer {
+        margin-top: auto;
+    }
 }
 
 #component-library {
-  /*scroll-padding-top: unset !important;*/
-  scroll-snap-type: unset !important;
+    /*scroll-padding-top: unset !important;*/
+    scroll-snap-type: unset !important;
 }
 
 body, .cmd-site-header, .cmd-site-footer, .cmd-copyright-information {
-  transition: background linear .5s;
+    transition: background linear .5s;
 }
+
 /* end styles for main structure --------------------------------------------------------------------------------------------------------------------------------------------------- */
 
 /* begin .avoid-scrolling --------------------------------------------------------------------------------------------------------------------------------------------------- */
 body.avoid-scrolling {
-  overflow: hidden;
-  height: 100%;
+    overflow: hidden;
+    height: 100%;
 }
+
 /* end .avoid-scrolling --------------------------------------------------------------------------------------------------------------------------------------------------- */
 
 /* begin flags --------------------------------------------------------------------------------------------------------------------------------------------------- */
 .flag {
-  width: 3rem;
-  background-size: 100% 100%;
-  display: block;
+    width: 3rem;
+    background-size: 100% 100%;
+    display: block;
 }
+
 /* end flags --------------------------------------------------------------------------------------------------------------------------------------------------- */
 
 /* begin input-wrapper for .select --------------------------------------------------------------------------------------------------------------------------------------------------- */
 .select {
-  height: var(--input-height); /* forces different browsers to render same height */
+    height: var(--input-height); /* forces different browsers to render same height */
 }
 
 .input-wrapper {
-  .select {
-    &:first-of-type {
-      > ul {
-        > li {
-          &:first-child {
-            border-top-right-radius: 0;
-            border-bottom-right-radius: 0;
-          }
+    .select {
+        &:first-of-type {
+            > ul {
+                > li {
+                    &:first-child {
+                        border-top-right-radius: 0;
+                        border-bottom-right-radius: 0;
+                    }
+                }
+            }
         }
-     }
-   }
 
-    &:last-of-type {
-      > ul {
-        > li {
-          &:first-child {
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
-          }
+        &:last-of-type {
+            > ul {
+                > li {
+                    &:first-child {
+                        border-top-left-radius: 0;
+                        border-bottom-left-radius: 0;
+                    }
+                }
+            }
         }
-      }
     }
-  }
 }
+
 /* end input-wrapper for .select --------------------------------------------------------------------------------------------------------------------------------------------------- */
 
 /* begin product-listing --------------------------------------------------------------------------------------------------------------------------------------------------- */
 #product-listing-wrapper {
-  > a {
-    border: var(--default-border);
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
-    grid-column: span var(--grid-small-span);
-    order: 1;
-
-    &:hover, &:active, &:focus {
-      border-color: var(--primary-color);
-      background: var(--default-background-color);
-    }
-  }
-
-  img {
-    order: 1;
-  }
-
-  &.products-squares  {
     > a {
-      grid-column: span calc(var(--grid-columns) / 2);
+        border: var(--default-border);
+        text-decoration: none;
+        display: flex;
+        flex-direction: column;
+        grid-column: span var(--grid-small-span);
+        order: 1;
+
+        &:hover, &:active, &:focus {
+            border-color: var(--primary-color);
+            background: var(--default-background-color);
+        }
     }
-  }
 
-  &.products-lines {
-    > a {
-      grid-column: span var(--grid-columns);
-      flex-direction: unset;
-
-      img {
-        margin-left: 0;
-      }
+    img {
+        order: 1;
     }
 
-    & .product-information {
-      display: flex;
-      flex-direction: column;
-      padding: calc(var(--default-padding) * 2);
-      margin-right: auto;
+    &.products-squares {
+        > a {
+            grid-column: span calc(var(--grid-columns) / 2);
+        }
+    }
+
+    &.products-lines {
+        > a {
+            grid-column: span var(--grid-columns);
+            flex-direction: unset;
+
+            img {
+                margin-left: 0;
+            }
+        }
+
+        & .product-information {
+            display: flex;
+            flex-direction: column;
+            padding: calc(var(--default-padding) * 2);
+            margin-right: auto;
+        }
+
+        .description {
+            display: block;
+        }
+    }
+
+    &.product-information {
+        order: 2;
     }
 
     .description {
-      display: block;
-    }
-  }
-
-  &.product-information {
-    order: 2;
-  }
-
-  .description {
-    display: none;
-  }
-
-  h3, div {
-    padding: var(--default-padding);
-    margin: 0;
-  }
-
-  h3, p {
-    text-align: center;
-  }
-
-  .price {
-    order: 3;
-    margin-top: auto;
-  }
-
-  p {
-    &:last-child {
-      &, & > span {
-        margin-bottom: 0;
-        font-size: 2rem;
-      }
+        display: none;
     }
 
-    > span {
-      &:first-child {
-        text-decoration: line-through;
-        font-style: italic;
-        margin-right: var(--default-margin);
-        opacity: var(--reduced-opacity);
-        font-size: 1.5rem;
-      }
+    h3, div {
+        padding: var(--default-padding);
+        margin: 0;
     }
-  }
+
+    h3, p {
+        text-align: center;
+    }
+
+    .price {
+        order: 3;
+        margin-top: auto;
+    }
+
+    p {
+        &:last-child {
+            &, & > span {
+                margin-bottom: 0;
+                font-size: 2rem;
+            }
+        }
+
+        > span {
+            &:first-child {
+                text-decoration: line-through;
+                font-style: italic;
+                margin-right: var(--default-margin);
+                opacity: var(--reduced-opacity);
+                font-size: 1.5rem;
+            }
+        }
+    }
 }
+
 /* end product-listing --------------------------------------------------------------------------------------------------------------------------------------------------- */
 
 /* begin tooltip for cmd-form-element and cmd-fake-select ---------------------------------------------------------------------------------------------------------------- */
 .cmd-form-element, .cmd-fake-select, .cmd-input-group {
-  .cmd-tooltip {
-    position: absolute;
-    right: 0;
-    transform: translateY(calc(-100% - calc(var(--default-margin) / 2)));
-    left: auto !important; /* overwrite calculated inline-styles from javascript for cmd-tooltip-component */
-    top: 0 !important; /* overwrite calculated inline-styles from javascript for cmd-tooltip-component */
-  }
-
-  &.has-state, & + .cmd-tooltip {
-    .label-text {
-      > span, > a, sup {
-        color: var(--status-color);
-      }
+    .cmd-tooltip {
+        position: absolute;
+        right: 0;
+        transform: translateY(calc(-100% - calc(var(--default-margin) / 2)));
+        left: auto !important; /* overwrite calculated inline-styles from javascript for cmd-tooltip-component */
+        top: 0 !important; /* overwrite calculated inline-styles from javascript for cmd-tooltip-component */
     }
 
-    &.error {
-      --status-color: var(--error-color);
+    &.has-state, & + .cmd-tooltip {
+        .label-text {
+            > span, > a, sup {
+                color: var(--status-color);
+            }
+        }
+
+        &.error {
+            --status-color: var(--error-color);
+        }
+
+        &.warning {
+            --status-color: var(--warning-color);
+        }
+
+        &.success {
+            --status-color: var(--success-color);
+        }
+
+        &.info {
+            --status-color: var(--info-color);
+        }
     }
 
-    &.warning {
-      --status-color: var(--warning-color);
+    & + .cmd-tooltip {
+        border-color: var(--status-color);
     }
-
-    &.success {
-      --status-color: var(--success-color);
-    }
-
-    &.info {
-      --status-color: var(--info-color);
-    }
-  }
-
-  & + .cmd-tooltip {
-    border-color: var(--status-color);
-  }
 }
+
 /* end tooltip for cmd-form-element and cmd-fake-select ------------------------------------------------------------------------------------------------------------------ */
 /* ---------------------------------------------- END COMPONENTS AND GLOBAL STYLES -------------------------------------------------- */
 
 /* ---------------------------------------------- BEGIN MEDIA QUERIES AND BROWSER SPECIFIC STYLES -------------------------------------------------- */
 /* begin styles for medium screens --------------------------------------------------------------------------------------------------------------------------------------------------- */
 @media only screen and (max-width: $medium-max-width) {
-  html {
-    --grid-small-span: 3; /* default column span smaller part */
-    --grid-large-span: 3; /* default column span larger part */
-  }
+    html {
+        --grid-small-span: 3; /* default column span smaller part */
+        --grid-large-span: 3; /* default column span larger part */
+    }
 }
+
 /* end styles for medium screens --------------------------------------------------------------------------------------------------------------------------------------------------- */
 
 /* begin styles for small screens --------------------------------------------------------------------------------------------------------------------------------------------------- */
 @media only screen and (max-width: $small-max-width) {
-  body, html {
-    height: auto;
-  }
+    body, html {
+        height: auto;
+    }
 
-  html {
-    --grid-small-span: 4; /* default column span smaller part */
-    --grid-large-span: 4; /* default column span larger part */
-  }
+    html {
+        --grid-small-span: 4; /* default column span smaller part */
+        --grid-large-span: 4; /* default column span larger part */
+    }
 
-  .section-wrapper {
-    padding: calc(var(--default-padding) * 2) 0;
-  }
+    .section-wrapper {
+        padding: calc(var(--default-padding) * 2) 0;
+    }
 
-  a[href^="tel"] {
-    text-decoration: underline;
-  }
+    a[href^="tel"] {
+        text-decoration: underline;
+    }
 }
+
 /* end styles for small screens --------------------------------------------------------------------------------------------------------------------------------------------------- */
 /* ---------------------------------------------- END MEDIA QUERIES AND BROWSER SPECIFIC STYLES -------------------------------------------------- */
 
 /* ---------------------------------------------- BEGIN COLORS-SCHEMES (LIGHT-/DARK-MODE) -------------------------------------------------- */
 html {
-  &.light-mode {
-    /* assign default colors for custom light-mode set by class */
-    --color-scheme-text-color: var(--light-mode-text-color);
-    --color-scheme-text-color-buttons: var(--light-mode-text-color-buttons);
-    --color-scheme-background-color: var(--light-mode-background-color);
-    --color-scheme-text-color-inverted: var(--dark-mode-text-color);
-    --color-scheme-background-inverted: var(--dark-mode-background-color);
-    --default-background-color-lightness: 97%;
-  }
+    &.light-mode {
+        /* assign default colors for custom light-mode set by class */
+        --color-scheme-text-color: var(--light-mode-text-color);
+        --color-scheme-text-color-buttons: var(--light-mode-text-color-buttons);
+        --color-scheme-background-color: var(--light-mode-background-color);
+        --color-scheme-text-color-inverted: var(--dark-mode-text-color);
+        --color-scheme-background-inverted: var(--dark-mode-background-color);
+        --default-background-color-lightness: 97%;
+    }
 
-  &.dark-mode {
-    /* assign default colors for custom dark-mode set by class */
-    --color-scheme-text-color: var(--dark-mode-text-color);
-    --color-scheme-text-color-buttons: var(--dark-mode-background-color);
-    --color-scheme-background-color: var(--dark-mode-background-color);
+    --color-scheme-text-color-buttons: var(--dark-mode-text-color-buttons);
     --color-scheme-text-color-inverted: var(--light-mode-text-color);
+    --color-scheme-background: var(--dark-mode-background-color);
     --color-scheme-background-inverted: var(--light-mode-background-color);
     --default-background-color-lightness: 20%;
 
-    :where(label, .label) .label-text > [class*="icon-"] {
-      background: var(--dark-gray);
+    &.dark-mode {
+        /* assign default colors for custom dark-mode set by class */
+        --color-scheme-text-color: var(--dark-mode-text-color);
+        --color-scheme-text-color-buttons: var(--dark-mode-text-color-buttons);
+        --color-scheme-background-color: var(--dark-mode-background-color);
+        --color-scheme-text-color-inverted: var(--light-mode-text-color);
+        --color-scheme-background-inverted: var(--light-mode-background-color);
+        --default-background-color-lightness: 20%;
+        --hyperlink-color-lightness: 40%; /* hyperlink-color-lightness */
+        --hyperlink-color-highlighted-lightness: 50%; /* hyperlink-color-highlighted-lightness (used for highlighted hyperlinks) */
+
+        :where(label, .label) .label-text > [class*="icon-"] {
+            background: var(--dark-gray);
+        }
     }
-  }
 }
+
 /* ---------------------------------------------- END COLORS-SCHEMES (LIGHT-/DARK-MODE) -------------------------------------------------- */

@@ -29,7 +29,7 @@
                 <!-- begin slot 'labeltext' -->
                 <slot v-else name="labeltext" />
                 <!-- end slot 'labeltext' -->
-                <sup v-if="$attrs.required">*</sup>
+                <sup v-if="$attrs.required" aria-hidden="true">*</sup>
             </span>
 
             <!-- begin CmdTooltipForInputElements -->
@@ -879,12 +879,12 @@ export default {
             // set styles to avoid overwriting by has-state-colors
             &.button {
                 span {
-                    color: var(--pure-white);
+                    color: var(--color-scheme-background-color);
                 }
 
                 &:hover, &:active, &:focus {
                     span {
-                        color: var(--text-color);
+                        color: var(--color-scheme-text-color);
                     }
                 }
             }

@@ -409,7 +409,6 @@ export default {
                         ul {
                             z-index: 1000; /* keep ul above overlay */
                             height: 100%;
-                            background: var(--default-background-color);
                         }
                     }
                 }
@@ -444,7 +443,7 @@ export default {
                                 align-items: center;
 
                                 span {
-                                    font-weight: bold;
+                                    font-weight: var(--font-weight-bold);
 
                                     &[class*="icon-"] {
                                         font-size: var(--font-size-small);

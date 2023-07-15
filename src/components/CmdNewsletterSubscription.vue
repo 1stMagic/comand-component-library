@@ -174,24 +174,8 @@ export default {
 </script>
 
 <style lang="scss">
-/* begin cmd-back-to-top-button ---------------------------------------------------------------------------------------- */
-.cmd-back-to-top-button {
-    padding: var(--default-padding);
-    display: inline-block;
-    position: fixed;
-    right: 1rem;
-    bottom: 1rem;
-    text-decoration: none;
-    z-index: 1000;
-    border: var(--default-border);
-    background: var(--color-scheme-background-color);
-    border-radius: var(--full-circle);
+/* begin cmd-newsletter-subscription ---------------------------------------------------------------------------------------- */
 
-    &:hover, &:active, &:focus {
-        border-color: var(--primary-color);
-        transition: var(--default-transition);
-    }
-}
 
-/* cmd-back-to-top-button ------------------------------------------------------------------------------------------ */
+/* cmd-newsletter-subscription------------------------------------------------------------------------------------------ */
 </style>

@@ -77,21 +77,15 @@ export default {
         display: flex;
         justify-content: center;
         text-decoration: none;
-        background: var(--default-background-color-reduced-opacity);
         border: 0;
+        outline: 0;
 
         span {
             align-self: center;
-            color: var(--primary-color-reduced-opacity);
         }
 
         &:hover, &:active, &:focus {
-            background: var(--pure-white);
             transition: var(--default-transition);
-
-            span {
-                color: var(--hyperlink-color-highlighted);
-            }
         }
 
         &.prev {

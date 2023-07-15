@@ -23,7 +23,7 @@
                    v-for="(page, index) in pages"
                    :key="index"
                    @click.stop.prevent="showPage(page)" aria-live="polite">
-                    <span>{{ index + 1 }}</span>
+                   <span :class="{hidden: !showPageNumbers}">{{ index + 1 }}</span>
                 </a>
             </div>
         </div>
@@ -74,6 +74,13 @@ export default {
         itemsPerPage: {
             type: Number,
             required: true
+        },
+        /**
+         * toggle page-numbers on buttons
+         */
+        showPageNumbers: {
+            type: Boolean,
+            default: true
         },
         /**
          * set type of links

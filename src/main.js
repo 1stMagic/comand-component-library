@@ -1,22 +1,12 @@
-/* begin imports css from comand-frontend-framework ---------------------------------------------------------------------------------------- */
-/* import normalize to set same default styles for all browsers */
-import 'comand-frontend-framework/src/assets/css/normalize.css'
-
-/* import framework-styles */
-import 'comand-frontend-framework/src/assets/css/framework.css'
-
-/* import breakpoints */
-import 'comand-frontend-framework/src/assets/css/breakpoints.css'
-
-/* import framework-iconfont */
-import 'comand-frontend-framework/src/assets/css/framework-iconfont.css'
+/* import generated css from components */
+import "comand-frontend-framework/styles"
 /* end imports css from comand-frontend-framework ---------------------------------------------------------------------------------------- */
 
-import { createApp } from 'vue'
+import { createApp } from "vue"
 
-// import App from './App.vue'
-import App from './App.vue'
-//import { createRouter, createWebHistory } from 'vue-router'
+// import App from "./App.vue"
+import App from "./App.vue"
+//import { createRouter, createWebHistory } from "vue-router"
 import "clickout-event"
 
 /* import directives */
@@ -36,14 +26,14 @@ import '@/assets/styles/global-styles.scss'
 /* import css for global transitions */
 import '@/assets/styles/transitions.scss'
 
-/* import css-example for your custom styles (contains overwritten primary-color only) */
+/* import css-example for your custom styles */
 import '@/assets/styles/template.css'
 
 /* import css for prism-library (for styling syntax) */
 import "prismjs/themes/prism.css"
 
 /* import css for demopage only */
-import 'comand-frontend-framework/public/demopage-only.css'
+//import 'comand-frontend-framework/public/demopage-only.css'
 /* end imports css from comand-component-library ---------------------------------------------------------------------------------------- */
 
 import router from "./router"

@@ -466,11 +466,17 @@ export default {
             }
         }
 
+        &.open {
+            > .box-header {
+                border-bottom-left-radius: 0;
+                border-bottom-right-radius: 0;
+            }
+        }
+
         > .box-header {
             display: flex;
             align-items: center;
-            border-top-left-radius: var(--border-radius);
-            border-top-right-radius: var(--border-radius);
+            border-radius: var(--border-radius);
             padding: calc(var(--default-padding) / 2) var(--default-padding);
             background: var(--secondary-color);
             color: var(--pure-white);
@@ -532,12 +538,12 @@ export default {
 
             img {
                 display: block;
+                border-radius: 0;
             }
 
             .navigation {
                 margin: 0;
                 height: 100%;
-                background: var(--pure-white);
 
                 li {
                     list-style-type: none;
@@ -547,7 +553,6 @@ export default {
                         display: block;
                         padding: var(--default-padding);
                         text-decoration: none;
-                        background: var(--pure-white);
                         border-bottom: var(--default-border);
 
                         &:hover, &:active, &:focus {
@@ -632,6 +637,8 @@ export default {
 
             img {
                 border: 0;
+                border-bottom-left-radius: 0;
+                border-bottom-right-radius: 0;
             }
 
             figcaption {

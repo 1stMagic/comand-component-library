@@ -105,7 +105,7 @@ export default {
             default() {
                 return {
                     show: true,
-                    iconClass: "icon-cancel",
+                    iconClass: "icon-cancel-circle",
                     tooltip: "Close this message"
                 }
             }
@@ -156,24 +156,15 @@ export default {
         top: .5rem;
         right: .5rem;
         text-decoration: none;
-        border: var(--default-border);
-        border-color: var(--pure-white);
-        border-radius: var(--full-circle);
-        padding: calc(var(--default-padding) / 2);
         z-index: 100;
         line-height: 1;
 
         [class*="icon-"] {
-            font-size: 0.8rem;
             color: var(--pure-white);
         }
 
         &:hover, &:active, &:focus {
-            border-color: var(--hyperlink-color);
-            background: var(--pure-white);
-
             [class*="icon-"] {
-                font-size: 0.8rem;
                 color: var(--hyperlink-color);
             }
         }

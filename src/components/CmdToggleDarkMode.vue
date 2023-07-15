@@ -117,12 +117,14 @@ export default {
         mql.addEventListener("change", this.onColorSchemeChange)
         this.onColorSchemeChange(mql)
 
-        // load color-scheme from local-storage
-        const savedColorScheme = window.localStorage.getItem("cmd-color-scheme")
+        this.$nextTick(() => {
+            // load color-scheme from local-storage
+            const savedColorScheme = window.localStorage.getItem("cmd-color-scheme")
 
-        if(savedColorScheme) {
-            this.darkMode = savedColorScheme === "dark-mode"
-        }
+            if(savedColorScheme) {
+                this.darkMode = savedColorScheme === "dark-mode"
+            }
+        })
 
         // add eventListener on html-tag (= documentElement) to react on 'toggle-color-scheme'-event
         document.documentElement.addEventListener("toggle-color-scheme", this.onToggleColorScheme)

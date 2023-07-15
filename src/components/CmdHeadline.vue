@@ -1,5 +1,5 @@
 <template>
-    <div :class="['cmd-headline', {'has-pre-headline-text': preHeadlineText, 'has-icon': headlineIcon?.iconClass}, getTextAlign]">
+    <div v-if="!editModeContext?.editing" :class="['cmd-headline', {'has-pre-headline-text': preHeadlineText, 'has-icon': headlineIcon?.iconClass}, getTextAlign]">
         <!-- begin CmdIcon -->
         <CmdIcon v-if="headlineIcon" :iconClass="headlineIcon?.iconClass" :type="headlineIcon?.iconType" />
         <!-- end CmdIcon -->
@@ -18,11 +18,24 @@
             <!-- end slot -->
         </component>
     </div>
+    <!-- begin edit-mode -->
+    <input v-else type="text" :class="['edit-mode', 'headline', 'h'+ headlineLevel]" v-model="editableHeadlineText" />
+    <!-- end edit-mode -->
 </template>
 
 <script>
 export default {
     name: "CmdHeadline",
+    inject: {
+        editModeContext: {
+            default: null
+        }
+    },
+    data() {
+        return {
+            editableHeadlineText: this.headlineText
+        }
+    },
     props: {
         /**
          * text for headline
@@ -60,7 +73,13 @@ export default {
         textAlign: {
             type: String,
             default: null
+        },
+        editModeContextData: {
+            type: Object
         }
+    },
+    mounted() {
+        this.editModeContext?.addSaveHandler(this.onSave)
     },
     computed: {
         getHeadlineTag() {
@@ -75,59 +94,73 @@ export default {
             }
             return ""
         }
+    },
+    methods: {
+        onSave() {
+            const headlineText = this.editableHeadlineText
+            return {
+                editModeContextData: {
+                    ...(this.editModeContextData || {})
+                },
+                headlineText,
+                update(props) {
+                    props.headlineText = headlineText
+                }
+            }
+        }
     }
 }
 </script>
 
 <style lang="scss">
 /* begin cmd-headline ------------------------------------------------------------------------------------------ */
-@import '../assets/styles/variables';
+//@import '../assets/styles/variables';
 
 .cmd-headline {
-    margin-bottom: var(--default-margin);
-    gap: calc(var(--default-gap) / 2);
+  margin-bottom: var(--default-margin);
+  gap: calc(var(--default-gap) / 2);
 
-    &.text-center > * {
-        text-align: center;
+  &.text-center > * {
+    text-align: center;
+  }
+
+  &.text-right > * {
+    text-align: right;
+  }
+
+  &.has-icon {
+    display: flex;
+    align-items: center;
+  }
+
+  &.has-pre-headline-text {
+    text-align: inherit;
+
+    [class*="icon-"] {
+      font-size: 5rem;
     }
+  }
 
-    &.text-right > * {
-        text-align: right;
+  p {
+    margin-bottom: 0;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+
+    &:only-child {
+      flex: none;
+      width: 100%;
     }
+  }
 
-    &.has-icon {
-        display: flex;
-        align-items: center;
-    }
-
-    &.has-pre-headline-text {
-        text-align: inherit;
-
-        [class*="icon-"] {
-            font-size: 5rem;
-        }
-    }
-
-    p {
-        margin-bottom: 0;
-    }
-
-    h1, h2, h3, h4, h5, h6 {
-        margin: 0;
-
-        &:only-child {
-            flex: none;
-            width: 100%;
-        }
-    }
-
-    @media only screen and ($small-max-width) {
-        flex-direction: column;
-
-        h1 {
-            margin-bottom: calc(var(--default-margin) * 2);
-        }
-    }
+  //@media only screen and (max-width: $small-max-width) {
+  //    flex-direction: column;
+  //
+  //    h1 {
+  //        margin-bottom: calc(var(--default-margin) * 2);
+  //    }
+  //}
 }
 /* end cmd-headline ------------------------------------------------------------------------------------------ */
 </style>

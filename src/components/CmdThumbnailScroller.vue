@@ -1,47 +1,49 @@
 <template>
     <div :class="['cmd-thumbnail-scroller', {'gallery-scroller' : !allowOpenFancyBox, 'full-width' : fullWidth, 'large-icons': largeIcons}]"
          ref="thumbnail-scroller">
-        <!-- begin CmdSlideButton -->
-        <CmdSlideButton
-                v-if="showSlidebuttons"
-                @click.prevent="showPrevItem"
-                slideButtonType="prev"
-        />
-        <!-- end CmdSlideButton -->
+        <div>
+            <!-- begin CmdSlideButton -->
+            <CmdSlideButton
+                    v-if="showSlidebuttons"
+                    @click.prevent="showPrevItem"
+                    slideButtonType="prev"
+            />
+            <!-- end CmdSlideButton -->
 
-        <!-- begin list of images to slide -->
-        <transition-group name="slide" tag="ul">
-            <li v-for="(item, index) in items" :key="index"
-                :class="[{'active' : activeItemIndex === index}, item.id ? 'item-' + item.id : '']">
-                <a :href="executeOnClick === 'url' ? item.url : '#'"
-                   @click="executeLink(index, $event)"
-                   :title="getTooltip"
-                   :target="executeOnClick === 'url' ? '_blank' : null"
-                >
-                    <!-- begin CmdImage -->
-                    <CmdImage v-if="contentType === 'image'" :image="item.image" :figcaption="item.figcaption"/>
-                    <!-- end CmdImage -->
+            <!-- begin list of images to slide -->
+            <transition-group name="slide" tag="ul">
+                <li v-for="(item, index) in items" :key="index"
+                    :class="[{'active' : activeItemIndex === index}, item.id ? 'item-' + item.id : '']">
+                    <a :href="executeOnClick === 'url' ? item.url : '#'"
+                       @click="executeLink(index, $event)"
+                       :title="getTooltip"
+                       :target="executeOnClick === 'url' ? '_blank' : null"
+                    >
+                        <!-- begin CmdImage -->
+                        <CmdImage v-if="contentType === 'image'" :image="item.image" :figcaption="item.figcaption"/>
+                        <!-- end CmdImage -->
 
-                    <!-- begin contentType === text -->
-                    <template v-else>
-                        <!-- begin CmdIcon -->
-                        <CmdIcon v-if="item.iconClass" :iconClass="item.iconClass" :type="item.iconType"/>
-                        <!-- end CmdIcon -->
-                        <span v-if="item.text">{{ item.text }}</span>
-                    </template>
-                    <!-- end contentType === text -->
-                </a>
-            </li>
-        </transition-group>
-        <!-- end list of images to slide -->
+                        <!-- begin contentType === text -->
+                        <template v-else>
+                            <!-- begin CmdIcon -->
+                            <CmdIcon v-if="item.iconClass" :iconClass="item.iconClass" :type="item.iconType"/>
+                            <!-- end CmdIcon -->
+                            <span v-if="item.text">{{ item.text }}</span>
+                        </template>
+                        <!-- end contentType === text -->
+                    </a>
+                </li>
+            </transition-group>
+            <!-- end list of images to slide -->
 
-        <!-- begin CmdSlideButton -->
-        <CmdSlideButton
-                v-if="showSlidebuttons"
-                @click.prevent="showNextItem"
-                :slideButtons="cmdSlideButtons.next"
-        />
-        <!-- end CmdSlideButton -->
+            <!-- begin CmdSlideButton -->
+            <CmdSlideButton
+                    v-if="showSlidebuttons"
+                    @click.prevent="showNextItem"
+                    :slideButtons="cmdSlideButtons.next"
+            />
+            <!-- end CmdSlideButton -->
+        </div>
     </div>
 </template>
 
@@ -253,47 +255,56 @@ export default {
 @import '../assets/styles/variables';
 
 .cmd-thumbnail-scroller {
-  border-radius: var(--border-radius);
-  padding: var(--default-padding);
   display: inline-flex; /* do not set to table to avoid overflow is not hidden on small devices */
-  margin: 0 auto calc(var(--default-margin) * 2) auto;
-  border: var(--default-border);
-  background: var(--color-scheme-background-color);
+  width: 100%;
 
   &.full-width {
     display: flex; /* allows flex-items to stretch equally over full space */
+
+      > div {
+          width: 100%;
+      }
   }
 
-  > ul {
-    overflow: hidden;
-    margin: 0;
-    display: flex;
-    gap: var(--grid-gap);
-    justify-content: space-between;
-    width: 100%; /* stretch flex-container */
+  > div {
+      border-radius: var(--border-radius);
+      padding: var(--default-padding);
+      margin: 0 auto;
+      border: var(--default-border);
+      background: var(--color-scheme-background-color);
+      overflow: hidden;
 
-    > li {
-      align-self: center;
-      list-style-type: none;
-      margin: 0;
+      > ul {
+          overflow: hidden;
+          margin: 0;
+          display: flex;
+          gap: var(--grid-gap);
+          justify-content: space-between;
+          width: 100%; /* stretch flex-container */
 
-      a {
-        text-align: center;
-      }
+          > li {
+              align-self: center;
+              list-style-type: none;
+              margin: 0;
 
-      img {
-        border-radius: var(--border-radius);
-        max-height: 10rem;
-      }
+              a {
+                  text-align: center;
+              }
 
-      &.active {
-        a {
-          figcaption {
-            opacity: 1;
+              img {
+                  border-radius: var(--border-radius);
+                  max-height: 10rem;
+              }
+
+              &.active {
+                  a {
+                      figcaption {
+                          opacity: 1;
+                      }
+                  }
+              }
           }
-        }
       }
-    }
   }
 
   .vertical {
@@ -304,7 +315,6 @@ export default {
 
     > ul {
       width: auto;
-      display: -webkit-flex; /* Safari 6-8 */
       display: flex;
       flex-direction: column;
 

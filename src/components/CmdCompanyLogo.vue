@@ -122,7 +122,6 @@ export default {
 @import '../assets/styles/variables';
 
 .cmd-company-logo {
-
     img {
         display: block;
         max-height: 10rem;
@@ -134,12 +133,13 @@ export default {
         img {
             border: 0;
         }
+    }
 
-        @media only screen and (max-width: $medium-max-width) {
-            img {
-                max-width: 100%;
-                max-height: 7.5rem;
-            }
+
+    @media only screen and (max-width: $medium-max-width) {
+        img {
+            max-width: 100%;
+            max-height: 7.5rem;
         }
     }
 }

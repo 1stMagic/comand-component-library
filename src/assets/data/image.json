@@ -14,11 +14,7 @@
   },
   {
     "image": {
-      "src": {
-        "small": "media/images/demo-images/small/landscape-01.jpg",
-        "medium": "media/images/demo-images/medium/landscape-01.jpg",
-        "large": "media/images/demo-images/large/landscape-01.jpg"
-      },
+      "src": "media/images/demo-images/large/landscape-02.jpg",
       "alt": "Alternative text",
       "tooltip": "Tooltip"
     },

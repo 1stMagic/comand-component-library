@@ -32,8 +32,8 @@
                 </thead>
                 <transition name="fade">
                     <tbody v-show="showTableData" aria-expanded="true">
-                    <tr :class="{'highlighted' : tableData.rowIndexHighlighted === indexRows}" v-for="(tablerows, indexRows) in tableData.tbody" :key="indexRows">
-                        <td :class="{'highlighted' : tableData.columnIndexHighlighted === indexData}" v-for="(tabledata, indexData) in tablerows" :key="indexData">
+                    <tr :class="{'active' : tableData.rowIndexHighlighted === indexRows}" v-for="(tablerows, indexRows) in tableData.tbody" :key="indexRows">
+                        <td :class="{'active' : tableData.columnIndexHighlighted === indexData}" v-for="(tabledata, indexData) in tablerows" :key="indexData">
                             {{ tabledata }}
                         </td>
                     </tr>
@@ -42,7 +42,7 @@
                 <transition name="fade">
                     <tfoot v-if="tableData.tfoot && tableData.tfoot.length && showTableData" aria-expanded="true">
                     <tr>
-                        <td :class="{'highlighted' : tableData.columnIndexHighlighted === indexFoot}" v-for="(tablefoot, indexFoot) in tableData.tfoot" :key="indexFoot">
+                        <td :class="{'active' : tableData.columnIndexHighlighted === indexFoot}" v-for="(tablefoot, indexFoot) in tableData.tfoot" :key="indexFoot">
                             {{ tablefoot }}
                         </td>
                     </tr>

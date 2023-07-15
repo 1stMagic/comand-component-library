@@ -1,31 +1,42 @@
 <!--suppress HtmlUnknownTarget, NpmUsedModulesInstalled, JSUnresolvedVariable -->
 <template>
-    <div id="page-wrapper">
+    <div :id="templateId">
+    <div id="page-wrapper"><!-- begin #page-wrapper -->
         <a id="anchor-back-to-top"></a>
         <!-- begin site-header --------------------------------------------------------------------------------------------------------------------------------------------------->
         <CmdSiteHeader :sticky="true">
             <template v-slot:top-header>
                 <!-- begin list-of-links --------------------------------------------------------------------------------------------------------------------------------------------------->
                 <CmdListOfLinks
-                    :links="listOfLinksData"
-                    orientation="horizontal"
-                    align="right"
+                        :links="listOfLinksData"
+                        orientation="horizontal"
+                        align="right"
                 />
                 <!-- end list-of-links --------------------------------------------------------------------------------------------------------------------------------------------------->
             </template>
             <template v-slot:logo>
                 <!-- begin company-logo --------------------------------------------------------------------------------------------------------------------------------------------------->
                 <CmdCompanyLogo
-                    :link="companyLogoData.link"
-                    altText="CoManD Logo"
-                    :pathDefaultLogo="companyLogoData.pathDefaultLogo"
-                    :pathDarkmodeLogo="companyLogoData.pathDarkmodeLogo"
+                        :link="companyLogoData.link"
+                        altText="CoManD Logo"
+                        :pathDefaultLogo="companyLogoData.pathDefaultLogo"
+                        :pathDarkmodeLogo="companyLogoData.pathDarkmodeLogo"
                 />
                 <!-- end company-logo --------------------------------------------------------------------------------------------------------------------------------------------------->
             </template>
         </CmdSiteHeader>
         <!-- end site-header --------------------------------------------------------------------------------------------------------------------------------------------------->
         <main>
+            <label for="select-template">
+                <span class="hidden">Select template</span>
+                <select id="select-template" v-model="selectedTemplate">
+                    <option value="blank">Blank</option>
+                    <option value="business">Business</option>
+                    <option value="casual">Casual</option>
+                    <option value="dating">Dating</option>
+                    <option value="influencer">Influencer</option>
+                </select>
+            </label>
             <!-- begin width-limitation-wrapper (with table of contents) --------------------------------------------------------------------------------------------------------------------------------------------------->
             <CmdWidthLimitationWrapper :cmdHeadline="{headlineText: 'Table of contents', headlineLevel: 2}">
                 <div class="flex-container">
@@ -75,33 +86,33 @@
                 <h2 class="headline-demopage">Address Data</h2>
                 <div class="flex-container">
                     <CmdAddressData
-                        :addressData="addressData"
-                        :linkGoogleMaps="false"
-                        :cmdHeadline="{headlineText: 'With label texts and icons', headlineLevel: 3}"
+                            :addressData="addressData"
+                            :linkGoogleMaps="false"
+                            :cmdHeadline="{headlineText: 'With label texts and icons', headlineLevel: 3}"
                     />
                     <CmdAddressData
-                        :addressData="addressData"
-                        :linkGoogleMaps="false"
-                        :show-label-texts="false"
-                        :cmdHeadline="{headlineText: 'With label icons only', headlineLevel: 3}"
+                            :addressData="addressData"
+                            :linkGoogleMaps="false"
+                            :show-label-texts="false"
+                            :cmdHeadline="{headlineText: 'With label icons only', headlineLevel: 3}"
                     />
                     <CmdAddressData
-                        :addressData="addressData"
-                        :linkGoogleMaps="false"
-                        :show-label-icons="false"
-                        :cmdHeadline="{headlineText: 'With label texts', headlineLevel: 3}"
+                            :addressData="addressData"
+                            :linkGoogleMaps="false"
+                            :show-label-icons="false"
+                            :cmdHeadline="{headlineText: 'With label texts', headlineLevel: 3}"
                     />
                     <CmdAddressData
-                        :addressData="addressData"
-                        :linkGoogleMaps="false"
-                        :showLabels="false"
-                        :cmdHeadline="{headlineText: 'Without labels', headlineLevel: 3}"
+                            :addressData="addressData"
+                            :linkGoogleMaps="false"
+                            :showLabels="false"
+                            :cmdHeadline="{headlineText: 'Without labels', headlineLevel: 3}"
                     />
                     <CmdAddressData
-                        :addressData="addressData"
-                        :linkGoogleMaps="true"
-                        :showIconsOnly="true"
-                        :cmdHeadline="{headlineText: 'Linked icons only', headlineLevel: 3}"
+                            :addressData="addressData"
+                            :linkGoogleMaps="true"
+                            :showIconsOnly="true"
+                            :cmdHeadline="{headlineText: 'Linked icons only', headlineLevel: 3}"
                     />
                 </div>
             </CmdWidthLimitationWrapper>
@@ -115,7 +126,8 @@
                 <h3>Form elements status:</h3>
                 <div class="flex-container">
                     <ul class="list-status">
-                        <li><a href="#" @click.prevent="setStatus('', false)" :class="{'active' : validationStatus === '' && disabledStatus === false}"
+                        <li><a href="#" @click.prevent="setStatus('', false)"
+                               :class="{'active' : validationStatus === '' && disabledStatus === false}"
                                id="status-default">Default</a></li>
                         <li class="error">
                             <a href="#" @click.prevent="setStatus('error', false)"
@@ -362,7 +374,8 @@
                                             <h3>Headline</h3>
                                             <p>Some content inside a paragraph</p>
                                         </div>
-                                        <img src="media/images/thumbnail-scroller/thumbnail/logo-cmd-blue-landscape.jpg" alt="image"/>
+                                        <img src="media/images/thumbnail-scroller/thumbnail/logo-cmd-blue-landscape.jpg"
+                                             alt="image"/>
                                     </li>
                                 </ul>
                             </CmdFakeSelect>
@@ -401,13 +414,13 @@
                                     <span>Range Value</span>
                                 </span>
                                 <input
-                                    type="number"
-                                    :class="validationStatus"
-                                    v-model="rangeValue"
-                                    :disabled="disabledStatus"
-                                    min="0"
-                                    max="100"
-                                    id="range-value"
+                                        type="number"
+                                        :class="validationStatus"
+                                        v-model="rangeValue"
+                                        :disabled="disabledStatus"
+                                        min="0"
+                                        max="100"
+                                        id="range-value"
                                 />
                             </label>
                             <label for="range-slider">
@@ -415,13 +428,13 @@
                                     <span>Range Value</span>
                                 </span>
                                 <input
-                                    type="range"
-                                    class="range-slider"
-                                    id="range-slider"
-                                    v-model="rangeValue"
-                                    :disabled="disabledStatus"
-                                    min="0"
-                                    max="100"
+                                        type="range"
+                                        class="range-slider"
+                                        id="range-slider"
+                                        v-model="rangeValue"
+                                        :disabled="disabledStatus"
+                                        min="0"
+                                        max="100"
                                 />
                             </label>
                         </span>
@@ -654,10 +667,10 @@
                         <h2>Input-Groups</h2>
                         <h3>Input Group with Radiobuttons [native]</h3>
                         <CmdInputGroup
-                            labelText="Group label for radio-group given by slot:"
-                            :useSlot="true"
-                            :status="validationStatus"
-                            :disabled="disabledStatus"
+                                labelText="Group label for radio-group given by slot:"
+                                :useSlot="true"
+                                :status="validationStatus"
+                                :disabled="disabledStatus"
                         >
                             <CmdFormElement element="input"
                                             labelText="Label for radiobutton"
@@ -687,13 +700,13 @@
                             </dd>
                         </dl>
                         <CmdInputGroup
-                            labelText="Grouplabel for radio-group given by property:"
-                            :required="true"
-                            :inputElements="idForReplacedInputsInInputGroup('radio-group')"
-                            inputTypes="radio"
-                            v-model="inputGroupCheckbox"
-                            :status="validationStatus"
-                            :disabled="disabledStatus"
+                                labelText="Grouplabel for radio-group given by property:"
+                                :required="true"
+                                :inputElements="idForReplacedInputsInInputGroup('radio-group')"
+                                inputTypes="radio"
+                                v-model="inputGroupCheckbox"
+                                :status="validationStatus"
+                                :disabled="disabledStatus"
                         />
                         <dl>
                             <dt>Selected value:</dt>
@@ -703,13 +716,13 @@
                         </dl>
                         <h3>Input Group with Checkboxes/Radiobuttons (replaced)</h3>
                         <CmdInputGroup
-                            labelText="Grouplabel for radio-group styled as replaced-input-type:"
-                            :inputElements="idForReplacedInputsInInputGroup('replaced-radio-group')"
-                            inputTypes="radio"
-                            v-model="inputGroupValueReplaceInputTypeRadio"
-                            :replaceInputType="true"
-                            :status="validationStatus"
-                            :disabled="disabledStatus"
+                                labelText="Grouplabel for radio-group styled as replaced-input-type:"
+                                :inputElements="idForReplacedInputsInInputGroup('replaced-radio-group')"
+                                inputTypes="radio"
+                                v-model="inputGroupValueReplaceInputTypeRadio"
+                                :replaceInputType="true"
+                                :status="validationStatus"
+                                :disabled="disabledStatus"
                         />
                         <dl>
                             <dt>Selected value:</dt>
@@ -718,14 +731,14 @@
                             </dd>
                         </dl>
                         <CmdInputGroup
-                            labelText="Grouplabel for checkbox-group styled as replaced-input-type:"
-                            :inputElements="idForReplacedInputsInInputGroup('checkbox-group')"
-                            inputTypes="checkbox"
-                            v-model="inputGroupValueReplaceInputTypeCheckbox"
-                            :replaceInputType="true"
-                            :required="true"
-                            :status="validationStatus"
-                            :disabled="disabledStatus"
+                                labelText="Grouplabel for checkbox-group styled as replaced-input-type:"
+                                :inputElements="idForReplacedInputsInInputGroup('checkbox-group')"
+                                inputTypes="checkbox"
+                                v-model="inputGroupValueReplaceInputTypeCheckbox"
+                                :replaceInputType="true"
+                                :required="true"
+                                :status="validationStatus"
+                                :disabled="disabledStatus"
                         />
                         <dl>
                             <dt>Selected value(s):</dt>
@@ -736,14 +749,14 @@
                         <h3>Input Groups with Checkboxes/
                             Radiobuttons (toggle-switches)</h3>
                         <CmdInputGroup
-                            labelText="Grouplabel for checkbox-group styled as toggle-switches:"
-                            :inputElements="idForReplacedInputsInInputGroup('checkbox-group-toggle-switch')"
-                            inputTypes="checkbox"
-                            v-model="inputGroupValueToggleSwitchCheckbox"
-                            :toggleSwitch="true"
-                            required="required"
-                            :status="validationStatus"
-                            :disabled="disabledStatus"
+                                labelText="Grouplabel for checkbox-group styled as toggle-switches:"
+                                :inputElements="idForReplacedInputsInInputGroup('checkbox-group-toggle-switch')"
+                                inputTypes="checkbox"
+                                v-model="inputGroupValueToggleSwitchCheckbox"
+                                :toggleSwitch="true"
+                                required="required"
+                                :status="validationStatus"
+                                :disabled="disabledStatus"
                         />
                         <dl>
                             <dt>Selected value(s):</dt>
@@ -752,14 +765,14 @@
                             </dd>
                         </dl>
                         <CmdInputGroup
-                            labelText="Grouplabel for radio-group styled as toggle-switches:"
-                            :inputElements="idForReplacedInputsInInputGroup('radio-group-toggle-switch')"
-                            inputTypes="radio"
-                            v-model="inputGroupValueToggleSwitchRadio"
-                            :toggleSwitch="true"
-                            required="required"
-                            :status="validationStatus"
-                            :disabled="disabledStatus"
+                                labelText="Grouplabel for radio-group styled as toggle-switches:"
+                                :inputElements="idForReplacedInputsInInputGroup('radio-group-toggle-switch')"
+                                inputTypes="radio"
+                                v-model="inputGroupValueToggleSwitchRadio"
+                                :toggleSwitch="true"
+                                required="required"
+                                :status="validationStatus"
+                                :disabled="disabledStatus"
                         />
                         <dl>
                             <dt>Selected value(s):</dt>
@@ -768,13 +781,13 @@
                             </dd>
                         </dl>
                         <CmdInputGroup
-                            labelText="Grouplabel for radio-group given by property styled as multiple-switch:"
-                            :inputElements="idForReplacedInputsInInputGroup('radio-group-multiple-switch')"
-                            inputTypes="radio"
-                            :multipleSwitch="true"
-                            v-model="inputGroupValue3"
-                            :status="validationStatus"
-                            :disabled="disabledStatus"
+                                labelText="Grouplabel for radio-group given by property styled as multiple-switch:"
+                                :inputElements="idForReplacedInputsInInputGroup('radio-group-multiple-switch')"
+                                inputTypes="radio"
+                                :multipleSwitch="true"
+                                v-model="inputGroupValue3"
+                                :status="validationStatus"
+                                :disabled="disabledStatus"
                         />
                         <dl>
                             <dt>Selected value(s):</dt>
@@ -783,15 +796,15 @@
                             </dd>
                         </dl>
                         <CmdInputGroup
-                            labelText="Grouplabel for checkbox-group styled as multiple-switch (stretched horizontally):"
-                            :inputElements="inputGroupCheckboxes"
-                            inputTypes="checkbox"
-                            :multipleSwitch="true"
-                            :required="true"
-                            v-model="inputGroupValue4"
-                            :stretchHorizontally="true"
-                            :status="validationStatus"
-                            :disabled="disabledStatus"
+                                labelText="Grouplabel for checkbox-group styled as multiple-switch (stretched horizontally):"
+                                :inputElements="inputGroupCheckboxes"
+                                inputTypes="checkbox"
+                                :multipleSwitch="true"
+                                :required="true"
+                                v-model="inputGroupValue4"
+                                :stretchHorizontally="true"
+                                :status="validationStatus"
+                                :disabled="disabledStatus"
                         />
                         <dl>
                             <dt>Selected value(s):</dt>
@@ -819,14 +832,16 @@
             <!-- end advanced form elements ----------------------------------------------------------------------------------------------------------------------------------------------------->
 
             <!-- begin back to top button ----------------------------------------------------------------------------------------------------------------------------------------------------->
-            <CmdBackToTopButton />
+            <CmdBackToTopButton href="#anchor-back-to-top" scroll-container="#page-wrapper"/>
             <!-- end back to top button ----------------------------------------------------------------------------------------------------------------------------------------------------->
 
             <!-- begin bank account data ----------------------------------------------------------------------------------------------------------------------------------------------------->
             <a id="section-bank-account-data"></a>
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Bank Account Data</h2>
-                <CmdBankAccountData :account-data="bankAccountData" :cmd-headline="{ headlineText: 'Bank Account', headlineLevel: 3}" :allow-copy-by-click="true"/>
+                <CmdBankAccountData :account-data="bankAccountData"
+                                    :cmd-headline="{ headlineText: 'Bank Account', headlineLevel: 3}"
+                                    :allow-copy-by-click="true"/>
             </CmdWidthLimitationWrapper>
             <!-- end bank account data ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
@@ -834,18 +849,22 @@
             <a id="section-boxes"></a>
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Boxes</h2>
-                <CmdBoxWrapper :useFlexbox="true" :cmdHeadline="{headlineText: 'Boxes in BoxWrapper with flexbox', headlineLevel: 3}">
-                    <CmdBox v-for="index in 14" :key="index" textBody="Content" :cmd-headline="{headlineText: 'Headline ' + index, headlineLevel: 4}"/>
+                <CmdBoxWrapper :useFlexbox="true"
+                               :cmdHeadline="{headlineText: 'Boxes in BoxWrapper with flexbox', headlineLevel: 3}">
+                    <CmdBox v-for="index in 14" :key="index" textBody="Content"
+                            :cmd-headline="{headlineText: 'Headline ' + index, headlineLevel: 4}"/>
                 </CmdBoxWrapper>
-                <CmdBoxWrapper :useFlexbox="true" :cmdHeadline="{headlineText: 'Different examples of content-boxes (in BoxWrapper)', headlineLevel: 3}">
+                <CmdBoxWrapper :useFlexbox="true"
+                               :cmdHeadline="{headlineText: 'Different examples of content-boxes (in BoxWrapper)', headlineLevel: 3}">
                     <CmdBox
-                        :stretch-vertically="false"
-                        :cmdHeadline="{headlineText: 'Box with cutoff text', headlineLevel: 4}"
-                        :useSlots="['body']"
-                        :cutoff-text-lines="4"
+                            :stretch-vertically="false"
+                            :cmdHeadline="{headlineText: 'Box with cutoff text', headlineLevel: 4}"
+                            :useSlots="['body']"
+                            :cutoff-text-lines="4"
                     >
                         <template v-slot:body>
-                            This is a long text that is cutoff after a specific number of lines that can be defined by the property 'cutoffTextLines' and be toggled by a link below.
+                            This is a long text that is cutoff after a specific number of lines that can be defined by
+                            the property 'cutoffTextLines' and be toggled by a link below.
                         </template>
                     </CmdBox>
                     <CmdBox :useSlots="['header', 'body', 'footer']">
@@ -892,12 +911,13 @@
                         </template>
                     </CmdBox>
                     <CmdBox
-                        :cmdHeadline="{headlineText: 'Collapsible box', headlineLevel: 4}"
-                        :image="{src: 'media/images/content-images/landscape-medium.jpg', altText: 'ALternative text'}"
-                        textBody="This is some text given by property."
-                        :collapsible="true"
+                            :cmdHeadline="{headlineText: 'Collapsible box', headlineLevel: 4}"
+                            :image="{src: 'media/images/content-images/landscape-medium.jpg', altText: 'ALternative text'}"
+                            textBody="This is some text given by property."
+                            :collapsible="true"
                     />
-                    <CmdBox :useSlots="['header', 'body']" :cmdHeadline="{headlineText: 'Collapsible box', headlineLevel: 4}" :collapsible="true">
+                    <CmdBox :useSlots="['header', 'body']"
+                            :cmdHeadline="{headlineText: 'Collapsible box', headlineLevel: 4}" :collapsible="true">
                         <template v-slot:header>
                             <h4>
                                 Collapsible box with image
@@ -941,7 +961,9 @@
                 </div>
                 <CmdBoxWrapper :boxesPerRow="[5, 2, 1]" :useRowViewAsDefault="true">
                     <template v-slot="slotProps">
-                        <CmdBox v-for="index in boxUserData.length" :key="index" boxType="user" :user="boxUserData[index - 1]" :cmdHeadline="{headlineLevel: 5}" :rowView="slotProps.rowView"/>
+                        <CmdBox v-for="index in boxUserData.length" :key="index" boxType="user"
+                                :user="boxUserData[index - 1]" :cmdHeadline="{headlineLevel: 5}"
+                                :rowView="slotProps.rowView"/>
                     </template>
                 </CmdBoxWrapper>
             </CmdWidthLimitationWrapper>
@@ -969,14 +991,17 @@
             <a id="section-headlines"></a>
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Headlines</h2>
-                <CmdHeadline :headlineIcon="{iconClass: 'icon-home'}" pre-headline-text="Pre-headline" headlineText="Headline level 1" :headlineLevel="1"/>
+                <CmdHeadline :headlineIcon="{iconClass: 'icon-home'}" pre-headline-text="Pre-headline"
+                             headlineText="Headline level 1" :headlineLevel="1"/>
                 <CmdHeadline headlineText="Headline level 2" :headlineLevel="2"/>
                 <CmdHeadline headlineText="Headline level 3" :headlineLevel="3"/>
                 <CmdHeadline headlineText="Headline level 4" :headlineLevel="4"/>
                 <CmdHeadline headlineText="Headline level 5" :headlineLevel="5"/>
                 <CmdHeadline headlineText="Headline level 6" :headlineLevel="6"/>
-                <CmdHeadline pre-headline-text="Pre-headline" headlineText="Headline level 1 (center)" text-align="center" :headlineLevel="1"/>
-                <CmdHeadline pre-headline-text="Pre-headline" headlineText="Headline level 1 (right)" text-align="right" :headlineLevel="1"/>
+                <CmdHeadline pre-headline-text="Pre-headline" headlineText="Headline level 1 (center)"
+                             text-align="center" :headlineLevel="1"/>
+                <CmdHeadline pre-headline-text="Pre-headline" headlineText="Headline level 1 (right)" text-align="right"
+                             :headlineLevel="1"/>
             </CmdWidthLimitationWrapper>
             <!-- end headline ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
@@ -985,7 +1010,8 @@
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Fancybox</h2>
                 <h3>FancyBox with text</h3>
-                <a href="#" @click.prevent="showFancyBox('text','Some text', 'FancyBox with text')">Open FancyBox with text</a>
+                <a href="#" @click.prevent="showFancyBox('text','Some text', 'FancyBox with text')">Open FancyBox with
+                    text</a>
                 <h3>FancyBox with large image given by url</h3>
                 <a href="#"
                    @click.prevent="showFancyBox('url', 'media/images/demo-images/large/landscape-01.jpg', 'FancyBox with large image given by url')"
@@ -1074,8 +1100,8 @@
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Image-Zoom</h2>
                 <CmdImageZoom
-                    :imageSmall="imageData[2].image"
-                    :imageLarge="imageData[3].image"
+                        :imageSmall="imageData[2].image"
+                        :imageLarge="imageData[3].image"
                 />
             </CmdWidthLimitationWrapper>
             <!-- end image-zoom ------------------------------------------------------------------------------------------------------------------------------------------------------->
@@ -1100,10 +1126,10 @@
                 <CmdListOfLinks :links="listOfLinksData"/>
                 <h3>Horizontal (aligned left, with headline)</h3>
                 <CmdListOfLinks
-                    orientation="horizontal"
-                    align="left"
-                    :links="listOfLinksData"
-                    :cmdHeadline="{
+                        orientation="horizontal"
+                        align="left"
+                        :links="listOfLinksData"
+                        :cmdHeadline="{
                         headlineText: 'Headline',
                         headlineLevel: 5
                     }"
@@ -1111,7 +1137,8 @@
                 <h3>Horizontal (aligned center)</h3>
                 <CmdListOfLinks orientation="horizontal" align="center" :links="listOfLinksData"/>
                 <h3>Horizontal (aligned right)</h3>
-                <CmdListOfLinks orientation="horizontal" align="right" :links="listOfLinksData" @click="clickOnListOfLinks"/>
+                <CmdListOfLinks orientation="horizontal" align="right" :links="listOfLinksData"
+                                @click="clickOnListOfLinks"/>
                 <h3>Large icons</h3>
                 <CmdListOfLinks orientation="horizontal" :links="listOfLinksData" :largeIcons="true"/>
             </CmdWidthLimitationWrapper>
@@ -1122,9 +1149,9 @@
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Main Navigation</h2>
                 <CmdMainNavigation
-                    :stretchMainItems="false"
-                    :persistOnMobile="false"
-                    :navigationEntries="navigationData.navigationEntries"
+                        :stretchMainItems="false"
+                        :persistOnMobile="false"
+                        :navigationEntries="navigationData.navigationEntries"
                 />
             </CmdWidthLimitationWrapper>
             <!-- end main-navigation ------------------------------------------------------------------------------------------------------------------------------------------------------->
@@ -1134,20 +1161,20 @@
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Multistepform-Progressbar</h2>
                 <h3>Steps with icons</h3>
-                    <CmdMultistepFormProgressBar
+                <CmdMultistepFormProgressBar
                         :multisteps="multistepsData.withIcon"
                         separatorIconClass="icon-single-arrow-right"
                         @click="showPageMultistep = $event.index + 1"
-                    />
+                />
                 <div>
                     <p>Page {{ showPageMultistep }}</p>
                 </div>
                 <h3>Steps with number</h3>
                 <CmdMultistepFormProgressBar
-                    :showStepNumber="true"
-                    :multisteps="multistepsData.withoutIcon"
-                    separatorIconClass="icon-single-arrow-right"
-                    @click="showPageMultistep = $event.index + 1"
+                        :showStepNumber="true"
+                        :multisteps="multistepsData.withoutIcon"
+                        separatorIconClass="icon-single-arrow-right"
+                        @click="showPageMultistep = $event.index + 1"
                 />
                 <div>
                     <p>Page {{ showPageMultistep }}</p>
@@ -1160,7 +1187,8 @@
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Newsletter Subscription</h2>
                 <CmdForm textLegend="Stay-up-to-date" :use-fieldset="false">
-                    <CmdNewsletterSubscription v-model="newsletter" buttonType="submit" @buttonClick="submitNewsletterRegistration"/>
+                    <CmdNewsletterSubscription v-model="newsletter" buttonType="submit"
+                                               @buttonClick="submitNewsletterRegistration"/>
                 </CmdForm>
             </CmdWidthLimitationWrapper>
             <!-- end newsletter-subscription ------------------------------------------------------------------------------------------------------------------------------------------------------->
@@ -1174,19 +1202,19 @@
                     <p>Page {{ showPagePager }}</p>
                 </div>
                 <CmdPager
-                    :pages="4"
-                    :itemsPerPage="1"
-                    @click="showPagePager = $event"
+                        :pages="4"
+                        :itemsPerPage="1"
+                        @click="showPagePager = $event"
                 />
                 <h3>Button-view</h3>
                 <div>
                     <p>Page {{ showPagePager }}</p>
                 </div>
                 <CmdPager
-                    :pages="4"
-                    :itemsPerPage="1"
-                    link-type="button"
-                    @click="showPagePager = $event"
+                        :pages="4"
+                        :itemsPerPage="1"
+                        link-type="button"
+                        @click="showPagePager = $event"
                 />
             </CmdWidthLimitationWrapper>
             <!-- end pager ------------------------------------------------------------------------------------------------------------------------------------------------------->
@@ -1197,20 +1225,20 @@
                 <h2 class="headline-demopage">Social Networks</h2>
                 <h3>With user confirmation (buttons without gap)</h3>
                 <CmdSocialNetworks
-                    :networks="socialNetworksData"
-                    :userMustAcceptDataPrivacy="true"
-                    :useGap="false"
+                        :networks="socialNetworksData"
+                        :userMustAcceptDataPrivacy="true"
+                        :useGap="false"
                 />
                 <h3>Without user confirmation (buttons with gap, text aligned left)</h3>
                 <CmdSocialNetworks
-                    :networks="socialNetworksData"
-                    :userMustAcceptDataPrivacy="false"
+                        :networks="socialNetworksData"
+                        :userMustAcceptDataPrivacy="false"
                 />
                 <h3>Without user confirmation (buttons with gap, text aligned right)</h3>
                 <CmdSocialNetworks
-                    :networks="socialNetworksData"
-                    :userMustAcceptDataPrivacy="false"
-                    textAlign="right"
+                        :networks="socialNetworksData"
+                        :userMustAcceptDataPrivacy="false"
+                        textAlign="right"
                 />
             </CmdWidthLimitationWrapper>
             <!-- end social-networks ------------------------------------------------------------------------------------------------------------------------------------------------------->
@@ -1221,39 +1249,39 @@
                 <h2 class="headline-demopage">Site Header</h2>
                 <h3>Header with navigation below logo</h3>
                 <CmdSiteHeader
-                    :cmdMainNavigation="navigationData"
-                    :cmdCompanyLogo="companyLogoData"
-                    :sticky="false"
+                        :cmdMainNavigation="navigationData"
+                        :cmdCompanyLogo="companyLogoData"
+                        :sticky="false"
                 />
                 <h3>Header with navigation inline with logo</h3>
                 <CmdSiteHeader
-                    :cmdMainNavigation="navigationData"
-                    :cmdCompanyLogo="companyLogoData"
-                    :sticky="false"
-                    :navigation-inline="true"
+                        :cmdMainNavigation="navigationData"
+                        :cmdCompanyLogo="companyLogoData"
+                        :sticky="false"
+                        :navigation-inline="true"
                 />
                 <h3>Header with top-header-links, logo and navigation given by slot</h3>
                 <CmdSiteHeader :sticky="false">
                     <template v-slot:topheader>
                         <CmdListOfLinks
-                            :links="listOfLinksData"
-                            orientation="horizontal"
-                            align="right"
+                                :links="listOfLinksData"
+                                orientation="horizontal"
+                                align="right"
                         />
                     </template>
                     <template v-slot:logo>
                         <CmdCompanyLogo
-                            :link="companyLogoData.link"
-                            altText="CoManD Logo"
-                            :pathDefaultLogo="companyLogoData.pathDefaultLogo"
-                            :pathDarkmodeLogo="companyLogoData.pathDarkmodeLogo"
+                                :link="companyLogoData.link"
+                                altText="CoManD Logo"
+                                :pathDefaultLogo="companyLogoData.pathDefaultLogo"
+                                :pathDarkmodeLogo="companyLogoData.pathDarkmodeLogo"
                         />
                     </template>
                     <template v-slot:navigation>
                         <CmdMainNavigation
-                            :stretchMainItems="false"
-                            :persistOnMobile="false"
-                            :navigationEntries="navigationData.navigationEntries"
+                                :stretchMainItems="false"
+                                :persistOnMobile="false"
+                                :navigationEntries="navigationData.navigationEntries"
                         />
                     </template>
                 </CmdSiteHeader>
@@ -1265,13 +1293,13 @@
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Site Search</h2>
                 <CmdSiteSearch
-                    v-model:modelValueInput1="siteSearchInput1"
-                    v-model:modelValueInput2="siteSearchInput2"
-                    v-model:modelValueRadius="radius"
-                    v-model:modelValueSearchFilters="filters"
-                    @search="siteSearchOutput"
-                    textLegend="Search"
-                    :cmdFakeSelect="siteSearchFilters"
+                        v-model:modelValueInput1="siteSearchInput1"
+                        v-model:modelValueInput2="siteSearchInput2"
+                        v-model:modelValueRadius="radius"
+                        v-model:modelValueSearchFilters="filters"
+                        @search="siteSearchOutput"
+                        textLegend="Search"
+                        :cmdFakeSelect="siteSearchFilters"
                 />
             </CmdWidthLimitationWrapper>
             <!-- end site-search ------------------------------------------------------------------------------------------------------------------------------------------------------->
@@ -1323,11 +1351,14 @@
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Tables</h2>
                 <h3>Table as wide as its content (with caption)</h3>
-                <CmdTable :collapsible="true" :fullWidthOnDefault="false" :userCanToggleWidth="true" :table-data="tableDataSmall"/>
+                <CmdTable :collapsible="true" :fullWidthOnDefault="false" :userCanToggleWidth="true"
+                          :table-data="tableDataSmall"/>
                 <h3>Table as wide as its content (without caption)</h3>
-                <CmdTable :collapsible="true" :fullWidthOnDefault="false" :userCanToggleWidth="true" :caption="{ text: 'Hidden caption', show: false}" :table-data="tableDataSmall"/>
+                <CmdTable :collapsible="true" :fullWidthOnDefault="false" :userCanToggleWidth="true"
+                          :caption="{ text: 'Hidden caption', show: false}" :table-data="tableDataSmall"/>
                 <h3>Table as wide as possible</h3>
-                <CmdTable :collapsible="true" :fullWidthOnDefault="false" :userCanToggleWidth="true" :table-data="tableDataLarge"/>
+                <CmdTable :collapsible="true" :fullWidthOnDefault="false" :userCanToggleWidth="true"
+                          :table-data="tableDataLarge"/>
             </CmdWidthLimitationWrapper>
             <!-- end tables ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
@@ -1338,7 +1369,8 @@
                 <h3>Tabs with content from json-file</h3>
                 <CmdTabs :stretchTabs="false" :tabs="tabsData"/>
                 <h3>Tabs with HTML-content (given by slot))</h3>
-                <CmdTabs :stretchTabs="true" :tabs="[{name: 'Tab 1'}, {name: 'Tab 2'}, {name: 'Tab 3'}]" :useSlot="true">
+                <CmdTabs :stretchTabs="true" :tabs="[{name: 'Tab 1'}, {name: 'Tab 2'}, {name: 'Tab 3'}]"
+                         :useSlot="true">
                     <template v-slot:tab-content-0>
                         <h4>Tab 1 headline</h4>
                         <p>Content</p>
@@ -1363,8 +1395,10 @@
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Text-Block</h2>
                 <div class="flex-container">
-                    <CmdTextBlock :cmdHeadline="{headlineText: 'Headline', headlineLevel: 3}" textContent="Text given as text only"/>
-                    <CmdTextBlock :cmdHeadline="{headlineText: 'Headline', headlineLevel: 3}" htmlContent="<p>Text given as html-content</p>"/>
+                    <CmdTextBlock :cmdHeadline="{headlineText: 'Headline', headlineLevel: 3}"
+                                  textContent="Text given as text only"/>
+                    <CmdTextBlock :cmdHeadline="{headlineText: 'Headline', headlineLevel: 3}"
+                                  htmlContent="<p>Text given as html-content</p>"/>
                 </div>
             </CmdWidthLimitationWrapper>
             <!-- end textblock ------------------------------------------------------------------------------------------------------------------------------------------------------->
@@ -1377,23 +1411,23 @@
                     <h3>Thumbnail-Scroller with images (opens fancybox)</h3>
 
                     <CmdThumbnailScroller
-                        :thumbnail-scroller-items="thumbnailScrollerImagesData"
+                            :thumbnail-scroller-items="thumbnailScrollerImagesData"
                     />
                     <h3>Thumbnail-Scroller with text (opens url)</h3>
                     <CmdThumbnailScroller
-                        :thumbnail-scroller-items="thumbnailScrollerTextData"
-                        contentType="text"
-                        executeOnClick="url"
-                        :fullWidth="true"
+                            :thumbnail-scroller-items="thumbnailScrollerTextData"
+                            contentType="text"
+                            executeOnClick="url"
+                            :fullWidth="true"
                     />
                     <h3>Thumbnail-Scroller with text (emits click-event)</h3>
                     <CmdThumbnailScroller
-                        :thumbnail-scroller-items="thumbnailScrollerTextData"
-                        contentType="text"
-                        executeOnClick="emit"
-                        @click="onClick"
-                        :largeIcons="true"
-                        :fullWidth="true"
+                            :thumbnail-scroller-items="thumbnailScrollerTextData"
+                            contentType="text"
+                            executeOnClick="emit"
+                            @click="onClick"
+                            :largeIcons="true"
+                            :fullWidth="true"
                     />
                 </div>
             </CmdWidthLimitationWrapper>
@@ -1479,20 +1513,20 @@
 
         <!-- begin fancy-box ------------------------------------------------------------------------------------------------------------------------------------------------------->
         <CmdFancyBox
-            :show="fancyBoxCookieDisclaimer"
-            :fancyboxOptions="{}"
-            :allowEscapeKey="false"
-            :cmdHeadline="{show: true, headlineText: 'Cookie Disclaimer', headlineLevel: 2}"
-            ariaLabelText="Cookie Disclaimer"
+                :show="fancyBoxCookieDisclaimer"
+                :fancyboxOptions="{}"
+                :allowEscapeKey="false"
+                :cmdHeadline="{show: true, headlineText: 'Cookie Disclaimer', headlineLevel: 2}"
+                ariaLabelText="Cookie Disclaimer"
         >
             <!-- begin cookie-disclaimer ------------------------------------------------------------------------------------------------------------------------------------------------------->
             <CmdCookieDisclaimer
-                :cookieOptions="cookieDisclaimerData"
-                buttonLabelAcceptAllCookies="Accept all cookies"
-                buttonLabelAcceptCurrentSettings="Accept current settings"
-                @closeCookieDisclaimer="closeCookieDisclaimer"
-                v-model="acceptedCookies"
-                :cmdHeadlineCookieDisclaimer="{ show: false }">
+                    :cookieOptions="cookieDisclaimerData"
+                    buttonLabelAcceptAllCookies="Accept all cookies"
+                    buttonLabelAcceptCurrentSettings="Accept current settings"
+                    @closeCookieDisclaimer="closeCookieDisclaimer"
+                    v-model="acceptedCookies"
+                    :cmdHeadlineCookieDisclaimer="{ show: false }">
                 <template #privacy-text>
                     <p>
                         <strong>
@@ -1504,6 +1538,7 @@
             <!-- end cookie-disclaimer ------------------------------------------------------------------------------------------------------------------------------------------------------->
         </CmdFancyBox>
         <!-- end fancy-box ------------------------------------------------------------------------------------------------------------------------------------------------------->
+    </div><!-- end #page-wrapper -->
     </div>
 </template>
 
@@ -1552,6 +1587,7 @@ export default {
     name: "App",
     data() {
         return {
+            selectedTemplate: "blank",
             acceptedCookies: ["google-maps"],
             showTooltip: false,
             disabledStatus: undefined,
@@ -1687,6 +1723,11 @@ export default {
             thumbnailScrollerTextData
         }
     },
+    computed: {
+        templateId() {
+            return "template-" + this.selectedTemplate
+        }
+    },
     methods: {
         navigationDataRight() {
             setTimeout(() => {
@@ -1797,21 +1838,38 @@ export default {
         switchButtonChange() {
             alert("Changed")
         }
+    },
+    watch: {
+        selectedTemplate() {
+            let linkTag = document.querySelector('link')
+
+            if (linkTag) {
+                linkTag.parentNode.removeChild(linkTag)
+            }
+
+            if (this.selectedTemplate !== "blank") {
+                let newLink = document.createElement('link');
+                newLink.rel = 'stylesheet';
+                newLink.href = 'https://cdn.jsdelivr.net/npm/comand-frontend-framework/dist/templates/' + this.selectedTemplate + '.css';
+
+                document.head.appendChild(newLink);
+            }
+        }
     }
 }
 </script>
 
 <style lang="scss">
 .list-status {
-    .active {
-        color: var(--text-color);
-        text-decoration: none;
-        background: none;
-    }
+  .active {
+    color: var(--text-color);
+    text-decoration: none;
+    background: none;
+  }
 }
 
 main .cmd-width-limitation-wrapper:not(:last-of-type) {
-    border-bottom: var(--default-border);
-    border-style: dashed;
+  border-bottom: var(--default-border);
+  border-style: dashed;
 }
 </style>
