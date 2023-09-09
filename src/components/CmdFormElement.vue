@@ -22,8 +22,7 @@
 
         <!-- begin label-text (+ required asterisk) -->
         <span v-if="(labelText || $slots.labeltext) && $attrs.type !== 'checkbox' && $attrs.type !== 'radio'"
-              v-show="showLabel"
-              class="label-text">
+              :class="['label-text', { hidden: !showLabel }]">
             <span>
                 <template v-if="labelText">{{ labelText }}</template>
                 <!-- begin slot 'labeltext' -->
@@ -154,7 +153,7 @@
                     <span class="label-text">{{ onLabel }}</span>
                     <span class="label-text">{{ offLabel }}</span>
                 </span>
-                <span v-if="labelText" class="label-text">
+                <span v-if="labelText" :class="['label-text', {hidden: !showLabel}]">
                     <span>{{ labelText }}<sup v-if="$attrs.required">*</sup></span>
                 </span>
             </template>

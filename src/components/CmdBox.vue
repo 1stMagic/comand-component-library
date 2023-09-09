@@ -56,7 +56,7 @@
         <!-- end default header with slot -->
 
         <!-- begin box-body -->
-        <div v-if="open" :class="['box-body', {'default-padding': useDefaultPadding}]" aria-expanded="true" role="article">
+        <div v-show="open" :class="['box-body', {'default-padding': useDefaultPadding}]" aria-expanded="true" role="article">
             <!-- begin slot 'body' -->
             <slot v-if="useSlots?.includes('body')" name="body">
                 <transition-group :name="toggleTransition">
@@ -299,7 +299,7 @@ export default {
          */
         profileType: {
             type: String,
-            default: 'business'
+            default: "business"
         },
         /**
          * activated if all content (incl. headline) is given by slot

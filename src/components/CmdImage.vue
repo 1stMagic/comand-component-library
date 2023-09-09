@@ -92,7 +92,7 @@ export default {
         return {
             mediumMaxWidth: 1023,
             smallMaxWidth: 600,
-            currentWindowWidth: window.innerWidth
+            currentWindowWidth: window.innerWidth,
             allowedFileExtensions: ["jpg", "jpeg", "png"],
             uploadInitiated: false,
             allowDrop: false,
