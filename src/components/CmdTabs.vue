@@ -1,8 +1,8 @@
 <template>
     <div class="cmd-tabs">
         <ul :class="{'stretch-tabs' : stretchTabs}" role="tablist">
-            <li v-for="(tab, index) in tabs" :key="index" role="tab">
-                <a :class="{active : showTab === index}" @click.prevent="setActiveTab(index)" :title="!tab.name ? tab.tooltip : undefined" href="#">
+            <li v-for="(tab, index) in tabs" :class="{active : showTab === index}" :key="index" role="tab">
+                <a  href="#" @click.prevent="setActiveTab(index)" :title="!tab.name ? tab.tooltip : undefined">
                     <!-- begin CmdIcon -->
                     <CmdIcon v-if="tab.iconClass" :iconClass="tab.iconClass" :type="tab.iconType" />
                     <!-- end CmdIcon -->
@@ -139,9 +139,11 @@ export default {
                         color: inherit;
                     }
                 }
+            }
 
-                &.active {
-                    &:hover, &:active, &:focus {
+            &.active {
+                &:hover, &:active {
+                    a, a:focus {
                         color: var(--hyperlink-color);
                         background: var(--pure-white);
 
@@ -149,7 +151,17 @@ export default {
                             color: var(--hyperlink-color-highlighted);
                         }
                     }
+
                 }
+                
+                a:focus {
+                    color: var(--pure-white);
+
+                    span, span[class*="icon-"], .iconify {
+                        color: inherit !important;
+                    }
+                }
+
             }
         }
 

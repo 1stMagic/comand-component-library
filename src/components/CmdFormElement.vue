@@ -911,6 +911,27 @@ export default {
         }
     }
 
+    &.colored {
+        input {
+            border-color: var(--error-color);
+
+            &::after {
+                border-color: inherit;
+            }
+        }
+
+        &.on {
+            input {
+                border-color: var(--success-color);
+
+                &::after {
+                    border-color: inherit;
+                    background: var(--success-color);
+                }
+            }
+        }
+    }
+
     /* begin toggle-switch */
     /* no cmd-prefix-styling (class based on frontend-framework) */
     &.toggle-switch {

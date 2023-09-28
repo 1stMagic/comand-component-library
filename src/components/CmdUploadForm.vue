@@ -580,7 +580,7 @@ export default {
         /**
          * properties for CmdHeadline-component shown if no file for upload exist
          */
-        CmdHeadlineNoFileToUpload: {
+        cmdHeadlineNoFileToUpload: {
             type: Object,
             required: false
         },

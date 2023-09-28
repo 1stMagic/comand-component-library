@@ -21,7 +21,7 @@
             <li v-for="network in validNetworks">
                 <a
                    :key="network.path"
-                   :class="['button', {disabled: userMustAcceptDataPrivacy && !dataPrivacyAccepted}, {'text-align-right': textAlign === 'right'}]"
+                   :class="['button', {disabled: userMustAcceptDataPrivacy && !dataPrivacyAccepted}, {'text-align-left': textAlign === 'left'}]"
                    :id="network.id"
                    :href="getUrl(network)"
                    @click="preventOnDisabled"
@@ -120,9 +120,12 @@ export default {
             type: String,
             default: "You must accept data privacy conditions!"
         },
+        /**
+         * text-alignment for buttons
+         */
         textAlign: {
             type: String,
-            default: "left"
+            default: "right"
         },
         /**
          * properties for cmdFormElement
@@ -229,7 +232,7 @@ export default {
             margin: 0;
           }
 
-          &.text-align-right {
+          &.text-align-left {
             flex-direction: row-reverse;
           }
         }

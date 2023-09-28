@@ -53,6 +53,15 @@ export default {
             required: false
         },
         /**
+         * delay (in milliseconds) until tooltip will be shown
+         *
+         * toggleVisibilityByClick-property must be false
+         */
+        delayToShowTooltip: {
+            type: Number,
+            default: 0
+        },
+        /**
          * id of related input-element
          */
         relatedId: {
@@ -114,6 +123,16 @@ export default {
             this.tooltipVisibility = !this.tooltipVisibility
         },
         showTooltip(event) {
+            // if delay is set
+            if (this.delayToShowTooltip > 0) {
+                setTimeout(() => {
+                   this.toggleVisibility(event)
+                }, this.delayToShowTooltip)
+            } else {
+                this.toggleVisibility(event)
+            }
+        },
+        toggleVisibility(event) {
             if(!this.toggleVisibilityByClick) {
                 this.tooltipVisibility = true
             }

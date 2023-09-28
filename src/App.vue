@@ -37,6 +37,11 @@
                     <option value="influencer">Influencer</option>
                 </select>
             </label>
+
+            <dl>
+                <dt>Frontend-Framework Version:</dt><dd>{{packageJson.dependencies['comand-frontend-framework']}}</dd>
+                <dt>Component Library Version:</dt><dd>{{packageJson.version}}</dd>
+            </dl>
             <!-- begin width-limitation-wrapper (with table of contents) --------------------------------------------------------------------------------------------------------------------------------------------------->
             <CmdWidthLimitationWrapper :cmdHeadline="{headlineText: 'Table of contents', headlineLevel: 2}">
                 <div class="flex-container">
@@ -445,18 +450,32 @@
 
                         <!-- begin toggle-switch-radio with switch-label (colored) -->
                         <h2>Toggle-Switches</h2>
-                        <CmdFormElement element="input"
-                                        type="checkbox"
-                                        id="toggle-switch-checkbox"
-                                        v-model="switchButtonCheckboxToggleSwitch"
-                                        labelText="Labeltext for Toggle-Switch without Switch-Label"
-                                        :toggleSwitch="true"
-                                        :status="validationStatus"
-                                        :disabled="disabledStatus"
+                        <h3>Switches without switch-labels</h3>
+                        <CmdFormElement
+                                element="input"
+                                type="checkbox"
+                                id="toggle-switch-checkbox"
+                                v-model="switchButtonCheckboxToggleSwitch"
+                                labelText="Labeltext for Toggle-Switch without Switch-Label"
+                                :toggleSwitch="true"
+                                :status="validationStatus"
+                                :disabled="disabledStatus"
                         />
+                        <CmdFormElement
+                                element="input"
+                                type="checkbox"
+                                id="toggle-switch-checkbox-colored"
+                                v-model="switchButtonCheckboxToggleSwitchColored"
+                                labelText="Labeltext for colored Toggle-Switch without Switch-Label"
+                                :toggleSwitch="true"
+                                :colored="true"
+                                :status="validationStatus"
+                                :disabled="disabledStatus"
+                        />
+                        <h3>Switches with switch-labels</h3>
                         <CmdFormElement element="input"
                                         type="checkbox"
-                                        id="toggle-switch-checkbox"
+                                        id="toggle-switch-checkbox-switch-label"
                                         v-model="switchButtonCheckbox"
                                         labelText="Labeltext for Toggle-Switch with Switch-Label"
                                         inputValue="checkbox1"
@@ -468,7 +487,7 @@
                         />
                         <CmdFormElement element="input"
                                         type="checkbox"
-                                        id="toggle-switch-checkbox-colored"
+                                        id="toggle-switch-checkbox-switch-label-colored"
                                         v-model="switchButtonCheckbox"
                                         inputValue="checkbox2"
                                         labelText="Labeltext for Toggle-Switch (Checkbox, colored)"
@@ -1229,16 +1248,16 @@
                         :userMustAcceptDataPrivacy="true"
                         :useGap="false"
                 />
-                <h3>Without user confirmation (buttons with gap, text aligned left)</h3>
-                <CmdSocialNetworks
-                        :networks="socialNetworksData"
-                        :userMustAcceptDataPrivacy="false"
-                />
                 <h3>Without user confirmation (buttons with gap, text aligned right)</h3>
                 <CmdSocialNetworks
                         :networks="socialNetworksData"
                         :userMustAcceptDataPrivacy="false"
-                        textAlign="right"
+                />
+                <h3>Without user confirmation (buttons with gap, text aligned left)</h3>
+                <CmdSocialNetworks
+                        :networks="socialNetworksData"
+                        :userMustAcceptDataPrivacy="false"
+                        textAlign="left"
                 />
             </CmdWidthLimitationWrapper>
             <!-- end social-networks ------------------------------------------------------------------------------------------------------------------------------------------------------->
@@ -1438,14 +1457,18 @@
             <CmdWidthLimitationWrapper>
                 <h2 class="headline-demopage">Tooltip</h2>
                 <p>
-                    <a href="#" @click.prevent id="hoverme">Hover me!</a><br/>
-                    <a href="#" @click.prevent id="clickme" title="Native tooltip">Click me!</a>
+                    <a href="#" @click.prevent id="show-on-hover">Show tooltip on hover!</a><br/>
+                    <a href="#" @click.prevent id="show-with-delay">Show tooltip on hover with delay!</a><br/>
+                    <a href="#" @click.prevent id="show-on-click" title="Native tooltip">Show tooltip on click!</a>
                 </p>
-                <CmdTooltip related-id="hoverme">
-                    Tooltip for hover
+                <CmdTooltip related-id="show-on-hover">
+                    Tooltip on hover
                 </CmdTooltip>
-                <CmdTooltip related-id="clickme" :toggle-visibility-by-click="true">
-                    Tooltip for click
+                <CmdTooltip :delay-to-show-tooltip="2000" related-id="show-with-delay">
+                    Tooltip on hover with delay
+                </CmdTooltip>
+                <CmdTooltip related-id="show-on-click" :toggle-visibility-by-click="true">
+                    Tooltip on click
                 </CmdTooltip>
             </CmdWidthLimitationWrapper>
             <!-- end tooltip ------------------------------------------------------------------------------------------------------------------------------------------------------->
@@ -1576,6 +1599,8 @@ import tableDataLarge from '@/assets/data/table-large.json'
 import thumbnailScrollerImagesData from '@/assets/data/thumbnail-scroller-images.json'
 import thumbnailScrollerTextData from '@/assets/data/thumbnail-scroller-text.json'
 
+import packageJson from '../package.json'
+
 import {openFancyBox} from "@/components/CmdFancyBox.vue"
 
 // import external functions
@@ -1657,6 +1682,7 @@ export default {
             filters: ["2"],
             switchButtonRadio: "radio1",
             switchButtonCheckboxToggleSwitch: false,
+            switchButtonCheckboxToggleSwitchColored: false,
             switchButtonCheckbox: ["checkbox1"],
             switchButtonCheckboxColored: false,
             inputUsername: "",
@@ -1720,7 +1746,8 @@ export default {
             tableDataLarge,
             tabsData,
             thumbnailScrollerImagesData,
-            thumbnailScrollerTextData
+            thumbnailScrollerTextData,
+            packageJson
         }
     },
     computed: {
