@@ -1,0 +1,227 @@
+/* editmode-iconfont-iconfont.css - last update: 2024/01/04 - IT IS NOT RECOMMENDED TO EDIT THIS FILE (TO AVOID TROUBLESHOOTING AFTER UPDATING) - DO CHANGES IN template.css OR YOUR OWN iconfont-css-file */
+
+@font-face {
+    font-family: 'icomoon';
+    src:  url('../fonts/iconfonts/editmode-iconfont/icomoon-editmode.woff?ai9tjp') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+    unicode-range: U+c???;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'icomoon' !important;
+    speak: never;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-add-component:before {
+    content: "\c900";
+}
+.icon-add-image:before {
+    content: "\c901";
+}
+.icon-add-images:before {
+    content: "\c902";
+}
+.icon-add-user:before {
+    content: "\c903";
+}
+.icon-add-user-circle:before {
+    content: "\c904";
+}
+.icon-add-user-group:before {
+    content: "\c905";
+}
+.icon-cmd-cl:before {
+    content: "\c906";
+}
+.icon-cmd-cms:before {
+    content: "\c907";
+}
+.icon-cmd-ff:before {
+    content: "\c908";
+}
+.icon-cmd-op:before {
+    content: "\c909";
+}
+.icon-component:before {
+    content: "\c90a";
+}
+.icon-contentpage:before {
+    content: "\c90b";
+}
+.icon-create:before {
+    content: "\c90c";
+}
+.icon-create-box:before {
+    content: "\c90d";
+}
+.icon-create-content:before {
+    content: "\c90e";
+}
+.icon-create-content-sub-level:before {
+    content: "\c90f";
+}
+.icon-create-navigation-entry:before {
+    content: "\c910";
+}
+.icon-create-newspage:before {
+    content: "\c911";
+}
+.icon-create-page:before {
+    content: "\c912";
+}
+.icon-create-translation:before {
+    content: "\c913";
+}
+.icon-delete-component:before {
+    content: "\c914";
+}
+.icon-delete-image:before {
+    content: "\c915";
+}
+.icon-delete-page:before {
+    content: "\c916";
+}
+.icon-dependencies:before {
+    content: "\c917";
+}
+.icon-edit-box:before {
+    content: "\c918";
+}
+.icon-edit-component:before {
+    content: "\c919";
+}
+.icon-edit-content:before {
+    content: "\c91a";
+}
+.icon-edit-images:before {
+    content: "\c91b";
+}
+.icon-edit-language:before {
+    content: "\c91c";
+}
+.icon-edit-modulepage:before {
+    content: "\c91d";
+}
+.icon-edit-modules:before {
+    content: "\c91e";
+}
+.icon-edit-navigation-entry:before {
+    content: "\c91f";
+}
+.icon-edit-newspage:before {
+    content: "\c920";
+}
+.icon-edit-page:before {
+    content: "\c921";
+}
+.icon-edit-slideshowimages:before {
+    content: "\c922";
+}
+.icon-edit-template:before {
+    content: "\c923";
+}
+.icon-edit-translations:before {
+    content: "\c924";
+}
+.icon-edit-user:before {
+    content: "\c925";
+}
+.icon-edit-user-groups:before {
+    content: "\c926";
+}
+.icon-edit-users:before {
+    content: "\c927";
+}
+.icon-folder-add:before {
+    content: "\c928";
+}
+.icon-folder-delete:before {
+    content: "\c929";
+}
+.icon-folder-rename:before {
+    content: "\c92a";
+}
+.icon-hexagon-thin:before {
+    content: "\c92b";
+}
+.icon-link-content:before {
+    content: "\c92c";
+}
+.icon-link-file:before {
+    content: "\c92d";
+}
+.icon-link-website:before {
+    content: "\c92e";
+}
+.icon-manage-files:before {
+    content: "\c92f";
+}
+.icon-manage-languages:before {
+    content: "\c930";
+}
+.icon-manage-modules:before {
+    content: "\c931";
+}
+.icon-manage-slideshow-images:before {
+    content: "\c932";
+}
+.icon-manage-system:before {
+    content: "\c933";
+}
+.icon-mediacenter:before {
+    content: "\c934";
+}
+.icon-module:before {
+    content: "\c935";
+}
+.icon-modulepage:before {
+    content: "\c936";
+}
+.icon-navigation-entry:before {
+    content: "\c937";
+}
+.icon-newspage:before {
+    content: "\c938";
+}
+.icon-replace-image:before {
+    content: "\c939";
+}
+.icon-settings-component:before {
+    content: "\c93a";
+}
+.icon-settings-page:before {
+    content: "\c93b";
+}
+.icon-settings-template:before {
+    content: "\c93c";
+}
+.icon-show-image:before {
+    content: "\c93d";
+}
+.icon-table-of-contents:before {
+    content: "\c93e";
+}
+.icon-template:before {
+    content: "\c93f";
+}
+.icon-text:before {
+    content: "\c940";
+}
+.icon-update-component:before {
+    content: "\c941";
+}
+.icon-update-page:before {
+    content: "\c942";
+}

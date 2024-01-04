@@ -184,7 +184,10 @@
                   @focus="tooltip = true"
                   @blur="onBlur">
         </textarea>
-        <span v-if="element === 'textarea' && showCharactersTextarea">{{ charactersTextarea }}</span>
+        <span v-if="element === 'textarea' && showCharactersTextarea" class="characters-left-wrapper">
+            <span v-if="textCharactersLeft">{{ textCharactersLeft }}</span>
+            <span :class="['characters-left', {error: charactersLeft === 0}]">{{ charactersLeft }}</span>
+        </span>
         <!-- end textarea -->
 
         <!-- begin searchfield -->
@@ -457,9 +460,9 @@ export default {
          * type-property must be set to textarea
          * showCharactersTextarea-property must be activated
          */
-        textCharacters: {
+        textCharactersLeft: {
             type: String,
-            default: "Characters"
+            default: "Characters left:"
         },
         /**
          * toggle visibility of search-button (next to search-field)
@@ -471,7 +474,7 @@ export default {
         /**
          * icon to delete search term
          *
-         * element-property must me set to 'input'
+         * element-property must be set to 'input'
          * type-property must be set to 'search'
          *
          */
@@ -488,7 +491,7 @@ export default {
         /**
          * icon to search term
          *
-         * element-property must me set to 'input'
+         * element-property must be set to 'input'
          * type-property must be set to 'search'
          *
          */
@@ -505,7 +508,7 @@ export default {
         /**
          * icon for error-validated items in list-of-requirements
          *
-         * element-property must me set to 'input'
+         * element-property must be set to 'input'
          * showRequirements-subproperty (of CmdListOfRequirements)  must be set to 'true'
          *
          */
@@ -522,7 +525,7 @@ export default {
         /**
          * icon for warning-validated items in list-of-requirements
          *
-         * element-property must me set to 'input'
+         * element-property must be set to 'input'
          * showRequirements-subproperty (of CmdListOfRequirements)  must be set to 'true'
          *
          */
@@ -539,7 +542,7 @@ export default {
         /**
          * icon for success-validated items in list-of-requirements
          *
-         * element-property must me set to 'input'
+         * element-property must be set to 'input'
          * showRequirements-subproperty (of CmdListOfRequirements)  must be set to 'true'
          *
          */
@@ -556,8 +559,8 @@ export default {
         /**
          * icon for info-validated items in list-of-requirements
          *
-         * element-property must me set to 'input'
-         * showRequirements-subproperty (of CmdListOfRequirements) must be set to 'true'
+         * element-property must be set to 'input'
+         * showRequirements-sub-property (of CmdListOfRequirements) must be set to 'true'
          *
          */
         iconHasStateInfo: {
@@ -600,7 +603,7 @@ export default {
         /**
          * icon to toggle password-visibility
          *
-         * element-property must me set to 'input'
+         * element-property must be set to 'input'
          * type-property must be set to 'password'
          *
          */
@@ -617,7 +620,7 @@ export default {
         /**
          * icon to toggle password-visibility
          *
-         * element-property must me set to 'input'
+         * element-property must be set to 'input'
          * type-property must be set to 'password'
          *
          */
@@ -626,7 +629,7 @@ export default {
             default() {
                 return {
                     show: true,
-                    iconClass: "icon-not-visible",
+                    iconClass: "icon-not-visible"
                 }
             }
         }
@@ -677,8 +680,8 @@ export default {
             }
             return false
         },
-        charactersTextarea() {
-            return this.textCharacters + " " + this.modelValue.length + "/" + this.getMaxLength()
+        charactersLeft() {
+            return this.getMaxLength() - this.modelValue.length
         },
         validationTooltip() {
             if (!this.useCustomTooltip) {
@@ -928,6 +931,24 @@ export default {
                     border-color: inherit;
                     background: var(--success-color);
                 }
+            }
+        }
+    }
+
+    .characters-left-wrapper {
+        margin-top: calc(var(--default-margin) / 2);
+        display: block;
+
+        span:not(:only-child):first-child {
+            margin-right: calc(var(--default-margin) / 2);
+            color: var(--text-color);
+        }
+
+        .characters-left {
+            color: var(--text-color);
+
+            &.error {
+                color: var(--error-color);
             }
         }
     }

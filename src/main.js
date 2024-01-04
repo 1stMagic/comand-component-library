@@ -1,4 +1,4 @@
-/* import generated css from components */
+/* begin imports css from comand-frontend-framework ---------------------------------------------------------------------------------------- */
 import "comand-frontend-framework/styles"
 /* end imports css from comand-frontend-framework ---------------------------------------------------------------------------------------- */
 
@@ -19,6 +19,9 @@ import directiveFocus from "./directives/focus"
 /* begin imports css from comand-component-library ---------------------------------------------------------------------------------------- */
 /* import additional iconfont containing company-logos */
 import '@/assets/styles/logos-iconfont.css'
+
+/* import additional iconfont containing editmode-iconfont-icons */
+import '@/assets/styles/editmode-iconfont.css'
 
 /* import css for global-styles */
 import '@/assets/styles/global-styles.scss'

@@ -19,7 +19,14 @@
             </div>
         </div>
         <div :class="[useFlexbox ? 'flex-container' : 'grid-container-create-columns', {'row-view': rowView, 'stretch-boxes-vertically': stretchBoxesVertically}]">
-            <slot :collapsingBoxesOpen="collapsingBoxesOpen" :boxToggled="boxToggled" :currentOpenBox="currentOpenBox" :rowView="rowView"></slot>
+            <slot
+                :collapsingBoxesOpen="collapsingBoxesOpen"
+                :boxToggled="boxToggled"
+                :currentOpenBox="currentOpenBox"
+                :rowView="rowView"
+                @toggleCollapse="boxIsToggled"
+            >
+            </slot>
         </div>
     </div>
 </template>
@@ -107,6 +114,13 @@ export default {
             default: 4
         },
         /**
+         * set if more than one collapsible box can be expanded at a time
+         */
+        allowMultipleExpandedBoxes: {
+            type: Boolean,
+            default: true
+        },
+        /**
          * define icon for grid-view
          */
         iconGridView: {
@@ -158,12 +172,14 @@ export default {
         boxesPerRowSmall() {
             return this.boxesPerRowResponsive(2, 1)
         }
-    }
-    ,
+    },
     methods: {
+        boxIsToggled(event) {
+          alert(event)
+        },
         boxesPerRowResponsive(index, defaultBoxesPerRow) {
             // show only one box per row in row-view
-            if (this.allowUserToToggleView && this.oneBoxPerRow) {
+            if (this.oneBoxPerRow) {
                 return 1
             }
 

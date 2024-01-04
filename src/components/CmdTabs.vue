@@ -108,7 +108,6 @@ export default {
 .cmd-tabs {
     > ul {
         margin-bottom: 0;
-        display: -webkit-flex; /* Safari 6-8 */
         display: flex;
 
         > li {
@@ -142,6 +141,10 @@ export default {
             }
 
             &.active {
+                span, [class*="icon-"] {
+                    color: var(--pure-white);
+                }
+
                 &:hover, &:active {
                     a, a:focus {
                         color: var(--hyperlink-color);
@@ -151,7 +154,6 @@ export default {
                             color: var(--hyperlink-color-highlighted);
                         }
                     }
-
                 }
                 
                 a:focus {
@@ -161,7 +163,6 @@ export default {
                         color: inherit !important;
                     }
                 }
-
             }
         }
 

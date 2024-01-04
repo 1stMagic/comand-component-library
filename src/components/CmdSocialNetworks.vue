@@ -1,7 +1,7 @@
 <template>
     <div :class="['cmd-social-networks', {'stretch': stretchButtons, 'align-right': align === 'right'}]">
         <!-- begin CmdHeadline -->
-        <CmdHeadline v-if="cmdHeadline" v-bind="cmdHeadline" />
+        <CmdHeadline v-if="cmdHeadline" v-bind="cmdHeadline"/>
         <!-- end CmdHeadline -->
 
         <!-- begin CmdFormElement -->
@@ -20,21 +20,21 @@
         <ul :class="['button-wrapper no-flex', {'no-gap': !useGap}]">
             <li v-for="network in validNetworks">
                 <a
-                   :key="network.path"
-                   :class="['button', {disabled: userMustAcceptDataPrivacy && !dataPrivacyAccepted}, {'text-align-left': textAlign === 'left'}]"
-                   :id="network.id"
-                   :href="getUrl(network)"
-                   @click="preventOnDisabled"
-                   target="_blank"
-                   :title="tooltip(network.tooltip)">
-                        <!-- begin CmdIcon -->
-                        <CmdIcon
-                            v-if="network.iconClass"
-                             :iconClass="network.iconClass"
-                             :type="network.iconType"
-                        />
-                        <!-- end CmdIcon -->
-                        <span v-if="network.linkText">{{ network.linkText }}</span>
+                    :key="network.path"
+                    :class="['button', {disabled: userMustAcceptDataPrivacy && !dataPrivacyAccepted}, {'text-align-left': textAlign === 'left'}]"
+                    :id="network.id"
+                    :href="getUrl(network)"
+                    @click="preventOnDisabled"
+                    target="_blank"
+                    :title="tooltip(network.tooltip)">
+                    <!-- begin CmdIcon -->
+                    <CmdIcon
+                        v-if="network.iconClass"
+                        :iconClass="network.iconClass"
+                        :type="network.iconType"
+                    />
+                    <!-- end CmdIcon -->
+                    <span v-if="network.linkText">{{ network.linkText }}</span>
                 </a>
             </li>
         </ul>
@@ -157,7 +157,7 @@ export default {
     },
     methods: {
         getUrl(network) {
-            if(this.userMustAcceptDataPrivacy && this.dataPrivacyAccepted) {
+            if (this.userMustAcceptDataPrivacy && this.dataPrivacyAccepted) {
                 // if path is not given completely by json-data
                 if (this.appendPage) {
                     // if page to share is given by property
@@ -177,19 +177,19 @@ export default {
         preventOnDisabled(event) {
             let clickedElement = event.target
 
-            if(clickedElement.tagName !== "A") {
+            if (clickedElement.tagName !== "A") {
                 // get surrounding <a> if inner <span> is clicked
                 clickedElement = clickedElement.closest("a")
             }
 
             // href must be set due to html-validity, so click must be prevented if href contains "#" only (equals button is styled as disabled)
-            if(clickedElement.getAttribute("href") === "#") {
+            if (clickedElement.getAttribute("href") === "#") {
                 event.preventDefault()
             }
         },
         tooltip(tooltip) {
-            if(this.userMustAcceptDataPrivacy) {
-                if(this.dataPrivacyAccepted) {
+            if (this.userMustAcceptDataPrivacy) {
+                if (this.dataPrivacyAccepted) {
                     return tooltip
                 }
                 return this.tooltipAcceptDataPrivacy
@@ -202,7 +202,7 @@ export default {
 
 <style lang="scss">
 /* begin cmd-social-networks -------------------------------------------------------------------------------------------- */
-@import '../assets/styles/variables';
+@import "../assets/styles/variables";
 
 .cmd-social-networks {
     display: flex;
@@ -220,21 +220,21 @@ export default {
         gap: calc(var(--default-gap) / 2);
 
         .button {
-          padding: calc(var(--default-padding) / 2) var(--default-padding);
-          gap: calc(var(--default-gap) / 2);
-          outline: 0;
+            padding: calc(var(--default-padding) / 2) var(--default-padding);
+            gap: calc(var(--default-gap) / 2);
+            outline: 0;
 
-          span {
-            margin: 0;
-          }
+            span {
+                margin: 0;
+            }
 
-          &:first-of-type {
-            margin: 0;
-          }
+            &:first-of-type {
+                margin: 0;
+            }
 
-          &.text-align-left {
-            flex-direction: row-reverse;
-          }
+            &.text-align-left {
+                flex-direction: row-reverse;
+            }
         }
 
         &.no-gap {
@@ -245,18 +245,18 @@ export default {
 
                 &:first-of-type {
                     .button {
-                      border-top-left-radius: var(--border-radius);
-                      border-bottom-left-radius: var(--border-radius);
+                        border-top-left-radius: var(--border-radius);
+                        border-bottom-left-radius: var(--border-radius);
                     }
                 }
 
-              &:last-of-type {
-                .button {
-                  border-top-right-radius: var(--border-radius);
-                  border-bottom-right-radius: var(--border-radius);
+                &:last-of-type {
+                    .button {
+                        border-top-right-radius: var(--border-radius);
+                        border-bottom-right-radius: var(--border-radius);
+                    }
                 }
-              }
-             }
+            }
         }
     }
 
@@ -329,5 +329,6 @@ export default {
         }
     }
 }
+
 /* end cmd-social-networks ------------------------------------------------------------------------------------------ */
 </style>

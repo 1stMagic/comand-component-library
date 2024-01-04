@@ -1,7 +1,7 @@
 <template>
     <div :class="['cmd-thumbnail-scroller', {'gallery-scroller' : !allowOpenFancyBox, 'full-width' : fullWidth, 'large-icons': largeIcons}]"
          ref="thumbnail-scroller">
-        <div>
+        <div class="inner-thumbnail-wrapper">
             <!-- begin CmdSlideButton -->
             <CmdSlideButton
                     v-if="showSlidebuttons"
@@ -266,7 +266,7 @@ export default {
       }
   }
 
-  > div {
+  > .inner-thumbnail-wrapper {
       border-radius: var(--border-radius);
       padding: var(--default-padding);
       margin: 0 auto;
@@ -307,7 +307,7 @@ export default {
       }
   }
 
-  .vertical {
+  &.vertical {
     display: inline-flex;
     left: 50%;
     height: 75rem; /* remove later !!! */

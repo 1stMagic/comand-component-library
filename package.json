@@ -1,6 +1,6 @@
 {
   "name": "comand-component-library",
-  "version": "3.3.79",
+  "version": "3.3.84",
   "private": false,
   "type": "module",
   "scripts": {
@@ -19,7 +19,7 @@
   ],
   "dependencies": {
     "clickout-event": "^1.1.2",
-    "comand-frontend-framework": "^3.4.17",
+    "comand-frontend-framework": "^3.4.30",
     "core-js": "^3.20.1",
     "prismjs": "^1.27.0",
     "vue": "^3.2.31",
@@ -34,7 +34,7 @@
     "gulp": "^4.0.2",
     "sass": "^1.54.9",
     "unplugin-vue-components": "^0.24.0",
-    "vite": "^3.2.6",
+    "vite": "^3.2.7",
     "vue-jest": "^5.0.0-0"
   }
 }

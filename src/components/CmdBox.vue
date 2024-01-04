@@ -40,7 +40,7 @@
 
         <!-- begin default header with slot -->
         <template v-else>
-            <div v-if="useSlots?.includes('header') ||cmdHeadline?.headlineText" class="box-header">
+            <div v-if="useSlots?.includes('header') || cmdHeadline?.headlineText" class="box-header">
                 <!-- begin slot 'header' -->
                 <slot v-if="useSlots?.includes('header')" name="header"></slot>
                 <!-- end slot 'header' -->
@@ -56,28 +56,30 @@
         <!-- end default header with slot -->
 
         <!-- begin box-body -->
-        <div v-show="open" :class="['box-body', {'default-padding': useDefaultPadding}]" aria-expanded="true" role="article">
-            <!-- begin slot 'body' -->
-            <slot v-if="useSlots?.includes('body')" name="body">
-                <transition-group :name="toggleTransition">
-                    <p :class="{
-                       'cutoff-text': cutoffTextLines > 0,
-                       'fade-last-line': fadeLastLine && !showCutOffText,
-                       'show-text' : showCutOffText
-                   }">
-                        {{ textBody }}
-                    </p>
-                    <a v-if="cutoffTextLines > 0" href="#" @click.prevent="toggleCutOffText">
-                        {{ showCutOffText ? getMessage("cmdbox.contentbox.collapse_text") : getMessage("cmdbox.contentbox.expand_text") }}
-                    </a>
-                </transition-group>
-            </slot>
-            <!-- end slot 'body' -->
+        <div v-show="open" class="box-body" aria-expanded="true" role="article">
+            <div v-if="useSlots?.includes('body')" :class="{'default-padding': useDefaultPadding}">
+                <!-- begin slot 'body' -->
+                <slot name="body">
+                    <transition-group :name="toggleTransition">
+                        <p :class="{
+                           'cutoff-text': cutoffTextLines > 0,
+                           'fade-last-line': fadeLastLine && !showCutOffText,
+                           'show-text' : showCutOffText
+                       }">
+                            {{ textBody }}
+                        </p>
+                        <a v-if="cutoffTextLines > 0" href="#" @click.prevent="toggleCutOffText">
+                            {{ showCutOffText ? getMessage("cmdbox.contentbox.collapse_text") : getMessage("cmdbox.contentbox.expand_text") }}
+                        </a>
+                    </transition-group>
+                </slot>
+                <!-- end slot 'body' -->
+            </div>
 
             <template v-else>
                 <img v-if="image" :src="image.src" :alt="image.altText"/>
 
-                <div class="text-wrapper">
+                <div :class="{'default-padding': useDefaultPadding}">
                     <!-- begin CmdHeadline -->
                     <CmdHeadline
                         v-if="cmdHeadline?.headlineText && repeatHeadlineInBoxBody"
@@ -454,10 +456,6 @@ export default {
         }
     }
 
-    .box-body {
-        padding: var(--default-padding);
-    }
-
     // boyType === 'content'
     &.content {
         > * {
@@ -502,11 +500,6 @@ export default {
 
         .box-body {
             flex-grow: 1;
-            padding: 0;
-
-            .text-wrapper {
-                padding: var(--default-padding);
-            }
 
             p.cutoff-text {
                 padding: var(--default-padding);

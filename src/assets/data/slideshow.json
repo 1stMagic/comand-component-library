@@ -2,9 +2,9 @@
   {
     "image": {
       "src": {
-        "large": "/media/images/demo-images/large/landscape-01.jpg",
-        "medium": "/media/images/demo-images/medium/landscape-01.jpg",
-        "small": "/media/images/demo-images/small/landscape-01.jpg"
+        "large": "/media/images/slideshow-images/large/slide1.jpg",
+        "medium": "/media/images/slideshow-images/medium/slide1.jpg",
+        "small": "/media/images/slideshow-images/small/slide1.jpg"
       },
       "alt": "Alternative Text 1",
       "tooltip": "Tooltip 1"
@@ -23,9 +23,9 @@
   {
     "image": {
       "src": {
-        "large": "/media/images/demo-images/large/landscape-02.jpg",
-        "medium": "/media/images/demo-images/medium/landscape-02.jpg",
-        "small": "/media/images/demo-images/small/landscape-02.jpg"
+        "large": "/media/images/slideshow-images/large/slide2.jpg",
+        "medium": "/media/images/slideshow-images/medium/slide2.jpg",
+        "small": "/media/images/slideshow-images/small/slide2.jpg"
       },
       "alt": "Alternative Text 2",
       "tooltip": "Tooltip 2"
@@ -44,9 +44,9 @@
   {
     "image": {
       "src": {
-        "large": "/media/images/demo-images/large/landscape-03.jpg",
-        "medium": "/media/images/demo-images/medium/landscape-03.jpg",
-        "small": "/media/images/demo-images/small/landscape-03.jpg"
+        "large": "/media/images/slideshow-images/large/slide3.jpg",
+        "medium": "/media/images/slideshow-images/medium/slide3.jpg",
+        "small": "/media/images/slideshow-images/small/slide3.jpg"
       },
       "alt": "Alternative Text 3",
       "tooltip": "Tooltip 3"
@@ -65,9 +65,9 @@
   {
     "image": {
       "src": {
-        "large": "/media/images/demo-images/large/landscape-04.jpg",
-        "medium": "/media/images/demo-images/medium/landscape-04.jpg",
-        "small": "/media/images/demo-images/small/landscape-04.jpg"
+        "large": "/media/images/slideshow-images/large/slide4.jpg",
+        "medium": "/media/images/slideshow-images/medium/slide4.jpg",
+        "small": "/media/images/slideshow-images/small/slide4.jpg"
       },
       "alt": "Alternative Text 4",
       "tooltip": "Tooltip 4"

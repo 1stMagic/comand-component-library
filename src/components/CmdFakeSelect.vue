@@ -183,7 +183,7 @@ export default {
         return {
             showOptions: false,
             validationStatus: "",
-            limitWidthStyle: {},
+            limitWidthStyle: null,
             allOptionsSelected: false
         }
     },
@@ -553,7 +553,7 @@ export default {
                         border-color: var(--primary-color);
 
                         span, [class*="icon"] {
-                            color: var(--color-scheme-text-color-inverted);
+                            color: var(--hyperlink-color);
                         }
                     }
                 }

@@ -1,12 +1,13 @@
 <template>
-    <div :class="['cmd-table-wrapper', {'collapsed': !showTableData, 'full-width': fullWidth, 'has-caption': hasCaption}]">
+    <div
+        :class="['cmd-table-wrapper', {'collapsed': !showTableData, 'full-width': fullWidth, 'has-caption': hasCaption}]">
         <div v-if="collapsible || userCanToggleWidth" class="button-wrapper">
             <a v-if="userCanToggleWidth" class="button"
                href="#" @click.prevent="fullWidth = !fullWidth"
                :title="iconToggleWidth.tooltip"
             >
                 <!-- begin CmdIcon -->
-                <CmdIcon :iconClass="iconToggleWidth.iconClass" :type="iconToggleWidth.iconType" />
+                <CmdIcon :iconClass="iconToggleWidth.iconClass" :type="iconToggleWidth.iconType"/>
                 <!-- end CmdIcon -->
             </a>
             <a v-if="collapsible" class="button"
@@ -14,12 +15,22 @@
                :title="showTableData ? iconCollapse.tooltip : iconExpand.tooltip"
             >
                 <!-- begin CmdIcon -->
-                <CmdIcon :iconClass="showTableData ? iconCollapse.iconClass : iconExpand.iconClass" :type="showTableData ? iconCollapse.iconType : iconExpand.iconType" />
+                <CmdIcon :iconClass="showTableData ? iconCollapse.iconClass : iconExpand.iconClass"
+                         :type="showTableData ? iconCollapse.iconType : iconExpand.iconType"/>
                 <!-- end CmdIcon -->
             </a>
         </div>
         <div class="inner-wrapper">
-            <table :class="{'full-width': fullWidth}">
+            <!-- begin CmdSlideButton -->
+            <CmdSlideButton
+                v-if="showSlideButtons"
+                @click.prevent="scrollLeft"
+                slideButtonType="prev"
+            />
+            <!-- end CmdSlideButton -->
+
+            <!-- begin table -->
+            <table ref="table" :class="{'full-width': fullWidth, 'has-overflow': hasOverflow}">
                 <caption v-if="tableData.caption?.text || caption?.text" :class="{ hidden: hideCaption }">
                     {{ caption?.text || tableData.caption?.text }}
                 </caption>
@@ -32,8 +43,10 @@
                 </thead>
                 <transition name="fade">
                     <tbody v-show="showTableData" aria-expanded="true">
-                    <tr :class="{'active' : tableData.rowIndexHighlighted === indexRows}" v-for="(tablerows, indexRows) in tableData.tbody" :key="indexRows">
-                        <td :class="{'active' : tableData.columnIndexHighlighted === indexData}" v-for="(tabledata, indexData) in tablerows" :key="indexData">
+                    <tr :class="{'active' : tableData.rowIndexHighlighted === indexRows}"
+                        v-for="(tablerows, indexRows) in tableData.tbody" :key="indexRows">
+                        <td :class="{'active' : tableData.columnIndexHighlighted === indexData}"
+                            v-for="(tabledata, indexData) in tablerows" :key="indexData">
                             {{ tabledata }}
                         </td>
                     </tr>
@@ -42,18 +55,28 @@
                 <transition name="fade">
                     <tfoot v-if="tableData.tfoot && tableData.tfoot.length && showTableData" aria-expanded="true">
                     <tr>
-                        <td :class="{'active' : tableData.columnIndexHighlighted === indexFoot}" v-for="(tablefoot, indexFoot) in tableData.tfoot" :key="indexFoot">
+                        <td :class="{'active' : tableData.columnIndexHighlighted === indexFoot}"
+                            v-for="(tablefoot, indexFoot) in tableData.tfoot" :key="indexFoot">
                             {{ tablefoot }}
                         </td>
                     </tr>
                     </tfoot>
                 </transition>
             </table>
+            <!-- end table -->
+
+            <!-- begin CmdSlideButton -->
+            <CmdSlideButton
+                v-if="showSlideButtons"
+                @click.prevent="scrollRight"
+            />
+            <!-- end CmdSlideButton -->
         </div>
     </div>
 </template>
 
 <script>
+import { ref } from 'vue'
 export default {
     name: "CmdTable",
     data() {
@@ -97,6 +120,13 @@ export default {
          * user can toggle width (full-width (=100% of parent container or as wide as table content) with button above table)
          */
         userCanToggleWidth: {
+            type: Boolean,
+            default: true
+        },
+        /**
+         * user can toggle width (full-width (=100% of parent container or as wide as table content) with button above table)
+         */
+        showSlideButtons: {
             type: Boolean,
             default: true
         },
@@ -168,6 +198,18 @@ export default {
         },
         hideCaption() {
             return this.caption?.show === false || (this.caption?.show !== true && !this.tableData.caption?.show)
+        },
+        hasOverflow() {
+            console.log("this.$refs.table", this.$refs.table)
+            // return this.$refs.table.scrollWidth > this.$refs.table.clientWidth
+        }
+    },
+    methods: {
+        scrollLeft() {
+            this.$refs.table.scrollLeft = 0
+        },
+        scrollRight() {
+            this.$refs.table.scrollRight = 0
         }
     }
 }
@@ -209,8 +251,20 @@ export default {
     }
 
     .inner-wrapper {
+        display: flex;
         overflow-x: auto;
         width: 100%;
+        padding: 0 4rem;
+        border: 1px solid red;
+
+        .cmd-slide-button {
+            left: 0;
+        }
+
+        .cmd-slide-button:last-child {
+            right: 0;
+            left: auto;
+        }
 
         table {
             table-layout: fixed;
