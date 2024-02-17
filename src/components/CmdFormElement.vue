@@ -216,7 +216,7 @@
     <!-- end searchfield -->
 
     <!-- begin button -->
-    <button v-else class="button" v-bind="buttonAttrs">
+    <button v-else-if="element === 'button'" class="button" v-bind="buttonAttrs" @click="submit">
         <!-- begin CmdIcon -->
         <CmdIcon
             v-if="nativeButton?.icon?.show && (nativeButton?.icon?.position === 'before' || !nativeButton?.icon?.position)"
@@ -825,6 +825,10 @@ export default {
             if(this.$refs.tooltip) {
                 this.$refs.tooltip.hideTooltip()
             }
+        },
+        // (submit-)button is clicked
+        submit(event) {
+            this.$emit("submit", event)
         }
     },
     watch: {

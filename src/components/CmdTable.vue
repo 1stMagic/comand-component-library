@@ -255,7 +255,6 @@ export default {
         overflow-x: auto;
         width: 100%;
         padding: 0 4rem;
-        border: 1px solid red;
 
         .cmd-slide-button {
             left: 0;

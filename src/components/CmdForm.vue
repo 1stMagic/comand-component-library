@@ -4,8 +4,37 @@
             <fieldset class="flex-container">
                 <legend :class="{hidden : !showLegend}">{{ textLegend }}</legend>
                 <!-- begin default-slot-content -->
-                <slot></slot>
+                <slot v-if="useSlot"></slot>
                 <!-- end default-slot-content -->
+
+                <!-- begin loop for formElements -->
+                <CmdFormElement
+                    v-else
+                    v-for="(item, index) in formElements"
+                    :key="index"
+                    :element="item.element || 'input'"
+                    :type="item.type || 'text'"
+                    :name="item.name"
+                    :class="item.htmlClass"
+                    :id="item.id || createHtmlId()"
+                    v-model="formValues[item.name]"
+                    :inputValue="item.inputValue"
+                    :fieldIconClass="item.innerIconClass"
+                    :selectOptions="item.selectOptions"
+                    :labelText="item.labelText"
+                    :placeholder="item.placeholder"
+                    :required="item.required"
+                    :disabled="item.disabled"
+                    :autocomplete="item.autocomplete"
+                    :minlength="item.minlength"
+                    :maxlength="item.maxlength"
+                    :nativeButton="item.nativeButton"
+                />
+                <!-- end loop for formElements -->
+                <button v-if="submitButton" class="button" type="submit">
+                    <span v-if="submitButton.iconClass" :class="submitButton.iconClass"></span>
+                    <span v-if="submitButton.text">{{ submitButton.text }}</span>
+                </button>
             </fieldset>
 
             <!-- begin button-row-slot-content -->
@@ -20,15 +49,32 @@
 </template>
 
 <script>
+import {createHtmlId} from "@"
+
 export default {
     name: "CmdForm",
     emits: ["submit"],
     data(){
         return {
-            errorOccurred: false
+            errorOccurred: false,
+            formValues: {}
         }
     },
     props: {
+        /**
+         * activate if form-elements should be given by slot
+         */
+        useSlot: {
+            type: Boolean,
+            default: true
+        },
+        /**
+         * define form-elements by given array
+         */
+        formElements: {
+          type: Array,
+          required: false
+        },
         /**
          * deactivate if browser-validation should be used
          */
@@ -73,19 +119,67 @@ export default {
         textLegend: {
             type: String,
             required: false
+        },
+        /**
+         * submitbutton to submit all formdata
+         */
+        submitButton: {
+            type: Object,
+            default() {
+                return {
+                    iconClass: "icon-check",
+                    text: "Submit"
+                }
+            }
         }
     },
     methods: {
+        createHtmlId,
+        submitFormData(event) {
+            // fill formdata with names and value
+            let formdata = {}
+            this.formElements.forEach((element) => {
+                formdata[element.name] = this.formValues[element.name]
+            })
+
+            this.$emit("submit", {originalEvent: event, formdata: formdata})
+        },
         onSubmit(event) {
             if(this.useValidation) {
-                event.preventDefault()
                 if(event.target.checkValidity()) {
                     this.errorOccurred = false
-                    this.$emit("submit", event)
+                    this.submitFormData(event)
                 } else {
+                    event.preventDefault()
                     this.errorOccurred = true
                 }
+            } else {
+                this.submitFormData(event)
             }
+        }
+    },
+    watch: {
+        formElements: {
+            handler() {
+                this.formValues = {}
+
+                this.formElements?.forEach(element => {
+                    if(element.type === "checkbox") {
+                        // create array if element is a checkbox (to contain several values)
+                        if(!this.formValues[element.name]) {
+                            this.formValues[element.name] = []
+                        }
+
+                        if(element.value != null) {
+                            this.formValues[element.name].push(element.value)
+                        }
+                    } else {
+                        this.formValues[element.name] = element.value ?? ""
+                    }
+                })
+            },
+            immediate: true,
+            deep: true
         }
     }
 }

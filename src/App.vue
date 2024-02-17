@@ -10,12 +10,20 @@
                 @toggle-sidebar="setOpenStatus"
             >
                 <template #open>
-                    <div>
+                    <CmdBoxWrapper
+                        :boxesPerRow="[1]"
+                        :allowMultipleExpandedBoxes="false"
+                        :allowUserToToggleOrientation="false"
+                        :openBoxesByDefault="openBoxes"
+                        :useGap="false"
+                    >
+                        <template v-slot="slotProps">
                         <CmdBox
                             :use-slots="['body']"
                             :collapsible="true"
-                            :cmdHeadline="{headlineText: 'Template Settings', headlineLevel: 4, headlineIcon: {iconClass: 'icon-template'}}"
-                            :openCollapsedBox="openBoxes.includes('template')"
+                            :cmdHeadline="{headlineText: 'Template Settings', headlineLevel: 4, headlineIcon: {iconClass: 'icon-settings-template'}}"
+                            :openCollapsedBox="slotProps.boxIsOpen(0)"
+                            @toggleCollapse="slotProps.boxToggled(0, $event)"
                         >
                             <template v-slot:body>
                                 <label for="select-template">
@@ -33,8 +41,9 @@
                         <CmdBox
                             :use-slots="['body']"
                             :collapsible="true"
-                            :cmdHeadline="{headlineText: 'Components', headlineLevel: 4, headlineIcon: {iconClass: 'icon-component'}}"
-                            :openCollapsedBox="openBoxes.includes('components')"
+                            :cmdHeadline="{headlineText: 'Components', headlineLevel: 4, headlineIcon: {iconClass: 'icon-settings-component'}}"
+                            :openCollapsedBox="slotProps.boxIsOpen(1)"
+                            @toggleCollapse="slotProps.boxToggled(1, $event)"
                         >
                             <template v-slot:body>
                                 <ul>
@@ -48,28 +57,33 @@
                                     <li><a href="#section-fancybox">Fancybox</a></li>
                                 </ul>
                                 <ul>
+                                    <li><a href="#section-forms">Forms</a></li>
                                     <li><a href="#section-google-maps">Google-Maps&trade;</a></li>
+                                    <li><a href="#section-headlines">Headlines</a></li>
                                     <li><a href="#section-icons">Icons</a></li>
                                     <li><a href="#section-image">Image</a></li>
                                     <li><a href="#section-image-gallery">Image Gallery</a></li>
                                     <li><a href="#section-image-zoom">Image-Zoom</a></li>
                                     <li><a href="#section-list-of-links">List Of Links</a></li>
-                                    <li><a href="#section-login-form">Login Form</a></li>
                                 </ul>
                                 <ul>
+                                    <li><a href="#section-login-form">Login Form</a></li>
                                     <li><a href="#section-main-navigation">Main-Navigation</a></li>
-                                    <li><a href="#section-multistep-form-progress-bar">Multistepform-Progressbar</a>
-                                    </li>
-                                    <li><a href="#section-pager">Pager</a></li>
-                                    <li><a href="#section-social-networks">Social Networks</a></li>
+                                    <li><a href="#section-multistep-form-progress-bar">Multistepform-Progressbar</a></li>
+                                    <li><a href="#section-opening-hours">Opening Hours</a></li>
+                                    <li><a href="#section-pagination">Pagination</a></li>
+                                    <li><a href="#section-site-footer">Site Footer</a></li>
                                     <li><a href="#section-site-header">Site Header</a></li>
                                     <li><a href="#section-site-search">Site Search</a></li>
                                     <li><a href="#section-slideshow">Slideshow</a></li>
                                 </ul>
                                 <ul>
+                                    <li><a href="#section-social-networks">Social Networks</a></li>
+                                    <li><a href="#section-switch-language">Switch Language</a></li>
                                     <li><a href="#section-system-message">System-Message</a></li>
                                     <li><a href="#section-tables">Tables</a></li>
                                     <li><a href="#section-tabs">Tabs</a></li>
+                                    <li><a href="#section-text-image-block">Text Image Block</a></li>
                                     <li><a href="#section-thumbnail-scroller">Thumbnail-Scroller</a></li>
                                     <li><a href="#section-toggle-darkmode">ToggleDarkMode</a></li>
                                     <li><a href="#section-tooltip">Tooltip</a></li>
@@ -77,7 +91,8 @@
                                 </ul>
                             </template>
                         </CmdBox>
-                    </div>
+                        </template>
+                    </CmdBoxWrapper>
                     <dl class="comand-versions">
                         <dt>Frontend-Framework Version:</dt>
                         <dd>{{ packageJson.dependencies['comand-frontend-framework'].replace("^", "") }}</dd>
@@ -87,12 +102,12 @@
                 </template>
                 <template #closed>
                     <div class="closed-sidebar">
-                        <a href="#" class="button primary" title="Open Template Settings" @click.prevent="openBox('template')">
-                            <span class="icon-home"></span>
+                        <a href="#" class="button primary" title="Open Template Settings" @click.prevent="openBox(0)">
+                            <span class="icon-settings-template"></span>
                         </a>
                         <a href="#" class="button primary" title="Open Template Settings"
-                           @click.prevent="openBox('components')">
-                            <span class="icon-cogs"></span>
+                           @click.prevent="openBox(1)">
+                            <span class="icon-settings-component"></span>
                         </a>
                     </div>
                 </template>
@@ -874,7 +889,8 @@
                                     <output>{{ inputGroupValue4 }}</output>
                                 </dd>
                             </dl>
-                        </fieldset><!-- end fieldset -->
+                        </fieldset>
+                        <!-- end fieldset -->
                         <div class="button-wrapper">
                             <small><sup>*</sup>values will not be submitted with the form!</small>
                             <CmdFormElement element="button"
@@ -912,13 +928,15 @@
                 <CmdWidthLimitationWrapper>
                     <h2 class="headline-demopage">Boxes</h2>
                     <CmdBoxWrapper :useFlexbox="true"
-                                   :cmdHeadline="{headlineText: 'Boxes in BoxWrapper with flexbox', headlineLevel: 3}">
+                                   :cmdHeadline="{headlineText: 'Boxes in BoxWrapper with flexbox', headlineLevel: 3}"
+                                    :use-gap="true">
                         <CmdBox v-for="index in 14"
                                 :key="index"
                                 textBody="Content"
                                 :cmd-headline="{headlineText: 'Headline ' + index, headlineLevel: 4}"/>
                     </CmdBoxWrapper>
                     <CmdBoxWrapper :useFlexbox="true"
+                                   :use-gap="true"
                                    :cmdHeadline="{headlineText: 'Different examples of content-boxes (in BoxWrapper)', headlineLevel: 3}">
                         <CmdBox
                             :stretch-vertically="false"
@@ -1021,7 +1039,7 @@
                         </div>
                     </div>
                     <h3>User boxes</h3>
-                    <CmdBoxWrapper :boxesPerRow="[5, 2, 1]" :useRowViewAsDefault="true">
+                    <CmdBoxWrapper :boxesPerRow="[5, 2, 1]" :useRowViewAsDefault="true" :useGap="true">
                         <template v-slot="slotProps">
                             <CmdBox
                                 v-for="index in boxUserData.length"
@@ -1033,7 +1051,10 @@
                         </template>
                     </CmdBoxWrapper>
                     <h3>Product boxes (collapsible)</h3>
-                    <CmdBoxWrapper :boxesPerRow="[5, 2, 1]" :useRowViewAsDefault="true">
+                    <CmdBoxWrapper :boxesPerRow="[5, 2, 1]"
+                                   :useRowViewAsDefault="true"
+                                   :allowMultipleExpandedBoxes="false"
+                                   :useGap="true">
                         <template v-slot="slotProps">
                             <CmdBox
                                 v-for="index in boxProductData.length"
@@ -1041,11 +1062,12 @@
                                 boxType="content"
                                 :collapsible="true"
                                 :useSlots="['body']"
-                                :allowMultipleExpandedBoxes="false"
                                 :cmdHeadline="{headlineText: 'Box ' + index, headlineLevel: 5}"
                                 :rowView="slotProps.rowView"
+                                :openCollapsedBox="slotProps.boxIsOpen(index - 1)"
+                                @toggleCollapse="slotProps.boxToggled(index - 1, $event)"
                             >
-                                <template #body>Content {{ index }}</template>
+                                <template #body>{{slotProps.currentOpenBox}}<br />Content {{ index }}</template>
                             </CmdBox>
                         </template>
                     </CmdBoxWrapper>
@@ -1076,11 +1098,11 @@
                     <h2 class="headline-demopage">Headlines</h2>
                     <CmdHeadline :headlineIcon="{iconClass: 'icon-home'}" pre-headline-text="Pre-headline"
                                  headlineText="Headline level 1" :headlineLevel="1"/>
-                    <CmdHeadline headlineText="Headline level 2" :headlineLevel="2"/>
-                    <CmdHeadline headlineText="Headline level 3" :headlineLevel="3"/>
-                    <CmdHeadline headlineText="Headline level 4" :headlineLevel="4"/>
-                    <CmdHeadline headlineText="Headline level 5" :headlineLevel="5"/>
-                    <CmdHeadline headlineText="Headline level 6" :headlineLevel="6"/>
+                    <CmdHeadline pre-headline-text="Pre-headline" :headlineIcon="{iconClass: 'icon-home'}" headlineText="Headline level 2" :headlineLevel="2" />
+                    <CmdHeadline pre-headline-text="Pre-headline" :headlineIcon="{iconClass: 'icon-home'}" headlineText="Headline level 3" :headlineLevel="3"/>
+                    <CmdHeadline pre-headline-text="Pre-headline" :headlineIcon="{iconClass: 'icon-home'}" headlineText="Headline level 4" :headlineLevel="4"/>
+                    <CmdHeadline pre-headline-text="Pre-headline" :headlineIcon="{iconClass: 'icon-home'}" headlineText="Headline level 5" :headlineLevel="5"/>
+                    <CmdHeadline pre-headline-text="Pre-headline" :headlineIcon="{iconClass: 'icon-home'}" headlineText="Headline level 6" :headlineLevel="6"/>
                     <CmdHeadline pre-headline-text="Pre-headline" headlineText="Headline level 1 (center)"
                                  text-align="center" :headlineLevel="1"/>
                     <CmdHeadline pre-headline-text="Pre-headline" headlineText="Headline level 1 (right)"
@@ -1088,6 +1110,53 @@
                                  :headlineLevel="1"/>
                 </CmdWidthLimitationWrapper>
                 <!-- end headline ------------------------------------------------------------------------------------------------------------------------------------------------------->
+
+                <!-- begin forms ------------------------------------------------------------------------------------------------------------------------------------------------------->
+                <a id="section-forms"></a>
+                <CmdWidthLimitationWrapper>
+                    <h2 class="headline-demopage">Forms</h2>
+                    <h3>Form elements given by data</h3>
+                    <CmdForm
+                        :useFieldset="true"
+                        :useSlot="false"
+                        textLegend="Legend"
+                        id="form-component"
+                        novalidate="novalidate"
+                        :formElements="formElementsData"
+                        @submit="doConsoleLog"
+                    />
+                    <h3>Form elements given by slot</h3>
+                    <CmdForm
+                        :use-fieldset="true"
+                        textLegend="Legend"
+                        id="form-component"
+                        novalidate="novalidate"
+                        @submit="doConsoleLog"
+                    >
+                        <CmdFormElement
+                            element="input"
+                            text="text"
+                            name="input-text"
+                            labelText="Text input"
+                            placeholder="Text input"
+                        />
+                        <CmdFormElement
+                            element="input"
+                            text="number"
+                            labelText="Number input"
+                            name="input-number"
+                            modelValue="1"
+                        />
+                        <CmdFormElement
+                            element="input"
+                            text="password"
+                            labelText="Password input"
+                            name="password-number"
+                            placeholder="Password input"
+                        />
+                    </CmdForm>
+                </CmdWidthLimitationWrapper>
+                <!-- end forms ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
                 <!-- begin fancybox ------------------------------------------------------------------------------------------------------------------------------------------------------->
                 <a id="section-fancybox"></a>
@@ -1191,18 +1260,6 @@
                 </CmdWidthLimitationWrapper>
                 <!-- end image-zoom ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
-                <!-- begin login-form ------------------------------------------------------------------------------------------------------------------------------------------------------->
-                <a id="section-login-form"></a>
-                <CmdWidthLimitationWrapper>
-                    <h2 class="headline-demopage">Login Form</h2>
-                    <CmdForm :use-validation="true" :use-fieldset="false">
-                        <CmdLoginForm v-model="loginData" textLegendLoginForm="Please log in"/>
-                    </CmdForm>
-                    <p>LoginData: {{ loginData }}</p>
-                </CmdWidthLimitationWrapper>
-                <!-- end list-of-links ------------------------------------------------------------------------------------------------------------------------------------------------------->
-
-
                 <!-- begin list-of-links ------------------------------------------------------------------------------------------------------------------------------------------------------->
                 <a id="section-list-of-links"></a>
                 <CmdWidthLimitationWrapper>
@@ -1228,6 +1285,17 @@
                     <CmdListOfLinks orientation="horizontal" :links="listOfLinksData" :largeIcons="true"/>
                 </CmdWidthLimitationWrapper>
                 <!-- end list-of-links ------------------------------------------------------------------------------------------------------------------------------------------------------->
+
+                <!-- begin login-form ------------------------------------------------------------------------------------------------------------------------------------------------------->
+                <a id="section-login-form"></a>
+                <CmdWidthLimitationWrapper>
+                    <h2 class="headline-demopage">Login Form</h2>
+                    <CmdForm :use-validation="true" :use-fieldset="false">
+                        <CmdLoginForm v-model="loginData" textLegendLoginForm="Please log in"/>
+                    </CmdForm>
+                    <p>LoginData: {{ loginData }}</p>
+                </CmdWidthLimitationWrapper>
+                <!-- end login-form ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
                 <!-- begin main-navigation ------------------------------------------------------------------------------------------------------------------------------------------------------->
                 <a id="section-main-navigation"></a>
@@ -1278,15 +1346,29 @@
                 </CmdWidthLimitationWrapper>
                 <!-- end newsletter-subscription ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
-                <!-- begin pager ------------------------------------------------------------------------------------------------------------------------------------------------------->
-                <a id="section-pager"></a>
+                <!-- begin opening-hours ------------------------------------------------------------------------------------------------------------------------------------------------------->
+                <a id="section-opening-hours"></a>
                 <CmdWidthLimitationWrapper>
-                    <h2 class="headline-demopage">Pager</h2>
+                    <h2 class="headline-demopage">Opening Hours</h2>
+                    <CmdOpeningHours
+                        :openingHours="openingHoursData"
+                        :cmdHeadline="{headlineText: 'Opening hours', headlineLevel: 6}"
+                        textHolidaysClosed="Closed on holidays"
+                        textMiscInfo="Miscellaneous information"
+                        :checkInterval="0"
+                    />
+                </CmdWidthLimitationWrapper>
+                <!-- end opening-hours ------------------------------------------------------------------------------------------------------------------------------------------------------->
+
+                <!-- begin pagination ------------------------------------------------------------------------------------------------------------------------------------------------------->
+                <a id="section-pagination"></a>
+                <CmdWidthLimitationWrapper>
+                    <h2 class="headline-demopage">Pagination</h2>
                     <h3>Link-view</h3>
                     <div>
                         <p>Page {{ showPagePager }}</p>
                     </div>
-                    <CmdPager
+                    <CmdPagination
                         :pages="4"
                         :itemsPerPage="1"
                         @click="showPagePager = $event"
@@ -1295,38 +1377,24 @@
                     <div>
                         <p>Page {{ showPagePager }}</p>
                     </div>
-                    <CmdPager
+                    <CmdPagination
                         :pages="4"
                         :itemsPerPage="1"
                         link-type="button"
                         @click="showPagePager = $event"
                     />
                 </CmdWidthLimitationWrapper>
-                <!-- end pager ------------------------------------------------------------------------------------------------------------------------------------------------------->
+                <!-- end pagination ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
-                <!-- begin social-networks ------------------------------------------------------------------------------------------------------------------------------------------------------->
-                <a id="section-social-networks"></a>
+                <!-- begin site-footer ------------------------------------------------------------------------------------------------------------------------------------------------------->
+                <a id="section-site-footer"></a>
                 <CmdWidthLimitationWrapper>
-                    <h2 class="headline-demopage">Social Networks</h2>
-                    <h3>With user confirmation (buttons without gap)</h3>
-                    <CmdSocialNetworks
-                        :networks="socialNetworksData"
-                        :userMustAcceptDataPrivacy="true"
-                        :useGap="false"
-                    />
-                    <h3>Without user confirmation (buttons with gap, text aligned right)</h3>
-                    <CmdSocialNetworks
-                        :networks="socialNetworksData"
-                        :userMustAcceptDataPrivacy="false"
-                    />
-                    <h3>Without user confirmation (buttons with gap, text aligned left)</h3>
-                    <CmdSocialNetworks
-                        :networks="socialNetworksData"
-                        :userMustAcceptDataPrivacy="false"
-                        textAlign="left"
-                    />
+                    <h2 class="headline-demopage">Site Footer</h2>
+                    <CmdSiteFooter>
+                        Slotcontent
+                    </CmdSiteFooter>
                 </CmdWidthLimitationWrapper>
-                <!-- end social-networks ------------------------------------------------------------------------------------------------------------------------------------------------------->
+                <!-- end site-footer ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
                 <!-- begin site-header ------------------------------------------------------------------------------------------------------------------------------------------------------->
                 <a id="section-site-header"></a>
@@ -1393,9 +1461,48 @@
                 <a id="section-slideshow"></a>
                 <CmdWidthLimitationWrapper>
                     <h2 class="headline-demopage">Slideshow</h2>
-                    <CmdSlideshow :slideshow-items="slideshowData" :showCounter="true" :autoplay="true"/>
+                    <CmdSlideshow
+                        :slideshow-items="slideshowData"
+                        :showCounter="true"
+                        :autoplay="true"
+                    />
                 </CmdWidthLimitationWrapper>
                 <!-- end slideshow ------------------------------------------------------------------------------------------------------------------------------------------------------->
+
+                <!-- begin social-networks ------------------------------------------------------------------------------------------------------------------------------------------------------->
+                <a id="section-social-networks"></a>
+                <CmdWidthLimitationWrapper>
+                    <h2 class="headline-demopage">Social Networks</h2>
+                    <h3>With user confirmation (buttons without gap)</h3>
+                    <CmdSocialNetworks
+                        :networks="socialNetworksData"
+                        :userMustAcceptDataPrivacy="true"
+                        :useGap="false"
+                    />
+                    <h3>Without user confirmation (buttons with gap, text aligned right)</h3>
+                    <CmdSocialNetworks
+                        :networks="socialNetworksData"
+                        :userMustAcceptDataPrivacy="false"
+                    />
+                    <h3>Without user confirmation (buttons with gap, text aligned left)</h3>
+                    <CmdSocialNetworks
+                        :networks="socialNetworksData"
+                        :userMustAcceptDataPrivacy="false"
+                        textAlign="left"
+                    />
+                </CmdWidthLimitationWrapper>
+                <!-- end social-networks ------------------------------------------------------------------------------------------------------------------------------------------------------->
+
+                <!-- begin switch-language ------------------------------------------------------------------------------------------------------------------------------------------------------->
+                <a id="section-switch-language"></a>
+                <CmdWidthLimitationWrapper>
+                    <h2 class="headline-demopage">Switch Language</h2>
+                    <CmdSwitchLanguage
+                        :languages="languagesData"
+                        @click="doSomething"
+                    />
+                </CmdWidthLimitationWrapper>
+                <!-- end switch-language ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
                 <!-- begin system-message ------------------------------------------------------------------------------------------------------------------------------------------------------->
                 <a id="section-system-message"></a>
@@ -1475,18 +1582,35 @@
                 </CmdWidthLimitationWrapper>
                 <!-- end tabs ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
-                <!-- begin textblock ------------------------------------------------------------------------------------------------------------------------------------------------------->
-                <a id="section-text-block"></a>
+                <!-- begin text-image-block ------------------------------------------------------------------------------------------------------------------------------------------------------->
+                <a id="section-text-image-block"></a>
                 <CmdWidthLimitationWrapper>
-                    <h2 class="headline-demopage">Text-Block</h2>
+                    <h2 class="headline-demopage">Text-Image-Block</h2>
                     <div class="flex-container">
-                        <CmdTextBlock :cmdHeadline="{headlineText: 'Headline', headlineLevel: 3}"
-                                      textContent="Text given as text only"/>
-                        <CmdTextBlock :cmdHeadline="{headlineText: 'Headline', headlineLevel: 3}"
-                                      htmlContent="<p>Text given as html-content</p>"/>
+                        <CmdTextImageBlock
+                            :cmdHeadline="{headlineText: 'Text-Image-Block with image', headlineLevel: 3}"
+                            :cmdImage='{
+                                "image": {
+                                    "src": "/media/images/demo-images/large/landscape-01.jpg",
+                                    "alt": "alternative text",
+                                    "tooltip": "tooltip"
+                                },
+                                "figcaption": {
+                                    "text": "figcaption",
+                                    "position": "bottom",
+                                    "textAlign": "center",
+                                    "show": true
+                                }
+                            }'
+                            htmlContent="Text given as text only"
+                        />
+                        <CmdTextImageBlock
+                            :cmdHeadline="{headlineText: 'Headline', headlineLevel: 3}"
+                            htmlContent="<p>Text given as html-content</p>"
+                        />
                     </div>
                 </CmdWidthLimitationWrapper>
-                <!-- end textblock ------------------------------------------------------------------------------------------------------------------------------------------------------->
+                <!-- end text-image-block ------------------------------------------------------------------------------------------------------------------------------------------------------->
 
                 <!-- begin thumbnail-scroller ------------------------------------------------------------------------------------------------------------------------------------------------------->
                 <a id="section-thumbnail-scroller"></a>
@@ -1564,38 +1688,6 @@
                 <!-- end upload-form ------------------------------------------------------------------------------------------------------------------------------------------------------->
             </main>
 
-            <!-- begin site-footer ------------------------------------------------------------------------------------------------------------------------------------------------------->
-            <CmdSiteFooter>
-                <!-- begin switch-language ------------------------------------------------------------------------------------------------------------------------------------------------------->
-                <CmdSwitchLanguage :languages="languagesData" @click="doSomething"/>
-                <!-- end switch-languager ------------------------------------------------------------------------------------------------------------------------------------------------------->
-
-                <div class="flex-container">
-                    <!-- begin list-of-links ------------------------------------------------------------------------------------------------------------------------------------------------------->
-                    <CmdListOfLinks :links="listOfLinksData"
-                                    :cmdHeadline="{headlineText: 'List of links', headlineLevel: 6}"
-                    />
-                    <!-- end list-of-links ------------------------------------------------------------------------------------------------------------------------------------------------------->
-
-                    <!-- begin opening-hours ------------------------------------------------------------------------------------------------------------------------------------------------------->
-                    <CmdOpeningHours :openingHours="openingHoursData"
-                                     :cmdHeadline="{headlineText: 'Opening hours', headlineLevel: 6}"
-                                     textHolidaysClosed="Closed on holidays"
-                                     textMiscInfo="Miscellaneous information"
-                                     :checkInterval="0"
-                    />
-                    <!-- end opening-hours ------------------------------------------------------------------------------------------------------------------------------------------------------->
-
-                    <!-- begin address-data ------------------------------------------------------------------------------------------------------------------------------------------------------->
-                    <CmdAddressData :addressData="addressData"
-                                    :linkGoogleMaps="false"
-                                    :cmdHeadline="{headlineText: 'Address data', headlineLevel: 6}"
-                    />
-                    <!-- end address-data ------------------------------------------------------------------------------------------------------------------------------------------------------->
-                </div>
-            </CmdSiteFooter>
-            <!-- end site-footer ------------------------------------------------------------------------------------------------------------------------------------------------------->
-
             <!-- begin copyright-information ------------------------------------------------------------------------------------------------------------------------------------------------------->
             <CmdCopyrightInformation/>
             <!-- end copyright-information ------------------------------------------------------------------------------------------------------------------------------------------------------->
@@ -1646,6 +1738,7 @@ import fakeSelectCountriesData from '@/assets/data/fake-select-countries.json'
 import fakeSelectFilterOptionsData from '@/assets/data/fake-select-filter-options.json'
 import fakeSelectOptionsData from '@/assets/data/fake-select-options.json'
 import fakeSelectOptionsWithIconsData from '@/assets/data/fake-select-options-with-icons.json'
+import formElementsData from '@/assets/data/form-elements.json'
 import imageData from '@/assets/data/image.json'
 import imageGalleryData from '@/assets/data/image-gallery.json'
 import inputGroupRadiobuttonsData from '@/assets/data/input-group-radiobuttons.json'
@@ -1782,7 +1875,7 @@ export default {
                 functions.validateCapitalLetters()
             ],
             openSidebar: true,
-            openBoxes: ['template', 'components'],
+            openBoxes: [0],
 
             // assign data from json files to data-properties
             accordionData,
@@ -1798,6 +1891,7 @@ export default {
             fakeSelectFilterOptionsData,
             fakeSelectOptionsData,
             fakeSelectOptionsWithIconsData,
+            formElementsData,
             listOfLinksData,
             imageData,
             imageGalleryData,
@@ -1827,12 +1921,9 @@ export default {
         setOpenStatus(event) {
             this.openSidebar = event
         },
-        openBox(boxName) {
+        openBox(boxIndex) {
             this.openSidebar = true
-
-            if (!this.openBoxes.includes(boxName)) {
-                this.openBoxes.push(boxName)
-            }
+            this.openBoxes = [boxIndex]
         },
         navigationDataRight() {
             setTimeout(() => {
@@ -1932,6 +2023,10 @@ export default {
         executeSearch() {
             return Math.floor(Math.random() * 100)
         },
+        doConsoleLog(event) {
+           event.originalEvent.preventDefault()
+           console.log("event: ", event)
+        },
         toggleAllAccordions() {
             if (this.accordionGroupOpen) {
                 this.$refs.accordionGroup1.closeAll()
@@ -1993,6 +2088,14 @@ main .cmd-width-limitation-wrapper:not(:last-of-type) {
     border-right-style: none;
     border-right-color: currentcolor;
     border-right: var(--default-border);
+
+    .box {
+        border-right: 0;
+
+        &:not(:last-child) {
+            border-bottom: 0;
+        }
+    }
 
     .open-slot-wrapper {
         display: flex;

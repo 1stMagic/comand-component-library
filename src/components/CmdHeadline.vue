@@ -1,5 +1,5 @@
 <template>
-    <div v-if="!editModeContext?.editing" :class="['cmd-headline', {'has-pre-headline-text': preHeadlineText, 'has-icon': headlineIcon?.iconClass}, getTextAlign]">
+    <div v-if="!editModeContext?.editing" :class="['cmd-headline', getTextAlign]">
         <!-- begin CmdIcon -->
         <CmdIcon v-if="headlineIcon" :iconClass="headlineIcon?.iconClass" :type="headlineIcon?.iconType" />
         <!-- end CmdIcon -->
@@ -117,50 +117,62 @@ export default {
 //@import '../assets/styles/variables';
 
 .cmd-headline {
-  margin-bottom: var(--default-margin);
-  gap: calc(var(--default-gap) / 2);
+    margin-bottom: var(--default-margin);
+    gap: calc(var(--default-gap) / 2);
 
-  &.text-center > * {
-    text-align: center;
-  }
-
-  &.text-right > * {
-    text-align: right;
-  }
-
-  &.has-icon {
-    display: flex;
-    align-items: center;
-  }
-
-  &.has-pre-headline-text {
-    text-align: inherit;
-
-    [class*="icon-"] {
-      font-size: 5rem;
+    &.text-center > * {
+        text-align: center;
     }
-  }
 
-  p {
-    margin-bottom: 0;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    margin: 0;
-
-    &:only-child {
-      flex: none;
-      width: 100%;
+    &.text-right > * {
+        text-align: right;
     }
-  }
 
-  //@media only screen and (max-width: $small-max-width) {
-  //    flex-direction: column;
-  //
-  //    h1 {
-  //        margin-bottom: calc(var(--default-margin) * 2);
-  //    }
-  //}
+    &:has(span[class*="icon"]) {
+        display: flex;
+        align-items: center;
+    }
+
+    &:has(h1) span[class*="icon"] {
+        font-size: calc(var(--headline-font-size-h1) * 1.6);
+    }
+
+    &:has(h2) span[class*="icon"] {
+        font-size: calc(var(--headline-font-size-h2) * 1.8);
+    }
+
+    &:has(h3) span[class*="icon"] {
+        font-size: calc(var(--headline-font-size-h3) * 1.9);
+    }
+
+    &:has(h4) span[class*="icon"] {
+        font-size: calc(var(--headline-font-size-h4) * 2);
+    }
+
+    &:has(h5) span[class*="icon"] {
+        font-size: calc(var(--headline-font-size-h5) * 2.1);
+    }
+
+    &:has(h6) span[class*="icon"] {
+        font-size: calc(var(--headline-font-size-h6) * 2.2);
+    }
+
+    &:has(h4, h5, h6) .pre-headline-text {
+        font-size: var(--font-size-small);
+    }
+
+    .pre-headline-text {
+        line-height: 1;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        margin: 0;
+
+        &:only-child {
+            flex: none;
+            width: 100%;
+        }
+    }
 }
 /* end cmd-headline ------------------------------------------------------------------------------------------ */
 </style>

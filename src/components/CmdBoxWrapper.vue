@@ -1,6 +1,7 @@
 <template>
     <div class="cmd-box-wrapper">
-        <div class="flex-container headline-wrapper">
+        <div v-if="cmdHeadline.headlineText || allowUserToToggleOrientation || allowTogglingCollapsingBoxes"
+             class="flex-container headline-wrapper">
             <!-- begin CmdHeadline -->
             <CmdHeadline v-if="cmdHeadline.headlineText" v-bind="cmdHeadline" />
             <!-- end CmdHeadline -->
@@ -18,11 +19,18 @@
                 </a>
             </div>
         </div>
-        <div :class="[useFlexbox ? 'flex-container' : 'grid-container-create-columns', {'row-view': rowView, 'stretch-boxes-vertically': stretchBoxesVertically}]">
+        <div :class="[
+            useFlexbox ? 'flex-container' : 'grid-container-create-columns',
+            {
+                'no-gap': !useGap,
+                'row-view': rowView,
+                'stretch-boxes-vertically': stretchBoxesVertically
+            }
+            ]">
             <slot
                 :collapsingBoxesOpen="collapsingBoxesOpen"
                 :boxToggled="boxToggled"
-                :currentOpenBox="currentOpenBox"
+                :boxIsOpen="boxIsOpen"
                 :rowView="rowView"
                 @toggleCollapse="boxIsToggled"
             >
@@ -38,10 +46,26 @@ export default {
         return {
             rowView: this.useRowViewAsDefault,
             collapsingBoxesOpen: true,
-            currentOpenBox: 0
+            currentOpenBox: []
         }
     },
     props: {
+        /**
+         * give list of box-indices that should be open by default
+         *
+         * allowMultipleExpandedBoxes-property must be activated if more than one box should be open by default
+         */
+        openBoxesByDefault: {
+            type: Array,
+            required: false
+        },
+        /**
+         * activate if a gap between boxes should be used
+         */
+        useGap: {
+            type: Boolean,
+            default: false
+        },
         /**
          * activate if boxes should be arranged vertically (each box is a row) by default
          */
@@ -174,6 +198,9 @@ export default {
         }
     },
     methods: {
+        boxIsOpen(index) {
+            return this.currentOpenBox.includes(index)
+        },
         boxIsToggled(event) {
           alert(event)
         },
@@ -201,10 +228,31 @@ export default {
             this.collapsingBoxesOpen = !this.collapsingBoxesOpen
         },
         boxToggled(boxIndex, open) {
-            this.currentOpenBox = open ? boxIndex : 0
+            if(this.allowMultipleExpandedBoxes) {
+                if(open) {
+                    this.currentOpenBox.push(boxIndex)
+                } else {
+                    // remove boxIndex from array to close specific box
+                    let position = this.currentOpenBox.indexOf(boxIndex)
+                    this.currentOpenBox.splice(position, 1)
+                }
+            } else {
+                this.currentOpenBox  = []
+
+                // add current boxIndex to array to open specific box
+                if(open) {
+                    this.currentOpenBox.push(boxIndex)
+                }
+            }
         }
     },
     watch: {
+        openBoxesByDefault: {
+            handler() {
+                this.currentOpenBox = [...this.openBoxesByDefault || []]
+            },
+            immediate: true
+        },
         useRowViewAsDefault: {
             handler() {
                 this.oneBoxPerRow = this.useRowViewAsDefault

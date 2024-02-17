@@ -1,0 +1,156 @@
+[
+  {
+    "element": "input",
+    "type": "text",
+    "name": "form-element-text-name",
+    "htmlClass": "form-element-text-class",
+    "value": "default value",
+    "fieldIconClass": "icon-lock",
+    "labelText": "Text input",
+    "placeholder": "Placeholdertext",
+    "required": false,
+    "disabled": false
+  },
+  {
+    "element": "input",
+    "type": "number",
+    "name": "form-element-number-name",
+    "htmlClass": "form-element-number-class",
+    "id": "form-element-number-id",
+    "value": "default value",
+    "fieldIconClass": "icon-cogs",
+    "labelText": "Number input (required)",
+    "placeholder": "Placeholdertext",
+    "required": true,
+    "disabled": false
+  },
+  {
+    "element": "input",
+    "type": "password",
+    "name": "form-element-password-name",
+    "htmlClass": "form-element-password-class",
+    "id": "form-element-password-id",
+    "value": "default value",
+    "fieldIconClass": "icon-cogs",
+    "labelText": "Password input",
+    "placeholder": "Placeholdertext",
+    "required": false,
+    "disabled": false
+  },
+  {
+    "element": "input",
+    "type": "tel",
+    "name": "form-element-tel-name",
+    "htmlClass": "form-element-tel-class",
+    "id": "form-element-tel-id",
+    "value": "default value",
+    "fieldIconClass": "icon-tel",
+    "labelText": "Telephone input (disabled)",
+    "placeholder": "Placeholdertext",
+    "required": false,
+    "disabled": true
+  },
+  {
+    "element": "input",
+    "type": "email",
+    "name": "form-element-email-name",
+    "htmlClass": "form-element-email-class",
+    "id": "form-element-email-id",
+    "value": "default value",
+    "fieldIconClass": "icon-email",
+    "labelText": "Email input (with icon)",
+    "placeholder": "Placeholdertext",
+    "required": false,
+    "disabled": false
+  },
+  {
+    "element": "select",
+    "name": "form-element-select-name",
+    "htmlClass": "form-element-select-class",
+    "id": "form-element-select-id",
+    "value": "option2",
+    "selectOptions": [
+      {
+        "text": "Please select...",
+        "value": null
+      },
+      {
+        "text": "Option 1",
+        "value": "option1"
+      },
+      {
+        "text": "Option 2",
+        "value": "option2"
+      },
+      {
+        "text": "Option 3",
+        "value": "option3"
+      }
+    ],
+    "labelText": "Select",
+    "placeholder": "Placeholdertext",
+    "required": false,
+    "disabled": false
+  },
+  {
+    "element": "input",
+    "type": "checkbox",
+    "name": "form-element-checkbox-name",
+    "htmlClass": "form-element-checkbox-class",
+    "id": "form-element-checkbox-id1",
+    "value": "checkboxInputValue1",
+    "inputValue": "checkboxInputValue1",
+    "labelText": "Checkbox",
+    "placeholder": "Placeholdertext",
+    "required": false,
+    "disabled": false
+  },
+  {
+    "element": "input",
+    "type": "checkbox",
+    "name": "form-element-checkbox-name",
+    "htmlClass": "form-element-checkbox-class",
+    "id": "form-element-checkbox-id2",
+    "inputValue": "checkboxInputValue2",
+    "labelText": "Checkbox",
+    "placeholder": "Placeholdertext",
+    "required": false,
+    "disabled": false
+  },
+  {
+    "element": "input",
+    "type": "radio",
+    "name": "form-element-radio-name",
+    "htmlClass": "form-element-radio-class",
+    "id": "form-element-radio-id1",
+    "inputValue": "valueRadioButton1",
+    "labelText": "Radio",
+    "placeholder": "Placeholdertext",
+    "required": false,
+    "disabled": false
+  },
+  {
+    "element": "input",
+    "type": "radio",
+    "name": "form-element-radio-name",
+    "htmlClass": "form-element-radio-class",
+    "id": "form-element-radio-id2",
+    "value": "valueRadioButton2",
+    "inputValue": "valueRadioButton2",
+    "labelText": "Radio",
+    "placeholder": "Placeholdertext",
+    "required": false,
+    "disabled": false
+  },
+  {
+    "element": "textarea",
+    "name": "form-element-textarea-name",
+    "htmlClass": "form-element-textarea-class",
+    "id": "form-element-textarea-id",
+    "value": "default value",
+    "labelText": "Textarea",
+    "placeholder": "Placeholdertext",
+    "required": false,
+    "disabled": false
+  }
+]

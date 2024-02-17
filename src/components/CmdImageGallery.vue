@@ -29,9 +29,9 @@
         <!-- begin edit-mode view -->
         <EditComponentWrapper class="image-wrapper" v-else v-for="(image, index) in images" :key="'x' + index" :componentIdentifier="componentIdentifier(index)">
             <CmdImage
-                    :image="image.image"
-                    :figcaption="image.figcaption"
-                    :editModeContextData="{imageIndex: index}"
+                :image="image.image"
+                :figcaption="image.figcaption"
+                :editModeContextData="{imageIndex: index}"
             />
         </EditComponentWrapper>
         <!-- end edit-mode view -->

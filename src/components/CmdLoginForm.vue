@@ -404,9 +404,10 @@ export default {
             if (event == null) {
                 return
             }
-            if(fieldType === "username") {
+
+            if (fieldType === "username") {
                 this.usernameValidationStatus = event === "success";
-            } else if(fieldType === "password") {
+            } else if (fieldType === "password") {
                 this.passwordValidationStatus = event === "success";
             } else {
                 this.emailValidationStatus = event === "success";
@@ -435,10 +436,6 @@ export default {
             align-items: center;
             text-decoration: none;
             flex: none;
-
-            [class*="icon-"] {
-                text-decoration: none;
-            }
         }
 
         > .button {

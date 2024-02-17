@@ -124,8 +124,8 @@ export default {
             width: 100%;
             background: var(--primary-color-reduced-opacity);
 
-            span, [class*="icon-"] {
-                color: var(--default-background-color-reduced-opacity);
+            :is(span, [class*="icon-"]) {
+                color: var(--pure-white);
 
                 & + [class*="icon-"] {
                     &:last-child {
@@ -147,11 +147,17 @@ export default {
                         }
                     }
                 }
+            }
 
-                &:hover, &:active, &:focus {
-                    span, [class*="icon-"] {
-                        color: var(--pure-white);
-                    }
+            &:hover, &:active, &:focus {
+                background: var(--primary-color);
+
+                :is(span, [class*="icon-"]) {
+                    color: var(--pure-white);
+                }
+
+                .number {
+                    color: var(--primary-color);
                 }
             }
 
@@ -165,7 +171,9 @@ export default {
                 justify-content: center;
                 border-radius: var(--full-circle);
                 border: var(--default-border);
-                color: var(--default-background-color-reduced-opacity);
+                border-color: var(--pure-white);
+                background: var(--pure-white);
+                color: var(--primary-color-reduced-opacity);
             }
         }
 
@@ -190,12 +198,24 @@ export default {
                 span, [class*="icon-"] {
                     color: var(--pure-white);
                 }
+
+                &:hover, &:active, &:focus {
+                    span, [class*="icon-"] {
+                        color: var(--pure-white);
+
+                        & + [class*="icon-"] {
+                            &:last-child {
+                                color: var(--text-color);
+                            }
+                        }
+                    }
+                }
             }
 
             .number {
                 background: var(--pure-white);
                 border-color: var(--pure-white);
-                color: var(--primary-color);
+                color: var(--primary-color) !important;
             }
 
             & ~ li {
@@ -224,7 +244,16 @@ export default {
                                 color: var(--primary-color);
                             }
                         }
+
+                        .number {
+                            border-color: var(--primary-color);
+                        }
                     }
+                }
+
+                .number {
+                    background: none;
+                    border-color: var(--border-color);
                 }
             }
 
