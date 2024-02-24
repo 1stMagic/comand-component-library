@@ -84,10 +84,6 @@ export default {
             align-self: center;
         }
 
-        &:hover, &:active, &:focus {
-            transition: var(--default-transition);
-        }
-
         &.prev {
             left: 0;
             top: 0;

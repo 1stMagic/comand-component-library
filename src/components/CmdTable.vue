@@ -20,7 +20,7 @@
                 <!-- end CmdIcon -->
             </a>
         </div>
-        <div class="inner-wrapper" ref="innerWrapper">
+        <div class="inner-wrapper" ref="innerWrapper" @scroll="updatePosition">
             <!-- begin CmdSlideButton -->
             <CmdSlideButton
                 v-if="showSlideButtons"
@@ -190,8 +190,6 @@ export default {
         }
     },
     mounted() {
-        console.log("this.$refs.innerWrapper.clientWidth", this.$refs.innerWrapper.clientWidth)
-        console.log("this.$refs.table.clientWidth", this.$refs.table.clientWidth)
         this.hasOverflow = this.$refs.table.clientWidth > this.$refs.innerWrapper.clientWidth
     },
     computed: {
@@ -209,11 +207,57 @@ export default {
     },
     methods: {
         scrollLeft() {
-            this.$refs.table.scrollLeft = 0
+            this.$refs.innerWrapper.scrollLeft = 0
+            this.$refs.table.previousElementSibling.style.cssText = "left: 0;"
+            this.updatePosition()
         },
         scrollRight() {
-            this.$refs.table.scrollRight = 0
+            this.$refs.table.querySelector("th:last-child").scrollIntoView()
+            this.$refs.table.nextElementSibling.style.cssText = "right: auto;"
+            this.updatePosition()
+        },
+        updatePosition() {
+            const leftSlidebutton = this.$refs.table.previousElementSibling
+            const rightSlidebutton = this.$refs.table.nextElementSibling
+            const innerWrapper = this.$refs.innerWrapper
+
+            const parentRect = innerWrapper.getBoundingClientRect();
+            const newRight = parentRect.width + innerWrapper.scrollLeft - rightSlidebutton.getBoundingClientRect().width
+            const newLeft = innerWrapper.scrollLeft
+
+            console.log("parentRect", parentRect)
+
+            leftSlidebutton.style.left = `${newLeft}px`
+            rightSlidebutton.style.left = `${newRight}px`;
+
+            if(newLeft === 0) {
+                leftSlidebutton.style.display = "none"
+            } else {
+                leftSlidebutton.style.display = "flex"
+            }
+
+            if(newLeft === innerWrapper.scrollLeftMax) {
+               rightSlidebutton.style.display = "none"
+            } else {
+               rightSlidebutton.style.display = "flex"
+            }
+
+            //     const parentRect = this.$refs.innerWrapper.getBoundingClientRect();
+            //     const rightSlidebutton = this.$refs.table.nextElementSibling.getBoundingClientRect();
+            //     const leftSlidebutton = this.$refs.table.previousElementSibling.getBoundingClientRect();
+            //
+            //     // Calculate the new right position
+            //     const newRight = rightSlidebutton.width + parentRect.right;
+            //     const newLeft = parentRect.width - parentRect.left;
+            // console.log("parentRect.width", parentRect.width)
+            //     console.log("parentRect.right", parentRect.right)
+            // console.log("parentRect.left", parentRect.left)
+            //
+            //     // Apply the new right position
+            // this.$refs.table.nextElementSibling.style.left = `${newRight}px`;
+            // this.$refs.table.previousElementSibling.style.right = `${newLeft}px`;
         }
+
     }
 }
 </script>
@@ -301,10 +345,6 @@ export default {
     &.has-overflow {
         .cmd-slide-button {
             display: block;
-        }
-
-        .inner-wrapper {
-            padding: 0 4rem;
         }
     }
 }
