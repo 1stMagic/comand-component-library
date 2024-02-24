@@ -75,7 +75,6 @@
                 <div v-else-if="fancyBoxContent" class="content" v-html="fancyBoxContent"></div>
                 <div v-else-if="fancyBoxElements" class="content"></div>
                 <div v-else-if="fancyBoxGallery" class="content">
-
                     <!-- begin CmdSlideButton -->
                     <CmdSlideButton @click.prevent="showPrevItem" slideButtonType="prev"/>
                     <!-- end CmdSlideButton -->
@@ -174,13 +173,13 @@ const FancyBox = defineComponent({
     },
     props: {
         /**
-         * sets aria-label-text on component
+         * sets default aria-label-text on component
          *
          * @requiredForAccessibility: true
          */
-        ariaLabelText: {
+        defaultAriaLabelText: {
             type: String,
-            required: true
+            required: false
         },
         /**
          * set if content should be loaded by url
@@ -201,7 +200,7 @@ const FancyBox = defineComponent({
          */
         showSubmitButtons: {
             type: Boolean,
-            default: true
+            default: false
         },
         /**
          * options to show at top (closeIcon, printButtons)
@@ -348,6 +347,13 @@ const FancyBox = defineComponent({
               fancyBoxItem.src = this.fancyBoxImageUrl
           }
           return fancyBoxItem
+      },
+      ariaLabelText() {
+          if(this.fancyBoxGallery?.length) {
+              return this.fancyBoxGallery[this.index].figcaption.text
+          } else {
+              return this.defaultAriaLabelText
+          }
       }
     },
     methods: {
@@ -513,10 +519,31 @@ export default FancyBox
 
         img {
             display: block;
+            margin: 0 auto;
         }
 
         figcaption {
             text-align: center;
+        }
+    }
+
+    .inner-thumbnail-wrapper li {
+        figure {
+            opacity: 0.8;
+        }
+
+        &.active {
+            figure {
+                opacity: 1;
+            }
+
+            img {
+                border-color: var(--hyperlink-color-highlighted);
+            }
+
+            a {
+                color: var(--hyperlink-color-highlighted);
+            }
         }
     }
 

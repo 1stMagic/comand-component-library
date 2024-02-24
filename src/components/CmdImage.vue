@@ -1,42 +1,105 @@
 <template>
     <!-- begin edit-mode -->
-    <figure v-if="editing" :class="['cmd-image flex-container vertical', getTextAlign]">
-        <template v-if="figcaption?.position === 'top'">
-            <CmdFormElement
-                element="input"
-                type="text"
-                :required="true"
-                labelText="Text figcaption"
-                v-model="editableFigcaptionText"
-            />
-        </template>
-        <div :class="['box drop-area flex-container vertical', { 'allow-drop': allowDrop }]" v-on="dragAndDropHandler" title="Drag new image to this area to replace old one!">
-            <span class="icon-image"></span>
-            <img :src="imageSource" :alt="image.alt" :title="image.tooltip"/>
-        </div>
+    <EditComponentWrapper
+        v-if="editModeContext"
+        ref="editComponentWrapper"
+        class="edit-items"
+        :showComponentName="false"
+        :allowedComponentTypes="[]"
+        componentName="CmdImage"
+        :componentProps="{image, figcaption}"
+        :componentPath="imageComponentPath"
+        :allowDeleteComponent="!!imageSource"
+        :itemProvider="editModeConfig?.allowAddItem !== false ? itemProvider : null"
+    >
+        <template v-slot="slotProps">
+            <figure :class="['cmd-image flex-container no-gap vertical', textAlign]">
+                <!-- begin figcaption above image -->
+                <template v-if="figcaption?.show && figcaption?.position === 'top'">
+                    <CmdFormElement
+                        v-if="slotProps.editing"
+                        element="input"
+                        type="text"
+                        :class="[textAlign, 'edit-mode']"
+                        :required="true"
+                        labelText="Text figcaption"
+                        v-model="editableFigcaptionText"
+                    />
+                    <figcaption v-else-if="figcaption?.text">{{ figcaption?.text }}</figcaption>
+                </template>
+                <!-- end figcaption above image -->
 
-        <template v-if="figcaption?.position !== 'top'">
-            <CmdFormElement
-                element="input"
-                type="text"
-                :class="getTextAlign"
-                :required="true"
-                labelText="Text figcaption"
-                :showLabel="false"
-                v-model="editableFigcaptionText"
-            />
+                <!-- begin image-wrapper -->
+                <template v-if="slotProps.editing">
+                    <!-- begin image with drop-area -->
+                    <a href="#" :class="['box drop-area flex-container vertical', { 'allow-drop': allowDrop }]"
+                       v-on="dragAndDropHandler"
+                       @click.prevent="selectFiles"
+                       title="Drag new image to this area to replace old one!">
+                        <span class="icon-image"></span>
+                        <img :src="imageSource" :alt="image?.alt" :title="image?.tooltip"/>
+                    </a>
+                    <!-- end image with drop-area -->
+
+                    <!-- begin CmdFormElement -->
+                    <CmdFormElement
+                        class="hidden"
+                        element="input"
+                        type="file"
+                        labelText="Select new image"
+                        :disabled="uploadInitiated"
+                        @change="fileSelected"
+                        ref="formElement"
+                    />
+                    <!-- end CmdFormElement -->
+                </template>
+                <template v-else-if="imageSource">
+                    <!-- begin image without drop-area -->
+                    <img :src="imageSource" :alt="image?.alt" :title="image?.tooltip"/>
+                    <!-- end image without drop-area -->
+                </template>
+                <!-- end image-wrapper -->
+
+                <!-- begin figcaption below image -->
+                <template v-if="figcaption?.show && figcaption?.position !== 'top'">
+                    <CmdFormElement
+                        v-if="slotProps.editing"
+                        element="input"
+                        type="text"
+                        :class="[textAlign, 'edit-mode']"
+                        :required="true"
+                        labelText="Text figcaption"
+                        :showLabel="false"
+                        v-model="editableFigcaptionText"
+                        placeholder="figcaption"
+                    />
+                    <figcaption v-else-if="figcaption?.text">{{ figcaption?.text }}</figcaption>
+                </template>
+                <!-- end figcaption below image -->
+
+                <!-- begin show placeholder if no image exists (and component is not edited) -->
+                <button v-if="!slotProps.editing && !imageSource" type="button" class="button confirm"
+                        @click="onAddItem">
+                    <span class="icon-add"></span>
+                    <span>Add new image</span>
+                </button>
+                <!-- end show placeholder if no image exists (and component is not edited) -->
+            </figure>
         </template>
-    </figure>
+    </EditComponentWrapper>
     <!-- end edit-mode -->
 
-    <figure v-else :class="['cmd-image', getTextAlign]">
+    <!-- begin default-view -->
+    <figure v-else :class="['cmd-image', textAlign]">
         <figcaption v-if="figcaption?.show && figcaption?.position === 'top'">{{ figcaption?.text }}</figcaption>
-        <img :src="imageSource" :alt="image.alt" :title="image.tooltip"/>
+        <img :src="imageSource" :alt="image?.alt" :title="image?.tooltip"/>
         <figcaption v-if="figcaption?.show && figcaption?.position !== 'top'">{{ figcaption?.text }}</figcaption>
     </figure>
+    <!-- end default-view -->
 </template>
 
 <script>
+import {createUuid} from "../utils/common.js"
 import {checkAndUploadFile} from "../utils/checkAndUploadFile"
 import EditMode from "../mixins/EditMode.vue"
 import {updateHandlerProvider} from "../utils/editmode.js"
@@ -53,6 +116,7 @@ export default {
             uploadInitiated: false,
             allowDrop: false,
             showFigcaption: true,
+            figcaptionText: null,
             figcaptionPosition: null,
             figcaptionTextAlign: null,
             tooltip: null,
@@ -81,8 +145,7 @@ export default {
                     text: "Right",
                     value: "right"
                 }
-            ],
-            figcaptionText: null
+            ]
         }
     },
     props: {
@@ -91,7 +154,7 @@ export default {
          */
         image: {
             type: Object,
-            required: true
+            required: false
         },
         /**
          * figcaption-object including visibility, position (top/bottom), text
@@ -101,12 +164,15 @@ export default {
             required: false
         },
         /**
-         * max file size (in bytes) for file to upload
+         * maximum file size (in bytes) for file to upload
          */
         maxFileUploadSize: {
             type: Number,
             default: 500000
         },
+        /**
+         * minimum image width (in pixels) for file to upload
+         */
         minImageWidth: {
             type: Number,
             default: 600
@@ -125,22 +191,29 @@ export default {
         window.removeEventListener("resize", this.updateWindowWidth)
     },
     computed: {
+        imageComponentPath() {
+            return this.componentPath || ["props", "cmdImage"]
+        },
         imageSource() {
             // check if a new image is provided
-            if(this.newImageSource) {
+            if (this.newImageSource) {
                 return this.newImageSource
             }
 
             // if only one src exists
-            const imgSrc = this.image.src
+            const imgSrc = this.image?.src
 
-            if(typeof imgSrc === "string") {
+            if (!imgSrc) {
+                return null
+            }
+
+            if (typeof imgSrc === "string") {
                 return imgSrc
             }
 
             const deviceWidth = this.currentWindowWidth;
             // return image for small-devices (if exists)
-            if(imgSrc.small && deviceWidth <= this.smallMaxWidth) {
+            if (imgSrc.small && deviceWidth <= this.smallMaxWidth) {
                 return imgSrc.small
             }
             // return image for medium-devices (if exists)
@@ -150,7 +223,7 @@ export default {
             // else return large (will be used if images for small-and -medium-devices do not exist or if screen resolution is larger than mediumMaxWidth)
             return imgSrc.large
         },
-        getTextAlign() {
+        textAlign() {
             if (this.figcaption?.textAlign) {
                 return "text-" + this.figcaption.textAlign
             }
@@ -167,7 +240,7 @@ export default {
         },
         editableFigcaptionText: {
             get() {
-                return this.figcaptionText == null ? this.figcaption.text : this.figcaptionText
+                return this.figcaptionText == null ? this.figcaption?.text : this.figcaptionText
             },
             set(value) {
                 this.figcaptionText = value
@@ -175,6 +248,36 @@ export default {
         }
     },
     methods: {
+        itemProvider() {
+            const editModeConfig = this.editModeConfig?.itemProviderOverwrite?.()
+            return {
+                "image": {
+                    "src": "/media/images/demo-images/medium/landscape-01.jpg",
+                    "alt": "Alternative Text",
+                    // add additional keys from editModeConfig
+                    ...editModeConfig?.image || {}
+                },
+                "figcaption": {
+                    "text": "Figcaption DE",
+                    "position": "bottom",
+                    "textAlign": "center",
+                    "show": true
+                }
+            }
+        },
+        onAddItem() {
+            // execute editComponent-function from editComponentWrapper to enter editMode directly on "add"
+            this.$refs.editComponentWrapper.editComponent()
+        },
+        selectFiles() {
+            let inputFile = this.$refs.formElement.getDomElement().querySelector("input[type='file']")
+            inputFile.click()
+        },
+        fileSelected(event) {
+            if (event.target.files.length > 0) {
+                checkAndUploadFile(event.target.files[0], this.allowedFileExtensions, this.minImageWidth, this.maxFileUploadSize, (imageSource) => this.newImageSource = imageSource)
+            }
+        },
         updateWindowWidth() {
             this.currentWindowWidth = window.innerWidth
         },
@@ -182,10 +285,10 @@ export default {
             return {
                 image: {...this.image},
                 figcaption: {
-                    show: this.editableShowFigcaption,
-                    position: this.editableFigcaptionPosition,
-                    textAlign: this.editableFigcaptionTextAlign,
-                    text: this.editableFigcaptionText
+                    show: this.showFigcaption,
+                    position: this.figcaptionPosition,
+                    textAlign: this.figcaptionTextAlign,
+                    text: this.figcaptionText
                 }
             }
         },
@@ -238,7 +341,9 @@ export default {
             })
         },
         updateHandlerProvider() {
-            const figcaptionText = this.editableFigcaptionText
+            const figcaptionText = this.figcaptionText
+            this.figcaptionText = null // reset data-property
+
             return updateHandlerProvider(this, {
                 update(props) {
                     if (!props.figcaption) {
@@ -248,6 +353,18 @@ export default {
                 }
             })
         }
+    },
+    watch: {
+        figcaption: {
+            handler() {
+                this.showFigcaption = this.figcaption?.show
+                this.figcaptionText = this.figcaption?.text
+                this.figcaptionPosition = this.figcaption?.position
+                this.figcaptionTextAlign = this.figcaption?.textAlign
+            },
+            immediate: true,
+            deep: true
+        }
     }
 }
 </script>
@@ -255,49 +372,61 @@ export default {
 <style lang="scss">
 /* begin cmd-image ------------------------------------------------------------------------------------------ */
 .cmd-image {
-  img {
-      display: block;
-  }
-
-  &.text-center {
-    figcaption {
-      text-align: center;
-    }
-  }
-
-  &.text-right {
-    figcaption {
-      text-align: right;
-    }
-  }
-
-  .drop-area {
-    border: 0;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-
-    > [class*="icon"] {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translateX(-50%) translateY(-50%);
-      font-size: 10rem;
-      color: var(--pure-white);
-      text-shadow: var(--text-shadow);
-      z-index: 10;
-    }
-
     img {
-      opacity: .7;
-      transition: var(--default-transition);
-
-      &:hover, :active, :focus {
-        opacity: 1;
-        transition: var(--default-transition);
-      }
+        display: block;
     }
-  }
+
+    &.text-center {
+        figcaption {
+            text-align: center;
+        }
+    }
+
+    &.text-right {
+        figcaption {
+            text-align: right;
+        }
+    }
+
+    .drop-area {
+        border: 0;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+
+        > [class*="icon"] {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            font-size: 10rem;
+            color: var(--pure-white);
+            text-shadow: var(--text-shadow);
+            z-index: 10;
+        }
+
+        img {
+            opacity: .7;
+            transition: var(--default-transition);
+
+            &:hover, :active, :focus {
+                opacity: 1;
+                transition: var(--default-transition);
+            }
+
+            &:not([src]) {
+                display: block;
+                width: 100%;
+                min-height: 30rem;
+            }
+        }
+    }
+}
+
+.edit-mode .edit-component-wrapper .cmd-image {
+    label.edit-mode input {
+        padding: calc(var(--default-padding) / 2);
+    }
 }
 
 /* end cmd-image ------------------------------------------------------------------------------------------ */

@@ -1,0 +1,228 @@
+{
+  "CmdAddressData": {
+    "name": "CmdAddressData",
+    "props": {
+      "cmdHeadline": {
+      },
+      "linkGoogleMaps": false,
+      "addressData": [
+        {
+          "name": "name",
+          "iconClass": "icon-company",
+          "data": "Entry data",
+          "labelText": "Labeltext"
+        }
+      ]
+    }
+  },
+  "CmdContainer": {
+    "name": "CmdContainer",
+    "allowAddComponent": true,
+    "props": {
+      "class": "flex-container vertical"
+    },
+    "components": []
+  },
+  "CmdHeadline": {
+    "name": "CmdHeadline",
+    "props": {
+      "headlineText": "Headline",
+      "headlineLevel": "2"
+    }
+  },
+  "CmdImage": {
+    "name": "CmdImage",
+    "allowAddComponent": true,
+    "props": {
+      "image": {
+        "id": "",
+        "src": "media/images/demo-images/large/landscape-06.jpg",
+        "srcImageLarge": "media/images/demo-images/large/landscape-06.jpg",
+        "alt": "Alternative Text"
+      },
+      "figcaption": {
+        "show": true,
+        "position": "bottom",
+        "text": "Figcaption",
+        "textAlign": "center"
+      }
+    }
+  },
+  "CmdImageGallery": {
+    "name": "CmdImageGallery",
+    "props": {
+      "cmdHeadline": {
+        "headlineText": "Headline",
+        "headlineLevel": "3"
+      },
+      "images": [
+        {
+          "image": {
+            "src": "media/images/demo-images/medium/landscape-01.jpg",
+            "srcImageLarge": "media/images/demo-images/large/landscape-01.jpg",
+            "alt": "Alternative text"
+          },
+          "figcaption": {
+            "show": true,
+            "position": "bottom",
+            "text": "Figcaption",
+            "textAlign": "center"
+          }
+        }
+      ]
+    }
+  },
+  "CmdListOfLinks": {
+    "name": "CmdListOfLinks",
+    "props": {
+      "cmdHeadline": {
+        "headlineText": "Headline",
+        "headlineLevel": "3"
+      },
+      "links": [
+        {
+          "iconClass": "icon-user-profile",
+          "type": "href",
+          "text": "Linktext",
+          "path": "#",
+          "tooltip": "Tooltip"
+        }
+      ]
+    }
+  },
+  "CmdOpeningHours": {
+    "name": "CmdOpeningHours",
+    "props": {
+      "cmdHeadline": {
+        "headlineText": "Headline",
+        "headlineLevel": "3"
+      },
+      "textHolidays": "",
+      "textMiscInfo": "",
+      "openingHours": [
+        {
+          "day": "Day name",
+          "am": {
+            "fromTime": "00:00",
+            "tillTime": "00:00",
+            "displayText": "open"
+          },
+          "pm": {
+            "fromTime": "00:00",
+            "tillTime": "00:00",
+            "displayText": "closed"
+          }
+        }
+      ]
+    }
+  },
+  "CmdSlideshow": {
+    "name": "CmdSlideshow",
+    "props": {
+      "slideshowItems": [
+        {
+          "image": {
+            "src": {
+              "large": "/media/images/slideshow-images/large/slide1.jpg",
+              "medium": "/media/images/slideshow-images/medium/slide1.jpg",
+              "small": "/media/images/slideshow-images/small/slide1.jpg"
+            },
+            "alt": "Alternative text",
+            "tooltip": "Tooltip"
+          },
+          "figcaption": {
+            "text": "Figcaption",
+            "position": "bottom",
+            "textAlign": "center",
+            "show": true
+          },
+          "link": {
+            "href": "#",
+            "target": null
+          }
+        }
+      ]
+    }
+  },
+  "CmdSocialNetworks": {
+    "name": "CmdSocialNetworks",
+    "props": {
+      "cmdHeadline": {
+        "headlineText": "Headline",
+        "headlineLevel": "2"
+      },
+      "networks": [
+        {
+          "id": "social-network-facebook",
+          "path": "https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fdevelopment.comand-cms.com%2Fmodule%2Fteam.html",
+          "tooltip": "Share this page on facebook",
+          "iconClass": "icon-facebook",
+          "linkText": "Share"
+        }
+      ]
+    }
+  },
+  "CmdTextImageBlock": {
+    "name": "CmdTextImageBlock",
+    "props": {
+      "cmdHeadline": {
+        "headlineText": "Headline",
+        "headlineLevel": "2"
+      },
+      "cmdImage": {
+        "image": {
+          "src": "/media/images/demo-images/large/landscape-01.jpg",
+          "alt": "alternative text",
+          "tooltip": "tooltip"
+        },
+        "figcaption": {
+          "text": "figcaption",
+          "position": "bottom",
+          "textAlign": "center",
+          "show": true
+        }
+      },
+      "htmlContent": "<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt.</p><p> Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugia a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. <br />Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc.</p>"
+    }
+  },
+  "CmdThumbnailScroller": {
+    "name": "CmdThumbnailScroller",
+    "props": {
+      "cmdHeadline": {
+        "headlineText": "Headline",
+        "headlineLevel": "2"
+      },
+      "thumbnailScrollerItems": [
+        {
+          "image": {
+            "id": 1,
+            "src": "media/images/demo-images/small/landscape-01.jpg",
+            "srcImageLarge": "media/images/demo-images/large/landscape-01.jpg",
+            "alt": "Alternative Text"
+          },
+          "figcaption": {
+            "show": true,
+            "position": "bottom",
+            "text": "Figcaption",
+            "textAlign": "center"
+          }
+        }
+      ]
+    }
+  },
+  "CmdToggleDarkMode": {
+    "name": "CmdToggleDarkMode",
+    "props": {
+      "showLabel": true,
+      "labelTextDarkMode": "Labeltext Dark Mode",
+      "labelTextLightMode": "Labeltext Light Mode"
+    }
+  },
+  "section": {
+    "id": "section-new",
+    "useFullDeviceWidth": false,
+    "showLinkInMainNavigation": false,
+    "allowAddComponent": true,
+    "components": []
+  }
+}

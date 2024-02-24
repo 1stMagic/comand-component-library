@@ -1,5 +1,6 @@
 <template>
     <div :class="['cmd-toggle-dark-mode', {'styled-layout': useStyledLayout, 'dark-mode': darkMode}]">
+        <template v-if="!editing">
         <!-- begin button-style -->
         <a v-if="styledAsButton"
            href="#"
@@ -30,15 +31,44 @@
             @update:modelValue="setColorScheme"
         />
         <!-- end CmdFormElement -->
+        </template>
+
+        <template v-else>
+            <!-- begin edit-mode -->
+            <CmdFormElement
+                    element="input"
+                    type="text"
+                    labelText="Label for Light Mode"
+                    placeholder="Label for Light Mode"
+                    v-model="labelTextLightModeModel"
+            />
+
+            <CmdFormElement
+                    element="input"
+                    type="text"
+                    labelText="Label for Dark Mode"
+                    placeholder="Label for Dark Mode"
+                    v-model="labelTextDarkModeModel"
+            />
+            <!-- end edit-mode -->
+        </template>
     </div>
 </template>
 
 <script>
+import EditMode from "../mixins/EditMode.vue"
+import {updateHandlerProvider} from "../utils/editmode.js"
+
 export default {
     name: "ToggleDarkMode",
+    mixins: [
+        EditMode
+    ],
     data() {
         return {
-            darkMode: false
+            darkMode: false,
+            editableLabelTextLightMode: null,
+            editableLabelTextDarkMode: null
         }
     },
     props: {
@@ -152,9 +182,36 @@ export default {
         toggleColorScheme() {
             this.darkMode = !this.darkMode
             this.setColorScheme()
+        },
+        updateHandlerProvider() {
+            const labelTextLightMode = this.labelTextLightModeModel
+            const labelTextDarkMode = this.labelTextDarkModeModel
+
+            return updateHandlerProvider(this, {
+                update(props) {
+                    props.labelTextLightMode = labelTextLightMode
+                    props.labelTextDarkMode = labelTextDarkMode
+                }
+            })
         }
     },
     computed: {
+        labelTextLightModeModel: {
+            get() {
+                return this.editableLabelTextLightMode == null ? this.labelTextLightMode: this.editableLabelTextLightMode
+            },
+            set(value) {
+                this.editableLabelTextLightMode = value
+            }
+        },
+        labelTextDarkModeModel: {
+            get() {
+                return this.editableLabelTextDarkMode == null ? this.labelTextDarkMode: this.editableLabelTextDarkMode
+            },
+            set(value) {
+                this.editableLabelTextDarkMode = value
+            }
+        },
         labelText() {
             return this.darkMode ? this.labelTextDarkMode : this.labelTextLightMode
         },

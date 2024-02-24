@@ -1,52 +1,60 @@
 <template>
     <div :class="['cmd-list-of-links', {box: styleAsBox, horizontal: orientation === 'horizontal', 'section-anchors': sectionAnchors, 'large-icons': largeIcons}]">
-        <!-- begin CmdHeadline -->
+        <!-- begin cmd-headline -->
         <CmdHeadline
-            v-if="cmdHeadline"
+            v-if="cmdHeadline?.headlineText || editModeContext"
             v-bind="cmdHeadline"
         />
-        <!-- end CmdHeadline -->
+        <!-- end cmd-headline -->
 
         <!-- begin list of links -->
         <ul :class="['flex-container', {'no-gap': !useGap},'align-' + align, setStretchClass]">
-            <li v-for="(link, index) in links" :key="index" :class="{'active': sectionAnchors && activeSection === index}">
-                <!-- begin use href -->
-                <a v-if="link.type === 'href' || link.type === undefined"
-                   :href="link.path"
-                   :target="link.target"
-                   @click="executeLink(link, $event)"
-                   :title="link.tooltip && link.tooltip !== undefined ? link.tooltip : undefined">
-                    <!-- begin CmdIcon -->
-                    <CmdIcon v-if="link.iconClass" :iconClass="link.iconClass" :type="link.iconType" />
-                    <!-- end CmdIcon -->
-                    <span v-if="link.text">{{ link.text }}</span>
-                </a>
-                <!-- end use href --->
+            <CmdListOfLinksItem
+                v-if="!editModeContext"
+                v-for="(link, index) in links"
+                :key="index"
+                :class="{'active': sectionAnchors && activeSection === index}"
+                :link="link"
+            />
 
-                <!-- begin use router-link -->
-                <router-link v-else-if="link.type === 'router'"
-                             :to="getRoute(link)"
-                             :title="link.tooltip">
-                    <!-- begin CmdIcon -->
-                    <CmdIcon v-if="link.iconClass" :iconClass="link.iconClass" :type="link.iconType" />
-                    <!-- end CmdIcon -->
-                    <span v-if="link.text">{{ link.text }}</span>
-                </router-link>
-                <!-- end use router-link -->
+            <!-- begin edit-mode -->
+            <li v-else>
+                <EditComponentWrapper
+                    v-for="(link, index) in links"
+                    :key="'x' + index"
+                    class="edit-items"
+                    :showComponentName="false"
+                    componentTag="ul"
+                    componentName="CmdLinkItem"
+                    :componentProps="link"
+                    :allowedComponentTypes="[]"
+                    :componentPath="['props', 'links', index]"
+                    :itemProvider="itemProvider"
+                >
+                    <CmdListOfLinksItem
+                        :class="{'active': sectionAnchors && activeSection === index}"
+                        :link="link"
+                    />
+                </EditComponentWrapper>
+                <button v-if="links.length === 0" type="button" class="button confirm small" @click="onAddItem">
+                    <span class="icon-plus"></span>
+                    <span>Add new entry</span>
+                </button>
             </li>
+            <!-- end edit-mode -->
         </ul>
         <!-- end list of links -->
     </div>
 </template>
 
 <script>
-// import functions
-import {getRoute} from "../utilities.js"
-import {openFancyBox} from "./CmdFancyBox.vue"
+import EditMode from "../mixins/EditMode.vue"
+import {buildComponentPath, updateHandlerProvider} from "../utils/editmode.js"
 
 export default {
     name: "CmdListOfLinks",
     emits: ["click"],
+    mixins: [EditMode],
     props: {
         /**
          * activate if component should contain a list of anchors for the section within the page
@@ -133,16 +141,31 @@ export default {
         }
     },
     methods: {
-        getRoute(link) {
-            return getRoute(link)
+        onAddItem() {
+            this.editModeContext.content.addContent(
+                buildComponentPath(this, 'props', 'links', -1),
+                this.itemProvider)
         },
-        executeLink(link, event) {
-            if (link.fancybox) {
-                event.preventDefault()
-                openFancyBox({url: link.path, showSubmitButtons: link.showSubmitButtons})
-                return
+        itemProvider() {
+            return {
+                "iconClass": "icon-user-profile",
+                "type": "href",
+                "text": "Linktext",
+                "path": "#",
+                "tooltip": "Tooltip",
+                "target": "_blank"
             }
-            this.$emit("click", {link, originalEvent: event})
+        },
+        updateHandlerProvider() {
+            return updateHandlerProvider(this, {
+                update(props, childUpdateHandlers) {
+                    const cmdHeadlineUpdateHandler = childUpdateHandlers?.find(handler => handler.name === "CmdHeadline")
+                    if (cmdHeadlineUpdateHandler) {
+                        props.cmdHeadline = props.cmdHeadline || {}
+                        cmdHeadlineUpdateHandler.update(props.cmdHeadline)
+            }
+                }
+            })
         }
     }
 }
@@ -151,10 +174,7 @@ export default {
 <style lang="scss">
 /* begin cmd-list-of-links ---------------------------------------------------------------------------------------- */
 .cmd-list-of-links {
-    display: flex;
-    flex-direction: column;
-
-    ul {
+    > ul {
         flex-direction: column;
         gap: calc(var(--default-gap) / 2);
         margin: 0;
@@ -166,7 +186,7 @@ export default {
     }
 
     &.horizontal {
-        ul {
+        > ul {
             gap: var(--default-gap);
             flex-direction: row;
 

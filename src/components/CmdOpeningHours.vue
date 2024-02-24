@@ -1,42 +1,129 @@
 <template>
     <div class="cmd-opening-hours">
-        <!-- begin cmd-custom-headline -->
-        <CmdHeadline v-if="cmdHeadline" v-bind="cmdHeadline" />
-        <!-- end cmd-custom-headline -->
+        <!-- begin cmd-headline -->
+        <CmdHeadline
+            v-if="cmdHeadline?.headlineText || editModeContext"
+            v-bind="cmdHeadline"
+        />
+        <!-- end cmd-headline -->
 
         <!-- begin opening-status with link to detail-page -->
-        <template v-if="link && link?.path && link?.show">
-            <a v-if="link.type === 'href'" :href="link.path" :class="{closed: isClosed}">{{ textOpenClosed }}</a>
-            <router-link v-if="link.type === 'router'"  :to="link.path" :class="{closed: isClosed}">{{ textOpenClosed }}</router-link>
-            <button v-if="link.type === 'button'" :class="['button', {closed: isClosed}]">{{ textOpenClosed }}</button>
-        </template>
-        <!-- end opening-status with link to detail-page -->
-
-        <!-- begin opening-status (without link) -->
-        <span v-else :class="{'closed': isClosed}">{{ textOpenClosed }}</span>
-        <!-- end opening-status (without link) -->
-
-        <!-- begin opening-days and -hours -->
-        <dl>
-            <template v-for="day in openingHoursFormatted" :key="day.day">
-                <dt>{{ day.day }}:</dt>
-                <dd>{{ getTime(day.fromTime)}}&ndash;{{ getTime(day.tillTime)}}</dd>
+        <template v-if="!editing">
+            <template v-if="link && link?.path && link?.show">
+                <a v-if="link.type === 'href'" :href="link.path" :class="{closed: isClosed}">{{ textOpenClosed }}</a>
+                <router-link v-if="link.type === 'router'" :to="link.path" :class="{closed: isClosed}">{{
+                        textOpenClosed
+                    }}
+                </router-link>
+                <button v-if="link.type === 'button'" :class="['button', {closed: isClosed}]">{{
+                        textOpenClosed
+                    }}
+                </button>
             </template>
+            <!-- end opening-status with link to detail-page -->
+
+            <!-- begin opening-status (without link) -->
+            <span v-else :class="{'closed': isClosed}">{{ textOpenClosed }}</span>
+            <!-- end opening-status (without link) -->
+        </template>
+
+        <!-- begin edit-mode -->
+        <div v-else class="flex-container">
+            <CmdFormElement
+                element="input"
+                type="text"
+                :showLabel="false"
+                labelText="Text for 'open'"
+                placeholder="Text for 'open'"
+                v-model="textOpenModel"
+            />
+            <CmdFormElement
+                element="input"
+                type="text"
+                :showLabel="false"
+                labelText="Text for 'closed'"
+                placeholder="Text for 'closed'"
+                v-model="textClosedModel"
+            />
+        </div>
+        <!-- end edit-mode -->
+
+        <!-- begin default view -->
+        <dl v-if="!editModeContext">
+            <CmdOpeningHoursItem
+                v-for="(day, index) in openingHoursFormatted"
+                :key="index"
+                :day="day"
+                :separator="separator"
+                :abbreviationText="abbreviationText"
+            />
         </dl>
-        <!-- end opening-days and -hours -->
+        <!-- end default view -->
+
+        <!-- begin edit-mode -->
+        <button v-if="openingHoursFormatted.length === 0" type="button" class="button confirm small" @click="onAddItem">
+            <span class="icon-plus"></span>
+            <span>Add new entry</span>
+        </button>
+
+        <EditComponentWrapper
+            v-else
+            v-for="(day, index) in openingHoursFormatted"
+            :key="'x' + index"
+            class="edit-items"
+            :showComponentName="false"
+            componentName="CmdOpeningHoursItem"
+            :componentProps="day"
+            :allowedComponentTypes="[]"
+            :componentPath="['props', 'openingHours', index]"
+            :itemProvider="itemProvider"
+        >
+            <dl class="edit-mode-opening-hours-item">
+                <CmdOpeningHoursItem
+                    :day="day"
+                    :separator="separator"
+                    :abbreviationText="abbreviationText"
+                />
+            </dl>
+        </EditComponentWrapper>
+        <!-- end edit-mode -->
 
         <!-- begin holiday-closes-text and miscellaneous information -->
-        <div v-if="textHolidaysClosed || textMiscInfo">
-            <p v-if="textHolidaysClosed">
-                <strong>{{ textHolidaysClosed }}</strong>
+        <div v-if="!editing && (textHolidays || textMiscInfo)">
+            <p v-if="textHolidays">
+                <strong>{{ textHolidays }}</strong>
             </p>
             <p v-if="textMiscInfo">{{ textMiscInfo }}</p>
         </div>
         <!-- end holiday-closes-text and miscellaneous information -->
+
+        <!-- begin edit-mode -->
+        <div v-if="editing" class="flex-container vertical">
+            <CmdFormElement
+                element="input"
+                type="text"
+                :showLabel="false"
+                labelText="Text for 'holidays'"
+                placeholder="Text for 'holidays'"
+                v-model="textHolidaysModel"
+            />
+            <CmdFormElement
+                element="input"
+                type="text"
+                :showLabel="false"
+                labelText="Miscellaneous information"
+                placeholder="Miscellaneous information"
+                v-model="textMiscInfoModel"
+            />
+        </div>
+        <!-- end edit-mode -->
     </div>
 </template>
 
 <script>
+import EditMode from "../mixins/EditMode.vue"
+import {buildComponentPath, updateHandlerProvider} from "../utils/editmode.js"
+
 export function localizedTime(language) {
     return (hour, minute) => {
         const now = new Date()
@@ -47,17 +134,17 @@ export function localizedTime(language) {
 
 export function timeFormatting(separator, suffix1, suffix2, hoursLeadingZero = true) {
     function addLeadingZero(time, addLeadingZero) {
-        if(addLeadingZero && time < 10) {
+        if (addLeadingZero && time < 10) {
             return "0" + time
         }
         return time
     }
 
     return (hour, minute) => {
-        if(suffix2) {
+        if (suffix2) {
             let hour12 = hour
             let currentSuffix = suffix1
-            if(hour12 > 12) {
+            if (hour12 > 12) {
                 hour12 -= 12
                 currentSuffix = suffix2
             }
@@ -69,6 +156,17 @@ export function timeFormatting(separator, suffix1, suffix2, hoursLeadingZero = t
 
 export default {
     name: "CmdOpeningHours",
+    mixins: [EditMode],
+    data() {
+        return {
+            currentTime: new Date(),
+            editableOpeningHours: [],
+            editableTextOpen: null,
+            editableTextClosed: null,
+            editableTextHolidays: null,
+            editableTextMiscInfo: null
+        }
+    },
     props: {
         /**
          * set a link to a detail page
@@ -100,6 +198,14 @@ export default {
             type: String,
             default: "Closed right now!"
         },
+        separator: {
+            type: String,
+            default: "–"
+        },
+        abbreviationText: {
+            type: String,
+            default: "h"
+        },
         /**
          * list of opening-hours
          */
@@ -108,9 +214,9 @@ export default {
             required: true
         },
         /**
-         * text to show if holidays closed (shown below opening-hours)
+         * text to show for holidays (shown below opening-hours)
          */
-        textHolidaysClosed: {
+        textHolidays: {
             type: String,
             required: false
         },
@@ -151,7 +257,7 @@ export default {
         }
     },
     mounted() {
-        if(this.componentHandlesClosedStatus && this.checkInterval > 0) {
+        if (this.componentHandlesClosedStatus && this.checkInterval > 0) {
             // create new property on component by 'this.property-name' and assign value (id) from setInterval (so it can be cleared in unmount)
             this.$_CmdOpeningHours_intervalId = setInterval(() => {
                 // use arrow-function to assure that 'this' is the component
@@ -159,44 +265,95 @@ export default {
             }, this.checkInterval)
         }
     },
-    data() {
-        return {
-            currentTime: new Date()
+    beforeUnmount() {
+        if (this.$_CmdOpeningHours_intervalId) {
+            // remove interval
+            clearInterval(this.$_CmdOpeningHours_intervalId)
+
+            // clear interval-id
+            this.$_CmdOpeningHours_intervalId = null
         }
     },
     computed: {
-        textOpenClosed() {
-            return this.isClosed ? this.textClosed : this.textOpen
-        },
         openingHoursFormatted() {
             const weekdays = []
-            for(let i = 0; i < this.openingHours.length; i++) {
+            for (let i = 0; i < this.openingHours.length; i++) {
                 const openingHours = {}
-                const splitFromTime = this.openingHours[i].fromTime.split(/[:.]/)
-                const splitTillTime = this.openingHours[i].tillTime.split(/[:.]/)
+                const splitAmFromTime = this.openingHours[i].am.fromTime.split(/[:.]/)
+                const splitAmTillTime = this.openingHours[i].am.tillTime.split(/[:.]/)
+                const splitPmFromTime = this.openingHours[i].pm.fromTime.split(/[:.]/)
+                const splitPmTillTime = this.openingHours[i].pm.tillTime.split(/[:.]/)
 
                 openingHours.day = this.openingHours[i].day
-                openingHours.fromTime = {
-                    hours: parseInt(splitFromTime[0]),
-                    mins: parseInt(splitFromTime[1])
+
+                openingHours.am = {...this.openingHours[i].am}
+                openingHours.am.fromTime = {
+                    hours: parseInt(splitAmFromTime[0]),
+                    mins: parseInt(splitAmFromTime[1])
                 }
-                openingHours.tillTime = {
-                    hours: parseInt(splitTillTime[0]),
-                    mins: parseInt(splitTillTime[1])
+                openingHours.am.tillTime = {
+                    hours: parseInt(splitAmTillTime[0]),
+                    mins: parseInt(splitAmTillTime[1])
                 }
+
+                openingHours.pm = {...this.openingHours[i].pm}
+                openingHours.pm.fromTime = {
+                    hours: parseInt(splitPmFromTime[0]),
+                    mins: parseInt(splitPmFromTime[1])
+                }
+                openingHours.pm.tillTime = {
+                    hours: parseInt(splitPmTillTime[0]),
+                    mins: parseInt(splitPmTillTime[1])
+                }
+
                 weekdays.push(openingHours)
             }
             return weekdays
         },
+        textOpenModel: {
+            get() {
+                return this.editableTextOpen == null ? this.textOpen : this.editableTextOpen
+            },
+            set(value) {
+                this.editableTextOpen = value
+            }
+        },
+        textClosedModel: {
+            get() {
+                return this.editableTextClosed == null ? this.textClosed : this.editableTextClosed
+            },
+            set(value) {
+                this.editableTextClosed = value
+            }
+        },
+        textHolidaysModel: {
+            get() {
+                return this.editableTextHolidays == null ? this.textHolidays : this.editableTextHolidays
+            },
+            set(value) {
+                this.editableTextHolidays = value
+            }
+        },
+        textMiscInfoModel: {
+            get() {
+                return this.editableTextMiscInfo == null ? this.textMiscInfo : this.editableTextMiscInfo
+            },
+            set(value) {
+                this.editableTextMiscInfo = value
+            }
+        },
+        textOpenClosed() {
+            return this.isClosed ? this.textClosed : this.textOpen
+        },
         isClosed() {
-            if(!this.componentHandlesClosedStatus) {
+            if (!this.componentHandlesClosedStatus) {
                 return this.closed
             }
 
             let currentDay = this.currentTime.getDay()
 
             // fix order and check if currentDay equals 0 === sunday. Data are expected to start with monday
-            if (currentDay === 0){
+            if (currentDay === 0) {
                 currentDay = 6
             } else {
                 currentDay -= 1
@@ -204,14 +361,23 @@ export default {
 
             const openingHours = this.openingHoursFormatted[currentDay]
 
-            if(this.openingHoursFormatted[currentDay]) {
-                const openingHoursFrom = new Date()
-                openingHoursFrom.setHours(openingHours.fromTime.hours, openingHours.fromTime.mins)
+            if (this.openingHoursFormatted[currentDay]) {
+                // set hours for AM
+                const openingHoursAmFrom = new Date()
+                openingHoursAmFrom.setHours(openingHours.am.fromTime.hours, openingHours.am.fromTime.mins)
 
-                const openingHoursTill = new Date()
-                openingHoursTill.setHours(openingHours.tillTime.hours, openingHours.tillTime.mins)
+                const openingHoursAmTill = new Date()
+                openingHoursAmTill.setHours(openingHours.am.tillTime.hours, openingHours.am.tillTime.mins)
 
-                if (openingHoursFrom <= this.currentTime && this.currentTime <= openingHoursTill) {
+                // set hours for PM
+                const openingHoursPmFrom = new Date()
+                openingHoursPmFrom.setHours(openingHours.pm.fromTime.hours, openingHours.pm.fromTime.mins)
+
+                const openingHoursPmTill = new Date()
+                openingHoursPmTill.setHours(openingHours.pm.tillTime.hours, openingHours.pm.tillTime.mins)
+
+                // compare am/pm times with current time to determine if closed/open-text will be displayed
+                if ((openingHoursAmFrom <= this.currentTime && this.currentTime <= openingHoursAmTill) && (openingHoursPmFrom <= this.currentTime && this.currentTime <= openingHoursPmTill)) {
                     return false
                 }
             }
@@ -219,20 +385,50 @@ export default {
         }
     },
     methods: {
+        onAddItem() {
+            this.editModeContext.content.addContent(
+                buildComponentPath(this, 'props', 'openingHours', -1),
+                this.itemProvider)
+        },
+        itemProvider() {
+            return {
+                "day": "Weekday",
+                "am": {
+                    "fromTime": "00:00",
+                    "tillTime": "00:00"
+                },
+                "pm": {
+                    "fromTime": "00:00",
+                    "tillTime": "00:00"
+                }
+            }
+        },
         getTime(time) {
-            if(this.timeFormatter) {
+            if (this.timeFormatter) {
                 return this.timeFormatter(time.hours, time.mins)
             }
-           return timeFormatting(":", " hrs", "", false)(time.hours, time.mins)
-        }
-    },
-    beforeUnmount() {
-        if(this.$_CmdOpeningHours_intervalId) {
-            // remove interval
-            clearInterval(this.$_CmdOpeningHours_intervalId)
-
-            // clear interval-id
-            this.$_CmdOpeningHours_intervalId = null
+            return timeFormatting(":", " hrs", "", false)(time.hours, time.mins)
+        },
+        updateHandlerProvider() {
+            const openingHours = this.editableOpeningHours
+            const textOpen = this.editableTextOpen
+            const textClosed = this.editableTextClosed
+            const textHolidays = this.editableTextHolidays
+            const textMiscInfo = this.editableTextMiscInfo
+            return updateHandlerProvider(this, {
+                update(props, childUpdateHandlers) {
+                    props.openingHours = openingHours
+                    props.textOpen = textOpen
+                    props.textClosed = textClosed
+                    props.textHolidays = textHolidays
+                    props.textMiscInfo = textMiscInfo
+                    const cmdHeadlineUpdateHandler = childUpdateHandlers?.find(handler => handler.name === "CmdHeadline")
+                    if (cmdHeadlineUpdateHandler) {
+                        props.cmdHeadline = props.cmdHeadline || {}
+                        cmdHeadlineUpdateHandler.update(props.cmdHeadline)
+                    }
+                }
+            })
         }
     }
 }
@@ -247,10 +443,10 @@ export default {
         display: table;
         margin-bottom: var(--default-margin);
         color: var(--pure-white);
-        background: #0b0;
+        background: var(--success-color);
 
         &.closed {
-            background: #b00;
+            background: var(--error-color);
         }
     }
 
@@ -261,8 +457,29 @@ export default {
         }
     }
 
+    span.pm {
+        margin-left: var(--default-margin);
+    }
+
     p:last-child {
         margin: 0;
+    }
+
+    .edit-component-wrapper {
+        dl {
+            margin-bottom: 0;
+        }
+    }
+}
+
+.edit-component-wrapper .cmd-opening-hours {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: calc(var(--default-gap) / 2);
+
+    dt {
+        min-width: 2.5rem;
     }
 }
 

@@ -1,6 +1,6 @@
 <template>
     <div
-        :class="['cmd-table-wrapper', {'collapsed': !showTableData, 'full-width': fullWidth, 'has-caption': hasCaption}]">
+        :class="['cmd-table-wrapper', {'collapsed': !showTableData, 'full-width': fullWidth, 'has-caption': hasCaption, 'has-overflow': hasOverflow}]">
         <div v-if="collapsible || userCanToggleWidth" class="button-wrapper">
             <a v-if="userCanToggleWidth" class="button"
                href="#" @click.prevent="fullWidth = !fullWidth"
@@ -20,7 +20,7 @@
                 <!-- end CmdIcon -->
             </a>
         </div>
-        <div class="inner-wrapper">
+        <div class="inner-wrapper" ref="innerWrapper">
             <!-- begin CmdSlideButton -->
             <CmdSlideButton
                 v-if="showSlideButtons"
@@ -30,7 +30,7 @@
             <!-- end CmdSlideButton -->
 
             <!-- begin table -->
-            <table ref="table" :class="{'full-width': fullWidth, 'has-overflow': hasOverflow}">
+            <table ref="table" :class="{'full-width': fullWidth}">
                 <caption v-if="tableData.caption?.text || caption?.text" :class="{ hidden: hideCaption }">
                     {{ caption?.text || tableData.caption?.text }}
                 </caption>
@@ -76,13 +76,15 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import {ref} from 'vue'
+
 export default {
     name: "CmdTable",
     data() {
         return {
             showTableData: true,
-            fullWidth: this.fullWidthOnDefault
+            fullWidth: this.fullWidthOnDefault,
+            hasOverflow: false
         }
     },
     props: {
@@ -187,6 +189,11 @@ export default {
             }
         }
     },
+    mounted() {
+        console.log("this.$refs.innerWrapper.clientWidth", this.$refs.innerWrapper.clientWidth)
+        console.log("this.$refs.table.clientWidth", this.$refs.table.clientWidth)
+        this.hasOverflow = this.$refs.table.clientWidth > this.$refs.innerWrapper.clientWidth
+    },
     computed: {
         hasCaption() {
             if (this.hideCaption) {
@@ -198,10 +205,6 @@ export default {
         },
         hideCaption() {
             return this.caption?.show === false || (this.caption?.show !== true && !this.tableData.caption?.show)
-        },
-        hasOverflow() {
-            console.log("this.$refs.table", this.$refs.table)
-            // return this.$refs.table.scrollWidth > this.$refs.table.clientWidth
         }
     },
     methods: {
@@ -250,11 +253,14 @@ export default {
         }
     }
 
+    .cmd-slide-button {
+        display: none;
+    }
+
     .inner-wrapper {
         display: flex;
         overflow-x: auto;
         width: 100%;
-        padding: 0 4rem;
 
         .cmd-slide-button {
             left: 0;
@@ -292,6 +298,15 @@ export default {
         }
     }
 
+    &.has-overflow {
+        .cmd-slide-button {
+            display: block;
+        }
+
+        .inner-wrapper {
+            padding: 0 4rem;
+        }
+    }
 }
 
 /* end cmd-table-wrapper ------------------------------------------------------------------------------------------ */

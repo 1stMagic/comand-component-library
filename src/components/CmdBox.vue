@@ -445,6 +445,7 @@ export default {
         a.box-header {
             justify-content: space-between;
             background: var(--primary-color);
+            border: var(--primary-border);
 
             &:hover, &:active, &:focus {
                 background: var(--pure-white);

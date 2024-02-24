@@ -3,8 +3,11 @@
         <div class="inner-slideshow-wrapper" @mouseenter="pause = true" @mouseleave="pause = false">
             <!-- begin CmdSlideButton -->
             <CmdSlideButton
+                v-if="showSlideButtons"
                 @click.prevent="showPrevItem"
                 slideButtonType="prev"
+                :class="{'disabled': slideshowItemEditing}"
+                v-bind="tooltipForSlidebuttons"
             />
             <!-- end CmdSlideButton -->
 
@@ -12,19 +15,34 @@
             <transition-group name="fade">
                 <template v-if="currentItem">
                     <template v-if="!useSlot">
-                        <a v-if="currentItem?.link?.href" :href="currentItem?.link?.href" :title="currentItem?.link?.tooltip" :key="index">
+                        <template v-if="!editModeContext">
+                            <a v-if="currentItem?.link?.href" :href="currentItem?.link?.href"
+                               :title="currentItem?.link?.tooltip">
                             <!-- begin CmdImage -->
                             <CmdImage :image="currentItem?.image" :figcaption="currentItem?.figcaption"/>
                             <!-- begin CmdImage -->
                         </a>
 
                        <!-- begin CmdImage -->
-                        <CmdImage v-else :image="currentItem?.image" :figcaption="currentItem?.figcaption" :key="index"/>
+                            <CmdImage v-else :image="currentItem?.image" :figcaption="currentItem?.figcaption"/>
+                            <!-- begin CmdImage -->
+                        </template>
+
+                        <!-- begin edit-mode view -->
                         <!-- begin CmdImage -->
+                        <CmdImage
+                            v-else-if="slideshowItems.length"
+                            :image="currentItem?.image"
+                            :figcaption="currentItem?.figcaption"
+                            :componentPath="['props', 'slideshowItems', index]"
+                            :editModeConfig="imageStructure()"
+                        />
+                        <!-- end CmdImage -->
+                        <!-- end edit-mode view -->
                     </template>
                     <div
                         v-else
-                        class="image-wrapper"
+                        class="slot-wrapper"
                         :key="index"
                         :style="'background-image: url(' + currentItem.image.srcLarge + ')'"
                     >
@@ -33,35 +51,54 @@
                         <!-- end slot -->
                     </div>
                 </template>
+                <button v-else-if="editModeContext" type="button" class="button confirm"  @click="onAddItem">
+                    <span class="icon-plus"></span>
+                    <span>Add new slideshow-image</span>
+                </button>
             </transition-group>
             <!-- end area to slide -->
 
             <!-- begin CmdSlideButton -->
             <CmdSlideButton
+                v-if="showSlideButtons"
                 @click.prevent="showNextItem"
+                :class="{'disabled': slideshowItemEditing}"
+                v-bind="tooltipForSlidebuttons"
             />
             <!-- end CmdSlideButton -->
 
             <ol v-if="showQuickLinkIcons">
                 <li v-for="(item, i) in slideshowItems" :key="i" :class="{active: i === index }">
-                    <a href="#" @click.prevent="index = i" :aria-label="index"></a>
+                    <a href="#"
+                       :class="{'disabled': slideshowItemEditing}"
+                       @click.prevent="showItem(i)"
+                       :aria-label="index"
+                       :title="slideshowItemEditing ? 'Not allowed while editing!' : 'Switch to image #' + (i + 1)"
+                    >
+                    </a>
                 </li>
             </ol>
-            <span v-if="showCounter">{{ index + 1 }}/{{ slideshowItems.length }}</span>
+            <span class="item-counter" v-if="showCounter">{{ index + 1 }}/{{ slideshowItems.length }}</span>
         </div>
     </div>
 </template>
 
 <script>
+// import mixins
+import EditMode from "../mixins/EditMode.vue"
+import {buildComponentPath, updateHandlerProvider} from "../utils/editmode.js"
+import {createUuid} from "../utils/common.js"
 export default {
     name: "CmdSlideshow",
+    mixins: [EditMode],
     data() {
         return {
             index: 0,
             pause: false,
             hnd: null,
             fullWidth: false,
-            currentSlotItem: 0
+            currentSlotItem: 0,
+            slideshowItemEditing: false
         }
     },
     props: {
@@ -108,7 +145,16 @@ export default {
             required: true
         },
         /**
+         * toggle slide-buttons-visibility
+         */
+        showSlideButtons: {
+            type: Boolean,
+            default: false
+        },
+        /**
          * properties for CmdSlideButtons-component
+         *
+         * showSlideButtons-property must be activated
          *
          * @requiredForAccessibility: partial
          */
@@ -140,7 +186,50 @@ export default {
         }
     },
     methods: {
+        itemProvider() {
+            return {
+                "image": {
+                    "src": {
+                        "large": "/media/images/slideshow-images/large/slide1.jpg",
+                        "medium": "/media/images/slideshow-images/medium/slide1.jpg",
+                        "small": "/media/images/slideshow-images/small/slide1.jpg"
+                    },
+                    "alt": "Alternative Text",
+                    "tooltip": "Tooltip DE"
+                },
+                "figcaption": {
+                    "text": "Figcaption DE",
+                    "position": "bottom",
+                    "textAlign": "center",
+                    "show": true
+                }
+            }
+        },
+        onAddItem() {
+            this.editModeContext.content.addContent(
+                buildComponentPath(this, 'props', 'slideshowItems', -1),
+                this.itemProvider)
+        },
+        imageStructure() {
+            return {
+                itemProviderOverwrite: () => ({
+                    "image": {
+                        "src": {
+                            "large": "/media/images/slideshow-images/large/slide1.jpg",
+                            "medium": "/media/images/slideshow-images/medium/slide1.jpg",
+                            "small": "/media/images/slideshow-images/small/slide1.jpg"
+                        },
+                        "tooltip": "Tooltip DE"
+                    }
+                })
+            }
+        },
         showPrevItem() {
+            // avoids slide-button to be clicked in edit-mode
+            if (this.slideshowItemEditing) {
+                return
+            }
+
             if (this.useSlot) {
                 if (this.currentSlotItem > 0) {
                     this.currentSlotItem--
@@ -155,11 +244,16 @@ export default {
             }
         },
         showItem(i) {
-            if (i >= 0 && i < this.slideshowItems.length) {
+            if (!this.slideshowItemEditing && i >= 0 && i < this.slideshowItems.length) {
                 this.index = i;
             }
         },
         showNextItem() {
+            // avoids slide-button to be clicked in edit-mode
+            if (this.slideshowItemEditing) {
+                return
+            }
+
             if (this.useSlot) {
                 if (this.currentSlotItem < Object.keys(this.$slots).length - 1) {
                     this.currentSlotItem++
@@ -183,6 +277,15 @@ export default {
 
     /* computed property to get current slide */
     computed: {
+        tooltipForSlidebuttons() {
+            if (this.slideshowItemEditing) {
+                return {
+                    title: "Not allowed while editing!"
+                }
+            }
+            return {}
+        },
+        /* computed property to get current slide */
         currentItem() {
             if (this.slideshowItems.length <= this.index) {
                 return null
@@ -196,7 +299,15 @@ export default {
                 this.index = 0
                 this.setupSlider()
             },
-            immediate: true
+            immediate: true,
+            deep: true
+        },
+        currentItem() {
+            // wait to nextTick to ensure ref is available
+            this.$nextTick(() => {
+                this.$refs.slideshowItemComponentWrapper?.addEditStateListener(editing => this.slideshowItemEditing = editing)
+            })
+
         }
     }
 }
@@ -247,7 +358,7 @@ export default {
             margin: 0;
         }
 
-        .image-wrapper {
+        .slot-wrapper {
             padding: calc(var(--default-padding) * 5);
             width: 100%;
             min-height: 50rem;
@@ -260,6 +371,12 @@ export default {
             .box {
                 align-self: flex-start;
             }
+        }
+
+        .image-wrapper {
+            width: 100%;
+            min-width: 11.1rem; // assure to be as wide as action-buttons in edit-mode
+            min-height: 50rem;
         }
 
         > ol {
@@ -277,6 +394,7 @@ export default {
                 margin: 0;
                 border: var(--default-border-reduced-opacity);
                 border-radius: var(--full-circle);
+                background: var(--light-gray);
 
                 a {
                     display: block;
@@ -321,7 +439,7 @@ export default {
             }
         }
 
-        > span {
+        > .item-counter {
             position: absolute;
             top: .5rem;
             right: 5.5rem;
@@ -335,6 +453,15 @@ export default {
         figcaption {
             font-size: 2rem;
         }
+    }
+}
+
+.edit-mode .cmd-slideshow .image-wrapper.edit-items {
+    padding: 0;
+    margin-top: 2rem;
+
+    label.edit-mode input {
+        font-size: 3rem;
     }
 }
 

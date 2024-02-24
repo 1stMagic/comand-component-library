@@ -1,7 +1,10 @@
 <template>
-    <div :class="['cmd-social-networks', {'stretch': stretchButtons, 'align-right': align === 'right'}]">
+    <div :class="['cmd-social-networks', {'stretch': stretchButtons}, alignment]">
         <!-- begin CmdHeadline -->
-        <CmdHeadline v-if="cmdHeadline" v-bind="cmdHeadline"/>
+        <CmdHeadline
+            v-if="cmdHeadline?.headlineText || editModeContext?.editing"
+            v-bind="cmdHeadline || {}"
+        />
         <!-- end CmdHeadline -->
 
         <!-- begin CmdFormElement -->
@@ -17,34 +20,49 @@
         <!-- end CmdFormElement -->
 
         <!-- begin list of networks -->
-        <ul :class="['button-wrapper no-flex', {'no-gap': !useGap}]">
-            <li v-for="network in validNetworks">
-                <a
-                    :key="network.path"
-                    :class="['button', {disabled: userMustAcceptDataPrivacy && !dataPrivacyAccepted}, {'text-align-left': textAlign === 'left'}]"
-                    :id="network.id"
-                    :href="getUrl(network)"
-                    @click="preventOnDisabled"
-                    target="_blank"
-                    :title="tooltip(network.tooltip)">
-                    <!-- begin CmdIcon -->
-                    <CmdIcon
-                        v-if="network.iconClass"
-                        :iconClass="network.iconClass"
-                        :type="network.iconType"
+        <ul v-if="validNetworks.length > 0" :class="['button-wrapper', {'no-gap': !useGap}]">
+            <CmdSocialNetworksItem
+                v-if="!editModeContext"
+                v-for="(entry, index) in validNetworks"
+                :key="index"
+                :network="entry"
                     />
-                    <!-- end CmdIcon -->
-                    <span v-if="network.linkText">{{ network.linkText }}</span>
-                </a>
-            </li>
+
+            <!-- begin edit-mode -->
+            <EditComponentWrapper
+                v-else
+                v-for="(entry, index) in validNetworks"
+                :key="'x' + index"
+                class="edit-items"
+                componentName="CmdSocialNetworksItem"
+                :componentProps="entry"
+                :componentPath="['props', 'networks', index]"
+                :showComponentName="false"
+            >
+                <CmdSocialNetworksItem
+                    :network="entry"
+                    :userMustAcceptDataPrivacy="userMustAcceptDataPrivacy"
+                    :buttonTextAlign="buttonTextAlign"
+                    :dataPrivacyAccepted="dataPrivacyAccepted"
+                />
+            </EditComponentWrapper>
+            <!-- end edit-mode -->
         </ul>
+
+        <button v-else class="button small" title="Add new item" @click="onAddItem">
+            <span class="icon-plus"></span>
+        </button>
         <!-- end list of networks -->
     </div>
 </template>
 
 <script>
+import {buildComponentPath} from "../utils/editmode.js"
+import EditMode from "../mixins/EditMode.vue"
+
 export default {
     name: "CmdSocialNetworks",
+    mixins: [EditMode],
     data() {
         return {
             dataPrivacyAccepted: false
@@ -61,11 +79,11 @@ export default {
         /**
          * set horizontal alignment
          *
-         * @allowedValues: left, right
+         * @allowedValues: left, center, right
          */
         align: {
             type: String,
-            required: false
+            default: "left"
         },
         /**
          * activate if gap between buttons should appear
@@ -121,11 +139,13 @@ export default {
             default: "You must accept data privacy conditions!"
         },
         /**
-         * text-alignment for buttons
+         * alignment for buttons
+         *
+         * @allowedValues: "left", "right"
          */
-        textAlign: {
+        buttonTextAlign: {
             type: String,
-            default: "right"
+            default: "left"
         },
         /**
          * properties for cmdFormElement
@@ -153,6 +173,9 @@ export default {
     computed: {
         validNetworks() {
             return this.networks.filter(item => item.path)
+        },
+        alignment() {
+            return "align-" + this.align
         }
     },
     methods: {
@@ -173,6 +196,20 @@ export default {
                 return network.path
             }
             return "#"
+        },
+        onAddItem() {
+            this.editModeContext.content.addContent(
+                buildComponentPath(this, 'props', 'networks', -1),
+                this.itemProvider)
+        },
+        itemProvider() {
+            return                 {
+                "id": "social-network-facebook",
+                "path": "https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fdevelopment.comand-cms.com%2Fmodule%2Fteam.html",
+                "tooltip": "Share this page on facebook",
+                "iconClass": "icon-facebook",
+                "linkText": "Share"
+            }
         },
         preventOnDisabled(event) {
             let clickedElement = event.target
@@ -195,6 +232,21 @@ export default {
                 return this.tooltipAcceptDataPrivacy
             }
             return tooltip
+        },
+        onPersist(data) {
+            return {
+                editModeContextData: {
+                    ...(this.editModeContextData || {})
+                },
+                update(props) {
+                    props.cmdHeadline = {
+                        ...(props.cmdHeadline || {}),
+                    }
+                    if (Array.isArray(data) && data.length > 0) {
+                        props.cmdHeadline.headlineText = data[0].headlineText
+                    }
+                }
+            }
         }
     }
 }
@@ -216,6 +268,7 @@ export default {
 
     .button-wrapper {
         flex-direction: row;
+        flex: none;
         margin: 0;
         gap: calc(var(--default-gap) / 2);
 
@@ -232,7 +285,7 @@ export default {
                 margin: 0;
             }
 
-            &.text-align-left {
+          &.text-align-right {
                 flex-direction: row-reverse;
             }
         }
@@ -271,9 +324,43 @@ export default {
         }
     }
 
+    &.align-center {
+        .cmd-headline > * {
+            text-align: center;
+        }
+
+        .toggle-switch {
+            margin: auto;
+        }
+
+        .share-button-wrapper {
+            justify-content: center;
+        }
+    }
+
+    &.align-right {
+        .cmd-headline > * {
+            text-align: right;
+        }
+
+        .toggle-switch {
+            margin-left: auto;
+        }
+
+        .button-wrapper {
+            justify-content: flex-end;
+        }
+    }
+
     &.stretch {
+        .button-wrapper {
+            li {
+                flex: 1;
+
         .button {
-            flex: 1;
+                display: flex;
+            }
+            }
         }
     }
 

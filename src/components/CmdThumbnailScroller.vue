@@ -1,6 +1,21 @@
 <template>
-    <div :class="['cmd-thumbnail-scroller', {'gallery-scroller' : !allowOpenFancyBox, 'full-width' : fullWidth, 'large-icons': largeIcons}]"
+    <div :class="[
+        'cmd-thumbnail-scroller',
+        {
+            'gallery-scroller' : useGalleryScroller,
+            'large-icons': largeIcons,
+            vertical: orientation === 'vertical'
+        },
+        fullWidthClass
+        ]"
          ref="thumbnail-scroller">
+        <!-- begin cmd-headline -->
+        <CmdHeadline
+            v-if="cmdHeadline?.headlineText || editModeContext"
+            v-bind="cmdHeadline"
+        />
+        <!-- end cmd-headline -->
+
         <div class="inner-thumbnail-wrapper">
             <!-- begin CmdSlideButton -->
             <CmdSlideButton
@@ -14,9 +29,9 @@
             <transition-group name="slide" tag="ul">
                 <li v-for="(item, index) in items" :key="index"
                     :class="[{'active' : activeItemIndex === index}, item.id ? 'item-' + item.id : '']">
-                    <a :href="executeOnClick === 'url' ? item.url : '#'"
+                    <a v-if="!editModeContext" :href="executeOnClick === 'url' ? item.url : '#'"
                        @click="executeLink(index, $event)"
-                       :title="getTooltip"
+                       :title="tooltip"
                        :target="executeOnClick === 'url' ? '_blank' : null"
                     >
                         <!-- begin CmdImage -->
@@ -32,15 +47,44 @@
                         </template>
                         <!-- end contentType === text -->
                     </a>
+
+                    <!-- begin edit-mode -->
+                    <!-- begin CmdImage -->
+                    <CmdImage
+                        v-else-if="contentType === 'image'"
+                        :image="item.image"
+                        :figcaption="item.figcaption"
+                        :componentPath="['props', 'thumbnailScrollerItems', index]"
+                        :editModeConfig="imageStructure()"
+                    />
+                    <!-- end CmdImage -->
+
+                    <!-- begin contentType === text -->
+                    <template v-else-if="contentType === 'text'">
+                        <!-- begin CmdIcon -->
+                        <CmdIcon v-if="item.iconClass" :iconClass="item.iconClass" :type="item.iconType"/>
+                        <!-- end CmdIcon -->
+                        <span v-if="item.text">{{ item.text }}</span>
+                    </template>
+                    <!-- end contentType === text -->
+                    <!-- end edit-mode -->
+                </li>
+                <li v-if="!items.length && contentType === 'image'">
+                    <!-- begin show placeholder if no image exists (and component is not edited) -->
+                    <button type="button" class="button confirm" @click="onAddItem">
+                        <span class="icon-plus"></span>
+                        <span>Add new thumbnail-scroller-image</span>
+                    </button>
+                    <!-- end show placeholder if no image exists (and component is not edited) -->
                 </li>
             </transition-group>
             <!-- end list of images to slide -->
 
             <!-- begin CmdSlideButton -->
             <CmdSlideButton
-                    v-if="showSlidebuttons"
-                    @click.prevent="showNextItem"
-                    :slideButtons="cmdSlideButtons.next"
+                v-if="showSlidebuttons"
+                @click.prevent="showNextItem"
+                :slideButtons="cmdSlideButtons.next"
             />
             <!-- end CmdSlideButton -->
         </div>
@@ -49,18 +93,22 @@
 
 <script>
 // import functions
+import {createUuid} from "../utils/common"
 import {openFancyBox} from './CmdFancyBox.vue'
 
 // import mixins
 import I18n from "../mixins/I18n"
 import DefaultMessageProperties from "../mixins/CmdThumbnailScroller/DefaultMessageProperties"
+import EditMode from "../mixins/EditMode.vue"
+import {buildComponentPath} from "../utils/editmode.js"
 
 export default {
     name: "CmdThumbnailScroller",
     emits: ["click"],
     mixins: [
         I18n,
-        DefaultMessageProperties
+        DefaultMessageProperties,
+        EditMode
     ],
     data() {
         return {
@@ -69,6 +117,10 @@ export default {
         }
     },
     props: {
+        orientation: {
+            type: String,
+            default: "horizontal"
+        },
         /**
          * activate to stretch component to full width (of parent element)
          *
@@ -139,6 +191,20 @@ export default {
             }
         },
         /**
+         * activate if the thumbnail-scroller should be used as gallery-scroller stuck at the bottom of the page
+         */
+        useGalleryScroller: {
+            type: Boolean,
+            default: false
+        },
+        /**
+         * properties for CmdHeadline-component
+         */
+        cmdHeadline: {
+            type: Object,
+            required: false
+        },
+        /**
          * properties for CmdSlideButtons-component
          *
          * @requiredForAccessibility: partial
@@ -167,14 +233,14 @@ export default {
     },
     mounted() {
         const thumbnailScrollerWrapper = this.$refs["thumbnail-scroller"]
-        const innerListWrapper = thumbnailScrollerWrapper.querySelector(":scope > ul")
+        const innerListWrapper = thumbnailScrollerWrapper.querySelector("ul")
 
         // watch container-size / -overflow on resize
         const resizeObserver = new ResizeObserver(() => this.toggleSlideButtons(innerListWrapper))
         resizeObserver.observe(thumbnailScrollerWrapper)
     },
     computed: {
-        getTooltip() {
+        tooltip() {
             if (this.contentType === "image") {
                 return this.getMessage("cmdthumbnailscroller.tooltip.open_large_image")
             }
@@ -182,9 +248,49 @@ export default {
                 return this.getMessage("cmdthumbnailscroller.tooltip.open_url")
             }
             return this.getMessage("cmdthumbnailscroller.tooltip.open")
+        },
+        fullWidthClass() {
+            if (this.orientation === "horizontal") {
+                return "full-width"
+            }
+            return null
         }
     },
     methods: {
+        itemProvider() {
+            return {
+                "image": {
+                    "id": createUuid(),
+                    "src": "/media/images/demo-images/small/landscape-01.jpg",
+                    "srcImageLarge": "/media/images/demo-images/large/landscape-01.jpg",
+                    "alt": "Alternative Text",
+                    "tooltip": "Tooltip 1"
+                },
+                "figcaption": {
+                    "text": "Figcaption DE",
+                    "position": "bottom",
+                    "textAlign": "center",
+                    "show": true
+                }
+            }
+        },
+        onAddItem() {
+            this.editModeContext.content.addContent(
+                buildComponentPath(this, 'props', 'thumbnailScrollerItems', -1),
+                this.itemProvider)
+        },
+        imageStructure() {
+            return {
+                itemProviderOverwrite: () => ({
+                    "image": {
+                        "id": createUuid(),
+                        "src": "/media/images/demo-images/small/landscape-01.jpg",
+                        "srcImageLarge": "/media/images/demo-images/large/landscape-01.jpg",
+                        "tooltip": "Tooltip DE"
+                    }
+                })
+            }
+        },
         toggleSlideButtons(innerListWrapper) {
             this.showSlidebuttons = innerListWrapper.scrollWidth > innerListWrapper.clientWidth
         },
@@ -244,7 +350,8 @@ export default {
                     return newItem
                 })
             },
-            immediate: true
+            immediate: true,
+            deep: true
         }
     }
 }
@@ -256,9 +363,11 @@ export default {
 
 .cmd-thumbnail-scroller {
   display: inline-flex; /* do not set to table to avoid overflow is not hidden on small devices */
+    flex-direction: column;
+    gap: var(--default-gap);
   width: 100%;
 
-  &.full-width {
+    &.full-width:not(.vertical) {
     display: flex; /* allows flex-items to stretch equally over full space */
 
       > div {
@@ -268,7 +377,8 @@ export default {
 
   > .inner-thumbnail-wrapper {
       border-radius: var(--border-radius);
-      padding: var(--default-padding);
+        padding: calc(var(--default-padding) * 2);
+        padding-top: 0;
       margin: 0 auto;
       border: var(--default-border);
       background: var(--color-scheme-background-color);
@@ -286,6 +396,7 @@ export default {
               align-self: center;
               list-style-type: none;
               margin: 0;
+                margin-top: 2rem;
 
               a {
                   text-align: center;
@@ -293,6 +404,7 @@ export default {
 
               img {
                   border-radius: var(--border-radius);
+                    min-width: 15rem;
                   max-height: 10rem;
               }
 
@@ -303,11 +415,18 @@ export default {
                       }
                   }
               }
+
+                .image-wrapper {
+                    min-width: 11.1rem; // assure to be as wide as action-buttons in edit-mode
+                }
           }
       }
   }
 
   &.vertical {
+        width: auto;
+
+        .inner-thumbnail-wrapper {
     display: inline-flex;
     left: 50%;
     height: 75rem; /* remove later !!! */
@@ -335,6 +454,7 @@ export default {
       bottom: 0;
     }
   }
+    }
 
   &.gallery-scroller {
     max-width: var(--max-width);
